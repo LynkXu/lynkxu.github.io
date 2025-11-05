@@ -1,5 +1,5 @@
 {
-  "name": "@anghunk/blog",
+  "name": "@anghunk/astro-blog",
   "type": "module",
   "version": "0.0.1",
   "private": true,
