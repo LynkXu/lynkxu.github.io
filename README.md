@@ -4,6 +4,8 @@
 
 [子舒的博客](https://zishu.me)
 
+<img width="1971" height="1399" alt="frame_generic_dark (1)" src="https://github.com/user-attachments/assets/ca684ebe-e97f-4405-bc5e-9edf4b7f36c5" />
+
 ## Command
 
 | Command                   | Action                                         |
