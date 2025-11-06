@@ -32,7 +32,6 @@
 
 body {
   font-family: "MiSans";
-  /* 使用 MiSans；可替换为 --font-fangsong 或 --font-songti */
   font-size: var(--font-scale);
   margin: auto;
   padding: 20px;
@@ -457,4 +456,9 @@ ul.posts li a:visited {
 
 .post-content a:hover {
   background: #eee;
+}
+
+.author {
+  width: 80px;
+  border-radius: 10px;
 }
