@@ -4,6 +4,7 @@ import Base from "./Base.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import Comments from "../components/Comments.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import NavigationButtons from "../components/NavigationButtons.astro";
 
 type Props = CollectionEntry<"blog">["data"] & {
   postId?: string;
@@ -93,7 +94,10 @@ const {
       <slot />
     </div>
 
-    <Comments showLinuxDo={true} />
+      <Comments showLinuxDo={true} />
+      
+      <!-- 导航按钮 -->
+      <NavigationButtons backUrl="/blog" showBackToTop={true} />
   </div>
 
   <!-- LightGallery JS (本地) -->

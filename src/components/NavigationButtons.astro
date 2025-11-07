@@ -1,0 +1,195 @@
+---
+interface Props {
+  backUrl?: string; // 返回链接，默认 /blog
+  showBackToTop?: boolean; // 是否显示回到顶部按钮，默认 true
+}
+
+const { backUrl = "/blog", showBackToTop = true } = Astro.props;
+---
+
+<div class="nav-buttons-group">
+  <a href={backUrl} class="nav-button nav-back">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-arrow-left"
+    >
+      <path d="m12 19-7-7 7-7"></path>
+      <path d="M19 12H5"></path>
+    </svg>
+    <span>返回文章列表</span>
+  </a>
+
+  {
+    showBackToTop && (
+      <button class="nav-button nav-top" id="backToTop">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-arrow-up"
+        >
+          <path d="m5 12 7-7 7 7" />
+          <path d="M12 19V5" />
+        </svg>
+        <span class="sr-only">回到顶部</span>
+      </button>
+    )
+  }
+</div>
+
+<script>
+  function initBackToTop() {
+    const backToTopBtn = document.getElementById("backToTop");
+    if (!backToTopBtn) return;
+
+    // 监听滚动，控制按钮显示/隐藏
+    function toggleBackToTop() {
+      if (!backToTopBtn) return;
+
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add("visible");
+      } else {
+        backToTopBtn.classList.remove("visible");
+      }
+    }
+
+    // 点击回到顶部
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+
+    // 监听滚动
+    window.addEventListener("scroll", toggleBackToTop);
+
+    // 初始检查
+    toggleBackToTop();
+  }
+
+  // 首次加载时初始化
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initBackToTop);
+  } else {
+    initBackToTop();
+  }
+
+  // 支持 View Transitions
+  document.addEventListener("astro:page-load", initBackToTop);
+</script>
+
+<style>
+  .nav-buttons-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    bottom: 6rem;
+    right: calc(50% - 22rem);
+    transform: translateX(100%);
+    padding: 1rem;
+    z-index: 50;
+  }
+
+  .nav-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    background-color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.04);
+    color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.7);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+  }
+
+  .nav-button:hover {
+    background-color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.1);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  .nav-button:hover svg {
+    transform: translateX(-0.125rem);
+  }
+
+  .nav-button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    transition: all 0.1s linear;
+  }
+
+  .nav-back span {
+    font-weight: 500;
+  }
+
+  .nav-top {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .nav-top.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-top:hover svg {
+    transform: translateY(-2px);
+  }
+
+  /* 无障碍：屏幕阅读器专用文本 */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .nav-buttons-group {
+      padding: 0;
+      gap: 0.75rem;
+      position: relative;
+      bottom: auto;
+      right: auto;
+      transform: none;
+    }
+
+    .nav-button {
+      width: 50%;
+      justify-content: center;
+      height: 3rem;
+    }
+  }
+</style>

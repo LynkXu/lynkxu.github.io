@@ -5,7 +5,7 @@
   --font-songti: Georgia, "Nimbus Roman No9 L", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", "Source Han Serif CN", STSong, "AR PL New Sung", "AR PL SungtiL GB", NSimSun, SimSun, "TW\-Sung", "WenQuanYi Bitmap Song", "AR PL UMing CN", "AR PL UMing HK", "AR PL UMing TW", "AR PL UMing TW MBE", PMingLiU, MingLiU, serif;
   --font-misans: "MiSans", "MiSans VF", "MiSans-Regular", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFangSC-Regular", "Hiragino Sans GB", "Lantinghei SC", "Microsoft Yahei", "Source Han Sans CN", "WenQuanYi Micro Hei", SimSun, sans-serif;
   --font-scale: 1em;
-  --background-color: #FFFFFF;
+  --background-color: #FAFAFA;
   --heading-color: #030303;
   --text-color: #030303;
   --link-color: #030303;
@@ -44,6 +44,26 @@ body {
   line-height: 1.8;
   color: var(--text-color);
   overflow-y: scroll;
+
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE5NyIgaGVpZ2h0PSIxMTk3IiB2aWV3Qm94PSIwIDAgMTE5NyAxMTk3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgb3BhY2l0eT0iLjQiIGN4PSI1OTguNSIgY3k9IjU5OC41IiByPSI1OTcuNSIgc3Ryb2tlPSIjRTNFM0UzIi8+PC9zdmc+);
+  background-position: 50% 8rem;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  position: relative;
+  z-index: 1;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid #E3E3E3;
+  border-right: 1px solid #E3E3E3;
+  z-index: -1;
 }
 
 html {
