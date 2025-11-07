@@ -419,14 +419,6 @@ ul.posts li a:visited {
   color: var(--visited-color)
 }
 
-.tags {
-  margin-top: 30px;
-  color: var(--gray-color)
-}
-
-.tags a {
-  margin: 0 5px 0 2px
-}
 
 @media (max-width: 600px) {
   :root {
@@ -674,4 +666,16 @@ ul.posts li a:visited {
       border: 1px solid;
     }
   }
+}
+
+.tags {
+  margin-top: 30px;
+  color: var(--gray-color);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tags a {
+  margin: 0 15px 15px 0;
+  display: inline-flex;
 }

@@ -1,17 +1,17 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
 
-const allPosts = await getCollection('blog');
+const allPosts = await getCollection("blog");
 const tagsMap = new Map();
 
 // 统计每个标签的文章数量
 allPosts.forEach((post) => {
-	if (post.data.tags) {
-		post.data.tags.forEach((tag) => {
-			tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
-		});
-	}
+  if (post.data.tags) {
+    post.data.tags.forEach((tag) => {
+      tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+    });
+  }
 });
 
 // 按文章数量排序
@@ -19,21 +19,20 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
 <Base title="标签" description="浏览所有文章标签">
-	<p></p>
-	<h2>–</h2>
-	<h1>标签</h1>
-	<p>共 {sortedTags.length} 个标签</p>
-	<div class="post-content content">
-		<div class="tags">
-			{
-				sortedTags.map(([tag, count]) => (
-					<a href={`/tags/${tag}/`}>
-						{tag}
-						<sup>({count})</sup>
-					</a>
-				))
-			}
-		</div>
-	</div>
+  <p></p>
+  <h2>–</h2>
+  <h1>标签</h1>
+  <p>共 {sortedTags.length} 个标签</p>
+  <div class="post-content content">
+    <div class="tags">
+      {
+        sortedTags.map(([tag, count]) => (
+          <a href={`/tags/${tag}/`}>
+            {tag}
+            <sup>({count})</sup>
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </Base>
-
