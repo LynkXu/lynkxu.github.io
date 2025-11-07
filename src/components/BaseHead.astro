@@ -3,7 +3,6 @@
 // 全部页面通过使用<BaseHead />组件实现。
 import '../styles/style.css';
 import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '../consts';
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title: rawTitle, description, image = FallbackImage } = Astro.props;
+const { title: rawTitle, description, image } = Astro.props;
 
 // 格式化标题：如果不是首页且标题不包含博客名称，则添加 " - 博客名称"
 const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`;
@@ -46,4 +45,4 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+{image && <meta property="og:image" content={new URL(image.src, Astro.url)} />}
