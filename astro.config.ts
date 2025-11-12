@@ -1,5 +1,4 @@
 import { rehypeHeadingIds } from '@astrojs/markdown-remark'
-import github from '@astrojs/github'
 import AstroPureIntegration from 'astro-pure'
 import { defineConfig } from 'astro/config'
 import rehypeKatex from 'rehype-katex'
