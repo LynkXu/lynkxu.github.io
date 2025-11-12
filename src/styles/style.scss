@@ -518,10 +518,15 @@ ul.posts li a:visited {
   }
 }
 
-#discourse-comments iframe {
+#discourse-comments {
   border: 1px solid #d0d7de;
   background: #fff;
-  padding: 1em;
+  padding: 1em 0;
   margin-bottom: 1em;
   border-radius: 10px;
+  box-sizing: content-box;
+
+  iframe {
+    padding: 0 1em;
+  }
 }
