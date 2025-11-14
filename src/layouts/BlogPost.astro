@@ -1,12 +1,12 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import Base from "./Base.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import Comments from "../components/Comments.astro";
-import TableOfContents from "../components/TableOfContents.astro";
-import NavigationButtons from "../components/NavigationButtons.astro";
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Comments from '../components/Comments.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import NavigationButtons from '../components/NavigationButtons.astro';
 
-type Props = CollectionEntry<"blog">["data"] & {
+type Props = CollectionEntry<'blog'>['data'] & {
   postId?: string;
   showTOC?: boolean; // 是否显示目录，默认 true
   tocMinLevel?: number; // 目录最小层级，默认 2 (h2)
@@ -24,11 +24,11 @@ const {
   postId,
   showTOC = true,
   tocMinLevel = 2,
-  tocMaxLevel = 3,
+  tocMaxLevel = 3
 } = Astro.props;
 ---
 
-<Base title={title} description={description || ""}>
+<Base title={title} description={description || ''}>
   <!-- LightGallery CSS (本地) -->
   <link
     rel="stylesheet"
@@ -50,7 +50,7 @@ const {
               <a href={`/categories/${category}/`} class="tag">
                 {category}
               </a>
-              {index < categories.length - 1 && "，"}
+              {index < categories.length - 1 && '，'}
             </>
           ))}
         </span>
@@ -66,7 +66,7 @@ const {
               <a href={`/tags/${tag}/`} class="tag">
                 {tag}
               </a>
-              {index < tags.length - 1 && "，"}
+              {index < tags.length - 1 && '，'}
             </>
           ))}
         </span>
@@ -93,7 +93,7 @@ const {
       <hr />
       <slot />
     </div>
-    
+
     <!-- 导航按钮 -->
     <NavigationButtons backUrl="/blog" showBackToTop={true} />
 
@@ -114,26 +114,26 @@ const {
         try {
           lgInstance.destroy(true);
         } catch (e) {
-          console.log("清理旧实例");
+          console.log('清理旧实例');
         }
         lgInstance = null;
       }
 
       // 为文章内容中的所有图片添加链接包装
-      const postContent = document.querySelector(".post-content");
+      const postContent = document.querySelector('.post-content');
       if (postContent) {
-        const images = postContent.querySelectorAll("img");
+        const images = postContent.querySelectorAll('img');
         images.forEach(function (img) {
           // 如果图片已经被链接包裹，则跳过
-          if (img.parentElement.tagName === "A") {
+          if (img.parentElement.tagName === 'A') {
             return;
           }
 
           // 创建链接元素
-          const link = document.createElement("a");
+          const link = document.createElement('a');
           link.href = img.src;
-          link.className = "no-link";
-          link.setAttribute("data-sub-html", img.alt || "");
+          link.className = 'no-link';
+          link.setAttribute('data-sub-html', img.alt || '');
 
           // 将图片包装在链接中
           img.parentNode.insertBefore(link, img);
@@ -141,37 +141,39 @@ const {
         });
 
         // 初始化 lightGallery
-        const container = document.getElementById("lightgallery");
-        if (container && typeof lightGallery !== "undefined") {
+        const container = document.getElementById('lightgallery');
+        if (container && typeof lightGallery !== 'undefined') {
           lgInstance = lightGallery(container, {
             selector:
               'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
-            mode: "lg-fade",
-            cssEasing: "ease",
+            mode: 'lg-fade',
+            cssEasing: 'ease',
             speed: 600,
             hideBarsDelay: 2000,
             controls: true,
-            mousewheel: true,
+            // mousewheel: true,
             download: true,
             counter: true,
+
+            thumbnail: true,
           });
         }
       }
     }
 
     // 首次加载时初始化
-    document.addEventListener("DOMContentLoaded", initLightGallery);
+    document.addEventListener('DOMContentLoaded', initLightGallery);
 
     // 支持 Astro View Transitions（如果启用的话）
-    document.addEventListener("astro:page-load", initLightGallery);
+    document.addEventListener('astro:page-load', initLightGallery);
 
     // 在页面切换前清理
-    document.addEventListener("astro:before-preparation", function () {
+    document.addEventListener('astro:before-preparation', function () {
       if (lgInstance) {
         try {
           lgInstance.destroy(true);
         } catch (e) {
-          console.log("清理实例");
+          console.log('清理实例');
         }
         lgInstance = null;
       }
