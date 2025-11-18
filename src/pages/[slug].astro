@@ -9,14 +9,14 @@ import Search from '../layouts/Search.astro';
 export async function getStaticPaths() {
 	const pages = await getCollection('page');
 	const paths: Array<{ params: { slug: string }; props: CollectionEntry<'page'> }> = [];
-	
+
 	pages.forEach((page) => {
 		// 添加主 slug
 		paths.push({
 			params: { slug: page.data.slug },
 			props: page,
 		});
-		
+
 		// 添加所有别名 slug
 		if (page.data.aliases && Array.isArray(page.data.aliases)) {
 			page.data.aliases.forEach((alias) => {
@@ -27,7 +27,7 @@ export async function getStaticPaths() {
 			});
 		}
 	});
-	
+
 	return paths;
 }
 
@@ -38,7 +38,7 @@ const { Content } = await render(page);
 
 // 布局映射表：以后添加新布局只需在这里添加一行即可
 const layoutMap: Record<string, any> = {
-	Page,  // 默认布局
+	Page, // 默认布局
 	Message,
 	Shuoshuo,
 	Projects,
@@ -52,4 +52,3 @@ const Layout = (page.data.layout && layoutMap[page.data.layout]) || Page;
 <Layout title={page.data.title}>
 	<Content />
 </Layout>
-

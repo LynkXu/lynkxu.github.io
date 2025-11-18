@@ -6,21 +6,21 @@ import FormattedDate from '../../components/FormattedDate.astro';
 export async function getStaticPaths() {
 	const allPosts = await getCollection('blog');
 	const tags = new Set();
-	
+
 	// 收集所有标签
 	allPosts.forEach((post) => {
 		if (post.data.tags) {
 			post.data.tags.forEach((tag) => tags.add(tag));
 		}
 	});
-	
+
 	// 为每个标签创建页面
 	return Array.from(tags).map((tag) => {
 		const tagString = String(tag);
 		const filteredPosts = allPosts
 			.filter((post) => post.data.tags && post.data.tags.includes(tagString))
 			.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-		
+
 		return {
 			params: { tag: tagString },
 			props: { posts: filteredPosts, tag: tagString },
@@ -34,7 +34,7 @@ const { posts, tag } = Astro.props;
 <Base title={`标签：${tag}`} description={`包含标签 "${tag}" 的所有文章`}>
 	<h2>标签：{tag}</h2>
 	<p>共 {posts.length} 篇文章</p>
-	<ul class="posts">
+	<ul class='posts'>
 		{
 			posts.map((post) => (
 				<li>
@@ -42,7 +42,9 @@ const { posts, tag } = Astro.props;
 						<FormattedDate date={post.data.pubDate} />
 					</span>
 					<div>
-						<a href={`/blog/${post.id}.html`} transition:name={`post-title-${post.id}`}>
+						<a
+							href={`/blog/${post.id}.html`}
+							transition:name={`post-title-${post.id}`}>
 							{post.data.title}
 						</a>
 					</div>
@@ -51,4 +53,3 @@ const { posts, tag } = Astro.props;
 		}
 	</ul>
 </Base>
-

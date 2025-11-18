@@ -18,6 +18,5 @@ export async function GET(context) {
 			description: post.summary,
 			content: post.body,
 		})),
-
 	});
 }

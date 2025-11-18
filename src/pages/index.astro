@@ -1,48 +1,47 @@
 ---
-import { getCollection } from "astro:content";
-import Base from "../layouts/Base.astro";
-import HeaderLink from "../components/HeaderLink.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import HeaderLink from '../components/HeaderLink.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 
 // 导入 index.md 文件
-import IndexContent from "../content/index.md";
+import IndexContent from '../content/index.md';
 
 // 获取最新的博客文章（显示前10篇）
-const allPosts = await getCollection("blog");
-const recentPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 10);
+const allPosts = await getCollection('blog');
+const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 10);
 ---
 
-<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
-  <p></p>
-  <div class="post-content content">
-    <IndexContent />
-  </div>
+<Base
+	title={SITE_TITLE}
+	description={SITE_DESCRIPTION}>
+	<p></p>
+	<div class='post-content content'>
+		<IndexContent />
+	</div>
 
-  <h3>最近文章</h3>
-  <p></p>
-  <ul class="posts">
-    {
-      recentPosts.map((post) => (
-        <li>
-          <span>
-            <FormattedDate date={post.data.pubDate} />
-          </span>
-          <div>
-            <a
-              href={`/blog/${post.id}.html`}
-              transition:name={`post-title-${post.id}`}
-            >
-              {post.data.title}
-            </a>
-          </div>
-        </li>
-      ))
-    }
-  </ul>
-  <p class="read-more">
-    <HeaderLink href="/blog">查看全部</HeaderLink>
-  </p>
+	<h3>最近文章</h3>
+	<p></p>
+	<ul class='posts'>
+		{
+			recentPosts.map((post) => (
+				<li>
+					<span>
+						<FormattedDate date={post.data.pubDate} />
+					</span>
+					<div>
+						<a
+							href={`/blog/${post.id}.html`}
+							transition:name={`post-title-${post.id}`}>
+							{post.data.title}
+						</a>
+					</div>
+				</li>
+			))
+		}
+	</ul>
+	<p class='read-more'>
+		<HeaderLink href='/blog'>查看全部</HeaderLink>
+	</p>
 </Base>

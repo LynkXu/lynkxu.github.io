@@ -1,184 +1,186 @@
 ---
 interface Props {
-  minLevel?: number; // 最小标题层级，默认 2 (h2)
-  maxLevel?: number; // 最大标题层级，默认 3 (h3)
-  title?: string;    // 目录标题，默认"目录"
+	minLevel?: number; // 最小标题层级，默认 2 (h2)
+	maxLevel?: number; // 最大标题层级，默认 3 (h3)
+	title?: string; // 目录标题，默认"目录"
 }
 
 const { minLevel = 2, maxLevel = 3, title = '目录' } = Astro.props;
 ---
 
-<aside class="toc-container" data-has-content="false">
-  <div class="toc-header">{title}</div>
-  <nav class="toc" data-min-level={minLevel} data-max-level={maxLevel}>
-    <!-- 目录将通过 JavaScript 动态生成 -->
-  </nav>
+<aside
+	class='toc-container'
+	data-has-content='false'>
+	<div class='toc-header'>{title}</div>
+	<nav
+		class='toc'
+		data-min-level={minLevel}
+		data-max-level={maxLevel}>
+		<!-- 目录将通过 JavaScript 动态生成 -->
+	</nav>
 </aside>
 
 <script>
-  function initTOC() {
-    const tocContainer = document.querySelector('.toc');
-    if (!tocContainer) return;
+	function initTOC() {
+		const tocContainer = document.querySelector('.toc');
+		if (!tocContainer) return;
 
-    const minLevel = parseInt(tocContainer.getAttribute('data-min-level') || '2');
-    const maxLevel = parseInt(tocContainer.getAttribute('data-max-level') || '3');
-    
-    // 获取文章内容区域
-    const content = document.querySelector('.post-content');
-    if (!content) return;
+		const minLevel = parseInt(tocContainer.getAttribute('data-min-level') || '2');
+		const maxLevel = parseInt(tocContainer.getAttribute('data-max-level') || '3');
 
-    // 获取指定范围内的所有标题
-    const headingSelector = Array.from(
-      { length: maxLevel - minLevel + 1 },
-      (_, i) => `h${minLevel + i}`
-    ).join(', ');
-    
-    const headings = content.querySelectorAll(headingSelector);
-    
-    // 获取容器元素
-    const containerElement = document.querySelector('.toc-container') as HTMLElement;
-    
-    if (headings.length === 0) {
-      // 没有标题时，隐藏整个目录容器
-      if (containerElement) {
-        containerElement.style.display = 'none';
-        containerElement.setAttribute('data-has-content', 'false');
-      }
-      return;
-    }
-    
-    // 有标题时，显示容器
-    if (containerElement) {
-      containerElement.style.display = 'block';
-      containerElement.setAttribute('data-has-content', 'true');
-    }
+		// 获取文章内容区域
+		const content = document.querySelector('.post-content');
+		if (!content) return;
 
-    // 为每个标题添加 id（如果没有的话）
-    headings.forEach((heading, index) => {
-      if (!heading.id) {
-        heading.id = `heading-${index}`;
-      }
-    });
+		// 获取指定范围内的所有标题
+		const headingSelector = Array.from({ length: maxLevel - minLevel + 1 }, (_, i) => `h${minLevel + i}`).join(', ');
 
-    // 生成目录 HTML
-    let tocHTML = '<ul class="toc-list">';
-    let currentLevel = minLevel;
+		const headings = content.querySelectorAll(headingSelector);
 
-    headings.forEach((heading, index) => {
-      const level = parseInt(heading.tagName.substring(1));
-      const text = heading.textContent || '';
-      const id = heading.id;
+		// 获取容器元素
+		const containerElement = document.querySelector('.toc-container') as HTMLElement;
 
-      // 处理层级变化
-      if (level > currentLevel) {
-        // 需要嵌套
-        for (let i = currentLevel; i < level; i++) {
-          tocHTML += '<ul class="toc-list">';
-        }
-      } else if (level < currentLevel) {
-        // 需要回退
-        for (let i = level; i < currentLevel; i++) {
-          tocHTML += '</ul></li>';
-        }
-      } else if (index > 0) {
-        // 同级，关闭上一个 li
-        tocHTML += '</li>';
-      }
+		if (headings.length === 0) {
+			// 没有标题时，隐藏整个目录容器
+			if (containerElement) {
+				containerElement.style.display = 'none';
+				containerElement.setAttribute('data-has-content', 'false');
+			}
+			return;
+		}
 
-      tocHTML += `
+		// 有标题时，显示容器
+		if (containerElement) {
+			containerElement.style.display = 'block';
+			containerElement.setAttribute('data-has-content', 'true');
+		}
+
+		// 为每个标题添加 id（如果没有的话）
+		headings.forEach((heading, index) => {
+			if (!heading.id) {
+				heading.id = `heading-${index}`;
+			}
+		});
+
+		// 生成目录 HTML
+		let tocHTML = '<ul class="toc-list">';
+		let currentLevel = minLevel;
+
+		headings.forEach((heading, index) => {
+			const level = parseInt(heading.tagName.substring(1));
+			const text = heading.textContent || '';
+			const id = heading.id;
+
+			// 处理层级变化
+			if (level > currentLevel) {
+				// 需要嵌套
+				for (let i = currentLevel; i < level; i++) {
+					tocHTML += '<ul class="toc-list">';
+				}
+			} else if (level < currentLevel) {
+				// 需要回退
+				for (let i = level; i < currentLevel; i++) {
+					tocHTML += '</ul></li>';
+				}
+			} else if (index > 0) {
+				// 同级，关闭上一个 li
+				tocHTML += '</li>';
+			}
+
+			tocHTML += `
         <li class="toc-item toc-level-${level}">
           <a href="#${id}" class="toc-link" data-target="${id}">
             ${text}
           </a>
       `;
 
-      currentLevel = level;
-    });
+			currentLevel = level;
+		});
 
-    // 关闭所有未关闭的标签
-    for (let i = minLevel; i <= currentLevel; i++) {
-      tocHTML += '</li>';
-    }
-    for (let i = minLevel; i < currentLevel; i++) {
-      tocHTML += '</ul>';
-    }
-    tocHTML += '</ul>';
+		// 关闭所有未关闭的标签
+		for (let i = minLevel; i <= currentLevel; i++) {
+			tocHTML += '</li>';
+		}
+		for (let i = minLevel; i < currentLevel; i++) {
+			tocHTML += '</ul>';
+		}
+		tocHTML += '</ul>';
 
-    tocContainer.innerHTML = tocHTML;
+		tocContainer.innerHTML = tocHTML;
 
-    // 添加点击事件
-    const tocLinks = tocContainer.querySelectorAll('.toc-link');
-    tocLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('data-target');
-        const targetElement = document.getElementById(targetId || '');
-        
-        if (targetElement) {
-          // 移除所有 active 状态
-          tocLinks.forEach(l => l.classList.remove('active'));
-          // 添加当前链接的 active 状态
-          link.classList.add('active');
-          
-          // 平滑滚动到目标位置
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          
-          // 更新 URL hash（但不触发跳转）
-          history.pushState(null, '', `#${targetId}`);
-        }
-      });
-    });
+		// 添加点击事件
+		const tocLinks = tocContainer.querySelectorAll('.toc-link');
+		tocLinks.forEach((link) => {
+			link.addEventListener('click', (e) => {
+				e.preventDefault();
+				const targetId = link.getAttribute('data-target');
+				const targetElement = document.getElementById(targetId || '');
 
-    // 监听滚动，高亮当前阅读的标题
-    let observer: IntersectionObserver | null = null;
-    
-    function setupScrollSpy() {
-      if (observer) {
-        observer.disconnect();
-      }
+				if (targetElement) {
+					// 移除所有 active 状态
+					tocLinks.forEach((l) => l.classList.remove('active'));
+					// 添加当前链接的 active 状态
+					link.classList.add('active');
 
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const id = entry.target.id;
-              tocLinks.forEach(link => {
-                if (link.getAttribute('data-target') === id) {
-                  tocLinks.forEach(l => l.classList.remove('active'));
-                  link.classList.add('active');
-                }
-              });
-            }
-          });
-        },
-        {
-          rootMargin: '-20% 0px -35% 0px',
-          threshold: 0
-        }
-      );
+					// 平滑滚动到目标位置
+					targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-      headings.forEach(heading => {
-        observer?.observe(heading);
-      });
-    }
+					// 更新 URL hash（但不触发跳转）
+					history.pushState(null, '', `#${targetId}`);
+				}
+			});
+		});
 
-    setupScrollSpy();
+		// 监听滚动，高亮当前阅读的标题
+		let observer: IntersectionObserver | null = null;
 
-    // 清理函数
-    return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-    };
-  }
+		function setupScrollSpy() {
+			if (observer) {
+				observer.disconnect();
+			}
 
-  // 首次加载时初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTOC);
-  } else {
-    initTOC();
-  }
+			observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							const id = entry.target.id;
+							tocLinks.forEach((link) => {
+								if (link.getAttribute('data-target') === id) {
+									tocLinks.forEach((l) => l.classList.remove('active'));
+									link.classList.add('active');
+								}
+							});
+						}
+					});
+				},
+				{
+					rootMargin: '-20% 0px -35% 0px',
+					threshold: 0,
+				}
+			);
 
-  // 支持 View Transitions
-  document.addEventListener('astro:page-load', initTOC);
+			headings.forEach((heading) => {
+				observer?.observe(heading);
+			});
+		}
+
+		setupScrollSpy();
+
+		// 清理函数
+		return () => {
+			if (observer) {
+				observer.disconnect();
+			}
+		};
+	}
+
+	// 首次加载时初始化
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initTOC);
+	} else {
+		initTOC();
+	}
+
+	// 支持 View Transitions
+	document.addEventListener('astro:page-load', initTOC);
 </script>
