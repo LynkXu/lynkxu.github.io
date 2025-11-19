@@ -1,29 +1,29 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import Base from "./Base.astro";
-import { marked } from "marked";
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import { marked } from 'marked';
 
-type Props = CollectionEntry<"page">["data"] & {
-  content?: string;
+type Props = CollectionEntry<'page'>['data'] & {
+	content?: string;
 };
 
 const { title } = Astro.props;
 
 // GitHub API 配置
-const GITHUB_REPO = "anghunk/anghunk";
-const ISSUE_NUMBER = "2";
+const GITHUB_REPO = 'anghunk/anghunk';
+const ISSUE_NUMBER = '2';
 const API_URL = `https://api.github.com/repos/${GITHUB_REPO}/issues/${ISSUE_NUMBER}/comments`;
 
 // 定义评论类型
 interface GitHubComment {
-  id: number;
-  body: string;
-  created_at: string;
-  updated_at: string;
-  user: {
-    login: string;
-    avatar_url: string;
-  };
+	id: number;
+	body: string;
+	created_at: string;
+	updated_at: string;
+	user: {
+		login: string;
+		avatar_url: string;
+	};
 }
 
 // 获取 GitHub Issues 评论
@@ -31,69 +31,72 @@ let comments: GitHubComment[] = [];
 let error: string | null = null;
 
 try {
-  const response = await fetch(API_URL, {
-    headers: {
-      Accept: "application/vnd.github.v3+json",
-    },
-  });
+	const response = await fetch(API_URL, {
+		headers: {
+			Accept: 'application/vnd.github.v3+json',
+		},
+	});
 
-  if (!response.ok) {
-    throw new Error(
-      `GitHub API 错误: ${response.status} ${response.statusText}`
-    );
-  }
+	if (!response.ok) {
+		throw new Error(`GitHub API 错误: ${response.status} ${response.statusText}`);
+	}
 
-  comments = await response.json();
-  // 反转顺序，最新的在前
-  comments.reverse();
+	comments = await response.json();
+	// 反转顺序，最新的在前
+	comments.reverse();
 
-  // 配置 marked
-  marked.setOptions({
-    breaks: true, // 换行符自动变成 <br>
-    gfm: true, // GitHub 风格 Markdown
-  });
+	// 配置 marked
+	marked.setOptions({
+		breaks: true, // 换行符自动变成 <br>
+		gfm: true, // GitHub 风格 Markdown
+	});
 } catch (err) {
-  error = err instanceof Error ? err.message : "加载失败";
-  console.error("获取说说失败:", err);
+	error = err instanceof Error ? err.message : '加载失败';
+	console.error('获取说说失败:', err);
 }
 
 // 格式化日期
 function formatDate(dateString: string): string {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("zh-CN", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+	const date = new Date(dateString);
+	return date.toLocaleDateString('zh-CN', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	});
 }
 ---
 
-<Base title={title} description={title}>
-  <p></p>
-  <h2>–</h2>
-  <h1>{title}</h1>
-  <div class="post-content content">
-    <slot />
+<Base
+	title={title}
+	description={title}>
+	<p></p>
+	<h2>–</h2>
+	<h1>{title}</h1>
+	<div class='post-content content'>
+		<slot />
 
-    <div id="shuoshuo">
-      <ul>
-        {
-          error ? (
-            <li class="error">加载失败：{error}</li>
-          ) : comments.length === 0 ? (
-            <li class="empty">暂无说说</li>
-          ) : (
-            comments.map((comment) => (
-              <li class="comment">
-                <div class="meta">
-                  <span class="date">{formatDate(comment.created_at)}</span>
-                </div>
-                <div class="body" set:html={marked.parse(comment.body)} />
-              </li>
-            ))
-          )
-        }
-      </ul>
-    </div>
-  </div>
+		<div id='shuoshuo'>
+			<ul>
+				{
+					error ? (
+						<li class='error'>加载失败：{error}</li>
+					) : comments.length === 0 ? (
+						<li class='empty'>暂无说说</li>
+					) : (
+						comments.map((comment) => (
+							<li class='comment'>
+								<div class='meta'>
+									<span class='date'>{formatDate(comment.created_at)}</span>
+								</div>
+								<div
+									class='body'
+									set:html={marked.parse(comment.body)}
+								/>
+							</li>
+						))
+					)
+				}
+			</ul>
+		</div>
+	</div>
 </Base>

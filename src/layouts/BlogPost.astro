@@ -7,176 +7,189 @@ import TableOfContents from '../components/TableOfContents.astro';
 import NavigationButtons from '../components/NavigationButtons.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
-  postId?: string;
-  showTOC?: boolean; // 是否显示目录，默认 true
-  tocMinLevel?: number; // 目录最小层级，默认 2 (h2)
-  tocMaxLevel?: number; // 目录最大层级，默认 3 (h3)
+	postId?: string;
+	showTOC?: boolean; // 是否显示目录，默认 true
+	tocMinLevel?: number; // 目录最小层级，默认 2 (h2)
+	tocMaxLevel?: number; // 目录最大层级，默认 3 (h3)
 };
 
 const {
-  title,
-  description,
-  pubDate,
-  updatedDate,
-  heroImage,
-  tags,
-  categories,
-  postId,
-  showTOC = true,
-  tocMinLevel = 2,
-  tocMaxLevel = 3
+	title,
+	description,
+	pubDate,
+	updatedDate,
+	heroImage,
+	tags,
+	categories,
+	postId,
+	showTOC = true,
+	tocMinLevel = 2,
+	tocMaxLevel = 3,
 } = Astro.props;
 ---
 
-<Base title={title} description={description || ''}>
-  <!-- LightGallery CSS (本地) -->
-  <link
-    rel="stylesheet"
-    href="/lightgallery/css/lightgallery.min.css"
-    slot="head"
-  />
+<Base
+	title={title}
+	description={description || ''}>
+	<!-- LightGallery CSS (本地) -->
+	<link
+		rel='stylesheet'
+		href='/lightgallery/css/lightgallery.min.css'
+		slot='head'
+	/>
 
-  <p></p>
-  <h2>–</h2>
-  <h1 transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-  <p>发布于 <FormattedDate date={pubDate} /></p>
-  <p>
-    {
-      categories && categories.length > 0 && (
-        <span style="margin-right:20px">
-          分类：
-          {categories.map((category, index) => (
-            <>
-              <a href={`/categories/${category}/`} class="tag">
-                {category}
-              </a>
-              {index < categories.length - 1 && '，'}
-            </>
-          ))}
-        </span>
-      )
-    }
+	<p></p>
+	<h2>–</h2>
+	<h1 transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+	<p>发布于 <FormattedDate date={pubDate} /></p>
+	<p>
+		{
+			categories && categories.length > 0 && (
+				<span style='margin-right:20px'>
+					分类：
+					{categories.map((category, index) => (
+						<>
+							<a
+								href={`/categories/${category}/`}
+								class='tag'>
+								{category}
+							</a>
+							{index < categories.length - 1 && '，'}
+						</>
+					))}
+				</span>
+			)
+		}
 
-    {
-      tags && tags.length > 0 && (
-        <span>
-          标签：
-          {tags.map((tag, index) => (
-            <>
-              <a href={`/tags/${tag}/`} class="tag">
-                {tag}
-              </a>
-              {index < tags.length - 1 && '，'}
-            </>
-          ))}
-        </span>
-      )
-    }
-  </p>
+		{
+			tags && tags.length > 0 && (
+				<span>
+					标签：
+					{tags.map((tag, index) => (
+						<>
+							<a
+								href={`/tags/${tag}/`}
+								class='tag'>
+								{tag}
+							</a>
+							{index < tags.length - 1 && '，'}
+						</>
+					))}
+				</span>
+			)
+		}
+	</p>
 
-  <div class="blog-layout">
-    <!-- 目录侧边栏 -->
-    {
-      showTOC && (
-        <div class="blog-sidebar">
-          <TableOfContents
-            minLevel={tocMinLevel}
-            maxLevel={tocMaxLevel}
-            title="目录"
-          />
-        </div>
-      )
-    }
+	<div class='blog-layout'>
+		<!-- 目录侧边栏 -->
+		{
+			showTOC && (
+				<div class='blog-sidebar'>
+					<TableOfContents
+						minLevel={tocMinLevel}
+						maxLevel={tocMaxLevel}
+						title='目录'
+					/>
+				</div>
+			)
+		}
 
-    <!-- 主内容区 -->
-    <div class="post-content content" id="lightgallery">
-      <hr />
-      <slot />
-    </div>
+		<!-- 主内容区 -->
+		<div
+			class='post-content content'
+			id='lightgallery'>
+			<hr />
+			<slot />
+		</div>
 
-    <!-- 导航按钮 -->
-    <NavigationButtons backUrl="/blog" showBackToTop={true} />
+		<!-- 导航按钮 -->
+		<NavigationButtons
+			backUrl='/blog'
+			showBackToTop={true}
+		/>
 
-    <Comments showLinuxDo={true} />
-  </div>
+		<Comments showLinuxDo={true} />
+	</div>
 
-  <!-- LightGallery JS (本地) -->
-  <script is:inline src="/lightgallery/js/lightgallery.min.js"></script>
+	<!-- LightGallery JS (本地) -->
+	<script
+		is:inline
+		src='/lightgallery/js/lightgallery.min.js'
+	></script>
 
-  <!-- 初始化 LightGallery -->
-  <script is:inline>
-    // 用于存储 lightGallery 实例
-    let lgInstance = null;
+	<!-- 初始化 LightGallery -->
+	<script is:inline>
+		// 用于存储 lightGallery 实例
+		let lgInstance = null;
 
-    function initLightGallery() {
-      // 销毁之前的实例（如果存在）
-      if (lgInstance) {
-        try {
-          lgInstance.destroy(true);
-        } catch (e) {
-          console.log('清理旧实例');
-        }
-        lgInstance = null;
-      }
+		function initLightGallery() {
+			// 销毁之前的实例（如果存在）
+			if (lgInstance) {
+				try {
+					lgInstance.destroy(true);
+				} catch (e) {
+					console.log('清理旧实例');
+				}
+				lgInstance = null;
+			}
 
-      // 为文章内容中的所有图片添加链接包装
-      const postContent = document.querySelector('.post-content');
-      if (postContent) {
-        const images = postContent.querySelectorAll('img');
-        images.forEach(function (img) {
-          // 如果图片已经被链接包裹，则跳过
-          if (img.parentElement.tagName === 'A') {
-            return;
-          }
+			// 为文章内容中的所有图片添加链接包装
+			const postContent = document.querySelector('.post-content');
+			if (postContent) {
+				const images = postContent.querySelectorAll('img');
+				images.forEach(function (img) {
+					// 如果图片已经被链接包裹，则跳过
+					if (img.parentElement.tagName === 'A') {
+						return;
+					}
 
-          // 创建链接元素
-          const link = document.createElement('a');
-          link.href = img.src;
-          link.className = 'no-link';
-          link.setAttribute('data-sub-html', img.alt || '');
+					// 创建链接元素
+					const link = document.createElement('a');
+					link.href = img.src;
+					link.className = 'no-link';
+					link.setAttribute('data-sub-html', img.alt || '');
 
-          // 将图片包装在链接中
-          img.parentNode.insertBefore(link, img);
-          link.appendChild(img);
-        });
+					// 将图片包装在链接中
+					img.parentNode.insertBefore(link, img);
+					link.appendChild(img);
+				});
 
-        // 初始化 lightGallery
-        const container = document.getElementById('lightgallery');
-        if (container && typeof lightGallery !== 'undefined') {
-          lgInstance = lightGallery(container, {
-            selector:
-              'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
-            mode: 'lg-fade',
-            cssEasing: 'ease',
-            speed: 600,
-            hideBarsDelay: 2000,
-            controls: true,
-            // mousewheel: true,
-            download: true,
-            counter: true,
+				// 初始化 lightGallery
+				const container = document.getElementById('lightgallery');
+				if (container && typeof lightGallery !== 'undefined') {
+					lgInstance = lightGallery(container, {
+						selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
+						mode: 'lg-fade',
+						cssEasing: 'ease',
+						speed: 600,
+						hideBarsDelay: 2000,
+						controls: true,
+						// mousewheel: true,
+						download: true,
+						counter: true,
 
-            thumbnail: true,
-          });
-        }
-      }
-    }
+						thumbnail: true,
+					});
+				}
+			}
+		}
 
-    // 首次加载时初始化
-    document.addEventListener('DOMContentLoaded', initLightGallery);
+		// 首次加载时初始化
+		document.addEventListener('DOMContentLoaded', initLightGallery);
 
-    // 支持 Astro View Transitions（如果启用的话）
-    document.addEventListener('astro:page-load', initLightGallery);
+		// 支持 Astro View Transitions（如果启用的话）
+		document.addEventListener('astro:page-load', initLightGallery);
 
-    // 在页面切换前清理
-    document.addEventListener('astro:before-preparation', function () {
-      if (lgInstance) {
-        try {
-          lgInstance.destroy(true);
-        } catch (e) {
-          console.log('清理实例');
-        }
-        lgInstance = null;
-      }
-    });
-  </script>
+		// 在页面切换前清理
+		document.addEventListener('astro:before-preparation', function () {
+			if (lgInstance) {
+				try {
+					lgInstance.destroy(true);
+				} catch (e) {
+					console.log('清理实例');
+				}
+				lgInstance = null;
+			}
+		});
+	</script>
 </Base>

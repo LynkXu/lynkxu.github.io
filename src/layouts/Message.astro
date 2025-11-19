@@ -10,15 +10,16 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 ---
 
-<Base title={title} description={title}>
+<Base
+	title={title}
+	description={title}>
 	<p></p>
 	<h2>–</h2>
 	<h1>{title}</h1>
-	<div class="post-content content">
+	<div class='post-content content'>
 		<slot />
 	</div>
-	
+
 	<!-- 评论组件 -->
 	<Comments showLinuxDo={false} />
 </Base>
-

@@ -4,18 +4,18 @@ import Base from './Base.astro';
 import projectsData from '../content/page/projects.json';
 
 type Props = CollectionEntry<'page'>['data'] & {
-  content?: string;
+	content?: string;
 };
 
 const { title } = Astro.props;
 
 // 定义项目类型
 interface Project {
-  name: string;
-  description: string;
-  url: string;
-  image?: string;
-  tags?: string[];
+	name: string;
+	description: string;
+	url: string;
+	image?: string;
+	tags?: string[];
 }
 
 // 读取项目数据
@@ -29,261 +29,261 @@ const completedBoxes = projects.length;
 const defaultImage = 'https://imgurl.zishu.me/2025/07/1752828174580.webp';
 ---
 
-<Base title={title} description={title}>
-  <p></p>
-  <h2>–</h2>
-  <h1>{title}</h1>
-  <div class="post-content content">
-    <slot />
-  </div>
+<Base
+	title={title}
+	description={title}>
+	<p></p>
+	<h2>–</h2>
+	<h1>{title}</h1>
+	<div class='post-content content'>
+		<slot />
+	</div>
 
-  <div class="projects-container">
-    <!-- 项目完成度 -->
-    <div class="completion-container">
-      <div class="completion-header">
-        <span>项目完成度：{completedBoxes}/{totalBoxes}</span>
-      </div>
-      <div class="completion-grid">
-        {
-          Array.from({ length: totalBoxes }, (_, i) => (
-            <div
-              class={`status-box ${i < completedBoxes ? 'completed' : ''}`}
-            />
-          ))
-        }
-      </div>
-    </div>
+	<div class='projects-container'>
+		<!-- 项目完成度 -->
+		<div class='completion-container'>
+			<div class='completion-header'>
+				<span>项目完成度：{completedBoxes}/{totalBoxes}</span>
+			</div>
+			<div class='completion-grid'>
+				{
+					Array.from({ length: totalBoxes }, (_, i) => (
+						<div class={`status-box ${i < completedBoxes ? 'completed' : ''}`} />
+					))
+				}
+			</div>
+		</div>
 
-    <!-- 项目列表 -->
-    <div class="projects-grid">
-      {
-        projects.length === 0 ? (
-          <div class="empty-state">暂无项目数据</div>
-        ) : (
-          projects.map((project) => (
-            <div class="card">
-              <a
-                href={project.url || '#'}
-                class="card-image"
-                target="_blank"
-                rel="noopener noreferrer">
-                <img
-                  src={project.image || defaultImage}
-                  alt={project.name}
-                  loading="lazy"
-                />
-              </a>
-              <div class="card-content">
-                <h2 class="card-title">
-                  <a
-                    href={project.url || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {project.name || '未命名项目'}
-                  </a>
-                </h2>
-                <p class="card-description">{project.description}</p>
-                {project.tags && project.tags.length > 0 && (
-                  <div class="card-tags">
-                    {project.tags.map((tag) => (
-                      <span class="tag">{tag}</span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))
-        )
-      }
-    </div>
-  </div>
+		<!-- 项目列表 -->
+		<div class='projects-grid'>
+			{
+				projects.length === 0 ? (
+					<div class='empty-state'>暂无项目数据</div>
+				) : (
+					projects.map((project) => (
+						<div class='card'>
+							<a
+								href={project.url || '#'}
+								class='card-image'
+								target='_blank'
+								rel='noopener noreferrer'>
+								<img
+									src={project.image || defaultImage}
+									alt={project.name}
+									loading='lazy'
+								/>
+							</a>
+							<div class='card-content'>
+								<h2 class='card-title'>
+									<a
+										href={project.url || '#'}
+										target='_blank'
+										rel='noopener noreferrer'>
+										{project.name || '未命名项目'}
+									</a>
+								</h2>
+								<p class='card-description'>{project.description}</p>
+								{project.tags && project.tags.length > 0 && (
+									<div class='card-tags'>
+										{project.tags.map((tag) => (
+											<span class='tag'>{tag}</span>
+										))}
+									</div>
+								)}
+							</div>
+						</div>
+					))
+				)
+			}
+		</div>
+	</div>
 </Base>
 
 <style>
-  .projects-container .projects-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+	.projects-container .projects-grid {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
 
-  .projects-container .card {
-    width: 48%;
-    margin-bottom: 2em;
-    position: relative;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
+	.projects-container .card {
+		width: 48%;
+		margin-bottom: 2em;
+		position: relative;
+		background: white;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+		transition:
+			transform 0.3s ease,
+			box-shadow 0.3s ease;
+	}
 
-  .projects-container .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-  }
+	.projects-container .card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+	}
 
-  .projects-container .card-image {
-    display: flex;
-    width: 100%;
-    aspect-ratio: 3/2;
-    overflow: hidden;
-  }
+	.projects-container .card-image {
+		display: flex;
+		width: 100%;
+		aspect-ratio: 3/2;
+		overflow: hidden;
+	}
 
-  .projects-container .card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
+	.projects-container .card-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
 
-  .projects-container .card:hover .card-image img {
-    transform: scale(1.05);
-  }
+	.projects-container .card:hover .card-image img {
+		transform: scale(1.05);
+	}
 
-  .projects-container .card-content {
-    padding: 20px;
-  }
+	.projects-container .card-content {
+		padding: 20px;
+	}
 
-  .projects-container .card-title {
-    margin: 0 0 10px 0;
-    color: #333;
-    font-weight: 400;
-    font-size: 20px;
-  }
+	.projects-container .card-title {
+		margin: 0 0 10px 0;
+		color: #333;
+		font-weight: 400;
+		font-size: 20px;
+	}
 
-  .projects-container .card-title a {
-    color: var(--site-title-color);
-    text-decoration: none;
-  }
+	.projects-container .card-title a {
+		color: var(--site-title-color);
+		text-decoration: none;
+	}
 
-  .projects-container .card-title a:hover {
-    text-decoration: underline;
-  }
+	.projects-container .card-title a:hover {
+		text-decoration: underline;
+	}
 
-  .projects-container .card-description {
-    color: #666;
-    font-size: 15px;
-    line-height: 1.6;
-    margin: 0;
-    font-weight: 300;
-  }
+	.projects-container .card-description {
+		color: #666;
+		font-size: 15px;
+		line-height: 1.6;
+		margin: 0;
+		font-weight: 300;
+	}
 
-  .projects-container .card-action {
-    display: flex;
-    justify-content: flex-end;
-  }
+	.projects-container .card-action {
+		display: flex;
+		justify-content: flex-end;
+	}
 
-  .projects-container .btn {
-    display: inline-block;
-    background: linear-gradient(135deg, #6e8efb, #4a6cf7);
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
-  }
+	.projects-container .btn {
+		display: inline-block;
+		background: linear-gradient(135deg, #6e8efb, #4a6cf7);
+		color: white;
+		text-decoration: none;
+		padding: 10px 20px;
+		border-radius: 50px;
+		font-weight: 500;
+		font-size: 0.9rem;
+		transition: all 0.3s ease;
+		box-shadow: 0 4px 10px rgba(74, 108, 247, 0.3);
+	}
 
-  .projects-container .btn:hover {
-    background: linear-gradient(135deg, #4a6cf7, #2758f5);
-    box-shadow: 0 6px 15px rgba(74, 108, 247, 0.4);
-    transform: translateY(-2px);
-  }
+	.projects-container .btn:hover {
+		background: linear-gradient(135deg, #4a6cf7, #2758f5);
+		box-shadow: 0 6px 15px rgba(74, 108, 247, 0.4);
+		transform: translateY(-2px);
+	}
 
-  .projects-container .error-message {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 30px;
-    background: #fff1f0;
-    color: #f56c6c;
-    border-radius: 8px;
-    font-size: 1.1rem;
-  }
+	.projects-container .error-message {
+		grid-column: 1/-1;
+		text-align: center;
+		padding: 30px;
+		background: #fff1f0;
+		color: #f56c6c;
+		border-radius: 8px;
+		font-size: 1.1rem;
+	}
 
-  .projects-container .empty-state {
-    grid-column: 1/-1;
-    text-align: center;
-    padding: 50px;
-    color: #909399;
-    font-size: 1.1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-  }
+	.projects-container .empty-state {
+		grid-column: 1/-1;
+		text-align: center;
+		padding: 50px;
+		color: #909399;
+		font-size: 1.1rem;
+		background: #f8f9fa;
+		border-radius: 8px;
+	}
 
-  .projects-container .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 15px;
-  }
+	.projects-container .card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-top: 15px;
+	}
 
-  .projects-container .tag {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 13px;
-    border-radius: 20px;
-    background-color: #f0f5ff;
-    color: #4a6cf7;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    line-height: 2;
-  }
+	.projects-container .tag {
+		display: inline-block;
+		padding: 4px 10px;
+		font-size: 13px;
+		border-radius: 20px;
+		background-color: #f0f5ff;
+		color: #4a6cf7;
+		font-weight: 500;
+		transition: all 0.2s ease;
+		line-height: 2;
+	}
 
-  .projects-container .tag:hover {
-    background-color: #d6e4ff;
-    transform: translateY(-2px);
-  }
+	.projects-container .tag:hover {
+		background-color: #d6e4ff;
+		transform: translateY(-2px);
+	}
 
-  .projects-container .completion-container {
-    margin-bottom: 30px;
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  }
+	.projects-container .completion-container {
+		margin-bottom: 30px;
+		background: white;
+		border-radius: 12px;
+		padding: 20px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+	}
 
-  .projects-container .completion-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    font-weight: 500;
-    color: #666;
-  }
+	.projects-container .completion-header {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 15px;
+		font-weight: 500;
+		color: #666;
+	}
 
-  .projects-container .completion-grid {
-    display: grid;
-    grid-template-columns: repeat(30, 1fr);
-    gap: 5px;
-  }
+	.projects-container .completion-grid {
+		display: grid;
+		grid-template-columns: repeat(30, 1fr);
+		gap: 5px;
+	}
 
-  .projects-container .status-box {
-    aspect-ratio: 1;
-    background-color: #f0f0f0;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-  }
+	.projects-container .status-box {
+		aspect-ratio: 1;
+		background-color: #f0f0f0;
+		border-radius: 4px;
+		transition: all 0.3s ease;
+	}
 
-  .projects-container .status-box.completed {
-    background-color: #4caf50;
-    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
-  }
+	.projects-container .status-box.completed {
+		background-color: #4caf50;
+		box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
+	}
 
-  .projects-container .status-box.completed:hover {
-    transform: scale(1.1);
-    background-color: #43a047;
-  }
+	.projects-container .status-box.completed:hover {
+		transform: scale(1.1);
+		background-color: #43a047;
+	}
 
-  .projects-container .status-box:not(.completed):hover {
-    background-color: #e0e0e0;
-  }
+	.projects-container .status-box:not(.completed):hover {
+		background-color: #e0e0e0;
+	}
 
-  @media (max-width: 768px) {
-    .projects-container .completion-grid {
-      grid-template-columns: repeat(10, 1fr);
-    }
-  }
+	@media (max-width: 768px) {
+		.projects-container .completion-grid {
+			grid-template-columns: repeat(10, 1fr);
+		}
+	}
 </style>
