@@ -116,6 +116,14 @@ const {
 			if (postContent) {
 				const images = postContent.querySelectorAll('img');
 				images.forEach(function (img) {
+					// 给图片添加 class
+					img.classList.add('lazy');
+
+					// 将 src 属性改为 data-src 以支持懒加载
+					const src = img.src;
+					img.setAttribute('data-src', src);
+					img.removeAttribute('src');
+
 					// 如果图片已经被链接包裹，则跳过
 					if (img.parentElement.tagName === 'A') {
 						return;
@@ -123,13 +131,18 @@ const {
 
 					// 创建链接元素
 					const link = document.createElement('a');
-					link.href = img.src;
-					link.className = 'no-link';
+					link.href = src; // 使用原始的 src 作为链接地址
+					link.className = 'no-link lazy-wrap';
 					link.setAttribute('data-sub-html', img.alt || '');
 
 					// 将图片包装在链接中
 					img.parentNode.insertBefore(link, img);
 					link.appendChild(img);
+
+					// 在图片后添加 lazy-load span
+					const span = document.createElement('span');
+					span.className = 'lazy-load';
+					link.appendChild(span);
 				});
 
 				// 初始化 lightGallery
@@ -167,6 +180,27 @@ const {
 					console.log('清理实例');
 				}
 				lgInstance = null;
+			}
+		});
+	</script>
+
+	<script is:inline src='/js/vanilla-lazyload.js'></script>
+	<script is:inline>
+		// 懒加载动画
+		function callback_loaded(el) {
+			if (el.getAttribute('data-src')) {
+				el.parentNode.classList.add('lazy-loaded');
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', function () {
+			var elements = document.querySelectorAll('.lazy');
+			if (typeof LazyLoad === 'function') {
+				var lazyLoadInstance = new LazyLoad({
+					elements_selector: '.lazy',
+					callback_loaded: callback_loaded,
+				});
+				window.ll = lazyLoadInstance;
 			}
 		});
 	</script>

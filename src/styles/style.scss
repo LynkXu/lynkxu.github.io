@@ -546,3 +546,70 @@ ul.posts li a:visited {
   list-style: none;
   padding-left: 0 !important;
 }
+
+// 图片懒加载
+img.lazy {
+  display: inline-block;
+  opacity: 0
+}
+
+img.lazy,
+img.tst {
+  transition: opacity .6s, transform .3s ease
+}
+
+img.loaded {
+  opacity: 1
+}
+
+img:not([src]) {
+  visibility: hidden;
+  position: absolute
+}
+
+.lazy-load {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  transform: translate(-50%, -50%);
+  border: 2px solid #000;
+  border-top-color: rgba(0, 0, 0, .2);
+  border-right-color: rgba(0, 0, 0, .2);
+  border-bottom-color: rgba(0, 0, 0, .2);
+  border-radius: 100%;
+  animation: circle infinite 1s linear
+}
+
+@keyframes circle {
+  0% {
+    transform: translate(-50%, -50%) rotate(0)
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg)
+  }
+}
+
+.lazy-wrap {
+  display: block;
+  position: relative;
+  overflow: hidden
+}
+
+.lazy-wrap::after {
+  content: "";
+  display: block;
+  padding-bottom: 50%
+}
+
+.lazy-wrap.lazy-loaded .lazy-load {
+  -webkit-animation: none;
+  animation: none;
+  display: none
+}
+
+.lazy-wrap.lazy-loaded::after {
+  padding-bottom: 0
+}
