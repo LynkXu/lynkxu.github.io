@@ -4,7 +4,6 @@ import Page from '../layouts/Page.astro';
 import Message from '../layouts/Message.astro';
 import Shuoshuo from '../layouts/Shuoshuo.astro';
 import Projects from '../layouts/Projects.astro';
-import Search from '../layouts/Search.astro';
 
 export async function getStaticPaths() {
 	const pages = await getCollection('page');
@@ -42,7 +41,6 @@ const layoutMap: Record<string, any> = {
 	Message,
 	Shuoshuo,
 	Projects,
-	Search,
 };
 
 // 根据 layout 字段选择布局组件，如果未指定或找不到则使用 Page

@@ -18,7 +18,41 @@ import HeaderLink from './HeaderLink.astro';
 			<HeaderLink href='/about'>关于</HeaderLink>
 			<HeaderLink href='/shuoshuo'>碎碎念</HeaderLink>
 			<HeaderLink href='/friends'>友链</HeaderLink>
-			<HeaderLink href='/search'>搜索</HeaderLink>
+			<button class="search-trigger" id="search-trigger" aria-label="搜索">
+				搜索
+			</button>
 		</p>
 	</nav>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const searchTrigger = document.getElementById('search-trigger');
+			if (searchTrigger) {
+				searchTrigger.addEventListener('click', () => {
+					if ((window as any).openSearchModal) {
+						(window as any).openSearchModal();
+					}
+				});
+			}
+		});
+	</script>
+
+	<style>
+		.search-trigger {
+			background: none;
+			border: none;
+			padding: 0;
+			margin: 0;
+			cursor: pointer;
+			font-family: inherit;
+			font-size: inherit;
+			color: inherit;
+			text-decoration: inherit;
+			display: inline;
+		}
+
+		.search-trigger:hover {
+			text-decoration: underline;
+		}
+	</style>
 </header>
