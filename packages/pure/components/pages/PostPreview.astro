@@ -22,8 +22,8 @@ const postDate = data.updatedDate ?? data.publishDate
 
 <li
   class={cn(
-    'post-preview group/card flex flex-col relative rounded-2xl border bg-background transition-colors ease-in-out px-5 py-2.5 hover:bg-muted',
-    detailed && 'max-sm:px-4 sm:py-5',
+    'post-preview group/card border border-border/30 rounded-sm px-4 py-2.5 transition-all duration-200 hover:border-border/60 hover:shadow-sm',
+    detailed && 'max-sm:px-4 sm:py-5 border rounded-xl bg-background mx-0 px-5',
     className
   )}
   style={detailed &&
@@ -33,9 +33,9 @@ const postDate = data.updatedDate ?? data.publishDate
 >
   <a
     class={cn(
-      'group/link w-full flex flex-col transition-all hover:text-primary',
+      'group/link w-full flex gap-x-3 items-center transition-colors hover:text-primary',
       !detailed && 'sm:flex-row',
-      detailed && data.heroImage && 'max-md:pt-24'
+      detailed && data.heroImage && 'max-md:pt-24 flex-col'
     )}
     href={`/blog/${id}`}
     data-astro-prefetch
@@ -51,13 +51,13 @@ const postDate = data.updatedDate ?? data.publishDate
       )
     }
 
-    <FormattedDate class='min-w-[95px] py-1 text-xs' date={postDate} />
+    <FormattedDate class='min-w-[90px] text-xs text-muted-foreground/70 flex-shrink-0 font-mono' date={postDate} />
 
-    <Tag class='z-10 flex-grow'>
+    <Tag class='z-10 flex-grow min-w-0'>
       {/* title */}
-      <div class='flex justify-between'>
-        <div class={detailed && 'font-medium'}>
-          {data.draft && <span class='text-red-500'>(Draft) </span>}
+      <div class='flex justify-between items-center gap-x-3'>
+        <div class={cn('truncate font-normal', detailed && 'font-medium')}>
+          {data.draft && <span class='text-red-500 text-xs'>[Draft] </span>}
           {data.title}
         </div>
         <svg
@@ -66,19 +66,17 @@ const postDate = data.updatedDate ?? data.publishDate
           height='16'
           viewBox='0 0 24 24'
           fill='none'
-          stroke-width='2.5'
+          stroke-width='2'
           stroke-linecap='round'
           stroke-linejoin='round'
-          class='preview-redirect my-1 stroke-muted-foreground group-hover/link:stroke-primary'
+          class='preview-redirect flex-shrink-0 stroke-muted-foreground/40 group-hover/link:stroke-primary transition-all duration-200 group-hover/link:translate-x-0.5'
           ><line
             x1='5'
             y1='12'
             x2='19'
             y2='12'
-            class='translate-x-4 scale-x-0 transition-all duration-300 ease-in-out group-hover/link:translate-x-1 group-hover/link:scale-x-100'
           ></line><polyline
             points='12 5 19 12 12 19'
-            class='translate-x-0 transition-all duration-300 ease-in-out group-hover/link:translate-x-1'
           ></polyline></svg
         >
       </div>
@@ -135,13 +133,6 @@ const postDate = data.updatedDate ?? data.publishDate
     );
   }
   .post-preview:hover {
-    &,
-    & .tag-list a {
-      background-color: var(
-        --preview-highlight-bg,
-        hsl(var(--muted) / var(--un-bg-opacity, 1))
-      ) !important;
-    }
     & > a,
     & .tag-list a:hover {
       color: var(--preview-highlight-final) !important;
