@@ -24,13 +24,19 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 <PageLayout meta={{ title: 'Home' }} highlightColor='#8BA3B4'>
   <main class='flex w-full flex-col'>
     <!-- Hero Section - 更紧凑的个人介绍 -->
-    <section class='animate mb-6 flex flex-col gap-y-4' id='content-header'>
-      <div class='flex flex-col gap-y-2.5'>
-        <h1 class='text-3xl sm:text-4xl font-bold tracking-tight leading-tight'>{config.description}</h1>
-        <p class='text-base text-muted-foreground leading-relaxed'>
-          {config.author} · Backend/Full-stack Developer · Web3 Enthusiast
-        </p>
+    <section class='animate mb-10 flex flex-col gap-y-6' id='content-header'>
+      <div class='flex flex-col gap-y-2'>
+        <h1 class='text-4xl sm:text-5xl font-bold tracking-tight leading-tight'>
+          Hi, I'm <span class='text-primary'>{config.author}</span>
+        </h1>
+        <h2 class='text-xl text-muted-foreground font-medium'>
+          Backend Developer & <span class='text-foreground'>Web3 Enthusiast</span>
+        </h2>
       </div>
+
+      <p class='text-base text-muted-foreground leading-relaxed max-w-2xl'>
+        Exploring the intersection of backend development and Web3 technologies.
+      </p>
 
       <div class='flex flex-wrap items-center gap-x-5 gap-y-2 text-sm'>
         <Label title='China'>
@@ -45,11 +51,6 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           <Icon name='github' class='size-4' slot='icon' />
         </Label>
       </div>
-
-      <!-- 简短的个人简介 -->
-      <p class='text-sm text-muted-foreground leading-relaxed max-w-2xl'>
-        Exploring the intersection of backend development and Web3 technologies. Always curious, always learning.
-      </p>
 
       <Button title='More about me' class='w-fit text-sm' href='/about' variant='ahead' />
     </section>
