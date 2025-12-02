@@ -6,7 +6,7 @@ tags:
   - 研究生
   - 工作
   - 算法
-image: "https://source.unsplash.com/OqtafYT5kTw/1600x900"
+heroImage: { src: './thumbnail.jpg', color: '#368370ff' }
 ---
 
 ## 更新
