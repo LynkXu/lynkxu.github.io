@@ -62,7 +62,8 @@ const typographyConfig: TypographyOptions = {
     // Inline code
     ':not(pre) > code': {
       'white-space': 'pre-wrap',
-      'word-break': 'break-all'
+      'word-break': 'break-all',
+      'font-family': '"JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, Monaco, "Courier New", monospace'
     },
     ...(typographyCustom.inlineCodeBlockStyle === 'modern' && {
       ':not(pre) > code': {
@@ -107,6 +108,13 @@ const typographyConfig: TypographyOptions = {
     'tbody tr:last-child': { 'border-bottom-width': '0' },
     'thead th': { 'font-weight': '500', color: fg },
     'td, th': { border: 'inherit', 'text-align': 'start', padding: '0.57em' },
+    // Code blocks
+    pre: {
+      'font-family': '"JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, Monaco, "Courier New", monospace'
+    },
+    'pre code': {
+      'font-family': 'inherit'
+    },
     'thead th:first-child,thead th:first-child,tbody td:first-child,tfoot td:first-child': {
       'padding-inline-start': '0'
     },

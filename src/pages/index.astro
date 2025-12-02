@@ -38,8 +38,15 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
         Exploring the intersection of backend development and Web3 technologies.
       </p>
 
+      <!-- Quote Section -->
+      <div class='relative p-4 pl-6 border-l-4 border-primary/50 bg-muted/30 rounded-r-lg max-w-2xl'>
+        <p class='text-sm italic text-muted-foreground'>
+          "{config.description}"
+        </p>
+      </div>
+
       <div class='flex flex-wrap items-center gap-x-5 gap-y-2 text-sm'>
-        <Label title='China'>
+        <Label title='China' class='hover:scale-105 transition-transform'>
           <Icon name='location' class='size-4' slot='icon' />
         </Label>
         <Label
@@ -47,32 +54,81 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
           as='a'
           href='https://github.com/lynkxu'
           target='_blank'
+          class='hover:scale-105 transition-transform'
         >
           <Icon name='github' class='size-4' slot='icon' />
         </Label>
+        <Label
+          title='Email'
+          as='a'
+          href='mailto:xulinxiao@live.com'
+          class='hover:scale-105 transition-transform'
+        >
+          <Icon name='email' class='size-4' slot='icon' />
+        </Label>
+        <Label
+          title='Twitter'
+          as='a'
+          href='https://x.com/lynk_xv'
+          target='_blank'
+          class='hover:scale-105 transition-transform'
+        >
+          <Icon name='x' class='size-4' slot='icon' />
+        </Label>
       </div>
 
-      <Button title='More about me' class='w-fit text-sm' href='/about' variant='ahead' />
+      <div class='flex gap-x-4'>
+        <Button title='More about me' class='w-fit text-sm' href='/about' variant='ahead' />
+        <Button title='View Projects' class='w-fit text-sm' href='/projects' variant='pill' />
+      </div>
     </section>
 
-    <div id='content' class='animate flex flex-col gap-y-5 w-full'>
-      <!-- 最新文章区域 - 使用更紧凑的布局 -->
+    <div id='content' class='animate flex flex-col gap-y-8 w-full'>
+      <!-- 最新文章区域 -->
       {
         allPostsByDate.length > 0 && (
           <section>
-            <div class='flex items-baseline justify-between mb-3'>
-              <h2 class='text-lg font-semibold tracking-tight text-foreground/90'>Recent Writing</h2>
-              <a href='/blog' class='text-sm text-muted-foreground hover:text-primary transition-colors'>
-                View all →
+            <div class='flex items-center justify-between mb-5'>
+              <div>
+                <h2 class='text-xl font-bold tracking-tight'>Recent Writing</h2>
+                <p class='text-sm text-muted-foreground mt-1'>Latest thoughts and tutorials</p>
+              </div>
+              <a 
+                href='/blog' 
+                class='group flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors'
+              >
+                <span>View all</span>
+                <span class='group-hover:translate-x-1 transition-transform'>→</span>
               </a>
             </div>
-            <ul class='flex flex-col gap-y-1.5'>
-              {allPostsByDate.map((p) => (
-                <li>
-                  <PostPreview post={p} />
-                </li>
+            <div class='grid gap-4 sm:grid-cols-2'>
+              {allPostsByDate.slice(0, 6).map((p) => (
+                <a 
+                  href={`/blog/${p.id}`}
+                  class='group block p-4 rounded-lg border border-border hover:border-primary/50 hover:shadow-md transition-all bg-card'
+                >
+                  <h3 class='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2'>
+                    {p.data.title}
+                  </h3>
+                  {p.data.description && (
+                    <p class='text-sm text-muted-foreground line-clamp-2 mb-3'>
+                      {p.data.description}
+                    </p>
+                  )}
+                  <div class='flex items-center gap-3 text-xs text-muted-foreground'>
+                    <time datetime={p.data.publishDate?.toISOString()}>
+                      {p.data.publishDate?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                    </time>
+                    {p.data.tags && p.data.tags.length > 0 && (
+                      <span class='flex items-center gap-1'>
+                        <span>#</span>
+                        {p.data.tags[0]}
+                      </span>
+                    )}
+                  </div>
+                </a>
               ))}
-            </ul>
+            </div>
           </section>
         )
       }
