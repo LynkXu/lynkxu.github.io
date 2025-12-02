@@ -13,7 +13,7 @@ const radius = 'var(--radius)'
 
 const typographyConfig: TypographyOptions = {
   colorScheme: {
-    body: fgMuted,
+    body: fg,
     headings: fg,
     // "lead": [600, 400],
     links: fg,
