@@ -12,7 +12,7 @@
   font-display: swap;
 }
 html {
-  font-family: 'Satoshi', sans-serif;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
   /* 优化基础排版 */
   font-size: 16px;
   line-height: 1.6;
@@ -107,8 +107,8 @@ h3 {
 
 /* 改善段落可读性 */
 p {
-  line-height: 1.7;
-  letter-spacing: -0.005em;
+  line-height: 1.75;
+  letter-spacing: 0;
 }
 
 /* 优化链接样式 */
