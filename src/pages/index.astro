@@ -105,26 +105,38 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
               {allPostsByDate.slice(0, 6).map((p) => (
                 <a 
                   href={`/blog/${p.id}`}
-                  class='group block p-4 rounded-lg border border-border hover:border-primary/50 hover:shadow-md transition-all bg-card'
+                  class='group block overflow-hidden rounded-lg border border-border hover:border-primary/50 hover:shadow-md transition-all bg-card'
                 >
-                  <h3 class='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2'>
-                    {p.data.title}
-                  </h3>
-                  {p.data.description && (
-                    <p class='text-sm text-muted-foreground line-clamp-2 mb-3'>
-                      {p.data.description}
-                    </p>
+                  {'heroImage' in p.data && p.data.heroImage && (
+                    <div class='relative w-full h-40 overflow-hidden bg-muted'>
+                      <Image 
+                        src={p.data.heroImage.src} 
+                        alt={p.data.heroImage.alt || p.data.title}
+                        class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                        loading='lazy'
+                      />
+                    </div>
                   )}
-                  <div class='flex items-center gap-3 text-xs text-muted-foreground'>
-                    <time datetime={p.data.publishDate?.toISOString()}>
-                      {p.data.publishDate?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </time>
-                    {p.data.tags && p.data.tags.length > 0 && (
-                      <span class='flex items-center gap-1'>
-                        <span>#</span>
-                        {p.data.tags[0]}
-                      </span>
+                  <div class='p-4'>
+                    <h3 class='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2'>
+                      {p.data.title}
+                    </h3>
+                    {p.data.description && (
+                      <p class='text-sm text-muted-foreground line-clamp-2 mb-3'>
+                        {p.data.description}
+                      </p>
                     )}
+                    <div class='flex items-center gap-3 text-xs text-muted-foreground'>
+                      <time datetime={p.data.publishDate?.toISOString()}>
+                        {p.data.publishDate?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                      </time>
+                      {p.data.tags && p.data.tags.length > 0 && (
+                        <span class='flex items-center gap-1'>
+                          <span>#</span>
+                          {p.data.tags[0]}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </a>
               ))}
