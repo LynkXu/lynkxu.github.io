@@ -17,10 +17,10 @@ const { meta, highlightColor, back = '/', ...props } = Astro.props
 
 <PageLayout {meta} {highlightColor} {...props}>
   <Button title='Back' href={back} variant='back' />
-  <main class='mt-6 items-start gap-x-10 md:flex'>
+  <main class='mt-6 items-start gap-x-6 md:flex'>
     {/* Sidebar */}
     <aside
-      class='animate top-20 min-w-48 basis-60 overflow-y-scroll max-md:hidden z-40 fixed md:sticky md:order-2 lg:shrink-0 max-md:border max-md:px-4 max-md:py-3 max-md:bg-muted max-md:rounded-xl'
+      class='animate top-20 w-44 shrink-0 overflow-y-scroll max-md:hidden z-40 fixed md:sticky md:order-2 max-md:border max-md:px-4 max-md:py-3 max-md:bg-muted max-md:rounded-xl'
       style='height:calc(100vh - 7rem);'
       id='sidebar'
     >
@@ -52,12 +52,12 @@ const { meta, highlightColor, back = '/', ...props } = Astro.props
     </article>
   </main>
 
-  <div class='bottom mt-6 items-start gap-x-10 md:flex'>
+  <div class='bottom mt-6 items-start gap-x-6 md:flex'>
     {/* Bottom */}
     <div class='flex-1 text-muted-foreground md:min-w-[50ch]'>
       <slot name='bottom' />
     </div>
-    <div class='min-w-48 basis-60'>
+    <div class='w-44 shrink-0'>
       <slot name='bottom-sidebar' />
     </div>
   </div>
