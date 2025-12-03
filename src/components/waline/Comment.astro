@@ -56,42 +56,153 @@ const { class: className } = Astro.props
 </script>
 
 <style>
-  /* Basic theme */
+  /* Modern minimal theme */
   #waline {
     /* Font size */
-    --waline-font-size: 16px;
+    --waline-font-size: 15px;
     /* Basic color */
     --waline-white: hsl(var(--background) / var(--un-bg-opacity, 1));
     --waline-light-grey: #999;
     --waline-dark-grey: #666;
     /* Theme color */
-    --waline-theme-color: hsl(var(--foreground) / var(--un-text-opacity, 1));
+    --waline-theme-color: hsl(var(--primary) / var(--un-text-opacity, 1));
     --waline-active-color: hsl(var(--primary) / var(--un-text-opacity, 1));
     /* Layout */
-    --waline-color: hsl(var(--muted-foreground) / var(--un-text-opacity, 1));
-    --waline-bg-color: hsl(var(--muted) / var(--un-bg-opacity, 1));
-    --waline-bg-color-light: hsl(var(--input) / var(--un-text-opacity, 1));
-    --waline-bg-color-hover: #f0f0f0;
+    --waline-color: hsl(var(--foreground) / var(--un-text-opacity, 1));
+    --waline-bg-color: hsl(var(--background) / var(--un-bg-opacity, 1));
+    --waline-bg-color-light: hsl(var(--muted) / var(--un-bg-opacity, 1));
+    --waline-bg-color-hover: hsl(var(--accent) / var(--un-bg-opacity, 1));
     --waline-border-color: hsl(var(--border) / var(--un-border-opacity, 1));
-    --waline-disable-bg-color: #f8f8f8;
+    --waline-disable-bg-color: hsl(var(--muted) / var(--un-bg-opacity, 1));
     --waline-disable-color: #bbb;
     --waline-code-bg-color: #282c34;
     /* Special */
-    --waline-bq-color: #f0f0f0;
-    /* Avatar */
-    --waline-avatar-size: 3.25rem;
-    --waline-m-avatar-size: calc(var(--waline-avatar-size) * 9 / 13);
+    --waline-bq-color: hsl(var(--muted) / var(--un-bg-opacity, 1));
+    /* Avatar - smaller and more modern */
+    --waline-avatar-size: 2.5rem;
+    --waline-m-avatar-size: 2rem;
     /* Badge */
-    --waline-badge-color: hsl(var(--border) / var(--un-border-opacity, 1));
-    --waline-badge-font-size: 0.775em;
+    --waline-badge-color: hsl(var(--primary) / 0.1);
+    --waline-badge-font-size: 0.75em;
     /* Info */
-    --waline-info-bg-color: var(--waline-bg-color-light);
-    --waline-info-color: var(--waline-color);
-    --waline-info-font-size: 0.625em;
-    /* Render selection */
-    --waline-border: 1px solid var(--waline-border-color);
-    --waline-avatar-radius: 50%;
-    --waline-box-shadow: none;
+    --waline-info-bg-color: transparent;
+    --waline-info-color: hsl(var(--muted-foreground) / var(--un-text-opacity, 1));
+    --waline-info-font-size: 0.875em;
+    /* Modern styling */
+    --waline-border: 1px solid hsl(var(--border) / 0.5);
+    --waline-avatar-radius: 8px;
+    --waline-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Clean modern input area */
+  #waline :global(.wl-panel) {
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border) / 0.6);
+    transition: border-color 0.2s ease;
+    padding: 1rem;
+  }
+  
+  #waline :global(.wl-panel:focus-within) {
+    border-color: hsl(var(--primary) / 0.8);
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
+  }
+
+  #waline :global(.wl-editor) {
+    border-radius: 8px;
+    min-height: 100px;
+  }
+
+  /* Tab-style input fields */
+  #waline :global(.wl-header) {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+  }
+
+  #waline :global(.wl-header-item) {
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  #waline :global(.wl-header-item input) {
+    border: none;
+    border-bottom: 2px solid hsl(var(--border) / 0.3);
+    background: transparent;
+    border-radius: 0;
+    padding: 0.5rem 0.5rem;
+    font-size: 0.875em;
+    transition: all 0.2s ease;
+    color: hsl(var(--foreground) / var(--un-text-opacity, 1));
+    width: 100%;
+  }
+
+  #waline :global(.wl-header-item input:hover) {
+    border-bottom-color: hsl(var(--border) / 0.6);
+  }
+
+  #waline :global(.wl-header-item input:focus) {
+    border-bottom-color: hsl(var(--primary) / 1);
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+  }
+
+  #waline :global(.wl-header-item input::placeholder) {
+    color: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Modern buttons */
+  #waline :global(.wl-btn) {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  #waline :global(.wl-btn:hover) {
+    transform: translateY(-1px);
+  }
+
+  /* Clean comment cards */
+  #waline :global(.wl-card-item) {
+    border-radius: 12px;
+    border: 1px solid hsl(var(--border) / 0.4);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.2s ease;
+  }
+
+  #waline :global(.wl-card-item:hover) {
+    border-color: hsl(var(--border) / 0.8);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Modern avatar styling */
+  #waline :global(.wl-avatar) {
+    border-radius: 8px;
+    border: 1px solid hsl(var(--border) / 0.3);
+  }
+
+  /* Cleaner metadata */
+  #waline :global(.wl-meta) {
+    font-size: 0.875em;
+    color: hsl(var(--muted-foreground) / var(--un-text-opacity, 1));
+  }
+
+  #waline :global(.wl-nick) {
+    font-weight: 600;
+    color: hsl(var(--foreground) / var(--un-text-opacity, 1));
+  }
+
+  /* Remove heavy borders */
+  #waline :global(.wl-header) {
+    border: none;
+  }
+
+  #waline :global(.wl-cards) {
+    padding-top: 1rem;
   }
 
   /* Fix long text and links overflow */
@@ -160,5 +271,13 @@ const { class: className } = Astro.props
   }
   :global(.dark) #waline :global(.wl-reaction img) {
     filter: invert(75%);
+  }
+
+  /* Smooth animations */
+  #waline :global(.wl-card-item),
+  #waline :global(.wl-panel),
+  #waline :global(.wl-btn),
+  #waline :global(.wl-avatar) {
+    transition: all 0.2s ease;
   }
 </style>

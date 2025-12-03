@@ -168,8 +168,9 @@ export const integ: IntegrationUserConfig = {
       // search: false,
       pageview: true,
       comment: true,
+      requiredMeta: ['nick', 'mail'],
+      reaction: false,
       locale: {
-        reaction0: 'Like',
         placeholder: 'Welcome to comment. (Email to receive replies. Login is unnecessary)'
       },
       imageUploader: false

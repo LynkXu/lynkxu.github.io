@@ -1,16 +1,14 @@
 ---
+import type { MarkdownHeading } from 'astro'
 import PageLayout from '@/layouts/CommonPage.astro'
+import { Comment } from '@/components/waline'
 
-const headings = [
-  { depth: 2, slug: 'leave-message', text: 'Leave a Message' }
-]
+const headings: MarkdownHeading[] = []
 ---
 
-<PageLayout title='Guestbook' {headings} comment>
-  <p>
-    欢迎来到我的留言板！这里是一个自由交流的空间，你可以留下任何想说的话。<br />
-    Welcome to my guestbook! This is a free space for communication, feel free to leave any message.
+<PageLayout title='Guestbook' {headings} view={false}>
+  <p>Feel free to leave any message here.
   </p>
-
-  <h2 id='leave-message'>Leave a Message</h2>
+  
+  <Comment class='mt-6' />
 </PageLayout>
