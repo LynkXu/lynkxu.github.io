@@ -52,6 +52,7 @@ export const theme: ThemeUserConfig = {
       { title: 'Projects', link: '/projects' },
       { title: 'Gossips', link: '/gossips' },
       // { title: 'Links', link: '/links' },
+      { title: 'Guestbook', link: '/guestbook' },
       { title: 'About', link: '/about' }
     ]
   },
@@ -157,9 +158,9 @@ export const integ: IntegrationUserConfig = {
   },
   // Comment system
   waline: {
-    enable: false,  // Set to true after you set up your own Waline server
+    enable: true,  // Set to true after you set up your own Waline server
     // Server service link - YOU NEED TO REPLACE THIS WITH YOUR OWN WALINE SERVER
-    server: 'https://your-waline-server.vercel.app/',
+    server: 'https://blog-comment-one-orpin.vercel.app/',
     // Refer https://waline.js.org/en/guide/features/emoji.html
     emoji: ['bmoji', 'weibo'],
     // Refer https://waline.js.org/en/reference/client/props.html

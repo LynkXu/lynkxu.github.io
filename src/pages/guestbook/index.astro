@@ -1,0 +1,16 @@
+---
+import PageLayout from '@/layouts/CommonPage.astro'
+
+const headings = [
+  { depth: 2, slug: 'leave-message', text: 'Leave a Message' }
+]
+---
+
+<PageLayout title='Guestbook' {headings} comment>
+  <p>
+    欢迎来到我的留言板！这里是一个自由交流的空间，你可以留下任何想说的话。<br />
+    Welcome to my guestbook! This is a free space for communication, feel free to leave any message.
+  </p>
+
+  <h2 id='leave-message'>Leave a Message</h2>
+</PageLayout>
