@@ -1,5 +1,15 @@
 [
-   {
+  {
+    "name": "屏幕水印工具",
+    "description": "一个简单的小工具，可以在你的电脑屏幕上添加文字水印，非常适合录屏或在线分享时保护内容。",
+    "url": "https://github.com/anghunk/watermark",
+    "image": "https://imgurl.zishu.me/2025/12/20251203144613248.webp",
+    "tags": [
+      "桌面小工具",
+      "python"
+    ]
+  },
+  {
     "name": "NoteLook",
     "description": "一款强大的 vscode 笔记管理插件，支持收藏夹、最近文件和搜索功能。",
     "url": "https://github.com/anghunk/vsc-notelook",
