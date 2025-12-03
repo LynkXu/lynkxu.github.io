@@ -56,4 +56,23 @@ const docs = defineCollection({
     })
 })
 
-export const collections = { blog, docs }
+// Define gossips collection
+const gossips = defineCollection({
+  loader: glob({ base: './src/content/gossips', pattern: '**/*.{md,mdx}' }),
+  schema: ({ image }) =>
+    z.object({
+      // Required
+      publishDate: z.coerce.date(),
+      // Optional
+      image: z
+        .object({
+          src: image(),
+          alt: z.string().optional()
+        })
+        .optional(),
+      tag: z.enum(['life', 'tech', 'thought']).optional(),
+      draft: z.boolean().default(false)
+    })
+})
+
+export const collections = { blog, docs, gossips }
