@@ -94,9 +94,9 @@ export const ThemeConfigSchema = () =>
 
     /** The npm CDN to use for loading npm packages.
      * @example
+     * npmCDN: 'https://unpkg.com'
      * npmCDN: 'https://cdn.jsdelivr.net/npm'
      * npmCDN: 'https://cdn.smartcis.cn/npm'
-     * npmCDN: 'https://unkpg.com'
      * npmCDN: 'https://cdn.cbd.int'
      * npmCDN: 'https://esm.sh'
      */
