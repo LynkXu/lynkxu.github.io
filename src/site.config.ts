@@ -141,7 +141,7 @@ export const integ: IntegrationUserConfig = {
   // UnoCSS typography
   // See: https://unocss.dev/presets/typography
   typography: {
-    class: 'prose text-base',
+    class: 'prose text-[12px]',
     // The style of blockquote font, normal or italic (default to italic in typography)
     blockquoteStyle: 'italic',
     // The style of inline code block, code or modern (default to code in typography)
