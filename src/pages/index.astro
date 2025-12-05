@@ -9,6 +9,7 @@ import PageLayout from '@/layouts/BaseLayout.astro'
 import ProjectCard from '@/components/home/ProjectCard.astro'
 import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
+import Typewriter from '@/components/home/Typewriter.astro'
 import avatar from '@/assets/avatar.png'
 import config from '@/site-config'
 
@@ -16,6 +17,11 @@ const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
 const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
 const backend = ['Vercel', 'Waline']
 const uspTags = ['Go/TS backend', 'Web3', 'Open source']
+const heroKeywords = [
+  'Exploring the intersection of backend development and Web3 technologies.',
+  'Shipping reliable services with Go/TS across cloud and edge.',
+  'Building open source tools and writing about them.'
+]
 
 const MAX_POSTS = 10
 const allPosts = await getBlogCollection()
@@ -43,12 +49,18 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
               Hi, I'm <span class='text-primary'>{config.author}</span>
             </h1>
             <h2 class='text-xl text-muted-foreground font-medium'>
-              Backend Developer & <span class='text-foreground'>Web3 Enthusiast</span>
+              Backend Developer & Web3 Enthusiast
             </h2>
           </div>
 
           <p class='text-base text-muted-foreground leading-relaxed max-w-2xl'>
-            Exploring the intersection of backend development and Web3 technologies.
+            <Typewriter
+              client:load
+              words={heroKeywords}
+              speed={80}
+              pause={1200}
+              class='text-foreground font-medium'
+            />
           </p>
 
           <div class='flex flex-wrap gap-2 text-sm'>
