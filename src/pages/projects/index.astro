@@ -1,12 +1,9 @@
 ---
-import { Image } from 'astro:assets'
-
 import { Button, Collapse, Icon } from 'astro-pure/user'
 import PageLayout from '@/layouts/CommonPage.astro'
 import ProjectSection from '@/components/projects/ProjectSection.astro'
 import Sponsors from '@/components/projects/Sponsors.astro'
 import Sponsorship from '@/components/projects/Sponsorship.astro'
-import alipay from '@/assets/alipay-qrcode.jpg'
 import KeyIcon from '@/assets/icons/key.svg'
 import wechat from '@/assets/wechat-qrcode.jpg'
 
@@ -17,21 +14,18 @@ const headings = [
 ---
 
 <PageLayout title='Projects' {headings} view highlightColor='#8BB49B'>
-  <p>Github Activities:</p>
-  <p>
-    <Image
+  <p class='mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground'>
+    <Icon name='activity' class='size-4' />
+    GitHub Activity
+  </p>
+  <p class='mb-6'>
+    <img
       src='https://ghchart.rshah.org/659eb9/lynkxu'
-      alt='github activities'
-      inferSize
+      alt='GitHub activity chart'
       loading='lazy'
+      class='w-full max-w-3xl rounded-md border border-border/40 bg-card/70 p-2'
     />
   </p>
-  <p>
-    If you find my work helpful or interesting, feel free to support me through sponsorship or reach out to collaborate on projects.
-  </p>
-  <Button title='Checkout sponsorship' class='w-fit' href='#sponsorship'>
-    <Icon class='size-5' name='receive-money' slot='before' />
-  </Button>
 
   <h2 id='projects'>Projects</h2>
   <p>My projects will be updated here as I continue building and learning. Stay tuned!</p>

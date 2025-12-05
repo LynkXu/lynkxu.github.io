@@ -15,6 +15,7 @@ import config from '@/site-config'
 const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
 const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
 const backend = ['Vercel', 'Waline']
+const uspTags = ['Go/TS backend', 'Web3', 'Open source']
 
 const MAX_POSTS = 10
 const allPosts = await getBlogCollection()
@@ -24,62 +25,92 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 <PageLayout meta={{ title: 'Home' }} highlightColor='#8BA3B4'>
   <main class='flex w-full flex-col'>
     <!-- Hero Section - 更紧凑的个人介绍 -->
-    <section class='animate mb-10 flex flex-col gap-y-6' id='content-header'>
-      <div class='flex flex-col gap-y-2'>
-        <h1 class='text-4xl sm:text-5xl font-bold tracking-tight leading-tight'>
-          Hi, I'm <span class='text-primary'>{config.author}</span>
-        </h1>
-        <h2 class='text-xl text-muted-foreground font-medium'>
-          Backend Developer & <span class='text-foreground'>Web3 Enthusiast</span>
-        </h2>
-      </div>
+    <section
+      class='relative animate mb-10 overflow-hidden rounded-2xl border border-border/70 bg-card/70 px-5 py-6 sm:px-7 sm:py-8'
+      id='content-header'
+    >
+      <div class='pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-primary/15 via-transparent to-primary/10 dark:from-primary/20 dark:to-primary/5' />
+      <div class='pointer-events-none hero-arc' aria-hidden='true' />
+      <div class='pointer-events-none hero-blob hero-blob-1' aria-hidden='true' />
+      <div class='pointer-events-none hero-blob hero-blob-2' aria-hidden='true' />
+      <div class='pointer-events-none hero-shape hero-ribbon' aria-hidden='true' />
+      <div class='pointer-events-none hero-shape hero-orb' aria-hidden='true' />
 
-      <p class='text-base text-muted-foreground leading-relaxed max-w-2xl'>
-        Exploring the intersection of backend development and Web3 technologies.
-      </p>
+      <div class='flex flex-col gap-y-6 lg:flex-row lg:items-center lg:gap-x-10'>
+        <div class='flex flex-col gap-y-4 lg:flex-1 min-w-0'>
+          <div class='flex flex-col gap-y-2'>
+            <h1 class='text-4xl sm:text-5xl font-bold tracking-tight leading-tight'>
+              Hi, I'm <span class='text-primary'>{config.author}</span>
+            </h1>
+            <h2 class='text-xl text-muted-foreground font-medium'>
+              Backend Developer & <span class='text-foreground'>Web3 Enthusiast</span>
+            </h2>
+          </div>
 
-      <!-- Quote Section -->
-      <div class='relative p-4 pl-6 border-l-4 border-primary/50 bg-muted/30 rounded-r-lg max-w-2xl'>
-        <p class='text-sm italic text-muted-foreground'>
-          "{config.description}"
-        </p>
-      </div>
+          <p class='text-base text-muted-foreground leading-relaxed max-w-2xl'>
+            Exploring the intersection of backend development and Web3 technologies.
+          </p>
 
-      <div class='flex flex-wrap items-center gap-x-5 gap-y-2 text-sm'>
-        <Label title='China' class='hover:scale-105 transition-transform'>
-          <Icon name='location' class='size-4' slot='icon' />
-        </Label>
-        <Label
-          title='Github'
-          as='a'
-          href='https://github.com/lynkxu'
-          target='_blank'
-          class='hover:scale-105 transition-transform'
-        >
-          <Icon name='github' class='size-4' slot='icon' />
-        </Label>
-        <Label
-          title='Email'
-          as='a'
-          href='mailto:xulinxiao@live.com'
-          class='hover:scale-105 transition-transform'
-        >
-          <Icon name='email' class='size-4' slot='icon' />
-        </Label>
-        <Label
-          title='Twitter'
-          as='a'
-          href='https://x.com/lynk_xv'
-          target='_blank'
-          class='hover:scale-105 transition-transform'
-        >
-          <Icon name='x' class='size-4' slot='icon' />
-        </Label>
-      </div>
+          <div class='flex flex-wrap gap-2 text-sm'>
+            {uspTags.map((tag) => (
+              <Button
+                as='span'
+                title={tag}
+                variant='pill'
+                class='cursor-default border border-primary/20 bg-primary/10 text-primary hover:scale-[1.01] transition-transform'
+              />
+            ))}
+          </div>
 
-      <div class='flex gap-x-4'>
-        <Button title='More about me' class='w-fit text-sm' href='/about' variant='ahead' />
-        <Button title='View Projects' class='w-fit text-sm' href='/projects' variant='pill' />
+          <div class='flex flex-wrap items-center gap-x-5 gap-y-2 text-sm'>
+            <Label title='China' aria-label='Location: China' class='hover:scale-105 transition-transform focus-visible:scale-105'>
+              <Icon name='location' class='size-4' slot='icon' />
+            </Label>
+            <Label
+              title='Github'
+              as='a'
+              href='https://github.com/lynkxu'
+              target='_blank'
+              aria-label='Github profile'
+              class='hover:scale-105 transition-transform focus-visible:scale-105'
+            >
+              <Icon name='github' class='size-4' slot='icon' />
+            </Label>
+            <Label
+              title='Email'
+              as='a'
+              href='mailto:xulinxiao@live.com'
+              aria-label='Send email'
+              class='hover:scale-105 transition-transform focus-visible:scale-105'
+            >
+              <Icon name='email' class='size-4' slot='icon' />
+            </Label>
+            <Label
+              title='Twitter'
+              as='a'
+              href='https://x.com/lynk_xv'
+              target='_blank'
+              aria-label='Twitter profile'
+              class='hover:scale-105 transition-transform focus-visible:scale-105'
+            >
+              <Icon name='x' class='size-4' slot='icon' />
+            </Label>
+          </div>
+
+          <div class='flex gap-x-4'>
+            <Button title='More about me' class='w-fit text-sm' href='/about' variant='ahead' />
+            <Button title='View Projects' class='w-fit text-sm' href='/projects' variant='pill' />
+          </div>
+        </div>
+
+        <div class='relative self-center lg:self-auto w-40 sm:w-48 lg:w-56 aspect-square overflow-hidden rounded-2xl border border-border/50 bg-gradient-to-br from-primary/10 via-muted to-background shadow-sm'>
+          <Image
+            src={avatar}
+            alt={`${config.author} avatar`}
+            class='h-full w-full object-cover'
+            loading='lazy'
+          />
+        </div>
       </div>
     </section>
 
@@ -101,45 +132,48 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
                 <span class='group-hover:translate-x-1 transition-transform'>→</span>
               </a>
             </div>
-            <div class='grid gap-4 sm:grid-cols-2'>
-              {allPostsByDate.slice(0, 6).map((p) => (
-                <a 
-                  href={`/blog/${p.id}`}
-                  class='group block overflow-hidden rounded-lg border border-border hover:border-primary/50 hover:shadow-md transition-all bg-card'
-                >
-                  {'heroImage' in p.data && p.data.heroImage && (
-                    <div class='relative w-full h-40 overflow-hidden bg-muted'>
-                      <Image 
-                        src={p.data.heroImage.src} 
-                        alt={p.data.heroImage.alt || p.data.title}
-                        class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
-                        loading='lazy'
-                      />
-                    </div>
-                  )}
-                  <div class='p-4'>
-                    <h3 class='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2'>
-                      {p.data.title}
-                    </h3>
-                    {p.data.description && (
-                      <p class='text-sm text-muted-foreground line-clamp-2 mb-3'>
-                        {p.data.description}
-                      </p>
+            <div class='grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'>
+              {allPostsByDate.slice(0, 6).map((p) => {
+                const data = p.data as any
+                return (
+                  <a 
+                    href={`/blog/${p.id}`}
+                    class='group block overflow-hidden rounded-lg border border-border/60 hover:border-primary/40 hover:shadow-md transition-all bg-card'
+                  >
+                    {'heroImage' in data && data.heroImage && (
+                      <div class='relative w-full h-40 overflow-hidden bg-muted'>
+                        <Image 
+                          src={data.heroImage.src} 
+                          alt={data.heroImage.alt || data.title}
+                          class='w-full h-full object-cover group-hover:scale-105 transition-transform duration-300'
+                          loading='lazy'
+                        />
+                      </div>
                     )}
-                    <div class='flex items-center gap-3 text-xs text-muted-foreground'>
-                      <time datetime={p.data.publishDate?.toISOString()}>
-                        {p.data.publishDate?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </time>
-                      {p.data.tags && p.data.tags.length > 0 && (
-                        <span class='flex items-center gap-1'>
-                          <span>#</span>
-                          {p.data.tags[0]}
-                        </span>
+                    <div class='p-4'>
+                      <h3 class='font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2'>
+                        {data.title}
+                      </h3>
+                      {data.description && (
+                        <p class='text-sm text-muted-foreground line-clamp-2 mb-3'>
+                          {data.description}
+                        </p>
                       )}
+                      <div class='flex items-center gap-3 text-xs text-muted-foreground'>
+                        <time datetime={data.publishDate?.toISOString()}>
+                          {data.publishDate?.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                        </time>
+                        {data.tags && data.tags.length > 0 && (
+                          <span class='flex items-center gap-1'>
+                            <span>#</span>
+                            {data.tags[0]}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </a>
-              ))}
+                  </a>
+                )
+              })}
             </div>
           </section>
         )
@@ -242,3 +276,158 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
     <Quote class='mt-10' />
   </main>
 </PageLayout>
+
+<style>
+  .hero-blob {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(72px);
+    opacity: 0.65;
+    mix-blend-mode: screen;
+    transform-origin: center;
+    z-index: -5; /* keep under content but above base gradient */
+  }
+
+  .hero-arc {
+    position: absolute;
+    width: 420px;
+    height: 220px;
+    left: 12%;
+    bottom: -140px;
+    background: radial-gradient(ellipse at 50% 100%, hsl(var(--primary) / 0.2) 0%, hsl(var(--primary) / 0.12) 45%, transparent 65%);
+    filter: blur(48px);
+    opacity: 0.7;
+    z-index: -6;
+    transform: rotate(-2deg);
+  }
+
+  .hero-blob-1 {
+    width: 340px;
+    height: 340px;
+    top: -140px;
+    right: -120px;
+    background: radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.45), transparent 65%);
+    animation: blob-move-1 16s ease-in-out infinite alternate;
+  }
+
+  .hero-blob-2 {
+    width: 280px;
+    height: 280px;
+    left: -120px;
+    bottom: -80px;
+    background: radial-gradient(circle at 40% 40%, hsl(var(--primary) / 0.35), transparent 65%);
+    animation: blob-move-2 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes blob-move-1 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(18px, 12px, 0) scale(1.05);
+    }
+    100% {
+      transform: translate3d(-14px, 24px, 0) scale(1.1);
+    }
+  }
+
+  @keyframes blob-move-2 {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(-12px, -8px, 0) scale(1.04) rotate(2deg);
+    }
+    100% {
+      transform: translate3d(10px, 18px, 0) scale(1.1) rotate(-1deg);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero-blob {
+      filter: blur(60px);
+      opacity: 0.45;
+    }
+    .hero-arc {
+      width: 300px;
+      height: 180px;
+      left: 6%;
+      bottom: -150px;
+      filter: blur(42px);
+      opacity: 0.55;
+    }
+    .hero-blob-1 {
+      width: 240px;
+      height: 240px;
+      top: -120px;
+      right: -120px;
+    }
+    .hero-blob-2 {
+      width: 200px;
+      height: 200px;
+      left: -100px;
+      bottom: -120px;
+    }
+    .hero-ribbon {
+      width: 260px;
+      height: 160px;
+      bottom: -80px;
+      left: -20px;
+      transform: rotate(-4deg);
+    }
+    .hero-orb {
+      width: 170px;
+      height: 170px;
+      top: 18%;
+      right: 6%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-blob {
+      animation: none !important;
+    }
+  }
+
+  .hero-shape {
+    position: absolute;
+    z-index: -4;
+    mix-blend-mode: screen;
+  }
+
+  .hero-ribbon {
+    width: 360px;
+    height: 200px;
+    bottom: -60px;
+    left: -40px;
+    background: linear-gradient(
+      120deg,
+      hsl(var(--primary) / 0.16) 0%,
+      hsl(var(--primary) / 0.1) 45%,
+      hsl(var(--primary) / 0.05) 70%,
+      transparent 100%
+    );
+    border-radius: 55% 65% 45% 35%;
+    filter: blur(2px);
+    transform: rotate(-6deg);
+  }
+
+  .hero-orb {
+    width: 260px;
+    height: 260px;
+    top: 14%;
+    right: 10%;
+    background: radial-gradient(
+      circle at 35% 35%,
+      hsl(var(--primary) / 0.32),
+      hsl(var(--primary) / 0.18) 55%,
+      hsl(var(--primary) / 0.08) 72%,
+      transparent 86%
+    );
+    border-radius: 999px;
+    filter: blur(1px);
+    box-shadow:
+      0 18px 48px hsl(var(--primary) / 0.18),
+      0 -8px 24px hsl(var(--primary) / 0.08);
+  }
+</style>
