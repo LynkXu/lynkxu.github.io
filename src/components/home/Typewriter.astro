@@ -8,31 +8,40 @@ type Props = {
 
 const { words = [], speed = 110, pause = 1400, class: className } = Astro.props
 const initialText = words[0] ?? ''
-const id = `typewriter-${Math.random().toString(36).slice(2, 7)}`
 ---
 
-<span id={id} class={`typewriter ${className ?? ''}`} aria-live='polite'>
+<span
+  class={`typewriter ${className ?? ''}`}
+  aria-live='polite'
+  data-words={JSON.stringify(words)}
+  data-speed={speed}
+  data-pause={pause}
+>
   {initialText}
 </span>
 
-<script>
-  const words = JSON.parse('{JSON.stringify(words)}')
-  const speed = {speed}
-  const pause = {pause}
-  const el = document.getElementById('{id}')
-  const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+<script is:inline>
+  ;(() => {
+    const el = document.currentScript?.previousElementSibling
+    if (!(el instanceof HTMLElement)) return
 
-  if (!el || media.matches || words.length <= 1) {
-    if (el && words.length) el.textContent = words[0] ?? ''
-  } else {
+    const words = JSON.parse(el.dataset.words || '[]')
+    const speed = Number(el.dataset.speed) || 110
+    const pause = Number(el.dataset.pause) || 1400
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+    if (media.matches || words.length <= 1) {
+      if (words.length) el.textContent = words[0] ?? ''
+      return
+    }
+
     let wordIndex = 0
     let charIndex = 0
     let deleting = false
 
     const tick = () => {
       const current = words[wordIndex] ?? ''
-      const visible = current.slice(0, charIndex)
-      el.textContent = visible
+      el.textContent = current.slice(0, charIndex)
 
       if (!deleting && charIndex >= current.length) {
         deleting = true
@@ -51,7 +60,7 @@ const id = `typewriter-${Math.random().toString(36).slice(2, 7)}`
     }
 
     tick()
-  }
+  })()
 </script>
 
 <style>
