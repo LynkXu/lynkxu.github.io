@@ -1,31 +1,12 @@
 ---
 interface Props {
-	backUrl?: string; // 返回链接，默认 /blog
 	showBackToTop?: boolean; // 是否显示回到顶部按钮，默认 true
 }
 
-const { backUrl = '/blog', showBackToTop = true } = Astro.props;
+const { showBackToTop = true } = Astro.props;
 ---
 
 <div class='nav-buttons-group'>
-	<a href={backUrl} class='nav-button nav-back'>
-		<svg
-			xmlns='http://www.w3.org/2000/svg'
-			width='24'
-			height='24'
-			viewBox='0 0 24 24'
-			fill='none'
-			stroke='currentColor'
-			stroke-width='2'
-			stroke-linecap='round'
-			stroke-linejoin='round'
-			class='lucide lucide-arrow-left'>
-			<path d='m12 19-7-7 7-7'></path>
-			<path d='M19 12H5'></path>
-		</svg>
-		<span>返回文章列表</span>
-	</a>
-
 	{
 		showBackToTop && (
 			<button class='nav-button nav-top' id='backToTop'>
@@ -139,10 +120,6 @@ const { backUrl = '/blog', showBackToTop = true } = Astro.props;
 		height: 18px;
 		flex-shrink: 0;
 		transition: all 0.1s linear;
-	}
-
-	.nav-back span {
-		font-weight: 500;
 	}
 
 	.nav-top {
