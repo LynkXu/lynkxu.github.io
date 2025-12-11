@@ -21,10 +21,6 @@ interface Project {
 // 读取项目数据
 const projects: Project[] = projectsData;
 
-// 计算完成度
-const totalBoxes = 100;
-const completedBoxes = projects.length;
-
 // 默认图片
 const defaultImage = '/logo.png';
 ---
@@ -38,20 +34,6 @@ const defaultImage = '/logo.png';
 	</div>
 
 	<div class='projects-container'>
-		<!-- 项目完成度 -->
-		<div class='completion-container'>
-			<div class='completion-header'>
-				<span>项目完成度：{completedBoxes}/{totalBoxes}</span>
-			</div>
-			<div class='completion-grid'>
-				{
-					Array.from({ length: totalBoxes }, (_, i) => (
-						<div class={`status-box ${i < completedBoxes ? 'completed' : ''}`} />
-					))
-				}
-			</div>
-		</div>
-
 		<!-- 项目列表 -->
 		<div class='projects-grid'>
 			{
@@ -83,19 +65,63 @@ const defaultImage = '/logo.png';
 				)
 			}
 		</div>
+
+		<h2 class='section-title'>GitHub Activity</h2>
+
+		<!-- GitHub 活动 -->
+		<section class='github-activity'>
+			<div class='github-activity__chart'>
+				<img
+					src='https://ghchart.rshah.org/659eb9/lynkxu'
+					alt='GitHub activity chart'
+					loading='lazy'
+				/>
+			</div>
+		</section>
 	</div>
 </Base>
 
 <style>
 	.projects-container .projects-grid {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1.2rem;
+		align-items: stretch;
+	}
+
+	.projects-container .github-activity {
+		margin-top: 1.5rem;
+		background: white;
+		border-radius: 12px;
+		padding: 12px;
+		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+		border: 1px solid rgba(0, 0, 0, 0.04);
+	}
+
+	.projects-container .github-activity__chart {
+		margin-top: 10px;
+		border-radius: 10px;
+		overflow: hidden;
+	}
+
+	.projects-container .github-activity__chart img {
+		width: 100%;
+		display: block;
+		border-radius: 10px;
+		border: none;
+		background: transparent;
+		padding: 0;
+		box-shadow: none;
+	}
+
+	.projects-container .section-title {
+		margin: 1.5rem 0 0.5rem;
+		font-size: 18px;
+		font-weight: 600;
+		color: #333;
 	}
 
 	.projects-container .card {
-		width: 48%;
-		margin-bottom: 2em;
 		position: relative;
 		background: white;
 		border-radius: 12px;
@@ -104,6 +130,8 @@ const defaultImage = '/logo.png';
 		transition:
 			transform 0.3s ease,
 			box-shadow 0.3s ease;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.projects-container .card:hover {
@@ -114,7 +142,7 @@ const defaultImage = '/logo.png';
 	.projects-container .card-image {
 		display: flex;
 		width: 100%;
-		aspect-ratio: 3/2;
+		aspect-ratio: 16/10;
 		overflow: hidden;
 		border: none;
 	}
@@ -131,14 +159,18 @@ const defaultImage = '/logo.png';
 	}
 
 	.projects-container .card-content {
-		padding: 20px;
+		padding: 16px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex: 1;
 	}
 
 	.projects-container .card-title {
-		margin: 0 0 10px 0;
+		margin: 0;
 		color: #333;
-		font-weight: 400;
-		font-size: 20px;
+		font-weight: 500;
+		font-size: 18px;
 	}
 
 	.projects-container .card-title a {
@@ -148,8 +180,8 @@ const defaultImage = '/logo.png';
 
 	.projects-container .card-description {
 		color: #666;
-		font-size: 15px;
-		line-height: 1.6;
+		font-size: 14px;
+		line-height: 1.5;
 		margin: 0;
 		font-weight: 300;
 	}
@@ -201,20 +233,20 @@ const defaultImage = '/logo.png';
 	.projects-container .card-tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
-		margin-top: 15px;
+		gap: 6px;
+		margin-top: auto;
 	}
 
 	.projects-container .tag {
 		display: inline-block;
-		padding: 4px 10px;
-		font-size: 13px;
-		border-radius: 20px;
+		padding: 3px 8px;
+		font-size: 12px;
+		border-radius: 16px;
 		background-color: #f0f5ff;
 		color: #4a6cf7;
 		font-weight: 500;
 		transition: all 0.2s ease;
-		line-height: 2;
+		line-height: 1.7;
 	}
 
 	.projects-container .tag:hover {
@@ -222,52 +254,13 @@ const defaultImage = '/logo.png';
 		transform: translateY(-2px);
 	}
 
-	.projects-container .completion-container {
-		margin-bottom: 30px;
-		background: white;
-		border-radius: 12px;
-		padding: 20px;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-	}
-
-	.projects-container .completion-header {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 15px;
-		font-weight: 500;
-		color: #666;
-	}
-
-	.projects-container .completion-grid {
-		display: grid;
-		grid-template-columns: repeat(30, 1fr);
-		gap: 5px;
-	}
-
-	.projects-container .status-box {
-		aspect-ratio: 1;
-		background-color: #f0f0f0;
-		border-radius: 4px;
-		transition: all 0.3s ease;
-	}
-
-	.projects-container .status-box.completed {
-		background-color: #4caf50;
-		box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
-	}
-
-	.projects-container .status-box.completed:hover {
-		transform: scale(1.1);
-		background-color: #43a047;
-	}
-
-	.projects-container .status-box:not(.completed):hover {
-		background-color: #e0e0e0;
-	}
-
 	@media (max-width: 768px) {
-		.projects-container .completion-grid {
-			grid-template-columns: repeat(10, 1fr);
+		.projects-container .projects-grid {
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		}
+
+		.projects-container .github-activity__chart img {
+			max-width: 100%;
 		}
 	}
 </style>

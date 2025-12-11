@@ -14,6 +14,9 @@ const gossips = (await getCollection('gossips'))
 	.filter((item) => !item.data.draft)
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const pageSize = 10;
+const totalPages = gossips.length > 0 ? Math.ceil(gossips.length / pageSize) : 0;
+
 marked.setOptions({
 	breaks: true,
 	gfm: true,
@@ -47,12 +50,117 @@ function formatDate(date: Date): string {
 									<span class='date'>{formatDate(gossip.data.pubDate)}</span>
 									{gossip.data.tag && <span class='tag'>#{gossip.data.tag}</span>}
 								</div>
-								<div class='body' set:html={marked.parse(gossip.body)} />
+								<div class='body' set:html={marked.parse(gossip.body || '')} />
 							</li>
 						))
 					)
 				}
 			</ul>
+			{totalPages > 1 && (
+				<nav class='pagination' id='shuoshuo-pagination' aria-label='碎碎念分页'>
+					<div class='pagination-pages'>
+						{Array.from({ length: totalPages }, (_, index) => {
+							const pageNumber = index + 1;
+							return (
+								<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
+									{pageNumber}
+								</a>
+							);
+						})}
+					</div>
+				</nav>
+			)}
 		</div>
 	</div>
+
+	<script is:inline define:vars={{ pageSize, totalPages }}>
+		(() => {
+			const items = Array.from(document.querySelectorAll('#shuoshuo li.comment'));
+			const pagination = document.getElementById('shuoshuo-pagination');
+			const pageLinks = Array.from(document.querySelectorAll('#shuoshuo-pagination a[data-page]'));
+
+			if (!pagination || !items.length || totalPages <= 1) {
+				if (pagination) pagination.style.display = 'none';
+				return;
+			}
+
+			const params = new URLSearchParams(window.location.search);
+			const initialPage = Math.min(totalPages, Math.max(1, Number(params.get('page')) || 1));
+			const clampPage = (page) => Math.min(totalPages, Math.max(1, page));
+
+			function renderPage(page) {
+				const currentPage = clampPage(page);
+				const start = (currentPage - 1) * pageSize;
+				const end = start + pageSize;
+
+				items.forEach((item, index) => {
+					const visible = index >= start && index < end;
+					item.style.display = visible ? '' : 'none';
+				});
+
+				pageLinks.forEach((link) => {
+					const linkPage = Number(link.dataset.page);
+					link.classList.toggle('active', linkPage === currentPage);
+				});
+
+				params.set('page', String(currentPage));
+				const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+				window.history.replaceState({}, '', nextUrl);
+			}
+
+			renderPage(initialPage);
+
+			pageLinks.forEach((link) => {
+				link.addEventListener('click', (event) => {
+					event.preventDefault();
+					const targetPage = Number(link.dataset.page);
+					if (!Number.isFinite(targetPage)) return;
+					renderPage(targetPage);
+				});
+			});
+		})();
+	</script>
+
+	<style>
+		.pagination {
+			display: flex;
+			justify-content: center;
+			margin-top: 1.5rem;
+		}
+
+		.pagination-pages {
+			display: flex;
+			gap: 0.5rem;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+
+		.page-link {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 36px;
+			height: 36px;
+			padding: 0 0.65rem;
+			border-radius: 8px;
+			border: 1px solid rgba(var(--accent), 0.35);
+			color: rgb(var(--accent));
+			text-decoration: none;
+			font-weight: 600;
+			background: rgba(var(--accent), 0.06);
+			transition: all 0.2s ease;
+		}
+
+		.page-link:hover {
+			background: rgba(var(--accent), 0.12);
+			box-shadow: 0 4px 12px rgba(var(--accent), 0.15);
+		}
+
+		.page-link.active {
+			color: white;
+			background: rgb(var(--accent));
+			border-color: rgb(var(--accent));
+			box-shadow: 0 6px 14px rgba(var(--accent), 0.2);
+		}
+	</style>
 </Base>

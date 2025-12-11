@@ -8,9 +8,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 // 导入 index.md 文件
 import IndexContent from '../content/index.md';
 
-// 获取最新的博客文章（显示前5篇）
-const allPosts = await getCollection('blog');
-const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 7);
+// 获取最新的博客文章（显示前8篇）
+const allPosts = (await getCollection('blog')).filter((post) => !post.data.draft);
+const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 8);
 
 // 统计标签（同 tags 页风格）
 const tagsMap = new Map<string, number>();
@@ -55,9 +55,9 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			<div class='indextitle'>标签</div>
 			<hr class='section-divider' />
 			<div class='tags'>
-				{sortedTags.map(([tag]) => (
+				{sortedTags.map(([tag, count]) => (
 					<a href={`/tags/${tag}/`}>
-						{tag}
+						{tag} ({count})
 					</a>
 				))}
 			</div>
@@ -75,14 +75,22 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			font-size: 0.9rem;
 		}
 
+		.recent-header .indextitle {
+			margin-bottom: 0.3em;
+		}
+
 		.home-tags {
 			margin: 1.5rem 0 1rem;
 		}
 
+		.home-tags .indextitle {
+			margin-bottom: 0.3em;
+		}
+
 		.section-divider {
 			border: none;
-			border-top: 1px solid #e5e5e5;
-			margin: 0.2rem 0 0.8rem;
+			border-top: 2px solid #e5e5e5;
+			margin: 0 0 0.8rem 0;
 		}
 	</style>
 </Base>
