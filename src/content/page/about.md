@@ -3,24 +3,17 @@ slug: about
 title: 关于我
 ---
 
-### 1. Hello ~
+Backend developer，常驻上海，喜欢安静地写后端代码，也会折腾文档和工具。
 
-如果你想与我交流，欢迎发送电子邮件至 `hi@zishu.me`，或者在文章评论区留下你的足迹。
+- Motto：Stay hungry, stay curious
+- GitHub：[@lynkxu](https://github.com/lynkxu)
+- 博客：<https://lynkxu.github.io/>
 
-一个热爱生活的前端开发工程师，喜欢写点开源程序，托管了不少项目在 [GitHub](https://github.com/anghunk/) 上。
+### 关于博客
 
-经常混迹在 LinuxDo，V2EX 等各大技术社交论坛，喜欢折腾，感兴趣的可以联系我一起交流。
+站点基于 Astro 搭建，主要记录技术、生活与随想。
 
-现在从事前端开发方面的工作，这也是我的兴趣爱好之一。写博客也是我的个人爱好，一方面是分享生活，一方面是希望自己的一些文章可以帮助到有需要的人。
+### 其他页面
 
-同时我还维护了一个周刊（[奇趣周刊](/categories/weekly/)），一同发布到了该网站。督促自己多扩展眼界，获取更新的知识，不管是技术类型还是娱乐，让自己的容量不断 +1。（暂时停更）
-
-
-### 2. 博客架构
-
-这是一个基于 astro 框架搭建的博客，仓库在 [https://github.com/anghunk/astro-blog](https://github.com/anghunk/astro-blog)
-
-### 3. 其他页面
-
-- [我开发的一些小工具](/projects/)
+- [项目](/projects/)
 - [版权声明](/copyright/)

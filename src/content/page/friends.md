@@ -14,10 +14,10 @@ title: 友链
 如有任何疑问，欢迎随时联系我~
 
 ```md
-名称：子舒的博客
-简介：想留下点什么，证明我来过，一个热爱生活的程序员。
-域名：https://zishu.me
-logo：https://zishu.me/favicon.ico
+名称：LynkXu's Blog
+简介：Stay hungry, stay foolish
+域名：https://lynkxu.github.io
+logo：https://lynkxu.github.io/favicon/favicon.ico
 ```
 
 - [涛叔](https://taoshu.in/)

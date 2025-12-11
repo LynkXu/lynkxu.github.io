@@ -38,4 +38,16 @@ const page = defineCollection({
 	}),
 });
 
-export const collections = { blog, page };
+const gossips = defineCollection({
+	loader: glob({ base: './src/content/gossips', pattern: '**/*.md' }),
+	schema: () =>
+		z.object({
+			slug: z.coerce.string().optional(),
+			tag: z.string().optional(),
+			pubDate: z.coerce.date(),
+			image: z.string().optional(),
+			draft: z.boolean().default(false),
+		}),
+});
+
+export const collections = { blog, page, gossips };

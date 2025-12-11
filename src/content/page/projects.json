@@ -1,94 +1,30 @@
 [
   {
-    "name": "屏幕水印工具",
-    "description": "一个简单的小工具，可以在你的电脑屏幕上添加文字水印，非常适合录屏或在线分享时保护内容。",
-    "url": "https://github.com/anghunk/watermark",
-    "image": "https://imgurl.zishu.me/2025/12/20251203144613248.webp",
-    "tags": [
-      "桌面小工具",
-      "python"
-    ]
+    "name": "AlgorithmDiagram",
+    "description": "Visual-first walk-throughs of \"Grokking Algorithms\" with runnable Python 和 Go 代码、笔记与图示。",
+    "url": "https://github.com/LynkXu/AlgorithmDiagram",
+    "image": "/projects/alex-tyson-2BAXJ7ha74s-unsplash.jpg",
+    "tags": ["Python", "Go", "Data structures"]
   },
   {
-    "name": "NoteLook",
-    "description": "一款强大的 vscode 笔记管理插件，支持收藏夹、最近文件和搜索功能。",
-    "url": "https://github.com/anghunk/vsc-notelook",
-    "image": "https://imgurl.zishu.me/2025/11/20251126115026575.webp",
-    "tags": [
-      "vscode 扩展"
-    ]
+    "name": "GoWebFramework",
+    "description": "Go Web 试验栈：中间件、优雅关闭、结构化日志与开发体验探索。",
+    "url": "https://github.com/LynkXu/GoWebFramework",
+    "image": "/projects/angelica-teran-Bk9hpaXHK4o-unsplash.jpg",
+    "tags": ["Go", "Web", "DX"]
   },
   {
-    "name": "AquaBuddy - 喝水小助手 🐳",
-    "description": "AquaBuddy 是一个可爱风格的浏览器扩展，帮助您记录每日饮水情况。通过简单直观的界面，让您轻松养成健康的饮水习惯。",
-    "url": "https://github.com/anghunk/AquaBuddy",
-    "image": "https://imgurl.zishu.me/2025/07/1753240354331.webp",
-    "tags": [
-      "浏览器扩展"
-    ]
+    "name": "go-forum",
+    "description": "学习型论坛后端：认证、角色、楼中楼、缓存试验与整洁架构实践。",
+    "url": "https://github.com/LynkXu/go-forum",
+    "image": "/projects/kseniia-zapiatkina-yATU3rg8tNI-unsplash.jpg",
+    "tags": ["Go", "PostgreSQL", "Clean architecture"]
   },
   {
-    "name": "LinuxDo Scripts 增强扩展",
-    "description": "LinuxDo Scripts 是一个功能丰富的浏览器扩展，旨在提升 LinuxDo 论坛的使用体验。它集成了多项实用功能，从基础的界面优化到高级的 AI 辅助功能，让您的论坛浏览和互动体验更加流畅和高效。",
-    "url": "https://github.com/anghunk/linuxdo-scripts",
-    "image": "https://imgurl.zishu.me/2025/07/1752828284261.webp",
-    "tags": [
-      "浏览器扩展"
-    ]
-  },
-  {
-    "name": "CAPTCHA-automatic-recognition",
-    "description": "AI 自动识别网页验证码的油猴插件，支持各大主流厂商，限制视觉模型。",
-    "url": "https://github.com/anghunk/UserScript/tree/main/CAPTCHA-automatic-recognition",
-    "image": "https://imgurl.zishu.me/2025/07/1752828396532.webp",
-    "tags": [
-      "油猴脚本"
-    ]
-  },
-  {
-    "name": "极简 ToDo",
-    "description": "uTools 插件，一个简洁、高效的待办事项管理工具，帮助你轻松组织和完成任务。",
-    "url": "https://github.com/anghunk/utools-todo",
-    "image": "https://imgurl.zishu.me/2025/07/1752828471483.webp",
-    "tags": [
-      "uTools"
-    ]
-  },
-  {
-    "name": "Obsidian: AI Tags Generator",
-    "description": "使用 AI 模型为笔记文件智能生成标签，帮助你更好地组织和管理知识库。",
-    "url": "https://github.com/anghunk/obsidian-ai-tags",
-    "image": "https://imgurl.zishu.me/2025/07/1752828584877.webp",
-    "tags": [
-      "Obsidian"
-    ]
-  },
-  {
-    "name": "Obsidian: Home",
-    "description": "为 Obsidian 添加一个美观实用的首页功能，便于快速访问和搜索笔记。",
-    "url": "https://github.com/anghunk/obsidian-home",
-    "image": "https://imgurl.zishu.me/2025/07/1752828596479.webp",
-    "tags": [
-      "Obsidian"
-    ]
-  },
-  {
-    "name": "Obsidian: Minder",
-    "description": "快速记录灵感、想法和小笔记的插件，支持标签整理和搜索。",
-    "url": "https://github.com/anghunk/obsidian-Minder",
-    "image": "https://imgurl.zishu.me/2025/07/1752828609447.webp",
-    "tags": [
-      "Obsidian"
-    ]
-  },
-  {
-    "name": "FlareAlbum",
-    "description": "FlareAlbum 是一个基于 Vue 3 和 Ant Design Vue 构建的图床管理工具，专为 Cloudflare R2 存储设计。通过直观的界面，您可以轻松上传、管理和分享图片，同时获得 Cloudflare CDN 的全球加速优势。",
-    "url": "https://github.com/anghunk/flarealbum",
-    "image": "https://imgurl.zishu.me/2025/07/1753151746527.webp",
-    "tags": [
-      "图床",
-      "CloudFlare R2"
-    ]
+    "name": "study-notes",
+    "description": "后端模式、CLI 片段与学习日志的活文档，方便未来查阅。",
+    "url": "https://github.com/LynkXu/study-notes",
+    "image": "/projects/wen-qiao-g_w8I64FiO0-unsplash.jpg",
+    "tags": ["Notes", "Backend", "Learning"]
   }
 ]
