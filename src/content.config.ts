@@ -29,7 +29,12 @@ const blog = defineCollection({
 
 const page = defineCollection({
 	// Load Markdown files in the `src/content/page/` directory.
-	loader: glob({ base: './src/content/page', pattern: '**/*.md' }),
+	loader: glob({
+		base: './src/content/page',
+		pattern: '**/*.md',
+		// 避免在某些环境下因 slug 冲突导致的重复 ID 警告
+		generateId: ({ entry }) => String(entry),
+	}),
 	// Type-check frontmatter using a schema
 	schema: z.object({
 		slug: z.coerce.string(), // 强制转换为字符串，支持数字输入

@@ -1,13 +1,10 @@
 ---
 slug: about
 title: 关于我
+layout: About
 ---
 
 Backend developer，常驻上海，喜欢安静地写后端代码，也会折腾文档和工具。
-
-- Motto：Stay hungry, stay curious
-- GitHub：[@lynkxu](https://github.com/lynkxu)
-- 博客：<https://lynkxu.github.io/>
 
 ### 联系方式
 

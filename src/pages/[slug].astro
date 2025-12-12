@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
+import About from '../layouts/About.astro';
 import Message from '../layouts/Message.astro';
 import Shuoshuo from '../layouts/Shuoshuo.astro';
 import Projects from '../layouts/Projects.astro';
@@ -38,6 +39,7 @@ const { Content } = await render(page);
 // 布局映射表：以后添加新布局只需在这里添加一行即可
 const layoutMap: Record<string, any> = {
 	Page, // 默认布局
+	About,
 	Message,
 	Shuoshuo,
 	Projects,

@@ -1,0 +1,33 @@
+---
+import Base from './Base.astro';
+
+const { title } = Astro.props;
+---
+
+<Base title={title} description={title}>
+	<p></p>
+	<h2>–</h2>
+	<h3 class="about-title">{title}</h3>
+	<div class='post-content content about-page'>
+		<div class="about-content">
+			<slot />
+		</div>
+	</div>
+
+	<style>
+		/* 页面主标题不要太靠下 */
+		.about-title {
+			font-size: 1.17em;
+			font-weight: bold;
+			margin-top: 0.2rem;
+			margin-bottom: 0.8rem;
+		}
+
+		/* 正文内子标题：仅保留间距，不要下划线 */
+		.about-content :global(h3) {
+			margin-top: 1.4rem;
+			margin-bottom: 0.7rem;
+		}
+	</style>
+</Base>
+

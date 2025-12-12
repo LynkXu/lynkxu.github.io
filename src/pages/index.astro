@@ -76,7 +76,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 		}
 
 		.recent-header .indextitle {
-			margin-bottom: 0.3em;
+			margin-bottom: 0.1em;
 		}
 
 		.home-tags {
@@ -84,7 +84,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 		}
 
 		.home-tags .indextitle {
-			margin-bottom: 0.3em;
+			margin-bottom: 0.1em;
 		}
 
 		.home-tags .tags a {
@@ -94,6 +94,11 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			/* 防止某些字体把 "(1)" 自动替换成 "①" 等圈号数字 */
 			font-variant-ligatures: none;
 			font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+		}
+
+		/* 首页“标签”区块：缩小标题/分割线与标签列表之间的间距 */
+		.home-tags .tags {
+			margin-top: 0.6rem;
 		}
 
 		.section-divider {
