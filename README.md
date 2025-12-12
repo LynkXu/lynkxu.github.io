@@ -4,7 +4,7 @@
 
 - **Online**: <https://lynkxu.github.io>
 
-![Preview](./public/banner.webp)
+<!-- ![Preview](./public/banner.webp) -->
 
 ## 开发
 
