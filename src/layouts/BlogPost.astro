@@ -72,40 +72,38 @@ const {
 	<p></p>
 	<h2>–</h2>
 	<h1 transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-	<p>发布于 <FormattedDate date={pubDate} /></p>
-	<p>
-		{
-			categories && categories.length > 0 && (
-				<span style='margin-right:20px'>
-					分类：
-					{categories.map((category, index) => (
-						<>
-							<a href={`/categories/${category}/`} class='tag'>
-								{category}
-							</a>
-							{index < categories.length - 1 && '，'}
-						</>
-					))}
-				</span>
-			)
-		}
+	<div class="post-meta" role="note" aria-label="文章信息">
+		<div class="post-meta__row">
+			<span class="post-meta__label">发布于</span>
+			<span class="post-meta__value"><FormattedDate date={pubDate} /></span>
+		</div>
 
-		{
-			tags && tags.length > 0 && (
-				<span>
-					标签：
-					{tags.map((tag, index) => (
-						<>
-							<a href={`/tags/${tag}/`} class='tag'>
-								{tag}
-							</a>
-							{index < tags.length - 1 && '，'}
-						</>
+		{categories && categories.length > 0 && (
+			<div class="post-meta__row">
+				<span class="post-meta__label">分类</span>
+				<span class="post-meta__chips">
+					{categories.map((category) => (
+						<a href={`/categories/${category}/`} class="tag">
+							{category}
+						</a>
 					))}
 				</span>
-			)
-		}
-	</p>
+			</div>
+		)}
+
+		{tags && tags.length > 0 && (
+			<div class="post-meta__row">
+				<span class="post-meta__label">标签</span>
+				<span class="post-meta__chips">
+					{tags.map((tag) => (
+						<a href={`/tags/${tag}/`} class="tag">
+							#{tag}
+						</a>
+					))}
+				</span>
+			</div>
+		)}
+	</div>
 
 	<div class='blog-layout'>
 		<!-- 目录侧边栏 -->

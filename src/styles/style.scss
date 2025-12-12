@@ -92,6 +92,105 @@ body {
   z-index: 1;
 }
 
+/* Blog post header meta (date / categories / tags) */
+.post-meta {
+  font-family: inherit;
+  /* Slightly smaller than body text */
+  font-size: 0.95em;
+  line-height: 1.45;
+  color: var(--gray-color);
+  margin: 0.7rem 0 1.0rem;
+  padding: 0.45rem 0;
+  border: 0;
+  border-top: 0px solid rgba(0, 0, 0, 0.06);
+  background: transparent;
+}
+
+:root[data-theme="dark"] .post-meta {
+  border-top-color: rgba(255, 255, 255, 0.12);
+  background: transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .post-meta {
+    border-top-color: rgba(255, 255, 255, 0.12);
+    background: transparent;
+  }
+}
+
+.post-meta__row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.post-meta__row + .post-meta__row {
+  margin-top: 0.45rem;
+}
+
+.post-meta__label {
+  flex: 0 0 auto;
+  color: rgba(0, 0, 0, 0.55);
+  font-weight: 500;
+}
+
+:root[data-theme="dark"] .post-meta__label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .post-meta__label {
+    color: rgba(255, 255, 255, 0.72);
+  }
+}
+
+.post-meta__chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.45rem;
+}
+
+/* Re-style tag/category links inside post meta as pills (without affecting other places) */
+.post-meta .tag {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 0.9em;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.70);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  text-underline-offset: 2px;
+  font-variant-ligatures: none;
+}
+
+.post-meta .tag:hover {
+  border-bottom-color: rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="dark"] .post-meta .tag {
+  border-color: transparent;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+:root[data-theme="dark"] .post-meta .tag:hover {
+  border-bottom-color: rgba(255, 255, 255, 0.36);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .post-meta .tag {
+    border-color: transparent;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.86);
+  }
+  :root:not([data-theme]) .post-meta .tag:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.36);
+  }
+}
+
 :root[data-theme="dark"] body {
   /* 深色背景下隐藏浅色纹理，避免突兀 */
   background-image: none;
