@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_DESCRIPTION } from '../../consts';
@@ -38,7 +39,20 @@ const years = Object.keys(postsByYear)
 								<span>
 									<FormattedDate date={post.data.pubDate} />
 								</span>
-								<div>
+								<div class="post-item-content">
+									{post.data.heroImage ? (
+										<div class="post-thumbnail">
+											<a href={`/blog/${post.id}.html`}>
+												<Image src={post.data.heroImage} alt={post.data.title} />
+											</a>
+										</div>
+									) : (
+										<div class="post-thumbnail placeholder">
+											<a href={`/blog/${post.id}.html`}>
+												<img src="/placeholder-blog.svg" alt="默认封面" />
+											</a>
+										</div>
+									)}
 									<a href={`/blog/${post.id}.html`} transition:name={`post-title-${post.id}`}>
 										{post.data.title}
 									</a>
@@ -50,4 +64,27 @@ const years = Object.keys(postsByYear)
 			))
 		}
 	</div>
+
+	<style>
+		.post-item-content {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+		.post-thumbnail {
+			width: 60px;
+			height: 40px;
+			flex-shrink: 0;
+			overflow: hidden;
+			border-radius: 6px;
+			background-color: #f8f8f8;
+			border: 1px solid #eee;
+		}
+		
+		.post-thumbnail img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	</style>
 </Base>

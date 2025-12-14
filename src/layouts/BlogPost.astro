@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from './Base.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Comments from '../components/Comments.astro';
@@ -71,7 +72,14 @@ const {
 
 	<p></p>
 	<h2>–</h2>
-	<h1 transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+	{
+		heroImage && (
+			<div class='hero-image'>
+				<Image src={heroImage} alt={title} />
+			</div>
+		)
+	}
+	<h1 transition:name={postId ? `post-title-${postId}` : undefined} class="post-title">{title}</h1>
 	<div class="post-meta" role="note" aria-label="文章信息">
 		<div class="post-meta__row">
 			<span class="post-meta__label">发布于</span>
@@ -184,7 +192,6 @@ const {
 						// mousewheel: true,
 						download: true,
 						counter: true,
-
 						thumbnail: true,
 					});
 				}
@@ -269,3 +276,20 @@ const {
 	</script>
 
 </Base>
+
+<style>
+	.hero-image {
+		width: 100%;
+		max-width: 100%;
+		margin: 0 0 1rem 0;
+	}
+	.hero-image :global(img) {
+		display: block;
+		margin: 0 auto;
+		border-radius: 12px;
+		box-shadow: var(--box-shadow);
+	}
+	.post-title {
+		margin-top: 0.5rem;
+	}
+</style>
