@@ -3,12 +3,12 @@ import Base from '../layouts/Base.astro';
 
 const tools = {
   software: [
-    { name: 'VS Code', description: '主力编辑器', icon: 'visualstudiocode' },
+    { name: 'VS Code', description: '主力编辑器', icon: '/logo/vscode.svg' },
     { name: 'Cursor', description: 'AI 辅助编程', icon: 'cursor', invertDark: true }, // Using generic cursor if specific brand not available
     { name: 'Goland', description: 'Go 语言开发', icon: 'goland' },
     { name: 'Obsidian', description: '知识库管理', icon: 'obsidian' },
-    { name: 'Typora', description: 'Markdown 写作', icon: 'typora', invertDark: true },
-    { name: 'Yuque', description: '文档协作', icon: 'yuque' },
+    { name: 'Typora', description: 'Markdown 写作', icon: '/logo/typora.png', invertDark: false },
+    { name: 'Yuque', description: '文档协作', icon: '/logo/yuque.webp', invertDark: false },
   ],
   hardware: [
     { name: 'Mac mini m4', description: '主力开发机', icon: 'apple', invertDark: true },
@@ -28,16 +28,19 @@ const description = "工欲善其事，必先利其器";
 
 <Base title={title} description={description}>
   <div class="content">
-    <h1>{title}</h1>
-    <p>{description}</p>
-
     <div class="tools-section">
       <h2>软件 / Software</h2>
       <div class="tools-grid">
         {tools.software.map(tool => (
           <div class="tool-card">
             <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
-              <img src={`https://cdn.simpleicons.org/${tool.icon}`} alt={`${tool.name} logo`} width="32" height="32" loading="lazy" />
+              <img 
+                src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`} 
+                alt={`${tool.name} logo`} 
+                width="32" height="32" 
+                loading="lazy" 
+                onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/juejin';this.alt='fallback logo'"
+              />
             </div>
             <div class="tool-info">
               <h3>{tool.name}</h3>
@@ -54,7 +57,12 @@ const description = "工欲善其事，必先利其器";
           {tools.hardware.map(tool => (
             <div class="tool-card">
               <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
-                <img src={`https://cdn.simpleicons.org/${tool.icon}`} alt={`${tool.name} logo`} width="32" height="32" loading="lazy" />
+                <img 
+                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`} 
+                    alt={`${tool.name} logo`} 
+                    width="32" height="32" 
+                    loading="lazy" 
+                />
               </div>
               <div class="tool-info">
                 <h3>{tool.name}</h3>
@@ -71,7 +79,12 @@ const description = "工欲善其事，必先利其器";
           {tools.services.map(tool => (
             <a href={tool.link} target="_blank" class="tool-card link-card">
               <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
-                <img src={`https://cdn.simpleicons.org/${tool.icon}`} alt={`${tool.name} logo`} width="32" height="32" loading="lazy" />
+                <img 
+                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`} 
+                    alt={`${tool.name} logo`} 
+                    width="32" height="32" 
+                    loading="lazy" 
+                />
               </div>
               <div class="tool-info">
                 <h3>{tool.name}</h3>
