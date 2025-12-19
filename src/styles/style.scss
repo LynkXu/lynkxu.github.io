@@ -83,10 +83,10 @@ body {
   color: var(--text-color);
   overflow-y: scroll;
 
-  background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE5NyIgaGVpZ2h0PSIxMTk3IiB2aWV3Qm94PSIwIDAgMTE5NyAxMTk3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgb3BhY2l0eT0iLjQiIGN4PSI1OTguNSIgY3k9IjU5OC41IiByPSI1OTcuNSIgc3Ryb2tlPSIjRTNFM0UzIi8+PC9zdmc+);
+  /* background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTE5NyIgaGVpZ2h0PSIxMTk3IiB2aWV3Qm94PSIwIDAgMTE5NyAxMTk3IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxjaXJjbGUgb3BhY2l0eT0iLjQiIGN4PSI1OTguNSIgY3k9IjU5OC41IiByPSI1OTcuNSIgc3Ryb2tlPSIjRTNFM0UzIi8+PC9zdmc+);
   background-position: 50% 8rem;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: fixed; */
 
   position: relative;
   z-index: 1;
@@ -199,12 +199,12 @@ body {
 
 :root[data-theme="dark"] body {
   /* 深色背景下隐藏浅色纹理，避免突兀 */
-  background-image: none;
+  /* background-image: none; */
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) body {
-    background-image: none;
+    /* background-image: none; */
   }
 }
 

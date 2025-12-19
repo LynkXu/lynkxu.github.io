@@ -1,0 +1,92 @@
+<canvas id="background-canvas"></canvas>
+
+<style>
+  #background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('background-canvas');
+  // Check if canvas exists to avoid errors
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let circles = [];
+
+    // Animation variables
+    let animationId;
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      initCircles();
+    }
+
+    function initCircles() {
+      circles = [];
+      // Create a few large circles to mimic the original style but dynamic
+      const count = 3;
+      for (let i = 0; i < count; i++) {
+        circles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          r: Math.min(width, height) * (0.3 + Math.random() * 0.4), // Large radius
+          dx: (Math.random() - 0.5) * 0.5, // Slow movement
+          dy: (Math.random() - 0.5) * 0.5,
+        });
+      }
+    }
+
+    function draw() {
+      if (!canvas.isConnected) {
+         cancelAnimationFrame(animationId);
+         return;
+      }
+
+      ctx.clearRect(0, 0, width, height);
+      
+      // Check for dark mode
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
+                     (!document.documentElement.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+      if (isDark) {
+          // In dark mode, we don't draw the background circles to match original behavior
+          animationId = requestAnimationFrame(draw);
+          return;
+      }
+
+      ctx.strokeStyle = '#E3E3E3';
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.4; // Match original opacity
+
+      circles.forEach(circle => {
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Update position
+        circle.x += circle.dx;
+        circle.y += circle.dy;
+
+        // Bounce off walls
+        if (circle.x < 0 || circle.x > width) circle.dx = -circle.dx;
+        if (circle.y < 0 || circle.y > height) circle.dy = -circle.dy;
+      });
+
+      animationId = requestAnimationFrame(draw);
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    draw();
+  }
+</script>
