@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/review-a-company/review-a-company.md",
+                "file": "src/content/gossips/2025-12-20.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "review-a-company"
+              "title": "2025-12-20"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/blog/review-a-company/review-a-company.md",
+                "file": "src/content/gossips/2025-12-20.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "review-a-company 的反向链接列表"
+              "title": "2025-12-20 的反向链接列表"
             }
           },
           {
@@ -186,6 +186,9 @@
   "active": "4d74025a5e9ac16e",
   "lastOpenFiles": [
     "src/content/gossips/2025-12-12-AI.md",
+    "src/content/gossips/2025-12-20.md",
+    "src/content/blog/review-a-company/review-a-company.md",
+    "src/content/blog/未命名",
     "未命名.canvas",
     "2025-12-12.md",
     "src/content/gossips/2025-11-10-astro.md",
