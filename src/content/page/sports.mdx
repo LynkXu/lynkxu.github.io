@@ -44,7 +44,16 @@ import SportsStyles from '../../components/SportsStyles.astro';
 
   <TabItem label="骑行">
     
-    ### 月度汇总 (2025)
+    ### 总计
+    
+    <StatGrid>
+      <StatCard label="总里程" value="1455.36" unit="km" subtext="历史累计" />
+      <StatCard label="总时长" value="60.02" unit="h" subtext="在路上的时间" />
+      <StatCard label="累计次数" value="73" unit="次" subtext="~19.9 km/次" />
+      <StatCard label="总热量" value="41464" unit="kcal" subtext="Burn it up!" />
+    </StatGrid>
+
+    ### 月度汇总
     > 按月统计里程与频次，回顾骑行趋势。
 
     | 月份 | 距离 (km) | 次数 | 备注 |
