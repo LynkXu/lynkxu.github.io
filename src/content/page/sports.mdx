@@ -8,6 +8,7 @@ import TabItem from '../../components/TabItem.astro';
 import StatGrid from '../../components/StatGrid.astro';
 import StatCard from '../../components/StatCard.astro';
 import SportsStyles from '../../components/SportsStyles.astro';
+import sportsStats from '../../data/sports-stats.json';
 
 <SportsStyles />
 
@@ -27,10 +28,30 @@ import SportsStyles from '../../components/SportsStyles.astro';
     ### 个人最佳 (PR)
 
     <StatGrid>
-      <StatCard label="总跑量(2025.06起)" value="374.24" unit="km" subtext="~6'05''/km" />
-      <StatCard label="最远距离" value="11.2" unit="km" subtext="6'29''/km @2025.12.21 " />
-      <StatCard label="5K 最快" value="27.31" unit="min" subtext="5'30''/km" />
-      <StatCard label="10K 最快" value="59:01" unit="min" subtext="5'54''/km" />
+      <StatCard
+        label={sportsStats.running.cards.totalDistance.label}
+        value={sportsStats.running.cards.totalDistance.value}
+        unit={sportsStats.running.cards.totalDistance.unit}
+        subtext={sportsStats.running.cards.totalDistance.subtext}
+      />
+      <StatCard
+        label={sportsStats.running.cards.farthest.label}
+        value={sportsStats.running.cards.farthest.value}
+        unit={sportsStats.running.cards.farthest.unit}
+        subtext={sportsStats.running.cards.farthest.subtext}
+      />
+      <StatCard
+        label={sportsStats.running.cards.best5k.label}
+        value={sportsStats.running.cards.best5k.value}
+        unit={sportsStats.running.cards.best5k.unit}
+        subtext={sportsStats.running.cards.best5k.subtext}
+      />
+      <StatCard
+        label={sportsStats.running.cards.best10k.label}
+        value={sportsStats.running.cards.best10k.value}
+        unit={sportsStats.running.cards.best10k.unit}
+        subtext={sportsStats.running.cards.best10k.subtext}
+      />
     </StatGrid>
 
     ### 比赛记录
@@ -46,10 +67,30 @@ import SportsStyles from '../../components/SportsStyles.astro';
     ### 总计
     
     <StatGrid>
-      <StatCard label="总里程" value="1455.36" unit="km" subtext="历史累计" />
-      <StatCard label="总时长" value="60.02" unit="h" subtext="在路上的时间" />
-      <StatCard label="累计次数" value="73" unit="次" subtext="~19.9 km/次" />
-      <StatCard label="总热量" value="41464" unit="kcal" subtext="Burn it up!" />
+      <StatCard
+        label={sportsStats.cycling.cards.totalDistance.label}
+        value={sportsStats.cycling.cards.totalDistance.value}
+        unit={sportsStats.cycling.cards.totalDistance.unit}
+        subtext={sportsStats.cycling.cards.totalDistance.subtext}
+      />
+      <StatCard
+        label={sportsStats.cycling.cards.totalTime.label}
+        value={sportsStats.cycling.cards.totalTime.value}
+        unit={sportsStats.cycling.cards.totalTime.unit}
+        subtext={sportsStats.cycling.cards.totalTime.subtext}
+      />
+      <StatCard
+        label={sportsStats.cycling.cards.totalCount.label}
+        value={sportsStats.cycling.cards.totalCount.value}
+        unit={sportsStats.cycling.cards.totalCount.unit}
+        subtext={sportsStats.cycling.cards.totalCount.subtext}
+      />
+      <StatCard
+        label={sportsStats.cycling.cards.totalCalories.label}
+        value={sportsStats.cycling.cards.totalCalories.value}
+        unit={sportsStats.cycling.cards.totalCalories.unit}
+        subtext={sportsStats.cycling.cards.totalCalories.subtext}
+      />
     </StatGrid>
 
     ### 月度汇总

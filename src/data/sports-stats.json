@@ -1,0 +1,60 @@
+{
+  "generatedAt": null,
+  "running": {
+    "cards": {
+      "totalDistance": {
+        "label": "总跑量(2025.06起)",
+        "value": "374.24",
+        "unit": "km",
+        "subtext": "~6'05''/km"
+      },
+      "farthest": {
+        "label": "最远距离",
+        "value": "11.2",
+        "unit": "km",
+        "subtext": "6'29''/km @2025.12.21"
+      },
+      "best5k": {
+        "label": "5K 最快",
+        "value": "27.31",
+        "unit": "min",
+        "subtext": "5'30''/km"
+      },
+      "best10k": {
+        "label": "10K 最快",
+        "value": "59:01",
+        "unit": "min",
+        "subtext": "5'54''/km"
+      }
+    }
+  },
+  "cycling": {
+    "cards": {
+      "totalDistance": {
+        "label": "总里程",
+        "value": "1455.36",
+        "unit": "km",
+        "subtext": "历史累计"
+      },
+      "totalTime": {
+        "label": "总时长",
+        "value": "60.02",
+        "unit": "h",
+        "subtext": "在路上的时间"
+      },
+      "totalCount": {
+        "label": "累计次数",
+        "value": "73",
+        "unit": "次",
+        "subtext": "~19.9 km/次"
+      },
+      "totalCalories": {
+        "label": "总热量",
+        "value": "41464",
+        "unit": "kcal",
+        "subtext": "Burn it up!"
+      }
+    }
+  }
+}
+
