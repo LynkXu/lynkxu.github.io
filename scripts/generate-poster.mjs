@@ -10,29 +10,27 @@ const ROOT = process.cwd();
 const ACTIVITIES_PATH = path.join(ROOT, 'src/data/strava/activities.min.json');
 const OUTPUT_PATH = path.join(ROOT, 'public/strava-poster.svg');
 
-// 配置 - 紧凑布局
+// 配置 - 极简布局
 const CONFIG = {
   year: new Date().getFullYear(),
-  name: 'Lynk',
   colors: {
-    background: '#222222',
-    text: '#FFFFFF',
-    empty: '#444444',
-    // 热力图颜色梯度 (按距离 km)
+    background: 'transparent',
+    text: '#999999',
+    empty: '#e0e0e0',
+    // 热力图颜色梯度 - Strava 橙色系
     levels: [
-      { min: 0, max: 5, color: '#4dd2ff' },
-      { min: 5, max: 15, color: '#46fff7' },
-      { min: 15, max: 25, color: '#49f0ff' },
-      { min: 25, max: 40, color: '#ffd900' },
-      { min: 40, max: Infinity, color: '#ff4500' },
+      { min: 0, max: 5, color: '#ffcdb2' },
+      { min: 5, max: 15, color: '#ffb088' },
+      { min: 15, max: 25, color: '#ff8c5a' },
+      { min: 25, max: 40, color: '#fc6a28' },
+      { min: 40, max: Infinity, color: '#e54d00' },
     ],
   },
-  // SVG 尺寸 - 紧凑版
-  cellSize: 2.4,
-  cellGap: 0.6,
-  padding: { top: 4, right: 4, bottom: 4, left: 4 },
-  headerHeight: 12,
-  monthLabelHeight: 6,
+  // SVG 尺寸 - 极简
+  cellSize: 2.0,
+  cellGap: 0.5,
+  padding: { top: 1, right: 1, bottom: 1, left: 1 },
+  monthLabelHeight: 4,
 };
 
 function getColor(distanceKm) {
@@ -117,9 +115,9 @@ async function main() {
   const monthLabels = [];
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  const { cellSize, cellGap, padding, headerHeight, monthLabelHeight } = CONFIG;
+  const { cellSize, cellGap, padding, monthLabelHeight } = CONFIG;
   const startX = padding.left;
-  const startY = padding.top + headerHeight + monthLabelHeight;
+  const startY = padding.top + monthLabelHeight;
 
   let currentDate = new Date(startDate);
   let lastMonth = -1;
@@ -159,10 +157,10 @@ async function main() {
   const gridWidth = (maxCol + 1) * (cellSize + cellGap) - cellGap;
   const gridHeight = 7 * (cellSize + cellGap) - cellGap;
   const width = padding.left + gridWidth + padding.right;
-  const height = padding.top + headerHeight + monthLabelHeight + gridHeight + padding.bottom;
+  const height = padding.top + monthLabelHeight + gridHeight + padding.bottom;
 
   // 生成 SVG
-  const svg = generateSVG(cells, monthLabels, { rideKm, runKm }, year, width, height, startY - 2);
+  const svg = generateSVG(cells, monthLabels, { rideKm, runKm }, year, width, height, padding.top + monthLabelHeight - 1);
 
   await fs.writeFile(OUTPUT_PATH, svg, 'utf8');
   console.log(`Generated poster for ${year}: ${OUTPUT_PATH}`);
@@ -172,40 +170,16 @@ async function main() {
 }
 
 function generateSVG(cells, monthLabels, stats, year, width, height, monthLabelY) {
-  const { cellSize, colors, name, padding } = CONFIG;
-  const { rideKm, runKm } = stats;
-
-  // 构建右上角统计文本
-  let statsText = '';
-  const statsX = width - padding.right;
-  const statsY = padding.top + 5;
-
-  if (runKm > 0 && rideKm > 0) {
-    // 两种运动都有：分两行显示
-    statsText = `
-<text fill="#FC4C02" font-size="3" font-family="Arial" x="${statsX}" y="${statsY}" text-anchor="end">🚴 ${Math.round(rideKm)} km</text>
-<text fill="#4CAF50" font-size="3" font-family="Arial" x="${statsX}" y="${statsY + 4}" text-anchor="end">🏃 ${Math.round(runKm)} km</text>`;
-  } else if (rideKm > 0) {
-    // 只有骑行
-    statsText = `<text fill="#FC4C02" font-size="3.5" font-family="Arial" x="${statsX}" y="${statsY + 2}" text-anchor="end">🚴 ${Math.round(rideKm)} km</text>`;
-  } else if (runKm > 0) {
-    // 只有跑步
-    statsText = `<text fill="#4CAF50" font-size="3.5" font-family="Arial" x="${statsX}" y="${statsY + 2}" text-anchor="end">🏃 ${Math.round(runKm)} km</text>`;
-  } else {
-    // 无数据
-    statsText = `<text fill="${colors.text}" font-size="3.5" font-family="Arial" x="${statsX}" y="${statsY + 2}" text-anchor="end">0 km</text>`;
-  }
+  const { cellSize, colors, padding } = CONFIG;
 
   let svg = `<?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 ${width.toFixed(1)} ${height.toFixed(1)}" xmlns="http://www.w3.org/2000/svg">
 <rect fill="${colors.background}" width="100%" height="100%"/>
-<text fill="${colors.text}" font-size="6" font-family="Arial" font-weight="bold" x="${padding.left}" y="${padding.top + 6}">${name} ${year}</text>
-${statsText}
 `;
 
   // 月份标签
   for (const { x, label } of monthLabels) {
-    svg += `<text fill="${colors.text}" font-size="2.2" font-family="Arial" x="${x}" y="${monthLabelY}">${label}</text>\n`;
+    svg += `<text fill="${colors.text}" font-size="1.8" font-family="Arial" x="${x}" y="${monthLabelY}">${label}</text>\n`;
   }
 
   // 日期格子
