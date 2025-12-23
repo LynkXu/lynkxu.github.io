@@ -27,6 +27,11 @@ jobs:
           node-version: "20"
           cache: npm
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
       - name: Install dependencies
         run: npm ci
 
@@ -39,8 +44,8 @@ jobs:
           # STRAVA_INITIAL_AFTER_EPOCH: "0"
         run: node scripts/strava-sync.mjs
 
-      - name: Detect meaningful changes (ignore generatedAt/updatedAt-only)
-        id: changes
+      - name: Detect meaningful Strava data changes (ignore generatedAt/updatedAt-only)
+        id: strava_changes
         shell: bash
         run: |
           node <<'NODE' >> "$GITHUB_OUTPUT"
@@ -51,18 +56,29 @@ jobs:
           function readJsonFromGit(refPath) { try { return JSON.parse(sh(`git show HEAD:${refPath}`)); } catch { return null; } }
           function readJsonFromFs(p) { return JSON.parse(fs.readFileSync(p, "utf8")); }
           const status = sh("git status --porcelain");
-          if (!status) { process.stdout.write("meaningful=false\n"); process.exit(0); }
+          if (!status) { process.stdout.write("meaningful_data=false\n"); process.exit(0); }
           const lines = status.split("\n").filter(Boolean);
           const changedFiles = lines
             .map((l) => l.slice(3))
             .filter(Boolean)
             .map((p) => p.split(" -> ").pop()); // handle rename: "old -> new"
+
+          // only consider Strava data outputs here
+          const stravaDataFiles = new Set([
+            "src/data/sports-stats.json",
+            "src/data/strava/state.json",
+            "src/data/strava/activities.min.json",
+            "src/data/strava/baseline.json",
+          ]);
+          const filtered = changedFiles.filter((p) => stravaDataFiles.has(p));
+          if (filtered.length === 0) { process.stdout.write("meaningful_data=false\n"); process.exit(0); }
+
           const ignoreKeyOnly = new Map([
             ["src/data/sports-stats.json", ["generatedAt"]],
             ["src/data/strava/state.json", ["updatedAt"]],
           ]);
           let meaningful = false;
-          for (const rel of changedFiles) {
+          for (const rel of filtered) {
             if (!ignoreKeyOnly.has(rel)) { meaningful = true; break; }
             const keysToDrop = ignoreKeyOnly.get(rel);
             const abs = path.join(process.cwd(), rel);
@@ -76,15 +92,61 @@ jobs:
             }
             if (JSON.stringify(cur) !== JSON.stringify(prev)) { meaningful = true; break; }
           }
-          process.stdout.write(`meaningful=${meaningful}\n`);
+          process.stdout.write(`meaningful_data=${meaningful}\n`);
           NODE
 
+      - name: Decide whether to generate poster
+        id: poster_plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          meaningful_data="${{ steps.strava_changes.outputs.meaningful_data }}"
+          # If placeholder is still present, generate once even if data didn't change.
+          placeholder=false
+          if [[ -f public/strava-poster.svg ]] && grep -qi "placeholder" public/strava-poster.svg; then
+            placeholder=true
+          fi
+          if [[ "${meaningful_data}" == "true" || "${placeholder}" == "true" ]]; then
+            echo "generate_poster=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "generate_poster=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate Strava poster (GitHubPoster)
+        if: steps.poster_plan.outputs.generate_poster == 'true'
+        env:
+          STRAVA_CLIENT_ID: ${{ secrets.STRAVA_CLIENT_ID }}
+          STRAVA_CLIENT_SECRET: ${{ secrets.STRAVA_CLIENT_SECRET }}
+          STRAVA_REFRESH_TOKEN: ${{ secrets.STRAVA_REFRESH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          # Install GitHubPoster from upstream repo
+          python -m pip install "git+https://github.com/yihong0618/GitHubPoster@main"
+
+          # Generate poster (year range is best-effort; GitHubPoster will decide output layout)
+          python -m github_poster strava \
+            --strava_client_id "$STRAVA_CLIENT_ID" \
+            --strava_client_secret "$STRAVA_CLIENT_SECRET" \
+            --strava_refresh_token "$STRAVA_REFRESH_TOKEN" \
+            --year "2020-2025"
+
+          # Copy newest svg from OUT_FOLDER to our site public path
+          mkdir -p public
+          newest_svg="$(ls -1t OUT_FOLDER/*.svg 2>/dev/null | head -n 1 || true)"
+          if [[ -z "${newest_svg}" ]]; then
+            echo "No SVG generated in OUT_FOLDER/*.svg"
+            exit 1
+          fi
+          cp -f "${newest_svg}" public/strava-poster.svg
+
       - name: Commit changes (if any)
-        if: steps.changes.outputs.meaningful == 'true'
+        if: steps.strava_changes.outputs.meaningful_data == 'true' || steps.poster_plan.outputs.generate_poster == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/data/strava src/data/sports-stats.json
+          git add src/data/strava src/data/sports-stats.json public/strava-poster.svg
           git commit -m "chore: sync strava data"
           git push
 
