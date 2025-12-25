@@ -17,15 +17,17 @@ const embedUrl = `${siteOrigin}${currentPath}`;
 const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/twikoo';
 ---
 
-<hr class='sep' />
-<p></p>
-<h2>–</h2>
-<h3>评论</h3>
-<ul class='comment-tabs'>
-	{showLinuxDo && <li>LinuxDo</li>}
-	<li>Twikoo</li>
-</ul>
-<div class='comments'>
+<!-- <hr class='sep' /> -->
+<!-- <p></p> -->
+<!-- <h2>–</h2> -->
+<!-- <h3>评论</h3> -->
+{showLinuxDo && (
+	<ul class='comment-tabs'>
+		<li>LinuxDo</li>
+		<li>Twikoo</li>
+	</ul>
+)}
+<div class={showLinuxDo ? 'comments' : 'comments single'}>
 	{
 		showLinuxDo && (
 			<div>
@@ -261,6 +263,9 @@ const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/
 	}
 	.comments > div {
 		display: none;
+	}
+	.comments.single > div {
+		display: block;
 	}
 
 	@media (max-width: 600px) {
