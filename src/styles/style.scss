@@ -301,16 +301,15 @@ pre,
 pre,
 pre span,
 code {
-  font-family: consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
+  font-family: "JetBrains Mono", "Fira Code", consolas, Menlo, "PingFang SC", "Microsoft YaHei", monospace;
 }
 
 code {
-  padding: 2px 4px;
-  word-wrap: break-word;
-  color: #555;
-  background: #eee;
-  border-radius: 3px;
-  font-size: 13px;
+  padding: 2px;
+  background-color: var(--code-background-color);
+  color: var(--code-color);
+  border-radius: 4px;
+  font-family: "JetBrains Mono", "Fira Code", consolas, Menlo, monospace;
 }
 
 pre {
@@ -520,13 +519,6 @@ img {
 time,
 .intro {
   color: var(--gray-color);
-}
-
-code {
-  padding: 2px;
-  background-color: var(--code-background-color);
-  color: var(--code-color);
-  border-radius: 4px
 }
 
 blockquote {
@@ -866,4 +858,25 @@ ul.posts li a:visited {
 .contains-task-list {
   list-style: none;
   padding-left: 0 !important;
+}
+
+/* 适配 Astro 的双主题 Shiki 配置 */
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
 }

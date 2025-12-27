@@ -57,60 +57,107 @@ const {
 			font-weight: 500;
 		}
 
-		/* 代码块复制按钮样式 */
-		.copy-code-button {
-			position: absolute;
-			top: 0.5rem;
-			right: 0.5rem;
-			background-color: #f0f0f0;
-			border: 1px solid #ddd;
-			border-radius: 4px;
-			padding: 0.25rem 0.5rem;
-			font-size: 0.8rem;
-			cursor: pointer;
-			opacity: 0.6;
-			transition: opacity 0.2s;
-			z-index: 10;
-		}
-
-		.copy-code-button:hover {
-			background-color: #e0e0e0;
-		}
-
-		.copy-code-button.copied {
-			background-color: #4caf50;
-			color: white;
-		}
-
-		/* 当鼠标悬停在代码块上时显示复制按钮 */
-		pre:hover .copy-code-button {
-			opacity: 1;
-		}
-
-		/* 代码块容器相对定位 */
-		pre {
+		/* Code Block Wrapper */
+		.code-wrapper {
 			position: relative;
+			margin: 2rem 0;
+			border-radius: 8px;
+			background: var(--code-background-color);
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+			overflow: hidden;
 		}
 
-		/* 代码块语言标签 */
-		.code-lang-label {
+		/* Header - Immersive Style */
+		.code-header {
 			position: absolute;
 			top: 0;
 			left: 0;
-			padding: 0.2rem 0.5rem;
-			font-size: 0.7rem;
-			font-family: consolas, Menlo, monospace;
-			color: #999;
-			background: rgba(0, 0, 0, 0.03);
-			border-bottom-right-radius: 4px;
+			width: 100%;
+			height: 2.5rem;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 1rem;
+			background: transparent;
+			z-index: 10;
+			/* 让鼠标事件穿透 Header 背景，但保留按钮的交互 */
+			pointer-events: none;
+		}
+
+		.code-header > * {
+			pointer-events: auto;
+		}
+
+		/* Mac Traffic Lights */
+		.mac-buttons {
+			display: flex;
+			gap: 6px;
+		}
+
+		.mac-button {
+			width: 11px;
+			height: 11px;
+			border-radius: 50%;
+		}
+
+		.mac-button.close { background-color: #ff5f56; }
+		.mac-button.minimize { background-color: #ffbd2e; }
+		.mac-button.maximize { background-color: #27c93f; }
+
+		/* Language Label */
+		.code-lang {
+			font-size: 0.75rem;
+			color: var(--gray-color);
+			font-family: "JetBrains Mono", "Fira Code", consolas, Menlo, monospace;
 			text-transform: uppercase;
-			letter-spacing: 0.5px;
+			font-weight: 600;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			opacity: 0.5;
 			user-select: none;
 		}
 
-		:root[data-theme="dark"] .code-lang-label {
-			background: rgba(255, 255, 255, 0.05);
-			color: #888;
+		/* Copy Button */
+		.copy-btn {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			background: transparent;
+			border: none;
+			color: var(--gray-color);
+			cursor: pointer;
+			padding: 4px;
+			border-radius: 4px;
+			transition: all 0.2s;
+			opacity: 0.0; /* 默认隐藏，悬停显示 */
+		}
+
+		.code-wrapper:hover .copy-btn {
+			opacity: 0.7;
+		}
+
+		.copy-btn:hover {
+			background: rgba(0, 0, 0, 0.05);
+			color: var(--text-color);
+			opacity: 1 !important;
+		}
+
+		.copy-btn.copied {
+			color: #4caf50;
+			opacity: 1 !important;
+		}
+
+		:root[data-theme="dark"] .copy-btn:hover {
+			background: rgba(255, 255, 255, 0.1);
+		}
+
+		/* Pre override inside wrapper */
+		.code-wrapper pre {
+			margin: 0 !important;
+			border-radius: 0 !important;
+			padding: 2.5rem 1rem 1rem 1rem !important; /* Top padding for header space */
+			background: transparent !important;
 		}
 	</style>
 
@@ -268,60 +315,87 @@ const {
 		function addCopyButtons() {
 			const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
 			codeBlocks.forEach((block) => {
-				// 标记已处理的代码块，避免重复添加
+				// 标记已处理的代码块
 				block.classList.add('code-block-added');
 
-				// 获取代码语言
-				const code = block.querySelector('code');
-				if (code) {
-					const classList = code.className.split(' ');
-					const langClass = classList.find(c => c.startsWith('language-'));
-					if (langClass) {
-						const lang = langClass.replace('language-', '');
-						// 创建语言标签
-						const langLabel = document.createElement('span');
-						langLabel.className = 'code-lang-label';
-						langLabel.textContent = lang;
-						block.appendChild(langLabel);
+				// 创建包装容器
+				const wrapper = document.createElement('div');
+				wrapper.className = 'code-wrapper';
+
+				// 插入包装器并移动 pre
+				if (block.parentNode) {
+					block.parentNode.insertBefore(wrapper, block);
+					wrapper.appendChild(block);
+				}
+
+				// 创建头部
+				const header = document.createElement('div');
+				header.className = 'code-header';
+
+				// Mac 风格按钮
+				const macButtons = document.createElement('div');
+				macButtons.className = 'mac-buttons';
+				['close', 'minimize', 'maximize'].forEach(type => {
+					const btn = document.createElement('div');
+					btn.className = `mac-button ${type}`;
+					macButtons.appendChild(btn);
+				});
+
+				// 获取语言
+				let lang = '';
+				// 尝试从 pre 的 data-language 属性获取
+				if (block.dataset.language) {
+					lang = block.dataset.language;
+				}
+				// 尝试从 code 的 class 获取
+				else {
+					const code = block.querySelector('code');
+					if (code) {
+						const classList = code.className.split(' ');
+						const langClass = classList.find(c => c.startsWith('language-'));
+						if (langClass) {
+							lang = langClass.replace('language-', '');
+						}
 					}
 				}
 
-				// 创建复制按钮
-				const button = document.createElement('button');
-				button.className = 'copy-code-button';
-				button.textContent = '复制';
-				button.setAttribute('aria-label', '复制代码');
+				// 语言标签
+				const langLabel = document.createElement('span');
+				langLabel.className = 'code-lang';
+				langLabel.textContent = lang;
 
-				// 添加点击事件
-				button.addEventListener('click', async () => {
+				// 复制按钮
+				const copyBtn = document.createElement('button');
+				copyBtn.className = 'copy-btn';
+				copyBtn.setAttribute('aria-label', '复制');
+				copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+
+				// 复制功能
+				copyBtn.addEventListener('click', async () => {
 					try {
-						// 获取代码内容
-						const code = block.querySelector('code');
 						if (code) {
 							const text = code.innerText;
 							await navigator.clipboard.writeText(text);
 
-							// 更新按钮状态
-							button.textContent = '已复制';
-							button.classList.add('copied');
+							copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+							copyBtn.classList.add('copied');
 
-							// 2秒后恢复原状态
 							setTimeout(() => {
-								button.textContent = '复制';
-								button.classList.remove('copied');
+								copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+								copyBtn.classList.remove('copied');
 							}, 2000);
 						}
 					} catch (err) {
 						console.error('复制失败:', err);
-						button.textContent = '失败';
-						setTimeout(() => {
-							button.textContent = '复制';
-						}, 2000);
 					}
 				});
 
-				// 将按钮添加到代码块
-				block.appendChild(button);
+				header.appendChild(macButtons);
+				header.appendChild(langLabel);
+				header.appendChild(copyBtn);
+
+				// 将头部添加到包装器最前面
+				wrapper.insertBefore(header, block);
 			});
 		}
 
