@@ -522,9 +522,8 @@ time,
 blockquote {
   margin: 1.5em 0;
   border-left: 3px solid var(--gray-color);
-  background-color: rgba(127, 127, 127, 0.03);
   color: var(--text-color);
-  padding: 0.6em 1.2em;
+  padding: 0 0 0 1.2em;
   border-radius: 0;
   font-style: normal;
 
@@ -620,6 +619,10 @@ ul.posts li a:visited {
 
   nav a {
     margin-right: 6px;
+  }
+
+  blockquote {
+    margin: 1.5em 1em;
   }
 }
 
