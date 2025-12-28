@@ -65,13 +65,18 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 	)}
 
 	<style>
+		/* 增加与上方座右铭的距离 */
+		.recent-header {
+			margin-top: 3rem;
+		}
+
 		.recent-header .indextitle {
 			margin-bottom: 0.6rem;
 		}
 
 		.view-all-container {
 			text-align: right;
-			margin-top: 1rem;
+			margin-top: 0.6rem;
 		}
 
 		.view-all-container a {
@@ -81,7 +86,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 		}
 
 		.home-tags {
-			margin: 1.5rem 0 1rem;
+			margin: 0.8rem 0 1rem;
 		}
 
 		.home-tags .indextitle {
