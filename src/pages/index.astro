@@ -24,7 +24,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<p></p>
-	<div class='post-content content'>
+	<div class='post-content content motto'>
 		<IndexContent />
 	</div>
 
@@ -65,6 +65,15 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 	)}
 
 	<style>
+		/* 座右铭样式优化 */
+		.motto {
+			font-size: 1.1em;
+			font-style: italic;
+			color: var(--heading-color);
+			opacity: 0.8;
+			margin-bottom: 0;
+		}
+
 		/* 增加与上方座右铭的距离 */
 		.recent-header {
 			margin-top: 3rem;
@@ -83,7 +92,25 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			font-size: 0.9rem;
 			color: var(--gray-color);
 			text-decoration: none;
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			transition: color 0.2s ease;
 		}
+		
+		.view-all-container a:hover {
+			color: var(--heading-color);
+		}
+
+		/* 箭头动画 */
+		.view-all-container a::after {
+			/* content: "→"; 已经在HTML里写了，这里不需要content */
+			/* transition: transform 0.2s ease; */
+		}
+		
+		/* 既然HTML里写了箭头是文本的一部分，我们通过HTML结构不好直接控制箭头的transform
+		   除非把箭头放到span里。但简单点，我们只做颜色变化即可。
+		*/
 
 		.home-tags {
 			margin: 0.8rem 0 1rem;
