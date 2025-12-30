@@ -683,6 +683,58 @@ ul.posts li a:visited {
   }
 }
 
+.post-content .img-grid {
+  /* 用法（Markdown 里直接写 HTML）：
+    <div class="img-grid cols-2">
+      <img src="/xx.jpg" alt="" />
+      <img src="/yy.jpg" alt="" />
+    </div>
+  */
+  --cols: 2;
+  --gap: 12px;
+  --radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  gap: var(--gap);
+  margin: 1rem 0;
+  align-items: start;
+}
+
+.post-content .img-grid.cols-2 {
+  --cols: 2;
+}
+
+.post-content .img-grid.cols-3 {
+  --cols: 3;
+}
+
+@media (max-width: 640px) {
+  .post-content .img-grid {
+    --cols: 1;
+  }
+}
+
+/* 允许直接放 img，也允许用 figure/figcaption 做说明文字 */
+.post-content .img-grid > img,
+.post-content .img-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+}
+
+.post-content .img-grid figure {
+  margin: 0;
+}
+
+.post-content .img-grid figcaption {
+  margin-top: 0.35rem;
+  font-size: 0.9em;
+  line-height: 1.45;
+  color: var(--gray-color);
+  text-align: center;
+}
+
 .post-content a {
   border-bottom: 1px solid;
   transition: all 0.1s linear;

@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "review-2025"
             }
+          },
+          {
+            "id": "dd6aab88e0d9cf51",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/blog/2025-12-29-review/review-2025.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "review-2025"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,19 +198,19 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "4d74025a5e9ac16e",
+  "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "dist/sitemap-index.xml",
+    "dist/sitemap-0.xml",
     "dist/index.html",
     "dist/friends/index.html",
     "dist/friends",
-    "dist/jianli/index.html",
-    "dist/jianli",
-    "dist/copyright/index.html",
-    "dist/copyright",
-    "dist/about/index.html",
-    "dist/about",
-    "dist/index.xml",
-    "dist/categories/index.html",
+    "dist/search/index.html",
+    "dist/search",
+    "dist/message/index.html",
+    "dist/message",
+    "dist/riding/index.html",
+    "dist/riding",
     "dist/_astro/thumbnail.UTvGGEIF.jpg",
     "dist/_astro/thumbnail.DYSx6Sp5.jpg",
     "dist/_astro/thumbnail.CqYFMfK8.jpg",
@@ -206,8 +221,8 @@
     "dist/_astro/IMG_1002.CynKFFux.jpg",
     "dist/_astro/IMG_0779.Bl_dc-y5_Z1AMUOe.webp",
     "dist/_astro/IMG_0779.Bl_dc-y5.jpg",
-    "src/content/blog/2024-09-14-review/revie-in-2024.md",
     "src/content/blog/2025-12-29-review/review-2025.md",
+    "src/content/blog/2024-09-14-review/revie-in-2024.md",
     "src/content/gossips/2023-12-13-record.md",
     "src/content/gossips/2025-11-10-astro.md",
     "src/content/gossips/2025-12-07-obsidian.md",
