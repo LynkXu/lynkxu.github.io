@@ -70,6 +70,7 @@
 
 body {
   font-family: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
+  font-weight: 400;
   font-size: var(--font-scale);
   margin: auto;
   padding: 20px;
@@ -82,6 +83,16 @@ body {
   line-height: 1.8;
   color: var(--text-color);
   overflow-y: scroll;
+
+  /*
+    减轻“看起来像加粗”的观感：
+    - 明确正文用常规字重
+    - 禁止浏览器合成粗体/斜体（避免 fallback 字体缺字重时被“合成加粗”）
+    - macOS 下开启更偏“细”的抗锯齿方式
+  */
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   /* 噪点纹理背景，增加纸质感 */
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
@@ -479,6 +490,7 @@ h1,
 h2 {
   font-family: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
   font-size: 1.7rem;
+  font-weight: 650;
   color: var(--heading-color);
   display: inherit
 }
@@ -488,6 +500,7 @@ h4,
 h5,
 h6 {
   font-family: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
+  font-weight: 600;
   color: var(--heading-color);
   display: inherit
 }
@@ -506,6 +519,7 @@ a[aria-current*="page"] {
 
 nav a {
   margin-right: 8px;
+  font-weight: 500;
 }
 
 nav a.active {
@@ -514,7 +528,8 @@ nav a.active {
 
 strong,
 b {
-  color: var(--heading-color)
+  color: var(--heading-color);
+  font-weight: 600;
 }
 
 button {
@@ -575,7 +590,18 @@ footer {
 
 .title h1,
 .title h2 {
-  font-size: 1.5em
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+/* 文章页标题：显式加粗，避免被其他样式/渲染差异影响观感 */
+.post-title {
+  font-weight: 500;
+}
+
+/* 列表页文章标题（首页/归档等的文章链接） */
+ul.posts li a {
+  font-weight: 500;
 }
 
 ul.posts {
@@ -593,6 +619,7 @@ ul.posts li span {
   flex: 0 0 115px;
   /* font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; */
   font-size: 0.95em;
+  font-weight: 500;
   color: var(--gray-color);
   opacity: 0.8;
 }
