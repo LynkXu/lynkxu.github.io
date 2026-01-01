@@ -36,30 +36,38 @@ const dataMap = {
   )
 };
 
+// Initial year shown on first paint should match the active switcher button.
+// If currentYear has no data, fall back to the latest available year, otherwise "total".
+const initialKey =
+  (stats?.years && stats.years[currentYear.toString()])
+    ? currentYear.toString()
+    : (availableYears[0] ?? 'total');
+const initialData = (dataMap as any)[initialKey] || (dataMap as any).total;
+
 const idPrefix = `stats-${type}`;
 ---
 
 <div class="stats-switcher-container">
   <div class="stats-switcher" id={`${idPrefix}-switcher`}>
-    <button class="switcher-btn active" data-year={currentYear.toString()}>{currentYear}</button>
+    <button class={`switcher-btn ${initialKey === currentYear.toString() ? 'active' : ''}`} data-year={currentYear.toString()}>{currentYear}</button>
     {tabs.filter(y => y !== currentYear.toString()).map(y => (
-      <button class="switcher-btn" data-year={y}>{y}</button>
+      <button class={`switcher-btn ${initialKey === y ? 'active' : ''}`} data-year={y}>{y}</button>
     ))}
-    <button class="switcher-btn" data-year="total">全部</button>
+    <button class={`switcher-btn ${initialKey === 'total' ? 'active' : ''}`} data-year="total">全部</button>
   </div>
 </div>
 
 <StatGrid>
   <StatCard
-    label={stats.cards.totalDistance.label}
-    value={stats.cards.totalDistance.value}
+    label={initialData.distLabel}
+    value={initialData.dist}
     unit={stats.cards.totalDistance.unit}
     subtext={stats.cards.totalDistance.subtext}
     id={`${idPrefix}-dist-card`}
   />
   <StatCard
     label={stats.cards.totalTime.label}
-    value={stats.cards.totalTime.value}
+    value={initialData.time}
     unit={stats.cards.totalTime.unit}
     subtext={stats.cards.totalTime.subtext}
     id={`${idPrefix}-time-card`}
@@ -84,7 +92,7 @@ const idPrefix = `stats-${type}`;
     <>
       <StatCard
         label={stats.cards.totalCount.label}
-        value={stats.cards.totalCount.value}
+        value={initialData.count ?? stats.cards.totalCount.value}
         unit={stats.cards.totalCount.unit}
         subtext={stats.cards.totalCount.subtext}
         id={`${idPrefix}-count-card`}
