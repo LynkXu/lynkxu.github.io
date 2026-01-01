@@ -1,16 +1,21 @@
 {
-  "generatedAt": "2026-01-01T06:36:24.491Z",
+  "generatedAt": "2026-01-01T10:19:05.562Z",
   "running": {
     "years": {
-      "2026": {
-        "distance": "8.05",
-        "time": "0.79",
+      "2024": {
+        "distance": "2.08",
+        "time": "0.2",
         "count": 1
       },
       "2025": {
-        "distance": "401.42",
-        "time": "40.61",
+        "distance": "399.34",
+        "time": "40.4",
         "count": 2
+      },
+      "2026": {
+        "distance": "8.05",
+        "time": "0.8",
+        "count": 1
       }
     },
     "cards": {
@@ -62,20 +67,15 @@
   },
   "cycling": {
     "years": {
-      "2026": {
-        "distance": "0",
-        "time": "0",
-        "count": 0
+      "2024": {
+        "distance": "1381.33",
+        "time": "56.5",
+        "count": 70
       },
       "2025": {
         "distance": "170.65",
-        "time": "9.31",
+        "time": "9.3",
         "count": 8
-      },
-      "2024": {
-        "distance": "1381.33",
-        "time": "56.45",
-        "count": 70
       }
     },
     "cards": {
