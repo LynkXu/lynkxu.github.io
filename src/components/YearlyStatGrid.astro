@@ -15,6 +15,19 @@ const currentYear = new Date().getFullYear();
 const availableYears = Object.keys(stats.years || {}).sort().reverse();
 const tabs = [currentYear.toString(), ...availableYears.filter(y => y !== currentYear.toString())];
 
+function toFixedTrim(n: number, digits: number) {
+  const s = n.toFixed(digits);
+  return s.replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
+}
+
+function avgKmPerCountText(distText: any, count: any) {
+  const c = Number(count) || 0;
+  const d = Number(distText) || 0;
+  if (c <= 0) return '暂无记录';
+  const avg = d / c;
+  return `~${toFixedTrim(avg, 1)} km/次`;
+}
+
 // Construct data attribute for client-side
 const dataMap = {
   total: {
@@ -22,6 +35,9 @@ const dataMap = {
     time: stats.cards.totalTime.value,
     count: stats.cards.totalCount?.value,
     distLabel: stats.cards.totalDistance.label,
+    distSub: stats.cards.totalDistance.subtext,
+    timeSub: stats.cards.totalTime.subtext,
+    countSub: stats.cards.totalCount?.subtext,
   },
   ...Object.fromEntries(
     Object.entries(stats.years || {}).map(([year, data]: [string, any]) => [
@@ -31,18 +47,28 @@ const dataMap = {
         time: data.time,
         count: data.count,
         distLabel: type === 'running' ? `${year} 跑量` : `${year} 里程`,
+        distSub: type === 'running' ? stats.cards.totalDistance.subtext : '本年度累计',
+        timeSub: stats.cards.totalTime.subtext,
+        countSub: type === 'cycling' ? avgKmPerCountText(data.distance, data.count) : null,
       }
     ])
   )
 };
 
 // Initial year shown on first paint should match the active switcher button.
-// If currentYear has no data, fall back to the latest available year, otherwise "total".
-const initialKey =
-  (stats?.years && stats.years[currentYear.toString()])
-    ? currentYear.toString()
-    : (availableYears[0] ?? 'total');
-const initialData = (dataMap as any)[initialKey] || (dataMap as any).total;
+// Always default to current year (even if it has no data).
+const initialKey = currentYear.toString();
+const initialData =
+  (dataMap as any)[initialKey] ??
+  {
+    dist: '0',
+    time: '0',
+    count: 0,
+    distLabel: type === 'running' ? `${initialKey} 跑量` : `${initialKey} 里程`,
+    distSub: type === 'running' ? stats.cards.totalDistance.subtext : '本年度累计',
+    timeSub: stats.cards.totalTime.subtext,
+    countSub: type === 'cycling' ? '暂无记录' : null,
+  };
 
 const idPrefix = `stats-${type}`;
 ---
@@ -62,14 +88,14 @@ const idPrefix = `stats-${type}`;
     label={initialData.distLabel}
     value={initialData.dist}
     unit={stats.cards.totalDistance.unit}
-    subtext={stats.cards.totalDistance.subtext}
+    subtext={initialData.distSub}
     id={`${idPrefix}-dist-card`}
   />
   <StatCard
     label={stats.cards.totalTime.label}
     value={initialData.time}
     unit={stats.cards.totalTime.unit}
-    subtext={stats.cards.totalTime.subtext}
+    subtext={initialData.timeSub}
     id={`${idPrefix}-time-card`}
   />
   
@@ -94,7 +120,7 @@ const idPrefix = `stats-${type}`;
         label={stats.cards.totalCount.label}
         value={initialData.count ?? stats.cards.totalCount.value}
         unit={stats.cards.totalCount.unit}
-        subtext={stats.cards.totalCount.subtext}
+        subtext={initialData.countSub ?? stats.cards.totalCount.subtext}
         id={`${idPrefix}-count-card`}
       />
       <StatCard
@@ -115,8 +141,11 @@ const idPrefix = `stats-${type}`;
     // Elements to update
     const distVal = document.querySelector(`#${idPrefix}-dist-card .stat-value`);
     const distLabel = document.querySelector(`#${idPrefix}-dist-card .stat-label`);
+    const distSub = document.querySelector(`#${idPrefix}-dist-card .stat-sub`);
     const timeVal = document.querySelector(`#${idPrefix}-time-card .stat-value`);
+    const timeSub = document.querySelector(`#${idPrefix}-time-card .stat-sub`);
     const countVal = document.querySelector(`#${idPrefix}-count-card .stat-value`); // might be null for running
+    const countSub = document.querySelector(`#${idPrefix}-count-card .stat-sub`); // might be null for running
 
     btns.forEach(btn => {
       btn.addEventListener('click', () => {
@@ -130,8 +159,11 @@ const idPrefix = `stats-${type}`;
         // Animate/Update values
         if (distVal) distVal.textContent = data.dist;
         if (distLabel && data.distLabel) distLabel.textContent = data.distLabel;
+        if (distSub && data.distSub) distSub.textContent = data.distSub;
         if (timeVal) timeVal.textContent = data.time;
+        if (timeSub && data.timeSub) timeSub.textContent = data.timeSub;
         if (countVal && data.count !== undefined) countVal.textContent = data.count;
+        if (countSub && data.countSub) countSub.textContent = data.countSub;
       });
     });
   }
