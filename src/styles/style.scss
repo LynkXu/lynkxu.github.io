@@ -531,9 +531,22 @@ a[aria-current*="page"] {
   border-bottom: 1px solid
 }
 
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
 nav a {
-  margin-right: 8px;
   font-weight: 500;
+  text-decoration: none;
+  color: var(--link-color);
+  transition: color 0.2s ease;
+}
+
+nav a:hover {
+  color: var(--heading-color);
 }
 
 nav a.active {
@@ -586,9 +599,17 @@ blockquote {
   }
 }
 
-header,
+header {
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 footer {
-  padding: 20px 0
+  padding: 20px 0;
 }
 
 .title a:hover {
@@ -614,28 +635,54 @@ footer {
 }
 
 /* 列表页文章标题（首页/归档等的文章链接） */
-ul.posts li a {
-  font-weight: 500;
-}
+/* Moved to consolidated block below */
 
 ul.posts {
   list-style-type: none;
-  padding: unset
+  padding: unset;
+  margin-top: 1rem;
 }
 
 ul.posts li {
   display: flex;
-  margin: 10px 0;
+  margin: 16px 0;
   align-items: baseline;
+  line-height: 1.6;
+  transition: transform 0.1s ease-in-out;
 }
 
-ul.posts li span {
+ul.posts li:hover {
+    // Subtle lift effect or color change could go here, but let's keep it minimal
+    // transform: translateX(4px);
+}
+
+ul.posts li a {
+    display: block;
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+}
+
+ul.posts li a:hover {
+    color: var(--link-color);
+    border-bottom: 1px solid var(--gray-color);
+}
+
+ul.posts li > span {
   flex: 0 0 115px;
   /* font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; */
   font-size: 0.95em;
   font-weight: 500;
   color: var(--gray-color);
   opacity: 0.8;
+}
+
+ul.posts li > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
 }
 
 ul.posts li a:visited {
@@ -659,11 +706,24 @@ ul.posts li a:visited {
     font-size: 1.5rem;
   }
 
-  .title {
-    text-align: center;
+  header {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
   }
 
-  ul.posts li span {
+  .title {
+    text-align: center;
+    width: 100%;
+  }
+
+  nav {
+    justify-content: center;
+    width: 100%;
+    gap: 0.8rem;
+  }
+
+  ul.posts li > span {
     flex: 0 0 90px;
   }
 
@@ -678,10 +738,6 @@ ul.posts li a:visited {
 
   nav {
     text-align: center;
-  }
-
-  nav a {
-    margin-right: 6px;
   }
 
   blockquote {
