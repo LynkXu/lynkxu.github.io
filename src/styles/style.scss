@@ -1,63 +1,63 @@
 :root {
-  --width: 960px;
-  --font-scale: 1em;
-  --background-color: #FAFAFA;
-  --heading-color: #030303;
-  --text-color: #030303;
-  --link-color: #030303;
-  --visited-color: #030303;
-  --code-background-color: #f2f2f2;
+  --width: 740px;
+  --font-scale: 1.05em;
+  --background-color: #fafafa;
+  --heading-color: #1a1a1a;
+  --text-color: #2c2c2c;
+  --link-color: #2c2c2c;
+  --visited-color: #2c2c2c;
+  --code-background-color: #f1f1f1;
   --code-color: #222;
-  --blockquote-color: #222;
-  --gray-color: #999;
-  --selection-bg: #eceadf;
-  --selection-color: #111;
+  --blockquote-color: #555;
+  --gray-color: #888;
+  --selection-bg: #e0ddd1;
+  --selection-color: #000;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background-color: #222;
-    --heading-color: #eee;
-    --text-color: #ddd;
-    --link-color: #ececec;
-    --visited-color: #ececec;
-    --code-background-color: #161616;
-    --code-color: #ddd;
-    --blockquote-color: #ccc;
-    --gray-color: #999;
-    --selection-bg: #555;
+    --background-color: #1a1a1a;
+    --heading-color: #f2f2f2;
+    --text-color: #d4d4d4;
+    --link-color: #e0e0e0;
+    --visited-color: #e0e0e0;
+    --code-background-color: #262626;
+    --code-color: #e0e0e0;
+    --blockquote-color: #999;
+    --gray-color: #777;
+    --selection-bg: #444;
     --selection-color: #fff;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="light"] {
-  --background-color: #FAFAFA;
-  --heading-color: #030303;
-  --text-color: #030303;
-  --link-color: #030303;
-  --visited-color: #030303;
-  --code-background-color: #f2f2f2;
+  --background-color: #fafafa;
+  --heading-color: #1a1a1a;
+  --text-color: #2c2c2c;
+  --link-color: #2c2c2c;
+  --visited-color: #2c2c2c;
+  --code-background-color: #f1f1f1;
   --code-color: #222;
-  --blockquote-color: #222;
-  --gray-color: #999;
-  --selection-bg: #eceadf;
-  --selection-color: #111;
+  --blockquote-color: #555;
+  --gray-color: #888;
+  --selection-bg: #e0ddd1;
+  --selection-color: #000;
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --background-color: #222;
-  --heading-color: #eee;
-  --text-color: #ddd;
-  --link-color: #ececec;
-  --visited-color: #ececec;
-  --code-background-color: #161616;
-  --code-color: #ddd;
-  --blockquote-color: #ccc;
-  --gray-color: #999;
-  --selection-bg: #555;
+  --background-color: #1a1a1a;
+  --heading-color: #f2f2f2;
+  --text-color: #d4d4d4;
+  --link-color: #e0e0e0;
+  --visited-color: #e0e0e0;
+  --code-background-color: #262626;
+  --code-color: #e0e0e0;
+  --blockquote-color: #999;
+  --gray-color: #777;
+  --selection-bg: #444;
   --selection-color: #fff;
   color-scheme: dark;
 }
@@ -80,15 +80,15 @@ body {
   font-family: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
   font-weight: 400;
   font-size: var(--font-scale);
-  margin: auto;
-  padding: 20px;
-  width: 68em;
+  margin: 0 auto;
+  padding: 40px 24px;
+  width: 100%;
   max-width: var(--width);
   text-align: left;
   background-color: var(--background-color);
   word-wrap: break-word;
   overflow-wrap: break-word;
-  line-height: 1.8;
+  line-height: 1.85;
   color: var(--text-color);
   overflow-y: scroll;
   display: flex;
@@ -127,14 +127,18 @@ main {
 .post-meta {
   font-family: inherit;
   /* Slightly smaller than body text */
-  font-size: 0.95em;
-  line-height: 1.45;
+  font-size: 0.9em;
+  line-height: 1.5;
   color: var(--gray-color);
-  margin: 0.7rem 0 1.0rem;
-  padding: 0.45rem 0;
+  margin: 0.5rem 0 1.5rem;
+  padding: 0.5rem 0;
   border: 0;
   border-top: 0px solid rgba(0, 0, 0, 0.06);
   background: transparent;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
 }
 
 :root[data-theme="dark"] .post-meta {
@@ -626,13 +630,14 @@ time,
 }
 
 blockquote {
-  margin: 1.5em 0;
+  margin: 2em 0;
   border-left: 3px solid var(--gray-color);
   color: var(--text-color);
-  padding: 0 0 0 1.2em;
+  padding: 0.2em 0 0.2em 1.2em;
   border-radius: 0;
-  font-style: normal;
-
+  font-style: italic;
+  opacity: 0.9;
+  
   > :first-child {
     margin-top: 0;
   }
@@ -642,14 +647,14 @@ blockquote {
 }
 
 header {
-  padding: 2em 0 1em;
+  padding: 3rem 0 1.5rem;
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.5rem;
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 }
 
 :root[data-theme="dark"] header {
@@ -694,20 +699,19 @@ footer {
 ul.posts {
   list-style-type: none;
   padding: unset;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 ul.posts li {
   display: flex;
-  margin: 16px 0;
+  margin: 20px 0;
   align-items: baseline;
   line-height: 1.6;
-  transition: transform 0.1s ease-in-out;
+  transition: opacity 0.2s ease;
 }
 
 ul.posts li:hover {
-    // Subtle lift effect or color change could go here, but let's keep it minimal
-    // transform: translateX(4px);
+   opacity: 0.8;
 }
 
 ul.posts li a {
@@ -715,6 +719,7 @@ ul.posts li a {
     text-decoration: none;
     transition: color 0.2s;
     font-weight: 500;
+    color: var(--heading-color);
 }
 
 ul.posts li a:hover {
@@ -723,12 +728,12 @@ ul.posts li a:hover {
 }
 
 ul.posts li > span {
-  flex: 0 0 115px;
-  /* font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; */
-  font-size: 0.95em;
-  font-weight: 500;
+  flex: 0 0 100px;
+  font-size: 0.9em;
+  font-weight: 400;
   color: var(--gray-color);
-  opacity: 0.8;
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
 }
 
 ul.posts li > div {
@@ -751,19 +756,20 @@ ul.posts li a:visited {
 
   body {
     width: auto;
-    padding: 14px;
-    line-height: 1.7;
+    padding: 20px;
+    line-height: 1.75;
   }
 
   h1,
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 
   header {
     flex-direction: column;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 1rem;
+    margin-bottom: 2rem;
   }
 
   .title {
@@ -774,7 +780,7 @@ ul.posts li a:visited {
   nav {
     justify-content: center;
     width: 100%;
-    gap: 0.8rem;
+    gap: 1.2rem;
   }
 
   ul.posts li > span {
@@ -795,7 +801,7 @@ ul.posts li a:visited {
   }
 
   blockquote {
-    margin: 1.5em 1em;
+    margin: 1.5em 0.5em;
   }
 }
 
