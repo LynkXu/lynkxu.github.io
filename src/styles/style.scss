@@ -143,89 +143,65 @@ main {
 /* Blog post header meta (date / categories / tags) */
 .post-meta {
   font-family: inherit;
-  /* Slightly smaller than body text */
   font-size: 0.9em;
   line-height: 1.5;
   color: var(--gray-color);
-  margin: 0.5rem 0 1.5rem;
-  padding: 0.5rem 0;
+  
+  /* Layout & Spacing */
+  margin: 0.5rem 0 2.5rem;
+  padding: 0.5rem 0 1rem; /* bottom padding defines distance to border */
+  
+  /* Divider Line */
   border: 0;
-  border-top: 0px solid rgba(0, 0, 0, 0.06);
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+  
   background: transparent;
   display: flex;
   flex-wrap: wrap;
-  gap: 1.2rem;
-  align-items: center;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 :root[data-theme="dark"] .post-meta {
-  border-top-color: rgba(255, 255, 255, 0.12);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
   background: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) .post-meta {
-    border-top-color: rgba(255, 255, 255, 0.12);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
     background: transparent;
   }
 }
 
-.post-meta__row {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-}
-
-.post-meta__row + .post-meta__row {
-  margin-top: 0.45rem;
-}
-
-.post-meta__label {
-  flex: 0 0 auto;
-  color: rgba(0, 0, 0, 0.55);
-  font-weight: 500;
-}
-
-:root[data-theme="dark"] .post-meta__label {
-  color: rgba(255, 255, 255, 0.72);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .post-meta__label {
-    color: rgba(255, 255, 255, 0.72);
-  }
-}
-
-.post-meta__chips {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 0.45rem;
+.post-meta__separator {
+  margin: 0 0.1rem;
+  opacity: 0.6;
 }
 
 .post-meta__reading-time {
-  color: var(--gray-color);
-  font-size: 0.9em;
-  margin-left: 0.3rem;
+  /* No special styles needed, inherits from .post-meta */
 }
 
-/* Re-style tag/category links inside post meta as pills (without affecting other places) */
-.post-meta .tag {
-  display: inline-flex;
-  align-items: baseline;
-  font-size: 0.9em;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  color: rgba(0, 0, 0, 0.70);
+/* Category and Tag Links */
+.post-meta__category,
+.post-meta__tag {
+  color: inherit;
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  text-underline-offset: 2px;
-  font-variant-ligatures: none;
+  transition: border-bottom-color 0.2s;
 }
 
-.post-meta .tag:hover {
-  border-bottom-color: rgba(0, 0, 0, 0.28);
+.post-meta__category:hover,
+.post-meta__tag:hover {
+  color: var(--text-color);
+  border-bottom-color: var(--gray-color);
+}
+
+:root[data-theme="dark"] .post-meta__category:hover,
+:root[data-theme="dark"] .post-meta__tag:hover {
+    color: var(--text-color);
+    border-bottom-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Draft badge（仅 dev 环境会渲染 DOM，但样式全局可用） */
@@ -261,26 +237,6 @@ main {
   }
 }
 
-:root[data-theme="dark"] .post-meta .tag {
-  border-color: transparent;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.86);
-}
-
-:root[data-theme="dark"] .post-meta .tag:hover {
-  border-bottom-color: rgba(255, 255, 255, 0.36);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) .post-meta .tag {
-    border-color: transparent;
-    background: transparent;
-    color: rgba(255, 255, 255, 0.86);
-  }
-  :root:not([data-theme]) .post-meta .tag:hover {
-    border-bottom-color: rgba(255, 255, 255, 0.36);
-  }
-}
 
 .theme-toggle-fab {
   position: fixed;
