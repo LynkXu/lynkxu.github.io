@@ -301,73 +301,83 @@ const hasMonthlyData = (year: string) => monthlyGroups[year] && monthlyGroups[ye
   /* Local variables for theming with fallbacks */
   .stats-switcher-container {
     display: flex;
-    justify-content: center; /* Center the switcher */
-    margin-bottom: 2rem;
-    --switcher-bg: var(--code-background-color, #f2f2f2);
-    --switcher-border: rgba(0,0,0,0.04);
-    --btn-text: var(--gray-color, #999);
-    --btn-hover: var(--text-color, #333);
-    --btn-active-bg: var(--background-color, #fff);
-    --btn-active-text: var(--heading-color, #000);
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    --chip-bg: rgba(0, 0, 0, 0.03);
+    --chip-hover-bg: rgba(0, 0, 0, 0.05);
+    --chip-border: rgba(0, 0, 0, 0.06);
+    --chip-active-bg: rgba(0, 0, 0, 0.06);
+    --chip-active-border: rgba(0, 0, 0, 0.12);
+    --chip-text: var(--gray-color, #888);
+    --chip-hover-text: var(--text-color, #333);
+    --chip-active-text: var(--heading-color, #000);
     --table-border: rgba(0,0,0,0.04);
   }
   
   /* Dark mode overrides using global theme selectors */
   :global([data-theme="dark"]) .stats-switcher-container,
   :global([data-theme="dark"]) .detail-section {
-    --switcher-bg: var(--code-background-color, #000);
-    --switcher-border: rgba(255,255,255,0.08);
-    --btn-text: var(--gray-color, #999);
-    --btn-hover: var(--text-color, #ddd);
-    --btn-active-bg: var(--background-color, #111);
-    --btn-active-text: var(--heading-color, #eee);
+    --chip-bg: rgba(255, 255, 255, 0.05);
+    --chip-hover-bg: rgba(255, 255, 255, 0.08);
+    --chip-border: rgba(255, 255, 255, 0.10);
+    --chip-active-bg: rgba(255, 255, 255, 0.08);
+    --chip-active-border: rgba(255, 255, 255, 0.16);
+    --chip-text: var(--gray-color, #999);
+    --chip-hover-text: var(--text-color, #ddd);
+    --chip-active-text: var(--heading-color, #eee);
     --table-border: rgba(255,255,255,0.08);
   }
 
   @media (prefers-color-scheme: dark) {
     :global(:root:not([data-theme="light"])) .stats-switcher-container,
     :global(:root:not([data-theme="light"])) .detail-section {
-      --switcher-bg: var(--code-background-color, #000);
-      --switcher-border: rgba(255,255,255,0.08);
-      --btn-text: var(--gray-color, #999);
-      --btn-hover: var(--text-color, #ddd);
-      --btn-active-bg: var(--background-color, #111);
-      --btn-active-text: var(--heading-color, #eee);
+      --chip-bg: rgba(255, 255, 255, 0.05);
+      --chip-hover-bg: rgba(255, 255, 255, 0.08);
+      --chip-border: rgba(255, 255, 255, 0.10);
+      --chip-active-bg: rgba(255, 255, 255, 0.08);
+      --chip-active-border: rgba(255, 255, 255, 0.16);
+      --chip-text: var(--gray-color, #999);
+      --chip-hover-text: var(--text-color, #ddd);
+      --chip-active-text: var(--heading-color, #eee);
       --table-border: rgba(255,255,255,0.08);
     }
   }
   
   .stats-switcher {
     display: inline-flex;
-    background: var(--switcher-bg);
-    padding: 4px;
-    border-radius: 9999px; /* Pill shape */
-    gap: 0;
-    border: 1px solid var(--switcher-border);
+    align-items: center;
+    gap: 0.45rem;
+    background: transparent;
+    padding: 0;
+    border: none;
   }
 
   .switcher-btn {
-    background: transparent;
-    border: none;
-    padding: 4px 14px;
-    border-radius: 9999px; /* Pill shape */
-    font-size: 0.8rem;
-    color: var(--btn-text);
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+    padding: 0.32rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    color: var(--chip-text);
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 550;
+    line-height: 1.2;
   }
 
   .switcher-btn:hover {
-    color: var(--btn-hover);
+    color: var(--chip-hover-text);
+    background: var(--chip-hover-bg);
+    transform: translateY(-1px);
   }
 
   .switcher-btn.active {
-    background: var(--btn-active-bg);
-    color: var(--btn-active-text);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    font-weight: 600;
+    background: var(--chip-active-bg);
+    color: var(--chip-active-text);
+    border-color: var(--chip-active-border);
+    font-weight: 650;
   }
   
   .detail-section {
