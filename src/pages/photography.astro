@@ -66,8 +66,8 @@ processedImages.sort((a, b) => {
     return dateB - dateA;
 });
 
-const title = "Photography";
-const description = "光影的瞬间记录";
+const title = "光影瞬间";
+const description = "定格时间，留住感动";
 ---
 
 <Base title={title} description={description} fullWidth={true} hideHeader={true} hideFooter={false}>
@@ -79,10 +79,6 @@ const description = "光影的瞬间记录";
             <a href="/about" class="back-link group">
                 <span class="arrow">←</span> 返回
             </a>
-        </div>
-        <div class="header-center">
-            <h1 class="page-title">{title}</h1>
-            <p class="page-desc">{description}</p>
         </div>
         <div class="header-right">
             <span class="copyright-text">
@@ -207,12 +203,10 @@ const description = "光影的瞬间记录";
 
     /* Header Styles */
     .page-header {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        margin: 3rem 0 4rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        margin: 2rem 0 1.5rem;
     }
     
     .page-header a {
@@ -227,31 +221,9 @@ const description = "光影的瞬间记录";
         justify-self: start;
     }
 
-    .header-center {
-        text-align: center;
-    }
-
     .header-right {
-        justify-self: end;
         font-size: 0.85rem;
         color: var(--gray-color);
-    }
-
-    .page-title {
-        font-family: var(--serif-font);
-        font-size: 2rem;
-        font-weight: 400;
-        margin: 0;
-        letter-spacing: 0.05em;
-        color: var(--heading-color);
-    }
-
-    .page-desc {
-        font-family: var(--serif-font);
-        font-size: 0.95rem;
-        color: var(--gray-color);
-        margin: 0.5rem 0 0;
-        font-style: italic;
     }
 
     .back-link {
