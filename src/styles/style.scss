@@ -1,5 +1,6 @@
 :root {
   --width: 860px; /* 改回较小宽度 */
+  --content-width: 820px;
   --font-scale: 0.95em;
   --serif-font: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
   --background-color: #fafafa;
@@ -309,10 +310,6 @@ main {
 .post-meta__separator {
   margin: 0 0.1rem;
   opacity: 0.6;
-}
-
-.post-meta__reading-time {
-  /* No special styles needed, inherits from .post-meta */
 }
 
 /* Category and Tag Links */
@@ -1059,10 +1056,6 @@ ul.posts li a:visited {
 
 .blog-layout {
   position: relative;
-  display: flex;
-  gap: 3rem;
-  justify-content: space-between;
-  align-items: flex-start;
 }
 
 .blog-main-column {
@@ -1071,54 +1064,54 @@ ul.posts li a:visited {
   max-width: 100%; /* 默认全宽 */
 }
 
-/* 当有侧边栏时，限制主栏宽度 */
+/* 当有侧边栏时，主栏仍保持内容宽度 */
 .blog-layout.has-sidebar .blog-main-column {
-  max-width: calc(100% - 280px); 
+  max-width: var(--content-width);
+  margin: 0 auto;
 }
 
 /* 无侧边栏时，内容居中且限制宽度 */
 .blog-layout:not(.has-sidebar) .blog-main-column {
-    max-width: 820px;
+    max-width: var(--content-width);
     margin: 0 auto;
 }
 
 .blog-sidebar {
-  width: 260px;
-  flex-shrink: 0;
-  position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  /* 隐藏原来的 fixed 定位样式 */
-  right: auto;
-  bottom: auto;
-  
-  /* 增加一点视觉区分，比如左边框 */
-  border-left: 1px solid rgba(0,0,0,0.05);
-  padding-left: 1.5rem;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 2rem auto 0;
+  position: relative;
+  max-height: none;
+  overflow: visible;
+  border-left: none;
+  padding-left: 0;
 }
 
 :root[data-theme="dark"] .blog-sidebar {
     border-left-color: rgba(255,255,255,0.05);
 }
 
-@media (max-width: 1000px) {
-  .blog-layout {
-    flex-direction: column;
+@media (min-width: 1400px) {
+  .blog-sidebar {
+    position: fixed;
+    top: 120px;
+    right: max(16px, calc((100vw - var(--width)) / 2 - 24px - 260px));
+    width: 260px;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    margin: 0;
+    border-left: 1px solid rgba(0,0,0,0.05);
+    padding-left: 1.5rem;
   }
-  
+}
+
+@media (max-width: 1000px) {
   .blog-layout.has-sidebar .blog-main-column {
       max-width: 100%;
   }
 
   .blog-sidebar {
-    display: none; /* 在小屏幕隐藏目录，或者改为底部/顶部显示 */
-    /* width: 100%;
-    position: relative;
-    top: 0;
-    border-left: none;
-    padding-left: 0;
-    margin-bottom: 2rem; */
+    display: none; /* 在小屏幕隐藏目录 */
   }
 }
 
@@ -1135,7 +1128,7 @@ ul.posts li a:visited {
 }
 
 .content-limit-width {
-  max-width: 820px;
+  max-width: var(--content-width);
   margin-left: auto;
   margin-right: auto;
 }
