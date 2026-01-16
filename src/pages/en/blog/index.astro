@@ -29,33 +29,35 @@ const years = Object.keys(postsByYear)
 ---
 
 <Base title={t('nav.blog')} description={SITE_DESCRIPTION}>
-	<p></p>
-	<h2>–</h2>
-	<div class='posts-archive'>
-		{
-			years.map((year) => (
-				<div class='year-group'>
-					<h3 class='year-title'>{year}</h3>
-					<ul class='posts'>
-						{postsByYear[year].map((post) => {
-                            const slug = post.id.replace('en/', '');
-                            return (
-							<li>
-								<span>
-									<FormattedDate date={post.data.pubDate} />
-								</span>
-								<div>
-									<a href={`/en/blog/${slug}.html`} transition:name={`post-title-${post.id}`}>
-										{post.data.title}
-									</a>
-									{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">{t('home.draft')}</span>}
-								</div>
-							</li>
-						)})}
-					</ul>
-				</div>
-			))
-		}
+	<div class="content-limit-width">
+		<p></p>
+		<h2>–</h2>
+		<div class='posts-archive'>
+			{
+				years.map((year) => (
+					<div class='year-group'>
+						<h3 class='year-title'>{year}</h3>
+						<ul class='posts'>
+							{postsByYear[year].map((post) => {
+								const slug = post.id.replace('en/', '');
+								return (
+								<li>
+									<span>
+										<FormattedDate date={post.data.pubDate} />
+									</span>
+									<div>
+										<a href={`/en/blog/${slug}.html`} transition:name={`post-title-${post.id}`}>
+											{post.data.title}
+										</a>
+										{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">{t('home.draft')}</span>}
+									</div>
+								</li>
+							)})}
+						</ul>
+					</div>
+				))
+			}
+		</div>
 	</div>
 
 	<button class='search-fab' id='search-trigger' type='button' aria-label='Search' title='Search'>

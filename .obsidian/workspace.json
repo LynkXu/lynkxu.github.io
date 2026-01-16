@@ -34,21 +34,9 @@
               "icon": "lucide-file",
               "title": "review-2025"
             }
-          },
-          {
-            "id": "e279367ab57cf65f",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.11.4"
-              },
-              "icon": "lucide-book-up",
-              "title": "版本说明 1.11.4"
-            }
           }
         ],
-        "currentTab": 2
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -121,6 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "src/content/blog/2025-12-29-review/review-2025.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -130,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "反向链接"
+              "title": "review-2025 的反向链接列表"
             }
           },
           {
@@ -209,7 +198,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "e279367ab57cf65f",
+  "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
     "public/blog/2025-09-new-job/image.png",
     "public/blog/2025-09-new-job/2024-post-cv.jpg",

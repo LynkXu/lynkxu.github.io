@@ -53,6 +53,6 @@ const layoutKey = (page.data.pageLayout || page.data.layout) as string | undefin
 const Layout = (layoutKey && layoutMap[layoutKey]) || Page;
 ---
 
-<Layout title={page.data.title}>
+<Layout {...page.data}>
 	<Content />
 </Layout>

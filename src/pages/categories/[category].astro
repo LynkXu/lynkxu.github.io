@@ -33,24 +33,26 @@ const { posts, category } = Astro.props;
 ---
 
 <Base title={`分类：${category}`} description={`分类 "${category}" 下的所有文章`}>
-	<h2>分类：{category}</h2>
-	<p>共 {posts.length} 篇文章</p>
-	<ul class='posts'>
-		{
-			posts.map((post) => (
-				<li>
-					<span>
-						<FormattedDate date={post.data.pubDate} />
-					</span>
-					<div>
-						<a href={`/blog/${post.id}.html`} transition:name={`post-title-${post.id}`}>
-							{post.data.title}
-						</a>
-						{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
-					</div>
-				</li>
-			))
-		}
-	</ul>
+	<div class="content-limit-width">
+		<h2>分类：{category}</h2>
+		<p>共 {posts.length} 篇文章</p>
+		<ul class='posts'>
+			{
+				posts.map((post) => (
+					<li>
+						<span>
+							<FormattedDate date={post.data.pubDate} />
+						</span>
+						<div>
+							<a href={`/blog/${post.id}.html`} transition:name={`post-title-${post.id}`}>
+								{post.data.title}
+							</a>
+							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+						</div>
+					</li>
+				))
+			}
+		</ul>
+	</div>
 
 </Base>

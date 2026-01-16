@@ -1,6 +1,8 @@
 ---
 slug: copyright
 title: 版权声明
+useCard: false
+hideHeader: true
 ---
 
 【郑重声明】

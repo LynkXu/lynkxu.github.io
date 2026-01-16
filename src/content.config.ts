@@ -42,6 +42,8 @@ const page = defineCollection({
 		layout: z.string().optional(),
 		pageLayout: z.string().optional(),
 		aliases: z.array(z.string()).optional(), // 支持多个别名
+		useCard: z.boolean().optional(), // 是否使用卡片布局
+		hideHeader: z.boolean().optional(), // 是否隐藏顶部导航栏
 	}),
 });
 

@@ -32,7 +32,16 @@ const currentYear = today.getFullYear();
 <style>
 	footer {
 		padding: 1.5rem 0;
+        width: 100%; /* Ensure footer takes full width */
 	}
+
+    /* Fix for full-width layout pages */
+    :global(body.full-width) footer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem 2rem; /* Add padding for full-width layout */
+        box-sizing: border-box;
+    }
 
 	.footer-content {
 		display: flex;

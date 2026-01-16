@@ -1,0 +1,103 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  href?: string;
+  className?: string;
+}
+
+const { title, description, href = '/about', className = '' } = Astro.props;
+---
+
+<div class={`simple-header fade-in-down ${className}`}>
+  <a href={href} class="back-button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Back</span>
+  </a>
+  <div class="page-info">
+    <span class="title">{title}</span>
+    {description && <span class="divider">/</span> <span class="desc">{description}</span>}
+  </div>
+</div>
+
+<style>
+  .simple-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+    z-index: 20;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--gray-color);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    font-weight: 500;
+    opacity: 0.7;
+    border-bottom: none;
+  }
+
+  .back-button:hover {
+    color: var(--heading-color);
+    opacity: 1;
+    transform: translateX(-3px);
+    border-bottom: none;
+  }
+
+  .page-info {
+    font-size: 0.85rem;
+    color: var(--gray-color);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    opacity: 0.8;
+  }
+
+  .title {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-family: var(--serif-font);
+    letter-spacing: 0.05em;
+  }
+
+  .divider {
+    opacity: 0.3;
+    font-size: 0.8em;
+  }
+
+  .desc {
+    opacity: 0.8;
+    font-weight: 400;
+  }
+
+  @media (max-width: 600px) {
+    .simple-header {
+      padding: 1rem 1.5rem;
+    }
+    .desc {
+        display: none;
+    }
+    .divider {
+        display: none;
+    }
+  }
+  
+  .fade-in-down {
+    animation: fadeInDown 0.6s ease-out;
+  }
+  
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>

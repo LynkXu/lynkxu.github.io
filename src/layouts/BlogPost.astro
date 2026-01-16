@@ -32,7 +32,7 @@ const {
 const isDev = import.meta.env.DEV;
 ---
 
-<Base title={title} description={description || ''}>
+<Base title={title} description={description || ''} className={showTOC ? "layout-wide" : ""}>
 	<!-- LightGallery CSS (本地) -->
 	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
 
@@ -200,7 +200,25 @@ const isDev = import.meta.env.DEV;
 			)}
 		</div>
 
-	<div class='blog-layout'>
+	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
+		
+		<div class="blog-main-column">
+			<!-- 主内容区 -->
+			<div class='post-content content' id='lightgallery'>
+				<slot />
+			</div>
+
+			<!-- 文章结束标识 -->
+			<div class='post-end'>
+				<span class='post-end__symbol'>◆</span>
+				<span class='post-end__text'>END</span>
+				<span class='post-end__symbol'>◆</span>
+			</div>
+
+			<!-- 导航按钮 -->
+			<NavButton showBackToTop={true} />
+		</div>
+
 		<!-- 目录侧边栏 -->
 		{
 			showTOC && (
@@ -209,21 +227,6 @@ const isDev = import.meta.env.DEV;
 				</div>
 			)
 		}
-
-		<!-- 主内容区 -->
-		<div class='post-content content' id='lightgallery'>
-			<slot />
-		</div>
-
-		<!-- 文章结束标识 -->
-		<div class='post-end'>
-			<span class='post-end__symbol'>◆</span>
-			<span class='post-end__text'>END</span>
-			<span class='post-end__symbol'>◆</span>
-		</div>
-
-		<!-- 导航按钮 -->
-		<NavButton showBackToTop={true} />
 	</div>
 
 	<!-- LightGallery JS (本地) -->

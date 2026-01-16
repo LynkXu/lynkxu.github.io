@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
 
 const tools = {
   software: [
@@ -31,8 +32,11 @@ const title = "常用工具";
 const description = "工欲善其事，必先利其器";
 ---
 
-<Base title={title} description={description}>
-  <div class="content">
+<Base title={title} description={description} useCard={false} hideHeader={true}>
+  <SimpleHeader title="Tools" description={description} />
+  <div class="content-limit-width">
+    
+    <div class="content">
     <div class="tools-section">
       <h2>软件 / Software</h2>
       <div class="tools-grid">
@@ -102,34 +106,65 @@ const description = "工欲善其事，必先利其器";
   </div>
 
   <style>
-    .tools-section {
-      margin-bottom: 2rem;
+    .page-title {
+        text-align: center;
+        margin: 2rem 0 3rem;
     }
+    
+    .page-title h1 {
+        font-family: var(--serif-font);
+        margin-bottom: 0.5rem;
+    }
+    
+    .subtitle {
+        color: var(--gray-color);
+        font-size: 0.95rem;
+    }
+
+    .tools-section {
+      margin-bottom: 3rem;
+    }
+    
+    .tools-section h2 {
+        font-size: 1.1rem;
+        opacity: 0.6;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
     .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
       margin-top: 1rem;
     }
     .tool-card {
-      background: var(--code-background-color, #f2f2f2);
-      padding: 0.8rem;
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.2rem;
+      border-radius: 10px;
       display: flex;
       flex-direction: row;
       align-items: center;
-      gap: 0.8rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      gap: 1rem;
+      transition: all 0.2s;
       border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     :global([data-theme='dark']) .tool-card {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: rgba(255, 255, 255, 0.1);
+        background: rgba(40, 40, 40, 0.4);
+        border-color: rgba(255, 255, 255, 0.05);
     }
-
+    
     .tool-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.9);
+    }
+    
+    :global([data-theme='dark']) .tool-card:hover {
+      background: rgba(50, 50, 50, 0.6);
     }
     .link-card {
         text-decoration: none;

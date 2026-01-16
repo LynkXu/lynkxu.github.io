@@ -27,49 +27,51 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<p></p>
-	<div class='post-content content motto'>
-		<IndexContent />
-	</div>
+	<div class="content-limit-width">
+		<p></p>
+		<div class='post-content content motto'>
+			<IndexContent />
+		</div>
 
-	<div class='recent-header'>
-		<div class='indextitle'>{t('home.recentPosts')}</div>
-	</div>
-	<ul class='posts'>
-		{
-			recentPosts.map((post) => {
-                const slug = post.id.replace('en/', '');
-                return (
-				<li>
-					<span>
-						<FormattedDate date={post.data.pubDate} />
-					</span>
-					<div>
-						<a href={`/en/blog/${slug}.html`} transition:name={`post-title-${post.id}`}>
-							{post.data.title}
+		<div class='recent-header'>
+			<div class='indextitle'>{t('home.recentPosts')}</div>
+		</div>
+		<ul class='posts'>
+			{
+				recentPosts.map((post) => {
+					const slug = post.id.replace('en/', '');
+					return (
+					<li>
+						<span>
+							<FormattedDate date={post.data.pubDate} />
+						</span>
+						<div>
+							<a href={`/en/blog/${slug}.html`} transition:name={`post-title-${post.id}`}>
+								{post.data.title}
+							</a>
+							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">{t('home.draft')}</span>}
+						</div>
+					</li>
+				)})
+			}
+		</ul>
+		<div class='view-all-container'>
+			<HeaderLink href='/en/blog'>{t('home.viewAll')} →</HeaderLink>
+		</div>
+
+		{sortedTags.length > 0 && (
+			<section class='home-tags'>
+				<div class='indextitle'>{t('home.tags')}</div>
+				<div class='tags'>
+					{sortedTags.map(([tag, count]) => (
+						<a href={`/en/tags/${tag}/`}>
+							#{tag} ({count})
 						</a>
-						{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">{t('home.draft')}</span>}
-					</div>
-				</li>
-			)})
-		}
-	</ul>
-	<div class='view-all-container'>
-		<HeaderLink href='/en/blog'>{t('home.viewAll')} →</HeaderLink>
+					))}
+				</div>
+			</section>
+		)}
 	</div>
-
-	{sortedTags.length > 0 && (
-		<section class='home-tags'>
-			<div class='indextitle'>{t('home.tags')}</div>
-			<div class='tags'>
-				{sortedTags.map(([tag, count]) => (
-					<a href={`/en/tags/${tag}/`}>
-						#{tag} ({count})
-					</a>
-				))}
-			</div>
-		</section>
-	)}
 
 	<style>
 		/* 座右铭样式优化 - Minimal Sans */

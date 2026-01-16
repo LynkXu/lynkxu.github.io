@@ -14,9 +14,11 @@ interface Props {
     fullWidth?: boolean;
     hideHeader?: boolean;
     hideFooter?: boolean;
+    useCard?: boolean; // 新增：是否使用卡片布局
+    className?: string; // 新增：传递给卡片的 class
 }
 
-const { title, description, image, fullWidth = false, hideHeader = false, hideFooter = false } = Astro.props;
+const { title, description, image, fullWidth = false, hideHeader = false, hideFooter = false, useCard = true, className = '' } = Astro.props;
 
 // Check if current page is homepage
 const isHomepage = Astro.url.pathname === '/';
@@ -31,11 +33,27 @@ const isHomepage = Astro.url.pathname === '/';
 	<body class={fullWidth ? 'full-width' : ''}>
 		<Background />
 		<Loading showOnHomepage={isHomepage} />
-		{!hideHeader && <Header />}
-		<main>
-			<slot />
-		</main>
-		{!hideFooter && <Footer />}
+        
+        {
+            useCard ? (
+                <div class={`global-layout-card ${className}`}>
+                    {!hideHeader && <Header />}
+                    <main>
+                        <slot />
+                    </main>
+                    {!hideFooter && <Footer />}
+                </div>
+            ) : (
+                <div class={`global-layout-transparent ${className}`}>
+                    {!hideHeader && <Header />}
+                    <main>
+                        <slot />
+                    </main>
+                    {!hideFooter && <Footer />}
+                </div>
+            )
+        }
+		
 		<SearchModal />
 
 		<button

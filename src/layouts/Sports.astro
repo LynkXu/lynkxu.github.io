@@ -1,19 +1,13 @@
 ---
 import Base from './Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
 
 const { title } = Astro.props;
 ---
 
-<Base title={title} description="运动记录" fullWidth={true} hideHeader={true}>
+<Base title={title} description="运动记录" fullWidth={true} hideHeader={true} useCard={false}>
+  <SimpleHeader title="Sports" description="运动记录" />
   <div class="sports-layout">
-    <div class="page-header">
-        <a href="/about" class="back-link">
-            ← 返回
-        </a>
-        <div class="header-title">
-            <span class="title-text">{title}</span>
-        </div>
-    </div>
     
     <div class="content">
       <slot />
@@ -23,34 +17,22 @@ const { title } = Astro.props;
   <style>
     .sports-layout {
         width: 100%;
-        max-width: 1200px;
+        max-width: 1400px; /* Optimized width */
         margin: 0 auto;
+        padding: 0 40px; /* Added side padding */
     }
 
-    .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 3rem;
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-    .back-link {
-        font-size: 0.9rem;
-        text-decoration: none;
-        color: var(--gray-color);
-        padding: 0.5rem 0;
-        transition: color 0.2s;
-    }
-    .back-link:hover {
-        color: var(--link-color);
-    }
-    .header-title {
-        font-size: 1rem;
-        font-weight: bold;
-        color: var(--heading-color);
+    .page-title {
+        text-align: center;
+        margin: 2rem 0 3rem;
     }
     
+    .page-title h1 {
+        font-family: var(--serif-font);
+        font-size: 2rem;
+        margin: 0;
+    }
+
     /* 内容区域样式调整，使其在无 Hero 模式下更紧凑 */
     .content {
       margin-top: 1rem;

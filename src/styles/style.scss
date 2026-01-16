@@ -1,24 +1,29 @@
 :root {
-  --width: 740px;
+  --width: 860px; /* 改回较小宽度 */
   --font-scale: 0.95em;
   --serif-font: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
   --background-color: #fafafa;
+  --page-bg: #f0f1f3;
+  --content-bg: #ffffff;
   --heading-color: #1a1a1a;
   --text-color: #1a1a1a;
   --link-color: #1a1a1a;
   --visited-color: #1a1a1a;
-  --code-background-color: #f1f1f1;
+  --code-background-color: #f6f8fa;
   --code-color: #222;
   --blockquote-color: #555;
   --gray-color: #888;
   --selection-bg: #e0ddd1;
   --selection-color: #000;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --background-color: #1a1a1a;
+    --page-bg: #0d0d0d;
+    --content-bg: #1a1a1a;
     --heading-color: #f2f2f2;
     --text-color: #d4d4d4;
     --link-color: #e0e0e0;
@@ -29,27 +34,33 @@
     --gray-color: #777;
     --selection-bg: #444;
     --selection-color: #fff;
+    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
     color-scheme: dark;
   }
 }
 
 :root[data-theme="light"] {
   --background-color: #fafafa;
+  --page-bg: #f0f1f3;
+  --content-bg: #ffffff;
   --heading-color: #1a1a1a;
   --text-color: #1a1a1a;
   --link-color: #1a1a1a;
   --visited-color: #1a1a1a;
-  --code-background-color: #f1f1f1;
+  --code-background-color: #f6f8fa;
   --code-color: #222;
   --blockquote-color: #555;
   --gray-color: #888;
   --selection-bg: #e0ddd1;
   --selection-color: #000;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
   --background-color: #1a1a1a;
+  --page-bg: #0d0d0d;
+  --content-bg: #1a1a1a;
   --heading-color: #f2f2f2;
   --text-color: #d4d4d4;
   --link-color: #e0e0e0;
@@ -60,6 +71,7 @@
   --gray-color: #777;
   --selection-bg: #444;
   --selection-color: #fff;
+  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   color-scheme: dark;
 }
 
@@ -81,12 +93,11 @@ body {
   font-family: var(--serif-font);
   font-weight: 400;
   font-size: var(--font-scale);
-  margin: 0 auto;
-  padding: 40px 24px;
+  margin: 0;
+  padding: 0;
   width: 100%;
-  max-width: var(--width);
   text-align: left;
-  background-color: var(--background-color);
+  background-color: var(--page-bg);
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.85;
@@ -125,9 +136,118 @@ body {
 
   &.full-width {
     width: 100%;
-    max-width: 1600px;
-    padding: 0 40px;
+    /* max-width: 1600px; */ /* 全宽模式不再限制最大宽度 */
+    /* padding: 0 40px; */
+    /* margin: 0 auto; */
+  }
+}
+
+/* 主容器卡片样式 */
+.global-layout-card {
+  max-width: var(--width);
+  margin: 40px auto;
+  padding: 40px 60px;
+  background-color: var(--content-bg);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  min-height: calc(100vh - 80px); /* 留出上下边距 */
+  width: 90%; /* 在小屏幕上留出一些余地 */
+}
+
+/* 博客文章页（需要侧边栏）使用更宽的卡片 */
+.global-layout-card.layout-wide {
+    max-width: 1200px;
+}
+
+/* 无卡片模式（全屏布局） */
+.global-layout-transparent {
+    width: 100%;
+    /* max-width: 900px; */ /* 移除默认限制，由各个页面自己控制 */
     margin: 0 auto;
+    padding: 0; /* 移除 padding，由页面自己控制 */
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.global-layout-transparent main {
+    flex: 1;
+    width: 100%;
+}
+
+/* 透明布局下的 Header 样式：
+   保持与卡片内 Header 内容对齐，但去除背景
+*/
+.global-layout-transparent header {
+    max-width: var(--width); /* 与主博客卡片宽度保持一致，确保导航对齐 */
+    width: 90%;
+    margin: 0 auto 40px;
+    padding: 20px 0; /* 增加一点呼吸感 */
+    border-bottom: 1px dashed rgba(0,0,0,0.1); /* 使用虚线，更轻盈 */
+    background: transparent;
+}
+
+/* 特殊页面的 Header 可以更宽 */
+.global-layout-transparent.layout-wide header {
+    max-width: 1400px;
+}
+
+/* Dark mode header adjustment */
+:root[data-theme="dark"] .global-layout-transparent header {
+    border-bottom-color: rgba(255,255,255,0.1);
+}
+
+@media (max-width: 768px) {
+  .global-layout-transparent header {
+      width: 92%;
+      padding: 15px 0;
+      margin-bottom: 20px;
+  }
+}
+
+/* 全宽模式下的无卡片布局 */
+body.full-width .global-layout-transparent {
+    max-width: 1200px; /* 或者 100% */
+}
+
+/* Fix footer width in full-width mode */
+body.full-width footer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px 40px; /* 增加左右 padding */
+    box-sizing: border-box;
+}
+
+body.full-width .global-layout-transparent.travel-page {
+    max-width: 100%;
+}
+
+/* Travel 页面单独处理 footer */
+body.full-width .global-layout-transparent.travel-page footer {
+    max-width: 1200px; /* 保持内容宽度 */
+    padding: 60px 2rem 40px;
+}
+
+@media (max-width: 768px) {
+  .global-layout-card {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 24px;
+    min-height: 100vh;
+  }
+  
+  .global-layout-transparent {
+      padding: 20px 20px;
+  }
+  
+  body {
+    background-color: var(--content-bg); /* 移动端背景色统一，避免卡片感导致的局促 */
   }
 }
 
@@ -645,7 +765,17 @@ header {
   flex-wrap: wrap;
   gap: 1.5rem;
   border-bottom: 1px solid rgba(0,0,0,0.05);
-  margin-bottom: 48px;
+}
+
+/* Fix header margin in card layout */
+.global-layout-card header {
+    margin-bottom: 48px;
+}
+
+/* Fix header margin in wrapper */
+.header-wrapper-card header {
+    margin-bottom: 0; /* Wrapper has margin-bottom */
+    border-bottom: none; /* Optional: remove border if it's a standalone block */
 }
 
 :root[data-theme="dark"] header {
@@ -929,14 +1059,67 @@ ul.posts li a:visited {
 
 .blog-layout {
   position: relative;
+  display: flex;
+  gap: 3rem;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.blog-main-column {
+  flex: 1;
+  min-width: 0; /* 防止 flex 子项溢出 */
+  max-width: 100%; /* 默认全宽 */
+}
+
+/* 当有侧边栏时，限制主栏宽度 */
+.blog-layout.has-sidebar .blog-main-column {
+  max-width: calc(100% - 280px); 
+}
+
+/* 无侧边栏时，内容居中且限制宽度 */
+.blog-layout:not(.has-sidebar) .blog-main-column {
+    max-width: 820px;
+    margin: 0 auto;
 }
 
 .blog-sidebar {
-  width: 280px;
-  max-height: calc(100vh - 40px);
-  position: fixed;
-  right: 20px;
-  top: 20px;
+  width: 260px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 2rem;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  /* 隐藏原来的 fixed 定位样式 */
+  right: auto;
+  bottom: auto;
+  
+  /* 增加一点视觉区分，比如左边框 */
+  border-left: 1px solid rgba(0,0,0,0.05);
+  padding-left: 1.5rem;
+}
+
+:root[data-theme="dark"] .blog-sidebar {
+    border-left-color: rgba(255,255,255,0.05);
+}
+
+@media (max-width: 1000px) {
+  .blog-layout {
+    flex-direction: column;
+  }
+  
+  .blog-layout.has-sidebar .blog-main-column {
+      max-width: 100%;
+  }
+
+  .blog-sidebar {
+    display: none; /* 在小屏幕隐藏目录，或者改为底部/顶部显示 */
+    /* width: 100%;
+    position: relative;
+    top: 0;
+    border-left: none;
+    padding-left: 0;
+    margin-bottom: 2rem; */
+  }
 }
 
 .toc {
@@ -944,12 +1127,17 @@ ul.posts li a:visited {
 }
 
 .toc-container {
-  max-height: calc(80vh);
-  overflow-y: auto;
-  padding: 1.5rem;
-  background: var(--background-color);
-  border-radius: 8px;
-  font-size: 0.85rem;
+  /* 重置 max-height，因为 sidebar 已经控制了 */
+  max-height: none; 
+  padding: 0; /* 移除容器 padding */
+  background: transparent;
+  border-radius: 0;
+}
+
+.content-limit-width {
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 初始状态隐藏，等待 JavaScript 检查是否有内容 */

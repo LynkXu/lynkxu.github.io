@@ -1,20 +1,25 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
 	content?: string;
 };
 
-const { title } = Astro.props;
+const { title, useCard = true, hideHeader = false } = Astro.props;
 ---
 
-<Base title={title} description={title}>
-	<p></p>
-	<h2>–</h2>
-	<h1>{title}</h1>
-	<div class='post-content content'>
-		<slot />
+<Base title={title} description={title} useCard={useCard} hideHeader={hideHeader}>
+	{hideHeader && useCard === false && (
+		<SimpleHeader title={title} />
+	)}
+	<div class="content-limit-width">
+		<p></p>
+		<h2>–</h2>
+		<h1>{title}</h1>
+		<div class='post-content content'>
+			<slot />
+		</div>
 	</div>
-
 </Base>
