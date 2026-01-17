@@ -1,5 +1,141 @@
 {
-  "book": [],
+  "book": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535337208718118140,
+      "item": {
+        "type": "Edition",
+        "title": "三体",
+        "description": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "三体"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "地球往事：三体"
+          },
+          {
+            "lang": "en",
+            "text": "The Three-Body Problem"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/bangumi/2024/12/22/184db1d2-e3a0-4e55-8111-464c00d8e8c8.jpg",
+        "rating": 8.6,
+        "rating_count": 1483,
+        "rating_distribution": [
+          0,
+          2,
+          10,
+          40,
+          48
+        ],
+        "tags": [
+          "kindle",
+          "三体",
+          "中国",
+          "中国当代文学",
+          "中国文学",
+          "中国科幻",
+          "刘大人的水准",
+          "刘慈欣",
+          "哲学",
+          "大陆",
+          "小说",
+          "当代文学",
+          "文学",
+          "硬科幻",
+          "科幻",
+          "科幻小说",
+          "科普",
+          "经典",
+          "虚构",
+          "量子物理"
+        ],
+        "brief": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。",
+        "id": "https://neodb.social/book/7OGqnJkxiQZImAxD9aAgMr",
+        "uuid": "7OGqnJkxiQZImAxD9aAgMr",
+        "url": "/book/7OGqnJkxiQZImAxD9aAgMr",
+        "api_url": "/api/book/7OGqnJkxiQZImAxD9aAgMr",
+        "category": "book",
+        "parent_uuid": "1nMjxbIOKeRXlf7IjcaQJD",
+        "display_title": "三体",
+        "external_resources": [
+          {
+            "url": "https://book.douban.com/subject/2567698/"
+          },
+          {
+            "url": "https://www.goodreads.com/book/show/9574008"
+          },
+          {
+            "url": "https://bgm.tv/subject/9585"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T12:58:56.594Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 535337092532540700,
+      "item": {
+        "type": "Edition",
+        "title": "段永平投资问答录（商业逻辑篇）",
+        "description": "",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "段永平投资问答录（商业逻辑篇）"
+          }
+        ],
+        "localized_description": [],
+        "cover_image_url": "https://neodb.social/m/book/2022/04/30c7da4f80-b1ac-4949-b884-2183d3bf9f26.jpg",
+        "rating": 7.7,
+        "rating_count": 7,
+        "rating_distribution": [
+          0,
+          0,
+          29,
+          57,
+          14
+        ],
+        "tags": [
+          "investment economy",
+          "中国",
+          "投资",
+          "非虚构"
+        ],
+        "brief": "",
+        "id": "https://neodb.social/book/7FZAbHh74iGZwCOIfnb52O",
+        "uuid": "7FZAbHh74iGZwCOIfnb52O",
+        "url": "/book/7FZAbHh74iGZwCOIfnb52O",
+        "api_url": "/api/book/7FZAbHh74iGZwCOIfnb52O",
+        "category": "book",
+        "parent_uuid": null,
+        "display_title": "段永平投资问答录（商业逻辑篇）",
+        "external_resources": [
+          {
+            "url": "https://book.douban.com/subject/35254511/"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T12:58:28.900Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    }
+  ],
   "movie": [
     {
       "shelf_type": "complete",
@@ -159,6 +295,146 @@
     {
       "shelf_type": "progress",
       "visibility": 0,
+      "post_id": 535336608332279200,
+      "item": {
+        "type": "TVSeason",
+        "title": "强风吹拂",
+        "description": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "시즌 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "强风吹拂"
+          },
+          {
+            "lang": "ja",
+            "text": "風が強く吹いている"
+          },
+          {
+            "lang": "en",
+            "text": "Run with the Wind"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "잘나가던 육상 에이스의 합류로 팀 준비는 끝났다. 목표는 대망의 하코네 경기. 근데 꿈꾸는 건 자유라지만 이 조합으로 가능할까? 게다가 팀 내 불화도 발목을 잡는다. 함량 미달 청춘들이여, 그럼에도 불구하고 승리를 위해 달릴지어다."
+          },
+          {
+            "lang": "ja",
+            "text": "夜。逃げるように街を駆け抜ける蔵原走（くらはらかける）。その横に、不意に自転車が走り込んで来る。見知らぬ男が、走に向かって問いかける。\n\n「なあ！走るの好きか！」\n\n男の名は清瀬灰二（きよせはいじ）。走は、灰二に導かれるまま、竹青荘という古びたアパートに辿り着く。そこに暮らす個性豊かな９名の住人。最後の空室を勧められ、戸惑いながらも、押し切られていく走。まさか自分が、『１０人目の男』だとは、夢にも思っていなかった…。"
+          },
+          {
+            "lang": "en",
+            "text": "Former ace runner Kakeru grudgingly returns to the sport when college senior Haiji recruits him to an unlikely team with one goal: the Hakoden relay."
+          },
+          {
+            "lang": "zh-cn",
+            "text": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "藏原走（大冢刚央 配音）是一名性格非常内向的大学一年级男生，不善言辞的他总是习惯用跑步来抒发内心里的情感波动。一天深夜，正在跑步的阿走遇见了名叫清濑灰二（丰永利行 配音）的男子，这个散发着独特魅力的男人主动向阿走搭话，并且向阿走介绍了他所居住的名为竹青庄的公寓。\n就这样，阿走在半推半就之下成为了竹青庄的第10名住户。虽然日常打打闹闹但相互非常信赖的城太郎兄弟、被称之为神童，但阿走却觉得他有些古怪的杉山高志（内山昂辉 配音）、热衷于看电视猜谜节目的坂口洋平（北泽力 配音）、性格轻浮却异常讨厌烟味的高材生岩仓雪彦（兴津和幸 配音），和阿走共享着这幢破旧的公寓的，是这些性格稀奇古怪的人们。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/movie/2021/09/152ee1d70a-2d8c-4bcf-a957-c89ab73d6a8a.jpg",
+        "rating": 9.3,
+        "rating_count": 509,
+        "rating_distribution": [
+          0,
+          1,
+          2,
+          24,
+          73
+        ],
+        "tags": [
+          "2010s",
+          "2018",
+          "2019",
+          "anime",
+          "アニメ",
+          "二次元",
+          "体育",
+          "动漫",
+          "动画",
+          "励志",
+          "友情",
+          "小说改编",
+          "成长",
+          "日本",
+          "日本动画",
+          "热血",
+          "跑步",
+          "运动",
+          "青春"
+        ],
+        "brief": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……",
+        "id": "https://neodb.social/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "uuid": "5UxdZ3fhCwUYMQl1sesHy4",
+        "url": "/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "api_url": "/api/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "category": "tv",
+        "parent_uuid": "0uzl8EDV1MDqaxnpoyH6lj",
+        "display_title": "强风吹拂",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/248154"
+          },
+          {
+            "url": "https://movie.douban.com/subject/30238385/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/82766/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T12:56:33.445Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
       "post_id": 535313177483656400,
       "item": {
         "type": "TVSeason",
@@ -224,5 +500,67 @@
       "tags": []
     }
   ],
-  "game": []
+  "game": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535337430359716540,
+      "item": {
+        "type": "Game",
+        "title": "逃离鸭科夫",
+        "description": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "逃离鸭科夫"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "逃離鴨科夫"
+          },
+          {
+            "lang": "pt",
+            "text": "Escape From Duckov"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-tw",
+            "text": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubangame/2025/11/04/9d5cab07-e352-41c8-b058-85d9f1a9abe1.jpg",
+        "rating": 7.1,
+        "rating_count": 8,
+        "rating_distribution": [
+          0,
+          12,
+          0,
+          88,
+          0
+        ],
+        "tags": [
+          "steam",
+          "休闲"
+        ],
+        "brief": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！",
+        "id": "https://neodb.social/game/0k6VgisfksEtsS970PX4Q5",
+        "uuid": "0k6VgisfksEtsS970PX4Q5",
+        "url": "/game/0k6VgisfksEtsS970PX4Q5",
+        "api_url": "/api/game/0k6VgisfksEtsS970PX4Q5",
+        "category": "game",
+        "parent_uuid": null,
+        "display_title": "逃离鸭科夫",
+        "external_resources": [
+          {
+            "url": "https://www.douban.com/game/37402004/"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T12:59:49.445Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    }
+  ]
 }
