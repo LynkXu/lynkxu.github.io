@@ -54,7 +54,67 @@ if (!TOKEN) {
 const SHELF_TYPES = ['complete', 'progress']; // Now fetching both 'complete' and 'progress'
 const CATEGORIES = ['book', 'movie', 'tv', 'game']; // Added 'tv' for TV shows/series
 
-async function fetchCategory(category) {
+function normalizeTime(value) {
+    const time = Date.parse(value);
+    return Number.isNaN(time) ? 0 : time;
+}
+
+function readExistingData() {
+    if (!fs.existsSync(OUTPUT_FILE)) {
+        return null;
+    }
+    try {
+        const content = fs.readFileSync(OUTPUT_FILE, 'utf-8');
+        return JSON.parse(content);
+    } catch (error) {
+        console.warn('Failed to parse existing NeoDB data, fallback to full sync:', error.message);
+        return null;
+    }
+}
+
+function getLatestCreatedTime(items, shelfType) {
+    if (!Array.isArray(items) || items.length === 0) {
+        return 0;
+    }
+    let latest = 0;
+    for (const item of items) {
+        if (item?.shelf_type !== shelfType) {
+            continue;
+        }
+        const time = normalizeTime(item?.created_time);
+        if (time > latest) {
+            latest = time;
+        }
+    }
+    return latest;
+}
+
+function getItemKey(item) {
+    if (item?.post_id) {
+        return `post:${item.post_id}`;
+    }
+    if (item?.item?.uuid) {
+        return `uuid:${item.item.uuid}`;
+    }
+    return JSON.stringify(item);
+}
+
+function mergeItems(newItems, existingItems) {
+    const merged = [];
+    const seen = new Set();
+    for (const item of [...newItems, ...existingItems]) {
+        const key = getItemKey(item);
+        if (seen.has(key)) {
+            continue;
+        }
+        seen.add(key);
+        merged.push(item);
+    }
+    merged.sort((a, b) => normalizeTime(b?.created_time) - normalizeTime(a?.created_time));
+    return merged;
+}
+
+async function fetchCategory(category, existingItems) {
     console.log(`Fetching ${category}...`);
     let allItems = [];
     
@@ -64,6 +124,10 @@ async function fetchCategory(category) {
         let page = 1;
         let hasNext = true;
         const MAX_PAGES = 3; 
+        const cutoffTime = getLatestCreatedTime(existingItems, shelfType);
+        if (cutoffTime > 0) {
+            console.log(`Using incremental cutoff for ${category}/${shelfType}: ${new Date(cutoffTime).toISOString()}`);
+        }
 
         while (hasNext && page <= MAX_PAGES) {
             try {
@@ -91,10 +155,18 @@ async function fetchCategory(category) {
                         ...item,
                         shelf_type: shelfType // Add 'complete' or 'progress' to the item data
                     }));
-                    allItems = allItems.concat(itemsWithShelfType);
+                    const filteredItems = cutoffTime > 0
+                        ? itemsWithShelfType.filter(item => normalizeTime(item?.created_time) > cutoffTime)
+                        : itemsWithShelfType;
+                    allItems = allItems.concat(filteredItems);
+
+                    // NeoDB returns newest first. Once we hit older items, we can stop paging.
+                    if (cutoffTime > 0 && filteredItems.length < itemsWithShelfType.length) {
+                        hasNext = false;
+                    }
                 }
-                
-                if (data.pages > page) {
+
+                if (hasNext && data.pages > page) {
                     page++;
                 } else {
                     hasNext = false;
@@ -115,9 +187,12 @@ async function fetchCategory(category) {
 
 async function main() {
     const result = {};
+    const existingData = readExistingData();
 
     for (const category of CATEGORIES) {
-        result[category] = await fetchCategory(category);
+        const existingItems = existingData?.[category] ?? [];
+        const newItems = await fetchCategory(category, existingItems);
+        result[category] = mergeItems(newItems, existingItems);
     }
 
     // Ensure directory exists
