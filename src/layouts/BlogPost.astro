@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import Base from './Base.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Toc from '../components/Toc.astro';
+import LeftSidebar from '../components/LeftSidebar.astro';
 import NavButton from '../components/NavButton.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
@@ -202,6 +203,8 @@ const isDev = import.meta.env.DEV;
 
 	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
 		
+		<LeftSidebar details={{ pubDate, readingTime }} />
+
 		<div class="blog-main-column">
 			<!-- 主内容区 -->
 			<div class='post-content content' id='lightgallery'>

@@ -1,0 +1,81 @@
+---
+interface Props {
+  details: {
+    pubDate: Date;
+    readingTime?: number;
+  };
+}
+
+const { details } = Astro.props;
+const year = details.pubDate.getFullYear();
+---
+
+<aside class="left-sidebar">
+    <div class="decoration">
+        <span class="year">{year}</span>
+        <div class="vertical-line"></div>
+    </div>
+</aside>
+
+<style>
+    .left-sidebar {
+        display: none; /* Hidden on small screens by default */
+    }
+
+    @media (min-width: 1400px) {
+        .left-sidebar {
+            display: block;
+            position: fixed;
+            top: 120px;
+            left: max(16px, calc((100vw - var(--width, 860px)) / 2 - 24px - 60px));
+            width: 60px;
+            /* 调整高度，不占满全屏，更显精致 */
+            height: auto; 
+            max-height: calc(100vh - 160px);
+            z-index: 0;
+            user-select: none;
+        }
+    }
+
+    .decoration {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 400px; /* 装饰区域固定高度，不必太长 */
+        opacity: 0.6;
+    }
+
+    .year {
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        font-family: var(--serif-font);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--gray-color);
+        opacity: 0.15; /* 极淡 */
+        letter-spacing: 0.2em;
+        margin-bottom: 2rem;
+        transform: rotate(180deg); /* 因为 vertical-rl 默认方向问题，旋转一下让文字阅读方向更自然 */
+    }
+
+    .vertical-line {
+        width: 1px;
+        flex: 1;
+        background: linear-gradient(to bottom, 
+            rgba(0,0,0,0.1) 0%,
+            transparent 100%
+        );
+    }
+
+    :root[data-theme="dark"] .year {
+        color: var(--text-color);
+        opacity: 0.1;
+    }
+
+    :root[data-theme="dark"] .vertical-line {
+        background: linear-gradient(to bottom, 
+            rgba(255,255,255,0.1) 0%,
+            transparent 100%
+        );
+    }
+</style>
