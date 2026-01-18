@@ -293,6 +293,118 @@
   ],
   "tv": [
     {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535383512768060000,
+      "item": {
+        "type": "TVSeason",
+        "title": "Pluribus (同乐者 第一季)",
+        "description": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "同乐者 第一季"
+          },
+          {
+            "lang": "en",
+            "text": "Pluribus Season 1"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "众生为一"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "乐合之众"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "万中选一"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "同乐者"
+          },
+          {
+            "lang": "en",
+            "text": "Pluribus"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。"
+          },
+          {
+            "lang": "en",
+            "text": "The most miserable person on Earth must save the world from happiness."
+          },
+          {
+            "lang": "zh-cn",
+            "text": "故事围绕“幸福也会像病毒一样传染”这一概念展开。背景设定在一个与现实世界相似却被微妙扭曲的平行世界中，当快乐突然成为可怕的“传染病”，女主必须想办法在这场全民狂欢中拯救世界。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/11/08/9997f449-ecd3-47a7-b1bb-7ec7a9e3f9e0.jpg",
+        "rating": 7.8,
+        "rating_count": 100,
+        "rating_distribution": [
+          1,
+          3,
+          15,
+          51,
+          30
+        ],
+        "tags": [
+          "2025",
+          "appletv",
+          "drama",
+          "queer",
+          "sf",
+          "剧情",
+          "剧集",
+          "劇 美國",
+          "喜剧",
+          "地区 美国",
+          "年代 2020s",
+          "电视剧",
+          "科幻",
+          "类型 电视剧",
+          "美剧",
+          "美国"
+        ],
+        "brief": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。",
+        "id": "https://neodb.social/tv/season/7NphpScpIBmmilLVespRVs",
+        "uuid": "7NphpScpIBmmilLVespRVs",
+        "url": "/tv/season/7NphpScpIBmmilLVespRVs",
+        "api_url": "/api/tv/season/7NphpScpIBmmilLVespRVs",
+        "category": "tv",
+        "parent_uuid": "4BV9NtWpU3bNFfgEytDoJo",
+        "display_title": "Pluribus (同乐者 第一季)",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/600424"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36352371/"
+          },
+          {
+            "url": "https://fantastika.social/tv/season/1sWGOsLcPOKqdeis2goEoD"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/225171/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T16:02:56.323Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    },
+    {
       "shelf_type": "progress",
       "visibility": 0,
       "post_id": 535336608332279200,
