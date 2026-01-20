@@ -57,6 +57,84 @@ function getDateParts(date: Date) {
 }
 ---
 
+<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
+<style is:global slot="head">
+    .media-grid {
+        display: grid;
+        gap: 6px; /* Slightly larger gap for aesthetics */
+        margin-top: 8px;
+        border-radius: 0;
+        overflow: hidden;
+        width: 100%;
+    }
+    .media-item {
+        display: block;
+        position: relative;
+        overflow: hidden;
+        background-color: #f0f0f0;
+        cursor: zoom-in;
+    }
+    .media-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    .media-item:hover img {
+        transform: scale(1.03);
+    }
+
+    /* Grid Layouts - Compact & Harmonious */
+    
+    /* 1 Image: Max height limited, preserve aspect ratio */
+    .grid-1 { 
+        display: flex;
+        background: transparent;
+        border-radius: 0;
+        overflow: visible;
+    }
+    .grid-1 .media-item {
+        max-height: 320px;
+        max-width: 100%;
+        width: auto;
+        border-radius: 0;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    .grid-1 .media-item img {
+        object-fit: contain;
+        max-height: 320px;
+        width: auto;
+    }
+
+    /* 2 Images: Side by side (Landscape feel) */
+    .grid-2 { 
+        grid-template-columns: repeat(2, 1fr); 
+        aspect-ratio: 5/2; 
+    }
+    
+    /* 3 Images: 3 in a row (Panoramic feel) */
+    .grid-3 { 
+        grid-template-columns: repeat(3, 1fr); 
+        aspect-ratio: 7/2; 
+    }
+    
+    /* 4 Images: 2x2 Grid (Standard) */
+    .grid-4 { 
+        grid-template-columns: repeat(2, 1fr); 
+        aspect-ratio: 3/2; 
+    }
+    
+    /* Mobile adjustments */
+    @media (max-width: 600px) {
+        .media-grid { gap: 4px; border-radius: 0; }
+        .grid-1 .media-item { border-radius: 0; max-height: 250px; }
+        .grid-1 .media-item img { max-height: 250px; }
+        .grid-2 { aspect-ratio: 2/1; }
+        .grid-3 { aspect-ratio: 3/1; }
+    }
+</style>
+
 <Base title={title} description={title}>
 	<div class='gossip-page'>
         <p></p>
@@ -68,8 +146,9 @@ function getDateParts(date: Date) {
                 gossips.length === 0 ? (
                     <div class='empty-state'>暂无碎碎念</div>
                 ) : (
-                    gossips.map((gossip, index) => {
+                    gossips.map((gossip: any, index) => {
                         const { day, month, year } = getDateParts(gossip.data.pubDate);
+                        const attachments = gossip._raw?.media_attachments || [];
                         return (
                             <div class='feed-item' data-index={index}>
                                 <div class="date-col">
@@ -80,6 +159,17 @@ function getDateParts(date: Date) {
                                 <div class='content-col'>
                                     <div class='feed-card'>
                                         <div class='card-body markdown-body' set:html={marked.parse(gossip.body || '')} />
+                                        
+                                        {attachments.length > 0 && (
+                                            <div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+                                                {attachments.slice(0, 4).map((media: any) => (
+                                                    <a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
+                                                        <img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        )}
+                                        
                                         {INCLUDE_DRAFTS && gossip.data.draft && <div class="draft-indicator">DRAFT</div>}
                                     </div>
                                 </div>
@@ -105,6 +195,30 @@ function getDateParts(date: Date) {
 			</nav>
 		)}
 	</div>
+
+    <script is:inline src="/lightgallery/js/lightgallery.min.js"></script>
+    <script is:inline>
+        // Init LightGallery
+        function initGallery() {
+            const grids = document.querySelectorAll('.media-grid');
+            grids.forEach(grid => {
+                if (window.lightGallery) {
+                    window.lightGallery(grid, {
+                        selector: '.media-item',
+                        speed: 500,
+                        download: false
+                    });
+                }
+            });
+        }
+        
+        // Init immediately if ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initGallery);
+        } else {
+            initGallery();
+        }
+    </script>
 
 	<script is:inline define:vars={{ pageSize, totalPages }}>
 		(() => {
