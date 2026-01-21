@@ -4,15 +4,74 @@ import SimpleHeader from '../components/SimpleHeader.astro';
 import { Image } from 'astro:assets';
 import exifr from 'exifr';
 import path from 'path';
+import fs from 'fs';
+import sharp from 'sharp';
 
 // Import all images from src/content/photography
 // 使用 eager: true 以便在构建时处理图片
-const images = import.meta.glob('/src/content/photography/*.{jpg,jpeg,png,webp,gif}', { eager: true });
+const images = import.meta.glob('/src/content/photography/*.{jpg,jpeg,png,webp,gif,heic,HEIC}', { eager: true });
+
+// Ensure output directory exists for converted HEIC images
+const publicDir = path.join(process.cwd(), 'public');
+const convertedDir = path.join(publicDir, 'converted-heic');
+if (!fs.existsSync(convertedDir)) {
+  fs.mkdirSync(convertedDir, { recursive: true });
+}
 
 // Process images with EXIF data
-const processedImages = await Promise.all(
+const processedImagesAll = await Promise.all(
   Object.entries(images).map(async ([filepath, img]: [string, any]) => {
     const absolutePath = path.join(process.cwd(), filepath);
+    const filename = filepath.split('/').pop() || '';
+    const isHeic = filename.toLowerCase().endsWith('.heic');
+    
+    let imageMetadata;
+    
+    // Handle HEIC conversion or standard image
+    if (isHeic) {
+        // Convert HEIC to WebP
+        const outputFilename = filename.replace(/\.(heic|HEIC)$/, '.webp');
+        const outputPath = path.join(convertedDir, outputFilename);
+        const publicPath = path.join('/converted-heic', outputFilename);
+        
+        // Check if conversion is needed (file doesn't exist)
+        // In a real build, we might want to check timestamps, but for now simple existence check
+        if (!fs.existsSync(outputPath)) {
+            try {
+                await sharp(absolutePath)
+                    .toFormat('webp', { quality: 90 })
+                    .toFile(outputPath);
+            } catch (e) {
+                // 避免打印巨大堆栈；此处转换失败将导致该图片被过滤不展示
+                console.warn(`Failed to convert HEIC: ${filepath}`);
+            }
+        }
+        
+        // Get metadata for the converted image
+        try {
+            // If conversion failed, this might fail too
+            if (fs.existsSync(outputPath)) {
+                const metadata = await sharp(outputPath).metadata();
+                imageMetadata = {
+                    src: publicPath,
+                    width: metadata.width,
+                    height: metadata.height,
+                    format: 'webp'
+                };
+            } else {
+                 // Fallback/Error state
+                 imageMetadata = { src: '', width: 0, height: 0, format: 'webp' };
+            }
+        } catch (e) {
+            console.warn(`Failed to read converted image metadata: ${outputPath}`);
+            imageMetadata = { src: '', width: 0, height: 0, format: 'webp' };
+        }
+
+    } else {
+        // Standard image supported by Astro
+        imageMetadata = img.default;
+    }
+
     let exif: any = {};
     try {
       exif = await exifr.parse(absolutePath, [
@@ -31,12 +90,16 @@ const processedImages = await Promise.all(
     }
     
     return {
-      ...img.default,
+      ...imageMetadata,
       exif,
-      filename: filepath.split('/').pop()
+      isHeic,
+      filename: filename
     };
   })
 );
+
+// Filter out conversion failures / invalid entries
+const processedImages = processedImagesAll.filter((img) => img && typeof img.src === 'string' && img.src.length > 0);
 
 // Helper to format exposure time
 function formatExposureTime(t: number) {
@@ -101,13 +164,25 @@ const description = "定格时间，留住感动";
             `}
           >
               <div class="image-wrapper">
-                  <Image 
-                    src={img} 
-                    alt={img.filename} 
-                    width={1200} 
-                    quality={90} 
-                    class="gallery-img" 
-                  />
+                  {img.isHeic ? (
+                    <img
+                      src={img.src}
+                      alt={img.filename}
+                      width={img.width}
+                      height={img.height}
+                      class="gallery-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Image
+                      src={img}
+                      alt={img.filename}
+                      width={1200}
+                      quality={90}
+                      class="gallery-img"
+                    />
+                  )}
                   <div class="overlay">
                       <div class="overlay-content">
                         <div class="zoom-icon">

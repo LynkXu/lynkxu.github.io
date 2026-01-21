@@ -21,4 +21,7 @@ export default defineConfig({
 			wrap: true, // 强制换行
 		},
 	},
+	vite: {
+		assetsInclude: ['**/*.HEIC', '**/*.heic'],
+	},
 });
