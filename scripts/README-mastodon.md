@@ -37,6 +37,45 @@ npm run build
 
 在 Mastodon 上发布的所有公开嘟文都会自动同步到网站。
 
+## 博客文章自动发布到 Mastodon（部署成功后）
+
+仓库已集成“**新增中文博客文章后，部署成功才发布到 Mastodon**”的流程：
+
+- 工作流：`.github/workflows/astro.yml` 中的 `publish_mastodon` job（`needs: deploy`）
+- 发布脚本：`scripts/publish-blog-to-mastodon.mjs`
+- 去重状态：`src/data/mastodon-published.json`（用于避免重复发布同一篇文章）
+
+### 需要配置的 Secrets
+
+在 GitHub Repo -> Settings -> Secrets and variables -> Actions 里添加：
+
+- `MASTODON_INSTANCE`：例如 `https://mastodon.social`
+- `MASTODON_ACCESS_TOKEN`：用于发布（需要具备 `write:statuses` 权限）
+
+### 如何获取 Access Token（建议做法）
+
+在你的 Mastodon 实例中创建一个应用（App），授权后拿到 access token，权限至少包含：
+
+- `write:statuses`
+
+### 本地调试/手动运行
+
+脚本会根据 git diff 自动识别“新增”的博客 Markdown 文件，并发布：**标题 +（可选）摘要 + 链接**。
+
+```bash
+MASTODON_INSTANCE="https://mastodon.social" \
+MASTODON_ACCESS_TOKEN="xxxx" \
+BASE_SHA="<oldSha>" \
+HEAD_SHA="<newSha>" \
+node scripts/publish-blog-to-mastodon.mjs
+```
+
+可选参数：
+
+- `SITE_URL`：覆盖站点域名（默认从 `astro.config.mjs` 读取 `site`）
+- `MASTODON_VISIBILITY`：默认 `public`
+- `MASTODON_CHAR_LIMIT`：默认 `500`
+
 ## 工作原理
 
 1. **数据获取**：脚本调用 Mastodon 公开 API，无需访问令牌
