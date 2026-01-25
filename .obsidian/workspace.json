@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/2026-01-19-blog/2026-01-19.md",
+                "file": "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
                 "mode": "source",
-                "source": false
+                "source": true
               },
               "icon": "lucide-file",
-              "title": "2026-01-19"
+              "title": "2026-01-25"
             }
           }
         ],
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/blog/2026-01-19-blog/2026-01-19.md",
+                "file": "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-01-19 的反向链接列表"
+              "title": "2026-01-25 的反向链接列表"
             }
           },
           {
@@ -200,6 +200,9 @@
   },
   "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "src/content/blog/2026-01-19-blog/2026-01-19.md",
+    "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
+    "src/content/blog/2026-01-25-blog-sync",
     "src/content/blog/2026-01-25-test/test-2.md",
     "src/content/blog/2026-01-25-test",
     "src/content/blog/2026-01-24-test/test-2.md",
@@ -208,7 +211,6 @@
     "scripts/publish-blog-to-mastodon.mjs",
     "src/data/mastodon-published.json",
     "src/content/blog/age24/2022-03-01-age24.md",
-    "src/content/blog/2026-01-19-blog/2026-01-19.md",
     "src/content/photography/winter-cat-2.jpeg",
     "src/content/photography/winter-cat-1.jpeg",
     "dist/sitemap-index.xml",
@@ -216,7 +218,6 @@
     "dist/index.html",
     "dist/friends/index.html",
     "dist/friends",
-    "dist/projects/index.html",
     "dist/_astro/thumbnail.UTvGGEIF.jpg",
     "dist/_astro/thumbnail.DYSx6Sp5.jpg",
     "dist/_astro/thumbnail.CqYFMfK8.jpg",
