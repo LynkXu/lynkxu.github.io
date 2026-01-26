@@ -1,5 +1,16 @@
 [
   {
+    "url": "https://lynkxu.com/blog/2026-01-26-test-1.html/",
+    "postId": "2026-01-26-test-1",
+    "title": "test",
+    "sourcePath": "src/content/blog/2026-01-26-test/2026-01-26.md",
+    "tootId": "115958977325555806",
+    "tootUrl": "https://mastodon.social/@lynkxu/115958977325555806",
+    "visibility": "public",
+    "commit": "dd72845b62d52be3fad12cb901be31451c74de59",
+    "publishedAt": "2026-01-26T02:12:55.659Z"
+  },
+  {
     "url": "https://lynkxu.com/blog/2026-01-25-blog-sync.html/",
     "postId": "2026-01-25-blog-sync",
     "title": "博客同步工作流",
