@@ -191,6 +191,13 @@ function transformStatus(status) {
     };
 }
 
+// Check if a status should be filtered out (e.g., blog sync posts)
+function shouldFilterStatus(status) {
+    const tags = status.tags.map(tag => tag.name.toLowerCase());
+    // 过滤掉从博客同步过来的文章
+    return tags.includes('blogsync');
+}
+
 // Merge new and existing data, removing duplicates
 function mergeData(newStatuses, existingData) {
     const merged = [...newStatuses, ...existingData];
@@ -228,8 +235,12 @@ async function main() {
         // Fetch statuses
         const statuses = await fetchStatuses(MASTODON_INSTANCE, accountId, existingData);
         
+        // Filter out blog sync posts
+        const filteredStatuses = statuses.filter(status => !shouldFilterStatus(status));
+        console.log(`Filtered out ${statuses.length - filteredStatuses.length} blog sync posts`);
+        
         // Transform statuses
-        const transformed = statuses.map(transformStatus);
+        const transformed = filteredStatuses.map(transformStatus);
         
         // Merge with existing data
         const merged = mergeData(transformed, existingData);

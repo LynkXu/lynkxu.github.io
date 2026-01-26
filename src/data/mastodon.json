@@ -1,31 +1,5 @@
 [
   {
-    "id": "115955749262204621",
-    "created_at": "2026-01-25T12:31:58.577Z",
-    "content_html": "<p>《博客同步工作流》</p><p><a href=\"https://lynkxu.com/blog/2026-01-25-blog-sync.html/\" target=\"_blank\" rel=\"nofollow noopener\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"ellipsis\">lynkxu.com/blog/2026-01-25-blo</span><span class=\"invisible\">g-sync.html/</span></a></p>",
-    "content_markdown": "《博客同步工作流》\n\nhttps://lynkxu.com/blog/2026-01-25-blog-sync.html/",
-    "url": "https://mastodon.social/@lynkxu/115955749262204621",
-    "visibility": "public",
-    "tags": [],
-    "media_attachments": [],
-    "favourites_count": 0,
-    "reblogs_count": 0,
-    "replies_count": 0
-  },
-  {
-    "id": "115955170585287550",
-    "created_at": "2026-01-25T10:04:48.670Z",
-    "content_html": "<p>《测试一下博文同步-2》</p><p><a href=\"https://lynkxu.com/blog/2026-01-25-test-2.html/\" target=\"_blank\" rel=\"nofollow noopener\" translate=\"no\"><span class=\"invisible\">https://</span><span class=\"ellipsis\">lynkxu.com/blog/2026-01-25-tes</span><span class=\"invisible\">t-2.html/</span></a></p>",
-    "content_markdown": "《测试一下博文同步-2》\n\nhttps://lynkxu.com/blog/2026-01-25-test-2.html/",
-    "url": "https://mastodon.social/@lynkxu/115955170585287550",
-    "visibility": "public",
-    "tags": [],
-    "media_attachments": [],
-    "favourites_count": 0,
-    "reblogs_count": 0,
-    "replies_count": 0
-  },
-  {
     "id": "115942521051819803",
     "created_at": "2026-01-23T04:27:52.117Z",
     "content_html": "<p>膝盖伤了，这个月破 100 km 的目标难了。。。欲速则不达.jpg</p>",
@@ -79,7 +53,7 @@
   {
     "id": "115919311135144407",
     "created_at": "2026-01-19T02:05:16.884Z",
-    "content_html": "<p>今天翻到别人的博客，发现了 elog 这个项目，觉得这种方式不错，可以更方便的管理自己的文章。<br />但似乎就要弄一个图床了，果然折腾是没有止境的</p>",
+    "content_html": "<p>今天翻到别人的博客，发现了 elog 这个项目，觉得这种方式不错，可以更方便的管理自己的文章。<br />但似乎就要弄一个图床了,果然折腾是没有止境的</p>",
     "content_markdown": "今天翻到别人的博客，发现了 elog 这个项目，觉得这种方式不错，可以更方便的管理自己的文章。\n但似乎就要弄一个图床了，果然折腾是没有止境的",
     "url": "https://mastodon.social/@lynkxu/115919311135144407",
     "visibility": "public",

@@ -159,15 +159,17 @@ function computePostId(relFileFromRepoRoot, frontmatter) {
 
 function buildStatusText({ title, description, url }) {
 	const titleLine = `《${title}》`;
+	const blogSyncTag = '#BlogSync'; // 标记这是从博客同步过来的文章
 	const parts = [titleLine];
 	if (description && description.trim()) parts.push(description.trim());
 	parts.push(url);
+	parts.push(blogSyncTag);
 
 	let status = parts.join('\n\n').trim();
 	if (status.length <= STATUS_CHAR_LIMIT) return status;
 
-	// Truncate description first, always keep title + url.
-	const fixed = [titleLine, url].join('\n\n');
+	// Truncate description first, always keep title + url + tag.
+	const fixed = [titleLine, url, blogSyncTag].join('\n\n');
 	const remaining = Math.max(0, STATUS_CHAR_LIMIT - fixed.length - 2); // -2 for extra '\n\n' before url if needed
 	if (!description || remaining <= 0) return fixed.slice(0, STATUS_CHAR_LIMIT);
 
@@ -175,7 +177,7 @@ function buildStatusText({ title, description, url }) {
 	const trimmed = description.trim();
 	const maxDesc = Math.max(0, remaining - ellipsis.length);
 	const shortDesc = maxDesc > 0 ? trimmed.slice(0, maxDesc) + ellipsis : '';
-	return [titleLine, shortDesc, url].filter(Boolean).join('\n\n').trim().slice(0, STATUS_CHAR_LIMIT);
+	return [titleLine, shortDesc, url, blogSyncTag].filter(Boolean).join('\n\n').trim().slice(0, STATUS_CHAR_LIMIT);
 }
 
 async function postToMastodon({ instance, token, status, visibility }) {
