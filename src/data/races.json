@@ -1,0 +1,17 @@
+{
+  "races": [
+    {
+      "date": "2026-03-21",
+      "year": "2026",
+      "name": "桐乡半程马拉松",
+      "type": "半马",
+      "distance": "21.0975",
+      "location": "浙江",
+      "status": "upcoming",
+      "time": "",
+      "pace": "",
+      "rank": "",
+      "note": "首次半马"
+    }
+  ]
+}
