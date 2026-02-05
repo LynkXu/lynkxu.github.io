@@ -39,7 +39,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 		<ul class='posts'>
 			{
 				recentPosts.map((post) => {
-					const slug = post.id.replace('en/', '');
+					const slug = (post.data.slug ?? post.id).replace(/^en\//, '');
 					return (
 					<li>
 						<span>

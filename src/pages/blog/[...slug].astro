@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 	const posts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
 	return posts.map((post) => ({
 		// 添加 .html 后缀，使博客文章以 .html 结尾
-		params: { slug: `${post.id}.html` },
+		params: { slug: `${post.data.slug ?? post.id}.html` },
 		props: post,
 	}));
 }

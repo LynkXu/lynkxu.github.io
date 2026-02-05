@@ -7,8 +7,8 @@ export async function getStaticPaths() {
 	const posts = filterDrafts(await getCollection('blog')).filter(p => p.id.startsWith('en/'));
 	return posts.map((post) => ({
 		// Remove 'en/' prefix for the slug
-        // ID: en/slug -> Slug: slug.html
-		params: { slug: `${post.id.replace('en/', '')}.html` },
+		// slug: en/slug -> slug.html
+		params: { slug: `${(post.data.slug ?? post.id).replace(/^en\//, '')}.html` },
 		props: post,
 	}));
 }

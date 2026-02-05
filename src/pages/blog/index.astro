@@ -42,7 +42,7 @@ const years = Object.keys(postsByYear)
 										<FormattedDate date={post.data.pubDate} />
 									</span>
 									<div>
-										<a href={`/blog/${post.id}.html`} transition:name={`post-title-${post.id}`}>
+										<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
 											{post.data.title}
 										</a>
 										{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}

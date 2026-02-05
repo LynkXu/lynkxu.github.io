@@ -39,7 +39,7 @@ const years = Object.keys(postsByYear)
 						<h3 class='year-title'>{year}</h3>
 						<ul class='posts'>
 							{postsByYear[year].map((post) => {
-								const slug = post.id.replace('en/', '');
+								const slug = (post.data.slug ?? post.id).replace(/^en\//, '');
 								return (
 								<li>
 									<span>

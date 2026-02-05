@@ -18,6 +18,7 @@ const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.
 // 创建搜索索引数据
 const searchData = posts.map((post) => ({
 	id: post.id,
+	slug: post.data.slug ?? post.id,
 	title: post.data.title,
 	description: post.data.description || '',
 	pubDate: post.data.pubDate.toISOString(),
@@ -170,7 +171,8 @@ const texts = currentLang === 'en' ? {
 						var draftHtml = post.draft ? '<span class="draft-badge" aria-label="' + texts.draftBadge + '">' + texts.draftBadge + '</span>' : '';
 
 						// 根据语言确定博客 URL
-						var blogUrl = currentLang === 'en' ? '/en/blog/' + post.id.replace('en/', '') + '.html' : '/blog/' + post.id + '.html';
+						var normalizedSlug = post.slug.replace(/^en\//, '');
+						var blogUrl = currentLang === 'en' ? '/en/blog/' + normalizedSlug + '.html' : '/blog/' + post.slug + '.html';
 
 						return '<div class="result-item">' +
 							'<div class="result-header">' +
