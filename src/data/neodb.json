@@ -140,6 +140,216 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 542964371471658800,
+      "item": {
+        "type": "Movie",
+        "title": "海绵宝宝4",
+        "description": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。",
+        "localized_title": [
+          {
+            "lang": "af",
+            "text": "Spongebob Movie 4"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝4"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：深海大冒险"
+          },
+          {
+            "lang": "en",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝电影版：寻宝大冒险(台)"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：深海寻“宝”(港)"
+          },
+          {
+            "lang": "ko",
+            "text": "스폰지밥 무비: 네모바지를 찾아서"
+          },
+          {
+            "lang": "ja",
+            "text": "劇場版スポンジ・ボブ　呪われた海賊と大冒険だワワワワワ！"
+          },
+          {
+            "lang": "pt",
+            "text": "Spongebob O Filme: À Procura das Calças Quadradas"
+          },
+          {
+            "lang": "de",
+            "text": "SpongeBob Schwammkopf: Piraten Ahoi!"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l'éponge, le film : Un pour tous, tous pirates !"
+          },
+          {
+            "lang": "es",
+            "text": "Bob Esponja: Una aventura pirata"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "海綿寶寶：深海尋「寶」"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh-sg",
+            "text": "海绵宝宝电影版：寻宝大冒险"
+          },
+          {
+            "lang": "es",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l'éponge - Le film : un pour tous, tous pirates !"
+          },
+          {
+            "lang": "pt",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "ja",
+            "text": "劇場版スポンジ・ボブ 呪われた海賊と大冒険だワワワワワ!"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：寻找方裤子"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。"
+          },
+          {
+            "lang": "ko",
+            "text": "비키니시티에 사는 스폰지밥은 무시무시한 롤러코스터를 탈 수 있는 용감한 ‘빅 가이’가 꿈이다. 그러던 어느 날, 미지의 세계 ‘언더월드’에 사는 유령선장을 만나 ‘용감무쌍짱 증명서’를 받으면 진정한 ‘빅 가이’가 될 수 있다는 말을 들은 스폰지밥은 절친 뚱이와 함께 해적선을 찾아 위험천만한 모험을 떠난다. 그 사실을 안 집게사장과 징징이, 핑핑이는 스폰지밥을 구하기 위해 따라나서는데…"
+          },
+          {
+            "lang": "pt",
+            "text": "Desejoso de provar que é um verdadeiro herói, o SpongeBob parte numa aventura para demonstrar a sua coragem ao Mr. Krabs, seguindo O Holandês Voador – um misterioso e aventureiro pirata fantasma – numa comédia marítima que o leva às profundezas do oceano, onde nenhum esponja jamais esteve."
+          },
+          {
+            "lang": "de",
+            "text": "In ihrem brandneuen und bisher größten Kinoabenteuer, SPONGEBOB SCHWAMMKOPF: PIRATEN AHOI!, stechen SpongeBob und seine Freunde aus Bikini Bottom in See! SpongeBob, der endlich auch zu den Großen gehören möchte und Mr. Krabs seinen Mut beweisen will, folgt dem Fliegenden Holländer - einem mysteriösen, verwegenen Geisterpiraten. Und so beginnt ein rasantes und witziges Seefahrts-Abenteuer, das ihn in die tiefsten Tiefen der Tiefsee führt, wo noch kein Schwamm zuvor gewesen ist."
+          },
+          {
+            "lang": "fr",
+            "text": "Bien décidé à prouver à M. Krabs qu’il est désormais un grand garçon, Bob se lance sur les traces du légendaire Hollandais Volant, un redoutable pirate fantôme. Cap sur une épopée déjantée, entre fous rires, frissons et péripéties sous-marines, jusque dans les abysses les plus mystérieux de l’océan — là où aucune éponge n’a jamais osé plonger !"
+          },
+          {
+            "lang": "en",
+            "text": "Desperate to be a big guy, SpongeBob sets out to prove his bravery to Mr. Krabs by following The Flying Dutchman – a mysterious swashbuckling ghost pirate – on a seafaring adventure that takes him to the deepest depths of the deep sea, where no Sponge has gone before."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "海綿寶寶與成班死黨再次衝出比奇堡，展開前所未有的全新冒險！渴望證明自己已長大的海綿寶寶，為了向蟹老闆展示自己的勇氣，決定穿越深海黑暗領域，追蹤神出鬼沒的幽靈海盜「飛行荷蘭人」！估不到這段爆笑又驚險的旅程，會把他帶到從未涉足的深海秘境。"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "為了成為一個大人物，海綿寶寶決定向蟹老闆證明自己的勇氣，追隨神祕又充滿傳奇色彩的幽靈海盜，飛行荷蘭人，踏上一場充滿笑料與驚奇的航海冒險旅程，而這場大冒險也將帶他深入他從來沒有去過的海底最深處。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝和他的朋友们派大星、章鱼哥、珊迪以及蟹老板前往海洋深处面对飞翔的荷兰人幽灵，遭遇挑战并揭开海洋奥秘。"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "2025年的動畫電影"
+          },
+          {
+            "lang": "en",
+            "text": "2025 animated film directed by Derek Drymon"
+          },
+          {
+            "lang": "es",
+            "text": "película animada de 2025 dirigida por Derek Drymon"
+          },
+          {
+            "lang": "fr",
+            "text": "film d'animation américain sorti en 2025"
+          },
+          {
+            "lang": "pt",
+            "text": "filme de 2025 dirigido por Derek Drymon"
+          },
+          {
+            "lang": "ja",
+            "text": "2025年のアメリカ合衆国の映画"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l’Éponge et ses amis quittent Bikini Bottom pour leur plus grande aventure ! Voulant prouver qu’il est un grand garçon, Bob invoque par erreur le terrifiant Hollandais Volant, un pirate fantôme légendaire. Propulsés dans une quête délirante, Bob et Patrick devront relever des défis titanesques, suivis de près par une équipe de sauvetage. Au fil des épreuves, Bob découvre que le véritable courage réside dans l’amitié : ensemble, ils peuvent affronter l’inconnu et briller plus fort que jamais."
+          },
+          {
+            "lang": "en",
+            "text": "SpongeBob and his Bikini Bottom friends set sail in their biggest, all-new, can’t miss cinematic event ever…The SpongeBob Movie: Search for SquarePants. Desperate to be a big guy, SpongeBob sets out to prove his bravery to Mr. Krabs by following The Flying Dutchman – a mysterious swashbuckling ghost pirate – on a seafaring comedy-adventure that takes him to the deepest depths of the deep sea, where no Sponge has gone before. "
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/07/22/770a20c5-a154-4366-8b6f-96615ffc6f52.jpg",
+        "rating": null,
+        "rating_count": 2,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。",
+        "id": "https://neodb.social/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "uuid": "2gKDnKmstSVAhxNzcrjMyB",
+        "url": "/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "api_url": "/api/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "海绵宝宝4",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt23572848/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36389635/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/991494"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q118847776"
+          },
+          {
+            "url": "https://bgm.tv/subject/465185"
+          }
+        ]
+      },
+      "created_time": "2026-02-07T14:06:33.897Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": []
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 537830609052878400,
       "item": {
         "type": "Movie",
