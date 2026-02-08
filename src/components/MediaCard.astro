@@ -30,9 +30,13 @@ const starCount = rating ? Math.round(rating / 2) : 0;
 <a href={link} target="_blank" rel="noopener noreferrer" class="media-card">
     <div class="cover-wrapper">
         <img src={cover} alt={title} loading="lazy" onerror="this.src='/placeholder.png'"/>
-        {neodbRating && <span class="badge-rating">{neodbRating}</span>}
+        {(neodbRating || (year && year !== '未知')) && (
+            <div class="badge-top-right">
+                {neodbRating && <span class="badge-rating">{neodbRating}</span>}
+                {year && year !== '未知' && <span class="badge-year">{year}</span>}
+            </div>
+        )}
         {status === 'progress' && <span class="badge-status">在看</span>}
-        {year && <span class="badge-year">{year}</span>}
         <div class="cover-overlay">
             {starCount > 0 && (
                 <div class="overlay-stars">
@@ -92,9 +96,7 @@ const starCount = rating ? Math.round(rating / 2) : 0;
 
     /* ── Badges ── */
     .badge-rating {
-        position: absolute;
-        top: 5px;
-        right: 5px;
+        position: static;
         background: rgba(0, 0, 0, 0.6);
         color: #fff;
         font-size: 0.62rem;
@@ -103,7 +105,6 @@ const starCount = rating ? Math.round(rating / 2) : 0;
         border-radius: 3px;
         backdrop-filter: blur(4px);
         letter-spacing: 0.02em;
-        z-index: 2;
     }
 
     .badge-status {
@@ -121,9 +122,7 @@ const starCount = rating ? Math.round(rating / 2) : 0;
     }
 
     .badge-year {
-        position: absolute;
-        bottom: 5px;
-        left: 5px;
+        position: static;
         background: rgba(0, 0, 0, 0.55);
         color: #fff;
         font-size: 0.58rem;
@@ -132,6 +131,18 @@ const starCount = rating ? Math.round(rating / 2) : 0;
         border-radius: 3px;
         backdrop-filter: blur(4px);
         letter-spacing: 0.03em;
+    }
+
+    .badge-top-right {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        white-space: nowrap;
         z-index: 2;
     }
 
@@ -199,7 +210,7 @@ const starCount = rating ? Math.round(rating / 2) : 0;
     .title {
         margin: 0;
         font-size: 0.75rem;
-        font-weight: 400;
+        font-weight: 600;
         color: var(--text-color);
         line-height: 1.35;
         display: -webkit-box;
