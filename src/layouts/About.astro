@@ -120,43 +120,49 @@ const { title } = Astro.props;
 			border-color: rgba(255, 255, 255, 0.35);
 		}
 
-		/* 更多导航 */
+		/* 更多导航 — 网格布局 */
 		.about-page :global(.more-nav) {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: 0.15rem;
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 0.5rem;
 			margin: 0.5rem 0;
 		}
 
 		.about-page :global(.more-nav a) {
-			font-size: 0.95rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0.5rem 0.6rem;
+			font-size: 0.88rem;
 			color: var(--text-color) !important;
-			text-decoration: underline !important;
-			text-underline-offset: 3px;
-			text-decoration-color: rgba(0, 0, 0, 0.2) !important;
-			border-bottom: none !important;
-			transition: text-decoration-color 0.15s;
+			text-decoration: none !important;
+			border: 1px solid rgba(0, 0, 0, 0.08);
+			border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+			transition: border-color 0.15s, background 0.15s;
+			white-space: nowrap;
 		}
 
 		.about-page :global(.more-nav a:hover) {
-			text-decoration-color: var(--text-color) !important;
-			border-bottom: none !important;
-		}
-
-		.about-page :global(.more-nav .sep) {
-			color: var(--gray-color);
-			font-size: 0.85rem;
-			padding: 0 0.35rem;
-			user-select: none;
+			border-color: rgba(0, 0, 0, 0.25);
+			border-bottom-color: rgba(0, 0, 0, 0.25) !important;
+			background: rgba(0, 0, 0, 0.02);
 		}
 
 		:global([data-theme='dark']) .about-page :global(.more-nav a) {
-			text-decoration-color: rgba(255, 255, 255, 0.25) !important;
+			border-color: rgba(255, 255, 255, 0.1);
+			border-bottom-color: rgba(255, 255, 255, 0.1) !important;
 		}
 
 		:global([data-theme='dark']) .about-page :global(.more-nav a:hover) {
-			text-decoration-color: var(--text-color) !important;
+			border-color: rgba(255, 255, 255, 0.25);
+			border-bottom-color: rgba(255, 255, 255, 0.25) !important;
+			background: rgba(255, 255, 255, 0.03);
+		}
+
+		@media (max-width: 520px) {
+			.about-page :global(.more-nav) {
+				grid-template-columns: repeat(2, 1fr);
+			}
 		}
 
 		/* 联系方式列表 */

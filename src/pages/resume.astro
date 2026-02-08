@@ -1,0 +1,340 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+
+const title = "Resume";
+const description = "Lin Xu";
+---
+
+<Base title={title} description={description} useCard={false} hideHeader={true}>
+  <SimpleHeader title="Resume" description={description} />
+  <div class="cv-card">
+
+    <!-- Header -->
+    <div class="cv-header">
+      <h1>Lin Xu</h1>
+      <div class="cv-contact">
+        <a href="mailto:linxu98@outlook.com">linxu98@outlook.com</a>
+        <span class="sep">|</span>
+        <span>Shanghai, China</span>
+        <span class="sep">|</span>
+        <a href="https://github.com/lynkxu" target="_blank" rel="noopener noreferrer">github.com/lynkxu</a>
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="cv-section">
+      <h2>Experience</h2>
+
+      <div class="cv-entry">
+        <div class="cv-entry-header">
+          <strong>Software Engineer</strong>
+          <span class="cv-date">2025.05 – Present</span>
+        </div>
+        <div class="cv-sub">GOAT GROUP · Shanghai</div>
+        <ul>
+          <li>Collaborated with US-based engineering teams to build inference tracking and catalog orchestration systems, coordinating 5+ microservices through event-driven architecture for automated product data processing</li>
+          <li>Developed distributed scraping infrastructure for 5+ retail partners with Redis rate limiting and custom inference algorithms, processing 10K+ products daily</li>
+        </ul>
+      </div>
+
+      <div class="cv-entry">
+        <div class="cv-entry-header">
+          <strong>Go Software Development Engineer</strong>
+          <span class="cv-date">2023.04 – 2025.05</span>
+        </div>
+        <div class="cv-sub">Dewu (Poizon) · Shanghai</div>
+
+        <div class="cv-project-name">Creative Comprehensive Management Platform</div>
+        <ul>
+          <li>Built centralized auditing system for AIGC creative content, significantly improving auditing efficiency and accuracy</li>
+          <li>Reduced 80% of slow SQL queries through index optimization, table structure adjustment, and pre-ES queries</li>
+          <li>Used streaming uploads to solve potential OOM issues; combined ES and Flink to address high-concurrency large data volume synchronization</li>
+          <li>Completed smooth migration and update of 10M+ historical records to ensure business continuity</li>
+          <li>Independently developed new modules across multiple departments, realizing business automation and full-cycle data circulation</li>
+        </ul>
+
+        <div class="cv-project-name">Advertising Delivery Management Platform</div>
+        <ul>
+          <li>Used StarRocks for report data storage and Kafka for large wide table synchronization</li>
+          <li>Interfaced with TikTok / WeChat / Facebook / Google / Bing to implement full-cycle ad delivery from authorization to attribution and reporting</li>
+        </ul>
+      </div>
+
+      <div class="cv-entry">
+        <div class="cv-entry-header">
+          <strong>Go Backend Development Intern</strong>
+          <span class="cv-date">2022.06 – 2022.09</span>
+        </div>
+        <div class="cv-sub">Qiniu Cloud · Shanghai</div>
+        <ul>
+          <li>Optimized HLS transcoding by appending m3u8 files and async task processing, reducing first-frame latency by 98%</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Education -->
+    <div class="cv-section">
+      <h2>Education</h2>
+
+      <div class="cv-entry">
+        <div class="cv-entry-header">
+          <strong>M.S. Computer Science — Shanghai Jiao Tong University</strong>
+          <span class="cv-date">2020.09 – 2023.03</span>
+        </div>
+      </div>
+
+      <div class="cv-entry">
+        <div class="cv-entry-header">
+          <strong>B.S. Network Engineering — Shandong Univ. of Sci. & Tech.</strong>
+          <span class="cv-date">2015.09 – 2019.06</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="cv-section">
+      <h2>Skills</h2>
+      <ul class="cv-flat-list">
+        <li><strong>Languages:</strong> Go (2+ years), Java, Python, Ruby, HTML/CSS</li>
+        <li><strong>Frameworks & Tools:</strong> Gin, Gorm, gRPC, AWS SDK, Kafka, Docker</li>
+        <li><strong>Databases:</strong> DynamoDB, MySQL, StarRocks, Redis, ElasticSearch</li>
+        <li><strong>Others:</strong> AI-Assisted Development (Cursor / Claude Code)</li>
+      </ul>
+    </div>
+
+    <!-- Others -->
+    <div class="cv-section">
+      <h2>Others</h2>
+      <ul class="cv-flat-list">
+        <li><strong>Paper:</strong> L. Xu and H. Zhong, "Detecting Inconsistent Thrown Exceptions," ICPC, 2021, pp. 391-395 (CCF-B)</li>
+        <li><strong>Scholarship:</strong> Huawei Scholarship 2021, Shanghai Jiao Tong University</li>
+        <li><strong>Activities:</strong> Volunteer for COVID-19</li>
+      </ul>
+    </div>
+
+    <!-- Download -->
+    <div class="cv-download">
+      <a href="/linxu-cv-en-latest.pdf" target="_blank" rel="noopener noreferrer" class="download-link">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Download PDF</span>
+      </a>
+    </div>
+
+  </div>
+
+  <style>
+    .cv-card {
+      max-width: var(--width);
+      width: 90%;
+      margin: 40px auto;
+      padding: 32px 52px;
+      background-color: var(--content-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    @media (max-width: 768px) {
+      .cv-card {
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        padding: 18px 20px;
+      }
+    }
+
+    /* ── Header ── */
+    .cv-header {
+      text-align: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.7rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    :global([data-theme='dark']) .cv-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .cv-header h1 {
+      font-family: var(--serif-font);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 0.25rem;
+      color: var(--heading-color);
+      letter-spacing: 0.03em;
+    }
+
+    .cv-contact {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      font-size: 0.82rem;
+      color: var(--gray-color);
+    }
+
+    .cv-contact a {
+      color: var(--text-color);
+      text-decoration: none;
+      border-bottom: none;
+    }
+
+    .cv-contact a:hover {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      border-bottom: none;
+    }
+
+    .cv-contact .sep {
+      opacity: 0.3;
+      user-select: none;
+    }
+
+    /* ── Section ── */
+    .cv-section {
+      margin-bottom: 0.9rem;
+    }
+
+    .cv-section h2 {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--heading-color);
+      margin: 0 0 0.45rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1.5px solid var(--heading-color);
+    }
+
+    /* ── Entry ── */
+    .cv-entry {
+      margin-bottom: 0.7rem;
+    }
+
+    .cv-entry:last-child {
+      margin-bottom: 0;
+    }
+
+    .cv-entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.8rem;
+    }
+
+    .cv-entry-header strong {
+      font-size: 0.88rem;
+      color: var(--heading-color);
+    }
+
+    .cv-sub {
+      font-size: 0.82rem;
+      color: var(--gray-color);
+      margin-top: 0;
+    }
+
+    .cv-date {
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      color: var(--gray-color);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .cv-entry-header {
+        flex-direction: column;
+        gap: 0;
+      }
+    }
+
+    /* ── Project name ── */
+    .cv-project-name {
+      font-size: 0.84rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--text-color);
+      margin: 0.35rem 0 0.05rem;
+    }
+
+    /* ── Lists ── */
+    .cv-card ul {
+      margin: 0.1rem 0 0;
+      padding-left: 1.1rem;
+    }
+
+    .cv-card li {
+      font-size: 0.83rem;
+      line-height: 1.5;
+      color: var(--text-color);
+      margin-bottom: 0;
+    }
+
+    .cv-card li:last-child {
+      margin-bottom: 0;
+    }
+
+    .cv-card li::marker {
+      color: var(--gray-color);
+      font-size: 0.6em;
+    }
+
+    /* ── Flat list (Skills / Others) ── */
+    .cv-flat-list {
+      padding-left: 1.1rem;
+    }
+
+    .cv-flat-list li {
+      font-size: 0.83rem;
+      line-height: 1.45;
+      margin-bottom: 0.05rem;
+    }
+
+    .cv-flat-list strong {
+      color: var(--heading-color);
+      font-weight: 600;
+    }
+
+    /* ── Download ── */
+    .cv-download {
+      display: flex;
+      justify-content: center;
+      padding-top: 1rem;
+      margin-top: 0.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    :global([data-theme='dark']) .cv-download {
+      border-top-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-color);
+      text-decoration: none;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      transition: border-color 0.15s;
+    }
+
+    :global([data-theme='dark']) .download-link {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .download-link:hover {
+      border-color: rgba(0, 0, 0, 0.3);
+    }
+
+    :global([data-theme='dark']) .download-link:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .download-link svg {
+      color: var(--gray-color);
+      flex-shrink: 0;
+    }
+  </style>
+</Base>
