@@ -209,6 +209,15 @@ body {
   }
 }
 
+/* 透明布局下的 Footer：与内容区对齐 */
+.global-layout-transparent footer {
+    max-width: var(--content-width);
+    width: 90%;
+    margin: 0 auto;
+    padding: 1.2rem 0;
+    box-sizing: border-box;
+}
+
 /* 全宽模式下的无卡片布局 */
 body.full-width .global-layout-transparent {
     max-width: 1200px; /* 或者 100% */

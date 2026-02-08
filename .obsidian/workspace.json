@@ -200,6 +200,7 @@
   },
   "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "src/pages/copyright.astro",
     "src/data/races.json",
     "src/content/blog/2026-01-26-test/2026-01-26.md",
     "src/content/blog/2026-01-26-test/2026-01-25.md",
@@ -220,7 +221,6 @@
     "dist/sitemap-index.xml",
     "dist/sitemap-0.xml",
     "dist/index.html",
-    "dist/friends/index.html",
     "dist/_astro/thumbnail.UTvGGEIF.jpg",
     "dist/_astro/thumbnail.DYSx6Sp5.jpg",
     "dist/_astro/thumbnail.CqYFMfK8.jpg",

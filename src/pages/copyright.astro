@@ -1,0 +1,279 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+
+const title = "版权声明";
+const description = "Copyright Notice";
+const currentYear = new Date().getFullYear();
+---
+
+<Base title={title} description={description} useCard={false} hideHeader={true}>
+  <SimpleHeader title="Copyright" description={description} />
+  <div class="copyright-card">
+
+    <div class="copyright-hero">
+        <span class="copyright-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M14.83 14.83a4 4 0 1 1 0-5.66"/>
+          </svg>
+        </span>
+        <h1>版权声明</h1>
+        <p class="copyright-sub">© 2020 – {currentYear} LynkXu · All Rights Reserved</p>
+      </div>
+
+      <div class="declaration">
+        <p>本人依法享有本网站所有原创内容的完整著作权及版权权益。</p>
+        <p>任何个人或机构未经本人授权许可，严禁擅自转载、摘编、复制或以其他任何形式使用本站内容。</p>
+        <p>如有转载需求，请通过邮箱与本人取得直接联系。侵权必究，特此严正声明。</p>
+      </div>
+
+      <div class="rules-section">
+        <h2>转载须知</h2>
+        <ul class="rules-list">
+          <li>
+            <span class="rule-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </span>
+            <span>禁止聚合类网站转载</span>
+          </li>
+          <li>
+            <span class="rule-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </span>
+            <span>禁止修改原文的标题和内容</span>
+          </li>
+          <li>
+            <span class="rule-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </span>
+            <span>禁止微信公众号等非开放平台的转载</span>
+          </li>
+          <li>
+            <span class="rule-icon rule-icon--check" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </span>
+            <span>转载需注明出处并附上原文链接</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="contact-section">
+        <h2>联系方式</h2>
+        <p>如需转载或有任何版权相关问题，请通过以下方式联系：</p>
+        <a href="mailto:xulinxiao@live.com" class="email-link">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="0"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <span>xulinxiao@live.com</span>
+        </a>
+      </div>
+
+  </div>
+
+  <style>
+    .copyright-card {
+      max-width: var(--width);
+      width: 90%;
+      margin: 40px auto;
+      padding: 40px 60px;
+      background-color: var(--content-bg);
+      box-shadow: var(--card-shadow);
+      aspect-ratio: 210 / 297; /* A4 纸比例 */
+      min-height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .copyright-card {
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        padding: 20px 24px;
+      }
+    }
+
+    /* Hero */
+    .copyright-hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .copyright-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gray-color);
+      margin-bottom: 0.8rem;
+      opacity: 0.5;
+    }
+
+    .copyright-hero h1 {
+      font-family: var(--serif-font);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      color: var(--heading-color);
+      letter-spacing: 0.02em;
+    }
+
+    .copyright-sub {
+      font-size: 0.85rem;
+      color: var(--gray-color);
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    /* Declaration */
+    .declaration {
+      position: relative;
+      padding: 1.5rem 0;
+      margin-bottom: 2.5rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    :global([data-theme='dark']) .declaration {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .declaration p {
+      margin: 0 0 0.6rem;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-color);
+    }
+
+    .declaration p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Rules */
+    .rules-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .rules-section h2,
+    .contact-section h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gray-color);
+      margin: 0 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+    }
+
+    :global([data-theme='dark']) .rules-section h2,
+    :global([data-theme='dark']) .contact-section h2 {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .rules-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .rules-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0;
+      font-size: 0.92rem;
+      color: var(--text-color);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    :global([data-theme='dark']) .rules-list li {
+      border-bottom-color: rgba(255, 255, 255, 0.04);
+    }
+
+    .rules-list li:last-child {
+      border-bottom: none;
+    }
+
+    .rule-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      color: var(--gray-color);
+    }
+
+    :global([data-theme='dark']) .rule-icon {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .rule-icon--check {
+      color: var(--text-color);
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    :global([data-theme='dark']) .rule-icon--check {
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* Contact */
+    .contact-section {
+      margin-bottom: 0;
+    }
+
+    .contact-section p {
+      font-size: 0.92rem;
+      color: var(--text-color);
+      margin: 0 0 0.8rem;
+      line-height: 1.6;
+    }
+
+    .email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.55rem 1rem;
+      font-size: 0.88rem;
+      color: var(--text-color);
+      text-decoration: none;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      transition: all 0.2s;
+    }
+
+    :global([data-theme='dark']) .email-link {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .email-link:hover {
+      border-color: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.02);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    :global([data-theme='dark']) .email-link:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .email-link svg {
+      color: var(--gray-color);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 600px) {
+      .copyright-hero h1 {
+        font-size: 1.3rem;
+      }
+
+      .declaration {
+        padding: 1.2rem 0;
+      }
+    }
+  </style>
+</Base>
