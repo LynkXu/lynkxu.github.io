@@ -4,6 +4,7 @@ import SimpleHeader from '../components/SimpleHeader.astro';
 import Tabs from '../components/Tabs.astro';
 import TabItem from '../components/TabItem.astro';
 import MediaCard from '../components/MediaCard.astro';
+import MediaCardLarge from '../components/MediaCardLarge.astro';
 import neodbData from '../data/neodb.json';
 
 const title = "书影音";
@@ -59,14 +60,12 @@ const groupByYear = (items: NeoDBItem[]) => {
 };
 
 const bookGroups = splitByStatus(books);
-const movieGroups = splitByStatus(movies);
 const tvGroups = splitByStatus(tvs);
-const gameGroups = splitByStatus(games);
 
 const bookCompletedByYear = groupByYear(bookGroups.completed);
-const movieCompletedByYear = groupByYear(movieGroups.completed);
 const tvCompletedByYear = groupByYear(tvGroups.completed);
-const gameCompletedByYear = groupByYear(gameGroups.completed);
+const moviesByYear = groupByYear(movies);
+const gamesByYear = groupByYear(games);
 ---
 
 <Base title={title} description={description} useCard={false} hideHeader={true} fullWidth={true}>
@@ -82,9 +81,9 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
                                 <h3 class="media-group-title">在看</h3>
                             </div>
                             {bookGroups.watching.length > 0 ? (
-                                <div class="media-grid">
+                                <div class="media-grid-lg">
                                     {bookGroups.watching.map(item => (
-                                        <MediaCard
+                                        <MediaCardLarge
                                             title={item.item.title}
                                             cover={item.item.cover_image_url}
                                             rating={item.rating_grade}
@@ -141,72 +140,6 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
                     ) : <p class="empty-state">暂无书籍记录。</p>}
                 </TabItem>
 
-                <TabItem label="电影" count={movies.length}>
-                    {movies.length > 0 ? (
-                        <div class="media-group">
-                            <div class="media-group-header">
-                                <h3 class="media-group-title">在看</h3>
-                            </div>
-                            {movieGroups.watching.length > 0 ? (
-                                <div class="media-grid">
-                                    {movieGroups.watching.map(item => (
-                                        <MediaCard
-                                            title={item.item.title}
-                                            cover={item.item.cover_image_url}
-                                            rating={item.rating_grade}
-                                            neodbRating={item.item.rating}
-                                            brief={item.item.brief}
-                                            comment={item.comment_text}
-                                            date={item.created_time}
-                                            link={`https://neodb.social${item.item.url || '#'}`}
-                                            status={item.shelf_type}
-                                        />
-                                    ))}
-                                </div>
-                            ) : <p class="empty-state">暂无在看记录。</p>}
-
-                            {movieGroups.completed.length > 0 ? (
-                                <details class="media-collapsible" open={shouldOpenCompleted(movieGroups.completed)}>
-                                    <summary class="media-group-header">
-                                        <h3 class="media-group-title">看过</h3>
-                                        <span class="media-group-meta">共 {movieGroups.completed.length} 项</span>
-                                    </summary>
-                                    <div class="media-pagination" data-page-size="3">
-                                        {movieCompletedByYear.map(group => (
-                                            <section class="media-year-group" data-year-group>
-                                                <div class="media-year-header">
-                                                    <h4 class="media-year-title">{group.year}</h4>
-                                                    <span class="media-year-meta">共 {group.items.length} 项</span>
-                                                </div>
-                                                <div class="media-grid">
-                                                    {group.items.map(item => (
-                                                        <MediaCard
-                                                            title={item.item.title}
-                                                            cover={item.item.cover_image_url}
-                                                            rating={item.rating_grade}
-                                                            neodbRating={item.item.rating}
-                                                            brief={item.item.brief}
-                                                            comment={item.comment_text}
-                                                            date={item.created_time}
-                                                            link={`https://neodb.social${item.item.url || '#'}`}
-                                                            status={item.shelf_type}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </section>
-                                        ))}
-                                        <div class="media-pager" data-pager>
-                                            <button class="media-pager-btn" type="button" data-prev>上一页</button>
-                                            <span class="media-pager-info" data-page-info></span>
-                                            <button class="media-pager-btn" type="button" data-next>下一页</button>
-                                        </div>
-                                    </div>
-                                </details>
-                            ) : <p class="empty-state">暂无看过记录。</p>}
-                        </div>
-                    ) : <p class="empty-state">暂无电影记录。</p>}
-                </TabItem>
-
                 <TabItem label="剧集" count={tvs.length}>
                     {tvs.length > 0 ? (
                         <div class="media-group">
@@ -214,9 +147,9 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
                                 <h3 class="media-group-title">在看</h3>
                             </div>
                             {tvGroups.watching.length > 0 ? (
-                                <div class="media-grid">
+                                <div class="media-grid-lg">
                                     {tvGroups.watching.map(item => (
-                                        <MediaCard
+                                        <MediaCardLarge
                                             title={item.item.title}
                                             cover={item.item.cover_image_url}
                                             rating={item.rating_grade}
@@ -273,68 +206,76 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
                     ) : <p class="empty-state">暂无剧集记录。</p>}
                 </TabItem>
 
+                <TabItem label="电影" count={movies.length}>
+                    {movies.length > 0 ? (
+                        <div class="media-group">
+                            <div class="media-pagination" data-page-size="3">
+                                {moviesByYear.map(group => (
+                                    <section class="media-year-group" data-year-group>
+                                        <div class="media-year-header">
+                                            <h4 class="media-year-title">{group.year}</h4>
+                                            <span class="media-year-meta">共 {group.items.length} 项</span>
+                                        </div>
+                                        <div class="media-grid">
+                                            {group.items.map(item => (
+                                                <MediaCard
+                                                    title={item.item.title}
+                                                    cover={item.item.cover_image_url}
+                                                    rating={item.rating_grade}
+                                                    neodbRating={item.item.rating}
+                                                    brief={item.item.brief}
+                                                    comment={item.comment_text}
+                                                    date={item.created_time}
+                                                    link={`https://neodb.social${item.item.url || '#'}`}
+                                                    status={item.shelf_type}
+                                                />
+                                            ))}
+                                        </div>
+                                    </section>
+                                ))}
+                                <div class="media-pager" data-pager>
+                                    <button class="media-pager-btn" type="button" data-prev>上一页</button>
+                                    <span class="media-pager-info" data-page-info></span>
+                                    <button class="media-pager-btn" type="button" data-next>下一页</button>
+                                </div>
+                            </div>
+                        </div>
+                    ) : <p class="empty-state">暂无电影记录。</p>}
+                </TabItem>
+
                 <TabItem label="游戏" count={games.length}>
                     {games.length > 0 ? (
                         <div class="media-group">
-                            <div class="media-group-header">
-                                <h3 class="media-group-title">在玩</h3>
-                            </div>
-                            {gameGroups.watching.length > 0 ? (
-                                <div class="media-grid">
-                                    {gameGroups.watching.map(item => (
-                                        <MediaCard
-                                            title={item.item.title}
-                                            cover={item.item.cover_image_url}
-                                            rating={item.rating_grade}
-                                            neodbRating={item.item.rating}
-                                            brief={item.item.brief}
-                                            comment={item.comment_text}
-                                            date={item.created_time}
-                                            link={`https://neodb.social${item.item.url || '#'}`}
-                                            status={item.shelf_type}
-                                        />
-                                    ))}
-                                </div>
-                            ) : <p class="empty-state">暂无在玩记录。</p>}
-
-                            {gameGroups.completed.length > 0 ? (
-                                <details class="media-collapsible" open={shouldOpenCompleted(gameGroups.completed)}>
-                                    <summary class="media-group-header">
-                                        <h3 class="media-group-title">玩过</h3>
-                                        <span class="media-group-meta">共 {gameGroups.completed.length} 项</span>
-                                    </summary>
-                                    <div class="media-pagination" data-page-size="3">
-                                        {gameCompletedByYear.map(group => (
-                                            <section class="media-year-group" data-year-group>
-                                                <div class="media-year-header">
-                                                    <h4 class="media-year-title">{group.year}</h4>
-                                                    <span class="media-year-meta">共 {group.items.length} 项</span>
-                                                </div>
-                                                <div class="media-grid">
-                                                    {group.items.map(item => (
-                                                        <MediaCard
-                                                            title={item.item.title}
-                                                            cover={item.item.cover_image_url}
-                                                            rating={item.rating_grade}
-                                                            neodbRating={item.item.rating}
-                                                            brief={item.item.brief}
-                                                            comment={item.comment_text}
-                                                            date={item.created_time}
-                                                            link={`https://neodb.social${item.item.url || '#'}`}
-                                                            status={item.shelf_type}
-                                                        />
-                                                    ))}
-                                                </div>
-                                            </section>
-                                        ))}
-                                        <div class="media-pager" data-pager>
-                                            <button class="media-pager-btn" type="button" data-prev>上一页</button>
-                                            <span class="media-pager-info" data-page-info></span>
-                                            <button class="media-pager-btn" type="button" data-next>下一页</button>
+                            <div class="media-pagination" data-page-size="3">
+                                {gamesByYear.map(group => (
+                                    <section class="media-year-group" data-year-group>
+                                        <div class="media-year-header">
+                                            <h4 class="media-year-title">{group.year}</h4>
+                                            <span class="media-year-meta">共 {group.items.length} 项</span>
                                         </div>
-                                    </div>
-                                </details>
-                            ) : <p class="empty-state">暂无玩过记录。</p>}
+                                        <div class="media-grid">
+                                            {group.items.map(item => (
+                                                <MediaCard
+                                                    title={item.item.title}
+                                                    cover={item.item.cover_image_url}
+                                                    rating={item.rating_grade}
+                                                    neodbRating={item.item.rating}
+                                                    brief={item.item.brief}
+                                                    comment={item.comment_text}
+                                                    date={item.created_time}
+                                                    link={`https://neodb.social${item.item.url || '#'}`}
+                                                    status={item.shelf_type}
+                                                />
+                                            ))}
+                                        </div>
+                                    </section>
+                                ))}
+                                <div class="media-pager" data-pager>
+                                    <button class="media-pager-btn" type="button" data-prev>上一页</button>
+                                    <span class="media-pager-info" data-page-info></span>
+                                    <button class="media-pager-btn" type="button" data-next>下一页</button>
+                                </div>
+                            </div>
                         </div>
                     ) : <p class="empty-state">暂无游戏记录。</p>}
                 </TabItem>
@@ -400,14 +341,35 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
 
 <style>
     .media-page {
-        padding: 0 0 2rem;
+        padding: 0 0 3rem;
+        animation: mediaFadeIn 0.5s ease-out;
     }
 
+    @keyframes mediaFadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Grid (small covers) ── */
     .media-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-        gap: 1.5rem 0.8rem;
-        margin-top: 0.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+        gap: 1.6rem 0.9rem;
+        margin-top: 0.6rem;
+    }
+
+    /* ── Grid (horizontal cards for "在看") ── */
+    .media-grid-lg {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+        margin-top: 0.6rem;
+    }
+
+    @media (max-width: 700px) {
+        .media-grid-lg {
+            grid-template-columns: 1fr;
+        }
     }
 
     .media-group {
@@ -416,74 +378,110 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
         gap: 0;
     }
 
+    /* ── Year groups ── */
     .media-year-group + .media-year-group {
-        margin-top: 1.25rem;
+        margin-top: 1.6rem;
     }
 
     .media-year-header {
         display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 1rem;
-        margin-bottom: 0.5rem;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.6rem;
     }
 
     .media-year-title {
         margin: 0;
-        font-size: 1rem;
+        font-size: 0.95rem;
         font-weight: 600;
         color: var(--heading-color);
+        font-family: var(--serif-font);
+        white-space: nowrap;
     }
 
     .media-year-meta {
-        font-size: 0.8rem;
+        font-size: 0.72rem;
         color: var(--gray-color);
-        opacity: 0.7;
+        opacity: 0.55;
+        white-space: nowrap;
     }
 
+    .media-year-header::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    :global([data-theme='dark']) .media-year-header::after {
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    /* ── Pager ── */
     .media-pager {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.75rem;
-        margin-top: 1.25rem;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
     }
 
     .media-pager-btn {
-        border: 1px solid var(--border-color);
-        background: var(--card-bg);
-        color: inherit;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
-        font-size: 0.85rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        background: transparent;
+        color: var(--text-color);
+        padding: 0.4rem 1rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
         cursor: pointer;
+        transition: all 0.15s ease;
+        font-family: var(--serif-font);
+    }
+
+    .media-pager-btn:hover:not(:disabled) {
+        border-color: rgba(0, 0, 0, 0.25);
+        background: rgba(0, 0, 0, 0.02);
+    }
+
+    :global([data-theme='dark']) .media-pager-btn {
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    :global([data-theme='dark']) .media-pager-btn:hover:not(:disabled) {
+        border-color: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.03);
     }
 
     .media-pager-btn:disabled {
-        opacity: 0.5;
+        opacity: 0.35;
         cursor: default;
     }
 
     .media-pager-info {
-        font-size: 0.85rem;
+        font-size: 0.78rem;
         color: var(--gray-color);
+        font-variant-numeric: tabular-nums;
+        opacity: 0.7;
     }
 
+    /* ── Collapsible ── */
     .media-collapsible {
-        margin-top: 1.25rem;
+        margin-top: 1.5rem;
     }
 
     .media-collapsible[open] {
         margin-bottom: 0.5rem;
     }
 
+    /* ── Group headers ── */
     .media-group-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 0 0.35rem 0;
+        padding: 0 0 0.4rem 0;
         margin-top: 1.25rem;
-        margin-bottom: 0.35rem;
+        margin-bottom: 0.4rem;
     }
 
     .media-group-header:first-child {
@@ -492,10 +490,10 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
 
     .media-group-title {
         margin: 0;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         font-weight: 500;
         color: var(--gray-color);
-        letter-spacing: 0.03em;
+        letter-spacing: 0.04em;
         text-transform: uppercase;
         display: inline-flex;
         align-items: center;
@@ -514,31 +512,40 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
         height: 1em;
         background: var(--heading-color);
         border-radius: 2px;
-        opacity: 0.6;
+        opacity: 0.5;
     }
 
     .media-group-meta {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         color: var(--gray-color);
-        opacity: 0.75;
+        opacity: 0.6;
     }
 
     .media-collapsible > summary {
         list-style: none;
         cursor: pointer;
+        transition: opacity 0.15s;
+    }
+
+    .media-collapsible > summary:hover {
+        opacity: 0.8;
     }
 
     .media-collapsible > summary::-webkit-details-marker {
         display: none;
     }
 
+    /* ── Empty state ── */
     .empty-state {
-        margin: 0.35rem 0 0;
+        margin: 1.5rem 0;
         color: var(--gray-color);
-        font-size: 0.85rem;
-        opacity: 0.7;
+        font-size: 0.82rem;
+        opacity: 0.5;
+        text-align: center;
+        font-style: italic;
     }
 
+    /* ── Layout ── */
     .content-limit-width {
         max-width: 1120px;
         margin: 0 auto;
@@ -547,6 +554,7 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
         width: 100%;
     }
 
+    /* ── Tab overrides ── */
     :global(.media-tabs .tabs-header) {
         gap: 1.5rem;
         margin-bottom: 1.5rem;
@@ -557,11 +565,13 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
         padding: 0.7rem 0;
     }
 
+    /* ── Responsive ── */
     @media (max-width: 600px) {
         .media-grid {
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem 0.5rem;
+            gap: 1.3rem 0.5rem;
         }
+    }
 
     @media (max-width: 450px) {
         .media-grid {
@@ -573,6 +583,5 @@ const gameCompletedByYear = groupByYear(gameGroups.completed);
         .content-limit-width {
             padding: 0 1.5rem;
         }
-    }
     }
 </style>

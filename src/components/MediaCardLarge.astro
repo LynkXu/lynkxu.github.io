@@ -1,0 +1,173 @@
+---
+interface Props {
+  title: string;
+  cover: string;
+  rating?: number;
+  neodbRating?: number;
+  brief?: string;
+  comment?: string;
+  date: string;
+  link?: string;
+  status?: string;
+}
+
+const { title, cover, rating, neodbRating, brief, comment, date, link, status } = Astro.props;
+
+// Convert 1-10 rating to 1-5 stars
+const starCount = rating ? Math.round(rating / 2) : 0;
+---
+
+<a href={link} target="_blank" rel="noopener noreferrer" class="lcard">
+    <div class="lcard-cover">
+        <img src={cover} alt={title} loading="lazy" onerror="this.src='/placeholder.png'" />
+    </div>
+    <div class="lcard-info">
+        <h3 class="lcard-title">
+            {title}
+            {neodbRating && <span class="lcard-year">({neodbRating})</span>}
+        </h3>
+        {starCount > 0 && (
+            <div class="lcard-stars">
+                {Array.from({ length: 5 }).map((_, i) => (
+                    <span class={i < starCount ? 'on' : ''}>★</span>
+                ))}
+            </div>
+        )}
+        {comment
+            ? <p class="lcard-comment">{comment}</p>
+            : brief && <p class="lcard-comment lcard-brief">{brief}</p>
+        }
+    </div>
+</a>
+
+<style>
+    .lcard {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        text-decoration: none;
+        color: inherit;
+        background: var(--content-bg);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 8px;
+        transition: box-shadow 0.2s ease;
+        min-height: 0;
+    }
+
+    .lcard:hover {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    :global([data-theme='dark']) .lcard {
+        border-color: rgba(255, 255, 255, 0.06);
+    }
+
+    :global([data-theme='dark']) .lcard:hover {
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── Cover ── */
+    .lcard-cover {
+        flex-shrink: 0;
+        width: 88px;
+        aspect-ratio: 2 / 3;
+        border-radius: 4px;
+        overflow: hidden;
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    .lcard-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    :global([data-theme='dark']) .lcard-cover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+
+    /* ── Info ── */
+    .lcard-info {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.3rem;
+    }
+
+    .lcard-title {
+        margin: 0;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--heading-color);
+        line-height: 1.4;
+    }
+
+    .lcard-year {
+        font-weight: 400;
+        color: var(--gray-color);
+        margin-left: 0.25rem;
+    }
+
+    /* ── Stars ── */
+    .lcard-stars {
+        display: flex;
+        gap: 1px;
+        line-height: 1;
+    }
+
+    .lcard-stars span {
+        font-size: 0.72rem;
+        color: rgba(0, 0, 0, 0.12);
+    }
+
+    .lcard-stars span.on {
+        color: #f59e0b;
+    }
+
+    :global([data-theme='dark']) .lcard-stars span {
+        color: rgba(255, 255, 255, 0.1);
+    }
+
+    :global([data-theme='dark']) .lcard-stars span.on {
+        color: #fbbf24;
+    }
+
+    /* ── Comment ── */
+    .lcard-comment {
+        margin: 0.1rem 0 0;
+        font-size: 0.82rem;
+        line-height: 1.6;
+        color: var(--text-color);
+        opacity: 0.65;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .lcard-brief {
+        opacity: 0.45;
+        -webkit-line-clamp: 2;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 500px) {
+        .lcard {
+            gap: 0.8rem;
+            padding: 0.8rem;
+        }
+        .lcard-cover {
+            width: 72px;
+        }
+        .lcard-title {
+            font-size: 0.88rem;
+        }
+        .lcard-comment {
+            -webkit-line-clamp: 2;
+            font-size: 0.78rem;
+        }
+    }
+</style>

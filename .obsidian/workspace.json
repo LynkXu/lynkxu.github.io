@@ -200,6 +200,7 @@
   },
   "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "src/components/MediaCardLarge.astro",
     "src/pages/resume.astro",
     "public/linxu-cv-en-latest.pdf",
     "public/avatar.png",
@@ -221,7 +222,6 @@
     "src/content/blog/age24/2022-03-01-age24.md",
     "src/content/photography/winter-cat-2.jpeg",
     "src/content/photography/winter-cat-1.jpeg",
-    "dist/sitemap-index.xml",
     "dist/_astro/thumbnail.UTvGGEIF.jpg",
     "dist/_astro/thumbnail.DYSx6Sp5.jpg",
     "dist/_astro/thumbnail.CqYFMfK8.jpg",
