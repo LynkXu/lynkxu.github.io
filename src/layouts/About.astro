@@ -200,14 +200,16 @@ const { title } = Astro.props;
 		/* 历史折叠 */
 		.about-page :global(.history-fold) {
 			margin: 0.8rem 0;
-			background: transparent;
-			border: 1px solid rgba(0, 0, 0, 0.08);
+			background: rgba(0, 0, 0, 0.02);
+			border: none;
 			border-radius: 0;
 			overflow: hidden;
+			margin-bottom: 0.4rem;
 		}
 
 		:global([data-theme='dark']) .about-page :global(.history-fold) {
-			border-color: rgba(255, 255, 255, 0.1);
+			border-color: transparent;
+			background: rgba(255, 255, 255, 0.03);
 		}
 
 		.about-page :global(.history-fold summary) {
@@ -244,11 +246,11 @@ const { title } = Astro.props;
 		}
 
 		.about-page :global(.history-fold[open] summary) {
-			border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+			border-bottom: none;
 		}
 
 		:global([data-theme='dark']) .about-page :global(.history-fold[open] summary) {
-			border-bottom-color: rgba(255, 255, 255, 0.08);
+			border-bottom-color: transparent;
 		}
 
 		/* 新增内容容器样式 */
