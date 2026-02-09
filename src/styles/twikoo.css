@@ -247,7 +247,20 @@
   border: none !important;
   display: flex;
   align-items: center;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
+}
+
+/* 悬浮评论时显示回复图标 */
+.tk-comment:hover > .tk-main .tk-action-link {
+  opacity: 1;
+}
+
+/* 移动端始终显示回复图标（触屏无 hover） */
+@media (hover: none) {
+  .tk-action-link {
+    opacity: 1;
+  }
 }
 
 .tk-action>.tk-action-link:nth-child(1) {
@@ -265,7 +278,13 @@
 
 .tk-action-link.tk-liked .tk-action-icon-solid,
 .tk-action-link:hover .tk-action-icon-solid {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
+  line-height: 0;
+  color: var(--heading-color, #333);
 }
 
 .tk-action-count {
@@ -278,26 +297,24 @@
 }
 
 .tk-action-icon {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 0;
-  color: #333;
+  color: var(--gray-color, #909399);
   white-space: nowrap;
-  font-size: 0.9em;
+  width: 1em;
+  height: 1em;
+  transition: color 0.2s ease;
 }
 
 .tk-action-icon svg {
-  display: none;
+  width: 100%;
+  height: 100%;
 }
 
-.tk-action-icon::after {
-  content: '';
-  font-size: 0.9em;
-  display: inline-block;
-  content: '回复';
-}
-
-.tk-action-icon:hover::after {
-  text-decoration: underline;
+.tk-action-icon:hover {
+  color: var(--heading-color, #333);
 }
 
 .tk-main {
