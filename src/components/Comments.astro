@@ -15,6 +15,7 @@ const embedUrl = `${siteOrigin}${currentPath}`;
 // 注意：Netlify 部署 Twikoo 时，这里应该指向 Function 端点，而不是站点根路径，否则会触发 CORS 预检失败
 // 形如：https://<your-site>.netlify.app/.netlify/functions/twikoo
 const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/twikoo';
+const twikooAuthors = ['lynkxu'];
 ---
 
 <!-- <hr class='sep' /> -->
@@ -42,10 +43,45 @@ const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/
 </div>
 <script is:inline src='https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js'></script>
 
-<script is:inline define:vars={{ embedUrl, twikooEnv }}>
+<script is:inline define:vars={{ embedUrl, twikooEnv, twikooAuthors }}>
 	// 防止重复初始化的标志
 	let isInitializing = false;
 	let discourseLoaded = false;
+	let twikooObserver;
+
+	function markAuthorComments() {
+		if (!Array.isArray(twikooAuthors) || twikooAuthors.length === 0) return;
+		const comments = document.querySelectorAll('#twikoo .tk-comment');
+		comments.forEach((comment) => {
+			const nickEl = comment.querySelector('.tk-nick');
+			const metaEl = comment.querySelector('.tk-meta');
+			if (!nickEl || !metaEl) return;
+			const nick = nickEl.textContent?.trim();
+			if (!nick) return;
+			if (twikooAuthors.includes(nick)) {
+				comment.classList.add('tk-comment-author');
+				if (!metaEl.querySelector('.tk-author-badge')) {
+					const badge = document.createElement('span');
+					badge.className = 'tk-author-badge';
+					badge.textContent = '博主';
+					metaEl.appendChild(badge);
+				}
+			}
+		});
+	}
+
+	function observeTwikooChanges() {
+		const twikooEl = document.getElementById('twikoo');
+		if (!twikooEl) return;
+		if (twikooObserver) {
+			twikooObserver.disconnect();
+		}
+		twikooObserver = new MutationObserver(() => {
+			markAuthorComments();
+		});
+		twikooObserver.observe(twikooEl, { childList: true, subtree: true });
+		markAuthorComments();
+	}
 
 	// 初始化 Twikoo
 	function initTwikoo() {
@@ -62,6 +98,7 @@ const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/
 					el: '#twikoo',
 					lang: 'zh-CN',
 				});
+				observeTwikooChanges();
 			}
 		}
 	}
@@ -174,6 +211,10 @@ const twikooEnv = 'https://moonlit-mousse-b8e262.netlify.app/.netlify/functions/
 		const twikooEl = document.getElementById('twikoo');
 		if (twikooEl) {
 			twikooEl.innerHTML = '';
+		}
+		if (twikooObserver) {
+			twikooObserver.disconnect();
+			twikooObserver = undefined;
 		}
 	});
 </script>

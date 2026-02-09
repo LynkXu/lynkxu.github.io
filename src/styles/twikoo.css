@@ -15,18 +15,18 @@
 
 .tk-avatar {
   flex-shrink: 0;
-  height: 2rem;
-  width: 2rem;
+  height: 1.75rem;
+  width: 1.75rem;
   overflow: hidden;
   text-align: center;
   border-radius: 50%;
-  margin-right: 0.6rem;
+  margin-right: 0.5rem;
 }
 
 .tk-comment .tk-submit .tk-avatar,
 .tk-replies .tk-avatar {
-  height: 1.2rem;
-  width: 1.2rem;
+  height: 1.25rem;
+  width: 1.25rem;
 }
 
 .tk-avatar.tk-has-avatar {
@@ -46,7 +46,7 @@
 
 .tk-comment .tk-submit .tk-avatar .tk-avatar-img,
 .tk-replies .tk-avatar .tk-avatar-img {
-  height: 1.6rem;
+  height: 1.25rem;
 }
 
 
@@ -108,8 +108,25 @@
 }
 
 .tk-meta .tk-nick {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
+}
+
+.tk-author-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.4rem;
+  padding: 0 0.4em;
+  font-size: 0.72em;
+  line-height: 1.4;
+  border-radius: 2px;
+  color: #4a8f5a;
+  background-color: rgba(74, 143, 90, 0.12);
+  border: 1px solid rgba(74, 143, 90, 0.35);
+}
+
+.tk-comment-author > .tk-main {
+  position: relative;
 }
 
 .tk-meta-input {
@@ -118,9 +135,9 @@
 
 .tk-row.actions {
   position: relative;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  margin-left: 3.5rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+  margin-left: 2.8rem;
   align-items: center;
   justify-content: flex-end;
 }
@@ -187,11 +204,11 @@
 }
 
 .tk-preview-container {
-  margin-left: 3rem;
-  margin-bottom: 1rem;
-  padding: 5px 15px;
+  margin-left: 2.4rem;
+  margin-bottom: 0.6rem;
+  padding: 4px 12px;
   border: none;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #fafbfc;
   word-break: break-word;
 }
@@ -217,7 +234,7 @@
 }
 
 .tk-action-link {
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
   color: var(--gray-color);
   text-decoration: none !important;
   border: none !important;
@@ -245,10 +262,10 @@
 }
 
 .tk-action-count {
-  margin-left: 0.25rem;
-  font-size: 0.75rem;
-  height: 1.5rem;
-  line-height: 1.5rem;
+  margin-left: 0.2rem;
+  font-size: 0.72rem;
+  height: 1.3rem;
+  line-height: 1.3rem;
   width: 0.5rem;
   white-space: nowrap;
 }
@@ -287,6 +304,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .tk-nick-link {
@@ -313,16 +331,40 @@
 
 .tk-extras {
   color: #999999;
-  font-size: 0.875em;
+  font-size: 0.75em;
   display: flex;
   flex-wrap: wrap;
+  row-gap: 0.2rem;
+  column-gap: 0.5rem;
 }
 
 .tk-extra {
-  margin-top: 0.5rem;
-  margin-right: 0.75rem;
+  margin-top: 0.2rem;
+  margin-right: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+.tk-extra.__os,
+.tk-extra.__browser,
+.tk-extra.__device {
+  display: none;
+}
+
+.tk-extra .tk-icon.__os,
+.tk-extra .tk-icon.__browser,
+.tk-extra .tk-icon.__device {
+  display: none;
+}
+
+.tk-comment .tk-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tk-extras {
+  display: none;
 }
 
 .tk-icon.__comment {
@@ -371,7 +413,7 @@
 }
 
 .tk-comment {
-  margin-top: 0.55rem;
+  margin-top: 0.3rem;
   display: flex;
   flex-direction: row;
   word-break: break-all;
@@ -379,18 +421,19 @@
 }
 
 .tk-time {
-  position: absolute;
-  right: 3.5em;
-  top: 3px;
+  position: static;
+  margin-left: auto;
+  font-size: 0.75em;
+  color: #909399;
 }
 
 .tk-content {
-  margin-top: 0.25rem;
+  margin-top: 0.15rem;
   overflow: hidden;
   max-height: 500px;
   position: relative;
-  font-size: 0.85em;
-  line-height: 1.6;
+  font-size: 0.86em;
+  line-height: 1.45;
 }
 
 .tk-content-expand {
@@ -407,10 +450,10 @@
 }
 
 .tk-replies {
-  max-height: 200px;
+  max-height: 140px;
   overflow: hidden;
   position: relative;
-  margin-top: 0.35rem;
+  margin-top: 0.2rem;
 }
 
 .tk-replies-expand {
@@ -420,20 +463,20 @@
 
 .tk-replies .tk-comment {
   margin: 0;
-  background: #f6f8fa;
+  background: rgba(0, 0, 0, 0.03);
   border: none;
-  border-radius: 8px;
-  padding: 4px 6px 0 6px;
-  margin-right: -10px;
+  border-radius: 6px;
+  padding: 2px 6px 0 6px;
+  margin-right: 0;
 }
 
 .tk-submit {
-  margin-top: 0.65rem;
+  margin-top: 0.5rem;
   border: none;
   background: #fff;
-  padding: 0.7em 0.75em;
-  margin-bottom: 0.65em;
-  border-radius: 12px;
+  padding: 0.6em 0.7em;
+  margin-bottom: 0.5em;
+  border-radius: 10px;
   box-shadow: none;
   transition: box-shadow 0.2s ease;
 }
@@ -474,13 +517,13 @@
 
 
 .tk-comments-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: bold;
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.45rem;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.3rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -497,8 +540,8 @@
 .tk-comments-container>.tk-comment {
   border: none;
   background: #fff;
-  padding: 0.55em 0.7em;
-  border-radius: 12px;
+  padding: 0.38em 0.6em;
+  border-radius: 10px;
   box-shadow: none;
   transition: box-shadow 0.2s ease;
 }
