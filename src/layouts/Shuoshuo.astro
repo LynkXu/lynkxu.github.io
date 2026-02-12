@@ -222,7 +222,7 @@ function getDateParts(date: Date) {
             initGallery();
         }
     </script>
-
+    
 	<script is:inline define:vars={{ pageSize, totalPages }}>
 		(() => {
 			const items = Array.from(document.querySelectorAll('#shuoshuo .feed-item'));
@@ -277,11 +277,11 @@ function getDateParts(date: Date) {
 
 	<style>
         .gossip-page {
-            max-width: 820px;
+            max-width: 780px;
             margin: 0 auto;
             padding-bottom: 4rem;
         }
-
+        
         /* 1. Header (Minimal Journal Style) - Removed */
         
         /* Feed Container */
@@ -292,53 +292,93 @@ function getDateParts(date: Date) {
         /* 2. Grid Layout */
         .feed-item {
             display: flex;
-            gap: 16px;
-            margin-bottom: 1.5rem;
+            gap: 12px;
+            position: relative;
+            padding: 0.88rem 0 0.96rem;
             align-items: flex-start;
+        }
+        
+        .feed-item::after {
+            content: "";
+            position: absolute;
+            left: 46px;
+            right: 0;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                rgba(0, 0, 0, 0.02) 0%,
+                rgba(0, 0, 0, 0.14) 24%,
+                rgba(0, 0, 0, 0.14) 76%,
+                rgba(0, 0, 0, 0.02) 100%
+            );
+        }
+        
+        .feed-item:first-child {
+            padding-top: 0;
+        }
+        
+        .feed-item:last-child {
+            padding-bottom: 0;
+        }
+        
+        .feed-item:last-child::after {
+            display: none;
+        }
+        
+        :root[data-theme="dark"] .feed-item::after {
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.02) 0%,
+                rgba(255, 255, 255, 0.14) 24%,
+                rgba(255, 255, 255, 0.14) 76%,
+                rgba(255, 255, 255, 0.02) 100%
+            );
         }
 
         /* 3. Date Column */
         .date-col {
             flex-shrink: 0;
-            width: 36px;
+            width: 30px;
             text-align: left;
             display: flex;
             flex-direction: column;
-            padding-top: 4px;
+            padding-top: 2px;
         }
 
         .date-month {
-            font-size: 0.65rem;
-            font-weight: 700;
+            font-size: 0.62rem;
+            font-weight: 600;
             color: var(--gray-color);
-            letter-spacing: 0.05em;
+            letter-spacing: 0.04em;
+            opacity: 0.85;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
         }
 
         .date-day {
             font-family: "Source Serif 4", "Noto Serif SC", serif;
-            font-size: 1.35rem;
+            font-size: 1.22rem;
             font-weight: 500;
             color: var(--heading-color);
             line-height: 1;
         }
 
         .date-year {
-            font-size: 0.65rem;
+            font-size: 0.62rem;
             color: var(--gray-color);
-            opacity: 0.6;
-            margin-top: 2px;
+            opacity: 0.52;
+            margin-top: 1px;
         }
 
         .card-time {
             position: absolute;
             bottom: 6px;
-            right: 12px;
-            font-size: 0.65rem;
+            right: 0;
+            font-size: 0.62rem;
             color: var(--gray-color);
-            opacity: 0.2;
+            opacity: 0.22;
             transition: opacity 0.2s;
             user-select: none;
             font-family: var(--font-mono, monospace);
@@ -352,11 +392,11 @@ function getDateParts(date: Date) {
             bottom: 8px;
         }
 
-        .feed-card:hover .card-time {
+        .feed-item:hover .card-time {
             opacity: 0.6;
         }
         
-        .feed-card:hover .card-time.on-media {
+        .feed-item:hover .card-time.on-media {
             opacity: 1;
         }
 
@@ -364,38 +404,23 @@ function getDateParts(date: Date) {
         .content-col {
             flex: 1;
             min-width: 0;
+            padding-top: 1px;
         }
 
         .feed-card {
             position: relative;
             background-color: transparent;
-            border: 1px solid rgba(0, 0, 0, 0.1); 
+            border: none;
             border-radius: 0;
-            padding: 0.75rem 1rem; 
-            transition: all 0.2s ease;
-        }
-        
-        :root[data-theme="dark"] .feed-card {
-            border-color: rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .feed-card:hover {
-            border-color: rgba(0, 0, 0, 0.25);
-            background: rgba(0, 0, 0, 0.01);
-        }
-
-        :root[data-theme="dark"] .feed-card:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.04);
+            padding: 0.15rem 0;
         }
 
         /* 5. Typography */
         .card-body {
-            font-size: 0.85rem;
-            line-height: 1.6;
+            font-size: 0.82rem;
+            line-height: 1.56;
             color: var(--text-color);
-            letter-spacing: 0.01em; 
+            letter-spacing: 0.008em; 
         }
 
         .card-body :global(p) {
@@ -411,6 +436,11 @@ function getDateParts(date: Date) {
         .card-body :global(strong) {
             font-weight: 600;
             color: var(--heading-color);
+        }
+        
+        .card-body :global(a) {
+            text-underline-offset: 0.15em;
+            text-decoration-thickness: 0.06em;
         }
 
         .card-body :global(img) {
@@ -433,6 +463,10 @@ function getDateParts(date: Date) {
              color: var(--gray-color);
              font-size: 0.85rem;
              font-style: normal;
+        }
+        
+        :root[data-theme="dark"] .card-body :global(blockquote) {
+            border-left-color: rgba(255, 255, 255, 0.2);
         }
         
         .draft-indicator {
@@ -489,21 +523,38 @@ function getDateParts(date: Date) {
             .gossip-page {
                 padding: 0;
             }
-            
+
             .feed-item {
-                gap: 12px;
+                gap: 10px;
+                padding: 0.82rem 0 0.9rem;
+            }
+            
+            .feed-item::after {
+                left: 40px;
             }
             
             .date-col {
-                width: 32px;
+                width: 28px;
             }
             
             .date-day {
-                font-size: 1.25rem;
+                font-size: 1.16rem;
             }
             
             .feed-card {
-                padding: 0.85rem;
+                padding: 0.15rem 0;
+            }
+            
+            .card-body {
+                font-size: 0.8rem;
+                line-height: 1.52;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            .card-time,
+            .media-item img {
+                transition: none;
             }
         }
 	</style>
