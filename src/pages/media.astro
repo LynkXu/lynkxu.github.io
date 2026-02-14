@@ -548,13 +548,103 @@ const gamesByYear = groupByYear(games);
 
     /* ── Tab overrides ── */
     :global(.media-tabs .tabs-header) {
-        gap: 1.5rem;
-        margin-bottom: 1.5rem;
+        border-bottom: none;
+        margin: 0 0 1.6rem;
+        width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.65rem;
+        padding: 0;
+
+        flex-wrap: wrap;
     }
 
     :global(.media-tabs .tab-btn) {
-        font-size: 1rem;
-        padding: 0.7rem 0;
+        border: none;
+        border-bottom: none;
+        margin: 0;
+
+        background: rgba(0, 0, 0, 0.02);
+        color: var(--text-color);
+        padding: 0.52rem 0.95rem;
+        border-radius: 12px;
+
+        font-size: 0.95rem;
+        font-weight: 650;
+        letter-spacing: 0.01em;
+        line-height: 1.1;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        transition:
+            background 0.15s ease,
+            border-color 0.15s ease,
+            color 0.15s ease,
+            box-shadow 0.15s ease,
+            transform 0.05s ease;
+    }
+
+    :global(.media-tabs .tab-btn:hover:not(.active)) {
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    :global(.media-tabs .tab-btn:active) {
+        transform: translateY(0.5px);
+    }
+
+    :global(.media-tabs .tab-btn.active) {
+        background: var(--heading-color);
+        color: var(--content-bg);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    }
+
+    :global(.media-tabs .tab-btn:focus-visible) {
+        outline: 2px solid rgba(106, 176, 229, 0.9);
+        outline-offset: 2px;
+    }
+
+    :global(.media-tabs .tab-count) {
+        font-size: 0.78rem;
+        font-weight: 650;
+        opacity: 0.85;
+        padding: 0.06rem 0.48rem;
+        border-radius: 999px;
+        background: rgba(127, 127, 127, 0.14);
+        color: currentColor;
+        font-variant-numeric: tabular-nums;
+    }
+
+    :global(.media-tabs .tab-btn.active .tab-count) {
+        background: rgba(255, 255, 255, 0.18);
+        opacity: 0.95;
+    }
+
+    :global(.media-tabs .tabs-header::-webkit-scrollbar) {
+        display: none;
+    }
+
+    :global([data-theme='dark']) .media-tabs .tab-btn {
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.86);
+    }
+
+    :global([data-theme='dark']) .media-tabs .tab-btn:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.09);
+    }
+
+    :global([data-theme='dark']) .media-tabs .tab-btn.active {
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    :global([data-theme='dark']) .media-tabs .tab-count {
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    :global([data-theme='dark']) .media-tabs .tab-btn.active .tab-count {
+        background: rgba(0, 0, 0, 0.12);
     }
 
     /* ── Responsive ── */
@@ -574,6 +664,17 @@ const gamesByYear = groupByYear(games);
     @media (max-width: 600px) {
         .content-limit-width {
             padding: 0 1.5rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        :global(.media-tabs .tabs-header) {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            padding: 0.15rem 0;
         }
     }
 </style>
