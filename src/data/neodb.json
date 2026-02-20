@@ -729,6 +729,82 @@
     {
       "shelf_type": "progress",
       "visibility": 0,
+      "post_id": 547121202040799200,
+      "item": {
+        "type": "TVSeason",
+        "title": "爱情怎么翻译？ (这爱情可以翻译吗？)",
+        "description": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "这爱情可以翻译吗？"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "愛情怎麼翻譯？"
+          },
+          {
+            "lang": "ko",
+            "text": "이 사랑 통역 되나요?"
+          },
+          {
+            "lang": "en",
+            "text": "Can This Love Be Translated?"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/01/15/0bffb713-5192-412e-aead-1670cd2c915f.jpg",
+        "rating": 7,
+        "rating_count": 26,
+        "rating_distribution": [
+          4,
+          4,
+          31,
+          42,
+          19
+        ],
+        "tags": [
+          "2026",
+          "吃完杂粮",
+          "心理",
+          "悬疑",
+          "爱情",
+          "电视剧",
+          "韓國",
+          "韩剧",
+          "韩国"
+        ],
+        "brief": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？",
+        "id": "https://neodb.social/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "uuid": "5l3seZvebPhCCMx67ZVzUa",
+        "url": "/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "api_url": "/api/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "category": "tv",
+        "parent_uuid": "1mbC7XsqVTwa7VUOtNxRIG",
+        "display_title": "爱情怎么翻译？ (这爱情可以翻译吗？)",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36363991/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/229891/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-02-19T01:24:19.532Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
       "post_id": 537808668275774000,
       "item": {
         "type": "TVSeason",
