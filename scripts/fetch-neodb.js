@@ -102,17 +102,35 @@ function getItemKey(item) {
 
 function mergeItems(newItems, existingItems) {
     const merged = [];
-    const seen = new Set();
+    const seenKeys = new Set();
     for (const item of [...newItems, ...existingItems]) {
         const key = getItemKey(item);
-        if (seen.has(key)) {
+        if (seenKeys.has(key)) {
             continue;
         }
-        seen.add(key);
+        seenKeys.add(key);
         merged.push(item);
     }
+
+    // Sort newest first so the most recent shelf state wins in UUID dedup below
     merged.sort((a, b) => normalizeTime(b?.created_time) - normalizeTime(a?.created_time));
-    return merged;
+
+    // Deduplicate by item UUID: when an item transitions (e.g. progress → complete),
+    // both states share the same UUID but have different post_ids. Keep only the newest.
+    const seenUuids = new Set();
+    const deduplicated = [];
+    for (const item of merged) {
+        const uuid = item?.item?.uuid;
+        if (uuid) {
+            if (seenUuids.has(uuid)) {
+                continue;
+            }
+            seenUuids.add(uuid);
+        }
+        deduplicated.push(item);
+    }
+
+    return deduplicated;
 }
 
 function buildExistingYearMap(existingData) {
