@@ -1,0 +1,131 @@
+---
+interface ChangelogEntry {
+	date: Date;
+	note: string;
+}
+
+interface Props {
+	entries: ChangelogEntry[];
+}
+
+const { entries } = Astro.props;
+
+const sorted = [...entries].sort(
+	(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+);
+
+function formatDate(date: Date): string {
+	const d = new Date(date);
+	const year = d.getFullYear();
+	const month = String(d.getMonth() + 1).padStart(2, '0');
+	const day = String(d.getDate()).padStart(2, '0');
+	return `${year}.${month}.${day}`;
+}
+---
+
+<details class="changelog">
+	<summary class="changelog__summary">
+		<span class="changelog__label">修订记录</span>
+		<span class="changelog__count">{sorted.length} 条</span>
+		<span class="changelog__arrow" aria-hidden="true">›</span>
+	</summary>
+	<ul class="changelog__list">
+		{sorted.map((entry) => (
+			<li class="changelog__entry">
+				<time class="changelog__date" datetime={new Date(entry.date).toISOString()}>
+					{formatDate(entry.date)}
+				</time>
+				<span class="changelog__sep">·</span>
+				<span class="changelog__note">{entry.note}</span>
+			</li>
+		))}
+	</ul>
+</details>
+
+<style is:global>
+	.changelog {
+		margin: 0.4rem 0 3rem;
+		font-size: 0.82rem;
+		color: var(--gray-color);
+		font-family: var(--serif-font);
+	}
+
+	.changelog__summary {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+		outline: none;
+	}
+
+	.changelog__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.changelog__label {
+		letter-spacing: 0.12em;
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		opacity: 0.7;
+		transition: opacity 0.15s;
+	}
+
+	.changelog__count {
+		font-size: 0.72rem;
+		opacity: 0.5;
+		transition: opacity 0.15s;
+	}
+
+	.changelog__arrow {
+		font-size: 0.9rem;
+		opacity: 0.45;
+		transition: transform 0.2s ease, opacity 0.15s;
+		display: inline-block;
+		line-height: 1;
+	}
+
+	details[open] .changelog__arrow {
+		transform: rotate(90deg);
+	}
+
+	.changelog__summary:hover .changelog__label,
+	.changelog__summary:hover .changelog__count,
+	.changelog__summary:hover .changelog__arrow {
+		opacity: 1;
+	}
+
+	.changelog__list {
+		list-style: none;
+		margin: 0.8rem 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.changelog__entry {
+		display: flex;
+		align-items: baseline;
+		gap: 0.5rem;
+	}
+
+	.changelog__date {
+		font-family: "JetBrains Mono", "Fira Code", Consolas, Menlo, monospace;
+		font-size: 0.78rem;
+		opacity: 0.8;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.changelog__sep {
+		opacity: 0.4;
+		flex-shrink: 0;
+	}
+
+	.changelog__note {
+		opacity: 0.75;
+		line-height: 1.5;
+	}
+</style>

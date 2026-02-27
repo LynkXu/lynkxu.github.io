@@ -5,6 +5,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import Toc from '../components/Toc.astro';
 import LeftSidebar from '../components/LeftSidebar.astro';
 import NavButton from '../components/NavButton.astro';
+import Changelog from '../components/Changelog.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	postId?: string;
@@ -23,6 +24,7 @@ const {
 	tags,
 	categories,
 	draft,
+	changelog,
 	postId,
 	showTOC = true,
 	tocMinLevel = 2,
@@ -44,8 +46,8 @@ const isDev = import.meta.env.DEV;
 			align-items: center;
 			justify-content: center;
 			gap: 0.8rem;
-			margin: 3rem 0 2rem;
-			padding: 1.5rem 0;
+			margin: 3rem 0 0;
+			padding: 1.5rem 0 0.8rem;
 			color: var(--gray-color);
 			font-size: 0.85rem;
 			letter-spacing: 0.15em;
@@ -175,6 +177,7 @@ const isDev = import.meta.env.DEV;
 			padding: 2.5rem 1rem 1rem 1rem !important; /* Top padding for header space */
 			background: transparent !important;
 		}
+
 	</style>
 
 	<div class="post-title-separator" aria-hidden="true">–</div>
@@ -222,15 +225,20 @@ const isDev = import.meta.env.DEV;
 				<slot />
 			</div>
 
-			<!-- 文章结束标识 -->
-			<div class='post-end'>
-				<span class='post-end__symbol'>◆</span>
-				<span class='post-end__text'>END</span>
-				<span class='post-end__symbol'>◆</span>
-			</div>
+		<!-- 文章结束标识 -->
+		<div class='post-end'>
+			<span class='post-end__symbol'>◆</span>
+			<span class='post-end__text'>END</span>
+			<span class='post-end__symbol'>◆</span>
+		</div>
 
-			<!-- 导航按钮 -->
-			<NavButton showBackToTop={true} />
+		<!-- Changelog 注脚 -->
+		{changelog && changelog.length > 0 && (
+			<Changelog entries={changelog} />
+		)}
+
+		<!-- 导航按钮 -->
+		<NavButton showBackToTop={true} />
 		</div>
 
 		<!-- 目录侧边栏 -->

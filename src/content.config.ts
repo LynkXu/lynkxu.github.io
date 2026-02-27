@@ -22,9 +22,13 @@ const blog = defineCollection({
 			updatedDate: z.coerce.date().optional(),
 			heroImage: image().optional(),
 			categories: z.array(z.string()).optional(),
-			tags: z.array(z.string()).optional(),
-			draft: z.boolean().default(false),
-		}),
+		tags: z.array(z.string()).optional(),
+		draft: z.boolean().default(false),
+		changelog: z.array(z.object({
+			date: z.coerce.date(),
+			note: z.string(),
+		})).optional(),
+	}),
 });
 
 const page = defineCollection({
