@@ -8,15 +8,16 @@
   --content-bg: #ffffff;
   --heading-color: #1a1a1a;
   --text-color: #1a1a1a;
-  --link-color: #1a1a1a;
-  --visited-color: #1a1a1a;
+  --accent-color: #5b7ea6;
+  --link-color: #5b7ea6;
   --code-background-color: #f6f8fa;
   --code-color: #222;
   --blockquote-color: #555;
   --gray-color: #888;
   --selection-bg: #e0ddd1;
   --selection-color: #000;
-  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
+  --card-border: 1px solid rgba(0, 0, 0, 0.07);
   color-scheme: light;
 }
 
@@ -27,15 +28,16 @@
     --content-bg: #1a1a1a;
     --heading-color: #f2f2f2;
     --text-color: #d4d4d4;
-    --link-color: #e0e0e0;
-    --visited-color: #e0e0e0;
+    --accent-color: #8ab4d4;
+    --link-color: #8ab4d4;
     --code-background-color: #262626;
     --code-color: #e0e0e0;
     --blockquote-color: #999;
     --gray-color: #777;
     --selection-bg: #444;
     --selection-color: #fff;
-    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(0, 0, 0, 0.25);
+    --card-border: 1px solid rgba(255, 255, 255, 0.07);
     color-scheme: dark;
   }
 }
@@ -46,15 +48,16 @@
   --content-bg: #ffffff;
   --heading-color: #1a1a1a;
   --text-color: #1a1a1a;
-  --link-color: #1a1a1a;
-  --visited-color: #1a1a1a;
+  --accent-color: #5b7ea6;
+  --link-color: #5b7ea6;
   --code-background-color: #f6f8fa;
   --code-color: #222;
   --blockquote-color: #555;
   --gray-color: #888;
   --selection-bg: #e0ddd1;
   --selection-color: #000;
-  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.06);
+  --card-border: 1px solid rgba(0, 0, 0, 0.07);
   color-scheme: light;
 }
 
@@ -64,15 +67,16 @@
   --content-bg: #1a1a1a;
   --heading-color: #f2f2f2;
   --text-color: #d4d4d4;
-  --link-color: #e0e0e0;
-  --visited-color: #e0e0e0;
+  --accent-color: #8ab4d4;
+  --link-color: #8ab4d4;
   --code-background-color: #262626;
   --code-color: #e0e0e0;
   --blockquote-color: #999;
   --gray-color: #777;
   --selection-bg: #444;
   --selection-color: #fff;
-  --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 8px 32px rgba(0, 0, 0, 0.25);
+  --card-border: 1px solid rgba(255, 255, 255, 0.07);
   color-scheme: dark;
 }
 
@@ -151,6 +155,7 @@ body {
   background-color: var(--content-bg);
   border-radius: 0;
   box-shadow: var(--card-shadow);
+  border: var(--card-border);
   min-height: calc(100vh - 80px); /* 留出上下边距 */
   width: 90%; /* 在小屏幕上留出一些余地 */
 }
@@ -661,23 +666,38 @@ pre code {
 }
 
 
-h1,
-h2 {
+h1 {
   font-family: var(--serif-font);
-  font-size: 1.55rem;
+  font-size: 1.65rem;
   font-weight: 650;
   color: var(--heading-color);
-  display: inherit
+  display: inherit;
 }
 
-h3,
+h2 {
+  font-family: var(--serif-font);
+  font-size: 1.38rem;
+  font-weight: 650;
+  color: var(--heading-color);
+  display: inherit;
+}
+
+h3 {
+  font-family: var(--serif-font);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--heading-color);
+  display: inherit;
+}
+
 h4,
 h5,
 h6 {
   font-family: var(--serif-font);
+  font-size: 1.0rem;
   font-weight: 600;
   color: var(--heading-color);
-  display: inherit
+  display: inherit;
 }
 
 a {
@@ -825,16 +845,33 @@ footer {
 ul.posts {
   list-style-type: none;
   padding: 0; /* 关键：去除左侧缩进，实现绝对左对齐 */
-  margin-top: 1.5rem;
+  margin-top: 0;
 }
 
 ul.posts li {
   display: flex;
-  margin: 12px 0; /* 稍微增加一点间距，参考图比我们要松一点 */
+  margin: 5px 0;
   align-items: baseline;
   line-height: 1.6;
-  transition: opacity 0.2s ease;
-  gap: 32px; /* 增加间距到 32px，参考图的间距比较宽 */
+  transition: opacity 0.2s ease, background 0.15s ease;
+  gap: 32px;
+  padding: 3px 8px;
+  margin-left: -8px;
+  border-radius: 3px;
+}
+
+ul.posts li:hover {
+  background: rgba(91, 126, 166, 0.08);
+}
+
+:root[data-theme="dark"] ul.posts li:hover {
+  background: rgba(138, 180, 212, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) ul.posts li:hover {
+    background: rgba(138, 180, 212, 0.1);
+  }
 }
 
 ul.posts li > span {
@@ -847,7 +884,7 @@ ul.posts li > span {
   letter-spacing: 0.05em; /* 关键：增加一点点间距，让宋体数字呼吸起来 */
 }
 
-/* 栏目标题 - 降低视觉权重，与整体极简风格协调 */
+/* 栏目标题 */
 .indextitle {
   font-size: 1.1em;
   margin: 1.5em 0 1em;
@@ -865,7 +902,7 @@ ul.posts li > div {
 }
 
 ul.posts li a:visited {
-  color: var(--visited-color)
+  color: var(--link-color)
 }
 
 
@@ -880,9 +917,16 @@ ul.posts li a:visited {
     line-height: 1.75;
   }
 
-  h1,
+  h1 {
+    font-size: 1.5rem;
+  }
+
   h2 {
-    font-size: 1.45rem;
+    font-size: 1.28rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
   }
 
   header {
@@ -1359,10 +1403,11 @@ ul.posts li a:visited {
 }
 
 .indextitle {
-  font-size: 1.17em;
-  margin: 1em 0;
+  font-size: 1.1em;
+  margin: 1.5em 0 1em;
   color: var(--heading-color);
-  font-weight: bold;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .contains-task-list {
