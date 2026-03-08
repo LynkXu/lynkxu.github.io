@@ -729,6 +729,100 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 553054567340152500,
+      "item": {
+        "type": "TVSeason",
+        "title": "美丽毒素",
+        "description": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity.",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "시즌 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "es",
+            "text": "En la temporada 1, la investigación lleva a los agentes del FBI Cooper Madsen y Jordan Bennett directamente al punto de mira de «The Corporation», un misterioso multimillonario del sector tecnológico que ha creado en secreto una droga milagrosa llamada «The Beauty» y que está dispuesto a hacer cualquier cosa para proteger su imperio valorado en billones de dólares, incluso desatar a su letal ejecutor, «The Assassin». A medida que la epidemia se propaga, Jeremy, un forastero desesperado, se ve envuelto en el caos, buscando un propósito mientras los agentes recorren París, Venecia, Roma y Nueva York para detener una amenaza que podría alterar el futuro de la humanidad."
+          },
+          {
+            "lang": "en",
+            "text": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/tmdb_tvseason/2026/01/23/9e302d8a-ecff-4b32-b1f7-36a8a0e11d71.jpg",
+        "rating": null,
+        "rating_count": 3,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity.",
+        "id": "https://neodb.social/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "uuid": "2zUIbnAthdWHPyTzgfUNXG",
+        "url": "/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "api_url": "/api/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "category": "tv",
+        "parent_uuid": "75X9f2uGaUYpRiYtoXvYzi",
+        "display_title": "美丽毒素",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/37059654/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/273160/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-03-07T10:21:24.053Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 547676108062402940,
       "item": {
         "type": "TVSeason",
