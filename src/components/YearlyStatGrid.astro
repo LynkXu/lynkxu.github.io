@@ -45,6 +45,66 @@ function paceText(distKmText: any, timeHoursText: any) {
   return `~${mm}'${ssText}''/km`;
 }
 
+function parseRaceTimeToSeconds(timeText: any) {
+  const raw = String(timeText || '').trim();
+  if (!raw) return null;
+  const parts = raw.split(':').map((x) => Number.parseInt(x, 10));
+  if (parts.some((x) => !Number.isFinite(x) || x < 0)) return null;
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  return null;
+}
+
+function getPbRaceByType(targetType: string) {
+  let bestRace: any = null;
+  let bestSeconds = Number.POSITIVE_INFINITY;
+
+  for (const race of races) {
+    const raceType = String(race?.type || '').trim();
+    const raceStatus = String(race?.status || '').trim().toLowerCase();
+    if (raceType !== targetType || raceStatus !== 'completed') continue;
+
+    const sec = parseRaceTimeToSeconds(race?.time);
+    if (sec == null || sec <= 0) continue;
+
+    if (sec < bestSeconds) {
+      bestSeconds = sec;
+      bestRace = race;
+    }
+  }
+
+  return bestRace;
+}
+
+function pbSubtext(race: any, fallback: string) {
+  if (!race) return fallback;
+  const pace = String(race?.pace || '').trim();
+  const date = String(race?.date || '').trim();
+  if (pace && date) return `${pace}/km @${date}`;
+  if (pace) return `${pace}/km`;
+  if (date) return `@${date}`;
+  return fallback;
+}
+
+const halfPbRace = getPbRaceByType('半马');
+const fullPbRace = getPbRaceByType('全马');
+
+const halfMarathonCard = halfPbRace
+  ? {
+      ...stats.cards.halfMarathon,
+      value: String(halfPbRace.time || '').trim() || stats.cards.halfMarathon.value,
+      subtext: pbSubtext(halfPbRace, stats.cards.halfMarathon.subtext),
+    }
+  : stats.cards.halfMarathon;
+
+const fullMarathonCard = fullPbRace
+  ? {
+      ...stats.cards.fullMarathon,
+      value: String(fullPbRace.time || '').trim() || stats.cards.fullMarathon.value,
+      subtext: pbSubtext(fullPbRace, stats.cards.fullMarathon.subtext),
+    }
+  : stats.cards.fullMarathon;
+
 // Construct data attribute for client-side
 const dataMap = {
   total: {
@@ -165,16 +225,16 @@ const hasRaces = (year: string) => racesGroups[year] && racesGroups[year].length
   {type === 'running' ? (
     <>
       <StatCard
-        label={stats.cards.halfMarathon.label}
-        value={stats.cards.halfMarathon.value}
-        unit={stats.cards.halfMarathon.unit}
-        subtext={stats.cards.halfMarathon.subtext}
+        label={halfMarathonCard.label}
+        value={halfMarathonCard.value}
+        unit={halfMarathonCard.unit}
+        subtext={halfMarathonCard.subtext}
       />
       <StatCard
-        label={stats.cards.fullMarathon.label}
-        value={stats.cards.fullMarathon.value}
-        unit={stats.cards.fullMarathon.unit}
-        subtext={stats.cards.fullMarathon.subtext}
+        label={fullMarathonCard.label}
+        value={fullMarathonCard.value}
+        unit={fullMarathonCard.unit}
+        subtext={fullMarathonCard.subtext}
       />
     </>
   ) : (
