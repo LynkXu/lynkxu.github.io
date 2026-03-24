@@ -142,6 +142,89 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 558884417616507500,
+      "item": {
+        "type": "Movie",
+        "title": "飞行家",
+        "description": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "飞行家"
+          },
+          {
+            "lang": "sw",
+            "text": "Take Off"
+          },
+          {
+            "lang": "en",
+            "text": "Take Off"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "飛行家"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "飞行家"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！"
+          },
+          {
+            "lang": "en",
+            "text": "A worker from Northeast China is obsessed with his dream of flying his self-made flying-device."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "東北奇人李明奇（蔣奇明 飾）一輩子就惦記著飛一把，偏偏遇上腦電波同頻的奇女子高雅風（李雪琴 飾），這對“奇人”夫妻一路腦洞大開、奇遇不斷，為造飛行器甚至和隕石來了場“親密接觸”……他們鬧了半生，到最後“飛行家”能順利上天嗎？"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/03/19/d2ee44f7-dacf-4e8c-ae18-42938f1a57c6.webp",
+        "rating": 5.5,
+        "rating_count": 11,
+        "rating_distribution": [
+          9,
+          18,
+          36,
+          37,
+          0
+        ],
+        "tags": [
+          "鹏飞"
+        ],
+        "brief": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！",
+        "id": "https://neodb.social/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "uuid": "5iQOJ51Ok9MhgRVBuZedBq",
+        "url": "/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "api_url": "/api/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "飞行家",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/35700339/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1411529"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt34386745/"
+          }
+        ]
+      },
+      "created_time": "2026-03-23T12:27:08.666Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 543349425809501800,
       "item": {
         "type": "Movie",
