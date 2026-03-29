@@ -488,6 +488,11 @@
   color: rgba(0, 0, 0, 0.62);
 }
 
+.tk-replies .tk-content p {
+  display: inline;
+  margin: 0;
+}
+
 :root[data-theme="dark"] .tk-replies .tk-content {
   color: rgba(255, 255, 255, 0.62);
 }
