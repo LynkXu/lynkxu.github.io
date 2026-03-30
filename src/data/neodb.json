@@ -810,6 +810,57 @@
   ],
   "tv": [
     {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 561081599732757900,
+      "item": {
+        "type": "TVSeason",
+        "title": "Rooster",
+        "description": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Rooster"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/01/04/38c6754a-035d-4205-a552-75f1c1c9f252.jpg",
+        "rating": null,
+        "rating_count": 0,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。",
+        "id": "https://neodb.social/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "uuid": "7Hb23mn7nAmhIq5bwFO667",
+        "url": "/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "api_url": "/api/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "category": "tv",
+        "parent_uuid": "6xhBppRuN8UU7fCz9iTla7",
+        "display_title": "Rooster",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36904776/"
+          }
+        ]
+      },
+      "created_time": "2026-03-29T13:57:57.702Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
       "shelf_type": "complete",
       "visibility": 0,
       "post_id": 553054567340152500,
