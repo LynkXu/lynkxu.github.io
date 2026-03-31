@@ -6,7 +6,6 @@ interface Props {
   cover: string;
   rating?: number; // 个人评分 (1-10)
   neodbRating?: number; // NeoDB 评分
-  brief?: string;
   comment?: string;
   date: string;
   year?: string | number;
@@ -14,43 +13,32 @@ interface Props {
   status?: string; // 'progress' or 'complete'
 }
 
-const { title, cover, rating, neodbRating, brief, comment, date, year, link, status } = Astro.props;
-
-// Format date - this is the time when the item was first added to any shelf
-const formattedDate = new Date(date).toLocaleDateString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
-}).replace(/\//g, '.');
+const { title, cover, rating, neodbRating, comment, date, year, link, status } = Astro.props;
 
 // Convert 1-10 rating to 1-5 stars
 const starCount = rating ? Math.round(rating / 2) : 0;
 ---
 
-<a href={link} target="_blank" rel="noopener noreferrer" class="media-card">
+<a href={link} target="_blank" rel="noopener noreferrer" class="media-card no-underline">
     <div class="cover-wrapper">
         <img src={cover} alt={title} loading="lazy" onerror="this.src='/placeholder.png'"/>
-        {(neodbRating || (year && year !== '未知')) && (
-            <div class="badge-top-right">
-                {neodbRating && <span class="badge-rating">{neodbRating}</span>}
-                {year && year !== '未知' && <span class="badge-year">{year}</span>}
-            </div>
-        )}
         {status === 'progress' && <span class="badge-status">在看</span>}
-        <div class="cover-overlay">
-            {starCount > 0 && (
-                <div class="overlay-stars">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                        <span class={`star ${i < starCount ? 'filled' : ''}`}>★</span>
-                    ))}
-                </div>
-            )}
-            {comment && <p class="overlay-comment">{comment}</p>}
-            {!comment && brief && <p class="overlay-comment overlay-brief">{brief}</p>}
-        </div>
     </div>
     <div class="info">
         <h3 class="title" title={title}>{title}</h3>
+        <div class="meta">
+            {starCount > 0 ? (
+                <span class="stars" title={`个人评分: ${rating}/10`}>
+                    {Array.from({ length: 5 }).map((_, i) => (
+                        <span class={`star ${i < starCount ? 'filled' : ''}`}>★</span>
+                    ))}
+                </span>
+            ) : neodbRating ? (
+                <span class="neodb-rating">NeoDB {neodbRating}</span>
+            ) : null}
+            {year && year !== '未知' && <span class="year">{year}</span>}
+        </div>
+        {comment && <p class="comment" title={comment}>{comment}</p>}
     </div>
 </a>
 
@@ -60,31 +48,36 @@ const starCount = rating ? Math.round(rating / 2) : 0;
         flex-direction: column;
         text-decoration: none;
         color: inherit;
-        border-radius: 0;
-        overflow: visible;
+        overflow: hidden;
         position: relative;
+        transition: transform 0.2s ease;
+        border-bottom: none !important; /* 强制覆盖全局的 a 标签 border-bottom */
+    }
+
+    .media-card:hover {
+        transform: translateY(-4px);
+        border-bottom: none !important; /* 悬浮时也取消下划线 */
     }
 
     .media-card:focus-visible {
         outline: 2px solid rgba(66, 153, 225, 0.6);
         outline-offset: 4px;
-        border-radius: 2px;
+        border-radius: 4px;
     }
 
     .cover-wrapper {
         position: relative;
         width: 100%;
         aspect-ratio: 2 / 3;
-        background: rgba(0, 0, 0, 0.04);
-        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 6px;
         overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        transition: box-shadow 0.2s ease;
     }
 
     .media-card:hover .cover-wrapper {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
     }
 
     .cover-wrapper img {
@@ -92,154 +85,107 @@ const starCount = rating ? Math.round(rating / 2) : 0;
         height: 100%;
         object-fit: cover;
         display: block;
+        transition: transform 0.3s ease;
     }
 
-    /* ── Badges ── */
-    .badge-rating {
-        position: static;
-        background: rgba(0, 0, 0, 0.6);
-        color: #fff;
-        font-size: 0.62rem;
-        font-weight: 600;
-        padding: 1px 5px;
-        border-radius: 3px;
-        backdrop-filter: blur(4px);
-        letter-spacing: 0.02em;
+    .media-card:hover .cover-wrapper img {
+        transform: scale(1.03);
     }
 
     .badge-status {
         position: absolute;
-        top: 5px;
-        left: 5px;
-        background: rgba(59, 130, 246, 0.8);
-        color: #fff;
-        font-size: 0.58rem;
+        top: 6px;
+        right: 6px;
+        background: var(--heading-color);
+        color: var(--content-bg);
+        font-size: 0.65rem;
         font-weight: 500;
-        padding: 1px 5px;
-        border-radius: 3px;
-        backdrop-filter: blur(4px);
+        padding: 2px 6px;
+        border-radius: 4px;
         z-index: 2;
+        letter-spacing: 0.05em;
     }
 
-    .badge-year {
-        position: static;
-        background: rgba(0, 0, 0, 0.55);
-        color: #fff;
-        font-size: 0.58rem;
-        font-weight: 600;
-        padding: 1px 5px;
-        border-radius: 3px;
-        backdrop-filter: blur(4px);
-        letter-spacing: 0.03em;
-    }
-
-    .badge-top-right {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 4px;
-        white-space: nowrap;
-        z-index: 2;
-    }
-
-    /* ── Hover overlay ── */
-    .cover-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            to top,
-            rgba(0, 0, 0, 0.85) 0%,
-            rgba(0, 0, 0, 0.55) 50%,
-            rgba(0, 0, 0, 0.2) 100%
-        );
+    .info {
+        margin-top: 10px;
+        width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding: 8px;
-        opacity: 0;
-        transition: opacity 0.25s ease;
-        z-index: 1;
-    }
-
-    .media-card:hover .cover-overlay {
-        opacity: 1;
-    }
-
-    .overlay-stars {
-        display: flex;
-        gap: 1px;
-        margin-bottom: 4px;
-    }
-
-    .overlay-stars .star {
-        font-size: 0.65rem;
-        color: rgba(255, 255, 255, 0.3);
-        line-height: 1;
-    }
-
-    .overlay-stars .star.filled {
-        color: #fbbf24;
-    }
-
-    .overlay-comment {
-        margin: 0;
-        font-size: 0.62rem;
-        line-height: 1.45;
-        color: rgba(255, 255, 255, 0.9);
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    .overlay-brief {
-        color: rgba(255, 255, 255, 0.65);
-        -webkit-line-clamp: 3;
-    }
-
-    /* ── Info ── */
-    .info {
-        margin-top: 6px;
-        width: 100%;
+        gap: 4px;
     }
 
     .title {
         margin: 0;
-        font-size: 0.75rem;
+        font-size: 0.85rem;
         font-weight: 600;
-        color: var(--text-color);
-        line-height: 1.35;
+        color: var(--heading-color);
+        line-height: 1.3;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
-        opacity: 0.85;
-        transition: color 0.15s, opacity 0.15s;
+        transition: color 0.2s;
+        border-bottom: none; /* 确保标题文字部分也没有下划线 */
     }
 
     .media-card:hover .title {
-        color: var(--heading-color);
-        opacity: 1;
+        color: var(--link-color);
+    }
+
+    .meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.7rem;
+        color: var(--gray-color);
+        line-height: 1;
+    }
+
+    .stars {
+        display: inline-flex;
+        gap: 1px;
+    }
+
+    .star {
+        color: rgba(0, 0, 0, 0.15);
+        font-size: 0.75rem;
+    }
+
+    .star.filled {
+        color: #f59e0b;
+    }
+
+    .neodb-rating {
+        font-weight: 500;
+    }
+
+    .year {
+        opacity: 0.8;
+    }
+
+    .comment {
+        margin: 2px 0 0 0;
+        font-size: 0.75rem;
+        color: var(--gray-color);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        opacity: 0.8;
     }
 
     /* ── Dark mode ── */
     :global([data-theme='dark']) .cover-wrapper {
-        background: rgba(255, 255, 255, 0.04);
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.03);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
     :global([data-theme='dark']) .media-card:hover .cover-wrapper {
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     }
 
-    /* ── Touch devices: hide hover overlay ── */
-    @media (hover: none) {
-        .cover-overlay {
-            display: none;
-        }
+    :global([data-theme='dark']) .star {
+        color: rgba(255, 255, 255, 0.15);
     }
 </style>

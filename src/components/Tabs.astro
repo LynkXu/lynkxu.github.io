@@ -137,4 +137,21 @@
   :global([data-theme="dark"]) .tabs-header {
     border-bottom-color: rgba(255,255,255,0.08);
   }
+
+  @media (max-width: 600px) {
+    .tabs-header {
+      gap: 1.2rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tabs-header::-webkit-scrollbar {
+      display: none;
+    }
+    :global(.tab-btn) {
+      font-size: 1rem;
+      padding: 0.6rem 0;
+      white-space: nowrap;
+    }
+  }
 </style>
