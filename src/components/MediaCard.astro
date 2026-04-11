@@ -116,10 +116,10 @@ const starCount = rating ? Math.round(rating / 2) : 0;
 
     .title {
         margin: 0;
-        font-size: 0.85rem;
+        font-size: var(--text-sm);
         font-weight: 600;
         color: var(--heading-color);
-        line-height: 1.3;
+        line-height: 1.4;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -136,7 +136,7 @@ const starCount = rating ? Math.round(rating / 2) : 0;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        font-size: 0.7rem;
+        font-size: var(--text-xs);
         color: var(--gray-color);
         line-height: 1;
     }
@@ -148,7 +148,7 @@ const starCount = rating ? Math.round(rating / 2) : 0;
 
     .star {
         color: rgba(0, 0, 0, 0.15);
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
     }
 
     .star.filled {
@@ -165,9 +165,9 @@ const starCount = rating ? Math.round(rating / 2) : 0;
 
     .comment {
         margin: var(--space-2xs) 0 0 0;
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
         color: var(--gray-color);
-        line-height: 1.4;
+        line-height: 1.55;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;

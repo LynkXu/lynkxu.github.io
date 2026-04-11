@@ -13,8 +13,19 @@
   --space-2xl: 48px;
   --space-3xl: 64px;
   --space-4xl: 96px;
-  --font-scale: 0.95em;
+  --page-inline: clamp(var(--space-lg), 4vw, var(--space-xl));
+  --ui-font: "IBM Plex Sans", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --serif-font: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 0.95rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.4rem;
+  --text-2xl: clamp(1.72rem, 3.1vw, 2.05rem);
+  --lh-tight: 1.28;
+  --lh-body: 1.8;
+  --lh-loose: 1.92;
+  --measure-readable: 70ch;
   --background-color: #fafafa;
   --page-bg: #f0f1f3;
   --content-bg: #ffffff;
@@ -109,7 +120,7 @@
 body {
   font-family: var(--serif-font);
   font-weight: 400;
-  font-size: var(--font-scale);
+  font-size: var(--text-md);
   margin: 0;
   padding: 0;
   width: 100%;
@@ -117,7 +128,7 @@ body {
   background-color: var(--page-bg);
   word-wrap: break-word;
   overflow-wrap: break-word;
-  line-height: 1.85;
+  line-height: var(--lh-body);
   color: var(--text-color);
   overflow-y: scroll;
   display: flex;
@@ -223,9 +234,9 @@ body {
 
 @media (max-width: 768px) {
   .global-layout-transparent header {
-      width: 92%;
-      padding: 15px 0;
-      margin-bottom: 20px;
+      width: var(--container-reading);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-md);
   }
 }
 
@@ -248,7 +259,7 @@ body.full-width footer {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--space-3xl) clamp(var(--space-lg), 4vw, var(--space-xl)) var(--space-xl);
+    padding: var(--space-3xl) var(--page-inline) var(--space-xl);
     box-sizing: border-box;
 }
 
@@ -259,7 +270,7 @@ body.full-width .global-layout-transparent.travel-page {
 /* Travel 页面单独处理 footer */
 body.full-width .global-layout-transparent.travel-page footer {
     max-width: 1200px; /* 保持内容宽度 */
-    padding: var(--space-3xl) clamp(var(--space-lg), 4vw, var(--space-xl)) var(--space-xl);
+    padding: var(--space-3xl) var(--page-inline) var(--space-xl);
 }
 
 @media (max-width: 768px) {
@@ -683,24 +694,29 @@ pre code {
 
 h1 {
   font-family: var(--serif-font);
-  font-size: 1.65rem;
+  font-size: var(--text-2xl);
   font-weight: 650;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
   color: var(--heading-color);
   display: inherit;
 }
 
 h2 {
   font-family: var(--serif-font);
-  font-size: 1.38rem;
+  font-size: var(--text-xl);
   font-weight: 650;
+  line-height: calc(var(--lh-tight) + 0.02);
+  letter-spacing: -0.006em;
   color: var(--heading-color);
   display: inherit;
 }
 
 h3 {
   font-family: var(--serif-font);
-  font-size: 1.15rem;
+  font-size: var(--text-lg);
   font-weight: 600;
+  line-height: calc(var(--lh-tight) + 0.04);
   color: var(--heading-color);
   display: inherit;
 }
@@ -709,8 +725,9 @@ h4,
 h5,
 h6 {
   font-family: var(--serif-font);
-  font-size: 1.0rem;
+  font-size: var(--text-md);
   font-weight: 600;
+  line-height: calc(var(--lh-tight) + 0.08);
   color: var(--heading-color);
   display: inherit;
 }
@@ -735,8 +752,9 @@ nav {
 }
 
 nav a {
-  font-size: 0.9rem;
-  font-weight: 400;
+  font-family: var(--ui-font);
+  font-size: var(--text-sm);
+  font-weight: 450;
   text-decoration: none;
   color: var(--gray-color);
   transition: color 0.2s ease;
@@ -846,8 +864,9 @@ footer {
 
 .title h1,
 .title h2 {
-  font-size: 1.5em;
+  font-size: 1.45rem;
   font-weight: 700;
+  line-height: var(--lh-tight);
 }
 
 /* 文章页标题：显式加粗，避免被其他样式/渲染差异影响观感 */
@@ -891,7 +910,7 @@ ul.posts li:hover {
 
 ul.posts li > span {
   flex: 0 0 92px; /* 稍微给宽一点，容纳无衬线体或稍大的字 */
-  font-size: 0.95em; /* 字号不需要太小 */
+  font-size: var(--text-sm);
   font-weight: 400;
   color: var(--gray-color);
   font-variant-numeric: tabular-nums;
@@ -901,7 +920,7 @@ ul.posts li > span {
 
 /* 栏目标题 */
 .indextitle {
-  font-size: 1.1em;
+  font-size: 1.08rem;
   margin: 1.5em 0 1em;
   color: var(--heading-color);
   font-weight: 600;
@@ -922,26 +941,22 @@ ul.posts li a:visited {
 
 
 @media (max-width: 600px) {
-  :root {
-    --font-scale: 0.95em;
-  }
-
   body {
     width: auto;
     padding: var(--space-lg);
-    line-height: 1.75;
+    line-height: var(--lh-loose);
   }
 
   h1 {
-    font-size: 1.5rem;
+    font-size: clamp(1.5rem, 6.2vw, 1.8rem);
   }
 
   h2 {
-    font-size: 1.28rem;
+    font-size: clamp(1.3rem, 4.7vw, 1.55rem);
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: clamp(1.1rem, 3.9vw, 1.22rem);
   }
 
   header {
@@ -981,6 +996,17 @@ ul.posts li a:visited {
 }
 
 .post-content {
+  font-size: var(--text-md);
+  line-height: var(--lh-body);
+  max-width: var(--measure-readable);
+  margin-left: auto;
+  margin-right: auto;
+
+  p,
+  li,
+  figcaption {
+    letter-spacing: 0.002em;
+  }
 
   /* 标题前的 # 号装饰 - 极客悬挂风格 */
   h1, h2, h3, h4, h5, h6 {
