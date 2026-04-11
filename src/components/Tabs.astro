@@ -90,14 +90,14 @@
 <style>
   astro-tabs {
     display: block;
-    margin: 0.75rem 0;
+    margin: var(--space-sm) 0;
   }
 
   .tabs-header {
     display: flex;
     border-bottom: 1px solid rgba(0,0,0,0.06);
-    margin-bottom: 1.25rem;
-    gap: 2rem;
+    margin-bottom: var(--space-lg);
+    gap: var(--space-xl);
   }
 
   :global(.tab-btn) {
@@ -114,7 +114,7 @@
     letter-spacing: 0.02em;
     display: inline-flex;
     align-items: baseline;
-    gap: 0.35rem;
+    gap: var(--space-2xs);
   }
 
   :global(.tab-btn.active) {
@@ -140,7 +140,7 @@
 
   @media (max-width: 600px) {
     .tabs-header {
-      gap: 1.2rem;
+      gap: var(--space-lg);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
@@ -150,7 +150,7 @@
     }
     :global(.tab-btn) {
       font-size: 1rem;
-      padding: 0.6rem 0;
+      padding: var(--space-xs) 0;
       white-space: nowrap;
     }
   }

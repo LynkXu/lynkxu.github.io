@@ -1,6 +1,18 @@
 :root {
   --width: 780px; /* 改回较小宽度，从 860px 减小 */
   --content-width: 820px;
+  --container-reading: min(100% - clamp(1.5rem, 5vw, 4rem), var(--width));
+  --container-wide: min(100% - clamp(1.5rem, 5vw, 4rem), 1200px);
+  --container-full: min(100% - clamp(1.5rem, 5vw, 4rem), 1400px);
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
   --font-scale: 0.95em;
   --serif-font: "Source Serif 4", "Noto Serif SC", "Source Han Serif CN", serif;
   --background-color: #fafafa;
@@ -150,19 +162,21 @@ body {
 /* 主容器卡片样式 */
 .global-layout-card {
   max-width: var(--width);
-  margin: 40px auto;
-  padding: 40px 60px;
+  width: var(--container-reading);
+  margin: clamp(var(--space-lg), 5vw, var(--space-2xl)) auto;
+  padding: clamp(var(--space-lg), 4vw, var(--space-2xl))
+    clamp(var(--space-lg), 5vw, var(--space-3xl));
   background-color: var(--content-bg);
   border-radius: 0;
   box-shadow: var(--card-shadow);
   border: var(--card-border);
-  min-height: calc(100vh - 80px); /* 留出上下边距 */
-  width: 90%; /* 在小屏幕上留出一些余地 */
+  min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
 }
 
 /* 博客文章页（需要侧边栏）使用更宽的卡片 */
 .global-layout-card.layout-wide {
     max-width: 1200px;
+    width: var(--container-wide);
 }
 
 /* 无卡片模式（全屏布局） */
@@ -189,9 +203,9 @@ body {
 */
 .global-layout-transparent header {
     max-width: var(--width); /* 与主博客卡片宽度保持一致，确保导航对齐 */
-    width: 90%;
-    margin: 0 auto 40px;
-    padding: 20px 0; /* 增加一点呼吸感 */
+    width: var(--container-reading);
+    margin: 0 auto var(--space-xl);
+    padding: var(--space-md) 0;
     border-bottom: 1px dashed rgba(0,0,0,0.1); /* 使用虚线，更轻盈 */
     background: transparent;
 }
@@ -199,6 +213,7 @@ body {
 /* 特殊页面的 Header 可以更宽 */
 .global-layout-transparent.layout-wide header {
     max-width: 1400px;
+    width: var(--container-full);
 }
 
 /* Dark mode header adjustment */
@@ -217,9 +232,9 @@ body {
 /* 透明布局下的 Footer：与内容区对齐 */
 .global-layout-transparent footer {
     max-width: var(--content-width);
-    width: 90%;
+    width: var(--container-reading);
     margin: 0 auto;
-    padding: 1.2rem 0;
+    padding: var(--space-md) 0;
     box-sizing: border-box;
 }
 
@@ -233,7 +248,7 @@ body.full-width footer {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 60px 40px 40px; /* 增加左右 padding */
+    padding: var(--space-3xl) clamp(var(--space-lg), 4vw, var(--space-xl)) var(--space-xl);
     box-sizing: border-box;
 }
 
@@ -244,7 +259,7 @@ body.full-width .global-layout-transparent.travel-page {
 /* Travel 页面单独处理 footer */
 body.full-width .global-layout-transparent.travel-page footer {
     max-width: 1200px; /* 保持内容宽度 */
-    padding: 60px 2rem 40px;
+    padding: var(--space-3xl) clamp(var(--space-lg), 4vw, var(--space-xl)) var(--space-xl);
 }
 
 @media (max-width: 768px) {
@@ -253,12 +268,12 @@ body.full-width .global-layout-transparent.travel-page footer {
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 20px 24px;
+    padding: var(--space-lg);
     min-height: 100vh;
   }
   
   .global-layout-transparent {
-      padding: 20px 20px;
+      padding: var(--space-lg);
   }
   
   body {
@@ -295,8 +310,8 @@ main {
   color: var(--gray-color);
   
   /* Layout & Spacing */
-  margin: 0.5rem 0 2.5rem;
-  padding: 0.5rem 0 1rem; /* bottom padding defines distance to border */
+  margin: var(--space-xs) 0 var(--space-2xl);
+  padding: var(--space-xs) 0 var(--space-md); /* bottom padding defines distance to border */
   
   /* Divider Line */
   border: 0;
@@ -784,18 +799,18 @@ blockquote {
 }
 
 header {
-  padding: 1.2rem 0;
+  padding: var(--space-md) 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: var(--space-lg);
   border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 /* Fix header margin in card layout */
 .global-layout-card header {
-    margin-bottom: 48px;
+    margin-bottom: var(--space-2xl);
 }
 
 /* Fix header margin in wrapper */
@@ -809,7 +824,7 @@ header {
 }
 
 footer {
-  padding: 40px 0 30px;
+  padding: var(--space-2xl) 0 var(--space-xl);
   margin-top: auto;
   border-top: 1px solid rgba(0,0,0,0.05);
 }
@@ -850,13 +865,13 @@ ul.posts {
 
 ul.posts li {
   display: flex;
-  margin: 5px 0;
+  margin: var(--space-2xs) 0;
   align-items: baseline;
   line-height: 1.6;
   transition: opacity 0.2s ease, background 0.15s ease;
-  gap: 32px;
-  padding: 3px 8px;
-  margin-left: -8px;
+  gap: var(--space-xl);
+  padding: var(--space-2xs) var(--space-xs);
+  margin-left: calc(var(--space-xs) * -1);
   border-radius: 3px;
 }
 
@@ -875,7 +890,7 @@ ul.posts li:hover {
 }
 
 ul.posts li > span {
-  flex: 0 0 90px; /* 稍微给宽一点，容纳无衬线体或稍大的字 */
+  flex: 0 0 92px; /* 稍微给宽一点，容纳无衬线体或稍大的字 */
   font-size: 0.95em; /* 字号不需要太小 */
   font-weight: 400;
   color: var(--gray-color);
@@ -913,7 +928,7 @@ ul.posts li a:visited {
 
   body {
     width: auto;
-    padding: 20px;
+    padding: var(--space-lg);
     line-height: 1.75;
   }
 
@@ -932,8 +947,8 @@ ul.posts li a:visited {
   header {
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
   }
 
   .title {

@@ -45,9 +45,9 @@ const isDev = import.meta.env.DEV;
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 0.8rem;
-			margin: 3rem 0 0;
-			padding: 1.5rem 0 0.8rem;
+			gap: var(--space-xs);
+			margin: var(--space-3xl) 0 0;
+			padding: var(--space-lg) 0 var(--space-xs);
 			color: var(--gray-color);
 			font-size: 0.85rem;
 			letter-spacing: 0.15em;
@@ -66,7 +66,7 @@ const isDev = import.meta.env.DEV;
 		/* Code Block Wrapper */
 		.code-wrapper {
 			position: relative;
-			margin: 2rem 0;
+			margin: var(--space-xl) 0;
 			border-radius: 0;
 			background: var(--code-background-color);
 			box-shadow: none;
@@ -84,11 +84,11 @@ const isDev = import.meta.env.DEV;
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 2.5rem;
+			height: 2.4rem;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 0 1rem;
+			padding: 0 var(--space-md);
 			background: transparent;
 			z-index: 10;
 			/* 让鼠标事件穿透 Header 背景，但保留按钮的交互 */
@@ -132,7 +132,7 @@ const isDev = import.meta.env.DEV;
 			color: var(--gray-color);
 			opacity: 0.3;
 			font-size: 1.2rem;
-			margin: 0.5rem 0 0.8rem;
+			margin: var(--space-xs) 0 var(--space-sm);
 			user-select: none;
 		}
 
@@ -174,7 +174,7 @@ const isDev = import.meta.env.DEV;
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
-			padding: 2.5rem 1rem 1rem 1rem !important; /* Top padding for header space */
+			padding: 2.4rem var(--space-md) var(--space-md) var(--space-md) !important;
 			background: transparent !important;
 		}
 

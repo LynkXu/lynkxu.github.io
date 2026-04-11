@@ -195,7 +195,7 @@ const description = "读万卷书，行万里路";
     .content-wrapper {
         position: relative;
         z-index: 2;
-        padding: 4rem 0 4rem; /* padding 移动到内部，增加顶部 padding 替代 header */
+        padding: var(--space-3xl) 0 var(--space-3xl);
         width: 100%;
         margin: 0;
         /* Ensure background matches main content to avoid transparency issues over map edges */
@@ -224,12 +224,7 @@ const description = "读万卷书，行万里路";
     .places-list {
         max-width: 1200px;
         margin: 0 auto;
-        padding: 0 2rem; /* 增加 padding 防止紧贴边缘 */
-    }
-
-    .year-section {
-        margin-bottom: 4rem;
-        position: relative;
+        padding: 0 clamp(var(--space-lg), 4vw, var(--space-xl));
     }
 
     .year-title {
@@ -245,20 +240,20 @@ const description = "读万卷书，行万里路";
         pointer-events: none;
         border-left: none;
         padding-left: 0;
-        margin-bottom: 0.5rem;
+        margin-bottom: var(--space-xs);
         display: block;
         width: 100%;
     }
 
     .year-section {
-        margin-bottom: 2.5rem;
+        margin-bottom: var(--space-2xl);
         position: relative;
     }
 
     .places-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: var(--space-md);
         position: relative;
         z-index: 1;
     }
@@ -268,7 +263,7 @@ const description = "读万卷书，行万里路";
         background: rgba(255, 255, 255, 0.4);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
-        padding: 0.4rem 0.3rem;
+        padding: var(--space-sm) var(--space-xs);
         border-radius: 4px;
         border: 1px solid rgba(0, 0, 0, 0.03);
         transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -306,14 +301,14 @@ const description = "读万卷书，行万里路";
     .place-header h3 {
         font-family: var(--serif-font);
         font-size: 0.9rem;
-        margin-bottom: 0.1rem;
+        margin-bottom: var(--space-2xs);
         font-weight: 600;
         letter-spacing: 0.02em;
         line-height: 1.2;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        gap: var(--space-2xs);
     }
 
     .date {
@@ -327,7 +322,7 @@ const description = "读万卷书，行万里路";
 
     .living-badge, .hometown-badge {
         font-size: 0.5rem;
-        padding: 1px 4px;
+        padding: 1px var(--space-2xs);
         border-radius: 3px;
         margin-left: 0;
         font-weight: 600;

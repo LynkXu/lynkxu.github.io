@@ -261,12 +261,6 @@ const description = "定格时间，留住感动";
         }
     }
 
-    /* Header Styles */
-    :global(.simple-header) {
-        max-width: 100% !important;
-        padding: 1.5rem 15px !important;
-    }
-
     .gallery-header {
         text-align: center;
         margin: 0 auto 3rem;
@@ -289,20 +283,20 @@ const description = "定格时间，留住感动";
 
     .content {
         width: 100%;
-        max-width: 100%; /* 全宽 */
+        max-width: 100%;
         margin: 0 auto;
-        padding: 0 15px; /* 极窄边距 */
+        padding: 0 clamp(var(--space-md), 3vw, var(--space-xl));
     }
 
     /* Masonry Grid */
     .gallery-masonry {
         column-count: 4; 
-        column-gap: 8px; /* 极窄间距 */
+        column-gap: var(--space-sm);
     }
     
     .gallery-item {
         display: block;
-        margin-bottom: 8px;
+        margin-bottom: var(--space-sm);
         break-inside: avoid;
         cursor: zoom-in;
         text-decoration: none;
@@ -343,7 +337,7 @@ const description = "定格时间，留住感动";
         transition: opacity 0.3s ease;
         display: flex;
         align-items: flex-end; /* Align content to bottom */
-        padding: 1.5rem;
+        padding: var(--space-lg);
     }
 
     .gallery-item:hover .overlay {
@@ -355,7 +349,7 @@ const description = "定格时间，留住感动";
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 6px;
+        gap: var(--space-xs);
         color: white;
     }
 
@@ -371,7 +365,7 @@ const description = "定格时间，留住感动";
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 6px;
+        gap: var(--space-xs);
         transform: translateY(10px);
         transition: transform 0.3s ease;
     }
@@ -455,12 +449,8 @@ const description = "定格时间，留住感动";
     }
 
     @media (max-width: 600px) {
-        :global(.simple-header) {
-            padding: 1rem 15px !important;
-        }
-
         .content {
-            padding: 0 15px;
+            padding: 0 var(--space-md);
         }
 
         .page-header {
@@ -481,7 +471,7 @@ const description = "定格时间，留住感动";
         .overlay {
             opacity: 1;
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
-            padding: 1rem;
+            padding: var(--space-md);
         }
         
         .zoom-icon {
