@@ -318,7 +318,7 @@ const gamesByYear = groupByYear(games);
         margin: 0;
         font-size: 1.1rem;
         font-weight: 600;
-        color: var(--heading-color);
+        color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
         font-family: var(--serif-font);
         white-space: nowrap;
     }
@@ -371,11 +371,11 @@ const gamesByYear = groupByYear(games);
 
     .media-pager-btn:hover:not(:disabled) {
         color: var(--link-color);
-        background: rgba(0, 0, 0, 0.03);
+        background: color-mix(in oklab, var(--accent-soft-bg) 68%, transparent);
     }
 
     :global([data-theme='dark']) .media-pager-btn:hover:not(:disabled) {
-        background: rgba(255, 255, 255, 0.05);
+        background: color-mix(in oklab, var(--accent-soft-bg) 50%, transparent);
     }
 
     .media-pager-btn:disabled {
