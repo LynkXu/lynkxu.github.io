@@ -83,6 +83,8 @@ const currentYear = today.getFullYear();
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-width: 44px;
+		min-height: 44px;
 		color: var(--gray-color);
 		opacity: 0.6;
 		transition: opacity 0.2s, color 0.2s;
@@ -92,6 +94,11 @@ const currentYear = today.getFullYear();
 		opacity: 1;
 		color: var(--text-color);
 		border-bottom: none;
+	}
+
+	.social-links a:focus-visible {
+		outline: 2px solid var(--accent-color);
+		outline-offset: 2px;
 	}
 
 	.social-links svg {

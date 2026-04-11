@@ -115,6 +115,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: var(--space-2xs);
+    min-height: 44px;
   }
 
   :global(.tab-btn.active) {
@@ -124,6 +125,11 @@
 
   :global(.tab-btn:hover:not(.active)) {
     color: var(--link-color);
+  }
+
+  :global(.tab-btn:focus-visible) {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 3px;
   }
 
   :global(.tab-count) {

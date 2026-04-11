@@ -26,6 +26,8 @@
   --lh-body: 1.8;
   --lh-loose: 1.92;
   --measure-readable: 70ch;
+  --z-fab: 30;
+  --z-modal: 80;
   --background-color: oklch(0.985 0.0015 250);
   --page-bg: oklch(0.962 0.0025 250);
   --content-bg: oklch(0.99 0.0012 250);
@@ -435,7 +437,7 @@ main {
   position: fixed;
   right: 18px;
   bottom: 18px;
-  z-index: 999;
+  z-index: var(--z-fab);
 
   width: 42px;
   height: 42px;
@@ -507,6 +509,29 @@ main {
 
 html {
   scroll-behavior: smooth;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 pre,
@@ -1165,7 +1190,7 @@ ul.posts li a:visited {
 
 .post-content a {
   border-bottom: 1px solid;
-  transition: all 0.1s linear;
+  transition: background-color 0.1s linear, color 0.1s linear;
   color: var(--link-color);
 }
 
