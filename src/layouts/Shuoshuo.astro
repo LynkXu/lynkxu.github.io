@@ -138,7 +138,6 @@ function getDateParts(date: Date) {
                                 <div class='feed-card entry-panel'>
                                     <div class="entry-meta">
                                         <span class="entry-date">{dateStamp}</span>
-                                        <span class="entry-sep">$</span>
                                         <span class='card-time'>{time}</span>
                                         {INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
                                     </div>
@@ -296,14 +295,14 @@ function getDateParts(date: Date) {
         .feed-card {
             padding: var(--space-sm) var(--space-md);
             margin: 0;
-            border: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            border: 1px solid color-mix(in oklab, var(--gray-color) 10%, transparent);
             border-radius: 0;
             background: color-mix(in oklab, var(--content-bg) 82%, transparent);
             transition: border-color 0.2s, background-color 0.2s;
         }
 
         .feed-item:hover .feed-card {
-            border-color: color-mix(in oklab, var(--gray-color) 22%, transparent);
+            border-color: color-mix(in oklab, var(--gray-color) 16%, transparent);
             background: color-mix(in oklab, var(--content-bg) 88%, transparent);
         }
 
@@ -329,14 +328,6 @@ function getDateParts(date: Date) {
 
         .entry-date::before { content: "["; opacity: 0.72; margin-right: 1px; }
         .entry-date::after { content: "]"; opacity: 0.72; margin-left: 1px; }
-
-        .entry-sep {
-            color: var(--accent-color);
-            opacity: 0.65;
-            margin-left: 8px;
-            margin-right: 5px;
-            user-select: none;
-        }
 
         .card-time {
             opacity: 0.86;
@@ -478,10 +469,6 @@ function getDateParts(date: Date) {
                 min-width: 86px;
             }
 
-            .entry-sep {
-                margin-left: 6px;
-                margin-right: 5px;
-            }
         }
 	</style>
 </Base>
