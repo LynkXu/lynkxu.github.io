@@ -73,7 +73,7 @@ function getDateParts(date: Date) {
         display: block;
         position: relative;
         overflow: hidden;
-        background-color: #f0f0f0;
+        background-color: var(--code-background-color);
         cursor: zoom-in;
     }
     .media-item img {
@@ -101,7 +101,7 @@ function getDateParts(date: Date) {
         max-width: 100%;
         width: auto;
         border-radius: 0;
-        border: 1px solid rgba(0,0,0,0.05);
+        border: 1px solid var(--accent-soft-border);
     }
     .grid-1 .media-item img {
         object-fit: contain;
@@ -141,7 +141,6 @@ function getDateParts(date: Date) {
 	<div class='gossip-page'>
         <p></p>
         <h2>–</h2>
-        <!-- <h1>{title}</h1> -->
 
 		<div id='shuoshuo' class="feed-container">
             {
@@ -281,7 +280,7 @@ function getDateParts(date: Date) {
             margin: 0 auto;
             padding-bottom: 4rem;
         }
-        
+
         /* 1. Header (Minimal Journal Style) - Removed */
         
         /* Feed Container */
@@ -307,10 +306,10 @@ function getDateParts(date: Date) {
             height: 1px;
             background: linear-gradient(
                 90deg,
-                rgba(0, 0, 0, 0.02) 0%,
-                rgba(0, 0, 0, 0.14) 24%,
-                rgba(0, 0, 0, 0.14) 76%,
-                rgba(0, 0, 0, 0.02) 100%
+                color-mix(in oklab, var(--heading-color) 0%, transparent) 0%,
+                color-mix(in oklab, var(--heading-color) 16%, transparent) 24%,
+                color-mix(in oklab, var(--heading-color) 16%, transparent) 76%,
+                color-mix(in oklab, var(--heading-color) 0%, transparent) 100%
             );
         }
         
@@ -329,10 +328,10 @@ function getDateParts(date: Date) {
         :root[data-theme="dark"] .feed-item::after {
             background: linear-gradient(
                 90deg,
-                rgba(255, 255, 255, 0.02) 0%,
-                rgba(255, 255, 255, 0.14) 24%,
-                rgba(255, 255, 255, 0.14) 76%,
-                rgba(255, 255, 255, 0.02) 100%
+                color-mix(in oklab, var(--heading-color) 0%, transparent) 0%,
+                color-mix(in oklab, var(--heading-color) 16%, transparent) 24%,
+                color-mix(in oklab, var(--heading-color) 16%, transparent) 76%,
+                color-mix(in oklab, var(--heading-color) 0%, transparent) 100%
             );
         }
 
@@ -368,7 +367,7 @@ function getDateParts(date: Date) {
         .date-year {
             font-size: 0.62rem;
             color: var(--gray-color);
-            opacity: 0.52;
+            opacity: 0.72;
             margin-top: 1px;
         }
 
@@ -378,16 +377,16 @@ function getDateParts(date: Date) {
             right: 0;
             font-size: 0.62rem;
             color: var(--gray-color);
-            opacity: 0.22;
+            opacity: 0.4;
             transition: opacity 0.2s;
             user-select: none;
             font-family: var(--font-mono, monospace);
         }
 
         .card-time.on-media {
-            color: rgba(255, 255, 255, 0.9);
+            color: color-mix(in oklab, white 90%, var(--accent-color));
             text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-            opacity: 0.6;
+            opacity: 0.72;
             right: 8px; /* 稍微靠右一点，更紧凑 */
             bottom: 8px;
         }
@@ -446,7 +445,7 @@ function getDateParts(date: Date) {
         .card-body :global(img) {
             max-width: 100%;
             border-radius: 0;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid var(--accent-soft-border);
             margin-top: 0.8rem;
             opacity: 0.95; 
             transition: opacity 0.2s;
@@ -459,14 +458,14 @@ function getDateParts(date: Date) {
         .card-body :global(blockquote) {
              margin: 0.4rem 0;
              padding-left: 0.6rem;
-             border-left: 2px solid rgba(0,0,0,0.15);
+             border-left: 1px solid var(--accent-soft-border);
              color: var(--gray-color);
              font-size: 0.85rem;
              font-style: normal;
         }
         
         :root[data-theme="dark"] .card-body :global(blockquote) {
-            border-left-color: rgba(255, 255, 255, 0.2);
+            border-left-color: var(--accent-soft-border);
         }
         
         .draft-indicator {
@@ -474,7 +473,7 @@ function getDateParts(date: Date) {
             top: 8px;
             right: 8px;
             font-size: 0.6rem;
-            color: #d97706;
+            color: var(--color-warning);
             opacity: 0.6;
             font-weight: bold;
             letter-spacing: 0.05em;
@@ -498,16 +497,16 @@ function getDateParts(date: Date) {
 			color: var(--gray-color);
 			text-decoration: none;
             border-radius: 0;
-            transition: all 0.2s;
+            transition: color 0.2s, background-color 0.2s;
 		}
 
 		.page-link:hover {
             color: var(--heading-color);
-            background: rgba(0,0,0,0.05);
+            background: color-mix(in oklab, var(--accent-soft-bg) 70%, transparent);
 		}
         
         :root[data-theme="dark"] .page-link:hover {
-            background: rgba(255,255,255,0.1);
+            background: color-mix(in oklab, var(--accent-soft-bg) 50%, transparent);
         }
 
 		.page-link.active {
