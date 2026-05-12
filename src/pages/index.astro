@@ -6,13 +6,24 @@ import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 
-// 导入 index.md 文件
-import IndexContent from '../content/index.md';
-
 // 获取最新的博客文章（显示前8篇）
 // 排除英文文章（en/ 前缀），英文文章只在 /en 下展示
 const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
-const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 12);
+const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
+
+function getPostExcerpt(body = '', length = 150) {
+	const text = body
+		.replace(/```[\s\S]*?```/g, ' ')
+		.replace(/^#{1,6}\s+.+$/gm, ' ')
+		.replace(/<[^>]+>/g, ' ')
+		.replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
+		.replace(/\[[^\]]+\]\([^)]+\)/g, (match) => match.match(/\[([^\]]+)\]/)?.[1] ?? '')
+		.replace(/[#>*_`~\-\u003c\u003e]/g, ' ')
+		.replace(/\s+/g, ' ')
+		.trim();
+
+	return text.length > length ? `${text.slice(0, length).trim()}…` : text;
+}
 
 // 统计标签（同 tags 页风格）
 const tagsMap = new Map<string, number>();
@@ -25,38 +36,58 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<div class="content-limit-width">
-		<div class='post-content content motto'>
-			<IndexContent />
-		</div>
+	<div class="content-limit-width asym-layout">
+		<section class='home-hero' aria-labelledby='home-title'>
+			<div class="hero-left">
+				<p class='home-kicker'>stdin / stdout<br/>life log</p>
+			</div>
+			<div class="hero-right">
+				<h1 id='home-title'>在输入、输出和路上，慢慢把事情想清楚。</h1>
+			</div>
+		</section>
 
-		<div class='recent-header'>
-			<div class='indextitle'>最近文章</div>
-		</div>
-		<ul class='posts'>
-			{
-				recentPosts.map((post) => (
-					<li>
-						<span>
-							<FormattedDate date={post.data.pubDate} />
-						</span>
-						<div>
-							<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
-								{post.data.title}
-							</a>
-							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
-						</div>
-					</li>
-				))
-			}
-		</ul>
-		<div class='view-all-container'>
-			<HeaderLink href='/blog'>查看全部 →</HeaderLink>
-		</div>
+		<section class='thought-stream' aria-labelledby='thought-stream-title'>
+			<div class='section-heading'>
+				<div>
+					<p class='section-eyebrow'>recent signals</p>
+					<h2 id='thought-stream-title'>最近思考流</h2>
+				</div>
+				<HeaderLink class="view-all" href='/blog'>全部文章 →</HeaderLink>
+			</div>
+			<div class="stream-list">
+				{
+					recentPosts.map((post) => (
+						<article class='stream-card'>
+							<div class='stream-meta'>
+								<FormattedDate date={post.data.pubDate} />
+							</div>
+							<div class='stream-body'>
+								<h3>
+									<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
+										{post.data.title}
+									</a>
+								</h3>
+								{post.data.description ? (
+									<p>{post.data.description}</p>
+								) : (
+									<p>{getPostExcerpt(post.body, 90)}</p>
+								)}
+								{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</section>
 
 		{sortedTags.length > 0 && (
 			<section class='home-tags'>
-				<div class='indextitle'>标签</div>
+				<div class='section-heading'>
+					<div>
+						<p class='section-eyebrow'>index</p>
+						<h2 class='indextitle'>标签</h2>
+					</div>
+				</div>
 				<div class='tags'>
 					{sortedTags.map(([tag, count]) => (
 						<a href={`/tags/${tag}/`}>
@@ -69,85 +100,170 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 	</div>
 
 	<style>
-		/* 座右铭样式优化 - 使用衬线体，与站点整体风格统一 */
-		.motto {
-			font-family: var(--serif-font);
-			font-size: 0.95em;
-			font-weight: 400;
-			color: var(--gray-color);
-			margin: 0.5rem 0;
-			letter-spacing: 0.02em;
-			font-style: italic;
+		/* Base Mobile Layout */
+		.asym-layout {
+			display: flex;
+			flex-direction: column;
+			gap: 3rem;
+			padding-top: 1rem;
 		}
 
-		.motto :global(p) {
+		.home-hero, .thought-stream, .home-tags {
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+		}
+
+		.home-hero {
+			padding-bottom: 3rem;
+			border-bottom: 1px dashed color-mix(in oklab, var(--gray-color) 25%, transparent);
+		}
+
+		.home-kicker,
+		.section-eyebrow {
+			margin: 0 0 0.75rem;
+			color: var(--gray-color);
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.75rem;
+			letter-spacing: 0.15em;
+			text-transform: uppercase;
+			line-height: 1.6;
+		}
+
+		.home-hero h1 {
+			max-width: 15em;
 			margin: 0;
-		}
-
-		.motto :global(p)::before {
-			content: none;
-		}
-
-		/* 统一区块间距：使用一致的 2.5rem 节奏 */
-		.recent-header {
-			margin-top: 2.5rem;
-		}
-
-		.recent-header .indextitle {
-			margin-bottom: 0.6rem;
-		}
-
-		.view-all-container {
-			text-align: left;
-			margin-top: 1.5rem;
-			padding-left: 0;
-		}
-
-		.view-all-container a {
-			font-size: 0.95em;
-			color: var(--gray-color);
-			font-weight: 400;
-			text-decoration: none;
-			border-bottom: 1px solid transparent;
-			display: inline-flex;
-			align-items: center;
-			gap: 4px;
-			transition: all 0.2s ease;
-		}
-		
-		.view-all-container a:hover {
 			color: var(--heading-color);
-			border-bottom-color: var(--heading-color);
+			font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+			font-weight: 600;
+			line-height: 1.25;
+			letter-spacing: -0.03em;
 		}
 
-		.home-tags {
-			margin-top: 2.5rem;
-			margin-bottom: 1rem;
+		.section-heading {
+			display: flex;
+			align-items: baseline;
+			justify-content: space-between;
+			gap: 1rem;
 		}
 
-		.home-tags .indextitle {
-			margin-bottom: 0.6rem;
+		.section-heading h2, .indextitle {
+			margin: 0;
+			color: var(--heading-color);
+			font-size: clamp(1.2rem, 2.5vw, 1.45rem);
+			font-weight: 600;
+			letter-spacing: -0.02em;
 		}
 
-		.home-tags .tags a {
+		.view-all {
+			color: var(--gray-color);
 			font-size: 0.9rem;
 			text-decoration: none;
 			border-bottom: 1px solid transparent;
-			transition: all 0.2s ease;
-			/* 防止某些字体把 "(1)" 自动替换成 "①" 等圈号数字 */
-			font-variant-ligatures: none;
-			font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+			transition: color 0.2s ease;
 		}
 
-		.home-tags .tags a:hover {
+		.view-all:hover {
+			color: var(--heading-color);
+			border-bottom-color: currentColor;
+		}
+
+		.stream-list {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.stream-card {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			padding: 1.5rem 0;
+			border-top: 1px solid color-mix(in oklab, var(--gray-color) 12%, transparent);
+			transition: background-color 0.2s ease;
+		}
+
+		.stream-card:first-child {
+			border-top: none;
+			padding-top: 0;
+		}
+
+		.stream-meta {
+			color: var(--gray-color);
+			font-size: 0.85rem;
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			letter-spacing: 0.02em;
+		}
+
+		.stream-card h3 {
+			margin: 0 0 0.4rem;
+			font-size: 1.15rem;
+			font-weight: 600;
+			line-height: 1.4;
+			letter-spacing: -0.01em;
+		}
+
+		.stream-card h3 a {
+			color: var(--heading-color);
+			text-decoration: none;
+			border-bottom: 1px solid transparent;
+			transition: color 0.2s ease;
+		}
+
+		.stream-card h3 a:hover {
+			color: var(--link-color);
+			border-bottom-color: currentColor;
+		}
+
+		.stream-card p {
+			margin: 0;
+			color: var(--text-color);
+			font-size: 0.95rem;
+			line-height: 1.65;
+			opacity: 0.9;
+		}
+
+		.tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.6rem 1rem;
+		}
+
+		.tags a {
+			font-size: 0.9rem;
+			color: var(--gray-color);
+			text-decoration: none;
+			border-bottom: 1px dashed transparent;
+			transition: all 0.2s ease;
+			font-variant-ligatures: none;
+			font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+			padding: 0.2rem 0;
+		}
+
+		.tags a:hover {
 			color: var(--heading-color);
 			border-bottom-color: var(--gray-color);
 		}
 
-		/* 首页“标签”区块：缩小标题与标签列表之间的间距 */
-		.home-tags .tags {
-			margin-top: 0;
-		}
+		/* Desktop Asymmetrical Layout */
+		@media (min-width: 768px) {
+			.home-hero, .thought-stream, .home-tags {
+				display: grid;
+				grid-template-columns: 120px 1fr;
+				gap: 3.5rem;
+				align-items: start;
+			}
 
+			.home-hero {
+				padding-bottom: 4rem;
+			}
+
+			.section-heading {
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 1.5rem;
+				position: sticky;
+				top: 2rem;
+			}
+		}
 	</style>
 </Base>

@@ -793,29 +793,48 @@ a[aria-current*="page"] {
   border-bottom: 1px solid
 }
 
-nav {
+header nav {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.35rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-nav a {
-  font-family: var(--ui-font);
-  font-size: var(--text-sm);
-  font-weight: 450;
+header nav a {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
   text-decoration: none;
   color: var(--gray-color);
-  transition: color 0.2s ease;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-nav a:hover {
+header nav a:hover {
   color: var(--heading-color);
+  border-bottom: none;
 }
 
-nav a.active {
+header nav a.active {
   color: var(--heading-color);
-  font-weight: 600;
+  font-weight: 700;
+  border-bottom: none;
+}
+
+header nav a.active::before {
+  content: "[";
+  color: var(--gray-color);
+  font-weight: 400;
+  margin-right: 0.12rem;
+}
+
+header nav a.active::after {
+  content: "]";
+  color: var(--gray-color);
+  font-weight: 400;
+  margin-left: 0.12rem;
 }
 
 strong,
@@ -866,13 +885,21 @@ blockquote {
 }
 
 header {
-  padding: var(--space-md) 0;
+  padding: 0.35rem 0 1.35rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--space-lg);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  flex-direction: column;
+  gap: 0.75rem;
+  border: none;
+}
+
+@media (min-width: 768px) {
+  header {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 3.5rem;
+    align-items: baseline;
+    transform: translateY(-0.35rem);
+  }
 }
 
 /* Fix header margin in card layout */
@@ -882,12 +909,11 @@ header {
 
 /* Fix header margin in wrapper */
 .header-wrapper-card header {
-    margin-bottom: 0; /* Wrapper has margin-bottom */
-    border-bottom: none; /* Optional: remove border if it's a standalone block */
+    margin-bottom: 0;
 }
 
 :root[data-theme="dark"] header {
-    border-bottom-color: rgba(255,255,255,0.05);
+    border: none;
 }
 
 footer {
@@ -911,11 +937,14 @@ footer {
   user-select: none;
 }
 
-.title h1,
-.title h2 {
-  font-size: 1.45rem;
+header .title h1,
+header .title h2 {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.84rem;
   font-weight: 700;
-  line-height: var(--lh-tight);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 /* 文章页标题：显式加粗，避免被其他样式/渲染差异影响观感 */
@@ -963,8 +992,8 @@ ul.posts li > span {
   font-weight: 400;
   color: var(--gray-color);
   font-variant-numeric: tabular-nums;
-  font-family: inherit; /* 继承正文的 Source Serif 4，保证统一 */
-  letter-spacing: 0.05em; /* 关键：增加一点点间距，让宋体数字呼吸起来 */
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.02em;
 }
 
 /* 栏目标题 */
@@ -1020,7 +1049,7 @@ ul.posts li a:visited {
     width: 100%;
   }
 
-  nav {
+  header nav {
     justify-content: center;
     width: 100%;
     gap: 1.2rem;
