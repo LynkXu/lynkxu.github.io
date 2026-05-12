@@ -142,6 +142,118 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 576638380007761300,
+      "item": {
+        "type": "Movie",
+        "title": "我，许可",
+        "description": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "两分钟的事"
+          },
+          {
+            "lang": "en",
+            "text": "It's OK"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "我，许可"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……"
+          },
+          {
+            "lang": "en",
+            "text": "Daughter Xu Ke wants to have surgery to remove the polyp from her uterus during the vacation, while her mother Hu Chunrong also plans to run away from home to escape the long-standing problems in her marriage. As the two, who both love and hurt each other, resolve to face their respective predicaments, they unexpectedly find forgiveness for each other’s fragility and imperfection in a sudden, unforeseen moment."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/03/26/32428216-e51b-486f-9c21-a03887b3b160.webp",
+        "rating": 7.6,
+        "rating_count": 59,
+        "rating_distribution": [
+          0,
+          3,
+          19,
+          49,
+          29
+        ],
+        "tags": [
+          "2026",
+          "中国",
+          "中国电影",
+          "亲情",
+          "华语",
+          "女性",
+          "家庭",
+          "文淇",
+          "楊荔鈉",
+          "社会",
+          "秦海璐"
+        ],
+        "brief": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "id": "https://neodb.social/movie/36pzWxEJejGcgRlxo6Sn13",
+        "uuid": "36pzWxEJejGcgRlxo6Sn13",
+        "url": "/movie/36pzWxEJejGcgRlxo6Sn13",
+        "api_url": "/api/movie/36pzWxEJejGcgRlxo6Sn13",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "我，许可",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt40915506/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/37332784/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "文淇",
+            "character_name": "",
+            "person_url": "/api/person/6ivlQOFZwOnLuC04C6qxRG"
+          },
+          {
+            "role": "actor",
+            "name": "秦海璐",
+            "character_name": "",
+            "person_url": "/api/person/1PrA3GrVRM6UnBuYEKGxeE"
+          },
+          {
+            "role": "director",
+            "name": "杨荔钠",
+            "character_name": "",
+            "person_url": "/api/person/5lAluB0Fs7LEVAgSztjwcE"
+          },
+          {
+            "role": "playwright",
+            "name": "游晓颖",
+            "character_name": "",
+            "person_url": "/api/person/6qu9byVhYVlN0LKdjSZbSL"
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:15:03.161Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 576636248312732700,
       "item": {
         "type": "Movie",
