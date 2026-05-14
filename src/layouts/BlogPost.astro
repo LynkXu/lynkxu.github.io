@@ -33,6 +33,8 @@ const {
 } = Astro.props;
 
 const isDev = import.meta.env.DEV;
+const primaryKind = categories?.[0] ?? tags?.[0] ?? 'essay';
+const hasPostMeta = Boolean(updatedDate || categories?.length || tags?.length || (isDev && draft));
 ---
 
 <Base title={title} description={description || ''}>
@@ -127,13 +129,54 @@ const isDev = import.meta.env.DEV;
 			user-select: none;
 		}
 
-		/* 文章标题上方装饰分隔线 */
-		.post-title-separator {
+		.post-header {
+			display: block;
+			transform: none;
+			margin: 0 0 var(--space-2xl);
+			padding: 0.25rem 0 var(--space-xl);
+			border-bottom: 1px dashed color-mix(in oklab, var(--gray-color) 24%, transparent);
+		}
+
+		.post-kicker {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 0.5rem;
+			margin: 0 0 0.65rem;
 			color: var(--gray-color);
-			opacity: 0.3;
-			font-size: 1.2rem;
-			margin: var(--space-xs) 0 var(--space-sm);
-			user-select: none;
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.72rem;
+			letter-spacing: 0.11em;
+			text-transform: uppercase;
+		}
+
+		.post-kicker__separator {
+			opacity: 0.45;
+		}
+
+		.post-header .post-title {
+			display: block;
+			max-width: 14em;
+			margin: 0;
+			font-size: clamp(1.9rem, 5vw, 3.15rem);
+			font-weight: 500;
+			line-height: 1.16;
+			letter-spacing: -0.055em;
+		}
+
+		.post-description {
+			max-width: 42rem;
+			margin: var(--space-md) 0 0;
+			color: var(--gray-color);
+			font-size: 1rem;
+			line-height: 1.75;
+		}
+
+		.post-header .post-meta {
+			margin: var(--space-md) 0 0;
+			padding: 0;
+			border: 0;
+			font-size: 0.86rem;
 		}
 
 		/* Copy Button */
@@ -187,40 +230,49 @@ const isDev = import.meta.env.DEV;
 
 	</style>
 
-	<div class="post-title-separator" aria-hidden="true">–</div>
-	<h1 class="post-title" transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-		<div class="post-meta" role="note" aria-label="文章信息">
+	<header class='post-header'>
+		<p class='post-kicker'>
+			<span>{primaryKind}</span>
+			<span class='post-kicker__separator'>/</span>
 			<FormattedDate date={pubDate} />
 			{readingTime && (
 				<>
-					<span class="post-meta__separator">·</span>
-					<span class="post-meta__reading-time">约 {readingTime} 分钟</span>
+					<span class='post-kicker__separator'>/</span>
+					<span>约 {readingTime} 分钟</span>
 				</>
 			)}
-			{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+		</p>
+		<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+		{description && <p class='post-description'>{description}</p>}
+		{hasPostMeta && (
+			<div class="post-meta" role="note" aria-label="文章信息">
+				{updatedDate && (
+					<span>更新于 <FormattedDate date={updatedDate} /></span>
+				)}
+				{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
 
-			{categories && categories.length > 0 && (
-				<>
-					<span class="post-meta__separator">·</span>
-					{categories.map((category) => (
-						<a href={`/categories/${category}/`} class="post-meta__category">
-							{category}
-						</a>
-					))}
-				</>
-			)}
+				{categories && categories.length > 0 && (
+					<>
+						{categories.map((category) => (
+							<a href={`/categories/${category}/`} class="post-meta__category">
+								{category}
+							</a>
+						))}
+					</>
+				)}
 
-			{tags && tags.length > 0 && (
-				<>
-					<span class="post-meta__separator">·</span>
-					{tags.map((tag) => (
-						<a href={`/tags/${tag}/`} class="post-meta__tag">
-							#{tag}
-						</a>
-					))}
-				</>
-			)}
-		</div>
+				{tags && tags.length > 0 && (
+					<>
+						{tags.map((tag) => (
+							<a href={`/tags/${tag}/`} class="post-meta__tag">
+								#{tag}
+							</a>
+						))}
+					</>
+				)}
+			</div>
+		)}
+	</header>
 
 	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
 		
