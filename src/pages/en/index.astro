@@ -65,7 +65,9 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 				<div class='tags'>
 					{sortedTags.map(([tag, count]) => (
 						<a href={`/en/tags/${tag}/`}>
-							#{tag} ({count})
+							<span class="tag-prefix">#</span>
+							<span class="tag-name">{tag}</span>
+							<span class="tag-count">{count}</span>
 						</a>
 					))}
 				</div>
@@ -140,18 +142,46 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			margin-bottom: 0.6rem;
 		}
 
-		.home-tags .tags a {
-			font-size: 0.9rem;
-			text-decoration: underline;
-			text-underline-offset: 2px;
-			/* 防止某些字体把 "(1)" 自动替换成 "①" 等圈号数字 */
-			font-variant-ligatures: none;
-			font-feature-settings: "liga" 0, "clig" 0, "calt" 0;
+		.home-tags .tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.75rem 1.25rem;
+			margin-top: 0;
 		}
 
-		/* 首页“标签”区块：缩小标题与标签列表之间的间距 */
-		.home-tags .tags {
-			margin-top: 0;
+		.home-tags .tags a {
+			display: inline-flex;
+			align-items: baseline;
+			font-size: 0.95rem;
+			color: var(--text-color);
+			text-decoration: none;
+			transition: all 0.2s ease;
+		}
+
+		.home-tags .tags a:hover {
+			color: var(--heading-color);
+		}
+
+		.home-tags .tags a :global(.tag-prefix) {
+			color: var(--gray-color);
+			opacity: 0.5;
+			margin-right: 0.15rem;
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			transition: all 0.2s ease;
+		}
+
+		.home-tags .tags a :global(.tag-count) {
+			color: var(--gray-color);
+			font-size: 0.75rem;
+			margin-left: 0.3rem;
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			transition: all 0.2s ease;
+		}
+
+		.home-tags .tags a:hover :global(.tag-prefix),
+		.home-tags .tags a:hover :global(.tag-count) {
+			color: var(--heading-color);
+			opacity: 0.8;
 		}
 
 	</style>
