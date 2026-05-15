@@ -34,9 +34,21 @@
               "icon": "lucide-file",
               "title": "2026-01-25"
             }
+          },
+          {
+            "id": "1ef81fc5d6500649",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.11.7"
+              },
+              "icon": "lucide-book-up",
+              "title": "版本说明 1.11.7"
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -109,7 +121,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +130,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-01-25 的反向链接列表"
+              "title": "反向链接"
             }
           },
           {
@@ -198,7 +209,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "dd6aab88e0d9cf51",
+  "active": "1ef81fc5d6500649",
   "lastOpenFiles": [
     "src/components/MediaCardLarge.astro",
     "src/pages/resume.astro",
