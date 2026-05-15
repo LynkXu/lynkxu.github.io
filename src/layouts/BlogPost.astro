@@ -47,22 +47,12 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: var(--space-xs);
 			margin: var(--space-3xl) 0 0;
 			padding: var(--space-lg) 0 var(--space-xs);
-			color: var(--gray-color);
-			font-size: 0.85rem;
-			letter-spacing: 0.15em;
-		}
-
-		.post-end__symbol {
-			font-size: 0.5rem;
-			opacity: 0.6;
-		}
-
-		.post-end__text {
-			font-family: "Source Serif 4", serif;
-			font-weight: 500;
+			color: color-mix(in oklab, var(--gray-color) 60%, transparent);
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.75rem;
+			letter-spacing: 0.2em;
 		}
 
 		/* Code Block Wrapper */
@@ -265,10 +255,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			</div>
 
 		<!-- 文章结束标识 -->
-		<div class='post-end'>
-			<span class='post-end__symbol'>◆</span>
-			<span class='post-end__text'>END</span>
-			<span class='post-end__symbol'>◆</span>
+		<div class='post-end' aria-hidden="true">
+			EOF
 		</div>
 
 		<!-- Changelog 注脚 -->
