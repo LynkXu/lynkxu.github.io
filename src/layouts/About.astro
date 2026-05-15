@@ -7,6 +7,7 @@ const { title } = Astro.props;
 <Base title={title} description={title}>
 	<div class="profile-header">
 		<div class="profile-info">
+			<p class="profile-kicker">about / profile</p>
 			<h1 class="about-title">{title}</h1>
 			<p class="profile-greeting">Hi👋，我是 Lynk。</p>
 			<p class="profile-desc">后端 / 全栈开发 · 上海</p>
@@ -24,7 +25,9 @@ const { title } = Astro.props;
 			align-items: center;
 			justify-content: space-between;
 			gap: 1.25rem;
-			margin: 1.5rem 0 1.5rem;
+			margin: 0 0 1.5rem;
+			padding: 0.25rem 0 0.5rem;
+			border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
 		}
 
 		.profile-avatar {
@@ -37,27 +40,38 @@ const { title } = Astro.props;
 		.profile-info {
 			display: flex;
 			flex-direction: column;
-			gap: 0.25rem;
+		}
+
+		.profile-kicker {
+			margin: 0 0 0.55rem;
+			color: var(--gray-color);
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.72rem;
+			letter-spacing: 0.13em;
+			text-transform: uppercase;
 		}
 
 		.about-title {
-			font-size: 1.17em;
-			font-weight: bold;
-			margin: 0;
+			margin: 0 0 0.75rem;
+			color: var(--heading-color);
+			font-size: clamp(1.8rem, 5vw, 2.85rem);
+			font-weight: 500;
+			line-height: 1.16;
+			letter-spacing: -0.055em;
 		}
 
 		.profile-greeting {
-			margin: 0;
-			font-size: 0.95rem;
+			margin: 0 0 0.25rem;
+			font-size: 1rem;
 			color: var(--text-color);
-			line-height: 1.5;
+			line-height: 1.6;
 		}
 
 		.profile-desc {
 			margin: 0;
-			font-size: 0.84rem;
+			font-size: 0.9rem;
 			color: var(--gray-color);
-			letter-spacing: 0.01em;
+			line-height: 1.6;
 		}
 
 		/* 移动端：居中堆叠 */

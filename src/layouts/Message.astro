@@ -11,13 +11,55 @@ const { title } = Astro.props;
 ---
 
 <Base title={title} description={title}>
-	<p></p>
-	<h2>–</h2>
+	<section class='page-hero' aria-labelledby='page-title'>
+		<p class='page-kicker'>guestbook / messages</p>
+		<h1 id='page-title'>{title}</h1>
+		<p>欢迎来到我的留言板，有什么想对我说的，请留言叭。</p>
+	</section>
+
 	<div class='post-content content'>
 		<slot />
 	</div>
 
 	<!-- 评论组件 -->
-	<Comments showLinuxDo={false} />
+	<div class="comments-wrapper">
+		<Comments showLinuxDo={false} />
+	</div>
 
+	<style>
+		.page-hero {
+			margin: 0 0 1.5rem;
+			padding: 0.25rem 0 0.5rem;
+			border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+		}
+
+		.page-kicker {
+			margin: 0 0 0.55rem;
+			color: var(--gray-color);
+			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.72rem;
+			letter-spacing: 0.13em;
+			text-transform: uppercase;
+		}
+
+		.page-hero h1 {
+			margin: 0 0 0.75rem;
+			color: var(--heading-color);
+			font-size: clamp(1.8rem, 5vw, 2.85rem);
+			font-weight: 500;
+			line-height: 1.16;
+			letter-spacing: -0.055em;
+		}
+
+		.page-hero p:last-child {
+			max-width: 38rem;
+			margin: 0;
+			color: var(--gray-color);
+			line-height: 1.6;
+		}
+
+		.comments-wrapper {
+			margin-top: 2rem;
+		}
+	</style>
 </Base>
