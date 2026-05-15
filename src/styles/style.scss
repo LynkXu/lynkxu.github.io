@@ -151,7 +151,6 @@ body {
   padding: 0;
   width: 100%;
   text-align: left;
-  background-color: var(--page-bg);
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: var(--lh-body);
@@ -160,6 +159,21 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    background-image: radial-gradient(circle, color-mix(in oklab, var(--gray-color) 18%, transparent) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-position: 0 0;
+  }
 
   /*
     减轻“看起来像加粗”的观感：
@@ -508,6 +522,7 @@ main {
 }
 
 html {
+  background-color: var(--page-bg);
   scroll-behavior: smooth;
 }
 
