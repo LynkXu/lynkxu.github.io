@@ -34,7 +34,7 @@ const {
 
 const isDev = import.meta.env.DEV;
 const primaryKind = categories?.[0] ?? tags?.[0] ?? 'essay';
-const hasPostMeta = Boolean(updatedDate || categories?.length || tags?.length || (isDev && draft));
+const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 ---
 
 <Base title={title} description={description || ''}>
@@ -250,26 +250,6 @@ const hasPostMeta = Boolean(updatedDate || categories?.length || tags?.length ||
 					<span>更新于 <FormattedDate date={updatedDate} /></span>
 				)}
 				{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
-
-				{categories && categories.length > 0 && (
-					<>
-						{categories.map((category) => (
-							<a href={`/categories/${category}/`} class="post-meta__category">
-								{category}
-							</a>
-						))}
-					</>
-				)}
-
-				{tags && tags.length > 0 && (
-					<>
-						{tags.map((tag) => (
-							<a href={`/tags/${tag}/`} class="post-meta__tag">
-								#{tag}
-							</a>
-						))}
-					</>
-				)}
 			</div>
 		)}
 	</header>
