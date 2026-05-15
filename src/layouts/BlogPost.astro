@@ -44,15 +44,15 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<style is:global>
 		/* 文章结束标识 */
 		.post-end {
-			display: flex;
-			align-items: center;
-			justify-content: center;
 			margin: var(--space-3xl) 0 0;
-			padding: var(--space-lg) 0 var(--space-xs);
-			color: color-mix(in oklab, var(--gray-color) 60%, transparent);
+			padding: var(--space-xl) 0 0;
+			border-top: 1px dashed color-mix(in oklab, var(--gray-color) 24%, transparent);
+			text-align: center;
+			color: var(--gray-color);
+			opacity: 0.6;
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
 			font-size: 0.75rem;
-			letter-spacing: 0.2em;
+			letter-spacing: 0.15em;
 		}
 
 		/* Code Block Wrapper */
