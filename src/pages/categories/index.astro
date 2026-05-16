@@ -1,6 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
+import TaxonomyHero from '../../components/TaxonomyHero.astro';
 
 import { filterDrafts } from '../../utils/drafts';
 
@@ -19,25 +21,20 @@ allPosts.forEach((post) => {
 
 // 按文章数量排序
 const sortedCategories = Array.from(categoriesMap.entries()).sort((a, b) => b[1] - a[1]);
+const categoryItems = sortedCategories.map(([category, count]) => ({
+	name: category,
+	count,
+	href: `/categories/${category}/`,
+}));
 ---
 
 <Base title='分类' description='浏览所有文章分类'>
-	<p></p>
-	<h2>–</h2>
-	<h1>分类</h1>
-	<p>共 {sortedCategories.length} 个分类</p>
-	<div class='post-content content'>
-		<div class='categories-grid'>
-			{
-				sortedCategories.map(([category, count]) => (
-					<div class='categories-item'>
-						<a href={`/categories/${category}/`} class='category-item'>
-							{category}
-							<sup>({count})</sup>
-						</a>
-					</div>
-				))
-			}
-		</div>
+	<div class='content-limit-width taxonomy-shell'>
+		<TaxonomyHero
+			eyebrow='category archive'
+			title='分类'
+			description={`共 ${sortedCategories.length} 个分类，按文章数量整理。`}
+		/>
+		<CategoryFilter categories={categoryItems} label='全部分类' />
 	</div>
 </Base>

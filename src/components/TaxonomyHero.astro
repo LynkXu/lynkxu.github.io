@@ -1,0 +1,72 @@
+---
+interface Props {
+	eyebrow?: string;
+	title: string;
+	description?: string;
+}
+
+const {
+	eyebrow,
+	title,
+	description,
+} = Astro.props;
+---
+
+<section class='taxonomy-hero'>
+	{eyebrow && <p class='taxonomy-hero__eyebrow'>{eyebrow}</p>}
+	<h1 class='taxonomy-hero__title'>{title}</h1>
+	{description && <p class='taxonomy-hero__description'>{description}</p>}
+</section>
+
+<style>
+	.taxonomy-hero {
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+		margin: 0;
+		padding: 0.15rem 0 0.35rem;
+	}
+
+	.taxonomy-hero__eyebrow {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+
+	.taxonomy-hero__title {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--serif-font);
+		font-size: clamp(1.8rem, 4.4vw, 2.55rem);
+		font-weight: 600;
+		line-height: 1.12;
+		letter-spacing: -0.045em;
+	}
+
+	.taxonomy-hero__description {
+		max-width: 40rem;
+		margin: 0;
+		color: var(--gray-color);
+		font-size: 0.98rem;
+		line-height: 1.7;
+	}
+	
+	@media (max-width: 640px) {
+		.taxonomy-hero {
+			gap: 0.55rem;
+		}
+
+		.taxonomy-hero__title {
+			font-size: clamp(1.55rem, 8vw, 2rem);
+			letter-spacing: -0.035em;
+		}
+
+		.taxonomy-hero__description {
+			font-size: 0.94rem;
+		}
+	}
+</style>

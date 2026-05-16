@@ -5,8 +5,12 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<div class='title'>
-		<a href='/'>
-			<h1>{SITE_TITLE}</h1>
+		<a href='/' class='site-home' aria-label={SITE_TITLE}>
+			<span class='site-wordmark' aria-hidden='true'>
+				<span class='site-name'>LynkXu</span>
+				<span class='site-separator'>/</span>
+				<span class='site-label'>Blog</span>
+			</span>
 		</a>
 	</div>
 	<nav>
