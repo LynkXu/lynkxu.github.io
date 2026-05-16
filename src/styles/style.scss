@@ -217,10 +217,10 @@ body {
   margin: clamp(var(--space-lg), 5vw, var(--space-2xl)) auto;
   padding: clamp(var(--space-lg), 4vw, var(--space-2xl))
     clamp(var(--space-lg), 5vw, var(--space-3xl));
-  background: transparent;
+  background-color: var(--content-bg);
   border-radius: 0;
   box-shadow: none;
-  border: none;
+  border: 1px solid color-mix(in oklab, var(--gray-color) 15%, transparent);
   min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
 }
 
@@ -319,7 +319,8 @@ body.full-width .global-layout-transparent.travel-page footer {
     margin: 0;
     border-radius: 0;
     box-shadow: none;
-    border: none;
+    border-left: none;
+    border-right: none;
     padding: var(--space-lg);
     min-height: 100vh;
   }
