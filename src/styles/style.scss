@@ -217,10 +217,10 @@ body {
   margin: clamp(var(--space-lg), 5vw, var(--space-2xl)) auto;
   padding: clamp(var(--space-lg), 4vw, var(--space-2xl))
     clamp(var(--space-lg), 5vw, var(--space-3xl));
-  background-color: var(--content-bg);
+  background: transparent;
   border-radius: 0;
-  box-shadow: var(--card-shadow);
-  border: var(--card-border);
+  box-shadow: none;
+  border: none;
   min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
 }
 
@@ -319,16 +319,13 @@ body.full-width .global-layout-transparent.travel-page footer {
     margin: 0;
     border-radius: 0;
     box-shadow: none;
+    border: none;
     padding: var(--space-lg);
     min-height: 100vh;
   }
   
   .global-layout-transparent {
       padding: var(--space-lg);
-  }
-  
-  body {
-    background-color: var(--content-bg); /* 移动端背景色统一，避免卡片感导致的局促 */
   }
 }
 
