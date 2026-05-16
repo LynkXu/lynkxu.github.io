@@ -816,11 +816,11 @@ header nav {
 
 header nav a {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 500;
   text-decoration: none;
   color: var(--gray-color);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: lowercase;
   transition: color 0.2s ease, opacity 0.2s ease;
 }
@@ -832,7 +832,7 @@ header nav a:hover {
 
 header nav a.active {
   color: var(--heading-color);
-  font-weight: 700;
+  font-weight: 600;
   border-bottom: none;
 }
 
@@ -840,14 +840,16 @@ header nav a.active::before {
   content: "[";
   color: var(--gray-color);
   font-weight: 400;
-  margin-right: 0.12rem;
+  margin-right: 0.2rem;
+  opacity: 0.6;
 }
 
 header nav a.active::after {
   content: "]";
   color: var(--gray-color);
   font-weight: 400;
-  margin-left: 0.12rem;
+  margin-left: 0.2rem;
+  opacity: 0.6;
 }
 
 strong,
@@ -953,11 +955,12 @@ footer {
 header .title h1,
 header .title h2 {
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  font-size: 0.84rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   margin: 0;
+  color: var(--heading-color);
 }
 
 /* 文章页标题：显式加粗，避免被其他样式/渲染差异影响观感 */
