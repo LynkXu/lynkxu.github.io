@@ -33,10 +33,10 @@ export async function getStaticPaths() {
 const { posts, tag } = Astro.props;
 ---
 
-<Base title={`标签：${tag}`} description={`包含标签 "${tag}" 的所有文章`}>
+<Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`}>
 	<div class="content-limit-width">
-		<h2>标签：{tag}</h2>
-		<p>共 {posts.length} 篇文章</p>
+		<h2>Tag: {tag}</h2>
+		<p>{posts.length} posts in total</p>
 		<ul class='posts'>
 			{
 				posts.map((post) => (
@@ -48,7 +48,7 @@ const { posts, tag } = Astro.props;
 							<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
 								{post.data.title}
 							</a>
-							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 						</div>
 					</li>
 				))

@@ -21,11 +21,11 @@ allPosts.forEach((post) => {
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
-<Base title='标签' description='浏览所有文章标签'>
+<Base title='Tags' description='Browse all tags'>
 	<p></p>
 	<h2>–</h2>
-	<h1>标签</h1>
-	<p>共 {sortedTags.length} 个标签</p>
+	<h1>Tags</h1>
+	<p>{sortedTags.length} tags in total</p>
 	<div class='post-content content'>
 		<div class='tags'>
 			{
