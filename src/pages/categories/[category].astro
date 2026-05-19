@@ -69,7 +69,7 @@ const categoryItems = Array.from(categoriesMap.entries())
 							<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
 								{post.data.title}
 							</a>
-							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 						</div>
 					</li>
 				))
