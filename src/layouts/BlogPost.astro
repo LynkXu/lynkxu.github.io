@@ -226,18 +226,18 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			{readingTime && (
 				<>
 					<span class='post-kicker__separator'>/</span>
-					<span>约 {readingTime} 分钟</span>
+					<span>{readingTime} min read</span>
 				</>
 			)}
 		</p>
 		<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 		{description && <p class='post-description'>{description}</p>}
 		{hasPostMeta && (
-			<div class="post-meta" role="note" aria-label="文章信息">
+			<div class="post-meta" role="note" aria-label="Post info">
 				{updatedDate && (
-					<span>更新于 <FormattedDate date={updatedDate} /></span>
+					<span>Updated at <FormattedDate date={updatedDate} /></span>
 				)}
-				{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+				{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 			</div>
 		)}
 	</header>
@@ -270,7 +270,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		{
 			showTOC && (
 				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
+					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='TOC' />
 				</div>
 			)
 		}
@@ -416,7 +416,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				// 复制按钮
 				const copyBtn = document.createElement('button');
 				copyBtn.className = 'copy-btn';
-				copyBtn.setAttribute('aria-label', '复制');
+				copyBtn.setAttribute('aria-label', 'Copy');
 				copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 
 				// 复制功能
@@ -435,7 +435,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 							}, 2000);
 						}
 					} catch (err) {
-						console.error('复制失败:', err);
+						console.error('Copy failed:', err);
 					}
 				});
 
