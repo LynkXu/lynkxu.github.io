@@ -4,13 +4,13 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 <div class="sponsor-about">
 	<details class="sponsor-fold">
-		<summary>微信 / 支付宝</summary>
+		<summary>WeChat / Alipay</summary>
 		<div class="sponsor-grid sponsor-grid--2">
 			{SPONSOR_GROUPS.find((g) => g.name === 'CNY')?.items.map((item) => (
 				<div class="sponsor-card">
 					<div class="sponsor-card__name">{item.name}</div>
 					<div class="sponsor-card__qr">
-						<img src={item.image} alt={`${item.name} 收款码`} loading="lazy" />
+						<img src={item.image} alt={`${item.name} QR Code`} loading="lazy" />
 					</div>
 				</div>
 			))}
@@ -30,7 +30,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 					{item.address && (
 						<div class="sponsor-card__addr">
 							<code class="addr-text">{item.address}</code>
-							<button class="addr-copy" type="button" data-clipboard-text={item.address} aria-label="复制地址">
+							<button class="addr-copy" type="button" data-clipboard-text={item.address} aria-label="Copy Address">
 								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 							</button>
 						</div>
