@@ -81,9 +81,9 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 
 		{sortedTags.length > 0 && (
 			<section class='home-tags'>
-				<div class='section-heading'>
-					<div>
-						<h2 class='indextitle'>Tags</h2>
+			<div class='section-heading'>
+				<div>
+					<h2 class='indextitle'>Tags</h2>
 					</div>
 				</div>
 				<div class='tags'>
@@ -269,7 +269,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 				display: grid;
 				grid-template-columns: 120px 1fr;
 				gap: 3.5rem;
-				align-items: start;
+				align-items: baseline;
 			}
 
 			.home-hero {
