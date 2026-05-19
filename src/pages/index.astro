@@ -263,6 +263,11 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			opacity: 0.8;
 		}
 
+		.home-tags {
+			margin-top: -1.5rem; /* 减小与上方文章列表的间距 */
+			margin-bottom: 2.5rem; /* 增加与下方 footer 的间距 */
+		}
+
 		/* Desktop Asymmetrical Layout */
 		@media (min-width: 768px) {
 			.home-hero, .thought-stream, .home-tags {
