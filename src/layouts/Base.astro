@@ -60,7 +60,7 @@ const isHomepage = Astro.url.pathname === '/';
 			id="theme-toggle-fab"
 			class="theme-toggle-fab"
 			type="button"
-			aria-label="切换深色模式"
+			aria-label="Toggle dark mode"
 			aria-pressed="false"
 		>
 			<span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
@@ -99,8 +99,8 @@ const isHomepage = Astro.url.pathname === '/';
 					var theme = getTheme();
 					var isDark = theme === 'dark';
 					btn.setAttribute('aria-pressed', String(isDark));
-					btn.setAttribute('aria-label', isDark ? '切换浅色模式' : '切换深色模式');
-					btn.setAttribute('title', isDark ? '日间模式' : '夜间模式');
+					btn.setAttribute('aria-label', isDark ? 'Switch to light mode' : 'Switch to dark mode');
+					btn.setAttribute('title', isDark ? 'Light mode' : 'Dark mode');
 				}
 
 				function setTheme(nextTheme) {

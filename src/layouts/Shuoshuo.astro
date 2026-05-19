@@ -118,15 +118,14 @@ function getDateParts(date: Date) {
 <Base title={title} description={title}>
 	<div class='gossip-page terminal-shell'>
         <section class="gossip-hero" aria-labelledby="gossip-title">
-            <p class="gossip-kicker">shuoshuo / short signals</p>
             <h1 id="gossip-title">{title}</h1>
-            <p>{gossips.length} 条碎碎念，按时间排列。</p>
+            <p>{gossips.length} posts, sorted by time.</p>
         </section>
 
 		<div id='shuoshuo' class="feed-container terminal-stream" role="list">
             {
                 gossips.length === 0 ? (
-                    <div class='empty-state'>暂无碎碎念</div>
+                    <div class='empty-state'>No short signals yet.</div>
                 ) : (
                     gossips.map((gossip: any, index) => {
                         const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
@@ -160,7 +159,7 @@ function getDateParts(date: Date) {
 		</div>
         
 		{totalPages > 1 && (
-			<nav class='pagination' id='shuoshuo-pagination' aria-label='分页'>
+			<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
                 <div class='pagination-pages'>
 					{Array.from({ length: totalPages }, (_, index) => {
 						const pageNumber = index + 1;

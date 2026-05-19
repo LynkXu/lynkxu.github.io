@@ -1,6 +1,6 @@
 ---
 slug: shuoshuo
-title: 碎碎念
+title: Short Signals
 layout: Shuoshuo
 ---
 

@@ -31,12 +31,11 @@ function getArchiveDate(date: Date) {
 }
 ---
 
-<Base title='归档' description={SITE_DESCRIPTION}>
+<Base title='Archive' description={SITE_DESCRIPTION}>
 	<div class="content-limit-width">
 		<section class='archive-hero' aria-labelledby='archive-title'>
-			<p class='archive-kicker'>archive / written records</p>
-			<h1 id='archive-title'>归档</h1>
-			<p>{posts.length} 篇文章，按年份排列。</p>
+			<h1 id='archive-title'>Archive</h1>
+			<p>{posts.length} posts, sorted by year.</p>
 		</section>
 		<div class='posts-archive'>
 			{
@@ -53,7 +52,7 @@ function getArchiveDate(date: Date) {
 										<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
 											{post.data.title}
 										</a>
-										{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+										{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 									</div>
 								</li>
 							))}
@@ -64,7 +63,7 @@ function getArchiveDate(date: Date) {
 		</div>
 	</div>
 
-	<button class='search-fab' id='search-trigger' type='button' aria-label='搜索文章' title='搜索文章'>
+	<button class='search-fab' id='search-trigger' type='button' aria-label='Search posts' title='Search posts'>
 		<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'>
 			<circle cx='11' cy='11' r='8'></circle>
 			<path d='m21 21-4.35-4.35'></path>
