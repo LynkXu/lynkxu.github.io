@@ -48,6 +48,16 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
 
+<!-- Google Analytics -->
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LS37X5G84N"></script>
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LS37X5G84N');
+</script>
+
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name='title' content={title} />
