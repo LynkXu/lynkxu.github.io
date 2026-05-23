@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 import fs from 'fs';
 import path from 'path';
+import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
 	content?: string;
@@ -150,6 +151,9 @@ function getDateParts(date: Date) {
                                             ))}
                                         </div>
                                     )}
+                                    <div class="entry-actions">
+                                        <LikeButton id={gossip.data.slug} type="gossip" />
+                                    </div>
                                 </div>
                             </article>
                         )
@@ -299,6 +303,7 @@ function getDateParts(date: Date) {
             gap: var(--space-md);
             padding: var(--space-md) 0;
             border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            position: relative;
         }
 
         .feed-item:last-child {
@@ -392,6 +397,30 @@ function getDateParts(date: Date) {
             line-height: 1.36;
         }
 
+        .entry-actions {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            position: absolute;
+            right: 0;
+            bottom: var(--space-md);
+            z-index: 10;
+        }
+
+        .feed-item:hover .entry-actions {
+            opacity: 1;
+        }
+
+        /* 移动端始终显示点赞按钮，但保持半透明 */
+        @media (max-width: 720px) {
+            .entry-actions {
+                opacity: 0.6;
+                bottom: var(--space-sm);
+            }
+        }
+
 		.pagination {
 			display: flex;
 			justify-content: center;
@@ -456,6 +485,11 @@ function getDateParts(date: Date) {
                 grid-template-columns: 1fr;
                 gap: 0.4rem;
                 padding: var(--space-sm) 0;
+            }
+
+            .entry-actions {
+                opacity: 0.6;
+                bottom: var(--space-sm);
             }
 
             .feed-card {

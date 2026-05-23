@@ -6,6 +6,7 @@ import Toc from '../components/Toc.astro';
 import LeftSidebar from '../components/LeftSidebar.astro';
 import NavButton from '../components/NavButton.astro';
 import Changelog from '../components/Changelog.astro';
+import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	postId?: string;
@@ -44,8 +45,14 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<style is:global>
 		/* 文章结束标识 */
 		.post-end {
-			margin: var(--space-3xl) 0 0;
-			padding: var(--space-xl) 0 0;
+			margin: var(--space-2xl) 0 0;
+			padding: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.post-end-text {
 			color: var(--gray-color);
 			opacity: 0.5;
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
@@ -252,9 +259,10 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				<slot />
 			</div>
 
-		<!-- 文章结束标识 -->
+		<!-- 文章结束标识和点赞 -->
 		<div class='post-end' aria-hidden="true">
-			// EOF
+			<span class="post-end-text">// EOF</span>
+			<LikeButton id={postId || Astro.url.pathname} type="post" />
 		</div>
 
 		<!-- Changelog 注脚 -->

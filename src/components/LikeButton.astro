@@ -1,0 +1,184 @@
+---
+interface Props {
+	id: string;
+	type?: 'gossip' | 'post'; // 区分说说和文章详情页
+}
+
+const { id, type = 'gossip' } = Astro.props;
+---
+
+<button class={`like-btn ${type}`} data-id={id} aria-label="Like this post">
+	<span class="like-icon">♥</span>
+	<span class="like-count">...</span>
+</button>
+
+<style>
+	.like-btn {
+		display: inline-flex;
+		align-items: baseline;
+		background: transparent;
+		border: none;
+		color: var(--gray-color);
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+		cursor: pointer;
+		transition: all 0.2s ease;
+		padding: 0;
+	}
+
+	.like-btn::before {
+		content: "[";
+		opacity: 0.3;
+		margin-right: 0.3em;
+		transition: opacity 0.2s;
+	}
+
+	.like-btn::after {
+		content: "]";
+		opacity: 0.3;
+		margin-left: 0.3em;
+		transition: opacity 0.2s;
+	}
+
+	/* 说说页面的样式 */
+	.like-btn.gossip {
+		font-size: 0.72rem;
+		opacity: 0.5;
+	}
+
+	/* 文章详情页的样式 */
+	.like-btn.post {
+		font-size: 0.8rem;
+		opacity: 0.5;
+	}
+
+	.like-icon {
+		margin-right: 0.35em;
+		font-size: 0.9em;
+		transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+
+	.like-btn:hover {
+		color: var(--heading-color);
+		opacity: 1;
+	}
+
+	.like-btn:hover::before,
+	.like-btn:hover::after {
+		opacity: 0.6;
+	}
+
+	.like-btn.liked {
+		color: #e06c75;
+		opacity: 1;
+	}
+
+	.like-btn.liked::before,
+	.like-btn.liked::after {
+		opacity: 0.5;
+		color: var(--gray-color);
+	}
+
+	.like-btn:disabled {
+		cursor: not-allowed;
+	}
+
+	.like-btn:active .like-icon {
+		transform: scale(0.7);
+	}
+</style>
+
+<script>
+	// 这里填入你部署好的 Cloudflare Worker 地址
+	// 例如：https://likes.your-domain.workers.dev
+	const API_URL = 'https://blog-likes.xulinxiao.workers.dev'; 
+
+	async function initLikes() {
+		const buttons = document.querySelectorAll('.like-btn');
+		if (buttons.length === 0 || !API_URL) return;
+
+		buttons.forEach(async (btn) => {
+			const id = btn.getAttribute('data-id');
+			const countSpan = btn.querySelector('.like-count');
+			
+			// 检查本地是否已经点赞过
+			const isLiked = localStorage.getItem(`liked_${id}`);
+			if (isLiked) {
+				btn.classList.add('liked');
+			}
+
+			// 获取初始点赞数
+			try {
+				const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}`);
+				if (res.ok) {
+					const data = await res.json();
+					countSpan.textContent = data.likes || '0';
+				} else {
+					countSpan.textContent = '0';
+				}
+			} catch (e) {
+				countSpan.textContent = '0';
+			}
+
+			// 点击点赞或取消点赞
+			btn.addEventListener('click', async () => {
+				if (btn.hasAttribute('disabled')) return;
+				
+				const isCurrentlyLiked = btn.classList.contains('liked');
+				const currentCount = parseInt(countSpan.textContent) || 0;
+				
+				// 乐观更新 UI
+				btn.setAttribute('disabled', 'true');
+				if (isCurrentlyLiked) {
+					countSpan.textContent = Math.max(0, currentCount - 1);
+					btn.classList.remove('liked');
+				} else {
+					countSpan.textContent = currentCount + 1;
+					btn.classList.add('liked');
+				}
+				
+				// 发送请求
+				try {
+					const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}&action=${isCurrentlyLiked ? 'unlike' : 'like'}`, {
+						method: 'POST'
+					});
+					
+					if (res.ok) {
+						if (isCurrentlyLiked) {
+							localStorage.removeItem(`liked_${id}`);
+						} else {
+							localStorage.setItem(`liked_${id}`, 'true');
+						}
+					} else {
+						// 失败回滚
+						countSpan.textContent = currentCount;
+						if (isCurrentlyLiked) {
+							btn.classList.add('liked');
+						} else {
+							btn.classList.remove('liked');
+						}
+					}
+				} catch (e) {
+					// 失败回滚
+					countSpan.textContent = currentCount;
+					if (isCurrentlyLiked) {
+						btn.classList.add('liked');
+					} else {
+						btn.classList.remove('liked');
+					}
+				} finally {
+					btn.removeAttribute('disabled');
+				}
+			});
+		});
+	}
+
+	// 首次加载
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initLikes);
+	} else {
+		initLikes();
+	}
+
+	// 支持 Astro View Transitions
+	document.addEventListener('astro:page-load', initLikes);
+</script>
