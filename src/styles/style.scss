@@ -138,6 +138,22 @@
   src: url(./f5583b2ae7113d9d-s.p.woff2);
 }
 
+@font-face {
+  font-family: "Lilex";
+  src: url("/fonts/Lilex.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lilex";
+  src: url("/fonts/Lilex-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 // @font-face {
 //   font-family: "ZhuqueFangsong";
 //   src: url(./ZhuqueFangsong-v0_min.woff);
@@ -564,17 +580,18 @@ pre,
 pre,
 pre span,
 code {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: "Lilex", "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
 code {
-  padding: 0.15em 0.4em;
-  margin: 0 0.2em;
+  padding: 0.12em 0.35em;
+  margin: 0 0.1em;
   background-color: var(--code-background-color);
   color: var(--code-color);
-  border-radius: 0;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.85em;
+  border-radius: 4px;
+  font-family: "Lilex", "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.83em;
+  border: none;
 }
 
 pre {
@@ -585,10 +602,10 @@ pre code {
   padding: 0;
   margin: 0;
   font-size: inherit;
-  color: #eee;
   background: none;
   text-shadow: none;
   border-radius: 0;
+  border: none;
 }
 
 /* 优化正文中链接包含代码块的样式（用于延伸阅读/引用文章标题） */
@@ -1142,6 +1159,8 @@ ul.posts li a:visited {
   max-width: var(--measure-readable);
   margin-left: auto;
   margin-right: auto;
+  /* Auto spacing between CJK and Latin/punctuation */
+  text-autospace: ideograph-alpha ideograph-numeric;
 
   p,
   li,
