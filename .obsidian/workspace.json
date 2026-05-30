@@ -200,6 +200,9 @@
   },
   "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "public/fonts/Lilex.woff2",
+    "public/fonts/Lilex-Italic.woff2",
+    "public/fonts",
     "src/content/blog/2025-12-29-review/review-2025.md",
     "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
     "src/content/blog/2026-03-01-note/2026-03-01.md",
@@ -221,10 +224,8 @@
     "src/content/blog/2026-01-19-blog/2026-01-19.md",
     "src/content/blog/2026-01-25-blog-sync",
     "src/content/blog/2026-01-25-test/test-2.md",
-    "src/content/blog/2026-01-25-test",
     "src/content/blog/2026-01-24-test/test-2.md",
     "src/content/blog/2026-01-24-test/test.md",
-    "src/content/blog/2026-01-24-test",
     "src/content/blog/age24/2022-03-01-age24.md",
     "src/content/photography/winter-cat-2.jpeg",
     "src/content/photography/winter-cat-1.jpeg",
@@ -245,7 +246,6 @@
     "src/content/gossips/2025-11-10-astro.md",
     "src/content/gossips/2025-12-07-obsidian.md",
     "src/content/gossips/2025-12-08-photograph.md",
-    "src/content/gossips/2025-12-12-AI.md",
     "未命名.canvas"
   ]
 }
