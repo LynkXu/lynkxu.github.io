@@ -29,7 +29,7 @@
   --z-fab: 30;
   --z-modal: 80;
   --background-color: oklch(0.99 0.002 250);
-  --page-bg: oklch(0.905 0.004 250);
+  --page-bg: oklch(0.958 0.0024 250);
   --content-bg: oklch(0.99 0.002 250);
   --heading-color: oklch(0.18 0.006 250);
   --text-color: oklch(0.26 0.006 250);
@@ -44,6 +44,7 @@
   --gray-color: oklch(0.5 0.006 250);
   --selection-bg: oklch(0.82 0.13 33);
   --selection-color: oklch(0.18 0.006 250);
+  --background-ornament: color-mix(in oklab, var(--accent-color) 8%, transparent);
   --color-info: oklch(0.64 0.11 245);
   --color-success: oklch(0.66 0.13 150);
   --color-warning: oklch(0.72 0.14 70);
@@ -56,7 +57,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     --background-color: oklch(0.16 0.004 250);
-    --page-bg: oklch(0.12 0.004 250);
+    --page-bg: oklch(0.148 0.004 250);
     --content-bg: oklch(0.17 0.004 250);
     --heading-color: oklch(0.96 0.004 250);
     --text-color: oklch(0.82 0.005 250);
@@ -71,6 +72,7 @@
     --gray-color: oklch(0.6 0.006 250);
     --selection-bg: oklch(0.5 0.18 33);
     --selection-color: oklch(0.97 0.004 250);
+    --background-ornament: color-mix(in oklab, var(--accent-color) 6%, transparent);
     --color-info: oklch(0.72 0.09 245);
     --color-success: oklch(0.76 0.1 150);
     --color-warning: oklch(0.8 0.1 70);
@@ -83,7 +85,7 @@
 
 :root[data-theme="light"] {
   --background-color: oklch(0.99 0.002 250);
-  --page-bg: oklch(0.905 0.004 250);
+  --page-bg: oklch(0.958 0.0024 250);
   --content-bg: oklch(0.99 0.002 250);
   --heading-color: oklch(0.18 0.006 250);
   --text-color: oklch(0.26 0.006 250);
@@ -98,6 +100,7 @@
   --gray-color: oklch(0.5 0.006 250);
   --selection-bg: oklch(0.82 0.13 33);
   --selection-color: oklch(0.18 0.006 250);
+  --background-ornament: color-mix(in oklab, var(--accent-color) 8%, transparent);
   --color-info: oklch(0.64 0.11 245);
   --color-success: oklch(0.66 0.13 150);
   --color-warning: oklch(0.72 0.14 70);
@@ -109,7 +112,7 @@
 
 :root[data-theme="dark"] {
   --background-color: oklch(0.16 0.004 250);
-  --page-bg: oklch(0.12 0.004 250);
+  --page-bg: oklch(0.148 0.004 250);
   --content-bg: oklch(0.17 0.004 250);
   --heading-color: oklch(0.96 0.004 250);
   --text-color: oklch(0.82 0.005 250);
@@ -124,6 +127,7 @@
   --gray-color: oklch(0.6 0.006 250);
   --selection-bg: oklch(0.5 0.18 33);
   --selection-color: oklch(0.97 0.004 250);
+  --background-ornament: color-mix(in oklab, var(--accent-color) 6%, transparent);
   --color-info: oklch(0.72 0.09 245);
   --color-success: oklch(0.76 0.1 150);
   --color-warning: oklch(0.8 0.1 70);
@@ -224,10 +228,29 @@ body {
   padding: clamp(var(--space-lg), 4vw, var(--space-2xl))
     clamp(var(--space-lg), 5vw, var(--space-3xl));
   background-color: var(--content-bg);
+  position: relative;
+  z-index: 0;
   border-radius: 0;
-  box-shadow: none;
   border: 1px solid var(--rule-color);
+  box-shadow: none;
   min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
+}
+
+.global-layout-card::before {
+  content: "";
+  position: absolute;
+  inset: -16px;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--content-bg) 24%, transparent);
+  box-shadow: 0 0 22px color-mix(in oklab, var(--content-bg) 22%, transparent);
+  opacity: 0.75;
+}
+
+:root[data-theme="dark"] .global-layout-card::before {
+  border-color: color-mix(in oklab, var(--content-bg) 18%, transparent);
+  box-shadow: 0 0 20px color-mix(in oklab, var(--content-bg) 14%, transparent);
+  opacity: 0.55;
 }
 
 /* 博客文章页（需要侧边栏）使用更宽的卡片 */
@@ -325,8 +348,13 @@ body.full-width .global-layout-transparent.travel-page footer {
     margin: 0;
     border-radius: 0;
     box-shadow: none;
+    border: none;
     padding: var(--space-lg);
     min-height: 100vh;
+  }
+
+  .global-layout-card::before {
+    content: none;
   }
   
   .global-layout-transparent {
@@ -844,7 +872,7 @@ a[aria-current*="page"] {
 header nav {
   display: flex;
   align-items: center;
-  gap: 0.9rem 1.15rem;
+  gap: 0.8rem 1rem;
   flex-wrap: wrap;
   justify-content: flex-end;
 }
@@ -858,11 +886,11 @@ header nav a {
   padding: 0.08rem 0 0.22rem;
   border-radius: 0;
   font-family: var(--ui-font);
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.79rem;
+  font-weight: 450;
   text-decoration: none;
-  color: var(--gray-color);
-  letter-spacing: 0.01em;
+  color: color-mix(in oklab, var(--gray-color) 88%, var(--content-bg));
+  letter-spacing: 0;
   transition: color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease;
 }
 
@@ -872,8 +900,8 @@ header nav a::after {
   left: 0;
   right: 0;
   bottom: 0.02rem;
-  height: 2px;
-  background: var(--accent-color);
+  height: 1.5px;
+  background: color-mix(in oklab, var(--accent-color) 82%, transparent);
   opacity: 0;
   transform: translateY(4px) scaleX(0.5);
   transform-origin: center bottom;
@@ -892,7 +920,7 @@ header nav a:hover::after {
 
 header nav a.active {
   color: var(--heading-color);
-  font-weight: 600;
+  font-weight: 500;
   border-bottom: none;
 }
 
@@ -1502,25 +1530,8 @@ ul.posts li a:visited {
   line-height: 1.5;
 }
 
-.toc-hash {
-  color: var(--gray-color);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-  font-weight: normal;
-  opacity: 0.3;
-  margin-right: 0.25rem;
-  font-size: 0.85em; /* 稍微小一点 */
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
 .toc-link:hover {
   background: var(--code-background-color);
-}
-
-.toc-link:hover .toc-hash,
-.toc-link.active .toc-hash {
-  opacity: 1;
-  color: var(--accent-color);
 }
 
 .toc-link.active {

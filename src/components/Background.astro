@@ -21,6 +21,11 @@
     let animationId;
     let time = 0;
 
+    function readToken(name, fallback) {
+      const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+      return value || fallback;
+    }
+
     function resize() {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -30,26 +35,43 @@
     }
 
     function initCircles() {
-      circles = [];
-      const count = 4;
-      for (let i = 0; i < count; i++) {
-        const isLeft = i < count / 2;
-        // 将圆心限制在两侧区域
-        const xMin = isLeft ? -width * 0.2 : width * 0.8;
-        const xMax = isLeft ? width * 0.2 : width * 1.2;
-        
+      const minSize = Math.min(width, height);
+
+      circles = [
+        {
+          anchorX: -width * 0.12,
+          anchorY: height * 0.22,
+          baseR: minSize * 0.34,
+          driftX: width * 0.02,
+          driftY: height * 0.016,
+          phase: 0.4,
+          speed: 0.0016,
+          breathAmp: 0.018,
+          alpha: 0.04,
+        },
+      ];
+
+      if (width >= 960) {
         circles.push({
-          isLeft,
-          x: xMin + Math.random() * (xMax - xMin),
-          y: Math.random() * height,
-          baseR: Math.min(width, height) * (0.25 + Math.random() * 0.35),
-          dx: (Math.random() - 0.5) * 0.2, // 稍微降低速度
-          dy: (Math.random() - 0.5) * 0.2,
-          phase: Math.random() * Math.PI * 2,
-          breathSpeed: 0.008 + Math.random() * 0.006,
-          breathAmp: 0.03 + Math.random() * 0.02,
+          anchorX: width * 1.06,
+          anchorY: height * 0.7,
+          baseR: minSize * 0.22,
+          driftX: width * 0.014,
+          driftY: height * 0.02,
+          phase: 1.9,
+          speed: 0.0012,
+          breathAmp: 0.014,
+          alpha: 0.026,
         });
       }
+    }
+
+    function isDarkTheme() {
+      return (
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        (!document.documentElement.hasAttribute('data-theme') &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches)
+      );
     }
 
     function draw() {
@@ -60,45 +82,26 @@
 
       ctx.clearRect(0, 0, width, height);
       time += 1;
-      
-      const isDark = document.documentElement.getAttribute('data-theme') === 'dark' || 
-                     (!document.documentElement.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-      if (isDark) {
+      if (isDarkTheme()) {
         animationId = requestAnimationFrame(draw);
         return;
       }
 
-      circles.forEach((circle, index) => {
-        const breathOffset = Math.sin(time * circle.breathSpeed + circle.phase) * circle.breathAmp;
+      const stroke = readToken('--background-ornament', 'rgba(0, 0, 0, 0.05)');
+
+      circles.forEach((circle) => {
+        const offsetX = Math.sin(time * circle.speed + circle.phase) * circle.driftX;
+        const offsetY = Math.cos(time * circle.speed * 0.85 + circle.phase) * circle.driftY;
+        const breathOffset = Math.sin(time * circle.speed * 1.5 + circle.phase) * circle.breathAmp;
         const currentR = circle.baseR * (1 + breathOffset);
-        
-        // 降低透明度，使其更不显眼
-        const alphaBase = 0.15 + index * 0.05;
-        const alphaOffset = Math.sin(time * circle.breathSpeed + circle.phase) * 0.05;
-        
+
         ctx.beginPath();
-        ctx.arc(circle.x, circle.y, currentR, 0, Math.PI * 2);
-        ctx.strokeStyle = '#E3E3E3';
+        ctx.arc(circle.anchorX + offsetX, circle.anchorY + offsetY, currentR, 0, Math.PI * 2);
+        ctx.strokeStyle = stroke;
         ctx.lineWidth = 1;
-        ctx.globalAlpha = Math.max(0, alphaBase + alphaOffset);
+        ctx.globalAlpha = circle.alpha;
         ctx.stroke();
-
-        circle.x += circle.dx;
-        circle.y += circle.dy;
-
-        // 限制在两侧区域反弹
-        const xLimit = width * 0.3; // 允许稍微进入中间区域
-        if (circle.isLeft) {
-          if (circle.x < -width * 0.3) circle.dx = Math.abs(circle.dx);
-          if (circle.x > xLimit) circle.dx = -Math.abs(circle.dx);
-        } else {
-          if (circle.x < width - xLimit) circle.dx = Math.abs(circle.dx);
-          if (circle.x > width * 1.3) circle.dx = -Math.abs(circle.dx);
-        }
-        
-        if (circle.y < -currentR * 0.5) circle.dy = Math.abs(circle.dy);
-        if (circle.y > height + currentR * 0.5) circle.dy = -Math.abs(circle.dy);
       });
 
       animationId = requestAnimationFrame(draw);
