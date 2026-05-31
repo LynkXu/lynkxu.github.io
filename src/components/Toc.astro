@@ -85,7 +85,7 @@ const { minLevel = 2, maxLevel = 3, title = 'TOC' } = Astro.props;
 			tocHTML += `
         <li class="toc-item toc-level-${level}">
           <a href="#${id}" class="toc-link" data-target="${id}">
-            <span class="toc-hash">${'#'.repeat(level)}</span> ${text}
+            ${text}
           </a>
       `;
 

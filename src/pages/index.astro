@@ -39,7 +39,10 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 	<div class="content-limit-width asym-layout">
 		<section class='home-hero' aria-labelledby='home-title'>
 			<div class="hero-left">
-				<p class='home-kicker'>stdin / stdout<br/>life log</p>
+				<p class='home-kicker'>
+					<span class="home-kicker__line">signal</span>
+					<span class="home-kicker__line home-kicker__line--muted">log</span>
+				</p>
 			</div>
 			<div class="hero-right">
 				<h1 id='home-title'>Thinking clearly through input, output, and the journey.</h1>
@@ -124,10 +127,28 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			margin: 0 0 0.75rem;
 			color: var(--gray-color);
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.75rem;
-			letter-spacing: 0.15em;
+			font-size: 0.84rem;
+			letter-spacing: 0.08em;
 			text-transform: uppercase;
-			line-height: 1.6;
+			line-height: 1.45;
+		}
+
+		.home-kicker {
+			display: inline-flex;
+			flex-direction: column;
+			gap: 0.45rem;
+			padding-left: 0;
+			border-left: none;
+		}
+
+		.home-kicker__line {
+			display: block;
+			white-space: nowrap;
+		}
+
+		.home-kicker__line--muted {
+			letter-spacing: 0.12em;
+			opacity: 0.68;
 		}
 
 		.home-hero h1 {
@@ -279,6 +300,12 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 
 			.home-hero {
 				padding-bottom: 4rem;
+			}
+
+			.home-hero h1 {
+				max-width: 16.5em;
+				font-size: clamp(1.95rem, 3vw, 2.15rem);
+				line-height: 1.16;
 			}
 
 			.section-heading {
