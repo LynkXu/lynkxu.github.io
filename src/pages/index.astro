@@ -42,17 +42,16 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 				<p class='home-kicker'>stdin / stdout<br/>life log</p>
 			</div>
 			<div class="hero-right">
-				<h1 id='home-title'>在输入、输出和路上，慢慢把事情想清楚。</h1>
+				<h1 id='home-title'>Thinking clearly through input, output, and the journey.</h1>
 			</div>
 		</section>
 
 		<section class='thought-stream' aria-labelledby='thought-stream-title'>
 			<div class='section-heading'>
 				<div>
-					<p class='section-eyebrow'>recent signals</p>
-					<h2 id='thought-stream-title'>最近思考流</h2>
+					<h2 id='thought-stream-title'>Recent Signals</h2>
 				</div>
-				<HeaderLink class="view-all" href='/blog'>全部文章 →</HeaderLink>
+				<HeaderLink class="view-all" href='/blog'>All Posts →</HeaderLink>
 			</div>
 			<div class="stream-list">
 				{
@@ -72,7 +71,7 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 								) : (
 									<p>{getPostExcerpt(post.body, 90)}</p>
 								)}
-								{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+								{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 							</div>
 						</article>
 					))
@@ -82,10 +81,9 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 
 		{sortedTags.length > 0 && (
 			<section class='home-tags'>
-				<div class='section-heading'>
-					<div>
-						<p class='section-eyebrow'>index</p>
-						<h2 class='indextitle'>标签</h2>
+			<div class='section-heading'>
+				<div>
+					<h2 class='indextitle'>Tags</h2>
 					</div>
 				</div>
 				<div class='tags'>
@@ -265,13 +263,18 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			opacity: 0.8;
 		}
 
+		.home-tags {
+			margin-top: -1.5rem; /* 减小与上方文章列表的间距 */
+			margin-bottom: 2.5rem; /* 增加与下方 footer 的间距 */
+		}
+
 		/* Desktop Asymmetrical Layout */
 		@media (min-width: 768px) {
 			.home-hero, .thought-stream, .home-tags {
 				display: grid;
 				grid-template-columns: 120px 1fr;
 				gap: 3.5rem;
-				align-items: start;
+				align-items: baseline;
 			}
 
 			.home-hero {

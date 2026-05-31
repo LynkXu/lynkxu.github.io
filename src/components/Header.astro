@@ -5,16 +5,20 @@ import HeaderLink from './HeaderLink.astro';
 
 <header>
 	<div class='title'>
-		<a href='/'>
-			<h1>{SITE_TITLE}</h1>
+		<a href='/' class='site-home' aria-label={SITE_TITLE}>
+			<span class='site-wordmark' aria-hidden='true'>
+				<span class='site-name'>LynkXu</span>
+				<span class='site-separator'>/</span>
+				<span class='site-label'>Blog</span>
+			</span>
 		</a>
 	</div>
 	<nav>
-		<HeaderLink href='/blog'>归档</HeaderLink>
-		{/* <HeaderLink href='/projects'>项目</HeaderLink> */}
-		<HeaderLink href='/shuoshuo'>碎碎念</HeaderLink>
-		<HeaderLink href='/message'>留言</HeaderLink>
-		<HeaderLink href='/about'>关于</HeaderLink>
+		<HeaderLink href='/blog'>Archive</HeaderLink>
+		{/* <HeaderLink href='/projects'>Projects</HeaderLink> */}
+		<HeaderLink href='/shuoshuo'>Signals</HeaderLink>
+		<HeaderLink href='/message'>Guestbook</HeaderLink>
+		<HeaderLink href='/about'>About</HeaderLink>
 		<HeaderLink href='/index.xml'>RSS</HeaderLink>
 	</nav>
 </header>

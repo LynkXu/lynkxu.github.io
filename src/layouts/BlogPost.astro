@@ -6,6 +6,7 @@ import Toc from '../components/Toc.astro';
 import LeftSidebar from '../components/LeftSidebar.astro';
 import NavButton from '../components/NavButton.astro';
 import Changelog from '../components/Changelog.astro';
+import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	postId?: string;
@@ -44,8 +45,14 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<style is:global>
 		/* 文章结束标识 */
 		.post-end {
-			margin: var(--space-3xl) 0 0;
-			padding: var(--space-xl) 0 0;
+			margin: var(--space-2xl) 0 0;
+			padding: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.post-end-text {
 			color: var(--gray-color);
 			opacity: 0.5;
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
@@ -56,7 +63,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		/* Code Block Wrapper */
 		.code-wrapper {
 			position: relative;
-			margin: var(--space-xl) 0;
+			margin: var(--space-md) 0;
 			border-radius: 0;
 			background: var(--code-background-color);
 			box-shadow: none;
@@ -74,7 +81,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			top: 0;
 			left: 0;
 			width: 100%;
-			height: 2.4rem;
+			height: 1.8rem;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -205,7 +212,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
-			padding: 2.4rem var(--space-md) var(--space-md) var(--space-md) !important;
+			padding: 1.8rem var(--space-md) var(--space-sm) var(--space-md) !important;
 			background: transparent !important;
 		}
 
@@ -226,18 +233,18 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			{readingTime && (
 				<>
 					<span class='post-kicker__separator'>/</span>
-					<span>约 {readingTime} 分钟</span>
+					<span>{readingTime} min read</span>
 				</>
 			)}
 		</p>
 		<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 		{description && <p class='post-description'>{description}</p>}
 		{hasPostMeta && (
-			<div class="post-meta" role="note" aria-label="文章信息">
+			<div class="post-meta" role="note" aria-label="Post info">
 				{updatedDate && (
-					<span>更新于 <FormattedDate date={updatedDate} /></span>
+					<span>Updated at <FormattedDate date={updatedDate} /></span>
 				)}
-				{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+				{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 			</div>
 		)}
 	</header>
@@ -252,9 +259,10 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				<slot />
 			</div>
 
-		<!-- 文章结束标识 -->
+		<!-- 文章结束标识和点赞 -->
 		<div class='post-end' aria-hidden="true">
-			// EOF
+			<span class="post-end-text">// EOF</span>
+			<LikeButton id={postId || Astro.url.pathname} type="post" />
 		</div>
 
 		<!-- Changelog 注脚 -->
@@ -270,7 +278,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		{
 			showTOC && (
 				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
+					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='TOC' />
 				</div>
 			)
 		}
@@ -416,7 +424,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				// 复制按钮
 				const copyBtn = document.createElement('button');
 				copyBtn.className = 'copy-btn';
-				copyBtn.setAttribute('aria-label', '复制');
+				copyBtn.setAttribute('aria-label', 'Copy');
 				copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 
 				// 复制功能
@@ -435,7 +443,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 							}, 2000);
 						}
 					} catch (err) {
-						console.error('复制失败:', err);
+						console.error('Copy failed:', err);
 					}
 				});
 

@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import TaxonomyHero from '../../components/TaxonomyHero.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
 export async function getStaticPaths() {
@@ -30,12 +32,32 @@ export async function getStaticPaths() {
 }
 
 const { posts, category } = Astro.props;
+const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+const categoriesMap = new Map<string, number>();
+
+allPosts.forEach((post) => {
+	(post.data.categories || []).forEach((item) => {
+		categoriesMap.set(item, (categoriesMap.get(item) || 0) + 1);
+	});
+});
+
+const categoryItems = Array.from(categoriesMap.entries())
+	.sort((a, b) => b[1] - a[1])
+	.map(([name, count]) => ({
+		name,
+		count,
+		href: `/categories/${name}/`,
+	}));
 ---
 
 <Base title={`分类：${category}`} description={`分类 "${category}" 下的所有文章`}>
-	<div class="content-limit-width">
-		<h2>分类：{category}</h2>
-		<p>共 {posts.length} 篇文章</p>
+	<div class="content-limit-width taxonomy-shell">
+		<TaxonomyHero
+			eyebrow='category archive'
+			title={category}
+			description={`共 ${posts.length} 篇文章，保持在同一主题下连续阅读。`}
+		/>
+		<CategoryFilter categories={categoryItems} activeCategory={category} label='切换分类' />
 		<ul class='posts'>
 			{
 				posts.map((post) => (
@@ -47,7 +69,7 @@ const { posts, category } = Astro.props;
 							<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
 								{post.data.title}
 							</a>
-							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
+							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
 						</div>
 					</li>
 				))

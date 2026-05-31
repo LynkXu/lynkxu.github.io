@@ -142,6 +142,242 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 576638380007761300,
+      "item": {
+        "type": "Movie",
+        "title": "我，许可",
+        "description": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "两分钟的事"
+          },
+          {
+            "lang": "en",
+            "text": "It's OK"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "我，许可"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……"
+          },
+          {
+            "lang": "en",
+            "text": "Daughter Xu Ke wants to have surgery to remove the polyp from her uterus during the vacation, while her mother Hu Chunrong also plans to run away from home to escape the long-standing problems in her marriage. As the two, who both love and hurt each other, resolve to face their respective predicaments, they unexpectedly find forgiveness for each other’s fragility and imperfection in a sudden, unforeseen moment."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/03/26/32428216-e51b-486f-9c21-a03887b3b160.webp",
+        "rating": 7.6,
+        "rating_count": 59,
+        "rating_distribution": [
+          0,
+          3,
+          19,
+          49,
+          29
+        ],
+        "tags": [
+          "2026",
+          "中国",
+          "中国电影",
+          "亲情",
+          "华语",
+          "女性",
+          "家庭",
+          "文淇",
+          "楊荔鈉",
+          "社会",
+          "秦海璐"
+        ],
+        "brief": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "id": "https://neodb.social/movie/36pzWxEJejGcgRlxo6Sn13",
+        "uuid": "36pzWxEJejGcgRlxo6Sn13",
+        "url": "/movie/36pzWxEJejGcgRlxo6Sn13",
+        "api_url": "/api/movie/36pzWxEJejGcgRlxo6Sn13",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "我，许可",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt40915506/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/37332784/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "文淇",
+            "character_name": "",
+            "person_url": "/api/person/6ivlQOFZwOnLuC04C6qxRG"
+          },
+          {
+            "role": "actor",
+            "name": "秦海璐",
+            "character_name": "",
+            "person_url": "/api/person/1PrA3GrVRM6UnBuYEKGxeE"
+          },
+          {
+            "role": "director",
+            "name": "杨荔钠",
+            "character_name": "",
+            "person_url": "/api/person/5lAluB0Fs7LEVAgSztjwcE"
+          },
+          {
+            "role": "playwright",
+            "name": "游晓颖",
+            "character_name": "",
+            "person_url": "/api/person/6qu9byVhYVlN0LKdjSZbSL"
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:15:03.161Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 576636248312732700,
+      "item": {
+        "type": "Movie",
+        "title": "给阿嬷的情书",
+        "description": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "给阿嬷的情书"
+          },
+          {
+            "lang": "en",
+            "text": "Dear You"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "给阿嬷的情书"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "给阿嬷的情书"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/05/04/b28efd0a-00ff-4f21-bb27-3de895f80442.jpg",
+        "rating": 8.1,
+        "rating_count": 50,
+        "rating_distribution": [
+          2,
+          2,
+          6,
+          48,
+          42
+        ],
+        "tags": [
+          "中国",
+          "家庭",
+          "潮汕",
+          "电影"
+        ],
+        "brief": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。",
+        "id": "https://neodb.social/movie/5JNEBpERf9S91oDZcnipiz",
+        "uuid": "5JNEBpERf9S91oDZcnipiz",
+        "url": "/movie/5JNEBpERf9S91oDZcnipiz",
+        "api_url": "/api/movie/5JNEBpERf9S91oDZcnipiz",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "给阿嬷的情书",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/37116446/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1671548"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt41791573/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "李思潼",
+            "character_name": "",
+            "person_url": "/api/person/3nWPcJBPzkXNA4elkDkJmm"
+          },
+          {
+            "role": "actor",
+            "name": "郑润奇",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "王晓晨",
+            "character_name": "",
+            "person_url": "/api/person/1PlPfJQRZvzEZzM9Efyboi"
+          },
+          {
+            "role": "actor",
+            "name": "赵曙光",
+            "character_name": "",
+            "person_url": "/api/person/223JTQVO6LY5ZpwwbULSDc"
+          },
+          {
+            "role": "actor",
+            "name": "李树浩",
+            "character_name": "",
+            "person_url": "/api/person/2ViaMYfENNuD3YeTal8eOv"
+          },
+          {
+            "role": "actor",
+            "name": "乌莎·西姆库姆",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "蓝鸿春",
+            "character_name": "",
+            "person_url": "/api/person/0DjEQFYPI2DDZ2Ha99L9c0"
+          },
+          {
+            "role": "playwright",
+            "name": "蓝鸿春",
+            "character_name": "",
+            "person_url": "/api/person/0DjEQFYPI2DDZ2Ha99L9c0"
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:06:34.928Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 563106512883603100,
       "item": {
         "type": "Movie",
@@ -1297,6 +1533,161 @@
     }
   ],
   "tv": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 576636152401998500,
+      "item": {
+        "type": "TVSeason",
+        "title": "权欲之巅 Climax (权欲之巅)",
+        "description": "",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "权欲之巅"
+          },
+          {
+            "lang": "en",
+            "text": "Climax"
+          },
+          {
+            "lang": "ko",
+            "text": "클라이맥스"
+          },
+          {
+            "lang": "ko",
+            "text": "Season 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          }
+        ],
+        "localized_description": [],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/04/11/cd415bbf-4edd-463e-8bc0-ba29ad54413b.webp",
+        "rating": 5.9,
+        "rating_count": 12,
+        "rating_distribution": [
+          8,
+          0,
+          67,
+          25,
+          0
+        ],
+        "tags": [
+          "2026",
+          "政治",
+          "权力",
+          "演员",
+          "电视剧",
+          "韩剧",
+          "韩国"
+        ],
+        "brief": "",
+        "id": "https://neodb.social/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "uuid": "7Ype5HDpYVGHSA0K7s89ic",
+        "url": "/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "api_url": "/api/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "category": "tv",
+        "parent_uuid": "2dfidxHhgzsSSicGZfiuse",
+        "display_title": "权欲之巅 Climax (权欲之巅)",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36691850/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/241860/season/1"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "朱智勋",
+            "character_name": "",
+            "person_url": "/api/person/4EfVnGrGByMG8Q2BlmgfzF"
+          },
+          {
+            "role": "actor",
+            "name": "河智苑",
+            "character_name": "",
+            "person_url": "/api/person/5acF1KTaWV1WOIVH9RyeUI"
+          },
+          {
+            "role": "actor",
+            "name": "林珍娜",
+            "character_name": "",
+            "person_url": "/api/person/4KGai5iYE1VmYq1nDIZVQn"
+          },
+          {
+            "role": "actor",
+            "name": "吴正世",
+            "character_name": "",
+            "person_url": "/api/person/0WJYvWaAJklV0ypsAUlZy3"
+          },
+          {
+            "role": "actor",
+            "name": "车珠英",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "李智媛",
+            "character_name": "",
+            "person_url": "/api/person/6Gv30xgDXcBIaW9FIN7oXK"
+          },
+          {
+            "role": "playwright",
+            "name": "李智媛",
+            "character_name": "",
+            "person_url": "/api/person/6Gv30xgDXcBIaW9FIN7oXK"
+          },
+          {
+            "role": "playwright",
+            "name": "申艺瑟",
+            "character_name": "",
+            "person_url": null
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:06:12.038Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
     {
       "shelf_type": "progress",
       "visibility": 0,

@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 import fs from 'fs';
 import path from 'path';
+import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
 	content?: string;
@@ -118,15 +119,14 @@ function getDateParts(date: Date) {
 <Base title={title} description={title}>
 	<div class='gossip-page terminal-shell'>
         <section class="gossip-hero" aria-labelledby="gossip-title">
-            <p class="gossip-kicker">shuoshuo / short signals</p>
             <h1 id="gossip-title">{title}</h1>
-            <p>{gossips.length} 条碎碎念，按时间排列。</p>
+            <p>{gossips.length} posts, sorted by time.</p>
         </section>
 
 		<div id='shuoshuo' class="feed-container terminal-stream" role="list">
             {
                 gossips.length === 0 ? (
-                    <div class='empty-state'>暂无碎碎念</div>
+                    <div class='empty-state'>No short signals yet.</div>
                 ) : (
                     gossips.map((gossip: any, index) => {
                         const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
@@ -151,6 +151,9 @@ function getDateParts(date: Date) {
                                             ))}
                                         </div>
                                     )}
+                                    <div class="entry-actions">
+                                        <LikeButton id={gossip.data.slug} type="gossip" />
+                                    </div>
                                 </div>
                             </article>
                         )
@@ -160,7 +163,7 @@ function getDateParts(date: Date) {
 		</div>
         
 		{totalPages > 1 && (
-			<nav class='pagination' id='shuoshuo-pagination' aria-label='分页'>
+			<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
                 <div class='pagination-pages'>
 					{Array.from({ length: totalPages }, (_, index) => {
 						const pageNumber = index + 1;
@@ -300,6 +303,7 @@ function getDateParts(date: Date) {
             gap: var(--space-md);
             padding: var(--space-md) 0;
             border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            position: relative;
         }
 
         .feed-item:last-child {
@@ -393,6 +397,30 @@ function getDateParts(date: Date) {
             line-height: 1.36;
         }
 
+        .entry-actions {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            position: absolute;
+            right: 0;
+            bottom: var(--space-md);
+            z-index: 10;
+        }
+
+        .feed-item:hover .entry-actions {
+            opacity: 1;
+        }
+
+        /* 移动端始终显示点赞按钮，但保持半透明 */
+        @media (max-width: 720px) {
+            .entry-actions {
+                opacity: 0.6;
+                bottom: var(--space-sm);
+            }
+        }
+
 		.pagination {
 			display: flex;
 			justify-content: center;
@@ -457,6 +485,11 @@ function getDateParts(date: Date) {
                 grid-template-columns: 1fr;
                 gap: 0.4rem;
                 padding: var(--space-sm) 0;
+            }
+
+            .entry-actions {
+                opacity: 0.6;
+                bottom: var(--space-sm);
             }
 
             .feed-card {

@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
+                "file": "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "2026-01-25"
+              "title": "2026-05-27"
             }
           },
           {
@@ -211,6 +211,18 @@
   },
   "active": "1ef81fc5d6500649",
   "lastOpenFiles": [
+    "public/fonts/Lilex.woff2",
+    "public/fonts/Lilex-Italic.woff2",
+    "public/fonts",
+    "src/content/blog/2025-12-29-review/review-2025.md",
+    "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
+    "src/content/blog/2026-03-01-note/2026-03-01.md",
+    "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+    "src/content/blog/flags-in-2022/2022-04-03-flags-in-2022.md",
+    "src/content/blog/windows-terminal-proxy/2021-07-01-windows-terminal-proxy.md",
+    "src/content/blog/some-thinking/2021-06-30-someThinking.md",
+    "src/content/blog/rust-note/2023-09-06-rust-note.md",
+    "src/content/blog/2026-05-27-AI-learning",
     "src/components/MediaCardLarge.astro",
     "src/pages/resume.astro",
     "public/linxu-cv-en-latest.pdf",
@@ -221,15 +233,10 @@
     "src/content/blog/2026-01-26-test/2026-01-25.md",
     "src/content/blog/2026-01-26-test",
     "src/content/blog/2026-01-19-blog/2026-01-19.md",
-    "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
     "src/content/blog/2026-01-25-blog-sync",
     "src/content/blog/2026-01-25-test/test-2.md",
-    "src/content/blog/2026-01-25-test",
     "src/content/blog/2026-01-24-test/test-2.md",
     "src/content/blog/2026-01-24-test/test.md",
-    "src/content/blog/2026-01-24-test",
-    "scripts/publish-blog-to-mastodon.mjs",
-    "src/data/mastodon-published.json",
     "src/content/blog/age24/2022-03-01-age24.md",
     "src/content/photography/winter-cat-2.jpeg",
     "src/content/photography/winter-cat-1.jpeg",
@@ -242,7 +249,6 @@
     "dist/_astro/P20250711-195307.DmLQl4i1_Z2r5Ngl.webp",
     "src/content/blog/2026-01-04-overload/2026-01-04.md",
     "src/content/blog/2026-01-19-blog/未命名.md",
-    "src/content/blog/2025-12-29-review/review-2025.md",
     "src/content/blog/2025-09-new-job/2025-09.md",
     "src/content/blog/2025-09-new-job/2025-06.md",
     "src/content/blog/2025-06-new-job/2025-06.md",
@@ -251,11 +257,6 @@
     "src/content/gossips/2025-11-10-astro.md",
     "src/content/gossips/2025-12-07-obsidian.md",
     "src/content/gossips/2025-12-08-photograph.md",
-    "src/content/gossips/2025-12-12-AI.md",
-    "src/content/gossips/2025-12-20-.md",
-    "src/content/blog/review-a-company/review-a-company.md",
-    "未命名.canvas",
-    "2025-12-12.md",
-    "README.md"
+    "未命名.canvas"
   ]
 }
