@@ -65,14 +65,14 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			position: relative;
 			margin: var(--space-md) 0;
 			border-radius: 0;
-			background: color-mix(in oklab, var(--code-background-color) 58%, var(--content-bg));
+			background: color-mix(in oklab, var(--code-background-color) 46%, var(--content-bg));
 			box-shadow: none;
 			border: 1px solid color-mix(in oklab, var(--rule-color) 38%, transparent);
 			overflow: hidden;
 		}
 
 		:root[data-theme="dark"] .code-wrapper {
-			background: color-mix(in oklab, var(--code-background-color) 74%, var(--content-bg));
+			background: color-mix(in oklab, var(--code-background-color) 68%, var(--content-bg));
 			border-color: color-mix(in oklab, var(--rule-color) 52%, transparent);
 		}
 
@@ -139,11 +139,15 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			flex-wrap: wrap;
 			gap: 0.5rem;
 			margin: 0 0 0.65rem;
-			color: var(--accent-color);
+			color: var(--gray-color);
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.72rem;
-			letter-spacing: 0.11em;
+			font-size: 0.7rem;
+			letter-spacing: 0.095em;
 			text-transform: uppercase;
+		}
+
+		.post-kicker > span:first-child {
+			color: color-mix(in oklab, var(--accent-color) 68%, var(--gray-color));
 		}
 
 		.post-kicker__separator {
@@ -158,7 +162,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			font-size: clamp(1.9rem, 5vw, 3.15rem);
 			font-weight: 500;
 			line-height: 1.16;
-			letter-spacing: -0.055em;
+			letter-spacing: -0.035em;
 		}
 
 		.post-description {
@@ -218,11 +222,15 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: transparent !important;
 		}
 
-		/* 文章正文与标题左侧对齐，且占满主栏宽度 */
+		/* Keep prose readable while letting wide elements use the article column. */
 		.blog-main-column .post-content {
 			max-width: 100%;
 			margin-left: 0;
 			margin-right: 0;
+		}
+
+		.blog-main-column .post-content > :where(p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6) {
+			max-width: var(--measure-readable);
 		}
 
 	</style>

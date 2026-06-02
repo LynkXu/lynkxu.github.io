@@ -42,7 +42,7 @@
   --code-color: oklch(0.24 0.008 250);
   --blockquote-color: oklch(0.4 0.008 250);
   --gray-color: oklch(0.5 0.006 250);
-  --selection-bg: oklch(0.82 0.13 33);
+  --selection-bg: oklch(0.9 0.03 248);
   --selection-color: oklch(0.18 0.006 250);
   --background-ornament: color-mix(in oklab, var(--accent-color) 8%, transparent);
   --color-info: oklch(0.64 0.11 245);
@@ -70,7 +70,7 @@
     --code-color: oklch(0.88 0.005 250);
     --blockquote-color: oklch(0.7 0.006 250);
     --gray-color: oklch(0.6 0.006 250);
-    --selection-bg: oklch(0.5 0.18 33);
+    --selection-bg: oklch(0.42 0.05 248);
     --selection-color: oklch(0.97 0.004 250);
     --background-ornament: color-mix(in oklab, var(--accent-color) 6%, transparent);
     --color-info: oklch(0.72 0.09 245);
@@ -98,7 +98,7 @@
   --code-color: oklch(0.24 0.008 250);
   --blockquote-color: oklch(0.4 0.008 250);
   --gray-color: oklch(0.5 0.006 250);
-  --selection-bg: oklch(0.82 0.13 33);
+  --selection-bg: oklch(0.9 0.03 248);
   --selection-color: oklch(0.18 0.006 250);
   --background-ornament: color-mix(in oklab, var(--accent-color) 8%, transparent);
   --color-info: oklch(0.64 0.11 245);
@@ -125,7 +125,7 @@
   --code-color: oklch(0.88 0.005 250);
   --blockquote-color: oklch(0.7 0.006 250);
   --gray-color: oklch(0.6 0.006 250);
-  --selection-bg: oklch(0.5 0.18 33);
+  --selection-bg: oklch(0.42 0.05 248);
   --selection-color: oklch(0.97 0.004 250);
   --background-ornament: color-mix(in oklab, var(--accent-color) 6%, transparent);
   --color-info: oklch(0.72 0.09 245);
@@ -220,18 +220,37 @@ body {
   }
 }
 
-/* 主容器：锐利直角的“纸张”卡片，发丝边框、无漂浮投影 */
+/* 主容器：用不连续角标提示纸面边界，避免完整边框像输入框 */
 .global-layout-card {
+  --frame-mark: color-mix(in oklab, var(--rule-color) 72%, transparent);
+  --frame-mark-size: 26px;
+  --frame-mark-inset: 12px;
   max-width: var(--width);
   width: var(--container-reading);
   margin: clamp(var(--space-lg), 5vw, var(--space-2xl)) auto;
   padding: clamp(var(--space-lg), 4vw, var(--space-2xl))
     clamp(var(--space-lg), 5vw, var(--space-3xl));
   background-color: var(--content-bg);
+  background-image:
+    linear-gradient(var(--frame-mark), var(--frame-mark)),
+    linear-gradient(var(--frame-mark), var(--frame-mark)),
+    linear-gradient(var(--frame-mark), var(--frame-mark)),
+    linear-gradient(var(--frame-mark), var(--frame-mark));
+  background-position:
+    var(--frame-mark-inset) var(--frame-mark-inset),
+    var(--frame-mark-inset) var(--frame-mark-inset),
+    calc(100% - var(--frame-mark-inset)) calc(100% - var(--frame-mark-inset)),
+    calc(100% - var(--frame-mark-inset)) calc(100% - var(--frame-mark-inset));
+  background-repeat: no-repeat;
+  background-size:
+    var(--frame-mark-size) 1px,
+    1px var(--frame-mark-size),
+    var(--frame-mark-size) 1px,
+    1px var(--frame-mark-size);
   position: relative;
   z-index: 0;
   border-radius: 0;
-  border: 1px solid var(--rule-color);
+  border: none;
   box-shadow: none;
   min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
 }
@@ -242,13 +261,12 @@ body {
   inset: -16px;
   z-index: -1;
   pointer-events: none;
-  border: 1px solid color-mix(in oklab, var(--content-bg) 24%, transparent);
-  box-shadow: 0 0 22px color-mix(in oklab, var(--content-bg) 22%, transparent);
+  border: none;
+  box-shadow: 0 0 26px color-mix(in oklab, var(--content-bg) 26%, transparent);
   opacity: 0.75;
 }
 
 :root[data-theme="dark"] .global-layout-card::before {
-  border-color: color-mix(in oklab, var(--content-bg) 18%, transparent);
   box-shadow: 0 0 20px color-mix(in oklab, var(--content-bg) 14%, transparent);
   opacity: 0.55;
 }
@@ -349,6 +367,7 @@ body.full-width .global-layout-transparent.travel-page footer {
     border-radius: 0;
     box-shadow: none;
     border: none;
+    background-image: none;
     padding: var(--space-lg);
     min-height: 100vh;
   }
@@ -900,8 +919,8 @@ header nav a::after {
   left: 0;
   right: 0;
   bottom: 0.02rem;
-  height: 1.5px;
-  background: color-mix(in oklab, var(--accent-color) 82%, transparent);
+  height: 1px;
+  background: color-mix(in oklab, var(--accent-color) 54%, transparent);
   opacity: 0;
   transform: translateY(4px) scaleX(0.5);
   transform-origin: center bottom;
@@ -927,7 +946,7 @@ header nav a.active {
 header nav a.active::after {
   opacity: 1;
   transform: translateY(0) scaleX(1);
-  background: var(--accent-color);
+  background: color-mix(in oklab, var(--accent-color) 62%, transparent);
 }
 
 strong,
@@ -962,12 +981,12 @@ time,
 
 blockquote {
   margin: 2em 0;
-  border-left: 3px solid var(--gray-color);
+  border-left: 2px solid color-mix(in oklab, var(--gray-color) 68%, transparent);
   color: var(--blockquote-color);
   padding: 0.2em 0 0.2em 1.2em;
   border-radius: 0;
   font-style: italic;
-  opacity: 0.8;
+  opacity: 0.76;
   
   > :first-child {
     margin-top: 0;
@@ -1217,51 +1236,9 @@ ul.posts li a:visited {
     letter-spacing: 0.002em;
   }
 
-  /* 标题前的 # 号装饰 - 极客悬挂风格 */
+  /* Keep article headings quiet: the TOC already provides structure. */
   h1, h2, h3, h4, h5, h6 {
     position: relative;
-  }
-
-  h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
-    color: var(--gray-color);
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-    font-weight: normal;
-    opacity: 0.3; /* 默认淡化，不抢视觉 */
-    transition: all 0.2s ease;
-  }
-
-  /* 鼠标悬停时高亮 # 号 */
-  h1:hover::before, h2:hover::before, h3:hover::before, h4:hover::before, h5:hover::before, h6:hover::before {
-    opacity: 1;
-    color: var(--accent-color);
-  }
-
-  h1::before { content: "#"; }
-  h2::before { content: "##"; }
-  h3::before { content: "###"; }
-  h4::before { content: "####"; }
-  h5::before { content: "#####"; }
-  h6::before { content: "######"; }
-
-  /* 大屏幕：悬挂式（Outdent）- 保持标题文字左对齐，# 号悬挂在左侧 */
-  @media (min-width: 900px) {
-    h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
-      position: absolute;
-      right: 100%;
-      margin-right: 0.75rem; /* 与标题保持舒适距离 */
-      font-size: 0.65em; /* 符号小一点，更精致 */
-      top: 0.3em; /* 视觉垂直居中微调 */
-      letter-spacing: -1px; /* 让多个 # 号稍微紧凑一点 */
-    }
-  }
-
-  /* 小屏幕：内联式（Inline）- 避免溢出屏幕 */
-  @media (max-width: 899px) {
-    h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
-      display: inline-block;
-      margin-right: 0.35rem;
-      font-size: 0.85em;
-    }
   }
 
   ol,
@@ -1450,8 +1427,8 @@ ul.posts li a:visited {
     max-height: calc(100vh - 160px);
     overflow-y: auto;
     margin: 0;
-    border-left: 1px solid rgba(0,0,0,0.05);
-    padding-left: 1.5rem;
+    border-left: none;
+    padding-left: 0.75rem;
   }
 }
 
@@ -1497,11 +1474,13 @@ ul.posts li a:visited {
 }
 
 .toc-header {
-  font-weight: bold;
-  font-size: 1.0rem;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid var(--heading-color);
+  color: color-mix(in oklab, var(--heading-color) 82%, var(--gray-color));
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--rule-color) 42%, transparent);
 }
 
 .toc-empty {
@@ -1523,27 +1502,29 @@ ul.posts li a:visited {
 
 .toc-link {
   display: block;
-  padding: 0.25rem 0.5rem;
-  color: var(--text-color);
+  padding: 0.22rem 0 0.22rem 0.7rem;
+  color: color-mix(in oklab, var(--gray-color) 92%, var(--text-color));
   text-decoration: none;
-  border-left: 2px solid transparent;
+  border-left: 1px solid transparent;
+  font-size: 0.9rem;
   line-height: 1.5;
 }
 
 .toc-link:hover {
-  background: var(--code-background-color);
+  color: var(--heading-color);
+  background: transparent;
 }
 
 .toc-link.active {
-  color: var(--heading-color);
+  color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
   font-weight: 500;
-  border-left-color: var(--accent-color);
-  background: var(--code-background-color);
+  border-left-color: color-mix(in oklab, var(--accent-color) 58%, transparent);
+  background: transparent;
 }
 
 /* 不同层级的样式 */
 .toc-level-2>.toc-link {
-  font-weight: 500;
+  font-weight: 480;
 }
 
 .toc-level-3>.toc-link {
