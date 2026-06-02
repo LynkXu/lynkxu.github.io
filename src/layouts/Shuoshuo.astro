@@ -299,31 +299,49 @@ function getDateParts(date: Date) {
 
         .feed-item {
             display: grid;
-            grid-template-columns: 8.5rem minmax(0, 1fr);
-            gap: var(--space-md);
+            grid-template-columns: max-content minmax(0, 1fr);
+            column-gap: var(--space-md);
+            row-gap: 0.55rem;
             padding: var(--space-md) 0;
-            border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
             position: relative;
+            align-items: start;
         }
 
-        .feed-item:last-child {
-            border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+        .feed-item::before {
+            content: "";
+            grid-column: 2;
+            grid-row: 1;
+            align-self: center;
+            border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
         }
 
         .feed-card {
+            grid-column: 2;
+            grid-row: 2;
             padding: 0;
             margin: 0;
             border: 0;
             border-radius: 0;
             background: transparent;
+            position: relative;
+        }
+
+        .feed-item:last-child .feed-card::after {
+            content: "";
+            position: absolute;
+            bottom: calc(-1 * var(--space-md));
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
         }
 
         .entry-meta {
+            grid-column: 1;
+            grid-row: 1;
             display: flex;
             align-items: baseline;
             flex-wrap: wrap;
             gap: 0.35rem;
-            padding-top: 0.12rem;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
             font-size: 0.7rem;
             line-height: 1.35;
@@ -482,8 +500,9 @@ function getDateParts(date: Date) {
             }
 
             .feed-item {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
+                grid-template-columns: max-content minmax(0, 1fr);
+                column-gap: 0.7rem;
+                row-gap: 0.35rem;
                 padding: var(--space-sm) 0;
             }
 
@@ -493,6 +512,8 @@ function getDateParts(date: Date) {
             }
 
             .feed-card {
+                grid-column: 1 / -1;
+                grid-row: 2;
                 padding: 0;
             }
 
