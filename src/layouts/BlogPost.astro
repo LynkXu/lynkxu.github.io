@@ -38,18 +38,45 @@ const primaryKind = categories?.[0] ?? tags?.[0] ?? 'essay';
 const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 ---
 
-<Base title={title} description={description || ''}>
+<Base title={title} description={description || ''} className="blog-post-layout">
 	<!-- LightGallery CSS (本地) -->
 	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
 
 	<style is:global>
 		/* 文章结束标识 */
+		.global-layout-card.blog-post-layout {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.global-layout-card.blog-post-layout > main,
+		.blog-post-layout .blog-layout,
+		.blog-post-layout .blog-main-column {
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+		}
+
+		.post-tail {
+			margin: auto 0 0.35rem;
+			padding-top: clamp(3.5rem, 8vw, 5.5rem);
+		}
+
 		.post-end {
-			margin: var(--space-2xl) 0 0;
+			margin: 0;
 			padding: 0;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+		}
+
+		.post-tail .changelog {
+			margin: var(--space-xs) 0 0 !important;
+		}
+
+		.global-layout-card.blog-post-layout > footer {
+			margin-top: 0;
+			padding-top: 0.65rem;
 		}
 
 		.post-end-text {
@@ -269,19 +296,21 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				<slot />
 			</div>
 
-		<!-- 文章结束标识和点赞 -->
-		<div class='post-end' aria-hidden="true">
-			<span class="post-end-text">// EOF</span>
-			<LikeButton id={postId || Astro.url.pathname} type="post" />
-		</div>
+			<div class="post-tail">
+				<!-- 文章结束标识和点赞 -->
+				<div class='post-end' aria-hidden="true">
+					<span class="post-end-text">// EOF</span>
+					<LikeButton id={postId || Astro.url.pathname} type="post" />
+				</div>
 
-		<!-- Changelog 注脚 -->
-		{changelog && changelog.length > 0 && (
-			<Changelog entries={changelog} />
-		)}
+				<!-- Changelog 注脚 -->
+				{changelog && changelog.length > 0 && (
+					<Changelog entries={changelog} />
+				)}
+			</div>
 
-		<!-- 导航按钮 -->
-		<NavButton showBackToTop={true} />
+			<!-- 导航按钮 -->
+			<NavButton showBackToTop={true} />
 		</div>
 
 		<!-- 目录侧边栏 -->
