@@ -1,7 +1,9 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import TaxonomyHero from '../../components/TaxonomyHero.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
 export async function getStaticPaths() {
@@ -31,12 +33,32 @@ export async function getStaticPaths() {
 }
 
 const { posts, tag } = Astro.props;
+const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+const tagsMap = new Map<string, number>();
+
+allPosts.forEach((post) => {
+	(post.data.tags || []).forEach((item) => {
+		tagsMap.set(item, (tagsMap.get(item) || 0) + 1);
+	});
+});
+
+const tagItems = Array.from(tagsMap.entries())
+	.sort((a, b) => b[1] - a[1])
+	.map(([name, count]) => ({
+		name,
+		count,
+		href: `/tags/${name}/`,
+	}));
 ---
 
 <Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`} className="blog-surface-layout">
-	<div class="content-limit-width">
-		<h2>Tag: {tag}</h2>
-		<p>{posts.length} posts in total</p>
+	<div class="content-limit-width taxonomy-shell">
+		<TaxonomyHero
+			eyebrow='tag archive'
+			title={`#${tag}`}
+			description={`${posts.length} posts in total.`}
+		/>
+		<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
 		<ul class='posts'>
 			{
 				posts.map((post) => (

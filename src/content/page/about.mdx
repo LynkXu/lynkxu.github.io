@@ -5,37 +5,48 @@ pageLayout: About
 ---
 import SponsorAbout from '../../components/SponsorAbout.astro';
 
-#### Bio
-- Born in Anhui in 1998, living in Shanghai.
-- Got into programming by flashing custom Android ROMs in high school.
-- Backend/Full-stack developer at a foreign enterprise since 2023.
+<p class="about-lede">Hi, I'm Lynk — backend / full-stack developer based in Shanghai.</p>
 
-#### Life
-- Enjoy sports: strength training, running, cycling.
-- Love nature and the great outdoors.
-- Appreciate both hanging out with friends and solitude.
+<div class="about-panels">
+	<section class="about-panel paper-ledger">
+		<h2 class="indextitle">Bio</h2>
+		<ul class="about-facts">
+			<li>Got into programming by flashing custom Android ROMs in high school.</li>
+			<li>Backend / full-stack developer at a foreign enterprise since 2023.</li>
+		</ul>
+	</section>
 
-#### More
-
-<nav class="more-nav">
-  <a href="/media/">📚 Media</a>
-  <a href="/photography/">📷 Photography</a>
-  <a href="/travel/">🗺️ Travel</a>
-  <a href="/sports/">🏃 Sports</a>
-  <a href="/tools/">🛠️ Tools</a>
-  {/* <a href="/resume/">📄 Resume</a> */}
-  <a href="/copyright/">⚖️ Copyright</a>
-</nav>
-
-<div class="about-footer">
-  <div class="footer-section">
-    <span class="footer-label">Sponsor</span>
-    <SponsorAbout />
-  </div>
-
-  <div class="footer-section">
-    <span class="footer-label">About Blog</span>
-    <p>Powered by GitHub Pages + Astro. A proxy is recommended for a better browsing experience.</p>
-    <p>Posts are written in Obsidian, signals synced from Mastodon, media logged on NeoDB, and sports activities fetched from Strava.</p>
-  </div>
+	<section class="about-panel paper-ledger">
+		<h2 class="indextitle">Life</h2>
+		<ul class="about-facts">
+			<li>Sports: strength training, running, cycling.</li>
+			<li>Nature, outdoors, and long walks.</li>
+			<li>Good with both company and solitude.</li>
+		</ul>
+	</section>
 </div>
+
+<section class="about-field about-field--pages">
+	<h2 class="indextitle">More</h2>
+	<nav class="about-pages" aria-label="More pages">
+		<a class="about-page-link" href="/media/">Media</a>
+		<a class="about-page-link" href="/photography/">Photography</a>
+		<a class="about-page-link" href="/travel/">Travel</a>
+		<a class="about-page-link" href="/sports/">Sports</a>
+		<a class="about-page-link" href="/tools/">Tools</a>
+		<a class="about-page-link" href="/copyright/">Copyright</a>
+	</nav>
+</section>
+
+<aside class="about-colophon">
+	<section class="about-chip paper-ledger">
+		<h2 class="indextitle about-colophon__label">Sponsor</h2>
+		<SponsorAbout />
+	</section>
+
+	<section class="about-note">
+		<h2 class="indextitle about-colophon__label">About Blog</h2>
+		<p>Powered by GitHub Pages + Astro. A proxy is recommended for a better browsing experience.</p>
+		<p>Posts are written in Obsidian, memos synced from Mastodon, media logged on NeoDB, and sports activities fetched from Strava.</p>
+	</section>
+</aside>

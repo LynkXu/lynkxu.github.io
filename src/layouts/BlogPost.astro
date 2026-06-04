@@ -58,8 +58,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-tail {
-			margin: auto 0 0.35rem;
-			padding-top: clamp(3.5rem, 8vw, 5.5rem);
+			display: flex;
+			flex-direction: column;
+			gap: clamp(1.25rem, 3vw, 1.5rem);
+			margin: auto 0 clamp(0.5rem, 1.5vw, 0.75rem);
+			padding-top: clamp(2rem, 4.5vw, 2.5rem);
 		}
 
 		.post-end {
@@ -71,7 +74,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-tail .changelog {
-			margin: var(--space-xs) 0 0 !important;
+			margin: 0 !important;
 		}
 
 		.global-layout-card.blog-post-layout > footer {
@@ -83,18 +86,21 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			color: var(--gray-color);
 			opacity: 0.5;
 			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.8rem;
-			letter-spacing: 0.05em;
+			font-size: 0.82rem;
+			letter-spacing: 0.04em;
 		}
 
 		/* Code Block Wrapper */
 		.code-wrapper {
 			position: relative;
 			margin: var(--space-md) 0;
-			border-radius: 0;
-			background: color-mix(in oklab, var(--code-background-color) 46%, var(--content-bg));
-			box-shadow: none;
-			border: 1px solid color-mix(in oklab, var(--rule-color) 38%, transparent);
+			border-radius: var(--paper-card-radius);
+			background:
+				linear-gradient(color-mix(in oklab, var(--rule-color) 9%, transparent) 1px, transparent 1px),
+				color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
+			background-size: 100% 1.65rem, auto;
+			box-shadow: var(--paper-card-shadow);
+			border: 1px solid var(--paper-card-border);
 			overflow: hidden;
 		}
 
@@ -142,7 +148,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.code-lang {
 			font-size: 0.75rem;
 			color: var(--gray-color);
-			font-family: "JetBrains Mono", "Fira Code", consolas, Menlo, monospace;
+			font-family: var(--field-font, "Lilex", ui-monospace, monospace);
 			text-transform: uppercase;
 			font-weight: 600;
 			position: absolute;
@@ -156,43 +162,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			display: block;
 			transform: none;
 			margin: 0 0 clamp(1rem, 2.2vw, 1.35rem);
-			padding: 0.2rem 0 0;
-			border-bottom: 0;
-		}
-
-		.post-header::after {
-			content: "";
-			display: block;
-			width: clamp(2rem, 4.5vw, 3rem);
-			height: 1px;
-			margin-top: clamp(0.75rem, 1.7vw, 0.95rem);
-			background: linear-gradient(
-				90deg,
-				color-mix(in oklab, var(--gray-color) 22%, transparent),
-				color-mix(in oklab, var(--gray-color) 8%, transparent)
-			);
-		}
-
-		.post-kicker {
-			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-			margin: 0 0 0.65rem;
-			color: var(--gray-color);
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.7rem;
-			letter-spacing: 0.095em;
-			text-transform: uppercase;
-		}
-
-		.post-kicker > span:first-child {
-			color: color-mix(in oklab, var(--accent-color) 68%, var(--gray-color));
-		}
-
-		.post-kicker__separator {
-			opacity: 0.5;
-			color: var(--gray-color);
+			padding: 0.25rem 0 clamp(0.85rem, 2vw, 1.1rem);
 		}
 
 		.post-header .post-title {
@@ -206,7 +176,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-description {
-			max-width: 42rem;
+			max-width: var(--measure-readable);
 			margin: var(--space-md) 0 0;
 			color: var(--gray-color);
 			font-size: 1rem;
@@ -214,9 +184,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-header .post-meta {
-			margin: var(--space-md) 0 0;
-			padding: 0;
-			border: 0;
 			font-size: 0.86rem;
 		}
 
@@ -262,68 +229,73 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: transparent !important;
 		}
 
-		/* Keep prose readable while letting wide elements use the article column. */
+		/* 阅读柱：正文、代码块、图片等统一 70ch */
 		.blog-main-column .post-content {
-			max-width: 100%;
+			max-width: var(--measure-readable);
 			margin-left: 0;
 			margin-right: 0;
-		}
-
-		.blog-main-column .post-content > :where(p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6) {
-			max-width: var(--measure-readable);
 		}
 
 		.blog-main-column .post-content > :first-child {
 			margin-top: 0;
 		}
 
+		.post-tail {
+			position: relative;
+		}
+
+		.post-end {
+			margin: 0;
+			padding: 0;
+		}
+
 	</style>
 
-	<header class='post-header'>
-		<p class='post-kicker'>
-			<span>{primaryKind}</span>
-			<span class='post-kicker__separator'>/</span>
-			<FormattedDate date={pubDate} />
-			{readingTime && (
-				<>
-					<span class='post-kicker__separator'>/</span>
-					<span>{readingTime} min read</span>
-				</>
-			)}
-		</p>
-		<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-		{description && <p class='post-description'>{description}</p>}
-		{hasPostMeta && (
-			<div class="post-meta" role="note" aria-label="Post info">
-				{updatedDate && (
-					<span>Updated at <FormattedDate date={updatedDate} /></span>
-				)}
-				{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
-			</div>
-		)}
-	</header>
-
+	<div class={`article-page-shell ${showTOC ? 'has-sidebar' : ''}`}>
 	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
 		
 		<LeftSidebar details={{ pubDate, readingTime }} />
 
 		<div class="blog-main-column">
+			<header class='post-header'>
+				<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+				<p class='post-kicker page-rail__meta'>
+					<span>{primaryKind}</span>
+					<span class='post-kicker__separator'>·</span>
+					<FormattedDate date={pubDate} />
+					{readingTime && (
+						<>
+							<span class='post-kicker__separator'>·</span>
+							<span>{readingTime} min read</span>
+						</>
+					)}
+				</p>
+				{description && <p class='post-description'>{description}</p>}
+				{hasPostMeta && (
+					<div class="post-meta" role="note" aria-label="Post info">
+						{updatedDate && (
+							<span>Updated at <FormattedDate date={updatedDate} /></span>
+						)}
+						{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
+					</div>
+				)}
+			</header>
+
 			<!-- 主内容区 -->
 			<div class='post-content content' id='lightgallery'>
 				<slot />
 			</div>
 
 			<div class="post-tail">
+				{changelog && changelog.length > 0 && (
+					<Changelog entries={changelog} />
+				)}
+
 				<!-- 文章结束标识和点赞 -->
 				<div class='post-end' aria-hidden="true">
 					<span class="post-end-text">// EOF</span>
 					<LikeButton id={postId || Astro.url.pathname} type="post" />
 				</div>
-
-				<!-- Changelog 注脚 -->
-				{changelog && changelog.length > 0 && (
-					<Changelog entries={changelog} />
-				)}
 			</div>
 
 			<!-- 导航按钮 -->
@@ -334,10 +306,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		{
 			showTOC && (
 				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='TOC' />
+					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
 				</div>
 			)
 		}
+	</div>
 	</div>
 
 	<!-- LightGallery JS (本地) -->

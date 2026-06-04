@@ -9,7 +9,7 @@ export const ui = {
   zh: {
     'nav.blog': '归档',
     'nav.projects': '项目',
-    'nav.gossips': 'Signals',
+    'nav.gossips': 'Memos',
     'nav.message': 'Guestbook',
     'nav.about': '关于',
     'nav.rss': 'RSS',
@@ -27,7 +27,7 @@ export const ui = {
   en: {
     'nav.blog': 'Blog',
     'nav.projects': 'Projects',
-    'nav.gossips': 'Gossips',
+    'nav.gossips': 'Memos',
     'nav.message': 'Messages',
     'nav.about': 'About',
     'nav.rss': 'RSS',

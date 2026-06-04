@@ -1,6 +1,6 @@
 ---
 slug: shuoshuo
-title: Short Signals
+title: Memos
 layout: Shuoshuo
 ---
 
