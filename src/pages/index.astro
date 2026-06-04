@@ -35,7 +35,7 @@ allPosts.forEach((post) => {
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
-<Base title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<Base title={SITE_TITLE} description={SITE_DESCRIPTION} className="blog-surface-layout">
 	<div class="content-limit-width asym-layout">
 		<section class='home-hero' aria-labelledby='home-title'>
 			<div class="hero-left">

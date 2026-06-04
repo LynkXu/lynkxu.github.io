@@ -255,6 +255,21 @@ body {
   min-height: calc(100vh - clamp(var(--space-2xl), 8vw, var(--space-4xl)));
 }
 
+.global-layout-card.blog-surface-layout {
+  --frame-mark: color-mix(in oklab, var(--rule-color) 34%, transparent);
+  --frame-mark-size: 14px;
+  --frame-mark-inset: 11px;
+  background-image:
+    linear-gradient(var(--frame-mark), var(--frame-mark)),
+    linear-gradient(var(--frame-mark), var(--frame-mark));
+  background-position:
+    var(--frame-mark-inset) var(--frame-mark-inset),
+    var(--frame-mark-inset) var(--frame-mark-inset);
+  background-size:
+    var(--frame-mark-size) 1px,
+    1px var(--frame-mark-size);
+}
+
 .global-layout-card::before {
   content: "";
   position: absolute;

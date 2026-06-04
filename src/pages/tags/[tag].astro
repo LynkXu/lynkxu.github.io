@@ -33,7 +33,7 @@ export async function getStaticPaths() {
 const { posts, tag } = Astro.props;
 ---
 
-<Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`}>
+<Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`} className="blog-surface-layout">
 	<div class="content-limit-width">
 		<h2>Tag: {tag}</h2>
 		<p>{posts.length} posts in total</p>
