@@ -58,6 +58,24 @@ function getDateParts(date: Date) {
     const time = new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
     return { day, monthNum, year, time };
 }
+
+function getEntryTags(tag: unknown) {
+    if (Array.isArray(tag)) {
+        return tag
+            .filter(Boolean)
+            .map(String)
+            .filter((item) => item.toLowerCase() !== 'mastodon');
+    }
+
+    if (typeof tag === 'string') {
+        return tag
+            .split(/[,，\s]+/)
+            .map((item) => item.trim())
+            .filter((item) => item && item.toLowerCase() !== 'mastodon');
+    }
+
+    return [];
+}
 ---
 
 <link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
@@ -116,14 +134,14 @@ function getDateParts(date: Date) {
     }
 </style>
 
-<Base title={title} description={title}>
-	<div class='gossip-page terminal-shell'>
+<Base title={title} description={title} className="memos-layout blog-surface-layout">
+	<div class='gossip-page'>
         <section class="gossip-hero" aria-labelledby="gossip-title">
             <h1 id="gossip-title">{title}</h1>
-            <p>{gossips.length} posts, sorted by time.</p>
+            <p>{gossips.length} memos, sorted by time.</p>
         </section>
 
-		<div id='shuoshuo' class="feed-container terminal-stream" role="list">
+		<div id='shuoshuo' class="feed-container" role="list">
             {
                 gossips.length === 0 ? (
                     <div class='empty-state'>No short signals yet.</div>
@@ -131,15 +149,25 @@ function getDateParts(date: Date) {
                     gossips.map((gossip: any, index) => {
                         const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
                         const dateStamp = `${year}-${monthNum}-${day}`;
+                        const entryId = String(gossip.data.slug || `memo-${index}`);
+                        const entryTags = getEntryTags(gossip.data.tag);
                         const attachments = gossip._raw?.media_attachments || [];
                         return (
-                            <article class='feed-item terminal-entry' data-index={index} role="listitem">
-                                <div class="entry-meta">
-                                    <span class="entry-date">{dateStamp}</span>
-                                    <span class='card-time'>{time}</span>
-                                    {INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
+                            <article class='feed-item' id={entryId} data-index={index} role="listitem">
+                                <div class="entry-meta" aria-label="Memo metadata">
+                                    <div class="entry-meta-main">
+                                        <a class="entry-date" href={`#${entryId}`} aria-label={`Permalink for memo on ${dateStamp}`}>
+                                            <time datetime={gossip.data.pubDate.toISOString()}>{dateStamp}</time>
+                                        </a>
+                                        <span class='card-time'>{time}</span>
+                                        {entryTags.map((tag) => <span class="entry-tag">#{tag}</span>)}
+                                        {INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
+                                    </div>
+                                    <div class="entry-meta-actions">
+                                        <LikeButton id={entryId} type="gossip" />
+                                    </div>
                                 </div>
-                                <div class='feed-card entry-panel'>
+                                <div class='feed-card'>
                                     <div class='card-body markdown-body' set:html={marked.parse(gossip.body || '')} />
                                     
                                     {attachments.length > 0 && (
@@ -151,9 +179,6 @@ function getDateParts(date: Date) {
                                             ))}
                                         </div>
                                     )}
-                                    <div class="entry-actions">
-                                        <LikeButton id={gossip.data.slug} type="gossip" />
-                                    </div>
                                 </div>
                             </article>
                         )
@@ -214,7 +239,11 @@ function getDateParts(date: Date) {
 			}
 
 			const params = new URLSearchParams(window.location.search);
-			const initialPage = Math.min(totalPages, Math.max(1, Number(params.get('page')) || 1));
+			const hashTarget = decodeURIComponent(window.location.hash.slice(1));
+			const hashIndex = hashTarget ? items.findIndex((item) => item.id === hashTarget) : -1;
+			const initialPage = hashIndex >= 0
+				? Math.floor(hashIndex / pageSize) + 1
+				: Math.min(totalPages, Math.max(1, Number(params.get('page')) || 1));
 			const clampPage = (page) => Math.min(totalPages, Math.max(1, page));
 
 			function renderPage(page) {
@@ -258,12 +287,12 @@ function getDateParts(date: Date) {
         .gossip-page {
             max-width: 700px;
             margin: 0 auto;
-            padding-bottom: var(--space-lg);
+            padding: 0 0 var(--space-lg);
         }
 
         .gossip-hero {
             position: relative;
-            margin: 0 0 2.25rem;
+            margin: 0 0 2rem;
             padding: 0.25rem 0 0;
         }
 
@@ -294,20 +323,50 @@ function getDateParts(date: Date) {
 
         .feed-container {
             display: grid;
-            gap: 0;
+            gap: 0.55rem;
         }
 
         .feed-item {
-            display: grid;
-            grid-template-columns: 8.5rem minmax(0, 1fr);
-            gap: var(--space-md);
-            padding: var(--space-md) 0;
-            border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            display: block;
+            padding: 0.9rem 0.95rem 0.95rem;
+            border: 0;
+            background: transparent;
+            box-shadow: 0 1px 0 color-mix(in oklab, var(--rule-color) 18%, transparent);
             position: relative;
+            scroll-margin-top: var(--space-xl);
+            transition: box-shadow 0.18s ease, transform 0.18s ease, background 0.18s ease;
         }
 
-        .feed-item:last-child {
-            border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+        .feed-item::before {
+            content: "";
+            position: absolute;
+            left: 0.95rem;
+            right: 0.95rem;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                color-mix(in oklab, var(--rule-color) 26%, transparent) 18%,
+                color-mix(in oklab, var(--rule-color) 20%, transparent) 82%,
+                transparent
+            );
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .feed-item:hover,
+        .feed-item:focus-within {
+            background: color-mix(in oklab, var(--content-bg) 82%, var(--page-bg) 18%);
+            box-shadow:
+                0 1px 0 color-mix(in oklab, var(--rule-color) 20%, transparent),
+                0 8px 18px color-mix(in oklab, var(--heading-color) 4%, transparent);
+            transform: translateY(-1px);
+        }
+
+        .feed-item:hover::before,
+        .feed-item:focus-within::before {
+            opacity: 1;
         }
 
         .feed-card {
@@ -320,9 +379,9 @@ function getDateParts(date: Date) {
 
         .entry-meta {
             display: flex;
+            justify-content: space-between;
             align-items: baseline;
-            flex-wrap: wrap;
-            gap: 0.35rem;
+            gap: 0.75rem;
             padding-top: 0.12rem;
             font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
             font-size: 0.7rem;
@@ -330,19 +389,53 @@ function getDateParts(date: Date) {
             color: var(--gray-color);
             letter-spacing: 0.015em;
             font-variant-numeric: tabular-nums;
+            margin-bottom: 0.45rem;
+        }
+
+        .entry-meta-main {
+            min-width: 0;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.32rem 0.45rem;
+        }
+
+        .entry-meta-actions {
+            flex: none;
+            margin-left: auto;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .feed-item:hover .entry-meta-actions,
+        .feed-item:focus-within .entry-meta-actions {
+            opacity: 0.9;
+        }
+
+        .entry-meta-actions :global(.like-btn.gossip) {
+            font-size: 0.68rem;
+            opacity: 1;
         }
 
         .entry-date {
             color: var(--heading-color);
             font-weight: 500;
-            letter-spacing: 0.04em;
+            letter-spacing: 0.025em;
+            border-bottom: 0;
         }
 
-        .entry-date::before { content: "["; opacity: 0.72; margin-right: 1px; }
-        .entry-date::after { content: "]"; opacity: 0.72; margin-left: 1px; }
+        .entry-date:hover {
+            color: var(--link-color);
+            border-bottom: 0;
+        }
 
         .card-time {
             opacity: 0.86;
+        }
+
+        .entry-tag {
+            color: color-mix(in oklab, var(--accent-color) 58%, var(--gray-color));
+            letter-spacing: 0.02em;
         }
 
         .draft-indicator {
@@ -355,13 +448,13 @@ function getDateParts(date: Date) {
 
         .card-body {
             color: var(--text-color);
-            font-size: 0.9rem;
-            line-height: 1.66;
+            font-size: 0.92rem;
+            line-height: 1.68;
             letter-spacing: 0;
         }
 
         .card-body :global(p) {
-            margin: 0.16rem 0;
+            margin: 0.2rem 0;
         }
 
         .card-body :global(p:first-child) {
@@ -395,30 +488,6 @@ function getDateParts(date: Date) {
             color: var(--gray-color);
             font-size: 0.78rem;
             line-height: 1.36;
-        }
-
-        .entry-actions {
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            position: absolute;
-            right: 0;
-            bottom: var(--space-md);
-            z-index: 10;
-        }
-
-        .feed-item:hover .entry-actions {
-            opacity: 1;
-        }
-
-        /* 移动端始终显示点赞按钮，但保持半透明 */
-        @media (max-width: 720px) {
-            .entry-actions {
-                opacity: 0.6;
-                bottom: var(--space-sm);
-            }
         }
 
 		.pagination {
@@ -482,14 +551,12 @@ function getDateParts(date: Date) {
             }
 
             .feed-item {
-                grid-template-columns: 1fr;
-                gap: 0.4rem;
-                padding: var(--space-sm) 0;
+                padding: var(--space-sm);
             }
 
-            .entry-actions {
-                opacity: 0.6;
-                bottom: var(--space-sm);
+            .entry-meta {
+                align-items: flex-start;
+                gap: 0.5rem;
             }
 
             .feed-card {
