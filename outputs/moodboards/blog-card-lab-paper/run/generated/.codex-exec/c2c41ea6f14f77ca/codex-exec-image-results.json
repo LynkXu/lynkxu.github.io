@@ -1,0 +1,93 @@
+{
+  "status": "partial",
+  "total": 12,
+  "complete": 10,
+  "failed": 2,
+  "pending": 0,
+  "results": [
+    {
+      "id": "home-signal-paper",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/1709798a221c5180a7e1a43d374409d9.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "archive-ledger-cards",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/16243744181740d949ce9a5e2c855cc8.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "article-header-instrument",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/2a8902146efb2449951c2507e216e26a.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "toc-side-rail",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/a8135ba86325c9c11de7121de27fc2d9.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "gossip-timeline-panels",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/22659222654b643ff4e621e9736ca9d7.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "message-guestbook-surface",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation returned an image in-chat, but no writable PNG file path was exposed to save it to the requested location.",
+      "caveats": ""
+    },
+    {
+      "id": "about-profile-index",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/3ede4d37f5c7f0e2c028b335110f7d23.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "card-material-study",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation returned an image in-session, but no filesystem output path or writable PNG bytes were exposed for saving.",
+      "caveats": ""
+    },
+    {
+      "id": "metadata-field-system",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/48a6f635964ee0c0a555063603f94621.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "code-block-paper-terminal",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/b6d7a568b282f98aa186a636a999d22c.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "mobile-card-reading",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/434b191136058af34635a9ea7719c5a4.png",
+      "error": null,
+      "caveats": ""
+    },
+    {
+      "id": "motion-hover-quiet",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/c2c41ea6f14f77ca/0f4cd3847982cc1b7453b9027ad7fc81.png",
+      "error": null,
+      "caveats": ""
+    }
+  ]
+}

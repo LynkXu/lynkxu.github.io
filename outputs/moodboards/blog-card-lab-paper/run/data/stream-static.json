@@ -1,0 +1,1395 @@
+{
+  "meta": {
+    "title": "Blog Card Lab Paper",
+    "subtitle": "Single-image visual references for a restrained card-based Chinese personal tech blog.",
+    "updated": "2026-06-04",
+    "brief": "个人技术/生活博客，中文个人站点。将 blog 一级页面改为更卡片化的视觉系统，但保持长文阅读效率与低噪音。",
+    "constraints": [
+      "实验纸面",
+      "混合卡片密度",
+      "细线边框",
+      "等宽元信息",
+      "柔和底色",
+      "轻微动效暗示",
+      "不要 SaaS 感",
+      "不要霓虹发光",
+      "不要全套盒"
+    ]
+  },
+  "signals": [
+    {
+      "label": "Audience",
+      "value": "工作间隙阅读长文的读者，需要低噪音、快速进入正文、长时间可读。"
+    },
+    {
+      "label": "Visual Route",
+      "value": "实验纸面：研究笔记、工程日志、细线卡片、克制科技感。"
+    },
+    {
+      "label": "Card Rule",
+      "value": "卡片用于信息分组，不逐段包裹正文。"
+    }
+  ],
+  "items": [
+    {
+      "id": "home-signal-paper",
+      "title": "Home Signal Paper",
+      "caption": "Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy.",
+      "source": "Generated from site redesign brief.",
+      "tone": "quiet technical editorial",
+      "motif": "paper surface, corner marks, article cards, asymmetric heading",
+      "palette": [
+        "#f6f7f4",
+        "#ecefeb",
+        "#d8ded8",
+        "#2e3436",
+        "#c96b43"
+      ],
+      "prompt": "Single visual reference image of a restrained personal tech blog homepage on a softly tinted paper surface, recent article cards arranged with generous but compact spacing, thin one-pixel borders, tiny corner registration marks, asymmetrical signal-log heading, muted warm accent used sparingly, readable long-form editorial feeling, no readable text, no logos, no real brand names, no collage, no grid of separate concepts, no screenshot chrome, no neon glow, no SaaS dashboard styling. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Editorial Paper",
+            "description": "Cleaner light and hierarchy around Home Signal Paper",
+            "promptHint": "Apply a polished editorial treatment to Home Signal Paper; preserve Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy while..."
+          },
+          {
+            "label": "Minimal Paper",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Home Signal Paper",
+            "promptHint": "Strip Home Signal Paper down to a minimal premium frame; keep Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy legible but..."
+          },
+          {
+            "label": "Motion Paper",
+            "description": "More kinetic gesture, blur, or environmental energy around Home Signal Paper",
+            "promptHint": "Introduce controlled motion to Home Signal Paper while preserving the campaign cue: Homepage reference: a calm paper-like blog surface with recent article cards and signal-log..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Unexpected Paper",
+            "description": "A more surprising secondary color relationship around Home Signal Paper",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Homepage reference: a calm paper-like blog surface with recent article cards and..."
+          },
+          {
+            "label": "Cool Paper",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Home Signal Paper; keep Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy intact"
+          },
+          {
+            "label": "Monochrome Paper",
+            "description": "A narrower near-monochrome treatment that lets one cue around Home Signal Paper stand out",
+            "promptHint": "Reduce the palette around Home Signal Paper to tonal restraint plus one preserved cue from Homepage reference: a calm paper-like blog surface with recent article cards and..."
+          }
+        ],
+        "scene": [
+          {
+            "label": "Paper Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Home Signal Paper",
+            "promptHint": "Reframe Home Signal Paper as a backstage or preparation moment; keep Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy..."
+          },
+          {
+            "label": "Paper In Use",
+            "description": "A more believable real-world context for Home Signal Paper",
+            "promptHint": "Place Home Signal Paper into a realistic usage context; preserve the source image's core cue: Homepage reference: a calm paper-like blog surface with recent article cards and..."
+          },
+          {
+            "label": "Paper Exterior",
+            "description": "Move Home Signal Paper into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Home Signal Paper into an exterior or entryway scene while preserving the core cue: Homepage reference: a calm paper-like blog surface with recent article cards and..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Home Signal Paper feel actively used",
+            "promptHint": "Add restrained process cues around Home Signal Paper; preserve the strongest visual idea from Homepage reference: a calm paper-like blog surface with recent article cards and..."
+          },
+          {
+            "label": "Paper Cues",
+            "description": "Add restrained supporting objects that clarify the context of Home Signal Paper",
+            "promptHint": "Add a few contextual props that reinforce Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy without distracting from Home..."
+          },
+          {
+            "label": "Unexpected Paper Prop",
+            "description": "One surprising but believable object that opens a new story around Home Signal Paper",
+            "promptHint": "Add one unexpected supporting prop that extends Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy without stealing focus..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Home Signal Paper",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Home Signal Paper"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Home Signal Paper carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Home Signal Paper",
+            "promptHint": "Introduce a collector or tastemaker presence around Home Signal Paper while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Square Paper",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Home Signal Paper as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Paper",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Home Signal Paper to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Paper Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Home Signal Paper; keep Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy legible"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/home-signal-paper.jpg",
+      "sourceImageUrl": "generated/1709798a221c5180a7e1a43d374409d9.png"
+    },
+    {
+      "id": "archive-ledger-cards",
+      "title": "Archive Ledger Cards",
+      "caption": "Archive reference: year groups as ledger-like cards with dense article rows and tabular dates.",
+      "source": "Generated from archive page scope.",
+      "tone": "structured, archival, calm",
+      "motif": "year ledger, tabular metadata, compact rows, thin separators",
+      "palette": [
+        "#f4f5f2",
+        "#e6eae6",
+        "#cfd8d1",
+        "#303737",
+        "#b76645"
+      ],
+      "prompt": "Single composed scene of an archive page visual direction for a personal writing site, year sections treated as very thin paper cards, dense rows with small tabular date marks and muted link blocks, precise spacing and faint dividers, editorial research-note atmosphere, soft neutral background, no readable text, no logos, no collage, no contact sheet, no bright gradients, no rounded SaaS cards. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Editorial Cards",
+            "description": "Cleaner light and hierarchy around Archive Ledger Cards",
+            "promptHint": "Apply a polished editorial treatment to Archive Ledger Cards; preserve Archive reference: year groups as ledger-like cards with dense article rows and tabular dates while..."
+          },
+          {
+            "label": "Minimal Cards",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Archive Ledger Cards",
+            "promptHint": "Strip Archive Ledger Cards down to a minimal premium frame; keep Archive reference: year groups as ledger-like cards with dense article rows and tabular dates legible but..."
+          },
+          {
+            "label": "Motion Cards",
+            "description": "More kinetic gesture, blur, or environmental energy around Archive Ledger Cards",
+            "promptHint": "Introduce controlled motion to Archive Ledger Cards while preserving the campaign cue: Archive reference: year groups as ledger-like cards with dense article rows and tabular dates"
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Cards",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Archive Ledger Cards; keep Archive reference: year groups as ledger-like cards with dense article rows and tabular dates intact"
+          },
+          {
+            "label": "Monochrome Cards",
+            "description": "A narrower near-monochrome treatment that lets one cue around Archive Ledger Cards stand out",
+            "promptHint": "Reduce the palette around Archive Ledger Cards to tonal restraint plus one preserved cue from Archive reference: year groups as ledger-like cards with dense article rows and..."
+          },
+          {
+            "label": "Warm Cards",
+            "description": "Warmer neutrals and tactile highlights around Archive Ledger Cards",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Archive Ledger Cards"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Cards Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Archive Ledger Cards",
+            "promptHint": "Reframe Archive Ledger Cards as a backstage or preparation moment; keep Archive reference: year groups as ledger-like cards with dense article rows and tabular dates recognizable"
+          },
+          {
+            "label": "Cards In Use",
+            "description": "A more believable real-world context for Archive Ledger Cards",
+            "promptHint": "Place Archive Ledger Cards into a realistic usage context; preserve the source image's core cue: Archive reference: year groups as ledger-like cards with dense article rows and..."
+          },
+          {
+            "label": "Cards Exterior",
+            "description": "Move Archive Ledger Cards into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Archive Ledger Cards into an exterior or entryway scene while preserving the core cue: Archive reference: year groups as ledger-like cards with dense article rows and..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Archive Ledger Cards feel actively used",
+            "promptHint": "Add restrained process cues around Archive Ledger Cards; preserve the strongest visual idea from Archive reference: year groups as ledger-like cards with dense article rows and..."
+          },
+          {
+            "label": "Cards Cues",
+            "description": "Add restrained supporting objects that clarify the context of Archive Ledger Cards",
+            "promptHint": "Add a few contextual props that reinforce Archive reference: year groups as ledger-like cards with dense article rows and tabular dates without distracting from Archive Ledger..."
+          },
+          {
+            "label": "Unexpected Cards Prop",
+            "description": "One surprising but believable object that opens a new story around Archive Ledger Cards",
+            "promptHint": "Add one unexpected supporting prop that extends Archive reference: year groups as ledger-like cards with dense article rows and tabular dates without stealing focus from..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Archive Ledger Cards",
+            "promptHint": "Introduce a collector or tastemaker presence around Archive Ledger Cards while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Archive Ledger Cards in an everyday user context without losing Archive reference: year groups as ledger-like cards with dense article rows and tabular dates"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Archive Ledger Cards",
+            "promptHint": "Add a cropped passing figure or gesture around Archive Ledger Cards; keep identity nonspecific and preserve Archive reference: year groups as ledger-like cards with dense..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Cards",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Archive Ledger Cards; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Cards",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Archive Ledger Cards to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Cards",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Archive Ledger Cards as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/archive-ledger-cards.jpg",
+      "sourceImageUrl": "generated/16243744181740d949ce9a5e2c855cc8.png"
+    },
+    {
+      "id": "article-header-instrument",
+      "title": "Article Header Instrument",
+      "caption": "Post detail reference: title stays open and readable while metadata becomes a light instrument panel.",
+      "source": "Generated from article detail constraints.",
+      "tone": "focused, technical, literary",
+      "motif": "long title area, metadata capsule, reading rail, paper mark",
+      "palette": [
+        "#f7f8f6",
+        "#edf0ec",
+        "#d6ddd8",
+        "#232829",
+        "#bd6544"
+      ],
+      "prompt": "Single visual reference image of a long-form article detail page, open readable title area with a small instrument-panel style metadata card nearby, thin borders, subtle corner marks, quiet reading rail suggestion, large body text area left mostly uninterrupted, warm accent extremely restrained, no readable text, no logos, no actual article content, no collage, no nested cards everywhere, no neon, no marketing hero style. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Instrument",
+            "description": "More kinetic gesture, blur, or environmental energy around Article Header Instrument",
+            "promptHint": "Introduce controlled motion to Article Header Instrument while preserving the campaign cue: Post detail reference: title stays open and readable while metadata becomes a light..."
+          },
+          {
+            "label": "Material Instrument",
+            "description": "A closer tactile read of surface, temperature, and finish around Article Header Instrument",
+            "promptHint": "Rebuild Article Header Instrument as a tactile material study inspired by Post detail reference: title stays open and readable while metadata becomes a light instrument panel..."
+          },
+          {
+            "label": "Dramatic Instrument",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Article Header Instrument; keep Post detail reference: title stays open and readable while metadata becomes a light instrument panel..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Warm Instrument",
+            "description": "Warmer neutrals and tactile highlights around Article Header Instrument",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Article Header Instrument"
+          },
+          {
+            "label": "Accent Instrument",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Article Header Instrument without changing the main subject"
+          },
+          {
+            "label": "Unexpected Instrument",
+            "description": "A more surprising secondary color relationship around Article Header Instrument",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Post detail reference: title stays open and readable while metadata becomes a light..."
+          }
+        ],
+        "scene": [
+          {
+            "label": "Instrument In Use",
+            "description": "A more believable real-world context for Article Header Instrument",
+            "promptHint": "Place Article Header Instrument into a realistic usage context; preserve the source image's core cue: Post detail reference: title stays open and readable while metadata..."
+          },
+          {
+            "label": "Instrument Exterior",
+            "description": "Move Article Header Instrument into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Article Header Instrument into an exterior or entryway scene while preserving the core cue: Post detail reference: title stays open and readable while metadata becomes..."
+          },
+          {
+            "label": "Instrument Studio",
+            "description": "A cleaner controlled studio setting that keeps Article Header Instrument dominant",
+            "promptHint": "Move Article Header Instrument into a cleaner studio-hero setting while preserving Post detail reference: title stays open and readable while metadata becomes a light..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Instrument Cues",
+            "description": "Add restrained supporting objects that clarify the context of Article Header Instrument",
+            "promptHint": "Add a few contextual props that reinforce Post detail reference: title stays open and readable while metadata becomes a light instrument panel without distracting from Article..."
+          },
+          {
+            "label": "Unexpected Instrument Prop",
+            "description": "One surprising but believable object that opens a new story around Article Header Instrument",
+            "promptHint": "Add one unexpected supporting prop that extends Post detail reference: title stays open and readable while metadata becomes a light instrument panel without stealing focus from..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Article Header Instrument carries more weight",
+            "promptHint": "Remove nonessential props and keep Article Header Instrument as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Article Header Instrument",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Article Header Instrument"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Article Header Instrument carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Article Header Instrument",
+            "promptHint": "Introduce a collector or tastemaker presence around Article Header Instrument while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Instrument Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Article Header Instrument; keep Post detail reference: title stays open and readable while metadata becomes a light instrument panel legible"
+          },
+          {
+            "label": "Split-Depth Instrument",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Article Header Instrument; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Instrument",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Article Header Instrument to a wide hero composition with room for layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/article-header-instrument.jpg",
+      "sourceImageUrl": "generated/2a8902146efb2449951c2507e216e26a.png"
+    },
+    {
+      "id": "toc-side-rail",
+      "title": "TOC Side Rail",
+      "caption": "Article detail reference: table of contents and reading metadata as quiet side cards.",
+      "source": "Generated from blog detail layout.",
+      "tone": "precise, low-noise, navigable",
+      "motif": "side rail, micro cards, table of contents, thin active state",
+      "palette": [
+        "#f5f6f3",
+        "#e9ede8",
+        "#c8d0c8",
+        "#2a3031",
+        "#c46b47"
+      ],
+      "prompt": "Single visual reference image focused on a blog article side rail, table of contents as a narrow quiet card beside a wide uninterrupted reading column, tiny metadata chips, one subtle active indicator made with a fine line, no visible readable words, no logos, no dashboard metrics, no glowing accents, no collage or split concept board. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Material Rail",
+            "description": "A closer tactile read of surface, temperature, and finish around TOC Side Rail",
+            "promptHint": "Rebuild TOC Side Rail as a tactile material study inspired by Article detail reference: table of contents and reading metadata as quiet side cards, with a visibly different..."
+          },
+          {
+            "label": "Dramatic Rail",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to TOC Side Rail; keep Article detail reference: table of contents and reading metadata as quiet side cards recognizable but alter..."
+          },
+          {
+            "label": "Candid Rail",
+            "description": "More natural texture and believable lived-in detail for TOC Side Rail",
+            "promptHint": "Shift TOC Side Rail toward documentary realism while preserving Article detail reference: table of contents and reading metadata as quiet side cards; make lighting and staging..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Rail",
+            "description": "A narrower near-monochrome treatment that lets one cue around TOC Side Rail stand out",
+            "promptHint": "Reduce the palette around TOC Side Rail to tonal restraint plus one preserved cue from Article detail reference: table of contents and reading metadata as quiet side cards"
+          },
+          {
+            "label": "Warm Rail",
+            "description": "Warmer neutrals and tactile highlights around TOC Side Rail",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of TOC Side Rail"
+          },
+          {
+            "label": "Accent Rail",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to TOC Side Rail without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Rail In Use",
+            "description": "A more believable real-world context for TOC Side Rail",
+            "promptHint": "Place TOC Side Rail into a realistic usage context; preserve the source image's core cue: Article detail reference: table of contents and reading metadata as quiet side cards"
+          },
+          {
+            "label": "Rail Exterior",
+            "description": "Move TOC Side Rail into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate TOC Side Rail into an exterior or entryway scene while preserving the core cue: Article detail reference: table of contents and reading metadata as quiet side cards"
+          },
+          {
+            "label": "Rail Studio",
+            "description": "A cleaner controlled studio setting that keeps TOC Side Rail dominant",
+            "promptHint": "Move TOC Side Rail into a cleaner studio-hero setting while preserving Article detail reference: table of contents and reading metadata as quiet side cards"
+          }
+        ],
+        "props": [
+          {
+            "label": "Rail Cues",
+            "description": "Add restrained supporting objects that clarify the context of TOC Side Rail",
+            "promptHint": "Add a few contextual props that reinforce Article detail reference: table of contents and reading metadata as quiet side cards without distracting from TOC Side Rail"
+          },
+          {
+            "label": "Unexpected Rail Prop",
+            "description": "One surprising but believable object that opens a new story around TOC Side Rail",
+            "promptHint": "Add one unexpected supporting prop that extends Article detail reference: table of contents and reading metadata as quiet side cards without stealing focus from TOC Side Rail"
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so TOC Side Rail carries more weight",
+            "promptHint": "Remove nonessential props and keep TOC Side Rail as the dominant read"
+          }
+        ],
+        "character": [
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show TOC Side Rail in an everyday user context without losing Article detail reference: table of contents and reading metadata as quiet side cards"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over TOC Side Rail",
+            "promptHint": "Add a cropped passing figure or gesture around TOC Side Rail; keep identity nonspecific and preserve Article detail reference: table of contents and reading metadata as quiet..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with TOC Side Rail",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with TOC Side Rail"
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Rail",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt TOC Side Rail to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Rail",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose TOC Side Rail as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Rail",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt TOC Side Rail to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/toc-side-rail.jpg",
+      "sourceImageUrl": "generated/a8135ba86325c9c11de7121de27fc2d9.png"
+    },
+    {
+      "id": "gossip-timeline-panels",
+      "title": "Gossip Timeline Panels",
+      "caption": "Shuoshuo reference: short notes as timeline cards with terminal-like time metadata.",
+      "source": "Generated from shuoshuo page scope.",
+      "tone": "personal, log-like, restrained",
+      "motif": "timeline, short note card, monospaced time, quiet actions",
+      "palette": [
+        "#f6f6f3",
+        "#ebece8",
+        "#d6dcd4",
+        "#2d3334",
+        "#bd6748"
+      ],
+      "prompt": "Single visual reference image of a short-notes feed for a personal blog, timeline entries with small monospaced date marks on the left and thin bordered note panels on the right, occasional muted image thumbnail area, quiet hover-action hints, soft paper background, no readable text, no icons with labels, no social media UI chrome, no collage, no neon glow, no heavy rounded cards. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Panels",
+            "description": "More kinetic gesture, blur, or environmental energy around Gossip Timeline Panels",
+            "promptHint": "Introduce controlled motion to Gossip Timeline Panels while preserving the campaign cue: Shuoshuo reference: short notes as timeline cards with terminal-like time metadata"
+          },
+          {
+            "label": "Material Panels",
+            "description": "A closer tactile read of surface, temperature, and finish around Gossip Timeline Panels",
+            "promptHint": "Rebuild Gossip Timeline Panels as a tactile material study inspired by Shuoshuo reference: short notes as timeline cards with terminal-like time metadata, with a visibly..."
+          },
+          {
+            "label": "Dramatic Panels",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Gossip Timeline Panels; keep Shuoshuo reference: short notes as timeline cards with terminal-like time metadata recognizable but..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Unexpected Panels",
+            "description": "A more surprising secondary color relationship around Gossip Timeline Panels",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Shuoshuo reference: short notes as timeline cards with terminal-like time metadata"
+          },
+          {
+            "label": "Cool Panels",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Gossip Timeline Panels; keep Shuoshuo reference: short notes as timeline cards with terminal-like time metadata intact"
+          },
+          {
+            "label": "Monochrome Panels",
+            "description": "A narrower near-monochrome treatment that lets one cue around Gossip Timeline Panels stand out",
+            "promptHint": "Reduce the palette around Gossip Timeline Panels to tonal restraint plus one preserved cue from Shuoshuo reference: short notes as timeline cards with terminal-like time metadata"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Panels Studio",
+            "description": "A cleaner controlled studio setting that keeps Gossip Timeline Panels dominant",
+            "promptHint": "Move Gossip Timeline Panels into a cleaner studio-hero setting while preserving Shuoshuo reference: short notes as timeline cards with terminal-like time metadata"
+          },
+          {
+            "label": "Panels Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Gossip Timeline Panels, keeping the most important source cue visible"
+          },
+          {
+            "label": "Panels Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Gossip Timeline Panels",
+            "promptHint": "Reframe Gossip Timeline Panels as a backstage or preparation moment; keep Shuoshuo reference: short notes as timeline cards with terminal-like time metadata recognizable"
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Gossip Timeline Panels carries more weight",
+            "promptHint": "Remove nonessential props and keep Gossip Timeline Panels as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Gossip Timeline Panels; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Gossip Timeline Panels feel actively used",
+            "promptHint": "Add restrained process cues around Gossip Timeline Panels; preserve the strongest visual idea from Shuoshuo reference: short notes as timeline cards with terminal-like time..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Gossip Timeline Panels",
+            "promptHint": "Introduce a collector or tastemaker presence around Gossip Timeline Panels while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Gossip Timeline Panels in an everyday user context without losing Shuoshuo reference: short notes as timeline cards with terminal-like time metadata"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Gossip Timeline Panels",
+            "promptHint": "Add a cropped passing figure or gesture around Gossip Timeline Panels; keep identity nonspecific and preserve Shuoshuo reference: short notes as timeline cards with..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Panels",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Gossip Timeline Panels to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Panels",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Gossip Timeline Panels as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Panels",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Gossip Timeline Panels to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/gossip-timeline-panels.jpg",
+      "sourceImageUrl": "generated/22659222654b643ff4e621e9736ca9d7.png"
+    },
+    {
+      "id": "message-guestbook-surface",
+      "title": "Guestbook Surface",
+      "caption": "Message page reference: a quiet guestbook intro and comment surface integrated with the blog card system.",
+      "source": "Retry with simpler single-frame prompt.",
+      "tone": "welcoming, quiet, credible",
+      "motif": "guestbook panel, comment surface, paper cards, fine borders",
+      "palette": [
+        "#f7f8f5",
+        "#ecefeb",
+        "#d9ded7",
+        "#2f3536",
+        "#c16a47"
+      ],
+      "prompt": "Single visual reference image of a quiet personal blog guestbook surface on warm neutral paper. One calm intro card above a simple comment area, thin one-pixel borders, soft rectangular fields, subtle corner marks, restrained editorial spacing, small abstract interface marks only. No readable text, no names, no logos, no chat branding, no collage, no panels showing multiple alternatives, no glow, no heavy rounded SaaS style.",
+      "imageUrl": "generated/mcp-thumbs/message-guestbook-surface.jpg",
+      "sourceImageUrl": "generated/b8a0cbbeb35c71f6339a581e13aa2e69.png"
+    },
+    {
+      "id": "about-profile-index",
+      "title": "About Profile Index",
+      "caption": "About reference: profile information as a sparse index of personal and technical cards.",
+      "source": "Generated from about page scope.",
+      "tone": "personal, rational, concise",
+      "motif": "profile index, compact info cards, contact rows, restrained personality",
+      "palette": [
+        "#f5f6f3",
+        "#eaede9",
+        "#cfd7d1",
+        "#262d2f",
+        "#bd6848"
+      ],
+      "prompt": "Single visual reference image of an about page for a personal technical blog, sparse profile header and compact information cards like an index, subtle contact rows and history blocks, no portrait realism required, thin borders, low-contrast surfaces, calm editorial layout, no readable text, no logos, no resume-template look, no collage, no oversized marketing cards. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Index",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to About Profile Index; keep About reference: profile information as a sparse index of personal and technical cards recognizable but..."
+          },
+          {
+            "label": "Candid Index",
+            "description": "More natural texture and believable lived-in detail for About Profile Index",
+            "promptHint": "Shift About Profile Index toward documentary realism while preserving About reference: profile information as a sparse index of personal and technical cards; make lighting and..."
+          },
+          {
+            "label": "Editorial Index",
+            "description": "Cleaner light and hierarchy around About Profile Index",
+            "promptHint": "Apply a polished editorial treatment to About Profile Index; preserve About reference: profile information as a sparse index of personal and technical cards while changing the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Index",
+            "description": "A narrower near-monochrome treatment that lets one cue around About Profile Index stand out",
+            "promptHint": "Reduce the palette around About Profile Index to tonal restraint plus one preserved cue from About reference: profile information as a sparse index of personal and technical cards"
+          },
+          {
+            "label": "Warm Index",
+            "description": "Warmer neutrals and tactile highlights around About Profile Index",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of About Profile Index"
+          },
+          {
+            "label": "Accent Index",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to About Profile Index without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Index Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around About Profile Index",
+            "promptHint": "Reframe About Profile Index as a backstage or preparation moment; keep About reference: profile information as a sparse index of personal and technical cards recognizable"
+          },
+          {
+            "label": "Index In Use",
+            "description": "A more believable real-world context for About Profile Index",
+            "promptHint": "Place About Profile Index into a realistic usage context; preserve the source image's core cue: About reference: profile information as a sparse index of personal and technical..."
+          },
+          {
+            "label": "Index Exterior",
+            "description": "Move About Profile Index into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate About Profile Index into an exterior or entryway scene while preserving the core cue: About reference: profile information as a sparse index of personal and technical..."
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make About Profile Index feel actively used",
+            "promptHint": "Add restrained process cues around About Profile Index; preserve the strongest visual idea from About reference: profile information as a sparse index of personal and technical..."
+          },
+          {
+            "label": "Index Cues",
+            "description": "Add restrained supporting objects that clarify the context of About Profile Index",
+            "promptHint": "Add a few contextual props that reinforce About reference: profile information as a sparse index of personal and technical cards without distracting from About Profile Index"
+          },
+          {
+            "label": "Unexpected Index Prop",
+            "description": "One surprising but believable object that opens a new story around About Profile Index",
+            "promptHint": "Add one unexpected supporting prop that extends About reference: profile information as a sparse index of personal and technical cards without stealing focus from About Profile..."
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over About Profile Index",
+            "promptHint": "Add a cropped passing figure or gesture around About Profile Index; keep identity nonspecific and preserve About reference: profile information as a sparse index of personal..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with About Profile Index",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with About Profile Index"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let About Profile Index carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Portrait Index",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt About Profile Index to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "Index Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of About Profile Index; keep About reference: profile information as a sparse index of personal and technical cards legible"
+          },
+          {
+            "label": "Split-Depth Index",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for About Profile Index; do not make a collage or panel layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/about-profile-index.jpg",
+      "sourceImageUrl": "generated/3ede4d37f5c7f0e2c028b335110f7d23.png"
+    },
+    {
+      "id": "card-material-study",
+      "title": "Card Material Study",
+      "caption": "Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow.",
+      "source": "Generated as reusable visual system reference.",
+      "tone": "material, precise, minimal",
+      "motif": "paper cards, edge detail, subtle relief, registration marks",
+      "palette": [
+        "#f8f8f5",
+        "#eef0ec",
+        "#d7ded7",
+        "#374040",
+        "#bc6a49"
+      ],
+      "prompt": "Single macro-style visual reference image of restrained UI card material, overlapping paper-like rectangular surfaces with one-pixel borders, faint registration corner marks, soft neutral tints, almost no shadow, crisp technical precision, warm accent as a tiny mark, no readable text, no logos, no collage, no glossy glass effect, no rounded SaaS styling. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid Material",
+            "description": "More natural texture and believable lived-in detail for Card Material Study",
+            "promptHint": "Shift Card Material Study toward documentary realism while preserving Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow; make lighting and..."
+          },
+          {
+            "label": "Editorial Material",
+            "description": "Cleaner light and hierarchy around Card Material Study",
+            "promptHint": "Apply a polished editorial treatment to Card Material Study; preserve Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow while changing the..."
+          },
+          {
+            "label": "Minimal Material",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Card Material Study",
+            "promptHint": "Strip Card Material Study down to a minimal premium frame; keep Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow legible but change the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome Material",
+            "description": "A narrower near-monochrome treatment that lets one cue around Card Material Study stand out",
+            "promptHint": "Reduce the palette around Card Material Study to tonal restraint plus one preserved cue from Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow"
+          },
+          {
+            "label": "Warm Material",
+            "description": "Warmer neutrals and tactile highlights around Card Material Study",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Card Material Study"
+          },
+          {
+            "label": "Accent Material",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Card Material Study without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Material Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Card Material Study, keeping the most important source cue visible"
+          },
+          {
+            "label": "Material Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Card Material Study",
+            "promptHint": "Reframe Card Material Study as a backstage or preparation moment; keep Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow recognizable"
+          },
+          {
+            "label": "Material In Use",
+            "description": "A more believable real-world context for Card Material Study",
+            "promptHint": "Place Card Material Study into a realistic usage context; preserve the source image's core cue: Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow"
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Card Material Study; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Card Material Study feel actively used",
+            "promptHint": "Add restrained process cues around Card Material Study; preserve the strongest visual idea from Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow"
+          },
+          {
+            "label": "Material Cues",
+            "description": "Add restrained supporting objects that clarify the context of Card Material Study",
+            "promptHint": "Add a few contextual props that reinforce Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow without distracting from Card Material Study"
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Card Material Study",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Card Material Study"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Card Material Study carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Card Material Study",
+            "promptHint": "Introduce a collector or tastemaker presence around Card Material Study while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Split-Depth Material",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Card Material Study; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Material",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Card Material Study to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Material",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Card Material Study as a square frame with a changed focal balance and the core cue intact"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/card-material-study.jpg",
+      "sourceImageUrl": "generated/220493f21967fcfa4796484cfebed94f.png"
+    },
+    {
+      "id": "metadata-field-system",
+      "title": "Metadata Field System",
+      "caption": "Reusable metadata language: dates, tags, reading time as quiet technical fields.",
+      "source": "Generated as UI detail reference.",
+      "tone": "technical, quiet, legible",
+      "motif": "monospaced fields, small chips, tabular alignment, muted separators",
+      "palette": [
+        "#f4f5f2",
+        "#e8ebe7",
+        "#cbd4ce",
+        "#2c3333",
+        "#c06a4b"
+      ],
+      "prompt": "Single visual reference image of a metadata field system for a writing site, tiny monospaced chips and tabular marks arranged on soft paper cards, fine separators, restrained warm accent dots, precise optical alignment, no readable text or numbers, no logos, no dashboard analytics, no collage, no neon, no large pill buttons. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid System",
+            "description": "More natural texture and believable lived-in detail for Metadata Field System",
+            "promptHint": "Shift Metadata Field System toward documentary realism while preserving Reusable metadata language: dates, tags, reading time as quiet technical fields; make lighting and..."
+          },
+          {
+            "label": "Editorial System",
+            "description": "Cleaner light and hierarchy around Metadata Field System",
+            "promptHint": "Apply a polished editorial treatment to Metadata Field System; preserve Reusable metadata language: dates, tags, reading time as quiet technical fields while changing the..."
+          },
+          {
+            "label": "Minimal System",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Metadata Field System",
+            "promptHint": "Strip Metadata Field System down to a minimal premium frame; keep Reusable metadata language: dates, tags, reading time as quiet technical fields legible but change the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Monochrome System",
+            "description": "A narrower near-monochrome treatment that lets one cue around Metadata Field System stand out",
+            "promptHint": "Reduce the palette around Metadata Field System to tonal restraint plus one preserved cue from Reusable metadata language: dates, tags, reading time as quiet technical fields"
+          },
+          {
+            "label": "Warm System",
+            "description": "Warmer neutrals and tactile highlights around Metadata Field System",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Metadata Field System"
+          },
+          {
+            "label": "Accent System",
+            "description": "A stronger accent color against quieter supporting surfaces",
+            "promptHint": "Add a controlled accent palette to Metadata Field System without changing the main subject"
+          }
+        ],
+        "scene": [
+          {
+            "label": "System Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Metadata Field System",
+            "promptHint": "Reframe Metadata Field System as a backstage or preparation moment; keep Reusable metadata language: dates, tags, reading time as quiet technical fields recognizable"
+          },
+          {
+            "label": "System In Use",
+            "description": "A more believable real-world context for Metadata Field System",
+            "promptHint": "Place Metadata Field System into a realistic usage context; preserve the source image's core cue: Reusable metadata language: dates, tags, reading time as quiet technical fields"
+          },
+          {
+            "label": "System Exterior",
+            "description": "Move Metadata Field System into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Metadata Field System into an exterior or entryway scene while preserving the core cue: Reusable metadata language: dates, tags, reading time as quiet technical fields"
+          }
+        ],
+        "props": [
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Metadata Field System feel actively used",
+            "promptHint": "Add restrained process cues around Metadata Field System; preserve the strongest visual idea from Reusable metadata language: dates, tags, reading time as quiet technical fields"
+          },
+          {
+            "label": "System Cues",
+            "description": "Add restrained supporting objects that clarify the context of Metadata Field System",
+            "promptHint": "Add a few contextual props that reinforce Reusable metadata language: dates, tags, reading time as quiet technical fields without distracting from Metadata Field System"
+          },
+          {
+            "label": "Unexpected System Prop",
+            "description": "One surprising but believable object that opens a new story around Metadata Field System",
+            "promptHint": "Add one unexpected supporting prop that extends Reusable metadata language: dates, tags, reading time as quiet technical fields without stealing focus from Metadata Field System"
+          }
+        ],
+        "character": [
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Metadata Field System",
+            "promptHint": "Add a cropped passing figure or gesture around Metadata Field System; keep identity nonspecific and preserve Reusable metadata language: dates, tags, reading time as quiet..."
+          },
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Metadata Field System",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Metadata Field System"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Metadata Field System carry the image"
+          }
+        ],
+        "format": [
+          {
+            "label": "Portrait System",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Metadata Field System to a portrait social crop while preserving the key visual read"
+          },
+          {
+            "label": "System Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Metadata Field System; keep Reusable metadata language: dates, tags, reading time as quiet technical fields legible"
+          },
+          {
+            "label": "Split-Depth System",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Metadata Field System; do not make a collage or panel layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/metadata-field-system.jpg",
+      "sourceImageUrl": "generated/48a6f635964ee0c0a555063603f94621.png"
+    },
+    {
+      "id": "code-block-paper-terminal",
+      "title": "Code Paper Terminal",
+      "caption": "Article code reference: terminal feeling softened into the paper/card system.",
+      "source": "Generated from article content components.",
+      "tone": "developer-focused, calm, non-flashy",
+      "motif": "code block, muted terminal, paper frame, copy affordance",
+      "palette": [
+        "#f2f4f1",
+        "#e3e8e4",
+        "#bdc8c2",
+        "#252b2c",
+        "#b96545"
+      ],
+      "prompt": "Single visual reference image of a code block component inside a long-form blog article, terminal-inspired panel softened into a paper-card system, thin border, tiny abstract control marks, muted syntax-like texture without readable code, quiet copy affordance, no readable text, no logos, no neon terminal glow, no cyberpunk styling, no collage. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Motion Terminal",
+            "description": "More kinetic gesture, blur, or environmental energy around Code Paper Terminal",
+            "promptHint": "Introduce controlled motion to Code Paper Terminal while preserving the campaign cue: Article code reference: terminal feeling softened into the paper/card system"
+          },
+          {
+            "label": "Material Terminal",
+            "description": "A closer tactile read of surface, temperature, and finish around Code Paper Terminal",
+            "promptHint": "Rebuild Code Paper Terminal as a tactile material study inspired by Article code reference: terminal feeling softened into the paper/card system, with a visibly different crop..."
+          },
+          {
+            "label": "Dramatic Terminal",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Code Paper Terminal; keep Article code reference: terminal feeling softened into the paper/card system recognizable but alter camera..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Unexpected Terminal",
+            "description": "A more surprising secondary color relationship around Code Paper Terminal",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Article code reference: terminal feeling softened into the paper/card system"
+          },
+          {
+            "label": "Cool Terminal",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Code Paper Terminal; keep Article code reference: terminal feeling softened into the paper/card system intact"
+          },
+          {
+            "label": "Monochrome Terminal",
+            "description": "A narrower near-monochrome treatment that lets one cue around Code Paper Terminal stand out",
+            "promptHint": "Reduce the palette around Code Paper Terminal to tonal restraint plus one preserved cue from Article code reference: terminal feeling softened into the paper/card system"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Terminal Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Code Paper Terminal, keeping the most important source cue visible"
+          },
+          {
+            "label": "Terminal Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Code Paper Terminal",
+            "promptHint": "Reframe Code Paper Terminal as a backstage or preparation moment; keep Article code reference: terminal feeling softened into the paper/card system recognizable"
+          },
+          {
+            "label": "Terminal In Use",
+            "description": "A more believable real-world context for Code Paper Terminal",
+            "promptHint": "Place Code Paper Terminal into a realistic usage context; preserve the source image's core cue: Article code reference: terminal feeling softened into the paper/card system"
+          }
+        ],
+        "props": [
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Code Paper Terminal; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Code Paper Terminal feel actively used",
+            "promptHint": "Add restrained process cues around Code Paper Terminal; preserve the strongest visual idea from Article code reference: terminal feeling softened into the paper/card system"
+          },
+          {
+            "label": "Terminal Cues",
+            "description": "Add restrained supporting objects that clarify the context of Code Paper Terminal",
+            "promptHint": "Add a few contextual props that reinforce Article code reference: terminal feeling softened into the paper/card system without distracting from Code Paper Terminal"
+          }
+        ],
+        "character": [
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Code Paper Terminal carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Code Paper Terminal",
+            "promptHint": "Introduce a collector or tastemaker presence around Code Paper Terminal while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Code Paper Terminal in an everyday user context without losing Article code reference: terminal feeling softened into the paper/card system"
+          }
+        ],
+        "format": [
+          {
+            "label": "Terminal Crop",
+            "description": "Closer inspection of the material, surface, or focal subject",
+            "promptHint": "Create a closer detail crop of Code Paper Terminal; keep Article code reference: terminal feeling softened into the paper/card system legible"
+          },
+          {
+            "label": "Split-Depth Terminal",
+            "description": "Foreground detail and background atmosphere in one composed frame",
+            "promptHint": "Create a single-frame split-depth composition for Code Paper Terminal; do not make a collage or panel layout"
+          },
+          {
+            "label": "Wide Terminal",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Code Paper Terminal to a wide hero composition with room for layout"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/code-block-paper-terminal.jpg",
+      "sourceImageUrl": "generated/b6d7a568b282f98aa186a636a999d22c.png"
+    },
+    {
+      "id": "mobile-card-reading",
+      "title": "Mobile Card Reading",
+      "caption": "Mobile reference: cards adapt into a narrow reading stack without crowding.",
+      "source": "Generated from responsive blog constraints.",
+      "tone": "portable, calm, readable",
+      "motif": "mobile reading stack, compact cards, sticky micro nav, large touch spacing",
+      "palette": [
+        "#f7f8f5",
+        "#edeFEB",
+        "#d7ddd6",
+        "#2b3233",
+        "#bf6746"
+      ],
+      "prompt": "Single visual reference image of a mobile personal blog reading interface, narrow paper-like screen with compact article cards and generous readable spacing, thin borders, small monospaced metadata, restrained bottom action hint, soft neutral palette, no readable text, no app store chrome, no logos, no collage, no heavy rounded cards, no bright gradient background. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Dramatic Reading",
+            "description": "Richer blacks, sharper highlights, and more cinematic emphasis",
+            "promptHint": "Apply high-contrast cinematic treatment to Mobile Card Reading; keep Mobile reference: cards adapt into a narrow reading stack without crowding recognizable but alter camera..."
+          },
+          {
+            "label": "Candid Reading",
+            "description": "More natural texture and believable lived-in detail for Mobile Card Reading",
+            "promptHint": "Shift Mobile Card Reading toward documentary realism while preserving Mobile reference: cards adapt into a narrow reading stack without crowding; make lighting and staging feel..."
+          },
+          {
+            "label": "Editorial Reading",
+            "description": "Cleaner light and hierarchy around Mobile Card Reading",
+            "promptHint": "Apply a polished editorial treatment to Mobile Card Reading; preserve Mobile reference: cards adapt into a narrow reading stack without crowding while changing the composition..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Unexpected Reading",
+            "description": "A more surprising secondary color relationship around Mobile Card Reading",
+            "promptHint": "Keep the subject recognizable, but introduce one unexpected supporting color that extends Mobile reference: cards adapt into a narrow reading stack without crowding"
+          },
+          {
+            "label": "Cool Reading",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Mobile Card Reading; keep Mobile reference: cards adapt into a narrow reading stack without crowding intact"
+          },
+          {
+            "label": "Monochrome Reading",
+            "description": "A narrower near-monochrome treatment that lets one cue around Mobile Card Reading stand out",
+            "promptHint": "Reduce the palette around Mobile Card Reading to tonal restraint plus one preserved cue from Mobile reference: cards adapt into a narrow reading stack without crowding"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Reading Studio",
+            "description": "A cleaner controlled studio setting that keeps Mobile Card Reading dominant",
+            "promptHint": "Move Mobile Card Reading into a cleaner studio-hero setting while preserving Mobile reference: cards adapt into a narrow reading stack without crowding"
+          },
+          {
+            "label": "Reading Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Mobile Card Reading, keeping the most important source cue visible"
+          },
+          {
+            "label": "Reading Backstage",
+            "description": "A behind-the-scenes environment that adds process and atmosphere around Mobile Card Reading",
+            "promptHint": "Reframe Mobile Card Reading as a backstage or preparation moment; keep Mobile reference: cards adapt into a narrow reading stack without crowding recognizable"
+          }
+        ],
+        "props": [
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Mobile Card Reading carries more weight",
+            "promptHint": "Remove nonessential props and keep Mobile Card Reading as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Mobile Card Reading; preserve the source image's composition"
+          },
+          {
+            "label": "Process Cues",
+            "description": "Tools, traces, or handling details that make Mobile Card Reading feel actively used",
+            "promptHint": "Add restrained process cues around Mobile Card Reading; preserve the strongest visual idea from Mobile reference: cards adapt into a narrow reading stack without crowding"
+          }
+        ],
+        "character": [
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Mobile Card Reading",
+            "promptHint": "Introduce a collector or tastemaker presence around Mobile Card Reading while changing wardrobe, gesture, or posture"
+          },
+          {
+            "label": "Everyday Use",
+            "description": "More approachable human presence while preserving the mood",
+            "promptHint": "Show Mobile Card Reading in an everyday user context without losing Mobile reference: cards adapt into a narrow reading stack without crowding"
+          },
+          {
+            "label": "Passing Figure",
+            "description": "A partial human presence that adds scale and motion without taking over Mobile Card Reading",
+            "promptHint": "Add a cropped passing figure or gesture around Mobile Card Reading; keep identity nonspecific and preserve Mobile reference: cards adapt into a narrow reading stack without..."
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Reading",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Mobile Card Reading to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Reading",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Mobile Card Reading as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Reading",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Mobile Card Reading to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/mobile-card-reading.jpg",
+      "sourceImageUrl": "generated/434b191136058af34635a9ea7719c5a4.png"
+    },
+    {
+      "id": "motion-hover-quiet",
+      "title": "Quiet Hover Motion",
+      "caption": "Interaction reference: a subtle card lift/ink response implied through light and position.",
+      "source": "Generated as interaction mood reference.",
+      "tone": "responsive, subtle, controlled",
+      "motif": "hover state, slight lift, line emphasis, soft ink response",
+      "palette": [
+        "#f6f7f4",
+        "#e9ece8",
+        "#d2dbd4",
+        "#303838",
+        "#bd6748"
+      ],
+      "prompt": "Single visual reference image implying a quiet hover interaction on a restrained blog card, one paper-like card subtly lifted by a fraction, fine border becoming slightly clearer, tiny warm accent responding like ink, surrounding cards remain calm and flat, no readable text, no logos, no motion diagram, no collage, no exaggerated shadow, no glowing effect. Single coherent frame, one composed scene or object detail, not a collage, not a grid, not a contact sheet, not a scrapbook, not a mood board layout.",
+      "remixSuggestions": {
+        "style": [
+          {
+            "label": "Candid Hover",
+            "description": "More natural texture and believable lived-in detail for Quiet Hover Motion",
+            "promptHint": "Shift Quiet Hover Motion toward documentary realism while preserving Interaction reference: a subtle card lift/ink response implied through light and position; make lighting..."
+          },
+          {
+            "label": "Editorial Hover",
+            "description": "Cleaner light and hierarchy around Quiet Hover Motion",
+            "promptHint": "Apply a polished editorial treatment to Quiet Hover Motion; preserve Interaction reference: a subtle card lift/ink response implied through light and position while changing..."
+          },
+          {
+            "label": "Minimal Hover",
+            "description": "Quieter hierarchy, more negative space, and stricter restraint around Quiet Hover Motion",
+            "promptHint": "Strip Quiet Hover Motion down to a minimal premium frame; keep Interaction reference: a subtle card lift/ink response implied through light and position legible but change the..."
+          }
+        ],
+        "palette": [
+          {
+            "label": "Cool Hover",
+            "description": "Crisper whites, cooler shadows, and restrained technical contrast",
+            "promptHint": "Use cooler minimal accents around Quiet Hover Motion; keep Interaction reference: a subtle card lift/ink response implied through light and position intact"
+          },
+          {
+            "label": "Monochrome Hover",
+            "description": "A narrower near-monochrome treatment that lets one cue around Quiet Hover Motion stand out",
+            "promptHint": "Reduce the palette around Quiet Hover Motion to tonal restraint plus one preserved cue from Interaction reference: a subtle card lift/ink response implied through light and..."
+          },
+          {
+            "label": "Warm Hover",
+            "description": "Warmer neutrals and tactile highlights around Quiet Hover Motion",
+            "promptHint": "Shift the palette warmer while preserving the subject and composition of Quiet Hover Motion"
+          }
+        ],
+        "scene": [
+          {
+            "label": "Hover Exterior",
+            "description": "Move Quiet Hover Motion into an outdoor or threshold environment with a fresh spatial read",
+            "promptHint": "Relocate Quiet Hover Motion into an exterior or entryway scene while preserving the core cue: Interaction reference: a subtle card lift/ink response implied through light and..."
+          },
+          {
+            "label": "Hover Studio",
+            "description": "A cleaner controlled studio setting that keeps Quiet Hover Motion dominant",
+            "promptHint": "Move Quiet Hover Motion into a cleaner studio-hero setting while preserving Interaction reference: a subtle card lift/ink response implied through light and position"
+          },
+          {
+            "label": "Hover Detail",
+            "description": "A tighter scene focused on material, craft, or product detail",
+            "promptHint": "Create a close-detail scene for Quiet Hover Motion, keeping the most important source cue visible"
+          }
+        ],
+        "props": [
+          {
+            "label": "Unexpected Hover Prop",
+            "description": "One surprising but believable object that opens a new story around Quiet Hover Motion",
+            "promptHint": "Add one unexpected supporting prop that extends Interaction reference: a subtle card lift/ink response implied through light and position without stealing focus from Quiet..."
+          },
+          {
+            "label": "Minimal Support",
+            "description": "Reduce surrounding objects so Quiet Hover Motion carries more weight",
+            "promptHint": "Remove nonessential props and keep Quiet Hover Motion as the dominant read"
+          },
+          {
+            "label": "Premium Finish",
+            "description": "Sharper materials, cleaner surfaces, and more elevated detail",
+            "promptHint": "Add premium material cues around Quiet Hover Motion; preserve the source image's composition"
+          }
+        ],
+        "character": [
+          {
+            "label": "Expert Hands",
+            "description": "More credible craft, authority, and purposeful interaction with Quiet Hover Motion",
+            "promptHint": "If a person appears, make them an expert operator interacting naturally with Quiet Hover Motion"
+          },
+          {
+            "label": "No Human",
+            "description": "Let the object, place, or composition carry the frame",
+            "promptHint": "Remove visible people and let Quiet Hover Motion carry the image"
+          },
+          {
+            "label": "Collector Persona",
+            "description": "A more intentional, taste-driven persona interacting with Quiet Hover Motion",
+            "promptHint": "Introduce a collector or tastemaker presence around Quiet Hover Motion while changing wardrobe, gesture, or posture"
+          }
+        ],
+        "format": [
+          {
+            "label": "Wide Hover",
+            "description": "Broader horizontal composition for landing-page or banner use",
+            "promptHint": "Adapt Quiet Hover Motion to a wide hero composition with room for layout"
+          },
+          {
+            "label": "Square Hover",
+            "description": "A balanced square crop for gallery or feed review",
+            "promptHint": "Recompose Quiet Hover Motion as a square frame with a changed focal balance and the core cue intact"
+          },
+          {
+            "label": "Portrait Hover",
+            "description": "Tighter vertical crop for social or story placement",
+            "promptHint": "Adapt Quiet Hover Motion to a portrait social crop while preserving the key visual read"
+          }
+        ]
+      },
+      "imageUrl": "generated/mcp-thumbs/motion-hover-quiet.jpg",
+      "sourceImageUrl": "generated/0f4cd3847982cc1b7453b9027ad7fc81.png"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Wrote the required `result.json` with `status: "failed"` because the native image generation tool did not provide a filesystem path or image bytes that I could save to the requested PNG path.

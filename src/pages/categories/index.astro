@@ -31,10 +31,16 @@ const categoryItems = sortedCategories.map(([category, count]) => ({
 <Base title='Categories' description='Browse all categories' className="blog-surface-layout">
 	<div class='content-limit-width taxonomy-shell'>
 		<TaxonomyHero
-			eyebrow='category archive'
+			eyebrow='category index'
 			title='Categories'
-			description={`${sortedCategories.length} categories in total, sorted by number of posts.`}
+			description='No independent categories are maintained yet; tags are the primary index for now.'
 		/>
-		<CategoryFilter categories={categoryItems} label='All Categories' />
+		{categoryItems.length > 0 ? (
+			<CategoryFilter categories={categoryItems} label='All Categories' />
+		) : (
+			<p class='taxonomy-empty'>
+				Categories are empty for now. Browse <a href='/tags/'>all tags</a> instead.
+			</p>
+		)}
 	</div>
 </Base>

@@ -31,9 +31,9 @@ const tagItems = sortedTags.map(([tag, count]) => ({
 <Base title='Tags' description='Browse all tags' className="blog-surface-layout">
 	<div class='content-limit-width taxonomy-shell'>
 		<TaxonomyHero
-			eyebrow='tag archive'
+			eyebrow='tag index'
 			title='Tags'
-			description={`${sortedTags.length} tags in total, grouped as quiet reading fields.`}
+			description={`${sortedTags.length} tags in total, used as the primary index for recurring subjects.`}
 		/>
 		<CategoryFilter categories={tagItems} label='All Tags' />
 	</div>

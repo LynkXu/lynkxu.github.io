@@ -1,0 +1,155 @@
+{
+  "meta": {
+    "title": "Blog Card Lab Paper",
+    "subtitle": "Single-image visual references for a restrained card-based Chinese personal tech blog.",
+    "updated": "2026-06-04",
+    "brief": "个人技术/生活博客，中文个人站点。将 blog 一级页面改为更卡片化的视觉系统，但保持长文阅读效率与低噪音。",
+    "constraints": [
+      "实验纸面",
+      "混合卡片密度",
+      "细线边框",
+      "等宽元信息",
+      "柔和底色",
+      "轻微动效暗示",
+      "不要 SaaS 感",
+      "不要霓虹发光",
+      "不要全套盒"
+    ]
+  },
+  "signals": [
+    {
+      "label": "Audience",
+      "value": "工作间隙阅读长文的读者，需要低噪音、快速进入正文、长时间可读。"
+    },
+    {
+      "label": "Visual Route",
+      "value": "实验纸面：研究笔记、工程日志、细线卡片、克制科技感。"
+    },
+    {
+      "label": "Card Rule",
+      "value": "卡片用于信息分组，不逐段包裹正文。"
+    }
+  ],
+  "items": [
+    {
+      "id": "home-signal-paper",
+      "title": "Home Signal Paper",
+      "caption": "Homepage reference: a calm paper-like blog surface with recent article cards and signal-log hierarchy.",
+      "source": "Generated from site redesign brief.",
+      "tone": "quiet technical editorial",
+      "motif": "paper surface, corner marks, article cards, asymmetric heading",
+      "palette": ["#f6f7f4", "#ecefeb", "#d8ded8", "#2e3436", "#c96b43"],
+      "prompt": "Single visual reference image of a restrained personal tech blog homepage on a softly tinted paper surface, recent article cards arranged with generous but compact spacing, thin one-pixel borders, tiny corner registration marks, asymmetrical signal-log heading, muted warm accent used sparingly, readable long-form editorial feeling, no readable text, no logos, no real brand names, no collage, no grid of separate concepts, no screenshot chrome, no neon glow, no SaaS dashboard styling."
+    },
+    {
+      "id": "archive-ledger-cards",
+      "title": "Archive Ledger Cards",
+      "caption": "Archive reference: year groups as ledger-like cards with dense article rows and tabular dates.",
+      "source": "Generated from archive page scope.",
+      "tone": "structured, archival, calm",
+      "motif": "year ledger, tabular metadata, compact rows, thin separators",
+      "palette": ["#f4f5f2", "#e6eae6", "#cfd8d1", "#303737", "#b76645"],
+      "prompt": "Single composed scene of an archive page visual direction for a personal writing site, year sections treated as very thin paper cards, dense rows with small tabular date marks and muted link blocks, precise spacing and faint dividers, editorial research-note atmosphere, soft neutral background, no readable text, no logos, no collage, no contact sheet, no bright gradients, no rounded SaaS cards."
+    },
+    {
+      "id": "article-header-instrument",
+      "title": "Article Header Instrument",
+      "caption": "Post detail reference: title stays open and readable while metadata becomes a light instrument panel.",
+      "source": "Generated from article detail constraints.",
+      "tone": "focused, technical, literary",
+      "motif": "long title area, metadata capsule, reading rail, paper mark",
+      "palette": ["#f7f8f6", "#edf0ec", "#d6ddd8", "#232829", "#bd6544"],
+      "prompt": "Single visual reference image of a long-form article detail page, open readable title area with a small instrument-panel style metadata card nearby, thin borders, subtle corner marks, quiet reading rail suggestion, large body text area left mostly uninterrupted, warm accent extremely restrained, no readable text, no logos, no actual article content, no collage, no nested cards everywhere, no neon, no marketing hero style."
+    },
+    {
+      "id": "toc-side-rail",
+      "title": "TOC Side Rail",
+      "caption": "Article detail reference: table of contents and reading metadata as quiet side cards.",
+      "source": "Generated from blog detail layout.",
+      "tone": "precise, low-noise, navigable",
+      "motif": "side rail, micro cards, table of contents, thin active state",
+      "palette": ["#f5f6f3", "#e9ede8", "#c8d0c8", "#2a3031", "#c46b47"],
+      "prompt": "Single visual reference image focused on a blog article side rail, table of contents as a narrow quiet card beside a wide uninterrupted reading column, tiny metadata chips, one subtle active indicator made with a fine line, no visible readable words, no logos, no dashboard metrics, no glowing accents, no collage or split concept board."
+    },
+    {
+      "id": "gossip-timeline-panels",
+      "title": "Gossip Timeline Panels",
+      "caption": "Shuoshuo reference: short notes as timeline cards with terminal-like time metadata.",
+      "source": "Generated from shuoshuo page scope.",
+      "tone": "personal, log-like, restrained",
+      "motif": "timeline, short note card, monospaced time, quiet actions",
+      "palette": ["#f6f6f3", "#ebece8", "#d6dcd4", "#2d3334", "#bd6748"],
+      "prompt": "Single visual reference image of a short-notes feed for a personal blog, timeline entries with small monospaced date marks on the left and thin bordered note panels on the right, occasional muted image thumbnail area, quiet hover-action hints, soft paper background, no readable text, no icons with labels, no social media UI chrome, no collage, no neon glow, no heavy rounded cards."
+    },
+    {
+      "id": "message-guestbook-surface",
+      "title": "Guestbook Surface",
+      "caption": "Message page reference: guestbook intro and comments integrated into the same restrained card language.",
+      "source": "Generated from message page scope.",
+      "tone": "welcoming, quiet, credible",
+      "motif": "guestbook panel, comment surface, soft form fields, fine borders",
+      "palette": ["#f7f8f5", "#ecefeb", "#d9ded7", "#2f3536", "#c16a47"],
+      "prompt": "Single visual reference image of a personal blog guestbook page, calm intro panel above a comment area, thin bordered comment surfaces and quiet input fields, paper-like neutral background, warm human accent used only in small details, no readable text, no usernames, no logos, no chat app branding, no collage, no glassmorphism, no SaaS support portal feel."
+    },
+    {
+      "id": "about-profile-index",
+      "title": "About Profile Index",
+      "caption": "About reference: profile information as a sparse index of personal and technical cards.",
+      "source": "Generated from about page scope.",
+      "tone": "personal, rational, concise",
+      "motif": "profile index, compact info cards, contact rows, restrained personality",
+      "palette": ["#f5f6f3", "#eaede9", "#cfd7d1", "#262d2f", "#bd6848"],
+      "prompt": "Single visual reference image of an about page for a personal technical blog, sparse profile header and compact information cards like an index, subtle contact rows and history blocks, no portrait realism required, thin borders, low-contrast surfaces, calm editorial layout, no readable text, no logos, no resume-template look, no collage, no oversized marketing cards."
+    },
+    {
+      "id": "card-material-study",
+      "title": "Card Material Study",
+      "caption": "Reusable card material: fine borders, tinted surfaces, corner marks, no heavy shadow.",
+      "source": "Generated as reusable visual system reference.",
+      "tone": "material, precise, minimal",
+      "motif": "paper cards, edge detail, subtle relief, registration marks",
+      "palette": ["#f8f8f5", "#eef0ec", "#d7ded7", "#374040", "#bc6a49"],
+      "prompt": "Single macro-style visual reference image of restrained UI card material, overlapping paper-like rectangular surfaces with one-pixel borders, faint registration corner marks, soft neutral tints, almost no shadow, crisp technical precision, warm accent as a tiny mark, no readable text, no logos, no collage, no glossy glass effect, no rounded SaaS styling."
+    },
+    {
+      "id": "metadata-field-system",
+      "title": "Metadata Field System",
+      "caption": "Reusable metadata language: dates, tags, reading time as quiet technical fields.",
+      "source": "Generated as UI detail reference.",
+      "tone": "technical, quiet, legible",
+      "motif": "monospaced fields, small chips, tabular alignment, muted separators",
+      "palette": ["#f4f5f2", "#e8ebe7", "#cbd4ce", "#2c3333", "#c06a4b"],
+      "prompt": "Single visual reference image of a metadata field system for a writing site, tiny monospaced chips and tabular marks arranged on soft paper cards, fine separators, restrained warm accent dots, precise optical alignment, no readable text or numbers, no logos, no dashboard analytics, no collage, no neon, no large pill buttons."
+    },
+    {
+      "id": "code-block-paper-terminal",
+      "title": "Code Paper Terminal",
+      "caption": "Article code reference: terminal feeling softened into the paper/card system.",
+      "source": "Generated from article content components.",
+      "tone": "developer-focused, calm, non-flashy",
+      "motif": "code block, muted terminal, paper frame, copy affordance",
+      "palette": ["#f2f4f1", "#e3e8e4", "#bdc8c2", "#252b2c", "#b96545"],
+      "prompt": "Single visual reference image of a code block component inside a long-form blog article, terminal-inspired panel softened into a paper-card system, thin border, tiny abstract control marks, muted syntax-like texture without readable code, quiet copy affordance, no readable text, no logos, no neon terminal glow, no cyberpunk styling, no collage."
+    },
+    {
+      "id": "mobile-card-reading",
+      "title": "Mobile Card Reading",
+      "caption": "Mobile reference: cards adapt into a narrow reading stack without crowding.",
+      "source": "Generated from responsive blog constraints.",
+      "tone": "portable, calm, readable",
+      "motif": "mobile reading stack, compact cards, sticky micro nav, large touch spacing",
+      "palette": ["#f7f8f5", "#edeFEB", "#d7ddd6", "#2b3233", "#bf6746"],
+      "prompt": "Single visual reference image of a mobile personal blog reading interface, narrow paper-like screen with compact article cards and generous readable spacing, thin borders, small monospaced metadata, restrained bottom action hint, soft neutral palette, no readable text, no app store chrome, no logos, no collage, no heavy rounded cards, no bright gradient background."
+    },
+    {
+      "id": "motion-hover-quiet",
+      "title": "Quiet Hover Motion",
+      "caption": "Interaction reference: a subtle card lift/ink response implied through light and position.",
+      "source": "Generated as interaction mood reference.",
+      "tone": "responsive, subtle, controlled",
+      "motif": "hover state, slight lift, line emphasis, soft ink response",
+      "palette": ["#f6f7f4", "#e9ece8", "#d2dbd4", "#303838", "#bd6748"],
+      "prompt": "Single visual reference image implying a quiet hover interaction on a restrained blog card, one paper-like card subtly lifted by a fraction, fine border becoming slightly clearer, tiny warm accent responding like ink, surrounding cards remain calm and flat, no readable text, no logos, no motion diagram, no collage, no exaggerated shadow, no glowing effect."
+    }
+  ]
+}

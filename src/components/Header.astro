@@ -4,21 +4,53 @@ import HeaderLink from './HeaderLink.astro';
 ---
 
 <header>
-	<div class='title'>
-		<a href='/' class='site-home' aria-label={SITE_TITLE}>
-			<span class='site-wordmark' aria-hidden='true'>
-				<span class='site-name'>LynkXu</span>
-				<span class='site-separator'>/</span>
-				<span class='site-label'>Blog</span>
-			</span>
-		</a>
+	<div class='masthead'>
+		<div class='title'>
+			<a href='/' class='site-home' aria-label={SITE_TITLE}>
+				<span class='site-wordmark' aria-hidden='true'>
+					<span class='site-name'>LynkXu</span>
+					<span class='site-separator'>/</span>
+					<span class='site-label'>Blog</span>
+				</span>
+			</a>
+			<p class='site-deck'>notes on life and technical edges</p>
+		</div>
+		<div class='masthead-tools' aria-label='Site tools'>
+			<HeaderLink href='/tags/'>Tags</HeaderLink>
+			<HeaderLink href='/index.xml'>RSS</HeaderLink>
+			<button class='header-search' id='header-search-trigger' type='button' aria-label='Search posts' title='Search'>
+				<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>
+					<circle cx='11' cy='11' r='8'></circle>
+					<path d='m21 21-4.35-4.35'></path>
+				</svg>
+			</button>
+		</div>
 	</div>
-	<nav aria-label='Primary navigation'>
+	<nav class='primary-nav' aria-label='Primary navigation'>
 		<HeaderLink href='/blog'>Archive</HeaderLink>
 		{/* <HeaderLink href='/projects'>Projects</HeaderLink> */}
 		<HeaderLink href='/shuoshuo'>Memos</HeaderLink>
 		<HeaderLink href='/message'>Guestbook</HeaderLink>
 		<HeaderLink href='/about'>About</HeaderLink>
-		<HeaderLink href='/index.xml'>RSS</HeaderLink>
 	</nav>
 </header>
+
+<script is:inline>
+	function initHeaderSearch() {
+		var trigger = document.getElementById('header-search-trigger');
+		if (!trigger || trigger.dataset.bound === 'true') return;
+		trigger.dataset.bound = 'true';
+		trigger.addEventListener('click', function () {
+			if (window.openSearchModal) {
+				window.openSearchModal();
+			}
+		});
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initHeaderSearch);
+	} else {
+		initHeaderSearch();
+	}
+	document.addEventListener('astro:page-load', initHeaderSearch);
+</script>

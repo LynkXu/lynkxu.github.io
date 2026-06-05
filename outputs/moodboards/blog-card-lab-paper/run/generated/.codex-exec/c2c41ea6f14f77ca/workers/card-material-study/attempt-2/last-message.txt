@@ -1,0 +1,3 @@
+Generated via `image_gen.imagegen`, but the tool did not expose a savable PNG path or bytes in this session.
+
+Wrote the required failed `result.json` at the requested location.

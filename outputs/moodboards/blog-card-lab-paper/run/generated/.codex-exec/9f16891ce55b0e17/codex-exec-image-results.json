@@ -1,0 +1,16 @@
+{
+  "status": "complete",
+  "total": 1,
+  "complete": 1,
+  "failed": 0,
+  "pending": 0,
+  "results": [
+    {
+      "id": "message-guestbook-surface",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/9f16891ce55b0e17/b8a0cbbeb35c71f6339a581e13aa2e69.png",
+      "error": null,
+      "caveats": ""
+    }
+  ]
+}

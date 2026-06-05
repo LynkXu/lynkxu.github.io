@@ -50,14 +50,14 @@ const categoryItems = Array.from(categoriesMap.entries())
 	}));
 ---
 
-<Base title={`分类：${category}`} description={`分类 "${category}" 下的所有文章`} className="blog-surface-layout">
+<Base title={`Category: ${category}`} description={`All posts in category "${category}"`} className="blog-surface-layout">
 	<div class="content-limit-width taxonomy-shell">
 		<TaxonomyHero
-			eyebrow='category archive'
+			eyebrow='category index'
 			title={category}
-			description={`共 ${posts.length} 篇文章，保持在同一主题下连续阅读。`}
+			description={`${posts.length} posts in this category.`}
 		/>
-		<CategoryFilter categories={categoryItems} activeCategory={category} label='切换分类' />
+		<CategoryFilter categories={categoryItems} activeCategory={category} label='All Categories' />
 		<ul class='posts'>
 			{
 				posts.map((post) => (

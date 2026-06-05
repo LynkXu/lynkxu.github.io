@@ -18,13 +18,13 @@ export const SPONSOR_GROUPS: SponsorGroup[] = [
 		items: [
 			{
 				id: 'wechat',
-				name: '微信',
+				name: 'WeChat',
 				image: '/sponsor/wechat.jpg',
 				color: '#09bb07',
 			},
 			{
 				id: 'alipay',
-				name: '支付宝',
+				name: 'Alipay',
 				image: '/sponsor/alipay.jpg',
 				color: '#00a0e9',
 			},
@@ -60,4 +60,3 @@ export const SPONSOR_GROUPS: SponsorGroup[] = [
 ];
 
 export const ALL_SPONSOR_ITEMS: SponsorItem[] = SPONSOR_GROUPS.flatMap((g) => g.items);
-

@@ -1,0 +1,23 @@
+{
+  "status": "partial",
+  "total": 2,
+  "complete": 1,
+  "failed": 1,
+  "pending": 0,
+  "results": [
+    {
+      "id": "message-guestbook-surface",
+      "status": "failed",
+      "image_path": null,
+      "error": "Native image generation produced an image, but no filesystem path or image bytes were exposed for saving to the requested PNG path.",
+      "caveats": ""
+    },
+    {
+      "id": "card-material-study",
+      "status": "complete",
+      "image_path": "/Users/link/Code/lynkxu.github.io/outputs/moodboards/blog-card-lab-paper/run/generated/.codex-exec/50c4609346c2d87c/220493f21967fcfa4796484cfebed94f.png",
+      "error": null,
+      "caveats": ""
+    }
+  ]
+}

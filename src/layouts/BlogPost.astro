@@ -260,12 +260,12 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			<header class='post-header'>
 				<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 				<p class='post-kicker page-rail__meta'>
+					<span>Published <FormattedDate date={pubDate} /></span>
+					<span class='post-kicker__separator'>/</span>
 					<span>{primaryKind}</span>
-					<span class='post-kicker__separator'>·</span>
-					<FormattedDate date={pubDate} />
 					{readingTime && (
 						<>
-							<span class='post-kicker__separator'>·</span>
+							<span class='post-kicker__separator'>/</span>
 							<span>{readingTime} min read</span>
 						</>
 					)}
@@ -306,7 +306,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		{
 			showTOC && (
 				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
+					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='Contents' />
 				</div>
 			)
 		}

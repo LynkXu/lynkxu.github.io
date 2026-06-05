@@ -1,0 +1,7 @@
+{
+  "id": "message-guestbook-surface",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation produced an image, but no filesystem path or image bytes were exposed for saving to the requested PNG path.",
+  "caveats": ""
+}

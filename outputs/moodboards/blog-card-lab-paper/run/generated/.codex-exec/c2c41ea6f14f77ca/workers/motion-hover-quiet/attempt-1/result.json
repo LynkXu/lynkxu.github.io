@@ -1,0 +1,7 @@
+{
+  "id": "motion-hover-quiet",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in-chat, but no filesystem-accessible PNG artifact was available to save to the requested path.",
+  "caveats": ""
+}

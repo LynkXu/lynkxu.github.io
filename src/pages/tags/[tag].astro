@@ -51,14 +51,14 @@ const tagItems = Array.from(tagsMap.entries())
 	}));
 ---
 
-<Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`} className="blog-surface-layout">
+<Base title={`Tag: ${tag}`} description={`All posts tagged "${tag}"`} className="blog-surface-layout">
 	<div class="content-limit-width taxonomy-shell">
 		<TaxonomyHero
-			eyebrow='tag archive'
+			eyebrow='tag index'
 			title={`#${tag}`}
 			description={`${posts.length} posts in total.`}
 		/>
-		<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
+		<CategoryFilter categories={tagItems} activeCategory={tag} label='All Tags' />
 		<ul class='posts'>
 			{
 				posts.map((post) => (

@@ -1,0 +1,7 @@
+{
+  "id": "about-profile-index",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation did not provide a savable PNG file or image bytes in this environment.",
+  "caveats": ""
+}

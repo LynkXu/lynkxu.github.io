@@ -1,0 +1,1 @@
+Done. Native image generation ran, but no savable PNG path or bytes were exposed, so I wrote the required `result.json` with `"status": "failed"` and did not create placeholder art.

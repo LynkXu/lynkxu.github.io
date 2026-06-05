@@ -19,6 +19,7 @@ interface Props {
 }
 
 const { title, description, image, fullWidth = false, hideHeader = false, hideFooter = false, useCard = true, className = '' } = Astro.props;
+const isBlogSurface = className.split(/\s+/).includes('blog-surface-layout');
 
 // Check if current page is homepage
 const isHomepage = Astro.url.pathname === '/';
@@ -30,7 +31,7 @@ const isHomepage = Astro.url.pathname === '/';
 		<BaseHead title={title} description={description} image={image} />
 		<slot name='head' />
 	</head>
-	<body class={fullWidth ? 'full-width' : ''}>
+	<body class:list={[{ 'full-width': fullWidth, 'blog-surface-body': isBlogSurface }]}>
 		<Background />
 		<Loading showOnHomepage={isHomepage} />
         

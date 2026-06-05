@@ -41,12 +41,12 @@ const featuredTags = sortedTags.slice(0, 8);
 		<section class='home-hero' aria-labelledby='home-title'>
 			<div class="hero-left">
 				<p class='home-kicker'>
-					<span class="home-kicker__line">signal</span>
-					<span class="home-kicker__line home-kicker__line--muted">log</span>
+					<span class="home-kicker__line">notebook</span>
+					<span class="home-kicker__line home-kicker__line--muted">notes</span>
 				</p>
 			</div>
 			<div class="hero-right">
-				<h1 id='home-title'>Thinking clearly through input, output, and the journey.</h1>
+				<h1 id='home-title'>Notes on input, output, and the road between.</h1>
 			</div>
 		</section>
 
@@ -208,9 +208,9 @@ const featuredTags = sortedTags.slice(0, 8);
 
 		.stream-card {
 			display: grid;
-			grid-template-columns: 6.5rem minmax(0, 1fr);
-			gap: 1.15rem;
-			padding: clamp(1rem, 3vw, 1.25rem);
+			grid-template-columns: 6.2rem minmax(0, 1fr);
+			gap: clamp(0.95rem, 2.4vw, 1.2rem);
+			padding: clamp(0.95rem, 2.8vw, 1.18rem) clamp(1rem, 3vw, 1.25rem);
 			transition: background-color 0.2s ease;
 		}
 
@@ -220,11 +220,13 @@ const featuredTags = sortedTags.slice(0, 8);
 
 		.stream-meta {
 			color: var(--gray-color);
-			font-size: 0.74rem;
+			font-family: var(--field-font);
+			font-size: 0.7rem;
 			letter-spacing: 0.02em;
 			padding-top: 0.15rem;
 			white-space: nowrap;
 			transition: color 0.2s ease;
+			font-variant-numeric: tabular-nums;
 		}
 
 		.stream-card:hover .stream-meta {
@@ -233,8 +235,8 @@ const featuredTags = sortedTags.slice(0, 8);
 
 		.stream-card h3 {
 			margin: 0 0 0.35rem;
-			font-size: 1.08rem;
-			font-weight: 600;
+			font-size: 1.02rem;
+			font-weight: 560;
 			line-height: 1.42;
 			letter-spacing: -0.01em;
 		}
@@ -254,7 +256,7 @@ const featuredTags = sortedTags.slice(0, 8);
 		.stream-card p {
 			margin: 0;
 			color: var(--text-color);
-			font-size: 0.95rem;
+			font-size: 0.93rem;
 			line-height: 1.65;
 			opacity: 0.84;
 		}

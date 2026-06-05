@@ -1,0 +1,1 @@
+Wrote the fallback `result.json` with `"status": "failed"` because the native image tool did not expose a savable PNG path or bytes in this environment.

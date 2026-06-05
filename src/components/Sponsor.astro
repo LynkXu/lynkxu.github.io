@@ -5,7 +5,7 @@ import { ALL_SPONSOR_ITEMS, SPONSOR_GROUPS } from './sponsorConfig';
 
 <div class="sponsor-component">
   <div class="sponsor-header" id="sponsor-toggle">
-    <span class="sponsor-title">请我喝杯咖啡 / Sponsor</span>
+    <span class="sponsor-title">Sponsor</span>
     <span class="toggle-icon">▼</span>
   </div>
   
@@ -39,7 +39,7 @@ import { ALL_SPONSOR_ITEMS, SPONSOR_GROUPS } from './sponsorConfig';
                 {item.address && (
                     <div class="address-box">
                         <span class="address-text">{item.address}</span>
-                        <button class="copy-btn" data-clipboard-text={item.address} aria-label="复制地址">
+                        <button class="copy-btn" data-clipboard-text={item.address} aria-label="Copy address">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect>
                                 <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -382,4 +382,3 @@ import { ALL_SPONSOR_ITEMS, SPONSOR_GROUPS } from './sponsorConfig';
   document.addEventListener('DOMContentLoaded', initSponsor);
   document.addEventListener('astro:page-load', initSponsor);
 </script>
-

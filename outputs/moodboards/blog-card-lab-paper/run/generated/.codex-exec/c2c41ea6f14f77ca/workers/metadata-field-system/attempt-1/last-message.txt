@@ -1,0 +1,3 @@
+Generated the image with `image_gen.imagegen`, but this environment did not expose a saveable PNG file path for copying to the requested destination.
+
+I wrote the required failed `result.json` at the specified path with a concise error.

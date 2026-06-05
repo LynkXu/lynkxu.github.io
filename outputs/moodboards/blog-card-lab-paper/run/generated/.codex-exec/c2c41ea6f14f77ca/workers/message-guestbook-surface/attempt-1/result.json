@@ -1,0 +1,7 @@
+{
+  "id": "message-guestbook-surface",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in-chat, but no accessible PNG file handle was provided to save to the requested path.",
+  "caveats": ""
+}

@@ -1,0 +1,7 @@
+{
+  "id": "card-material-study",
+  "status": "failed",
+  "image_path": null,
+  "error": "Native image generation returned an image in-session, but no filesystem output path or writable PNG bytes were exposed for saving.",
+  "caveats": ""
+}
