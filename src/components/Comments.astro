@@ -3,9 +3,10 @@ import '../styles/twikoo.css';
 // 定义组件属性
 interface Props {
 	showLinuxDo?: boolean; // 是否显示 LinuxDo 评论，默认为 true（博客文章显示）
+	manualTwikooLoad?: boolean; // 是否点击后再加载 Twikoo
 }
 
-const { showLinuxDo = true } = Astro.props;
+const { showLinuxDo = true, manualTwikooLoad = false } = Astro.props;
 
 // 获取当前页面的路径
 const currentPath = Astro.url.pathname;
@@ -38,188 +39,335 @@ const twikooAuthors = ['lynkxu'];
 		)
 	}
 	<div>
-		<div id='twikoo'></div>
+		<div class='twikoo-shell' data-manual-load={manualTwikooLoad ? 'true' : 'false'}>
+			{
+				manualTwikooLoad && (
+					<div id='twikoo-lazygate' class='twikoo-lazygate'>
+						<p class='twikoo-lazygate__meta'>按需加载留言，减少不必要的评论流量请求。</p>
+						<button id='twikoo-load-button' class='twikoo-load-button' type='button'>
+							加载留言
+						</button>
+					</div>
+				)
+			}
+			<div id='twikoo' hidden={manualTwikooLoad}></div>
+		</div>
 	</div>
 </div>
-<script is:inline src='https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js'></script>
+<script is:inline data-twikoo-script='true' src='https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js'></script>
 
-<script is:inline define:vars={{ embedUrl, twikooEnv, twikooAuthors }}>
-	// 防止重复初始化的标志
-	let isInitializing = false;
-	let discourseLoaded = false;
-	let twikooObserver;
+	<script is:inline define:vars={{ embedUrl, twikooEnv, twikooAuthors, manualTwikooLoad }}>
+		// 防止重复初始化的标志
+		let isInitializing = false;
+		let discourseLoaded = false;
+		let twikooObserver;
+		let twikooScriptPromise;
+		let twikooActivated = !manualTwikooLoad;
 
-	function markAuthorComments() {
-		if (!Array.isArray(twikooAuthors) || twikooAuthors.length === 0) return;
-		const comments = document.querySelectorAll('#twikoo .tk-comment');
-		comments.forEach((comment) => {
-			const nickEl = comment.querySelector('.tk-nick');
-			const metaEl = comment.querySelector('.tk-meta');
-			if (!nickEl || !metaEl) return;
-			const nick = nickEl.textContent?.trim();
-			if (!nick) return;
-			if (twikooAuthors.includes(nick)) {
-				comment.classList.add('tk-comment-author');
-				// 将认证图标插入到用户名后面
-				const nickParent = nickEl.closest('.tk-nick-link') || nickEl;
-				if (!nickParent.parentElement.querySelector('.tk-author-badge')) {
-					const badge = document.createElement('span');
-					badge.className = 'tk-author-badge';
-					badge.setAttribute('title', '博主');
-					badge.innerHTML = '<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.855-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.69-.13.635-.08 1.293.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.604-.274 1.26-.144 1.896.13.636.433 1.221.878 1.69.47.447 1.055.752 1.69.883.635.13 1.294.083 1.902-.141.27.587.7 1.086 1.24 1.44.54.354 1.167.551 1.813.568.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.224 1.262.272 1.896.141.636-.13 1.22-.436 1.69-.883.445-.47.75-1.054.88-1.69.131-.635.084-1.292-.139-1.896.587-.273 1.084-.705 1.439-1.246.355-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" fill="currentColor"/></svg>';
-					nickParent.after(badge);
+		function getTwikooElements() {
+			return {
+				shell: document.querySelector('.twikoo-shell'),
+				twikooEl: document.getElementById('twikoo'),
+				lazyGate: document.getElementById('twikoo-lazygate'),
+				loadButton: document.getElementById('twikoo-load-button'),
+			};
+		}
+
+		function setTwikooLazyState(state, message) {
+			const { shell, lazyGate, loadButton } = getTwikooElements();
+			if (!shell || !lazyGate || !loadButton) return;
+
+			shell.dataset.loadState = state;
+			loadButton.disabled = state === 'loading';
+
+			if (state === 'loading') {
+				loadButton.textContent = '加载中...';
+				return;
+			}
+
+			if (state === 'loaded') {
+				loadButton.textContent = '已加载';
+				lazyGate.hidden = true;
+				return;
+			}
+
+			loadButton.textContent = message || '加载留言';
+		}
+
+		function revealTwikoo() {
+			const { twikooEl } = getTwikooElements();
+			if (twikooEl) twikooEl.hidden = false;
+		}
+
+		function focusTwikooEditor() {
+			window.setTimeout(() => {
+				const textarea = document.querySelector('#twikoo .el-textarea__inner');
+				if (textarea instanceof HTMLElement) {
+					textarea.focus();
 				}
-			}
-		});
-	}
-
-	function observeTwikooChanges() {
-		const twikooEl = document.getElementById('twikoo');
-		if (!twikooEl) return;
-		if (twikooObserver) {
-			twikooObserver.disconnect();
+			}, 180);
 		}
-		twikooObserver = new MutationObserver(() => {
-			markAuthorComments();
-		});
-		twikooObserver.observe(twikooEl, { childList: true, subtree: true });
-		markAuthorComments();
-	}
 
-	// 初始化 Twikoo
-	function initTwikoo() {
-		if (!twikooEnv) return;
+		function loadTwikooScript() {
+			if (typeof twikoo !== 'undefined') return Promise.resolve();
+			if (twikooScriptPromise) return twikooScriptPromise;
 
-		if (typeof twikoo !== 'undefined') {
-			const twikooEl = document.getElementById('twikoo');
-			if (twikooEl) {
-				// 清空旧内容
-				twikooEl.innerHTML = '';
-				// 重新初始化
-				twikoo.init({
-					envId: twikooEnv,
-					el: '#twikoo',
-					lang: 'zh-CN',
+			function waitForTwikooGlobal() {
+				return new Promise((resolve, reject) => {
+					const startedAt = Date.now();
+					const timer = window.setInterval(() => {
+						if (typeof twikoo !== 'undefined') {
+							window.clearInterval(timer);
+							resolve();
+							return;
+						}
+
+						if (Date.now() - startedAt > 8000) {
+							window.clearInterval(timer);
+							reject(new Error('Twikoo script unavailable'));
+						}
+					}, 120);
 				});
-				observeTwikooChanges();
 			}
-		}
-	}
 
-	// 清理 Discourse
-	function cleanupDiscourse() {
-		const discourseEl = document.getElementById('discourse-comments');
-		if (discourseEl) {
-			// 清空内容
-			discourseEl.innerHTML = '';
-		}
+			twikooScriptPromise = new Promise((resolve, reject) => {
+				const existingScript = document.querySelector('script[data-twikoo-script="true"]');
+				if (existingScript) {
+					waitForTwikooGlobal().then(resolve).catch(reject);
+					return;
+				}
 
-		// 移除所有旧的 Discourse 脚本
-		document.querySelectorAll('script[src*="linux.do/javascripts/embed.js"]').forEach((script) => {
-			script.remove();
-		});
-
-		// 清理 Discourse 的全局状态
-		if (window.DiscourseEmbed) {
-			// 如果有 iframe，先移除
-			const discourseIframes = document.querySelectorAll('iframe[id^="discourse-embed-frame"]');
-			discourseIframes.forEach((iframe) => {
-				iframe.remove();
+				const script = document.createElement('script');
+				script.src = 'https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js';
+				script.async = true;
+				script.dataset.twikooScript = 'true';
+				script.onload = () => waitForTwikooGlobal().then(resolve).catch(reject);
+				script.onerror = () => reject(new Error('Failed to load Twikoo script'));
+				document.body.appendChild(script);
 			});
 
-			// 重置 DiscourseEmbed 对象
-			delete window.DiscourseEmbed;
+			return twikooScriptPromise;
 		}
 
-		// 移除可能存在的其他 Discourse 相关元素
-		const discourseContainers = document.querySelectorAll('[id^="discourse-"]');
-		discourseContainers.forEach((container) => {
-			if (container.id !== 'discourse-comments') {
-				container.remove();
+		function markAuthorComments() {
+			if (!Array.isArray(twikooAuthors) || twikooAuthors.length === 0) return;
+			const comments = document.querySelectorAll('#twikoo .tk-comment');
+			comments.forEach((comment) => {
+				const nickEl = comment.querySelector('.tk-nick');
+				const metaEl = comment.querySelector('.tk-meta');
+				if (!nickEl || !metaEl) return;
+				const nick = nickEl.textContent?.trim();
+				if (!nick) return;
+				if (twikooAuthors.includes(nick)) {
+					comment.classList.add('tk-comment-author');
+					// 将认证图标插入到用户名后面
+					const nickParent = nickEl.closest('.tk-nick-link') || nickEl;
+					if (!nickParent.parentElement.querySelector('.tk-author-badge')) {
+						const badge = document.createElement('span');
+						badge.className = 'tk-author-badge';
+						badge.setAttribute('title', '博主');
+						badge.innerHTML = '<svg width="15" height="15" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.396 11c-.018-.646-.215-1.275-.57-1.816-.354-.54-.852-.972-1.438-1.246.223-.607.27-1.264.14-1.897-.131-.634-.437-1.218-.882-1.687-.47-.445-1.053-.75-1.687-.882-.633-.13-1.29-.083-1.897.14-.273-.587-.704-1.086-1.245-1.44S11.647 1.62 11 1.604c-.646.017-1.273.213-1.813.568s-.969.855-1.24 1.44c-.608-.223-1.267-.272-1.902-.14-.635.13-1.22.436-1.69.882-.445.47-.749 1.055-.878 1.69-.13.635-.08 1.293.144 1.896-.587.274-1.087.705-1.443 1.245-.356.54-.555 1.17-.574 1.817.02.647.218 1.276.574 1.817.356.54.856.972 1.443 1.245-.224.604-.274 1.26-.144 1.896.13.636.433 1.221.878 1.69.47.447 1.055.752 1.69.883.635.13 1.294.083 1.902-.141.27.587.7 1.086 1.24 1.44.54.354 1.167.551 1.813.568.647-.016 1.276-.213 1.817-.567s.972-.854 1.245-1.44c.604.224 1.262.272 1.896.141.636-.13 1.22-.436 1.69-.883.445-.47.75-1.054.88-1.69.131-.635.084-1.292-.139-1.896.587-.273 1.084-.705 1.439-1.246.355-.54.551-1.17.569-1.816zM9.662 14.85l-3.429-3.428 1.293-1.302 2.072 2.072 4.4-4.794 1.347 1.246z" fill="currentColor"/></svg>';
+						nickParent.after(badge);
+					}
+				}
+			});
+		}
+
+		function observeTwikooChanges() {
+			const twikooEl = document.getElementById('twikoo');
+			if (!twikooEl) return;
+			if (twikooObserver) {
+				twikooObserver.disconnect();
+			}
+			twikooObserver = new MutationObserver(() => {
+				markAuthorComments();
+			});
+			twikooObserver.observe(twikooEl, { childList: true, subtree: true });
+			markAuthorComments();
+		}
+
+		// 初始化 Twikoo
+		async function initTwikoo(force = false, source = 'history') {
+			if (!twikooEnv) return;
+			if (manualTwikooLoad && !force) return;
+
+			await loadTwikooScript();
+
+			if (typeof twikoo !== 'undefined') {
+				const twikooEl = document.getElementById('twikoo');
+				if (twikooEl) {
+					// 清空旧内容
+					twikooEl.innerHTML = '';
+					revealTwikoo();
+					// 重新初始化
+					twikoo.init({
+						envId: twikooEnv,
+						el: '#twikoo',
+						lang: 'zh-CN',
+					});
+					observeTwikooChanges();
+					twikooActivated = true;
+					setTwikooLazyState('loaded');
+					if (source === 'compose') {
+						focusTwikooEditor();
+					}
+				}
+			}
+		}
+
+		// 清理 Discourse
+		function cleanupDiscourse() {
+			const discourseEl = document.getElementById('discourse-comments');
+			if (discourseEl) {
+				// 清空内容
+				discourseEl.innerHTML = '';
+			}
+
+			// 移除所有旧的 Discourse 脚本
+			document.querySelectorAll('script[src*="linux.do/javascripts/embed.js"]').forEach((script) => {
+				script.remove();
+			});
+
+			// 清理 Discourse 的全局状态
+			if (window.DiscourseEmbed) {
+				// 如果有 iframe，先移除
+				const discourseIframes = document.querySelectorAll('iframe[id^="discourse-embed-frame"]');
+				discourseIframes.forEach((iframe) => {
+					iframe.remove();
+				});
+
+				// 重置 DiscourseEmbed 对象
+				delete window.DiscourseEmbed;
+			}
+
+			// 移除可能存在的其他 Discourse 相关元素
+			const discourseContainers = document.querySelectorAll('[id^="discourse-"]');
+			discourseContainers.forEach((container) => {
+				if (container.id !== 'discourse-comments') {
+					container.remove();
+				}
+			});
+		}
+
+		// 初始化 LinuxDo (Discourse)
+		function initDiscourse() {
+			const discourseEl = document.getElementById('discourse-comments');
+			if (!discourseEl) return;
+
+			// 先彻底清理旧实例
+			cleanupDiscourse();
+
+			// 重置加载状态
+			discourseLoaded = false;
+
+			// 设置新的 DiscourseEmbed 配置
+			window.DiscourseEmbed = {
+				discourseUrl: 'https://linux.do/',
+				discourseEmbedUrl: embedUrl,
+			};
+
+			// 延迟加载脚本，确保清理完成
+			setTimeout(() => {
+				if (!discourseLoaded && window.DiscourseEmbed) {
+					const d = document.createElement('script');
+					d.type = 'text/javascript';
+					d.async = true;
+					d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
+					d.onload = () => {
+						discourseLoaded = true;
+					};
+					d.onerror = () => {
+						console.error('Failed to load Discourse embed script');
+						discourseLoaded = false;
+					};
+					document.body.appendChild(d);
+				}
+			}, 300);
+		}
+
+		// 统一初始化函数
+		async function initComments() {
+			// 防止重复初始化
+			if (isInitializing) return;
+			isInitializing = true;
+
+			// 延迟初始化，确保 DOM 完全加载
+			setTimeout(async () => {
+				if (manualTwikooLoad) {
+					bindTwikooManualTrigger();
+					isInitializing = false;
+					return;
+				}
+
+				initDiscourse();
+				await initTwikoo();
+				isInitializing = false;
+			}, 100);
+		}
+
+		async function loadTwikooOnDemand(source = 'history') {
+			if (twikooActivated) {
+				if (source === 'compose') {
+					focusTwikooEditor();
+				}
+				return;
+			}
+			setTwikooLazyState('loading');
+			try {
+				await initTwikoo(true, source);
+			} catch (error) {
+				console.error(error);
+				setTwikooLazyState('idle');
+			}
+		}
+
+		function bindTwikooManualTrigger() {
+			if (!manualTwikooLoad) return;
+			const { loadButton, lazyGate, twikooEl } = getTwikooElements();
+			if (!loadButton || !lazyGate || !twikooEl) return;
+
+			lazyGate.hidden = twikooActivated;
+			twikooEl.hidden = !twikooActivated;
+			setTwikooLazyState(twikooActivated ? 'loaded' : 'idle');
+			loadButton.onclick = () => {
+				loadTwikooOnDemand('compose');
+			};
+		}
+
+		// 首次加载时初始化
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', initComments);
+		} else {
+			initComments();
+		}
+
+		// View Transitions 页面切换后重新初始化
+		// astro:page-load 只在 View Transitions 导航时触发，不会在首次加载时触发
+		document.addEventListener('astro:page-load', initComments);
+
+		// 页面切换前清理
+		document.addEventListener('astro:before-preparation', function () {
+			// 重置标志
+			isInitializing = false;
+			discourseLoaded = false;
+			if (manualTwikooLoad) {
+				twikooActivated = false;
+				setTwikooLazyState('idle');
+			}
+
+			// 彻底清理 Discourse
+			cleanupDiscourse();
+
+			// 清理 Twikoo
+			const twikooEl = document.getElementById('twikoo');
+			if (twikooEl) {
+				twikooEl.innerHTML = '';
+			}
+			if (twikooObserver) {
+				twikooObserver.disconnect();
+				twikooObserver = undefined;
 			}
 		});
-	}
-
-	// 初始化 LinuxDo (Discourse)
-	function initDiscourse() {
-		const discourseEl = document.getElementById('discourse-comments');
-		if (!discourseEl) return;
-
-		// 先彻底清理旧实例
-		cleanupDiscourse();
-
-		// 重置加载状态
-		discourseLoaded = false;
-
-		// 设置新的 DiscourseEmbed 配置
-		window.DiscourseEmbed = {
-			discourseUrl: 'https://linux.do/',
-			discourseEmbedUrl: embedUrl,
-		};
-
-		// 延迟加载脚本，确保清理完成
-		setTimeout(() => {
-			if (!discourseLoaded && window.DiscourseEmbed) {
-				const d = document.createElement('script');
-				d.type = 'text/javascript';
-				d.async = true;
-				d.src = window.DiscourseEmbed.discourseUrl + 'javascripts/embed.js';
-				d.onload = () => {
-					discourseLoaded = true;
-				};
-				d.onerror = () => {
-					console.error('Failed to load Discourse embed script');
-					discourseLoaded = false;
-				};
-				document.body.appendChild(d);
-			}
-		}, 300);
-	}
-
-	// 统一初始化函数
-	function initComments() {
-		// 防止重复初始化
-		if (isInitializing) return;
-		isInitializing = true;
-
-		// 延迟初始化，确保 DOM 完全加载
-		setTimeout(() => {
-			initDiscourse();
-			initTwikoo();
-			isInitializing = false;
-		}, 100);
-	}
-
-	// 首次加载时初始化
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initComments);
-	} else {
-		initComments();
-	}
-
-	// View Transitions 页面切换后重新初始化
-	// astro:page-load 只在 View Transitions 导航时触发，不会在首次加载时触发
-	document.addEventListener('astro:page-load', initComments);
-
-	// 页面切换前清理
-	document.addEventListener('astro:before-preparation', function () {
-		// 重置标志
-		isInitializing = false;
-		discourseLoaded = false;
-
-		// 彻底清理 Discourse
-		cleanupDiscourse();
-
-		// 清理 Twikoo
-		const twikooEl = document.getElementById('twikoo');
-		if (twikooEl) {
-			twikooEl.innerHTML = '';
-		}
-		if (twikooObserver) {
-			twikooObserver.disconnect();
-			twikooObserver = undefined;
-		}
-	});
 </script>
 
 <script>
@@ -321,6 +469,62 @@ const twikooAuthors = ['lynkxu'];
 	}
 	.comments.single > div {
 		display: block;
+	}
+
+	.twikoo-lazygate {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.8rem;
+		padding: 0.15rem 0;
+	}
+
+	.twikoo-lazygate[hidden],
+	#twikoo[hidden] {
+		display: none !important;
+	}
+
+	.twikoo-lazygate__meta {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--field-font);
+		font-size: 0.78rem;
+		line-height: 1.6;
+	}
+
+	.twikoo-load-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.35rem;
+		padding: 0.55rem 0.95rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-field-bg);
+		color: color-mix(in oklab, var(--text-color) 88%, var(--gray-color));
+		font-family: var(--field-font);
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0.015em;
+		line-height: 1.2;
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			border-color 0.2s ease,
+			background 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.twikoo-load-button:hover:not(:disabled) {
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
+		border-color: color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
+		background: color-mix(in oklab, var(--accent-soft-bg) 55%, var(--paper-field-bg));
+		transform: translateY(-1px);
+	}
+
+	.twikoo-load-button:disabled {
+		cursor: wait;
+		opacity: 0.74;
 	}
 
 	@media (max-width: 600px) {

@@ -747,7 +747,8 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .about-index .taxonomy-hero {
-  padding: clamp(1.25rem, 4vw, 1.8rem);
+  gap: clamp(0.8rem, 2vw, 0.95rem);
+  padding: clamp(1.45rem, 4.6vw, 2.05rem);
   border-color: var(--paper-card-border-soft);
   background: var(--paper-card-bg);
 }
@@ -973,7 +974,7 @@ body:has(.blog-surface-layout) {
 .blog-surface-layout .about-blog-meta > div {
   display: grid;
   grid-template-columns: minmax(4.5rem, 0.42fr) minmax(0, 1fr);
-  align-items: baseline;
+  align-items: center;
   gap: 0.45rem;
   min-height: 1.45rem;
   padding: 0.16rem 0.55rem;
@@ -1006,6 +1007,8 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .about-blog-meta dd {
+  display: flex;
+  align-items: center;
   font-size: 0.88rem;
   line-height: 1.48;
   color: color-mix(in oklab, var(--text-color) 88%, var(--gray-color));
