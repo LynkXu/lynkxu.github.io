@@ -630,8 +630,21 @@ body:has(.blog-surface-layout) {
   border-left: 1px solid var(--paper-card-border);
 }
 
-.blog-surface-layout :where(.home-hero, .taxonomy-hero)::after {
+.blog-surface-layout .taxonomy-hero::after {
   content: none;
+}
+
+.blog-surface-layout .home-hero::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 14px;
+  height: 14px;
+  opacity: 0.58;
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 1px solid var(--ink-line);
+  border-right: 1px solid var(--paper-card-border);
 }
 
 /* 列表型二级页：侧栏标签 + 内容直达（Archive / Signals / Guestbook） */
