@@ -78,8 +78,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.global-layout-card.blog-post-layout > footer {
-			margin-top: 0;
-			padding-top: 0.65rem;
+			margin-top: clamp(1.4rem, 3.2vw, 2rem);
+			padding-top: 1rem;
+			border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 55%, transparent);
 		}
 
 		.post-end-text {
@@ -262,7 +263,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			max-width: var(--post-content-width);
 			margin-left: auto;
 			margin-right: auto;
-			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) 0;
+			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) clamp(1.5rem, 3.5vw, 2rem);
 		}
 
 		.blog-main-column .post-content > :first-child {
@@ -275,7 +276,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-tail {
 			position: relative;
-			padding: clamp(1.1rem, 2.8vw, 1.35rem) var(--post-inline-padding) clamp(1rem, 2.5vw, 1.2rem);
+			padding: clamp(1.7rem, 3.8vw, 2.1rem) var(--post-inline-padding) clamp(1.5rem, 3.2vw, 1.8rem);
 			border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
 			background: color-mix(in oklab, var(--content-bg) 74%, var(--paper-field-bg));
 		}
