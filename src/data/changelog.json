@@ -1,0 +1,50 @@
+[
+  {
+    "hash": "e366a98",
+    "message": "Refresh Folio Ledger layout across blog surfaces.",
+    "date": "2026-06-04",
+    "fileCount": 19
+  },
+  {
+    "hash": "87fcc43",
+    "message": "Simplify blog surface corner marks",
+    "date": "2026-06-04",
+    "fileCount": 10
+  },
+  {
+    "hash": "2babaf3",
+    "message": "Align blog post footer content to the bottom",
+    "date": "2026-06-04",
+    "fileCount": 1
+  },
+  {
+    "hash": "5a97824",
+    "message": "Refine header navigation into a quieter dotted index",
+    "date": "2026-06-02",
+    "fileCount": 3
+  },
+  {
+    "hash": "06812b2",
+    "message": "Refine card frame with sparse corner marks",
+    "date": "2026-06-02",
+    "fileCount": 2
+  },
+  {
+    "hash": "b204aa1",
+    "message": "Reduce noise in article detail layout",
+    "date": "2026-06-02",
+    "fileCount": 4
+  },
+  {
+    "hash": "6c8bec6",
+    "message": "style: adopt newsprint palette with vermilion spot color",
+    "date": "2026-05-31",
+    "fileCount": 2
+  },
+  {
+    "hash": "308dce1",
+    "message": "style: unify on sharp editorial look with near-mono warm palette",
+    "date": "2026-05-31",
+    "fileCount": 5
+  }
+]
