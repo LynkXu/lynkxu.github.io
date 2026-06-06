@@ -31,10 +31,10 @@ const categoryItems = sortedCategories.map(([category, count]) => ({
 <Base title='Categories' description='Browse all categories' className="blog-surface-layout">
 	<div class='content-limit-width taxonomy-shell'>
 		<TaxonomyHero
-			eyebrow='category archive'
+			eyebrow='Section index'
 			title='Categories'
-			description={`${sortedCategories.length} categories in total, sorted by number of posts.`}
+			description={`${sortedCategories.length} broader shelves for the themes this notebook tends to return to.`}
 		/>
-		<CategoryFilter categories={categoryItems} label='All Categories' />
+		<CategoryFilter categories={categoryItems} label='Browse all categories' />
 	</div>
 </Base>

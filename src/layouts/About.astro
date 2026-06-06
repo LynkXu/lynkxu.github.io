@@ -1,15 +1,17 @@
 ---
 import Base from './Base.astro';
+import TaxonomyHero from '../components/TaxonomyHero.astro';
 
 const { title } = Astro.props;
 ---
 
 <Base title={title} description={title} className="blog-surface-layout">
 	<div class="content-limit-width about-index">
-		<header class="about-intro">
-			<h1 class="about-intro__title">{title}</h1>
-			<p class="page-rail__meta">backend / full-stack · shanghai · b. 1998</p>
-		</header>
+		<TaxonomyHero
+			eyebrow="About"
+			title={title}
+			description="Backend / full-stack in Shanghai — a notebook for work, tools, weather, and whatever keeps echoing."
+		/>
 
 		<div class="about-sheet">
 			<slot />

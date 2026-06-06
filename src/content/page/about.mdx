@@ -5,29 +5,26 @@ pageLayout: About
 ---
 import SponsorAbout from '../../components/SponsorAbout.astro';
 
-<p class="about-lede">Hi, I'm Lynk — backend / full-stack developer based in Shanghai.</p>
-
 <div class="about-panels">
-	<section class="about-panel paper-ledger">
-		<h2 class="indextitle">Bio</h2>
+	<section class="about-panel">
+		<h2 class="indextitle">Work</h2>
 		<ul class="about-facts">
-			<li>Got into programming by flashing custom Android ROMs in high school.</li>
-			<li>Backend / full-stack developer at a foreign enterprise since 2023.</li>
+			<li>Custom Android ROMs in high school, then backend / full-stack.</li>
+			<li>Prefer systems that stay understandable after the first week.</li>
 		</ul>
 	</section>
 
-	<section class="about-panel paper-ledger">
-		<h2 class="indextitle">Life</h2>
+	<section class="about-panel">
+		<h2 class="indextitle">Off hours</h2>
 		<ul class="about-facts">
-			<li>Sports: strength training, running, cycling.</li>
-			<li>Nature, outdoors, and long walks.</li>
-			<li>Good with both company and solitude.</li>
+			<li>Strength training, running, cycling, and long walks.</li>
+			<li>Outdoors, weather, and a mix of company and solitude.</li>
 		</ul>
 	</section>
 </div>
 
 <section class="about-field about-field--pages">
-	<h2 class="indextitle">More</h2>
+	<h2 class="indextitle">On this site</h2>
 	<nav class="about-pages" aria-label="More pages">
 		<a class="about-page-link" href="/media/">Media</a>
 		<a class="about-page-link" href="/photography/">Photography</a>
@@ -39,14 +36,26 @@ import SponsorAbout from '../../components/SponsorAbout.astro';
 </section>
 
 <aside class="about-colophon">
-	<section class="about-chip paper-ledger">
+	<section class="about-chip">
 		<h2 class="indextitle about-colophon__label">Sponsor</h2>
 		<SponsorAbout />
 	</section>
 
-	<section class="about-note">
+	<section class="about-chip about-blog">
 		<h2 class="indextitle about-colophon__label">About Blog</h2>
-		<p>Powered by GitHub Pages + Astro. A proxy is recommended for a better browsing experience.</p>
-		<p>Posts are written in Obsidian, memos synced from Mastodon, media logged on NeoDB, and sports activities fetched from Strava.</p>
+		<dl class="about-blog-meta">
+			<div>
+				<dt>Stack</dt>
+				<dd>Astro · GitHub Pages</dd>
+			</div>
+			<div>
+				<dt>Writing</dt>
+				<dd>Obsidian first</dd>
+			</div>
+			<div>
+				<dt>Sync</dt>
+				<dd>Memos, media, and sports from elsewhere</dd>
+			</div>
+		</dl>
 	</section>
 </aside>

@@ -270,20 +270,21 @@ function getDateParts(date: Date) {
         .feed-container {
             display: flex;
             flex-direction: column;
-            gap: 0;
+            gap: var(--blog-card-gap, 0.9rem);
+        }
+
+        #shuoshuo.list-ledger {
+            margin-top: 0.1rem;
+            overflow: visible;
         }
 
         .feed-item {
             display: grid;
-            grid-template-columns: 8.5rem minmax(0, 1fr);
-            gap: var(--space-md);
-            padding: var(--space-md);
+            grid-template-columns: var(--blog-meta-col, 7.25rem) minmax(0, 1fr);
+            gap: clamp(0.95rem, 2vw, 1.15rem);
+            padding: clamp(0.95rem, 2.4vw, 1.1rem);
             position: relative;
             transition: background 0.2s ease;
-        }
-
-        .feed-item:last-child {
-            border-bottom: none;
         }
 
         .feed-card {
@@ -300,11 +301,11 @@ function getDateParts(date: Date) {
             flex-wrap: wrap;
             gap: 0.35rem;
             padding-top: 0.12rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-family: var(--field-font);
             font-size: 0.7rem;
             line-height: 1.35;
             color: var(--gray-color);
-            letter-spacing: 0.015em;
+            letter-spacing: 0.025em;
             font-variant-numeric: tabular-nums;
         }
 
@@ -411,7 +412,7 @@ function getDateParts(date: Date) {
             height: 30px;
 			padding: 0 5px;
 			margin: 0 1px;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-family: var(--field-font);
             font-size: 0.72rem;
 			color: var(--gray-color);
 			text-decoration: none;
@@ -450,6 +451,10 @@ function getDateParts(date: Date) {
         @media (max-width: 720px) {
             .gossip-page {
                 padding-bottom: var(--space-md);
+            }
+
+            .feed-container {
+                gap: 0.75rem;
             }
 
             .feed-item {
