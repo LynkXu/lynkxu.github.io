@@ -2,17 +2,7 @@
 import { getCollection } from 'astro:content';
 import { filterDrafts } from '../utils/drafts';
 
-// 获取当前语言（根据 URL 路径判断）
-const currentLang = Astro.url.pathname.startsWith('/en/') ? 'en' : 'zh';
-
-// 获取对应语言的博客文章用于搜索
-const allPosts = filterDrafts(await getCollection('blog')).filter((post) => {
-	if (currentLang === 'en') {
-		return post.id.startsWith('en/');
-	} else {
-		return !post.id.startsWith('en/');
-	}
-});
+const allPosts = filterDrafts(await getCollection('blog'));
 const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // 创建搜索索引数据
@@ -27,16 +17,7 @@ const searchData = posts.map((post) => ({
 	draft: Boolean(post.data.draft),
 }));
 
-// 根据语言设置文本
-const texts = currentLang === 'en' ? {
-	placeholder: 'Search articles...',
-	closeLabel: 'Close search',
-	searchTip: '💡 Search: title, description, tags, categories',
-	keyboardTip: '⌨️ Press <kbd>Esc</kbd> to close',
-	resultsCount: 'Found <strong>{count}</strong> articles',
-	noResults: '😔 No articles found',
-	draftBadge: 'Draft',
-} : {
+const texts = {
 	placeholder: 'Search articles...',
 	closeLabel: 'Close search',
 	searchTip: '💡 Search: title, description, tags, categories',
@@ -79,10 +60,9 @@ const texts = currentLang === 'en' ? {
 </div>
 
 <!-- 搜索数据 -->
-<script is:inline define:vars={{ searchData, texts, currentLang }}>
+<script is:inline define:vars={{ searchData, texts }}>
 	window.SEARCH_DATA = searchData;
 	window.SEARCH_TEXTS = texts;
-	window.SEARCH_LANG = currentLang;
 </script>
 
 <!-- 搜索功能 -->
@@ -102,8 +82,6 @@ const texts = currentLang === 'en' ? {
 		// 获取搜索数据和文本
 		const posts = window.SEARCH_DATA || [];
 		const texts = window.SEARCH_TEXTS || {};
-		const currentLang = window.SEARCH_LANG || 'zh';
-
 		// 生成默认提示 HTML
 		const tipsHtml = '<div class="search-tips"><p>' + texts.searchTip + '</p><p>' + texts.keyboardTip + '</p></div>';
 
@@ -170,9 +148,7 @@ const texts = currentLang === 'en' ? {
 
 						var draftHtml = post.draft ? '<span class="draft-badge" aria-label="' + texts.draftBadge + '">' + texts.draftBadge + '</span>' : '';
 
-						// 根据语言确定博客 URL
-						var normalizedSlug = post.slug.replace(/^en\//, '');
-						var blogUrl = currentLang === 'en' ? '/en/blog/' + normalizedSlug + '.html' : '/blog/' + post.slug + '.html';
+						var blogUrl = '/blog/' + post.slug + '.html';
 
 						return '<div class="result-item">' +
 							'<div class="result-header">' +

@@ -7,8 +7,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 
 // 获取最新的博客文章（显示前8篇）
-// 排除英文文章（en/ 前缀），英文文章只在 /en 下展示
-const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+const allPosts = filterDrafts(await getCollection('blog'));
 const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
 
 function getPostExcerpt(body = '', length = 150) {

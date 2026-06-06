@@ -4,10 +4,9 @@ import Base from '../../layouts/Base.astro';
 import { SITE_DESCRIPTION } from '../../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
-// 排除英文文章（en/ 前缀），英文文章只在 /en/blog 下展示
-const posts = filterDrafts(await getCollection('blog'))
-	.filter((post) => !post.id.startsWith('en/'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = filterDrafts(await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
 
 // 按年份分组文章
 const postsByYear: Record<number, typeof posts> = {};

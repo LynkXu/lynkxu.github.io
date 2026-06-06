@@ -7,8 +7,7 @@ import Shuoshuo from '../layouts/Shuoshuo.astro';
 import Sports from '../layouts/Sports.astro';
 
 export async function getStaticPaths() {
-	// 排除英文页面（en/ 前缀），英文页面由 /en/[slug] 负责
-	const pages = (await getCollection('page')).filter((p) => !p.id.startsWith('en/'));
+	const pages = await getCollection('page');
 	const paths: Array<{ params: { slug: string }; props: CollectionEntry<'page'> }> = [];
 
 	pages.forEach((page) => {
