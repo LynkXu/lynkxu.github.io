@@ -12,7 +12,7 @@ const blog = defineCollection({
 		},
 	}),
 	// Type-check frontmatter using a schema
-	schema: ({ image }) =>
+	schema:
 		z.object({
 			slug: z.coerce.string().optional(), // 强制转换为字符串，支持数字输入
 			title: z.string(),
@@ -20,7 +20,6 @@ const blog = defineCollection({
 			// Transform string to Date object
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
-			heroImage: image().optional(),
 			categories: z.array(z.string()).optional(),
 		tags: z.array(z.string()).optional(),
 		draft: z.boolean().default(false),

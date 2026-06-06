@@ -6,8 +6,7 @@ import TaxonomyHero from '../../components/TaxonomyHero.astro';
 
 import { filterDrafts } from '../../utils/drafts';
 
-// 排除英文文章（en/ 前缀），避免中英文标签混在一起
-const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+const allPosts = filterDrafts(await getCollection('blog'));
 const tagsMap = new Map();
 
 // 统计每个标签的文章数量

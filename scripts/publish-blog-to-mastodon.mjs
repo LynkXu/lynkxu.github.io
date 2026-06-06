@@ -76,7 +76,6 @@ function getAddedBlogFiles(baseSha, headSha) {
 		if (status !== 'A') continue;
 		if (!file) continue;
 		if (!file.startsWith('src/content/blog/')) continue;
-		if (file.startsWith('src/content/blog/en/')) continue;
 		if (!/\.(md|mdx)$/i.test(file)) continue;
 		added.push(file);
 	}
