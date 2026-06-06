@@ -337,6 +337,7 @@ body:has(.blog-surface-layout) {
   display: flex;
   flex-direction: column;
   width: min(var(--blog-content-width), calc(100% - 2 * var(--page-inline)));
+  padding-bottom: clamp(2rem, 4.5vw, 3rem);
 }
 
 .blog-surface-layout .page-shell .page-prose,
@@ -699,6 +700,7 @@ body:has(.blog-surface-layout) {
   flex-direction: column;
   gap: clamp(1.15rem, 3vw, 1.65rem);
   padding-top: 0.25rem;
+  padding-bottom: clamp(2rem, 4.5vw, 3rem);
   --archive-year-col: 2.85rem;
   --archive-date-col: 2.35rem;
   --archive-col-gap: 0.7rem;
@@ -741,7 +743,7 @@ body:has(.blog-surface-layout) {
   display: flex;
   flex-direction: column;
   gap: clamp(1.2rem, 3vw, 1.7rem);
-  padding: 0.25rem 0 clamp(2rem, 5vw, 3rem);
+  padding: 0.25rem 0 clamp(1.2rem, 2.8vw, 1.8rem);
 }
 
 .blog-surface-layout .about-index .taxonomy-hero {
