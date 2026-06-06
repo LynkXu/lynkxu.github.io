@@ -6,10 +6,10 @@ interface Props {
 const { showBackToTop = true } = Astro.props;
 ---
 
-<div class='nav-buttons-group'>
-	{
-		showBackToTop && (
-			<button class='nav-button nav-top' id='backToTop'>
+{
+	showBackToTop && (
+		<div class='nav-buttons-group'>
+			<button class='nav-button nav-top' id='backToTop' type='button' aria-label='回到顶部' hidden>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					width='24'
@@ -20,151 +20,152 @@ const { showBackToTop = true } = Astro.props;
 					stroke-width='2'
 					stroke-linecap='round'
 					stroke-linejoin='round'
-					class='lucide lucide-arrow-up'>
+					class='lucide lucide-arrow-up'
+					aria-hidden='true'>
 					<path d='m5 12 7-7 7 7' />
 					<path d='M12 19V5' />
 				</svg>
-				<span class='sr-only'>回到顶部</span>
 			</button>
-		)
-	}
-</div>
+		</div>
+	)
+}
 
 <script>
-	function initBackToTop() {
-		const backToTopBtn = document.getElementById('backToTop');
-		if (!backToTopBtn) return;
+	let backToTopCleanup: (() => void) | null = null;
 
-		// 监听滚动，控制按钮显示/隐藏
-		function toggleBackToTop() {
-			if (!backToTopBtn) return;
-
-			if (window.scrollY > 300) {
-				backToTopBtn.classList.add('visible');
-			} else {
-				backToTopBtn.classList.remove('visible');
-			}
-		}
-
-		// 点击回到顶部
-		backToTopBtn.addEventListener('click', () => {
-			window.scrollTo({
-				top: 0,
-				behavior: 'smooth',
-			});
-		});
-
-		// 监听滚动
-		window.addEventListener('scroll', toggleBackToTop);
-
-		// 初始检查
-		toggleBackToTop();
+	function getScrollY() {
+		return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
 	}
 
-	// 首次加载时初始化
+	function initBackToTop() {
+		backToTopCleanup?.();
+
+		const backToTopBtn = document.getElementById('backToTop') as HTMLButtonElement | null;
+		if (!backToTopBtn) return;
+
+		const threshold = 280;
+
+		function toggleBackToTop() {
+			const shouldShow = getScrollY() > threshold;
+			backToTopBtn.classList.toggle('visible', shouldShow);
+			backToTopBtn.hidden = !shouldShow;
+		}
+
+		function scrollToTop() {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+
+		backToTopBtn.addEventListener('click', scrollToTop);
+		window.addEventListener('scroll', toggleBackToTop, { passive: true });
+		document.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+		toggleBackToTop();
+
+		backToTopCleanup = () => {
+			backToTopBtn.removeEventListener('click', scrollToTop);
+			window.removeEventListener('scroll', toggleBackToTop);
+			document.removeEventListener('scroll', toggleBackToTop);
+		};
+	}
+
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initBackToTop);
+		document.addEventListener('DOMContentLoaded', initBackToTop, { once: true });
 	} else {
 		initBackToTop();
 	}
 
-	// 支持 View Transitions
 	document.addEventListener('astro:page-load', initBackToTop);
 </script>
 
 <style>
 	.nav-buttons-group {
-		display: flex;
-		gap: 10px;
-		margin-top: 3rem;
-		margin-bottom: 2rem;
-		justify-content: space-between;
-		align-items: center;
-
 		position: fixed;
-		bottom: 6rem;
-		right: calc(50% - 22rem);
-	transform: translateX(300%);
-		padding: 1rem;
-		z-index: 50;
+		right: 18px;
+		bottom: 70px;
+		z-index: var(--z-fab);
+		margin: 0;
+		padding: 0;
+		pointer-events: none;
 	}
 
 	.nav-button {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		height: 2.25rem;
-		padding: 0 0.75rem;
-		background-color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.04);
-		color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.7);
+		justify-content: center;
+		width: 42px;
+		height: 42px;
+		padding: 0;
+		background: var(--paper-card-bg);
+		color: var(--gray-color);
 		text-decoration: none;
 		font-size: 0.875rem;
 		font-weight: 500;
-		transition: all 0.2s ease;
-		border: none;
+		transition:
+			opacity 0.24s ease,
+			visibility 0.24s ease,
+			transform 0.24s ease,
+			background 0.2s ease,
+			border-color 0.2s ease,
+			color 0.2s ease;
+		border: 1px solid var(--paper-card-border);
+		box-shadow: var(--paper-card-shadow);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 		outline: none;
+		cursor: pointer;
 	}
 
 	.nav-button:hover {
-		background-color: rgba(var(--color-primary-rgb, 39, 39, 39), 0.1);
-		color: var(--color-primary);
+		background: color-mix(in oklab, var(--paper-card-bg) 92%, var(--content-bg));
+		color: var(--heading-color);
+		border-color: var(--paper-card-border);
 		text-decoration: none;
-	}
-
-	.nav-button:hover svg {
-		transform: translateX(-0.125rem);
+		transform: translateY(-1px);
 	}
 
 	.nav-button svg {
 		width: 18px;
 		height: 18px;
 		flex-shrink: 0;
-		transition: all 0.1s linear;
+		transition: transform 0.2s ease;
 	}
 
 	.nav-top {
 		opacity: 0;
 		visibility: hidden;
-		transition: all 0.3s ease;
+		transform: translateY(6px);
+		pointer-events: none;
 	}
 
 	.nav-top.visible {
 		opacity: 1;
 		visibility: visible;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	.nav-buttons-group:has(.nav-top.visible) {
+		pointer-events: auto;
 	}
 
 	.nav-top:hover svg {
 		transform: translateY(-2px);
 	}
 
-	/* 无障碍：屏幕阅读器专用文本 */
-	.sr-only {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border-width: 0;
+	.nav-top:focus-visible {
+		outline: 2px solid var(--accent-color);
+		outline-offset: 3px;
 	}
 
-	/* 响应式 */
 	@media (max-width: 640px) {
 		.nav-buttons-group {
-			padding: 0;
-			gap: 0.75rem;
-			position: relative;
-			bottom: auto;
-			right: auto;
-			transform: none;
+			right: 14px;
+			bottom: 64px;
 		}
 
 		.nav-button {
-			width: 50%;
-			justify-content: center;
-			height: 3rem;
+			width: 40px;
+			height: 40px;
 		}
 	}
 </style>

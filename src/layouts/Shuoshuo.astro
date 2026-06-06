@@ -116,17 +116,20 @@ function getDateParts(date: Date) {
     }
 </style>
 
-<Base title={title} description={title}>
-	<div class='gossip-page terminal-shell'>
-        <section class="gossip-hero" aria-labelledby="gossip-title">
-            <h1 id="gossip-title">{title}</h1>
-            <p>{gossips.length} posts, sorted by time.</p>
+<Base title={title} description={title} className="blog-surface-layout">
+	<div class='content-limit-width list-stack gossip-page terminal-shell'>
+        <section class="list-surface list-surface--lead">
+            <header class="page-rail">
+                <h1 id="gossip-title">{title}</h1>
+                <p class="page-rail__meta">{gossips.length} memos · newest first</p>
+            </header>
+            <div class="list-main list-main--spacer" aria-hidden="true"></div>
         </section>
 
-		<div id='shuoshuo' class="feed-container terminal-stream" role="list">
+		<div id='shuoshuo' class="feed-container list-ledger paper-ledger terminal-stream" role="list">
             {
                 gossips.length === 0 ? (
-                    <div class='empty-state'>No short signals yet.</div>
+                    <div class='empty-state'>No memos yet.</div>
                 ) : (
                     gossips.map((gossip: any, index) => {
                         const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
@@ -256,62 +259,36 @@ function getDateParts(date: Date) {
 
 	<style>
         .gossip-page {
-            max-width: 700px;
-            margin: 0 auto;
+            width: 100%;
             padding-bottom: var(--space-lg);
         }
 
-        .gossip-hero {
-            position: relative;
-            margin: 0 0 2.25rem;
-            padding: 0.25rem 0 0;
-        }
-
-        .gossip-kicker {
-            margin: 0 0 0.55rem;
-            color: var(--gray-color);
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-            font-size: 0.72rem;
-            letter-spacing: 0.13em;
-            text-transform: uppercase;
-        }
-
-        .gossip-hero h1 {
-            margin: 0 0 0.75rem;
-            color: var(--heading-color);
-            font-size: clamp(1.8rem, 5vw, 2.85rem);
-            font-weight: 500;
-            line-height: 1.16;
-            letter-spacing: -0.055em;
-        }
-
-        .gossip-hero p:not(.gossip-kicker) {
-            max-width: 38rem;
-            margin: 0;
-            color: var(--gray-color);
-            line-height: 1.6;
+        .list-stack .pagination {
+            width: 100%;
         }
 
         .feed-container {
-            display: grid;
-            gap: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--blog-card-gap, 0.9rem);
+        }
+
+        #shuoshuo.list-ledger {
+            margin-top: 0.1rem;
+            overflow: visible;
         }
 
         .feed-item {
             display: grid;
-            grid-template-columns: 8.5rem minmax(0, 1fr);
-            gap: var(--space-md);
-            padding: var(--space-md) 0;
-            border-top: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            grid-template-columns: var(--blog-meta-col, 7.25rem) minmax(0, 1fr);
+            gap: clamp(0.95rem, 2vw, 1.15rem);
+            padding: clamp(0.95rem, 2.4vw, 1.1rem);
             position: relative;
-        }
-
-        .feed-item:last-child {
-            border-bottom: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
+            transition: background 0.2s ease;
         }
 
         .feed-card {
-            padding: 0;
+            padding: 0.1rem 0 0;
             margin: 0;
             border: 0;
             border-radius: 0;
@@ -324,11 +301,11 @@ function getDateParts(date: Date) {
             flex-wrap: wrap;
             gap: 0.35rem;
             padding-top: 0.12rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-family: var(--field-font);
             font-size: 0.7rem;
             line-height: 1.35;
             color: var(--gray-color);
-            letter-spacing: 0.015em;
+            letter-spacing: 0.025em;
             font-variant-numeric: tabular-nums;
         }
 
@@ -404,7 +381,7 @@ function getDateParts(date: Date) {
             opacity: 0;
             transition: opacity 0.2s ease;
             position: absolute;
-            right: 0;
+            right: var(--space-md);
             bottom: var(--space-md);
             z-index: 10;
         }
@@ -424,7 +401,7 @@ function getDateParts(date: Date) {
 		.pagination {
 			display: flex;
 			justify-content: center;
-			margin-top: var(--space-sm);
+			margin-top: var(--space-lg);
 		}
 
 		.page-link {
@@ -435,18 +412,18 @@ function getDateParts(date: Date) {
             height: 30px;
 			padding: 0 5px;
 			margin: 0 1px;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+            font-family: var(--field-font);
             font-size: 0.72rem;
 			color: var(--gray-color);
 			text-decoration: none;
-            border: 1px solid color-mix(in oklab, var(--gray-color) 18%, transparent);
-            background: color-mix(in oklab, var(--content-bg) 78%, transparent);
+            border: 1px solid var(--paper-card-border-soft);
+            background: var(--paper-field-bg);
 		}
 
 		.page-link:hover {
             color: var(--heading-color);
-            border-color: color-mix(in oklab, var(--gray-color) 26%, transparent);
-            background: color-mix(in oklab, var(--content-bg) 84%, transparent);
+            border-color: var(--paper-card-border);
+            background: color-mix(in oklab, var(--paper-card-bg) 84%, var(--content-bg));
 		}
 
 		.page-link.active {
@@ -476,15 +453,14 @@ function getDateParts(date: Date) {
                 padding-bottom: var(--space-md);
             }
 
-            .gossip-hero {
-                margin-bottom: 1.5rem;
-                padding-bottom: 0.5rem;
+            .feed-container {
+                gap: 0.75rem;
             }
 
             .feed-item {
                 grid-template-columns: 1fr;
                 gap: 0.4rem;
-                padding: var(--space-sm) 0;
+                padding: var(--space-sm);
             }
 
             .entry-actions {

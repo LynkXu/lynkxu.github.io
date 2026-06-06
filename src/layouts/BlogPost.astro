@@ -58,8 +58,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-tail {
-			margin: auto 0 0.35rem;
-			padding-top: clamp(3.5rem, 8vw, 5.5rem);
+			display: flex;
+			flex-direction: column;
+			gap: clamp(1.25rem, 3vw, 1.5rem);
+			margin: auto 0 clamp(0.5rem, 1.5vw, 0.75rem);
+			padding-top: clamp(2rem, 4.5vw, 2.5rem);
 		}
 
 		.post-end {
@@ -71,7 +74,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-tail .changelog {
-			margin: var(--space-xs) 0 0 !important;
+			margin: 0 !important;
 		}
 
 		.global-layout-card.blog-post-layout > footer {
@@ -81,20 +84,23 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-end-text {
 			color: var(--gray-color);
-			opacity: 0.5;
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			opacity: 0.62;
+			font-family: var(--meta-font);
 			font-size: 0.8rem;
-			letter-spacing: 0.05em;
+			letter-spacing: 0.02em;
 		}
 
 		/* Code Block Wrapper */
 		.code-wrapper {
 			position: relative;
 			margin: var(--space-md) 0;
-			border-radius: 0;
-			background: color-mix(in oklab, var(--code-background-color) 46%, var(--content-bg));
-			box-shadow: none;
-			border: 1px solid color-mix(in oklab, var(--rule-color) 38%, transparent);
+			border-radius: var(--paper-card-radius);
+			background:
+				linear-gradient(color-mix(in oklab, var(--rule-color) 9%, transparent) 1px, transparent 1px),
+				color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
+			background-size: 100% 1.65rem, auto;
+			box-shadow: var(--paper-card-shadow);
+			border: 1px solid var(--paper-card-border);
 			overflow: hidden;
 		}
 
@@ -142,82 +148,70 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.code-lang {
 			font-size: 0.75rem;
 			color: var(--gray-color);
-			font-family: "JetBrains Mono", "Fira Code", consolas, Menlo, monospace;
-			text-transform: uppercase;
-			font-weight: 600;
+			font-family: var(--field-font, "Lilex", ui-monospace, monospace);
+			text-transform: none;
+			font-weight: 500;
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
-			opacity: 0.5;
+			opacity: 0.42;
 			user-select: none;
 		}
 
 		.post-header {
 			display: block;
 			transform: none;
-			margin: 0 0 clamp(1rem, 2.2vw, 1.35rem);
-			padding: 0.2rem 0 0;
-			border-bottom: 0;
+			margin: 0;
+			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) clamp(1.05rem, 2.6vw, 1.25rem);
+			border: none;
+			border-bottom: 1px solid var(--paper-card-border-soft);
+			border-radius: 0;
+			background:
+				linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 26%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 100%);
 		}
 
-		.post-header::after {
-			content: "";
-			display: block;
-			width: clamp(2rem, 4.5vw, 3rem);
-			height: 1px;
-			margin-top: clamp(0.75rem, 1.7vw, 0.95rem);
-			background: linear-gradient(
-				90deg,
-				color-mix(in oklab, var(--gray-color) 22%, transparent),
-				color-mix(in oklab, var(--gray-color) 8%, transparent)
-			);
-		}
-
-		.post-kicker {
+		.entry-sheet {
+			--post-inline-padding: clamp(1.1rem, 2.9vw, 1.45rem);
+			--post-content-width: calc(var(--measure-readable) + var(--post-inline-padding) + var(--post-inline-padding));
 			display: flex;
-			align-items: center;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-			margin: 0 0 0.65rem;
-			color: var(--gray-color);
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.7rem;
-			letter-spacing: 0.095em;
-			text-transform: uppercase;
-		}
-
-		.post-kicker > span:first-child {
-			color: color-mix(in oklab, var(--accent-color) 68%, var(--gray-color));
-		}
-
-		.post-kicker__separator {
-			opacity: 0.5;
-			color: var(--gray-color);
+			flex-direction: column;
+			border: 1px solid var(--paper-card-border-soft);
+			border-radius: var(--paper-card-radius);
+			background: var(--paper-card-bg);
+			box-shadow: var(--paper-card-shadow);
+			overflow: hidden;
 		}
 
 		.post-header .post-title {
 			display: block;
-			max-width: 14em;
-			margin: 0;
-			font-size: clamp(1.75rem, 4vw, 2.65rem);
+			width: 100%;
+			max-width: var(--post-content-width);
+			margin: 0 auto;
+			font-family: var(--serif-font);
+			font-size: clamp(1.82rem, 4vw, 2.72rem);
 			font-weight: 500;
-			line-height: 1.18;
-			letter-spacing: -0.018em;
+			line-height: 1.12;
+			letter-spacing: -0.024em;
 		}
 
 		.post-description {
-			max-width: 42rem;
-			margin: var(--space-md) 0 0;
-			color: var(--gray-color);
-			font-size: 1rem;
-			line-height: 1.75;
+			max-width: 34rem;
+			margin: 0.85rem auto 0;
+			color: color-mix(in oklab, var(--gray-color) 78%, var(--text-color));
+			font-size: 0.96rem;
+			line-height: 1.76;
 		}
 
 		.post-header .post-meta {
-			margin: var(--space-md) 0 0;
-			padding: 0;
-			border: 0;
+			margin-top: 0.9rem;
 			font-size: 0.86rem;
+		}
+
+		.post-header > :where(.post-kicker, .post-meta) {
+			width: 100%;
+			max-width: var(--post-content-width);
+			margin-left: auto;
+			margin-right: auto;
 		}
 
 		/* Copy Button */
@@ -262,69 +256,110 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: transparent !important;
 		}
 
-		/* Keep prose readable while letting wide elements use the article column. */
+		/* Keep the actual text measure close to 70ch after padding is applied. */
 		.blog-main-column .post-content {
-			max-width: 100%;
-			margin-left: 0;
-			margin-right: 0;
-		}
-
-		.blog-main-column .post-content > :where(p, ul, ol, blockquote, h1, h2, h3, h4, h5, h6) {
-			max-width: var(--measure-readable);
+			width: 100%;
+			max-width: var(--post-content-width);
+			margin-left: auto;
+			margin-right: auto;
+			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) 0;
 		}
 
 		.blog-main-column .post-content > :first-child {
 			margin-top: 0;
 		}
 
+		.blog-main-column .post-content > :last-child {
+			margin-bottom: 0;
+		}
+
+		.post-tail {
+			position: relative;
+			padding: clamp(1.1rem, 2.8vw, 1.35rem) var(--post-inline-padding) clamp(1rem, 2.5vw, 1.2rem);
+			border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
+			background: color-mix(in oklab, var(--content-bg) 74%, var(--paper-field-bg));
+		}
+
+		.post-tail > :where(.history-fold, .post-end) {
+			width: 100%;
+			max-width: var(--post-content-width);
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.post-tail > .history-fold.changelog {
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+
+		.post-end {
+			margin: 0;
+			padding: 0;
+		}
+
+		@media (max-width: 720px) {
+			.entry-sheet {
+				--post-inline-padding: 0.95rem;
+				border-radius: 0;
+				border-left: none;
+				border-right: none;
+			}
+
+			.post-header .post-title {
+				max-width: var(--post-content-width);
+			}
+		}
+
 	</style>
 
-	<header class='post-header'>
-		<p class='post-kicker'>
-			<span>{primaryKind}</span>
-			<span class='post-kicker__separator'>/</span>
-			<FormattedDate date={pubDate} />
-			{readingTime && (
-				<>
-					<span class='post-kicker__separator'>/</span>
-					<span>{readingTime} min read</span>
-				</>
-			)}
-		</p>
-		<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-		{description && <p class='post-description'>{description}</p>}
-		{hasPostMeta && (
-			<div class="post-meta" role="note" aria-label="Post info">
-				{updatedDate && (
-					<span>Updated at <FormattedDate date={updatedDate} /></span>
-				)}
-				{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
-			</div>
-		)}
-	</header>
-
+	<div class={`article-page-shell ${showTOC ? 'has-sidebar' : ''}`}>
 	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
 		
 		<LeftSidebar details={{ pubDate, readingTime }} />
 
 		<div class="blog-main-column">
-			<!-- 主内容区 -->
-			<div class='post-content content' id='lightgallery'>
-				<slot />
-			</div>
+			<article class="entry-sheet">
+				<header class='post-header'>
+					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+					<p class='post-kicker page-rail__meta'>
+						<span>{primaryKind}</span>
+						<span class='post-kicker__separator'>·</span>
+						<FormattedDate date={pubDate} />
+						{readingTime && (
+							<>
+								<span class='post-kicker__separator'>·</span>
+								<span>{readingTime} min read</span>
+							</>
+						)}
+					</p>
+					{description && <p class='post-description'>{description}</p>}
+					{hasPostMeta && (
+						<div class="post-meta" role="note" aria-label="Post info">
+							{updatedDate && (
+								<span>Updated at <FormattedDate date={updatedDate} /></span>
+							)}
+							{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
+						</div>
+					)}
+				</header>
 
-			<div class="post-tail">
-				<!-- 文章结束标识和点赞 -->
-				<div class='post-end' aria-hidden="true">
-					<span class="post-end-text">// EOF</span>
-					<LikeButton id={postId || Astro.url.pathname} type="post" />
+				<!-- 主内容区 -->
+				<div class='post-content content' id='lightgallery'>
+					<slot />
 				</div>
 
-				<!-- Changelog 注脚 -->
-				{changelog && changelog.length > 0 && (
-					<Changelog entries={changelog} />
-				)}
-			</div>
+				<div class="post-tail">
+					{changelog && changelog.length > 0 && (
+						<Changelog entries={changelog} />
+					)}
+
+					<!-- 文章结束标识和点赞 -->
+					<div class='post-end' aria-hidden="true">
+						<span class="post-end-text">End of entry</span>
+						<LikeButton id={postId || Astro.url.pathname} type="post" />
+					</div>
+				</div>
+			</article>
 
 			<!-- 导航按钮 -->
 			<NavButton showBackToTop={true} />
@@ -334,10 +369,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		{
 			showTOC && (
 				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='TOC' />
+					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
 				</div>
 			)
 		}
+	</div>
 	</div>
 
 	<!-- LightGallery JS (本地) -->
@@ -354,7 +390,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				try {
 					lgInstance.destroy(true);
 				} catch (e) {
-					console.log('清理旧实例');
+					// Ignore stale gallery instances during page transitions.
 				}
 				lgInstance = null;
 			}
@@ -416,7 +452,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				try {
 					lgInstance.destroy(true);
 				} catch (e) {
-					console.log('清理实例');
+					// Ignore stale gallery instances during page transitions.
 				}
 				lgInstance = null;
 			}

@@ -1,13 +1,15 @@
 ---
 slug: about
 title: About Me
-layout: About
+pageLayout: About
 ---
 
-## About Me
-
-Hi, I'm Link. This is the English version of my About page.
-
-I am a developer.
-
-
+<div class="about-panels">
+	<section class="about-panel">
+		<h2 class="indextitle">Bio</h2>
+		<ul class="about-facts">
+			<li>Backend / full-stack developer.</li>
+			<li>English mirror of the main About page.</li>
+		</ul>
+	</section>
+</div>

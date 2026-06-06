@@ -33,30 +33,29 @@ allPosts.forEach((post) => {
 	});
 });
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
+const featuredTopics = sortedTags.slice(0, 8);
 ---
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION} className="blog-surface-layout">
 	<div class="content-limit-width asym-layout">
 		<section class='home-hero' aria-labelledby='home-title'>
-			<div class="hero-left">
-				<p class='home-kicker'>
-					<span class="home-kicker__line">signal</span>
-					<span class="home-kicker__line home-kicker__line--muted">log</span>
+			<div class="hero-copy">
+				<p class='home-kicker'>Marginalia</p>
+				<h1 id='home-title'>Still making notes in the margins.</h1>
+				<p class="home-deck">
+					Code, projects, weather reports, and whatever refused to leave quietly.
 				</p>
-			</div>
-			<div class="hero-right">
-				<h1 id='home-title'>Thinking clearly through input, output, and the journey.</h1>
 			</div>
 		</section>
 
 		<section class='thought-stream' aria-labelledby='thought-stream-title'>
 			<div class='section-heading'>
 				<div>
-					<h2 id='thought-stream-title'>Recent Signals</h2>
+					<h2 id='thought-stream-title'>Latest Entries</h2>
 				</div>
 				<HeaderLink class="view-all" href='/blog'>All Posts →</HeaderLink>
 			</div>
-			<div class="stream-list">
+			<div class="stream-list paper-ledger">
 				{
 					recentPosts.map((post) => (
 						<article class='stream-card'>
@@ -82,15 +81,18 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			</div>
 		</section>
 
-		{sortedTags.length > 0 && (
+		{featuredTopics.length > 0 && (
 			<section class='home-tags'>
 			<div class='section-heading'>
 				<div>
-					<h2 class='indextitle'>Tags</h2>
+					<h2 class='indextitle'>Topics</h2>
 					</div>
+				{sortedTags.length > featuredTopics.length && (
+					<HeaderLink class="view-all" href='/tags/'>All Topics →</HeaderLink>
+				)}
 				</div>
 				<div class='tags'>
-					{sortedTags.map(([tag, count]) => (
+					{featuredTopics.map(([tag, count]) => (
 						<a href={`/tags/${tag}/`}>
 							<span class="tag-prefix">#</span>
 							<span class="tag-name">{tag}</span>
@@ -103,123 +105,145 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 	</div>
 
 	<style>
-		/* Base Mobile Layout */
 		.asym-layout {
 			display: flex;
 			flex-direction: column;
-			gap: 3rem;
-			padding-top: 1rem;
+			gap: clamp(2.5rem, 6vw, 3.5rem);
+			padding-top: 0.5rem;
 		}
 
 		.home-hero, .thought-stream, .home-tags {
 			display: flex;
 			flex-direction: column;
-			gap: 1.5rem;
+			gap: 1.25rem;
 		}
 
 		.home-hero {
-			padding-bottom: 3rem;
-			border-bottom: 1px dashed color-mix(in oklab, var(--gray-color) 25%, transparent);
+			padding: clamp(1.1rem, 3vw, 1.45rem) clamp(1.15rem, 3vw, 1.55rem) clamp(1.05rem, 2.6vw, 1.3rem);
+			gap: 0.75rem;
+			width: 100%;
 		}
 
 		.home-kicker,
 		.section-eyebrow {
 			margin: 0 0 0.75rem;
 			color: var(--gray-color);
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
-			font-size: 0.84rem;
-			letter-spacing: 0.08em;
-			text-transform: uppercase;
+			font-size: 0.72rem;
+			letter-spacing: 0.03em;
+			text-transform: none;
 			line-height: 1.45;
 		}
 
 		.home-kicker {
 			display: inline-flex;
-			flex-direction: column;
+			align-items: center;
 			gap: 0.45rem;
-			padding-left: 0;
-			border-left: none;
+			margin-bottom: 0;
+			font-family: var(--meta-font);
+			font-weight: 500;
+			color: color-mix(in oklab, var(--gray-color) 84%, var(--heading-color));
 		}
 
-		.home-kicker__line {
-			display: block;
-			white-space: nowrap;
+		.home-kicker::before {
+			content: "";
+			width: 0.38rem;
+			height: 0.38rem;
+			border-radius: 999px;
+			background: color-mix(in oklab, var(--accent-color) 46%, var(--content-bg));
+			flex: 0 0 auto;
+			opacity: 0.9;
 		}
 
-		.home-kicker__line--muted {
-			letter-spacing: 0.12em;
-			opacity: 0.68;
+		.hero-copy {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+			max-width: 38rem;
 		}
 
 		.home-hero h1 {
-			max-width: 15em;
+			max-width: 11.5em;
 			margin: 0;
-			color: var(--heading-color);
-			font-size: clamp(1.6rem, 4.5vw, 2.4rem);
-			font-weight: 600;
-			line-height: 1.25;
-			letter-spacing: -0.03em;
+			color: var(--panel-title-color);
+			font-family: var(--serif-font);
+			font-size: clamp(1.72rem, 4.2vw, 2.22rem);
+			font-weight: 500;
+			line-height: 1.18;
+			letter-spacing: -0.024em;
+			position: relative;
+			z-index: 1;
+		}
+
+		.home-deck {
+			max-width: 34ch;
+			margin: 0;
+			color: color-mix(in oklab, var(--text-color) 78%, var(--gray-color));
+			font-size: 0.92rem;
+			line-height: 1.66;
 		}
 
 		.section-heading {
 			display: flex;
-			align-items: baseline;
+			align-items: end;
 			justify-content: space-between;
 			gap: 1rem;
 		}
 
 		.section-heading h2, .indextitle {
 			margin: 0;
-			color: var(--heading-color);
-			font-size: clamp(1.2rem, 2.5vw, 1.45rem);
-			font-weight: 600;
-			letter-spacing: -0.02em;
 		}
 
 		.view-all {
 			color: var(--gray-color);
-			font-size: 0.9rem;
+			font-family: var(--field-font);
+			font-size: 0.72rem;
+			letter-spacing: 0.04em;
+			text-transform: none;
 			text-decoration: none;
-			border-bottom: 1px solid transparent;
+			border: none;
+			background: transparent;
+			padding: 0;
 			transition: color 0.2s ease;
 		}
 
 		.view-all:hover {
-			color: var(--heading-color);
-			border-bottom-color: currentColor;
+			color: color-mix(in oklab, var(--accent-color) 34%, var(--heading-color));
+			border-color: transparent;
+			transform: none;
 		}
 
 		.stream-list {
 			display: flex;
 			flex-direction: column;
+			gap: var(--blog-card-gap);
 		}
 
 		.stream-card {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5rem;
-			padding: 1.5rem 0;
-			border-top: 1px solid color-mix(in oklab, var(--gray-color) 12%, transparent);
+			display: grid;
+			grid-template-columns: var(--blog-meta-col) minmax(0, 1fr);
+			gap: 1.15rem;
+			padding: clamp(1rem, 3vw, 1.25rem);
 			transition: background-color 0.2s ease;
-		}
-
-		.stream-card:first-child {
-			border-top: none;
-			padding-top: 0;
 		}
 
 		.stream-meta {
 			color: var(--gray-color);
-			font-size: 0.85rem;
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-size: 0.74rem;
 			letter-spacing: 0.02em;
+			padding-top: 0.15rem;
+			white-space: nowrap;
+			transition: color 0.2s ease;
+		}
+
+		.stream-card:hover .stream-meta {
+			color: color-mix(in oklab, var(--accent-color) 44%, var(--gray-color));
 		}
 
 		.stream-card h3 {
-			margin: 0 0 0.4rem;
-			font-size: 1.15rem;
+			margin: 0 0 0.35rem;
+			font-size: 1.08rem;
 			font-weight: 600;
-			line-height: 1.4;
+			line-height: 1.42;
 			letter-spacing: -0.01em;
 		}
 
@@ -231,8 +255,8 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 		}
 
 		.stream-card h3 a:hover {
-			color: var(--link-color);
-			border-bottom-color: currentColor;
+			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+			border-bottom-color: color-mix(in oklab, var(--accent-color) 26%, transparent);
 		}
 
 		.stream-card p {
@@ -240,71 +264,95 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 			color: var(--text-color);
 			font-size: 0.95rem;
 			line-height: 1.65;
-			opacity: 0.9;
+			opacity: 0.84;
 		}
 
 		.tags {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.75rem 1.25rem;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr));
+			gap: var(--blog-card-gap, 0.75rem);
 		}
 
 		.tags a {
 			display: inline-flex;
 			align-items: baseline;
-			font-size: 0.95rem;
-			color: var(--text-color);
+			justify-content: space-between;
+			gap: 0.45rem;
+			min-height: 2.55rem;
+			padding: 0.58rem 0.72rem;
+			font-family: var(--field-font);
+			font-size: 0.82rem;
+			font-weight: 500;
+			letter-spacing: 0.015em;
+			color: color-mix(in oklab, var(--text-color) 82%, var(--gray-color));
 			text-decoration: none;
-			transition: all 0.2s ease;
+			border: 1px solid var(--paper-card-border-soft);
+			border-radius: var(--paper-card-radius);
+			background: var(--paper-field-bg);
+			transition:
+				color 0.2s ease,
+				background 0.2s ease,
+				border-color 0.2s ease;
 		}
 
 		.tags a:hover {
-			color: var(--heading-color);
+			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+			background: color-mix(in oklab, var(--accent-soft-bg) 55%, var(--paper-field-bg));
+			border-color: color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
+		}
+
+		.tags a + a::before {
+			content: none;
 		}
 
 		.tags a .tag-prefix {
 			color: var(--gray-color);
 			opacity: 0.5;
-			margin-right: 0.15rem;
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			margin-right: 0;
 			transition: all 0.2s ease;
 		}
 
+		.tags a .tag-name {
+			flex: 1;
+			min-width: 0;
+		}
+
 		.tags a .tag-count {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 1.35rem;
 			color: var(--gray-color);
 			font-size: 0.75rem;
 			margin-left: 0.3rem;
-			font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+			font-family: var(--field-font);
+			font-variant-numeric: tabular-nums;
 			transition: all 0.2s ease;
 		}
 
 		.tags a:hover .tag-prefix,
 		.tags a:hover .tag-count {
-			color: var(--heading-color);
-			opacity: 0.8;
+			color: color-mix(in oklab, var(--accent-color) 44%, var(--heading-color));
+			opacity: 0.85;
 		}
 
 		.home-tags {
-			margin-top: -1.5rem; /* 减小与上方文章列表的间距 */
-			margin-bottom: 2.5rem; /* 增加与下方 footer 的间距 */
+			margin-top: 0;
+			margin-bottom: 2rem;
 		}
 
-		/* Desktop Asymmetrical Layout */
 		@media (min-width: 768px) {
-			.home-hero, .thought-stream, .home-tags {
+			.thought-stream,
+			.home-tags {
 				display: grid;
 				grid-template-columns: 120px 1fr;
-				gap: 3.5rem;
+				gap: clamp(2rem, 5vw, 3.5rem);
 				align-items: baseline;
 			}
 
-			.home-hero {
-				padding-bottom: 4rem;
-			}
-
 			.home-hero h1 {
-				max-width: 16.5em;
-				font-size: clamp(1.95rem, 3vw, 2.15rem);
+				max-width: 12em;
+				font-size: clamp(1.96rem, 3vw, 2.28rem);
 				line-height: 1.16;
 			}
 
@@ -314,6 +362,17 @@ const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 				gap: 1.5rem;
 				position: sticky;
 				top: 2rem;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.stream-card {
+				grid-template-columns: 1fr;
+				gap: 0.45rem;
+			}
+
+			.stream-meta {
+				padding-top: 0;
 			}
 		}
 	</style>

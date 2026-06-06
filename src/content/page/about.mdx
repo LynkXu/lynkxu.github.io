@@ -5,37 +5,57 @@ pageLayout: About
 ---
 import SponsorAbout from '../../components/SponsorAbout.astro';
 
-#### Bio
-- Born in Anhui in 1998, living in Shanghai.
-- Got into programming by flashing custom Android ROMs in high school.
-- Backend/Full-stack developer at a foreign enterprise since 2023.
+<div class="about-panels">
+	<section class="about-panel">
+		<h2 class="indextitle">Work</h2>
+		<ul class="about-facts">
+			<li>Custom Android ROMs in high school, then backend / full-stack.</li>
+			<li>Prefer systems that stay understandable after the first week.</li>
+		</ul>
+	</section>
 
-#### Life
-- Enjoy sports: strength training, running, cycling.
-- Love nature and the great outdoors.
-- Appreciate both hanging out with friends and solitude.
-
-#### More
-
-<nav class="more-nav">
-  <a href="/media/">📚 Media</a>
-  <a href="/photography/">📷 Photography</a>
-  <a href="/travel/">🗺️ Travel</a>
-  <a href="/sports/">🏃 Sports</a>
-  <a href="/tools/">🛠️ Tools</a>
-  {/* <a href="/resume/">📄 Resume</a> */}
-  <a href="/copyright/">⚖️ Copyright</a>
-</nav>
-
-<div class="about-footer">
-  <div class="footer-section">
-    <span class="footer-label">Sponsor</span>
-    <SponsorAbout />
-  </div>
-
-  <div class="footer-section">
-    <span class="footer-label">About Blog</span>
-    <p>Powered by GitHub Pages + Astro. A proxy is recommended for a better browsing experience.</p>
-    <p>Posts are written in Obsidian, signals synced from Mastodon, media logged on NeoDB, and sports activities fetched from Strava.</p>
-  </div>
+	<section class="about-panel">
+		<h2 class="indextitle">Off hours</h2>
+		<ul class="about-facts">
+			<li>Strength training, running, cycling, and long walks.</li>
+			<li>Outdoors, weather, and a mix of company and solitude.</li>
+		</ul>
+	</section>
 </div>
+
+<section class="about-field about-field--pages">
+	<h2 class="indextitle">On this site</h2>
+	<nav class="about-pages" aria-label="More pages">
+		<a class="about-page-link" href="/media/">Media</a>
+		<a class="about-page-link" href="/photography/">Photography</a>
+		<a class="about-page-link" href="/travel/">Travel</a>
+		<a class="about-page-link" href="/sports/">Sports</a>
+		<a class="about-page-link" href="/tools/">Tools</a>
+		<a class="about-page-link" href="/copyright/">Copyright</a>
+	</nav>
+</section>
+
+<aside class="about-colophon">
+	<section class="about-chip">
+		<h2 class="indextitle about-colophon__label">Sponsor</h2>
+		<SponsorAbout />
+	</section>
+
+	<section class="about-chip about-blog">
+		<h2 class="indextitle about-colophon__label">About Blog</h2>
+		<dl class="about-blog-meta">
+			<div>
+				<dt>Stack</dt>
+				<dd>Astro · GitHub Pages</dd>
+			</div>
+			<div>
+				<dt>Writing</dt>
+				<dd>Obsidian first</dd>
+			</div>
+			<div>
+				<dt>Sync</dt>
+				<dd>Memos, media, and sports from elsewhere</dd>
+			</div>
+		</dl>
+	</section>
+</aside>

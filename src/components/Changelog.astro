@@ -23,7 +23,7 @@ function formatDate(date: Date): string {
 }
 ---
 
-<details class="changelog">
+<details class="changelog history-fold">
 	<summary class="changelog__summary">
 		<span class="changelog__label">修订记录</span>
 		<span class="changelog__count">{sorted.length} 条</span>
@@ -44,7 +44,7 @@ function formatDate(date: Date): string {
 
 <style is:global>
 	.changelog {
-		margin: var(--space-xs) 0 var(--space-3xl);
+		margin: 0;
 		font-size: var(--text-sm);
 		color: var(--gray-color);
 		font-family: var(--serif-font);
@@ -69,8 +69,8 @@ function formatDate(date: Date): string {
 		letter-spacing: 0.12em;
 		font-size: var(--text-xs);
 		text-transform: uppercase;
-		color: var(--accent-color);
-		opacity: 0.85;
+		color: color-mix(in oklab, var(--ink-accent) 68%, var(--gray-color));
+		opacity: 0.88;
 		transition: opacity 0.15s;
 	}
 
@@ -83,8 +83,8 @@ function formatDate(date: Date): string {
 
 	.changelog__arrow {
 		font-size: 0.9rem;
-		color: var(--accent-color);
-		opacity: 0.6;
+		color: color-mix(in oklab, var(--ink-accent) 68%, var(--gray-color));
+		opacity: 0.62;
 		transition: transform 0.2s ease, opacity 0.15s;
 		display: inline-block;
 		line-height: 1;
@@ -116,8 +116,9 @@ function formatDate(date: Date): string {
 	}
 
 	.changelog__date {
-		font-family: "JetBrains Mono", "Fira Code", Consolas, Menlo, monospace;
+		font-family: var(--field-font, "Lilex", ui-monospace, monospace);
 		font-size: var(--text-xs);
+		font-variant-numeric: tabular-nums;
 		opacity: 0.8;
 		white-space: nowrap;
 		flex-shrink: 0;
