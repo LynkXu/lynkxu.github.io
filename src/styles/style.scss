@@ -1568,6 +1568,23 @@ body:has(.blog-surface-layout) {
     border-bottom-color: rgba(255,255,255,0.1);
 }
 
+@keyframes corner-breathe {
+  0%, 100% { opacity: 0.42; }
+  50% { opacity: 0.72; }
+}
+
+.blog-surface-layout .home-hero::before,
+.blog-surface-layout .home-hero::after {
+  animation: corner-breathe 8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-surface-layout .home-hero::before,
+  .blog-surface-layout .home-hero::after {
+    animation: none;
+  }
+}
+
 @media (max-width: 768px) {
   .global-layout-transparent header {
       width: var(--container-reading);
