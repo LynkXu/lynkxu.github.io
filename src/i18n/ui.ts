@@ -8,7 +8,6 @@ export const defaultLang = 'zh';
 export const ui = {
   zh: {
     'nav.blog': '归档',
-    'nav.projects': '项目',
     'nav.gossips': 'Memos',
     'nav.message': 'Guestbook',
     'nav.about': '关于',
@@ -26,7 +25,6 @@ export const ui = {
   },
   en: {
     'nav.blog': 'Blog',
-    'nav.projects': 'Projects',
     'nav.gossips': 'Memos',
     'nav.message': 'Messages',
     'nav.about': 'About',
