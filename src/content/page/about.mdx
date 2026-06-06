@@ -7,54 +7,77 @@ import SponsorAbout from '../../components/SponsorAbout.astro';
 
 <div class="about-panels">
 	<section class="about-panel">
-		<h2 class="indextitle">Work</h2>
+		<div class="about-panel__header">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+			<h2 class="indextitle">工作</h2>
+		</div>
 		<ul class="about-facts">
-			<li>Custom Android ROMs in high school, then backend / full-stack.</li>
-			<li>Prefer systems that stay understandable after the first week.</li>
+			<li>高中折腾 Android ROM，后来做后端和全栈，现在上海。</li>
+			<li>喜欢写第一眼就能看懂、一个月后仍然能看懂的代码。</li>
 		</ul>
 	</section>
 
 	<section class="about-panel">
-		<h2 class="indextitle">Off hours</h2>
+		<div class="about-panel__header">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+			<h2 class="indextitle">日常</h2>
+		</div>
 		<ul class="about-facts">
-			<li>Strength training, running, cycling, and long walks.</li>
-			<li>Outdoors, weather, and a mix of company and solitude.</li>
+			<li>力量训练、跑步、骑车和长时间散步。</li>
+			<li>喜欢户外、关注天气、独处和人群都偶尔需要。</li>
 		</ul>
 	</section>
 </div>
 
 <section class="about-field about-field--pages">
-	<h2 class="indextitle">On this site</h2>
+	<div class="about-field__header">
+		<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+		<h2 class="indextitle">站点导航</h2>
+	</div>
 	<nav class="about-pages" aria-label="More pages">
-		<a class="about-page-link" href="/media/">Media</a>
-		<a class="about-page-link" href="/photography/">Photography</a>
-		<a class="about-page-link" href="/travel/">Travel</a>
-		<a class="about-page-link" href="/sports/">Sports</a>
-		<a class="about-page-link" href="/tools/">Tools</a>
-		<a class="about-page-link" href="/copyright/">Copyright</a>
+		<a class="about-page-link" href="/media/">影音</a>
+		<a class="about-page-link" href="/photography/">摄影</a>
+		<a class="about-page-link" href="/travel/">旅行</a>
+		<a class="about-page-link" href="/sports/">运动</a>
+		<a class="about-page-link" href="/tools/">工具</a>
 	</nav>
 </section>
 
 <aside class="about-colophon">
 	<section class="about-chip">
-		<h2 class="indextitle about-colophon__label">Sponsor</h2>
+		<div class="about-chip__header">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+			<h2 class="indextitle about-colophon__label">赞助</h2>
+		</div>
 		<SponsorAbout />
 	</section>
 
 	<section class="about-chip about-blog">
-		<h2 class="indextitle about-colophon__label">About Blog</h2>
+		<div class="about-chip__header">
+			<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+			<h2 class="indextitle about-colophon__label">关于博客</h2>
+		</div>
 		<dl class="about-blog-meta">
 			<div>
-				<dt>Stack</dt>
+				<dt>
+					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+					技术栈
+				</dt>
 				<dd>Astro · GitHub Pages</dd>
 			</div>
 			<div>
-				<dt>Writing</dt>
-				<dd>Obsidian first</dd>
+				<dt>
+					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+					写作
+				</dt>
+				<dd>Obsidian 为主</dd>
 			</div>
 			<div>
-				<dt>Sync</dt>
-				<dd>Memos, media, and sports from elsewhere</dd>
+				<dt>
+					<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+					同步
+				</dt>
+				<dd>Memos、影音和运动数据</dd>
 			</div>
 		</dl>
 	</section>

@@ -51,16 +51,16 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 	/* Fold */
 	.sponsor-fold {
-		background: rgba(0, 0, 0, 0.012);
-		border: none;
-		border-radius: 0;
+		background: var(--paper-field-bg);
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
 		overflow: hidden;
 		margin-bottom: 0.4rem;
 	}
 
 	:global([data-theme='dark']) .sponsor-fold {
-		border-color: transparent;
-		background: rgba(255, 255, 255, 0.02);
+		background: var(--paper-field-bg);
+		border-color: var(--paper-card-border-soft);
 	}
 
 	.sponsor-fold summary {
@@ -89,19 +89,19 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 	}
 
 	.sponsor-fold summary:hover {
-		background: rgba(0, 0, 0, 0.02);
+		background: color-mix(in oklab, var(--accent-soft-bg) 40%, transparent);
 	}
 
 	:global([data-theme='dark']) .sponsor-fold summary:hover {
-		background: rgba(255, 255, 255, 0.03);
+		background: color-mix(in oklab, var(--accent-soft-bg) 25%, transparent);
 	}
 
 	.sponsor-fold[open] summary {
-		border-bottom: none;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
 	:global([data-theme='dark']) .sponsor-fold[open] summary {
-		border-bottom-color: transparent;
+		border-bottom-color: var(--paper-card-border-soft);
 	}
 
 	/* Grid */
@@ -134,15 +134,15 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 	/* Card */
 	.sponsor-card {
-		background: rgba(255, 255, 255, 0.5);
-		border: 1px solid rgba(0, 0, 0, 0.04);
-		border-radius: 0;
+		background: var(--paper-card-bg);
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
 		padding: 0.55rem;
 	}
 
 	:global([data-theme='dark']) .sponsor-card {
-		background: rgba(0, 0, 0, 0.15);
-		border-color: rgba(255, 255, 255, 0.06);
+		background: var(--paper-card-bg);
+		border-color: var(--paper-card-border-soft);
 	}
 
 	.sponsor-card__name {
@@ -161,7 +161,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 	.sponsor-card__qr {
 		background: #fff;
-		border-radius: 0;
+		border-radius: var(--paper-card-radius);
 		padding: 0.25rem;
 		display: flex;
 		align-items: center;
@@ -174,6 +174,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		object-fit: contain;
 		margin: 0;
 		display: block;
+		border-radius: calc(var(--paper-card-radius) - 2px);
 	}
 
 	/* Address */
@@ -188,7 +189,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		flex: 1;
 		font-size: 0.68rem;
 		padding: 0.2rem 0.35rem;
-		border-radius: 0;
+		border-radius: var(--paper-card-radius);
 		background: rgba(0, 0, 0, 0.04);
 		word-break: break-all;
 		line-height: 1.4;
@@ -202,8 +203,8 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		flex-shrink: 0;
 		padding: 0.2rem;
 		background: none;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		border-radius: 0;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
 		color: var(--gray-color);
 		cursor: pointer;
 		display: flex;
@@ -213,7 +214,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 	}
 
 	:global([data-theme='dark']) .addr-copy {
-		border-color: rgba(255, 255, 255, 0.12);
+		border-color: var(--paper-card-border-soft);
 	}
 
 	.addr-copy:hover {
