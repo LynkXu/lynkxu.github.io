@@ -7,8 +7,7 @@ import TaxonomyHero from '../../components/TaxonomyHero.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
 export async function getStaticPaths() {
-	// 排除英文文章（en/ 前缀），英文标签页走 /en 侧
-	const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+	const allPosts = filterDrafts(await getCollection('blog'));
 	const tags = new Set();
 
 	// 收集所有标签
@@ -33,7 +32,7 @@ export async function getStaticPaths() {
 }
 
 const { posts, tag } = Astro.props;
-const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+const allPosts = filterDrafts(await getCollection('blog'));
 const tagsMap = new Map<string, number>();
 
 allPosts.forEach((post) => {

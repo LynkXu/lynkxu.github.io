@@ -1,5 +1,5 @@
 {
-  "name": "@anghunk/astro-blog",
+  "name": "lynkxu-blog",
   "type": "module",
   "version": "1.0.0",
   "private": true,
@@ -10,8 +10,7 @@
     "astro": "astro",
     "sync:mastodon": "node scripts/fetch-mastodon.js",
     "sync:neodb": "node scripts/fetch-neodb.js",
-    "copy-lightgallery": "node scripts/copy-lightgallery.js",
-    "analyze-bundle": "node scripts/analyze-bundle.js"
+    "copy-lightgallery": "node scripts/copy-lightgallery.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.9",

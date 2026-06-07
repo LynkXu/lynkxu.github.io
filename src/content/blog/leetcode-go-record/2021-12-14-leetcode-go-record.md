@@ -7,7 +7,6 @@ tags:
   - 研究生
   - 工作
   - 算法
-heroImage: './thumbnail.jpg'
 ---
 
 ## 更新
