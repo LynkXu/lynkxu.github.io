@@ -384,9 +384,9 @@ body:has(.blog-surface-layout) {
   gap: 0.65rem clamp(1.2rem, 3vw, 2rem);
   width: min(var(--blog-content-width), calc(100% - 2 * var(--page-inline)));
   margin-inline: auto;
-  margin-bottom: clamp(var(--space-xl), 5vw, var(--space-2xl));
-  padding: 0 0 clamp(0.72rem, 1.8vw, 0.9rem);
-  border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 84%, transparent);
+  margin-bottom: clamp(var(--space-md), 2.2vw, var(--space-lg));
+  padding: 0;
+  border-bottom: none;
   position: relative;
 }
 
@@ -395,7 +395,7 @@ body:has(.blog-surface-layout) {
 }
 
 .global-layout-card.blog-surface-layout > header {
-  margin-bottom: clamp(var(--space-2xl), 6vw, var(--space-3xl));
+  margin-bottom: clamp(var(--space-lg), 3.5vw, var(--space-xl));
 }
 
 .blog-surface-layout .title {
@@ -2862,8 +2862,8 @@ ul.posts li a:visited {
   }
 
   .blog-surface-layout > header {
-    margin-bottom: var(--space-xl);
-    padding-bottom: var(--space-md);
+    margin-bottom: var(--space-md);
+    padding-bottom: 0;
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
