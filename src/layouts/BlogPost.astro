@@ -1,9 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import Base from './Base.astro';
+import MagazineShell from './MagazineShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Toc from '../components/Toc.astro';
-import LeftSidebar from '../components/LeftSidebar.astro';
 import NavButton from '../components/NavButton.astro';
 import Changelog from '../components/Changelog.astro';
 import LikeButton from '../components/LikeButton.astro';
@@ -37,25 +36,12 @@ const primaryKind = categories?.[0] ?? tags?.[0] ?? 'essay';
 const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 ---
 
-<Base title={title} description={description || ''} className="blog-post-layout blog-surface-layout">
+<MagazineShell title={title} description={description || ''} className="blog-post-layout">
 	<!-- LightGallery CSS (本地) -->
 	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
 
 	<style is:global>
 		/* 文章结束标识 */
-		.global-layout-card.blog-post-layout {
-			display: flex;
-			flex-direction: column;
-		}
-
-		.global-layout-card.blog-post-layout > main,
-		.blog-post-layout .blog-layout,
-		.blog-post-layout .blog-main-column {
-			display: flex;
-			flex: 1;
-			flex-direction: column;
-		}
-
 		.post-tail {
 			display: flex;
 			flex-direction: column;
@@ -65,25 +51,46 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-end {
-			margin: 0;
-			padding: 0;
 			display: flex;
-			justify-content: space-between;
+			flex-direction: column;
 			align-items: center;
+			gap: 1.25rem;
+			margin: 0;
+			padding: 0.6rem 0 0.2rem;
 		}
 
 		.post-tail .changelog {
 			margin: 0 !important;
 		}
 
+		.post-end-mark {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			width: 100%;
+			max-width: 16rem;
+		}
 
+		.post-end-line {
+			flex: 1;
+			height: 1px;
+			background: linear-gradient(
+				90deg,
+				transparent 0%,
+				color-mix(in oklab, var(--paper-card-border-soft) 80%, transparent) 50%,
+				transparent 100%
+			);
+		}
 
 		.post-end-text {
+			flex-shrink: 0;
 			color: var(--gray-color);
-			opacity: 0.62;
+			opacity: 0.5;
 			font-family: var(--meta-font);
-			font-size: 0.8rem;
-			letter-spacing: 0.02em;
+			font-size: 0.75rem;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			white-space: nowrap;
 		}
 
 		/* Code Block Wrapper */
@@ -118,7 +125,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 0 var(--space-md);
 			background: transparent;
 			z-index: 10;
-			/* 让鼠标事件穿透 Header 背景，但保留按钮的交互 */
 			pointer-events: none;
 		}
 
@@ -126,7 +132,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			pointer-events: auto;
 		}
 
-		/* Code block decorative dots - 克制的单色风格 */
 		.mac-buttons {
 			display: flex;
 			gap: 6px;
@@ -140,7 +145,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			opacity: 0.25;
 		}
 
-		/* Language Label */
 		.code-lang {
 			font-size: 0.75rem;
 			color: var(--gray-color);
@@ -154,21 +158,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			user-select: none;
 		}
 
-		.post-header {
-			display: block;
-			transform: none;
-			margin: 0;
-			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) clamp(1.05rem, 2.6vw, 1.25rem);
-			border: none;
-			border-bottom: 1px solid var(--paper-card-border-soft);
-			border-radius: 0;
-			background:
-				linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 26%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 100%);
-		}
-
 		.entry-sheet {
-			--post-inline-padding: clamp(1.1rem, 2.9vw, 1.45rem);
-			--post-content-width: calc(var(--measure-readable) + var(--post-inline-padding) + var(--post-inline-padding));
+			--measure-readable: 76ch;
+			--post-inline-padding: clamp(0.8rem, 2.2vw, 1.05rem);
+			--post-rail-width: calc(var(--measure-readable) + var(--post-inline-padding) + var(--post-inline-padding));
+			--post-content-width: var(--post-rail-width);
 			display: flex;
 			flex-direction: column;
 			border: 1px solid var(--paper-card-border-soft);
@@ -176,39 +170,80 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: var(--paper-card-bg);
 			box-shadow: var(--paper-card-shadow);
 			overflow: hidden;
-			margin-bottom: clamp(2rem, 4.5vw, 3rem);
+			margin-bottom: 0;
+		}
+
+		.post-header {
+			display: flex;
+			flex-direction: column;
+			margin: 0;
+			padding: clamp(1.3rem, 3.2vw, 1.7rem) 0 clamp(1.1rem, 2.8vw, 1.4rem);
+			border: none;
+			border-bottom: 1px solid var(--paper-card-border-soft);
+			border-radius: 0;
+			background:
+				linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 22%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 100%);
+		}
+
+		.post-flow {
+			width: 100%;
+			max-width: var(--post-rail-width);
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: var(--post-inline-padding);
+			padding-right: var(--post-inline-padding);
+		}
+
+		.post-header-inner {
+			display: flex;
+			flex-direction: column;
+			gap: 0.85rem;
+		}
+
+		.post-meta-bar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 0.28rem;
+			font-family: var(--field-font);
+			font-size: 0.78rem;
+			color: var(--gray-color);
+			letter-spacing: 0.01em;
+		}
+
+		.post-meta-sep {
+			opacity: 0.35;
+		}
+
+		.post-kind {
+			display: inline-flex;
+			align-items: center;
+			padding: 0.2em 0.55em;
+			background: color-mix(in oklab, var(--accent-soft-bg) 55%, var(--paper-card-bg));
+			border: 1px solid color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
+			border-radius: 3px;
+			font-size: 0.72rem;
+			font-weight: 500;
+			color: color-mix(in oklab, var(--accent-color) 45%, var(--gray-color));
+			letter-spacing: 0.01em;
+			line-height: 1.3;
 		}
 
 		.post-header .post-title {
-			display: block;
-			width: 100%;
-			max-width: var(--post-content-width);
-			margin: 0 auto;
+			margin: 0;
 			font-family: var(--serif-font);
-			font-size: clamp(1.82rem, 4vw, 2.72rem);
+			font-size: clamp(1.72rem, 3.6vw, 2.55rem);
 			font-weight: 500;
-			line-height: 1.12;
-			letter-spacing: -0.024em;
+			line-height: 1.14;
+			letter-spacing: -0.022em;
+			color: var(--panel-title-color);
 		}
 
 		.post-description {
-			max-width: 34rem;
-			margin: 0.85rem auto 0;
-			color: color-mix(in oklab, var(--gray-color) 78%, var(--text-color));
-			font-size: 0.96rem;
-			line-height: 1.76;
-		}
-
-		.post-header .post-meta {
-			margin-top: 0.9rem;
-			font-size: 0.86rem;
-		}
-
-		.post-header > :where(.post-kicker, .post-meta) {
-			width: 100%;
-			max-width: var(--post-content-width);
-			margin-left: auto;
-			margin-right: auto;
+			margin: 0;
+			color: color-mix(in oklab, var(--gray-color) 72%, var(--text-color));
+			font-size: 0.95rem;
+			line-height: 1.72;
 		}
 
 		/* Copy Button */
@@ -223,7 +258,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 4px;
 			border-radius: 0;
 			transition: all 0.2s;
-			opacity: 0.0; /* 默认隐藏，悬停显示 */
+			opacity: 0.0;
 		}
 
 		.code-wrapper:hover .copy-btn {
@@ -245,7 +280,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: rgba(255, 255, 255, 0.1);
 		}
 
-		/* Pre override inside wrapper */
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
@@ -253,10 +287,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: transparent !important;
 		}
 
-		/* Keep the actual text measure close to 70ch after padding is applied. */
 		.blog-main-column .post-content {
 			width: 100%;
-			max-width: var(--post-content-width);
+			max-width: var(--post-rail-width);
 			margin-left: auto;
 			margin-right: auto;
 			padding: clamp(1.2rem, 3vw, 1.55rem) var(--post-inline-padding) clamp(1.5rem, 3.5vw, 2rem);
@@ -272,26 +305,99 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-tail {
 			position: relative;
-			padding: clamp(1.7rem, 3.8vw, 2.1rem) var(--post-inline-padding) clamp(0.8rem, 1.6vw, 1rem);
+			padding: clamp(1.7rem, 3.8vw, 2.1rem) 0 clamp(0.8rem, 1.6vw, 1rem);
 			border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
 			background: color-mix(in oklab, var(--content-bg) 74%, var(--paper-field-bg));
 		}
 
-		.post-tail > :where(.history-fold, .post-end) {
-			width: 100%;
-			max-width: var(--post-content-width);
-			margin-left: auto;
-			margin-right: auto;
+		.post-tail-inner {
+			display: flex;
+			flex-direction: column;
+			gap: clamp(1.25rem, 3vw, 1.5rem);
 		}
 
-		.post-tail > .history-fold.changelog {
+		.post-tail-inner > .history-fold.changelog {
 			margin-left: auto !important;
 			margin-right: auto !important;
 		}
 
-		.post-end {
+		/* Sidebar TOC card */
+		.sidebar-toc-card {
+			margin-top: 0.85rem;
+			padding: 0.85rem 0.75rem;
+			border: 1px solid var(--paper-card-border-soft);
+			border-radius: var(--paper-card-radius);
+			background: var(--paper-card-bg);
+			box-shadow: var(--paper-card-shadow);
+			max-height: calc(100vh - 420px);
+			overflow-y: auto;
+			animation: fade-up 0.5s ease-out 0.15s both;
+		}
+
+		/* 去掉 Toc 组件自带的卡片层，只保留 sidebar-toc-card 一层 */
+		.sidebar-toc-card .toc-container {
+			background: none !important;
+			border: none !important;
+			box-shadow: none !important;
+			border-radius: 0 !important;
+			padding: 0 !important;
+		}
+
+		.sidebar-toc-card .toc-header {
+			font-family: var(--serif-font);
+			font-size: 0.78rem;
+			font-weight: 500;
+			color: var(--panel-title-color);
+			margin-bottom: 0.5rem;
+			padding-bottom: 0.4rem;
+			border-bottom: 1px solid var(--paper-card-border-soft);
+			letter-spacing: 0.02em;
+		}
+
+		.sidebar-toc-card .toc-list {
+			list-style: none;
 			margin: 0;
 			padding: 0;
+			display: flex;
+			flex-direction: column;
+			gap: 0.15rem;
+		}
+
+		.sidebar-toc-card .toc-list .toc-list {
+			margin-left: 0.6rem;
+			padding-left: 0.4rem;
+			border-left: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 60%, transparent);
+			margin-top: 0.15rem;
+			gap: 0.1rem;
+		}
+
+		.sidebar-toc-card .toc-link {
+			display: block;
+			padding: 0.2rem 0.35rem;
+			font-size: 0.72rem;
+			line-height: 1.45;
+			color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
+			text-decoration: none;
+			border-radius: 3px;
+			transition: color 0.15s ease, background 0.15s ease;
+			word-break: break-word;
+		}
+
+		.sidebar-toc-card .toc-link:hover {
+			color: var(--heading-color);
+			background: color-mix(in oklab, var(--accent-soft-bg) 45%, transparent);
+		}
+
+		.sidebar-toc-card .toc-link.active {
+			color: var(--heading-color);
+			font-weight: 500;
+			background: color-mix(in oklab, var(--accent-soft-bg) 65%, transparent);
+		}
+
+		@media (max-width: 1023px) {
+			.sidebar-toc-card {
+				display: none;
+			}
 		}
 
 		@media (max-width: 720px) {
@@ -306,71 +412,71 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				max-width: var(--post-content-width);
 			}
 		}
-
 	</style>
 
-	<div class={`article-page-shell ${showTOC ? 'has-sidebar' : ''}`}>
-	<div class={`blog-layout ${showTOC ? 'has-sidebar' : ''}`}>
-		
-		<LeftSidebar details={{ pubDate, readingTime }} />
+	{showTOC && (
+		<div slot="sidebar-extra" class="sidebar-toc-card">
+			<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
+		</div>
+	)}
 
-		<div class="blog-main-column">
-			<article class="entry-sheet">
-				<header class='post-header'>
-					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-					<p class='post-kicker page-rail__meta'>
-						<span>{primaryKind}</span>
-						<span class='post-kicker__separator'>·</span>
+	<div class="blog-main-column">
+		<article class="entry-sheet">
+			<header class='post-header'>
+				<div class="post-flow post-header-inner">
+					<div class='post-meta-bar'>
+						<span class='post-kind'>{primaryKind}</span>
+						<span class='post-meta-sep'>·</span>
 						<FormattedDate date={pubDate} />
 						{readingTime && (
 							<>
-								<span class='post-kicker__separator'>·</span>
+								<span class='post-meta-sep'>·</span>
 								<span>{readingTime} min read</span>
 							</>
 						)}
-					</p>
+						{hasPostMeta && (
+							<>
+								<span class='post-meta-sep'>·</span>
+								{updatedDate && (
+									<span>Updated <FormattedDate date={updatedDate} /></span>
+								)}
+								{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
+							</>
+						)}
+					</div>
+
+					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+
 					{description && <p class='post-description'>{description}</p>}
-					{hasPostMeta && (
-						<div class="post-meta" role="note" aria-label="Post info">
-							{updatedDate && (
-								<span>Updated at <FormattedDate date={updatedDate} /></span>
-							)}
-							{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
-						</div>
-					)}
-				</header>
-
-				<!-- 主内容区 -->
-				<div class='post-content content' id='lightgallery'>
-					<slot />
 				</div>
+			</header>
 
-				<div class="post-tail">
+			<!-- 主内容区 -->
+			<div class='post-content content' id='lightgallery'>
+				<slot />
+			</div>
+
+			<div class="post-tail">
+				<div class="post-flow post-tail-inner">
 					{changelog && changelog.length > 0 && (
 						<Changelog entries={changelog} />
 					)}
 
 					<!-- 文章结束标识和点赞 -->
 					<div class='post-end' aria-hidden="true">
-						<span class="post-end-text">End of entry</span>
+						<div class="post-end-mark">
+							<span class="post-end-line" aria-hidden="true"></span>
+							<span class="post-end-text">End of entry</span>
+							<span class="post-end-line" aria-hidden="true"></span>
+						</div>
 						<LikeButton id={postId || Astro.url.pathname} type="post" />
 					</div>
 				</div>
-			</article>
+			</div>
+		</article>
 
-			<!-- 导航按钮 -->
-			<NavButton showBackToTop={true} />
-		</div>
-
-		<!-- 目录侧边栏 -->
-		{
-			showTOC && (
-				<div class='blog-sidebar'>
-					<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='目录' />
-				</div>
-			)
-		}
-	</div>
+		<!-- 导航按钮 -->
+		<NavButton showBackToTop={true} />
 	</div>
 
 	<!-- LightGallery JS (本地) -->
@@ -378,107 +484,75 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 	<!-- 初始化 LightGallery -->
 	<script is:inline>
-		// 用于存储 lightGallery 实例
 		let lgInstance = null;
 
 		function initLightGallery() {
-			// 销毁之前的实例（如果存在）
 			if (lgInstance) {
 				try {
 					lgInstance.destroy(true);
-				} catch (e) {
-					// Ignore stale gallery instances during page transitions.
-				}
+				} catch (e) {}
 				lgInstance = null;
 			}
 
-			// 为文章内容中的所有图片添加链接包装
 			const postContent = document.querySelector('.post-content');
 			if (postContent) {
 				const images = postContent.querySelectorAll('img');
 				images.forEach(function (img) {
-					// 将 src 属性改为 data-src 以支持懒加载
 					const src = img.src;
-
-					// 如果图片已经被链接包裹，则跳过
 					if (img.parentElement.tagName === 'A') {
 						return;
 					}
-
-					// 创建链接元素
 					const link = document.createElement('a');
-					link.href = src; // 使用原始的 src 作为链接地址
+					link.href = src;
 					link.className = 'no-link';
 					link.setAttribute('data-sub-html', img.alt || '');
-
-					// 将图片包装在链接中
 					img.parentNode.insertBefore(link, img);
 					link.appendChild(img);
-
 				});
 
-				// 初始化 lightGallery
-				const container = document.getElementById('lightgallery');
-				if (container && typeof lightGallery !== 'undefined') {
-					lgInstance = lightGallery(container, {
+			const container = document.getElementById('lightgallery');
+			if (container && typeof window !== 'undefined' && 'lightGallery' in window) {
+				// @ts-ignore
+				lgInstance = window.lightGallery(container, {
 						selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
 						mode: 'lg-fade',
 						cssEasing: 'ease',
 						speed: 600,
 						hideBarsDelay: 2000,
 						controls: true,
-						// mousewheel: true,
 						download: true,
 						counter: true,
-
 						thumbnail: true,
 					});
 				}
 			}
 		}
 
-		// 首次加载时初始化
 		document.addEventListener('DOMContentLoaded', initLightGallery);
-
-		// 支持 Astro View Transitions（如果启用的话）
 		document.addEventListener('astro:page-load', initLightGallery);
-
-		// 在页面切换前清理
 		document.addEventListener('astro:before-preparation', function () {
 			if (lgInstance) {
 				try {
 					lgInstance.destroy(true);
-				} catch (e) {
-					// Ignore stale gallery instances during page transitions.
-				}
+				} catch (e) {}
 				lgInstance = null;
 			}
 		});
 	</script>
 
 	<script is:inline>
-		// 添加复制按钮和语言标签到代码块
 		function addCopyButtons() {
 			const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
 			codeBlocks.forEach((block) => {
-				// 标记已处理的代码块
 				block.classList.add('code-block-added');
-
-				// 创建包装容器
 				const wrapper = document.createElement('div');
 				wrapper.className = 'code-wrapper';
-
-				// 插入包装器并移动 pre
 				if (block.parentNode) {
 					block.parentNode.insertBefore(wrapper, block);
 					wrapper.appendChild(block);
 				}
-
-				// 创建头部
 				const header = document.createElement('div');
 				header.className = 'code-header';
-
-				// Mac 风格按钮
 				const macButtons = document.createElement('div');
 				macButtons.className = 'mac-buttons';
 				['close', 'minimize', 'maximize'].forEach(type => {
@@ -486,46 +560,31 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					btn.className = `mac-button ${type}`;
 					macButtons.appendChild(btn);
 				});
-
-				// 获取 code 元素（在 forEach 顶层定义，供后续复制功能使用）
 				const code = block.querySelector('code');
-
-				// 获取语言
 				let lang = '';
-				// 尝试从 pre 的 data-language 属性获取
 				if (block.dataset.language) {
 					lang = block.dataset.language;
-				}
-				// 尝试从 code 的 class 获取
-				else if (code) {
+				} else if (code) {
 					const classList = code.className.split(' ');
 					const langClass = classList.find(c => c.startsWith('language-'));
 					if (langClass) {
 						lang = langClass.replace('language-', '');
 					}
 				}
-
-				// 语言标签
 				const langLabel = document.createElement('span');
 				langLabel.className = 'code-lang';
 				langLabel.textContent = lang;
-
-				// 复制按钮
 				const copyBtn = document.createElement('button');
 				copyBtn.className = 'copy-btn';
 				copyBtn.setAttribute('aria-label', 'Copy');
 				copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-
-				// 复制功能
 				copyBtn.addEventListener('click', async () => {
 					try {
 						if (code) {
 							const text = code.innerText;
 							await navigator.clipboard.writeText(text);
-
 							copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
 							copyBtn.classList.add('copied');
-
 							setTimeout(() => {
 								copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
 								copyBtn.classList.remove('copied');
@@ -535,25 +594,18 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 						console.error('Copy failed:', err);
 					}
 				});
-
 				header.appendChild(macButtons);
 				header.appendChild(langLabel);
 				header.appendChild(copyBtn);
-
-				// 将头部添加到包装器最前面
 				wrapper.insertBefore(header, block);
 			});
 		}
 
 		window.addEventListener('DOMContentLoaded', function () {
-			// 初始化复制按钮
 			addCopyButtons();
 		});
-
-		// 支持 Astro View Transitions（如果启用的话）
 		document.addEventListener('astro:page-load', function () {
 			addCopyButtons();
 		});
 	</script>
-
-</Base>
+</MagazineShell>

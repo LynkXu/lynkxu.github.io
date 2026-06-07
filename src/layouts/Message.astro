@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import Base from './Base.astro';
+import MagazineShell from './MagazineShell.astro';
 import Comments from '../components/Comments.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
@@ -10,20 +10,56 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 ---
 
-<Base title={title} description={title} className="blog-surface-layout">
-	<div class="content-limit-width list-stack page-shell">
-		<section class="list-surface list-surface--lead">
-			<header class="page-rail">
-				<h1 id='page-title'>{title}</h1>
-				<p class="page-rail__meta">leave a note</p>
-			</header>
-			<div class="list-main list-main--spacer" aria-hidden="true"></div>
-		</section>
-
-		<div class="list-ledger guestbook-ledger">
-			<div class="comments-wrapper">
-				<Comments showLinuxDo={false} manualTwikooLoad={true} />
-			</div>
-		</div>
+<MagazineShell title={title} description={title}>
+	<div class="message-header">
+		<h1 class="page-title">{title}</h1>
+		<p class="page-meta">leave a note</p>
 	</div>
-</Base>
+
+	<div class="message-card">
+		<Comments showLinuxDo={false} manualTwikooLoad={true} />
+	</div>
+</MagazineShell>
+
+<style>
+	.message-header {
+		margin-bottom: 0.5rem;
+		animation: fade-up 0.5s ease-out both;
+	}
+
+	.page-title {
+		margin: 0;
+		font-family: var(--serif-font);
+		font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+		font-weight: 500;
+		color: var(--heading-color);
+		letter-spacing: -0.01em;
+	}
+
+	.page-meta {
+		margin: 0.35rem 0 0;
+		font-size: 0.82rem;
+		color: var(--gray-color);
+	}
+
+	.message-card {
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+		padding: clamp(1.2rem, 3vw, 1.8rem);
+		animation: fade-up 0.5s ease-out 0.1s both;
+	}
+
+	@keyframes fade-up {
+		from { opacity: 0; transform: translateY(10px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.message-header,
+		.message-card {
+			animation: none;
+		}
+	}
+</style>

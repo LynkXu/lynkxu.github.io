@@ -1,0 +1,360 @@
+---
+import Base from './Base.astro';
+import { getCollection } from 'astro:content';
+import { filterDrafts } from '../utils/drafts';
+
+interface Props {
+	title: string;
+	description: string;
+	className?: string;
+}
+
+const { title, description, className = '' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
+
+const tagsMap = new Map<string, number>();
+allPosts.forEach((post) => {
+	(post.data.tags || []).forEach((tag) => {
+		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+	});
+});
+const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
+
+const navItems = [
+	{ href: '/blog', label: 'Archive' },
+	{ href: '/shuoshuo', label: 'Memos' },
+	{ href: '/message', label: 'Guestbook' },
+	{ href: '/about', label: 'About' },
+	{ href: '/index.xml', label: 'RSS' },
+];
+
+function isActive(href: string) {
+	if (href === '/') return currentPath === '/';
+	return currentPath === href || currentPath.startsWith(href + '/');
+}
+---
+
+<Base title={title} description={description} className={`blog-surface-layout ${className}`}>
+	<div class="magazine-shell">
+		<!-- 左侧个人档案栏 -->
+		<aside class="profile-sidebar" aria-label="Author profile">
+			<div class="profile-card">
+				<a href="/" class="profile-avatar-link" aria-label="回到首页">
+					<img src="/avatar.png" alt="" class="profile-avatar" loading="eager" width="72" height="72" />
+				</a>
+				<div class="profile-info">
+					<h2 class="profile-name">LynkXu</h2>
+					<p class="profile-bio">在做一些旁注和思考</p>
+				</div>
+				<div class="profile-stats">
+					<div class="stat-item">
+						<span class="stat-num">{allPosts.length}</span>
+						<span class="stat-label">Entries</span>
+					</div>
+					<div class="stat-sep" aria-hidden="true">·</div>
+					<div class="stat-item">
+						<span class="stat-num">{sortedTags.length}</span>
+						<span class="stat-label">Topics</span>
+					</div>
+					<div class="stat-sep" aria-hidden="true">·</div>
+					<div class="stat-item">
+						<span class="stat-num">2021</span>
+						<span class="stat-label">Since</span>
+					</div>
+				</div>
+				<nav class="profile-nav" aria-label="Quick navigation">
+					{navItems.map((item) => (
+						<a
+							href={item.href}
+							class:list={['profile-nav-link', { active: isActive(item.href) }]}
+							aria-current={isActive(item.href) ? 'page' : undefined}
+						>
+							{item.label}
+						</a>
+					))}
+				</nav>
+			</div>
+			<slot name="sidebar-extra" />
+		</aside>
+
+		<!-- 右侧主内容 -->
+		<main class="magazine-main">
+			<slot />
+		</main>
+	</div>
+</Base>
+
+<style is:global>
+	/* ── Magazine Shell ── */
+	.magazine-shell {
+		display: grid;
+		grid-template-columns: 220px 1fr;
+		gap: clamp(2rem, 4vw, 3.5rem);
+		width: min(var(--blog-shell-width), calc(100% - 2 * var(--page-inline)));
+		margin: 0 auto;
+		padding: clamp(0.5rem, 1.4vw, 0.85rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+	}
+
+	/* ── Profile Sidebar ── */
+	.profile-sidebar {
+		position: sticky;
+		top: 2rem;
+		align-self: start;
+	}
+
+	.profile-card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.35rem;
+		padding: clamp(1.6rem, 3.5vw, 2.2rem) clamp(1rem, 2vw, 1.25rem);
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+		text-align: center;
+	}
+
+	.profile-avatar-link {
+		display: block;
+		border: none !important;
+		background: none !important;
+		line-height: 0;
+		border-radius: 50%;
+	}
+
+	.profile-avatar-link:hover {
+		transform: none;
+	}
+
+	.profile-avatar {
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 2px solid color-mix(in oklab, var(--paper-card-border-soft) 60%, transparent);
+		background: var(--paper-field-bg);
+		transition: border-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.profile-avatar-link:hover .profile-avatar {
+		border-color: color-mix(in oklab, var(--accent-color) 30%, var(--paper-card-border-soft));
+		transform: scale(1.04);
+	}
+
+	.profile-info {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.profile-name {
+		margin: 0;
+		font-family: var(--serif-font);
+		font-size: 1.15rem;
+		font-weight: 500;
+		color: var(--heading-color);
+		letter-spacing: -0.01em;
+	}
+
+	.profile-bio {
+		margin: 0;
+		font-size: 0.82rem;
+		color: var(--gray-color);
+		line-height: 1.5;
+	}
+
+	.profile-stats {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.4rem;
+		width: 100%;
+		padding: 0.6rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.15rem;
+	}
+
+	.stat-num {
+		font-family: var(--field-font);
+		font-size: 0.92rem;
+		font-weight: 500;
+		color: var(--heading-color);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.stat-label {
+		font-size: 0.65rem;
+		color: var(--gray-color);
+		letter-spacing: 0.02em;
+	}
+
+	.stat-sep {
+		color: var(--gray-color);
+		opacity: 0.35;
+		font-size: 0.8rem;
+	}
+
+	.profile-nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		width: 100%;
+	}
+
+	.profile-nav-link {
+		display: block;
+		padding: 0.4rem 0.6rem;
+		font-family: var(--field-font);
+		font-size: 0.8rem;
+		color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
+		text-decoration: none;
+		border-radius: 4px;
+		transition: color 0.2s ease, background 0.2s ease;
+		border: none !important;
+		background: none !important;
+	}
+
+	.profile-nav-link:hover {
+		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+		background: color-mix(in oklab, var(--accent-soft-bg) 50%, transparent) !important;
+	}
+
+	.profile-nav-link.active {
+		color: var(--heading-color);
+		font-weight: 500;
+		background: color-mix(in oklab, var(--accent-soft-bg) 70%, transparent) !important;
+	}
+
+	/* ── Main Content ── */
+	.magazine-main {
+		display: flex;
+		flex-direction: column;
+		gap: var(--blog-card-gap);
+		min-width: 0;
+	}
+
+	/* ── Animations ── */
+	@keyframes fade-up {
+		from {
+			opacity: 0;
+			transform: translateY(12px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.profile-card {
+		animation: fade-up 0.6s ease-out both;
+	}
+
+	/* ── Responsive: Tablet ── */
+	@media (max-width: 1023px) {
+		.magazine-shell {
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			padding-top: 0.8rem;
+		}
+
+		.profile-sidebar {
+			position: static;
+			order: -1;
+		}
+
+		.profile-card {
+			flex-direction: row;
+			align-items: center;
+			text-align: left;
+			gap: 1.1rem;
+			padding: 1.15rem 1.25rem;
+		}
+
+		.profile-avatar {
+			width: 56px;
+			height: 56px;
+			flex-shrink: 0;
+		}
+
+		.profile-info {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.profile-stats {
+			width: auto;
+			border: none;
+			padding: 0;
+			gap: 0.6rem;
+		}
+
+		.profile-nav {
+			display: none;
+		}
+	}
+
+	/* ── Responsive: Mobile ── */
+	@media (max-width: 767px) {
+		.profile-card {
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			gap: 0.65rem;
+			padding: 1.35rem 1rem;
+		}
+
+		.profile-info {
+			min-width: auto;
+		}
+
+		.profile-avatar {
+			width: 56px;
+			height: 56px;
+		}
+
+		.profile-stats {
+			justify-content: center;
+			padding: 0.4rem 0;
+			border-top: 1px solid var(--paper-card-border-soft);
+			border-bottom: 1px solid var(--paper-card-border-soft);
+			width: 100%;
+			margin-top: 0.2rem;
+		}
+
+		.profile-name {
+			font-size: 1.05rem;
+		}
+
+		.profile-bio {
+			font-size: 0.78rem;
+		}
+	}
+
+	/* ── Reduced motion ── */
+	@media (prefers-reduced-motion: reduce) {
+		.profile-card {
+			animation: none;
+		}
+	}
+
+	/* ── Header with sidebar: hide nav & brand on desktop ── */
+	@media (min-width: 1024px) {
+		.blog-surface-layout:has(.magazine-shell) > header nav.section-nav {
+			display: none;
+		}
+
+		.blog-surface-layout:has(.magazine-shell) > header .title {
+			display: none;
+		}
+	}
+</style>

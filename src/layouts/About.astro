@@ -1,19 +1,71 @@
 ---
-import Base from './Base.astro';
-import TaxonomyHero from '../components/TaxonomyHero.astro';
+import MagazineShell from './MagazineShell.astro';
 
 const { title } = Astro.props;
 ---
 
-<Base title={title} description={title} className="blog-surface-layout">
-	<div class="content-limit-width about-index">
-		<TaxonomyHero
-			title="👋Hi, I am Lynk"
-			description="有些话适合当面说，有些话适合走很远之后，再慢慢写下来。"
-		/>
-
-		<div class="about-sheet">
-			<slot />
-		</div>
+<MagazineShell title={title} description={title}>
+	<div class="about-hero">
+		<h1 class="about-hero__title">{title}</h1>
+		<p class="about-hero__desc">作者、站点与更多</p>
 	</div>
-</Base>
+	<div class="about-sheet">
+		<slot />
+	</div>
+</MagazineShell>
+
+<style is:global>
+	/* About hero */
+	.about-hero {
+		position: relative;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background:
+			linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 36%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 100%);
+		box-shadow: var(--paper-card-shadow);
+		padding: clamp(1.45rem, 4vw, 2.05rem);
+		animation: fade-up 0.5s ease-out both;
+	}
+
+	.about-hero__title {
+		margin: 0;
+		font-family: var(--serif-font);
+		font-size: clamp(1.32rem, 2.35vw, 1.58rem);
+		font-weight: 500;
+		letter-spacing: -0.014em;
+		color: var(--panel-title-color);
+		line-height: 1.22;
+	}
+
+	.about-hero__desc {
+		margin: 0.45rem 0 0;
+		font-size: 0.84rem;
+		color: var(--gray-color);
+		line-height: 1.55;
+	}
+
+	/* About sheet sits directly in magazine-main; let inner cards breathe */
+	.magazine-main > .about-sheet {
+		animation: fade-up 0.5s ease-out 0.08s both;
+	}
+
+	.magazine-main > .about-sheet > :first-child {
+		animation: fade-up 0.5s ease-out 0.14s both;
+	}
+
+	.magazine-main > .about-sheet > :nth-child(2) {
+		animation: fade-up 0.5s ease-out 0.2s both;
+	}
+
+	.magazine-main > .about-sheet > :nth-child(3) {
+		animation: fade-up 0.5s ease-out 0.26s both;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.about-hero,
+		.magazine-main > .about-sheet,
+		.magazine-main > .about-sheet > * {
+			animation: none;
+		}
+	}
+</style>
