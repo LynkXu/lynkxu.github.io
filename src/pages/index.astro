@@ -6,10 +6,10 @@ import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 
-// 获取最新的博客文章（显示前8篇）
+// 获取最新的博客文章（显示前 6 篇）
 // 排除英文文章（en/ 前缀），英文文章只在 /en 下展示
 const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
-const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 5);
+const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 6);
 
 function getPostExcerpt(body = '', length = 150) {
 	const text = body
@@ -25,7 +25,7 @@ function getPostExcerpt(body = '', length = 150) {
 	return text.length > length ? `${text.slice(0, length).trim()}…` : text;
 }
 
-// 统计标签（同 tags 页风格）
+// 统计标签
 const tagsMap = new Map<string, number>();
 allPosts.forEach((post) => {
 	(post.data.tags || []).forEach((tag) => {
@@ -33,7 +33,7 @@ allPosts.forEach((post) => {
 	});
 });
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
-const featuredTopics = sortedTags.slice(0, 8);
+const featuredTopics = sortedTags.slice(0, 10);
 ---
 
 <Base title={SITE_TITLE} description={SITE_DESCRIPTION} className="blog-surface-layout">
@@ -45,57 +45,63 @@ const featuredTopics = sortedTags.slice(0, 8);
 					代码、项目、心情状态，以及任何挥之不去的想法。
 				</p>
 			</div>
+			<div class="hero-stats">
+				<span>{allPosts.length} Entries</span>
+				<span class="stats-sep">·</span>
+				<span>{sortedTags.length} Topics</span>
+				<span class="stats-sep">·</span>
+				<span>Since 2021</span>
+			</div>
 		</section>
 
-		<section class='thought-stream' aria-labelledby='thought-stream-title'>
+		<section class='home-journal' aria-labelledby='journal-title'>
 			<div class='section-heading'>
 				<div>
-					<h2 id='thought-stream-title'>Latest Entries</h2>
+					<h2 id='journal-title'>Latest Entries</h2>
 				</div>
 				<HeaderLink class="view-all" href='/blog'>All Posts →</HeaderLink>
 			</div>
-			<div class="stream-list paper-ledger">
+			<div class="journal-grid">
 				{
-					recentPosts.map((post) => (
-						<article class='stream-card'>
-							<div class='stream-meta'>
-								<FormattedDate date={post.data.pubDate} />
-							</div>
-							<div class='stream-body'>
-								<h3>
-									<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
-										{post.data.title}
-									</a>
-								</h3>
-								{post.data.description ? (
-									<p>{post.data.description}</p>
-								) : (
-									<p>{getPostExcerpt(post.body, 90)}</p>
-								)}
-								{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
-							</div>
-						</article>
-					))
+					recentPosts.map((post, index) => {
+						const sizeClass = index === 0 ? 'card-featured' : index > 2 ? 'card-base' : 'card-side';
+						const excerptLen = index === 0 ? 110 : index > 2 ? 70 : 85;
+						const excerpt = post.data.description || getPostExcerpt(post.body, excerptLen);
+						return (
+							<article class={`journal-card ${sizeClass}`}>
+								<a href={`/blog/${post.data.slug ?? post.id}.html`} class="card-link" transition:name={`post-title-${post.id}`}>
+									<div class="card-meta">
+										<FormattedDate date={post.data.pubDate} />
+										{post.data.tags && post.data.tags[0] && (
+											<span class="card-tag">{post.data.tags[0]}</span>
+										)}
+									</div>
+									<h3 class="card-title">{post.data.title}</h3>
+									<p class="card-excerpt">{excerpt}</p>
+									{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
+								</a>
+							</article>
+						);
+					})
 				}
 			</div>
 		</section>
 
 		{featuredTopics.length > 0 && (
-			<section class='home-tags'>
-			<div class='section-heading'>
-				<div>
-					<h2 class='indextitle'>Topics</h2>
+			<section class='home-topics'>
+				<div class='section-heading'>
+					<div>
+						<h2 class='indextitle'>Topics</h2>
 					</div>
-				{sortedTags.length > featuredTopics.length && (
-					<HeaderLink class="view-all" href='/tags/'>All Topics →</HeaderLink>
-				)}
+					{sortedTags.length > featuredTopics.length && (
+						<HeaderLink class="view-all" href='/tags/'>All Topics →</HeaderLink>
+					)}
 				</div>
-				<div class='tags'>
+				<div class='topics-row'>
 					{featuredTopics.map(([tag, count]) => (
-						<a href={`/tags/${tag}/`}>
-							<span class="tag-prefix">#</span>
-							<span class="tag-name">{tag}</span>
-							<span class="tag-count">{count}</span>
+						<a href={`/tags/${tag}/`} class="topic-pill">
+							<span class="topic-name">{tag}</span>
+							<span class="topic-count">{count}</span>
 						</a>
 					))}
 				</div>
@@ -111,52 +117,18 @@ const featuredTopics = sortedTags.slice(0, 8);
 			padding-top: 0.5rem;
 		}
 
-		.home-hero, .thought-stream, .home-tags {
+		.home-hero {
 			display: flex;
 			flex-direction: column;
-			gap: 1.25rem;
-		}
-
-		.home-hero {
-			padding: clamp(2.4rem, 6vw, 3.6rem) clamp(1.15rem, 3vw, 1.55rem) clamp(2.2rem, 5.5vw, 3.2rem);
-			gap: 0.75rem;
+			gap: 0.55rem;
 			width: 100%;
-		}
-
-		.home-kicker,
-		.section-eyebrow {
-			margin: 0 0 0.75rem;
-			color: var(--gray-color);
-			font-size: 0.72rem;
-			letter-spacing: 0.03em;
-			text-transform: none;
-			line-height: 1.45;
-		}
-
-		.home-kicker {
-			display: inline-flex;
-			align-items: center;
-			gap: 0.45rem;
-			margin-bottom: 0;
-			font-family: var(--meta-font);
-			font-weight: 500;
-			color: color-mix(in oklab, var(--gray-color) 84%, var(--heading-color));
-		}
-
-		.home-kicker::before {
-			content: "";
-			width: 0.38rem;
-			height: 0.38rem;
-			border-radius: 999px;
-			background: color-mix(in oklab, var(--accent-color) 46%, var(--content-bg));
-			flex: 0 0 auto;
-			opacity: 0.9;
+			padding: clamp(1.4rem, 3.5vw, 2.2rem) clamp(1.15rem, 3vw, 1.55rem) clamp(1.2rem, 3vw, 1.8rem);
 		}
 
 		.hero-copy {
 			display: flex;
 			flex-direction: column;
-			gap: 1.15rem;
+			gap: 0.6rem;
 			max-width: 44rem;
 		}
 
@@ -165,7 +137,7 @@ const featuredTopics = sortedTags.slice(0, 8);
 			margin: 0;
 			color: var(--panel-title-color);
 			font-family: var(--serif-font);
-			font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+			font-size: clamp(1.45rem, 3.6vw, 2rem);
 			font-weight: 500;
 			line-height: 1.22;
 			letter-spacing: 0;
@@ -177,9 +149,23 @@ const featuredTopics = sortedTags.slice(0, 8);
 			max-width: 66ch;
 			margin: 0;
 			color: color-mix(in oklab, var(--text-color) 78%, var(--gray-color));
-			font-size: 0.95rem;
-			line-height: 1.72;
-			padding-bottom: 0.4rem;
+			font-size: 0.92rem;
+			line-height: 1.65;
+		}
+
+		.hero-stats {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			margin-top: 0.35rem;
+			font-family: var(--field-font);
+			font-size: 0.7rem;
+			color: var(--gray-color);
+			letter-spacing: 0.02em;
+		}
+
+		.stats-sep {
+			opacity: 0.45;
 		}
 
 		@keyframes hero-fade-up {
@@ -198,53 +184,18 @@ const featuredTopics = sortedTags.slice(0, 8);
 		}
 
 		.home-deck {
-			animation: hero-fade-up 0.7s ease-out 0.15s both;
+			animation: hero-fade-up 0.7s ease-out 0.12s both;
 		}
 
-		@keyframes card-fade-up {
-			from {
-				opacity: 0;
-				transform: translateY(14px);
-			}
-			to {
-				opacity: 1;
-				transform: translateY(0);
-			}
+		.hero-stats {
+			animation: hero-fade-up 0.7s ease-out 0.22s both;
 		}
 
-		.stream-card {
-			animation: card-fade-up 0.5s ease-out both;
-			transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s ease;
-		}
-
-		.stream-card:nth-child(1) { animation-delay: 0.06s; }
-		.stream-card:nth-child(2) { animation-delay: 0.12s; }
-		.stream-card:nth-child(3) { animation-delay: 0.18s; }
-		.stream-card:nth-child(4) { animation-delay: 0.24s; }
-		.stream-card:nth-child(5) { animation-delay: 0.30s; }
-
-		.stream-card:hover {
-			transform: translateY(-2px);
-		}
-
-		.tags a {
-			transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-		}
-
-		.tags a:hover {
-			transform: translateY(-1px);
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			.home-hero h1,
-			.home-deck,
-			.stream-card {
-				animation: none;
-			}
-			.stream-card,
-			.tags a {
-				transition: none;
-			}
+		/* ── Journal Grid ── */
+		.home-journal {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
 		}
 
 		.section-heading {
@@ -256,6 +207,11 @@ const featuredTopics = sortedTags.slice(0, 8);
 
 		.section-heading h2, .indextitle {
 			margin: 0;
+			font-family: var(--serif-font);
+			font-size: var(--text-lg);
+			font-weight: 500;
+			color: var(--heading-color);
+			letter-spacing: -0.01em;
 		}
 
 		.view-all {
@@ -277,151 +233,253 @@ const featuredTopics = sortedTags.slice(0, 8);
 			transform: none;
 		}
 
-		.stream-list {
-			display: flex;
-			flex-direction: column;
+		.journal-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			grid-auto-rows: minmax(150px, auto);
 			gap: var(--blog-card-gap);
 		}
 
-		.stream-card {
-			display: grid;
-			grid-template-columns: var(--blog-meta-col) minmax(0, 1fr);
-			gap: 1.15rem;
-			padding: clamp(1rem, 3vw, 1.25rem);
-			transition: background-color 0.2s ease;
+		/* ── Journal Cards ── */
+		.journal-card {
+			position: relative;
+			border: 1px solid var(--paper-card-border-soft);
+			border-radius: var(--paper-card-radius);
+			background: var(--paper-card-bg);
+			box-shadow: var(--paper-card-shadow);
+			transition:
+				transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+				background-color 0.2s ease,
+				border-color 0.2s ease;
+			overflow: hidden;
 		}
 
-		.stream-meta {
-			color: var(--gray-color);
-			font-size: 0.74rem;
-			letter-spacing: 0.02em;
-			padding-top: 0.15rem;
-			white-space: nowrap;
-			transition: color 0.2s ease;
+		.journal-card:hover {
+			transform: translateY(-2px);
+			border-color: color-mix(in oklab, var(--accent-color) 12%, var(--paper-card-border-soft));
+			background: color-mix(in oklab, var(--accent-soft-bg) 30%, var(--paper-card-bg));
 		}
 
-		.stream-card:hover .stream-meta {
-			color: color-mix(in oklab, var(--accent-color) 44%, var(--gray-color));
-		}
-
-		.stream-card h3 {
-			margin: 0 0 0.35rem;
-			font-size: 1.08rem;
-			font-weight: 600;
-			line-height: 1.42;
-			letter-spacing: -0.01em;
-		}
-
-		.stream-card h3 a {
-			color: var(--heading-color);
+		.card-link {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			padding: clamp(1rem, 2.6vw, 1.35rem);
+			color: inherit;
 			text-decoration: none;
-			border-bottom: 1px solid transparent;
+			border-bottom: none !important;
+			background: none !important;
+		}
+
+		.card-meta {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+			font-family: var(--field-font);
+			font-size: 0.72rem;
+			color: var(--gray-color);
+			letter-spacing: 0.015em;
+			line-height: 1;
+		}
+
+		.card-tag {
+			display: inline-flex;
+			align-items: center;
+			padding: 0.18em 0.55em;
+			background: color-mix(in oklab, var(--accent-soft-bg) 60%, var(--paper-card-bg));
+			border: 1px solid color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
+			border-radius: 3px;
+			font-size: 0.68rem;
+			color: color-mix(in oklab, var(--accent-color) 50%, var(--gray-color));
+			letter-spacing: 0.01em;
+		}
+
+		.card-title {
+			margin: 0;
+			font-family: var(--serif-font);
+			font-weight: 500;
+			color: var(--heading-color);
+			letter-spacing: -0.01em;
 			transition: color 0.2s ease;
 		}
 
-		.stream-card h3 a:hover {
-			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-			border-bottom-color: color-mix(in oklab, var(--accent-color) 26%, transparent);
+		.journal-card:hover .card-title {
+			color: color-mix(in oklab, var(--accent-color) 38%, var(--heading-color));
 		}
 
-		.stream-card p {
+		.card-excerpt {
 			margin: 0;
 			color: var(--text-color);
-			font-size: 0.95rem;
-			line-height: 1.65;
-			opacity: 0.84;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
 		}
 
-		.tags {
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr));
-			gap: var(--blog-card-gap, 0.75rem);
+		/* ── Featured card (index 0) ── */
+		.journal-card.card-featured {
+			grid-column: span 2;
+			grid-row: span 2;
+			background: color-mix(in oklab, var(--accent-soft-bg) 40%, var(--paper-card-bg));
+			border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
 		}
 
-		.tags a {
+		.journal-card.card-featured::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 3px;
+			height: 100%;
+			background: color-mix(in oklab, var(--ink-accent) 60%, transparent);
+			opacity: 0.6;
+		}
+
+		.journal-card.card-featured .card-link {
+			padding: clamp(1.15rem, 2.8vw, 1.55rem);
+		}
+
+		.journal-card.card-featured .card-title {
+			font-size: clamp(1.2rem, 1.9vw, 1.45rem);
+			line-height: 1.26;
+			margin: 0.55rem 0 0.75rem;
+		}
+
+		.journal-card.card-featured .card-excerpt {
+			font-size: 0.93rem;
+			line-height: 1.72;
+			opacity: 0.82;
+			-webkit-line-clamp: 5;
+		}
+
+		/* ── Side cards (index 1, 2) ── */
+		.journal-card.card-side .card-title {
+			font-size: 0.98rem;
+			line-height: 1.38;
+			margin: 0.5rem 0 0.45rem;
+		}
+
+		.journal-card.card-side .card-excerpt {
+			font-size: 0.87rem;
+			line-height: 1.6;
+			opacity: 0.76;
+			-webkit-line-clamp: 2;
+		}
+
+		/* ── Base cards (index 3, 4, 5) ── */
+		.journal-card.card-base .card-title {
+			font-size: 1rem;
+			line-height: 1.4;
+			margin: 0.5rem 0 0.45rem;
+		}
+
+		.journal-card.card-base .card-excerpt {
+			font-size: 0.88rem;
+			line-height: 1.62;
+			opacity: 0.78;
+			-webkit-line-clamp: 2;
+		}
+
+		/* ── Draft badge ── */
+		.draft-badge {
 			display: inline-flex;
-			align-items: baseline;
-			justify-content: space-between;
-			gap: 0.45rem;
-			min-height: 2.55rem;
-			padding: 0.58rem 0.72rem;
+			align-items: center;
+			margin-top: auto;
+			padding-top: 0.75rem;
+			font-family: var(--field-font);
+			font-size: 0.68rem;
+			font-weight: 500;
+			color: color-mix(in oklab, var(--color-warning) 65%, var(--gray-color));
+			letter-spacing: 0.02em;
+		}
+
+		/* ── Topics ── */
+		.home-topics {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+			margin-bottom: 2rem;
+		}
+
+		.topics-row {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.55rem;
+		}
+
+		.topic-pill {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			padding: 0.45rem 0.78rem;
 			font-family: var(--field-font);
 			font-size: 0.82rem;
-			font-weight: 500;
-			letter-spacing: 0.015em;
 			color: color-mix(in oklab, var(--text-color) 82%, var(--gray-color));
 			text-decoration: none;
 			border: 1px solid var(--paper-card-border-soft);
 			border-radius: var(--paper-card-radius);
 			background: var(--paper-field-bg);
 			transition:
+				transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
 				color 0.2s ease,
 				background 0.2s ease,
 				border-color 0.2s ease;
 		}
 
-		.tags a:hover {
+		.topic-pill:hover {
+			transform: translateY(-1px);
 			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
 			background: color-mix(in oklab, var(--accent-soft-bg) 55%, var(--paper-field-bg));
 			border-color: color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
 		}
 
-		.tags a + a::before {
-			content: none;
-		}
-
-		.tags a .tag-prefix {
-			color: var(--gray-color);
-			opacity: 0.5;
-			margin-right: 0;
-			transition: all 0.2s ease;
-		}
-
-		.tags a .tag-name {
-			flex: 1;
-			min-width: 0;
-		}
-
-		.tags a .tag-count {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 1.35rem;
+		.topic-count {
 			color: var(--gray-color);
 			font-size: 0.75rem;
-			margin-left: 0.3rem;
-			font-family: var(--field-font);
 			font-variant-numeric: tabular-nums;
-			transition: all 0.2s ease;
+			opacity: 0.65;
+			transition: color 0.2s ease;
 		}
 
-		.tags a:hover .tag-prefix,
-		.tags a:hover .tag-count {
+		.topic-pill:hover .topic-count {
 			color: color-mix(in oklab, var(--accent-color) 44%, var(--heading-color));
 			opacity: 0.85;
 		}
 
-		.home-tags {
-			margin-top: 0;
-			margin-bottom: 2rem;
+		/* ── Staggered fade-in ── */
+		@keyframes card-fade-up {
+			from {
+				opacity: 0;
+				transform: translateY(14px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 
+		.journal-card {
+			animation: card-fade-up 0.5s ease-out both;
+		}
+
+		.journal-card:nth-child(1) { animation-delay: 0.05s; }
+		.journal-card:nth-child(2) { animation-delay: 0.10s; }
+		.journal-card:nth-child(3) { animation-delay: 0.15s; }
+		.journal-card:nth-child(4) { animation-delay: 0.20s; }
+		.journal-card:nth-child(5) { animation-delay: 0.25s; }
+		.journal-card:nth-child(6) { animation-delay: 0.30s; }
+
+		/* ── Responsive: tablet ── */
 		@media (min-width: 768px) {
-			.thought-stream,
-			.home-tags {
+			.home-journal,
+			.home-topics {
 				display: grid;
 				grid-template-columns: 120px 1fr;
 				gap: clamp(2rem, 5vw, 3.5rem);
-				align-items: baseline;
+				align-items: start;
 			}
 
-			.home-hero h1 {
-				max-width: 12em;
-				font-size: clamp(1.96rem, 3vw, 2.28rem);
-				line-height: 1.16;
-			}
-
-			.section-heading {
+			.home-journal .section-heading,
+			.home-topics .section-heading {
 				flex-direction: column;
 				align-items: flex-start;
 				gap: 1.5rem;
@@ -430,14 +488,54 @@ const featuredTopics = sortedTags.slice(0, 8);
 			}
 		}
 
-		@media (max-width: 640px) {
-			.stream-card {
-				grid-template-columns: 1fr;
-				gap: 0.45rem;
+		@media (max-width: 1023px) and (min-width: 768px) {
+			.journal-grid {
+				grid-template-columns: repeat(2, 1fr);
 			}
 
-			.stream-meta {
-				padding-top: 0;
+			.journal-card.card-featured {
+				grid-column: span 2;
+				grid-row: span 1;
+			}
+
+			.journal-card.card-featured .card-excerpt {
+				-webkit-line-clamp: 3;
+			}
+		}
+
+		/* ── Responsive: mobile ── */
+		@media (max-width: 767px) {
+			.journal-grid {
+				grid-template-columns: 1fr;
+				grid-auto-rows: auto;
+			}
+
+			.journal-card {
+				grid-column: span 1 !important;
+				grid-row: span 1 !important;
+			}
+
+			.journal-card.card-featured .card-title {
+				font-size: 1.12rem;
+			}
+
+			.journal-card.card-featured .card-excerpt {
+				-webkit-line-clamp: 3;
+			}
+		}
+
+		/* ── Reduced motion ── */
+		@media (prefers-reduced-motion: reduce) {
+			.home-hero h1,
+			.home-deck,
+			.hero-stats,
+			.journal-card {
+				animation: none;
+			}
+
+			.journal-card,
+			.topic-pill {
+				transition: none;
 			}
 		}
 	</style>
