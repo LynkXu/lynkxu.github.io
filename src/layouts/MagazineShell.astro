@@ -38,7 +38,12 @@ function isActive(href: string) {
 
 <Base title={title} description={description} className={`blog-surface-layout ${className}`}>
 	<div class="magazine-shell">
-		<!-- 左侧个人档案栏 -->
+		<!-- 主内容 -->
+		<main class="magazine-main">
+			<slot />
+		</main>
+
+		<!-- 右侧个人档案栏 -->
 		<aside class="profile-sidebar" aria-label="Author profile">
 			<div class="profile-card">
 				<a href="/" class="profile-avatar-link" aria-label="回到首页">
@@ -78,20 +83,20 @@ function isActive(href: string) {
 			</div>
 			<slot name="sidebar-extra" />
 		</aside>
-
-		<!-- 右侧主内容 -->
-		<main class="magazine-main">
-			<slot />
-		</main>
 	</div>
 </Base>
 
 <style is:global>
+	.blog-surface-layout {
+		--blog-shell-sidebar-width: 220px;
+		--blog-shell-gap: clamp(2rem, 4vw, 3.5rem);
+	}
+
 	/* ── Magazine Shell ── */
 	.magazine-shell {
 		display: grid;
-		grid-template-columns: 220px 1fr;
-		gap: clamp(2rem, 4vw, 3.5rem);
+		grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width);
+		gap: var(--blog-shell-gap);
 		width: min(var(--blog-shell-width), calc(100% - 2 * var(--page-inline)));
 		margin: 0 auto;
 		padding: clamp(0.5rem, 1.4vw, 0.85rem) 0 clamp(2.5rem, 5vw, 3.5rem);
