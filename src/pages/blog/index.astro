@@ -29,42 +29,52 @@ function getArchiveDate(date: Date) {
 ---
 
 <MagazineShell title='Archive' description={SITE_DESCRIPTION}>
-	<div class="archive-header">
-		<h1 class="page-title">Archive</h1>
-		<p class="page-meta">{posts.length} posts · by year</p>
-	</div>
+	<div class="archive-card">
+		<div class="archive-header">
+			<h1 class="page-title">Archive</h1>
+			<p class="page-meta">{posts.length} posts · by year</p>
+		</div>
 
-	<div class="archive-entries">
-		{
-			years.map((year) => (
-				<section class="year-section" aria-labelledby={`archive-year-${year}`}>
-					<h2 class="year-label" id={`archive-year-${year}`}>{year}</h2>
-					<ul class="year-list">
-						{postsByYear[year].map((post) => (
-							<li class="year-item">
-								<time class="year-date" datetime={post.data.pubDate.toISOString()}>
-									{getArchiveDate(post.data.pubDate)}
-								</time>
-								<a
-									href={`/blog/${post.data.slug ?? post.id}.html`}
-									class="year-link"
-									transition:name={`post-title-${post.id}`}
-								>
-									{post.data.title}
-								</a>
-								{INCLUDE_DRAFTS && post.data.draft && (
-									<span class="draft-badge" aria-label="Draft">Draft</span>
-								)}
-							</li>
-						))}
-					</ul>
-				</section>
-			))
-		}
+		<div class="archive-entries">
+			{
+				years.map((year) => (
+					<section class="year-section" aria-labelledby={`archive-year-${year}`}>
+						<h2 class="year-label" id={`archive-year-${year}`}>{year}</h2>
+						<ul class="year-list">
+							{postsByYear[year].map((post) => (
+								<li class="year-item">
+									<time class="year-date" datetime={post.data.pubDate.toISOString()}>
+										{getArchiveDate(post.data.pubDate)}
+									</time>
+									<a
+										href={`/blog/${post.data.slug ?? post.id}.html`}
+										class="year-link"
+										transition:name={`post-title-${post.id}`}
+									>
+										{post.data.title}
+									</a>
+									{INCLUDE_DRAFTS && post.data.draft && (
+										<span class="draft-badge" aria-label="Draft">Draft</span>
+									)}
+								</li>
+							))}
+						</ul>
+					</section>
+				))
+			}
+		</div>
 	</div>
 </MagazineShell>
 
 <style>
+	.archive-card {
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+		padding: clamp(1.4rem, 2.8vw, 2rem) clamp(1.1rem, 2.4vw, 1.6rem);
+	}
+
 	.archive-header {
 		margin-bottom: 0.5rem;
 	}
@@ -173,7 +183,7 @@ function getArchiveDate(date: Date) {
 		to { opacity: 1; transform: translateY(0); }
 	}
 
-	.archive-header {
+	.archive-card {
 		animation: fade-up 0.5s ease-out both;
 	}
 
@@ -189,7 +199,7 @@ function getArchiveDate(date: Date) {
 	.year-section:nth-child(6) { animation-delay: 0.36s; }
 
 	@media (prefers-reduced-motion: reduce) {
-		.archive-header,
+		.archive-card,
 		.year-section {
 			animation: none;
 		}
