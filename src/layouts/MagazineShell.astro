@@ -37,6 +37,7 @@ function isActive(href: string) {
 ---
 
 <Base title={title} description={description} className={`blog-surface-layout ${className}`}>
+	<slot name="head" slot="head" />
 	<div class="magazine-shell">
 		<!-- 主内容 -->
 		<main class="magazine-main">
