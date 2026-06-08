@@ -602,6 +602,13 @@ body:has(.blog-surface-layout) {
   min-width: 0;
 }
 
+.blog-surface-layout footer .social-links {
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .blog-surface-layout footer .footer-content {
   width: 100%;
 }
@@ -609,6 +616,11 @@ body:has(.blog-surface-layout) {
 @media (max-width: 1023px) {
   .blog-surface-layout footer {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .blog-surface-layout footer .social-links {
+    grid-column: 1;
+    justify-content: flex-start;
   }
 }
 
