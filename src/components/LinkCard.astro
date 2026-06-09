@@ -1,0 +1,190 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+
+// 安全处理 URL，避免 XSS
+let safeUrl = '';
+try {
+  const u = new URL(url);
+  safeUrl = u.toString();
+} catch {
+  safeUrl = '';
+}
+---
+
+{safeUrl ? (
+  <div class="link-card" data-url={safeUrl}>
+    <a href={safeUrl} target="_blank" rel="noopener noreferrer" class="link-card__fallback">
+      {safeUrl}
+    </a>
+  </div>
+) : (
+  <span class="link-card__error">Invalid URL</span>
+)}
+
+<script is:inline>
+  // LinkCard 客户端运行时：带 Rate limiter + localStorage 缓存
+  (function () {
+    const LS_KEY = 'linkcard:cache';
+    const REQUESTS_KEY = 'linkcard:requests';
+    const RATE_WINDOW = 60000; // 60 秒窗口
+    const RATE_MAX = 10; // 每窗口最大请求数
+
+    function getRequests() {
+      try {
+        const raw = localStorage.getItem(REQUESTS_KEY);
+        if (!raw) return [];
+        const data = JSON.parse(raw);
+        if (!Array.isArray(data)) return [];
+        const now = Date.now();
+        return data.filter(ts => now - ts < RATE_WINDOW);
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function pushRequest() {
+      const reqs = getRequests();
+      reqs.push(Date.now());
+      try {
+        localStorage.setItem(REQUESTS_KEY, JSON.stringify(reqs));
+      } catch (e) {
+        // localStorage 满时静默处理
+      }
+      return reqs;
+    }
+
+    function canRequest() {
+      const reqs = getRequests();
+      return reqs.length < RATE_MAX;
+    }
+
+    function getCache(url) {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        if (!raw) return null;
+        const cache = JSON.parse(raw);
+        if (!cache || typeof cache !== 'object') return null;
+        const entry = cache[url];
+        if (!entry) return null;
+        // 7 天缓存有效期
+        const TTL = 7 * 24 * 60 * 60 * 1000;
+        if (Date.now() - (entry._ts || 0) > TTL) return null;
+        return entry;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function setCache(url, data) {
+      try {
+        const raw = localStorage.getItem(LS_KEY);
+        const cache = raw ? JSON.parse(raw) : {};
+        cache[url] = { ...data, _ts: Date.now() };
+        localStorage.setItem(LS_KEY, JSON.stringify(cache));
+      } catch (e) {
+        // localStorage 满时静默处理
+      }
+    }
+
+    async function fetchMeta(url) {
+      // 先检查缓存
+      const cached = getCache(url);
+      if (cached) {
+        return cached;
+      }
+
+      // Rate limiter 检查
+      if (!canRequest()) {
+        return null;
+      }
+
+      pushRequest();
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch(
+          `https://api.microlink.io/?url=${encodeURIComponent(url)}`,
+          { signal: controller.signal }
+        );
+        clearTimeout(timeout);
+
+        if (!res.ok) return null;
+        const json = await res.json();
+        if (!json.data) return null;
+
+        const { title, description, image, logo } = json.data;
+        const result = {
+          title: title || '',
+          description: description || '',
+          image: image?.url || '',
+          logo: logo?.url || '',
+        };
+        setCache(url, result);
+        return result;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function renderCard(el, url, meta) {
+      const hostname = (() => {
+        try { return new URL(url).hostname; } catch (e) { return url; }
+      })();
+
+      let html = '';
+      if (meta && meta.title) {
+        html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">
+          ${meta.image ? `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>` : ''}
+          <div class="link-card__body">
+            <h3>${meta.title}</h3>
+            ${meta.description ? `<p>${meta.description}</p>` : ''}
+            <span class="link-card__host">${hostname}</span>
+          </div>
+        </a>`;
+      } else {
+        // 降级为普通链接
+        html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__fallback">${url}</a>`;
+      }
+      el.innerHTML = html;
+      el.classList.add('link-card--ready');
+    }
+
+    function init() {
+      document.querySelectorAll('.link-card[data-url]').forEach(async (el) => {
+        const url = el.getAttribute('data-url');
+        if (!url) return;
+
+        const cached = getCache(url);
+        if (cached) {
+          renderCard(el, url, cached);
+          return;
+        }
+
+        // 先显示降级链接，避免请求期间空白
+        const hostname = (() => {
+          try { return new URL(url).hostname; } catch (e) { return url; }
+        })();
+        el.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__fallback">${url}</a>`;
+        el.classList.add('link-card--ready');
+
+        const meta = await fetchMeta(url);
+        if (meta) {
+          renderCard(el, url, meta);
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+    // 兼容 Astro View Transition
+    document.addEventListener('astro:page-load', init);
+  })();
+</script>
