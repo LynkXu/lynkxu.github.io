@@ -607,4 +607,145 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			addCopyButtons();
 		});
 	</script>
+
+		<script is:inline>
+			(function () {
+				const LS_KEY = 'linkcard:cache';
+				const REQUESTS_KEY = 'linkcard:requests';
+				const RATE_WINDOW = 60000;
+				const RATE_MAX = 10;
+				const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+
+				function getRequests() {
+					try {
+						const raw = localStorage.getItem(REQUESTS_KEY);
+						if (!raw) return [];
+						const data = JSON.parse(raw);
+						if (!Array.isArray(data)) return [];
+						const now = Date.now();
+						return data.filter(ts => now - ts < RATE_WINDOW);
+					} catch (e) { return []; }
+				}
+
+				function pushRequest() {
+					const reqs = getRequests();
+					reqs.push(Date.now());
+					try { localStorage.setItem(REQUESTS_KEY, JSON.stringify(reqs)); } catch (e) {}
+					return reqs;
+				}
+
+				function canRequest() { return getRequests().length < RATE_MAX; }
+
+				function getCache(url) {
+					try {
+						const raw = localStorage.getItem(LS_KEY);
+						if (!raw) return null;
+						const cache = JSON.parse(raw);
+						if (!cache || typeof cache !== 'object') return null;
+						const entry = cache[url];
+						if (!entry) return null;
+						if (Date.now() - (entry._ts || 0) > CACHE_TTL) return null;
+						return entry;
+					} catch (e) { return null; }
+				}
+
+				function setCache(url, data) {
+					try {
+						const raw = localStorage.getItem(LS_KEY);
+						const cache = raw ? JSON.parse(raw) : {};
+						cache[url] = { ...data, _ts: Date.now() };
+						localStorage.setItem(LS_KEY, JSON.stringify(cache));
+					} catch (e) {}
+				}
+
+				async function fetchMeta(url) {
+					const cached = getCache(url);
+					if (cached) return cached;
+					if (!canRequest()) return null;
+					pushRequest();
+
+					try {
+						const controller = new AbortController();
+						const timeout = setTimeout(() => controller.abort(), 5000);
+						const res = await fetch(
+							`https://api.microlink.io/?url=${encodeURIComponent(url)}`,
+							{ signal: controller.signal }
+						);
+						clearTimeout(timeout);
+						if (!res.ok) return null;
+						const json = await res.json();
+						if (!json.data) return null;
+						const { title, description, image, logo } = json.data;
+						const result = {
+							title: title || '',
+							description: description || '',
+							image: image?.url || '',
+							logo: logo?.url || '',
+						};
+						setCache(url, result);
+						return result;
+					} catch (e) { return null; }
+				}
+
+				function renderCard(el, url, meta) {
+					const style = el.dataset.style || 'default';
+					const hostname = (() => { try { return new URL(url).hostname; } catch (e) { return url; } })();
+
+					if (!meta || !meta.title) return;
+
+					let html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">`;
+
+					if (style === 'cover' && meta.image) {
+						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>`;
+					} else if (style !== 'minimal' && meta.image) {
+						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>`;
+					}
+
+					html += `<div class="link-card__body"><h3>${meta.title}</h3>`;
+					if (meta.description && style !== 'minimal') {
+						html += `<p>${meta.description}</p>`;
+					}
+					html += `<span class="link-card__host">${hostname}</span></div></a>`;
+					el.innerHTML = html;
+					el.classList.add('link-card--ready');
+				}
+
+				function scanAndConvert() {
+					const contentEl = document.querySelector('.post-content');
+					if (!contentEl) return;
+					const paragraphs = contentEl.querySelectorAll('p');
+					paragraphs.forEach(p => {
+						const text = p.textContent.trim();
+						// Match ::link-card{url="..."} or ::link-card{url="...", style="..."}
+						const match = text.match(/^::link-card\{url="([^"]+)"(?:\s*,\s*style="([^"]+)")?\}$/);
+						if (match) {
+							const url = match[1];
+							const style = match[2] || '';
+							const styleClass = style ? `link-card--${style}` : '';
+							p.outerHTML = '<div class="link-card ' + styleClass + '" data-url="' + url + '"' + (style ? ' data-style="' + style + '"' : '') + '><a href="' + url + '" target="_blank" rel="noopener noreferrer" class="link-card__fallback">' + url + '</a></div>';
+						}
+					});
+				}
+
+				async function initCards() {
+					scanAndConvert();
+					document.querySelectorAll('.link-card[data-url]').forEach(async (el) => {
+						const url = el.getAttribute('data-url');
+						if (!url) return;
+						const cached = getCache(url);
+						if (cached && cached.title) {
+							renderCard(el, url, cached);
+							return;
+						}
+						const meta = await fetchMeta(url);
+						if (meta) renderCard(el, url, meta);
+					});
+				}
+
+				if (document.readyState === 'loading') {
+					document.addEventListener('DOMContentLoaded', initCards);
+				} else { initCards(); }
+				document.addEventListener('astro:page-load', initCards);
+			})();
+		</script>
 </MagazineShell>
