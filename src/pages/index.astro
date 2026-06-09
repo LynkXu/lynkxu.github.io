@@ -8,6 +8,10 @@ import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
 const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 8);
 
+const nowModules = import.meta.glob('../content/now.md', { eager: true });
+const nowModule = Object.values(nowModules)[0] as any;
+const nowData = nowModule?.frontmatter || { items: [], updated: '' };
+
 function getPostExcerpt(body = '', length = 150) {
 	const text = body
 		.replace(/```[\s\S]*?```/g, ' ')
@@ -89,6 +93,21 @@ const featuredTopics = sortedTags.slice(0, 10);
 			</section>
 		)
 	}
+
+	<!-- Now / 近况 -->
+	<aside slot="sidebar-extra" class="now-card" aria-label="Now">
+		<div class="now-inner">
+			<h3 class="now-heading">Now</h3>
+			<ul class="now-list">
+				{nowData.items?.map((item: string) => (
+					<li>{item}</li>
+				))}
+			</ul>
+			{nowData.updated && (
+				<p class="now-updated">Updated {nowData.updated}</p>
+			)}
+		</div>
+	</aside>
 </MagazineShell>
 
 <style>
@@ -363,6 +382,60 @@ const featuredTopics = sortedTags.slice(0, 10);
 	.bento-grid .bento-card:nth-child(6) { animation-delay: 0.26s; }
 	.bento-grid .bento-card:nth-child(7) { animation-delay: 0.30s; }
 	.bento-grid .bento-card:nth-child(8) { animation-delay: 0.34s; }
+
+	/* ── Now Card ── */
+	.now-card {
+		margin-top: var(--blog-card-gap, 0.9rem);
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+		animation: fade-up 0.5s ease-out 0.2s both;
+		overflow: hidden;
+	}
+
+	.now-inner {
+		padding: clamp(1rem, 2.2vw, 1.15rem) clamp(1rem, 2.4vw, 1.25rem);
+	}
+
+	.now-heading {
+		margin: 0 0 0.55rem;
+		font-family: var(--field-font);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: color-mix(in oklab, var(--gray-color) 78%, var(--heading-color));
+	}
+
+	.now-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.now-list li {
+		font-size: 0.78rem;
+		line-height: 1.42;
+		color: color-mix(in oklab, var(--text-color) 82%, var(--gray-color));
+		padding: 0.3rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 48%, transparent);
+	}
+
+	.now-list li:last-child {
+		border-bottom: none;
+	}
+
+	.now-updated {
+		margin: 0.65rem 0 0;
+		font-family: var(--field-font);
+		font-size: 0.65rem;
+		color: var(--gray-color);
+		opacity: 0.62;
+		letter-spacing: 0.015em;
+	}
 
 	/* ── Responsive: tablet ── */
 	@media (max-width: 1023px) {

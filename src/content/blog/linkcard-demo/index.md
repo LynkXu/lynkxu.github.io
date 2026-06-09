@@ -2,6 +2,7 @@
 slug: linkcard-demo
 title: LinkCard 样式预览
 pubDate: 2026-06-09
+draft: true
 ---
 
 本文演示三种 LinkCard 卡片样式的实际效果。
