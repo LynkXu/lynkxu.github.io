@@ -21,19 +21,29 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <meta charset='utf-8' />
 <meta name='viewport' content='width=device-width,initial-scale=1' />
 
-<!-- Google Fonts: Bricolage Grotesque (UI/Headings), Lora (Serif Body), JetBrains Mono -->
-<link rel='preconnect' href='https://fonts.googleapis.com' />
+<!-- DNS Prefetch & Preconnect for critical third-party domains -->
+<link rel='dns-prefetch' href='https://fonts.googleapis.com' />
+<link rel='dns-prefetch' href='https://fonts.gstatic.com' />
+<link rel='dns-prefetch' href='https://www.googletagmanager.com' />
+<link rel='preconnect' href='https://fonts.googleapis.com' crossorigin />
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+<link rel='preconnect' href='https://www.googletagmanager.com' crossorigin />
+
+<!-- Google Fonts with display=swap to avoid render blocking -->
 <link href='https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Serif+SC:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap' rel='stylesheet' />
+
+<!-- Preload critical local font to reduce FOUT -->
+<link rel='preload' href='/fonts/Lilex.woff2' as='font' type='font/woff2' crossorigin />
 
 <!-- Theme (avoid flash by setting early) -->
 <script is:inline>
 	(function () {
 		try {
 			var stored = localStorage.getItem('theme');
-			if (stored === 'light' || stored === 'dark') {
-				document.documentElement.setAttribute('data-theme', stored);
-			}
+			var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			var theme = stored || (prefersDark ? 'dark' : 'light');
+			document.documentElement.setAttribute('data-theme', theme);
+			document.documentElement.style.colorScheme = theme;
 		} catch (e) {
 			// ignore
 		}

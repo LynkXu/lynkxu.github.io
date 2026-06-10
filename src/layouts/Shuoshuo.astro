@@ -168,25 +168,32 @@ function getDateParts(date: Date) {
 	)}
 </MagazineShell>
 
-<script is:inline src="/lightgallery/js/lightgallery.min.js"></script>
+<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
 <script is:inline>
     function initGallery() {
+        if (!window.lightGallery) return;
         const grids = document.querySelectorAll('.media-grid');
         grids.forEach(grid => {
-            if (window.lightGallery) {
-                window.lightGallery(grid, {
-                    selector: '.media-item',
-                    speed: 500,
-                    download: false
-                });
-            }
+            window.lightGallery(grid, {
+                selector: '.media-item',
+                speed: 500,
+                download: false
+            });
         });
     }
-    
+
+    function onReady() {
+        if (window.lightGallery) {
+            initGallery();
+        } else {
+            setTimeout(onReady, 100);
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGallery);
+        document.addEventListener('DOMContentLoaded', onReady);
     } else {
-        initGallery();
+        onReady();
     }
 </script>
 

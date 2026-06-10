@@ -179,8 +179,10 @@ const description = "定格时间，留住感动";
                       src={img}
                       alt={img.filename}
                       width={1200}
-                      quality={90}
+                      quality={85}
                       class="gallery-img"
+                      loading="lazy"
+                      decoding="async"
                     />
                   )}
                   <div class="overlay">
@@ -220,26 +222,34 @@ const description = "定格时间，留住感动";
     )}
   </div>
 
-  <script is:inline src="/lightgallery/js/lightgallery.min.js"></script>
+  <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
   <script is:inline>
     // Initialize lightGallery
     function initGallery() {
+        if (!window.lightGallery) return;
         const el = document.getElementById('lightgallery');
-        if (el && window.lightGallery) {
+        if (el) {
             window.lightGallery(el, {
                 speed: 500,
                 selector: '.gallery-item',
                 mode: 'lg-fade',
                 download: false,
                 counter: true,
-                appendSubHtmlTo: '.lg-item', // 把标题显示在图片下方而不是底部栏
+                appendSubHtmlTo: '.lg-item',
             });
         }
     }
 
-    // Run on load
+    function onReady() {
+        if (window.lightGallery) {
+            initGallery();
+        } else {
+            setTimeout(onReady, 100);
+        }
+    }
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initGallery);
+        document.addEventListener('DOMContentLoaded', onReady);
     } else {
         initGallery();
     }

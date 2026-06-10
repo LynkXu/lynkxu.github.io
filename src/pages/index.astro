@@ -245,13 +245,17 @@ const featuredTopics = sortedTags.slice(0, 10);
 	.draft-badge {
 		display: inline-flex;
 		align-items: center;
+		align-self: flex-start;
 		font-family: var(--field-font);
-		font-size: 0.65rem;
+		font-size: 0.6rem;
 		font-weight: 500;
 		color: color-mix(in oklab, var(--color-warning) 65%, var(--gray-color));
 		letter-spacing: 0.02em;
-		margin-top: auto;
-		padding-top: 0.35rem;
+		padding: 0.15em 0.5em;
+		border: 1px solid color-mix(in oklab, var(--color-warning) 18%, var(--paper-card-border-soft));
+		border-radius: 3px;
+		background: color-mix(in oklab, var(--color-warning) 5%, var(--paper-field-bg));
+		margin-top: 0.15rem;
 	}
 
 	/* ── Topics ── */

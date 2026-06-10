@@ -1,22 +1,4 @@
 ---
-import { getCollection } from 'astro:content';
-import { filterDrafts } from '../utils/drafts';
-
-const allPosts = filterDrafts(await getCollection('blog'));
-const posts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-
-// 创建搜索索引数据
-const searchData = posts.map((post) => ({
-	id: post.id,
-	slug: post.data.slug ?? post.id,
-	title: post.data.title,
-	description: post.data.description || '',
-	pubDate: post.data.pubDate.toISOString(),
-	tags: post.data.tags || [],
-	categories: post.data.categories || [],
-	draft: Boolean(post.data.draft),
-}));
-
 const texts = {
 	placeholder: 'Search articles...',
 	closeLabel: 'Close search',
@@ -59,31 +41,46 @@ const texts = {
 	</div>
 </div>
 
-<!-- 搜索数据 -->
-<script is:inline define:vars={{ searchData, texts }}>
-	window.SEARCH_DATA = searchData;
+<!-- 搜索功能 -->
+<script is:inline define:vars={{ texts }}>
 	window.SEARCH_TEXTS = texts;
 </script>
 
-<!-- 搜索功能 -->
 <script is:inline>
-	function initSearchModal() {
-		const searchModal = document.getElementById('search-modal');
-		const searchInput = document.getElementById('modal-search-input');
-		const searchResults = document.getElementById('modal-search-results');
-		const searchStats = document.getElementById('modal-search-stats');
-		const closeBtn = document.getElementById('close-search-modal');
-		const overlay = document.querySelector('.search-modal-overlay');
+	(function() {
+		var posts = [];
+		var dataLoaded = false;
 
-		if (!searchModal || !searchInput || !searchResults || !searchStats || !closeBtn || !overlay) {
-			return;
+		function loadSearchData() {
+			if (dataLoaded) return Promise.resolve(posts);
+			return fetch('/search-index.json')
+				.then(function(res) { return res.json(); })
+				.then(function(data) {
+					posts = data || [];
+					dataLoaded = true;
+					return posts;
+				})
+				.catch(function() {
+					posts = [];
+					dataLoaded = true;
+					return posts;
+				});
 		}
 
-		// 获取搜索数据和文本
-		const posts = window.SEARCH_DATA || [];
-		const texts = window.SEARCH_TEXTS || {};
-		// 生成默认提示 HTML
-		const tipsHtml = '<div class="search-tips"><p>' + texts.searchTip + '</p><p>' + texts.keyboardTip + '</p></div>';
+		function initSearchModal() {
+			const searchModal = document.getElementById('search-modal');
+			const searchInput = document.getElementById('modal-search-input');
+			const searchResults = document.getElementById('modal-search-results');
+			const searchStats = document.getElementById('modal-search-stats');
+			const closeBtn = document.getElementById('close-search-modal');
+			const overlay = document.querySelector('.search-modal-overlay');
+
+			if (!searchModal || !searchInput || !searchResults || !searchStats || !closeBtn || !overlay) {
+				return;
+			}
+
+			const texts = window.SEARCH_TEXTS || {};
+			const tipsHtml = '<div class="search-tips"><p>' + (texts.searchTip || '') + '</p><p>' + (texts.keyboardTip || '') + '</p></div>';
 
 		// 打开弹窗
 		window.openSearchModal = function() {
@@ -111,15 +108,26 @@ const texts = {
 				return;
 			}
 
-			// 搜索逻辑：标题、描述、标签、分类
-			const results = posts.filter(function(post) {
-				const titleMatch = post.title.toLowerCase().includes(keyword);
-				const descMatch = post.description.toLowerCase().includes(keyword);
-				const tagsMatch = post.tags.some(function(tag) { return tag.toLowerCase().includes(keyword); });
-				const categoriesMatch = post.categories.some(function(cat) { return cat.toLowerCase().includes(keyword); });
+			function doSearch() {
+				const results = posts.filter(function(post) {
+					const titleMatch = post.title.toLowerCase().includes(keyword);
+					const descMatch = post.description.toLowerCase().includes(keyword);
+					const tagsMatch = post.tags.some(function(tag) { return tag.toLowerCase().includes(keyword); });
+					const categoriesMatch = post.categories.some(function(cat) { return cat.toLowerCase().includes(keyword); });
+					return titleMatch || descMatch || tagsMatch || categoriesMatch;
+				});
+				renderResults(results, keyword);
+			}
 
-				return titleMatch || descMatch || tagsMatch || categoriesMatch;
-			});
+			if (!dataLoaded) {
+				searchResults.innerHTML = '<div class="search-tips"><p>Loading index...</p></div>';
+				loadSearchData().then(doSearch);
+			} else {
+				doSearch();
+			}
+		}
+
+		function renderResults(results, keyword) {
 
 			// 显示统计信息
 			searchStats.innerHTML = texts.resultsCount.replace('{count}', results.length);
@@ -208,6 +216,14 @@ const texts = {
 	} else {
 		initSearchModal();
 	}
+
+	// Preload search data in background after page load
+	if (document.readyState === 'complete') {
+		loadSearchData();
+	} else {
+		window.addEventListener('load', loadSearchData);
+	}
+})();
 </script>
 
 <style>

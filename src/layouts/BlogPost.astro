@@ -479,137 +479,152 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	</div>
 
 	<!-- LightGallery JS (本地) -->
-	<script is:inline src='/lightgallery/js/lightgallery.min.js'></script>
+	<script is:inline src='/lightgallery/js/lightgallery.min.js' defer></script>
 
 	<!-- 初始化 LightGallery -->
 	<script is:inline>
-		let lgInstance = null;
+		(function() {
+			let lgInstance = null;
+			let lgInitialized = false;
 
-		function initLightGallery() {
-			if (lgInstance) {
-				try {
-					lgInstance.destroy(true);
-				} catch (e) {}
-				lgInstance = null;
-			}
+			function initLightGallery() {
+				if (lgInitialized) return;
+				lgInitialized = true;
 
-			const postContent = document.querySelector('.post-content');
-			if (postContent) {
-				const images = postContent.querySelectorAll('img');
-				images.forEach(function (img) {
-					const src = img.src;
-					if (img.parentElement.tagName === 'A') {
-						return;
-					}
-					const link = document.createElement('a');
-					link.href = src;
-					link.className = 'no-link';
-					link.setAttribute('data-sub-html', img.alt || '');
-					img.parentNode.insertBefore(link, img);
-					link.appendChild(img);
-				});
+				if (lgInstance) {
+					try { lgInstance.destroy(true); } catch (e) {}
+					lgInstance = null;
+				}
 
-			const container = document.getElementById('lightgallery');
-			if (container && typeof window !== 'undefined' && 'lightGallery' in window) {
-				// @ts-ignore
-				lgInstance = window.lightGallery(container, {
-						selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
-						mode: 'lg-fade',
-						cssEasing: 'ease',
-						speed: 600,
-						hideBarsDelay: 2000,
-						controls: true,
-						download: true,
-						counter: true,
-						thumbnail: true,
+				const postContent = document.querySelector('.post-content');
+				if (postContent) {
+					const images = postContent.querySelectorAll('img');
+					images.forEach(function (img) {
+						const src = img.src;
+						if (img.parentElement.tagName === 'A') return;
+						const link = document.createElement('a');
+						link.href = src;
+						link.className = 'no-link';
+						link.setAttribute('data-sub-html', img.alt || '');
+						img.parentNode.insertBefore(link, img);
+						link.appendChild(img);
 					});
+
+					const container = document.getElementById('lightgallery');
+					if (container && typeof window !== 'undefined' && 'lightGallery' in window) {
+						lgInstance = window.lightGallery(container, {
+							selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
+							mode: 'lg-fade',
+							cssEasing: 'ease',
+							speed: 600,
+							hideBarsDelay: 2000,
+							controls: true,
+							download: true,
+							counter: true,
+							thumbnail: true,
+						});
+					}
 				}
 			}
-		}
 
-		document.addEventListener('DOMContentLoaded', initLightGallery);
-		document.addEventListener('astro:page-load', initLightGallery);
-		document.addEventListener('astro:before-preparation', function () {
-			if (lgInstance) {
-				try {
-					lgInstance.destroy(true);
-				} catch (e) {}
-				lgInstance = null;
+			function onReady() {
+				if (typeof window.lightGallery === 'function') {
+					initLightGallery();
+				} else {
+					// LightGallery not loaded yet, wait briefly
+					setTimeout(onReady, 100);
+				}
 			}
-		});
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', onReady);
+			} else {
+				onReady();
+			}
+			document.addEventListener('astro:page-load', onReady);
+			document.addEventListener('astro:before-preparation', function () {
+				lgInitialized = false;
+				if (lgInstance) {
+					try { lgInstance.destroy(true); } catch (e) {}
+					lgInstance = null;
+				}
+			});
+		})();
 	</script>
 
 	<script is:inline>
-		function addCopyButtons() {
-			const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
-			codeBlocks.forEach((block) => {
-				block.classList.add('code-block-added');
-				const wrapper = document.createElement('div');
-				wrapper.className = 'code-wrapper';
-				if (block.parentNode) {
-					block.parentNode.insertBefore(wrapper, block);
-					wrapper.appendChild(block);
-				}
-				const header = document.createElement('div');
-				header.className = 'code-header';
-				const macButtons = document.createElement('div');
-				macButtons.className = 'mac-buttons';
-				['close', 'minimize', 'maximize'].forEach(type => {
-					const btn = document.createElement('div');
-					btn.className = `mac-button ${type}`;
-					macButtons.appendChild(btn);
-				});
-				const code = block.querySelector('code');
-				let lang = '';
-				if (block.dataset.language) {
-					lang = block.dataset.language;
-				} else if (code) {
-					const classList = code.className.split(' ');
-					const langClass = classList.find(c => c.startsWith('language-'));
-					if (langClass) {
-						lang = langClass.replace('language-', '');
+		(function() {
+			function addCopyButtons() {
+				const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
+				codeBlocks.forEach((block) => {
+					block.classList.add('code-block-added');
+					const wrapper = document.createElement('div');
+					wrapper.className = 'code-wrapper';
+					if (block.parentNode) {
+						block.parentNode.insertBefore(wrapper, block);
+						wrapper.appendChild(block);
 					}
-				}
-				const langLabel = document.createElement('span');
-				langLabel.className = 'code-lang';
-				langLabel.textContent = lang;
-				const copyBtn = document.createElement('button');
-				copyBtn.className = 'copy-btn';
-				copyBtn.setAttribute('aria-label', 'Copy');
-				copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-				copyBtn.addEventListener('click', async () => {
-					try {
-						if (code) {
-							const text = code.innerText;
-							await navigator.clipboard.writeText(text);
-							copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-							copyBtn.classList.add('copied');
-							setTimeout(() => {
-								copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-								copyBtn.classList.remove('copied');
-							}, 2000);
+					const header = document.createElement('div');
+					header.className = 'code-header';
+					const macButtons = document.createElement('div');
+					macButtons.className = 'mac-buttons';
+					['close', 'minimize', 'maximize'].forEach(type => {
+						const btn = document.createElement('div');
+						btn.className = `mac-button ${type}`;
+						macButtons.appendChild(btn);
+					});
+					const code = block.querySelector('code');
+					let lang = '';
+					if (block.dataset.language) {
+						lang = block.dataset.language;
+					} else if (code) {
+						const classList = code.className.split(' ');
+						const langClass = classList.find(c => c.startsWith('language-'));
+						if (langClass) lang = langClass.replace('language-', '');
+					}
+					const langLabel = document.createElement('span');
+					langLabel.className = 'code-lang';
+					langLabel.textContent = lang;
+					const copyBtn = document.createElement('button');
+					copyBtn.className = 'copy-btn';
+					copyBtn.setAttribute('aria-label', 'Copy');
+					copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+					copyBtn.addEventListener('click', async () => {
+						try {
+							if (code) {
+								const text = code.innerText;
+								await navigator.clipboard.writeText(text);
+								copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+								copyBtn.classList.add('copied');
+								setTimeout(() => {
+									copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+									copyBtn.classList.remove('copied');
+								}, 2000);
+							}
+						} catch (err) {
+							console.error('Copy failed:', err);
 						}
-					} catch (err) {
-						console.error('Copy failed:', err);
-					}
+					});
+					header.appendChild(macButtons);
+					header.appendChild(langLabel);
+					header.appendChild(copyBtn);
+					wrapper.insertBefore(header, block);
 				});
-				header.appendChild(macButtons);
-				header.appendChild(langLabel);
-				header.appendChild(copyBtn);
-				wrapper.insertBefore(header, block);
-			});
-		}
+			}
 
-		window.addEventListener('DOMContentLoaded', function () {
-			addCopyButtons();
-		});
-		document.addEventListener('astro:page-load', function () {
-			addCopyButtons();
-		});
+			function onReady() { addCopyButtons(); }
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', onReady);
+			} else { onReady(); }
+			document.addEventListener('astro:page-load', onReady);
+		})();
 	</script>
 
 		<script is:inline>
 			(function () {
+				// Skip if no link-card placeholders exist
+				if (!document.querySelector('.post-content')) return;
+
 				const LS_KEY = 'linkcard:cache';
 				const REQUESTS_KEY = 'linkcard:requests';
 				const RATE_WINDOW = 60000;
@@ -696,9 +711,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					let html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">`;
 
 					if (style === 'cover' && meta.image) {
-						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>`;
+						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
 					} else if (style !== 'minimal' && meta.image) {
-						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" onerror="this.style.display='none'" /></div>`;
+						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
 					}
 
 					html += `<div class="link-card__body"><h3>${meta.title}</h3>`;
@@ -716,7 +731,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					const paragraphs = contentEl.querySelectorAll('p');
 					paragraphs.forEach(p => {
 						const text = p.textContent.trim();
-						// Match ::link-card{url="..."} or ::link-card{url="...", style="..."}
 						const match = text.match(/^::link-card\{url="([^"]+)"(?:\s*,\s*style="([^"]+)")?\}$/);
 						if (match) {
 							const url = match[1];
@@ -729,17 +743,19 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 				async function initCards() {
 					scanAndConvert();
-					document.querySelectorAll('.link-card[data-url]').forEach(async (el) => {
+					const cards = document.querySelectorAll('.link-card[data-url]');
+					if (cards.length === 0) return;
+					for (const el of cards) {
 						const url = el.getAttribute('data-url');
-						if (!url) return;
+						if (!url) continue;
 						const cached = getCache(url);
 						if (cached && cached.title) {
 							renderCard(el, url, cached);
-							return;
+							continue;
 						}
 						const meta = await fetchMeta(url);
 						if (meta) renderCard(el, url, meta);
-					});
+					}
 				}
 
 				if (document.readyState === 'loading') {
