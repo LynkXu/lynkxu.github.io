@@ -1,5 +1,5 @@
 ---
 slug: message
-title: Guestbook
+title: Leaves
 layout: Message
 ---
