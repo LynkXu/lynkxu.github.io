@@ -1,15 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
+import MagazineShell from '../../layouts/MagazineShell.astro';
 import CategoryFilter from '../../components/CategoryFilter.astro';
-import TaxonomyHero from '../../components/TaxonomyHero.astro';
 
 import { filterDrafts } from '../../utils/drafts';
 
 const allPosts = filterDrafts(await getCollection('blog'));
 const tagsMap = new Map();
 
-// 统计每个标签的文章数量
 allPosts.forEach((post) => {
 	if (post.data.tags) {
 		post.data.tags.forEach((tag) => {
@@ -18,7 +16,6 @@ allPosts.forEach((post) => {
 	}
 });
 
-// 按文章数量排序
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 const tagItems = sortedTags.map(([tag, count]) => ({
 	name: tag,
@@ -27,13 +24,6 @@ const tagItems = sortedTags.map(([tag, count]) => ({
 }));
 ---
 
-<Base title='Tags' description='Browse all tags' className="blog-surface-layout">
-	<div class='content-limit-width taxonomy-shell'>
-		<TaxonomyHero
-			eyebrow='Topic index'
-			title='Tags'
-			description={`${sortedTags.length} recurring topics, from passing obsessions to things this site keeps circling back to.`}
-		/>
-		<CategoryFilter categories={tagItems} label='Browse all topics' />
-	</div>
-</Base>
+<MagazineShell title='Tags' description='Browse all tags'>
+	<CategoryFilter categories={tagItems} label='Browse all topics' />
+</MagazineShell>

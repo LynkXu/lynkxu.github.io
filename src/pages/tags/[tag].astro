@@ -1,23 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
-import Base from '../../layouts/Base.astro';
-import CategoryFilter from '../../components/CategoryFilter.astro';
+import MagazineShell from '../../layouts/MagazineShell.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import TaxonomyHero from '../../components/TaxonomyHero.astro';
+import CategoryFilter from '../../components/CategoryFilter.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
 export async function getStaticPaths() {
 	const allPosts = filterDrafts(await getCollection('blog'));
 	const tags = new Set();
 
-	// 收集所有标签
 	allPosts.forEach((post) => {
 		if (post.data.tags) {
 			post.data.tags.forEach((tag) => tags.add(tag));
 		}
 	});
 
-	// 为每个标签创建页面
 	return Array.from(tags).map((tag) => {
 		const tagString = String(tag);
 		const filteredPosts = allPosts
@@ -50,30 +47,155 @@ const tagItems = Array.from(tagsMap.entries())
 	}));
 ---
 
-<Base title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`} className="blog-surface-layout">
-	<div class="content-limit-width taxonomy-shell">
-		<TaxonomyHero
-			eyebrow='tag archive'
-			title={`#${tag}`}
-			description={`${posts.length} posts in total.`}
-		/>
-		<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
-		<ul class='posts'>
-			{
-				posts.map((post) => (
-					<li>
-						<span>
-							<FormattedDate date={post.data.pubDate} />
-						</span>
-						<div>
-							<a href={`/blog/${post.data.slug ?? post.id}.html`} transition:name={`post-title-${post.id}`}>
+<MagazineShell title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`}>
+	<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
+
+	<div class="tag-entries">
+		<section class="tag-section" aria-labelledby={`tag-heading-${tag}`}>
+			<h2 class="tag-label" id={`tag-heading-${tag}`}>{tag}</h2>
+			<ul class="tag-list">
+				{
+					posts.map((post) => (
+						<li class="tag-item">
+							<time class="tag-date" datetime={post.data.pubDate.toISOString()}>
+								<FormattedDate date={post.data.pubDate} />
+							</time>
+							<a
+								href={`/blog/${post.data.slug ?? post.id}.html`}
+								class="tag-link"
+								transition:name={`post-title-${post.id}`}
+							>
 								{post.data.title}
 							</a>
-							{INCLUDE_DRAFTS && post.data.draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
-						</div>
-					</li>
-				))
-			}
-		</ul>
+							{INCLUDE_DRAFTS && post.data.draft && (
+								<span class="draft-badge" aria-label="Draft">Draft</span>
+							)}
+						</li>
+					))
+				}
+			</ul>
+		</section>
 	</div>
-</Base>
+</MagazineShell>
+
+<style>
+	.tag-entries {
+		display: flex;
+		flex-direction: column;
+		gap: var(--blog-card-gap, 0.9rem);
+	}
+
+	.tag-section {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: clamp(0.85rem, 2vw, 1.1rem);
+		padding: clamp(0.85rem, 2.2vw, 1.05rem) clamp(1rem, 2.4vw, 1.3rem);
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+		transition: background 0.2s ease, border-color 0.2s ease;
+		animation: fade-up 0.5s ease-out both;
+	}
+
+	.tag-section:hover {
+		background: color-mix(in oklab, var(--accent-soft-bg) 20%, var(--paper-card-bg));
+		border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
+	}
+
+	.tag-label {
+		margin: 0;
+		font-family: var(--field-font);
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--heading-color);
+		letter-spacing: 0.04em;
+		line-height: 1.4;
+		padding-top: 0.12rem;
+	}
+
+	.tag-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.tag-item {
+		display: flex;
+		align-items: baseline;
+		gap: 0.85rem;
+		padding: 0.45rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 45%, transparent);
+		transition: background 0.15s ease;
+	}
+
+	.tag-item:last-child {
+		border-bottom: none;
+	}
+
+	.tag-item:hover {
+		background: color-mix(in oklab, var(--accent-soft-bg) 25%, transparent);
+	}
+
+	.tag-date {
+		font-family: var(--field-font);
+		font-size: 0.72rem;
+		color: var(--gray-color);
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.02em;
+		flex-shrink: 0;
+		min-width: 2.4rem;
+	}
+
+	.tag-link {
+		color: var(--heading-color);
+		font-size: 0.94rem;
+		font-weight: 500;
+		letter-spacing: -0.005em;
+		text-decoration: none;
+		border-bottom: none !important;
+		background: none !important;
+		transition: color 0.2s ease;
+		flex: 1;
+	}
+
+	.tag-link:hover {
+		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+	}
+
+	.draft-badge {
+		font-family: var(--field-font);
+		font-size: 0.65rem;
+		font-weight: 500;
+		color: color-mix(in oklab, var(--color-warning) 65%, var(--gray-color));
+		letter-spacing: 0.02em;
+		flex-shrink: 0;
+	}
+
+	@keyframes fade-up {
+		from { opacity: 0; transform: translateY(10px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	@media (max-width: 720px) {
+		.tag-section {
+			grid-template-columns: 1fr;
+			gap: 0.5rem;
+			padding: var(--space-sm);
+		}
+
+		.tag-label {
+			font-size: 0.78rem;
+			padding-bottom: 0.3rem;
+			border-bottom: 1px solid var(--paper-card-border-soft);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.tag-section {
+			animation: none;
+		}
+	}
+</style>
