@@ -6,7 +6,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 
 const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
-const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 8);
+const recentPosts = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()).slice(0, 6);
 
 function getPostExcerpt(body = '', length = 150) {
 	const text = body
@@ -15,7 +15,7 @@ function getPostExcerpt(body = '', length = 150) {
 		.replace(/<[^>]+>/g, ' ')
 		.replace(/!\[[^\]]*\]\([^)]+\)/g, ' ')
 		.replace(/\[[^\]]+\]\([^)]+\)/g, (match) => match.match(/\[([^\]]+)\]/)?.[1] ?? '')
-		.replace(/[#>*_`~\-\u003c\u003e]/g, ' ')
+		.replace(/[#>*_`~\-<>]/g, ' ')
 		.replace(/\s+/g, ' ')
 		.trim();
 
@@ -39,8 +39,10 @@ const featuredTopics = sortedTags.slice(0, 10);
 		{
 			recentPosts.map((post, index) => {
 				const isFeatured = index === 0;
+				
+				const cardClass = isFeatured ? 'bento-card--featured' : 'bento-card--medium';
 				return (
-					<article class={`bento-card ${isFeatured ? 'bento-card--featured' : 'bento-card--medium'}`}>
+					<article class={`bento-card ${cardClass}`}>
 						<a
 							href={`/blog/${post.data.slug ?? post.id}.html`}
 							class="bento-link"
@@ -68,16 +70,11 @@ const featuredTopics = sortedTags.slice(0, 10);
 			})
 		}
 	</div>
-<!-- 
-	<div class="archive-link-wrap">
-		<a href="/blog" class="archive-link">View all posts →</a>
-	</div> -->
 
 	<!-- Topics -->
 	{
 		featuredTopics.length > 0 && (
 			<section class="home-topics" aria-labelledby="topics-heading">
-				{/* <h2 id="topics-heading" class="topics-heading">Topics</h2> */}
 				<div class="topics-row">
 					{featuredTopics.map(([tag, count]) => (
 						<a href={`/tags/${tag}/`} class="topic-pill">
@@ -89,7 +86,6 @@ const featuredTopics = sortedTags.slice(0, 10);
 			</section>
 		)
 	}
-
 </MagazineShell>
 
 <style>
@@ -111,8 +107,7 @@ const featuredTopics = sortedTags.slice(0, 10);
 		grid-template-areas:
 			"feat feat c2"
 			"feat feat c3"
-			"c4   c5   c5"
-			"c6   c7   c8";
+			"c4   c5   c6";
 		gap: var(--blog-card-gap, 0.9rem);
 		grid-auto-rows: minmax(140px, auto);
 	}
@@ -123,8 +118,6 @@ const featuredTopics = sortedTags.slice(0, 10);
 	.bento-grid .bento-card:nth-child(4) { grid-area: c4; }
 	.bento-grid .bento-card:nth-child(5) { grid-area: c5; }
 	.bento-grid .bento-card:nth-child(6) { grid-area: c6; }
-	.bento-grid .bento-card:nth-child(7) { grid-area: c7; }
-	.bento-grid .bento-card:nth-child(8) { grid-area: c8; }
 
 	/* ── Bento Card ── */
 	.bento-card {
@@ -206,6 +199,7 @@ const featuredTopics = sortedTags.slice(0, 10);
 		letter-spacing: -0.014em;
 	}
 
+
 	.bento-card:hover .bento-title {
 		color: color-mix(in oklab, var(--accent-color) 38%, var(--heading-color));
 	}
@@ -256,29 +250,8 @@ const featuredTopics = sortedTags.slice(0, 10);
 		font-weight: 500;
 		color: color-mix(in oklab, var(--color-warning) 65%, var(--gray-color));
 		letter-spacing: 0.02em;
-	}
-
-	/* ── Archive link ── */
-	.archive-link-wrap {
-		display: flex;
-		justify-content: center;
-		margin-top: clamp(1.2rem, 2.8vw, 1.6rem);
-		animation: fade-up 0.5s ease-out 0.4s both;
-	}
-
-	.archive-link {
-		font-family: var(--field-font);
-		font-size: 0.82rem;
-		color: var(--gray-color);
-		text-decoration: none;
-		border-bottom: 1px solid transparent;
-		transition: color 0.2s ease, border-color 0.2s ease;
-		padding: 0.3rem 0;
-	}
-
-	.archive-link:hover {
-		color: var(--heading-color);
-		border-bottom-color: color-mix(in oklab, var(--gray-color) 40%, transparent);
+		margin-top: auto;
+		padding-top: 0.35rem;
 	}
 
 	/* ── Topics ── */
@@ -286,8 +259,8 @@ const featuredTopics = sortedTags.slice(0, 10);
 		display: flex;
 		flex-direction: column;
 		gap: 0.9rem;
-		margin-top: clamp(1.5rem, 3vw, 2rem);
-		animation: fade-up 0.5s ease-out 0.48s both;
+		margin-top: 0.5rem;
+		animation: fade-up 0.5s ease-out 0.44s both;
 	}
 
 	.topics-heading {
@@ -356,26 +329,22 @@ const featuredTopics = sortedTags.slice(0, 10);
 		}
 	}
 
-	.bento-grid .bento-card:nth-child(1) { animation-delay: 0.06s; }
-	.bento-grid .bento-card:nth-child(2) { animation-delay: 0.1s; }
-	.bento-grid .bento-card:nth-child(3) { animation-delay: 0.14s; }
-	.bento-grid .bento-card:nth-child(4) { animation-delay: 0.18s; }
-	.bento-grid .bento-card:nth-child(5) { animation-delay: 0.22s; }
-	.bento-grid .bento-card:nth-child(6) { animation-delay: 0.26s; }
-	.bento-grid .bento-card:nth-child(7) { animation-delay: 0.30s; }
-	.bento-grid .bento-card:nth-child(8) { animation-delay: 0.34s; }
+	.bento-card:nth-child(1) { animation-delay: 0.06s; }
+	.bento-card:nth-child(2) { animation-delay: 0.12s; }
+	.bento-card:nth-child(3) { animation-delay: 0.18s; }
+	.bento-card:nth-child(4) { animation-delay: 0.24s; }
+	.bento-card:nth-child(5) { animation-delay: 0.30s; }
+	.bento-card:nth-child(6) { animation-delay: 0.36s; }
 
 	/* ── Responsive: tablet ── */
-	@media (max-width: 1023px) {
+	@media (max-width: 1023px) and (min-width: 768px) {
 		.bento-grid {
 			grid-template-columns: repeat(2, 1fr);
 			grid-template-areas:
 				"feat feat"
 				"c2   c3"
 				"c4   c5"
-				"c6   c7"
-				"c8   c8";
-			grid-auto-rows: minmax(120px, auto);
+				"c6   .";
 		}
 	}
 
@@ -389,32 +358,22 @@ const featuredTopics = sortedTags.slice(0, 10);
 				"c3"
 				"c4"
 				"c5"
-				"c6"
-				"c7"
-				"c8";
-			grid-auto-rows: auto;
+				"c6";
 		}
 
 		.bento-card--featured .bento-title {
 			font-size: 1.12rem;
 		}
 
-		.bento-title {
-			font-size: 1.02rem;
-		}
-
-		.bento-excerpt {
-			-webkit-line-clamp: 2;
-			font-size: 0.84rem;
+		.bento-card--featured .bento-excerpt {
+			-webkit-line-clamp: 3;
 		}
 	}
 
 	/* ── Reduced motion ── */
 	@media (prefers-reduced-motion: reduce) {
 		.bento-card,
-		.home-topics,
-		.archive-link-wrap,
-		.section-heading {
+		.home-topics {
 			animation: none;
 		}
 
