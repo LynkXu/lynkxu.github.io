@@ -66,8 +66,8 @@
   --paper-surface: var(--page-bg);
   --paper-card-bg: var(--content-bg);
   --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 92%, var(--page-bg));
-  --paper-card-border: color-mix(in oklab, var(--rule-color) 68%, transparent);
-  --paper-card-border-soft: color-mix(in oklab, var(--rule-color) 40%, transparent);
+  --paper-card-border: color-mix(in oklab, var(--rule-color) 55%, transparent);
+  --paper-card-border-soft: color-mix(in oklab, var(--rule-color) 30%, transparent);
   --paper-card-shadow:
     0 1px 2px rgba(15, 23, 42, 0.03),
     0 10px 28px rgba(15, 23, 42, 0.032);
