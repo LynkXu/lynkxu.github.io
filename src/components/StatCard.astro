@@ -13,105 +13,70 @@ const { label, value, unit, subtext, id } = Astro.props;
 
 <style>
   .stat-card {
-    --card-bg: var(--code-background-color);
-    /* 增强边框可见度 */
-    --card-border-top: rgba(0, 0, 0, 0.12);
-    --card-border-bottom: rgba(0, 0, 0, 0.08);
-
-    /* 细腻的“渐变描边”：比纯色 border 更精致 */
-    background:
-      linear-gradient(var(--card-bg), var(--card-bg)) padding-box,
-      linear-gradient(180deg, var(--card-border-top), var(--card-border-bottom)) border-box;
-    padding: 1.15rem 1.25rem;
-    border-radius: 18px;
+    background: color-mix(in oklab, var(--page-bg) 45%, var(--paper-card-bg));
+    padding: 1.5rem 1.75rem;
+    border-radius: 16px;
+    border: 1px solid var(--paper-card-border-soft);
+    box-shadow: var(--paper-card-shadow);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-    /* 增加基础阴影，提升立体感 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
 
   .stat-card:hover {
-    --card-border-top: rgba(0, 0, 0, 0.15);
-    --card-border-bottom: rgba(0, 0, 0, 0.10);
     transform: translateY(-2px);
-    box-shadow: 0 14px 32px -12px rgba(0, 0, 0, 0.12);
-    background: var(--background-color);
-    border-color: rgba(0,0,0,0.1);
+    border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.1);
   }
 
-  :global([data-theme="dark"]) .stat-card,
-  :global(:root[data-theme="dark"]) .stat-card {
-    --card-border-top: rgba(255, 255, 255, 0.15);
-    --card-border-bottom: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.05);
-    background: linear-gradient(#1e1e1e, #1e1e1e) padding-box,
-                linear-gradient(180deg, var(--card-border-top), var(--card-border-bottom)) border-box;
+  :global([data-theme="dark"]) .stat-card {
+    border-color: var(--paper-card-border-soft);
+    background: color-mix(in oklab, var(--page-bg) 18%, var(--paper-card-bg));
   }
 
-  :global([data-theme="dark"]) .stat-card:hover,
-  :global(:root[data-theme="dark"]) .stat-card:hover {
-    --card-border-top: rgba(255, 255, 255, 0.2);
-    --card-border-bottom: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.6);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme="light"])) .stat-card {
-      --card-border-top: rgba(255, 255, 255, 0.15);
-      --card-border-bottom: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.05);
-      background: linear-gradient(#1e1e1e, #1e1e1e) padding-box,
-                  linear-gradient(180deg, var(--card-border-top), var(--card-border-bottom)) border-box;
-    }
-    :global(:root:not([data-theme="light"])) .stat-card:hover {
-      --card-border-top: rgba(255, 255, 255, 0.2);
-      --card-border-bottom: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 16px 36px -20px rgba(0, 0, 0, 0.6);
-    }
+  :global([data-theme="dark"]) .stat-card:hover {
+    border-color: color-mix(in oklab, var(--accent-color) 14%, var(--paper-card-border-soft));
+    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.4);
   }
 
   .stat-label {
     font-size: 0.72rem;
     color: var(--gray-color);
-    margin-bottom: 0.65rem;
-    font-weight: 650;
-    text-transform: none;
-    letter-spacing: 0.02em;
+    margin-bottom: 0.55rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     opacity: 0.9;
   }
 
   .stat-main {
     display: flex;
     align-items: baseline;
-    gap: 0.35rem;
+    gap: 0.3rem;
   }
 
   .stat-value {
-    font-size: clamp(1.55rem, 1.4rem + 1.2vw, 2.05rem);
-    font-weight: 760;
+    font-size: clamp(1.45rem, 1.3rem + 1.1vw, 1.95rem);
+    font-weight: 750;
     color: var(--heading-color);
     line-height: 1;
     font-family: var(--font-heading, inherit);
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
   }
 
   .stat-unit {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--gray-color);
     font-weight: 500;
-    letter-spacing: 0;
-    transform: translateY(-0.03em);
+    transform: translateY(-0.02em);
   }
 
   .stat-sub {
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
     color: var(--gray-color);
     opacity: 0.75;
     font-weight: 500;

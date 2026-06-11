@@ -1,6 +1,11 @@
 <astro-tabs class="tabs-container">
   <div class="tabs-header">
-    {/* 这里会被 JS 填充 */}
+    <div class="tabs-nav">
+      {/* 这里会被 JS 填充 */}
+    </div>
+    <div class="tabs-extra">
+      <slot name="extra" />
+    </div>
   </div>
   <div class="tabs-content">
     <slot />
@@ -17,17 +22,18 @@
 
     init() {
       const header = this.querySelector('.tabs-header');
+      const nav = this.querySelector('.tabs-nav');
       const content = this.querySelector('.tabs-content');
-      if (!header) return;
+      if (!nav || !header) return;
       // 如果还没渲染好，可能拿不到 content
       if (!content) return;
 
       const items = Array.from(content.querySelectorAll('.tab-item'));
-      
+
       if (items.length === 0) return;
 
-      // 清空 header 防止重复添加 (以防万一)
-      header.innerHTML = '';
+      // 清空 nav 防止重复添加 (以防万一)
+      nav.innerHTML = '';
 
       // 生成 Tab 按钮
       items.forEach((item, index) => {
@@ -51,7 +57,7 @@
         }
 
         button.addEventListener('click', () => this.switchTab(index));
-        header.appendChild(button);
+        nav.appendChild(button);
 
         // 初始化内容显示状态
         if (index === 0) {
@@ -63,10 +69,10 @@
     }
 
     switchTab(index: number) {
-      const header = this.querySelector('.tabs-header');
+      const nav = this.querySelector('.tabs-nav');
       const content = this.querySelector('.tabs-content');
-      if (!header || !content) return;
-      const buttons = header.querySelectorAll('.tab-btn');
+      if (!nav || !content) return;
+      const buttons = nav.querySelectorAll('.tab-btn');
       const items = content.querySelectorAll('.tab-item');
 
       buttons.forEach((btn, i) => {
@@ -95,9 +101,22 @@
 
   .tabs-header {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid rgba(0,0,0,0.06);
     margin-bottom: var(--space-lg);
+    gap: var(--space-md);
+  }
+
+  .tabs-nav {
+    display: flex;
     gap: var(--space-xl);
+  }
+
+  .tabs-extra {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
   }
 
   :global(.tab-btn) {
@@ -147,18 +166,28 @@
 
   @media (max-width: 600px) {
     .tabs-header {
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .tabs-nav {
       gap: var(--space-lg);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
-    .tabs-header::-webkit-scrollbar {
+    .tabs-nav::-webkit-scrollbar {
       display: none;
     }
     :global(.tab-btn) {
       font-size: var(--text-sm);
       padding: var(--space-xs) 0;
       white-space: nowrap;
+    }
+    .tabs-extra {
+      margin-left: 0;
+      width: 100%;
+      justify-content: flex-end;
+      padding-bottom: 0.4rem;
     }
   }
 </style>
