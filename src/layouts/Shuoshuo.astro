@@ -397,8 +397,8 @@ const rangeLabel = newestYear && oldestYear && newestYear !== oldestYear ? `${ol
 
 	.memos-month {
 		display: grid;
-		grid-template-columns: minmax(5.2rem, 6.8rem) minmax(0, 1fr);
-		gap: clamp(var(--space-md), 2.5vw, var(--space-lg));
+		grid-template-columns: minmax(4.5rem, 5.25rem) minmax(0, 1fr);
+		gap: var(--space-sm);
 		position: relative;
 	}
 
@@ -425,8 +425,8 @@ const rangeLabel = newestYear && oldestYear && newestYear !== oldestYear ? `${ol
 
 	.memo-item {
 		display: grid;
-		grid-template-columns: minmax(4.6rem, 5.8rem) minmax(0, 1fr);
-		gap: clamp(var(--space-sm), 2.4vw, var(--space-md));
+		grid-template-columns: minmax(4rem, 4.6rem) minmax(0, 1fr);
+		gap: var(--space-xs);
 		padding: 0.82rem 0.9rem;
 		position: relative;
 		border: 1px solid var(--paper-card-border-soft);
@@ -471,13 +471,13 @@ const rangeLabel = newestYear && oldestYear && newestYear !== oldestYear ? `${ol
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.94rem;
-		line-height: 1.74;
+		font-size: 0.92rem;
+		line-height: 1.68;
 		letter-spacing: 0;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.18rem 0;
+		margin: 0.14rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
@@ -674,8 +674,8 @@ const rangeLabel = newestYear && oldestYear && newestYear !== oldestYear ? `${ol
 		}
 
 		.memo-content {
-			font-size: 0.9rem;
-			line-height: 1.64;
+			font-size: 0.88rem;
+			line-height: 1.6;
 		}
 
 		.memo-footer {
