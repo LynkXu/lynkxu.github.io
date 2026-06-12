@@ -8,6 +8,7 @@ type Place = {
   lng: number;
   date: string;
   status?: 'living' | 'hometown';
+  country?: string;
 };
 
 const places: Place[] = [
@@ -19,15 +20,15 @@ const places: Place[] = [
   // 直接使用 Google Maps 的坐标最准确。如果使用高德/百度坐标，可能会有几百米的偏移，但在世界地图尺度上通常可接受。
   { name: '上海', lat: 31.2304, lng: 121.4737, date: '2020 - 至今', status: 'living' },
   { name: '六安', lat: 31.73, lng: 116.43, date: '1998', status: 'hometown' },
-  { name: '大阪', lat: 34.6937, lng: 135.5023, date: '2026-05' },
-  { name: '京都', lat: 35.0116, lng: 135.7681, date: '2026-05' },
-  { name: '神户', lat: 34.6901, lng: 135.1955, date: '2026-05' },
+  { name: '大阪', lat: 34.6937, lng: 135.5023, date: '2026-05', country: 'JP' },
+  { name: '京都', lat: 35.0116, lng: 135.7681, date: '2026-05', country: 'JP' },
+  { name: '神户', lat: 34.6901, lng: 135.1955, date: '2026-05', country: 'JP' },
   { name: '扬州', lat: 32.39, lng: 119.41, date: '2025-10' },
   { name: '常州', lat: 31.81, lng: 119.97, date: '2025-10' },
   { name: '香港', lat: 22.28, lng: 114.17, date: '2025-05' },
   { name: '深圳', lat: 22.5431, lng: 114.0579, date: '2025-05' },
-  { name: '济州岛', lat: 33.50, lng: 126.518, date: '2025-05' },
-  { name: '休斯顿', lat: 29.97, lng: -95.689, date: '2025-02' },
+  { name: '济州岛', lat: 33.50, lng: 126.518, date: '2025-05', country: 'KR' },
+  { name: '休斯顿', lat: 29.97, lng: -95.689, date: '2025-02', country: 'US' },
   { name: '南京', lat: 32.06, lng: 118.80, date: '2024-10' },
   { name: '绍兴', lat: 30.05, lng: 120.58, date: '2024-07' },
   { name: '黄山', lat: 30.14, lng: 118.16, date: '2024-07' },
@@ -49,6 +50,12 @@ const places: Place[] = [
 const getDateVal = (d: string) => {
   const match = d.match(/\d{4}([-.]\d{2})?/);
   return match ? match[0].replace('.', '-') : '';
+};
+
+const countryEmoji: Record<string, string> = {
+  JP: '🇯🇵',
+  KR: '🇰🇷',
+  US: '🇺🇸',
 };
 
 const specialPlaces = places.filter((p) => p.status === 'living' || p.status === 'hometown');
@@ -117,7 +124,7 @@ const description = '读万卷书，行万里路';
           <span>World Map</span>
           <span>{visitedPlaces.length + specialPlaces.length} pins</span>
         </div>
-        <div id="map"></div>
+        <div id="map" data-places={JSON.stringify(places)}></div>
       </div>
     </section>
 
@@ -145,11 +152,12 @@ const description = '读万卷书，行万里路';
           <p>Recent Stops</p>
           <h2 id="recent-title">最近足迹</h2>
         </div>
-        <div class="recent-strip">
+          <div class="recent-strip">
           {latestPlaces.map((place, index) => (
             <button class="recent-stop" type="button" data-lat={place.lat} data-lng={place.lng}>
+              {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
               <span class="stop-index">{String(index + 1).padStart(2, '0')}</span>
-              <strong>{place.name}</strong>
+              <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
               <span>{place.date}</span>
             </button>
           ))}
@@ -172,7 +180,8 @@ const description = '读万卷书，行万里路';
               <div class="places-grid">
                 {placesByYear[year].map((place) => (
                   <button class="place-card" type="button" data-lat={place.lat} data-lng={place.lng}>
-                    <strong>{place.name}</strong>
+                    {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
+                    <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
                     <span>{place.date}</span>
                   </button>
                 ))}
@@ -264,11 +273,11 @@ const description = '读万卷书，行万里路';
       padding: 0.85rem 0.9rem;
       border: 1px solid var(--paper-card-border-soft);
       border-radius: 8px;
-      background: color-mix(in oklab, var(--content-bg) 58%, transparent);
+      background: color-mix(in oklab, var(--content-bg) 82%, transparent);
     }
 
     :global([data-theme='dark']) .stat-tile {
-      background: color-mix(in oklab, var(--content-bg) 52%, transparent);
+      background: color-mix(in oklab, var(--content-bg) 78%, transparent);
     }
 
     .stat-tile strong,
@@ -389,21 +398,23 @@ const description = '读万卷书，行万里路';
 
     .place-card,
     .recent-stop {
+      position: relative;
       min-width: 0;
       appearance: none;
       border: 1px solid var(--paper-card-border-soft);
       border-radius: 8px;
-      background: color-mix(in oklab, var(--content-bg) 72%, transparent);
+      background: color-mix(in oklab, var(--content-bg) 92%, transparent);
       color: inherit;
       text-align: left;
       cursor: pointer;
       transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
       font-family: inherit;
+      overflow: hidden;
     }
 
     :global([data-theme='dark']) .place-card,
     :global([data-theme='dark']) .recent-stop {
-      background: color-mix(in oklab, var(--content-bg) 55%, transparent);
+      background: color-mix(in oklab, var(--content-bg) 85%, transparent);
     }
 
     .place-card {
@@ -429,6 +440,33 @@ const description = '读万卷书，行万里路';
       font-size: 1rem;
       line-height: 1.25;
       color: var(--heading-color);
+    }
+
+    .country-tag {
+      margin-left: 0.35em;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.6rem;
+      font-weight: 600;
+      font-style: normal;
+      color: var(--gray-color);
+      letter-spacing: 0.04em;
+      vertical-align: super;
+    }
+
+    .flag-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 0.85rem;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.38;
+      filter: grayscale(0.2);
+    }
+
+    :global([data-theme='dark']) .flag-badge {
+      opacity: 0.42;
     }
 
     .place-card span,
@@ -562,61 +600,71 @@ const description = '读万卷书，行万里路';
     }
   </style>
 
-  <script define:vars={{ places }}>
+  <script is:inline>
     function initMap() {
-      if (!window.L) return;
+      if (window.L) {
+        const container = document.getElementById('map');
+        if (container && !container._leaflet_id) {
+          let places = [];
+          try {
+            const data = container.dataset.places;
+            places = data ? JSON.parse(data) : [];
+          } catch (e) {
+            places = [];
+          }
 
-      const container = document.getElementById('map');
-      if (!container || container._leaflet_id) return;
+          const map = L.map('map', {
+            scrollWheelZoom: false,
+          }).setView([32.5, 112.5], 4);
 
-      const map = L.map('map', {
-        scrollWheelZoom: false,
-      }).setView([32.5, 112.5], 4);
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxZoom: 19,
+          }).addTo(map);
 
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        maxZoom: 19,
-      }).addTo(map);
+          const markerColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#425466';
+          const baseMarkers = [];
 
-      const markerColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#425466';
-      const baseMarkers = [];
+          places.forEach(function(place) {
+            const isSpecial = place.status === 'living' || place.status === 'hometown';
+            const marker = L.circleMarker([place.lat, place.lng], {
+              radius: isSpecial ? 7 : 5,
+              color: markerColor,
+              weight: isSpecial ? 2 : 1.4,
+              opacity: isSpecial ? 0.95 : 0.72,
+              fillColor: markerColor,
+              fillOpacity: isSpecial ? 0.28 : 0.16,
+            }).addTo(map);
 
-      places.forEach((place) => {
-        const isSpecial = place.status === 'living' || place.status === 'hometown';
-        const marker = L.circleMarker([place.lat, place.lng], {
-          radius: isSpecial ? 7 : 5,
-          color: markerColor,
-          weight: isSpecial ? 2 : 1.4,
-          opacity: isSpecial ? 0.95 : 0.72,
-          fillColor: markerColor,
-          fillOpacity: isSpecial ? 0.28 : 0.16,
-        }).addTo(map);
+            marker.bindPopup('<strong>' + place.name + '</strong><br><small>' + place.date + '</small>');
+            baseMarkers.push({ marker: marker, lat: place.lat, lng: place.lng });
+          });
 
-        marker.bindPopup(`<strong>${place.name}</strong><br><small>${place.date}</small>`);
-        baseMarkers.push({ marker, lat: place.lat, lng: place.lng });
-      });
+          const bounds = L.latLngBounds(baseMarkers.map(function(item) { return [item.lat, item.lng]; }));
+          if (bounds.isValid()) {
+            map.fitBounds(bounds, { padding: [34, 34], maxZoom: 5 });
+          }
 
-      const bounds = L.latLngBounds(baseMarkers.map((item) => [item.lat, item.lng]));
-      if (bounds.isValid()) {
-        map.fitBounds(bounds, { padding: [34, 34], maxZoom: 5 });
+          const cards = document.querySelectorAll('.place-card, .recent-stop');
+          cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+              const lat = Number.parseFloat(card.dataset.lat);
+              const lng = Number.parseFloat(card.dataset.lng);
+              if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                map.flyTo([lat, lng], 9, { duration: 0.8 });
+                const target = baseMarkers.find(function(item) {
+                  return Math.abs(item.lat - lat) < 0.0001 && Math.abs(item.lng - lng) < 0.0001;
+                });
+                if (target) target.marker.openPopup();
+              }
+            });
+          });
+
+          window.addEventListener('resize', function() {
+            map.invalidateSize();
+          });
+        }
       }
-
-      const cards = document.querySelectorAll('.place-card, .recent-stop');
-      cards.forEach((card) => {
-        card.addEventListener('click', () => {
-          const lat = Number.parseFloat(card.dataset.lat);
-          const lng = Number.parseFloat(card.dataset.lng);
-          if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
-
-          map.flyTo([lat, lng], 9, { duration: 0.8 });
-          const target = baseMarkers.find((item) => Math.abs(item.lat - lat) < 0.0001 && Math.abs(item.lng - lng) < 0.0001);
-          if (target) target.marker.openPopup();
-        });
-      });
-
-      window.addEventListener('resize', () => {
-        map.invalidateSize();
-      });
     }
 
     if (typeof L !== 'undefined') {
@@ -627,7 +675,7 @@ const description = '读万卷书，行万里路';
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', function() {
         if (typeof L !== 'undefined') initMap();
       });
     }
