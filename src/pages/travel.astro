@@ -2,77 +2,95 @@
 import Base from '../layouts/Base.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
 
-const places = [
+type Place = {
+  name: string;
+  lat: number;
+  lng: number;
+  date: string;
+  status?: 'living' | 'hometown';
+  country?: string;
+};
+
+const places: Place[] = [
   // 获取经纬度的方法：
   // 1. Google Maps: 右键点击地点，第一项就是"纬度, 经度" (例如: 39.9042, 116.4074)
   // 2. 高德地图坐标拾取器: https://lbs.amap.com/tools/picker
   // 3. 百度地图坐标拾取系统: https://api.map.baidu.com/lbsapi/getpoint/index.html
   // 注意：国内地图坐标(GCJ-02/BD-09)与国际坐标(WGS-84)有细微偏差，Leaflet 使用国际标准坐标，
   // 直接使用 Google Maps 的坐标最准确。如果使用高德/百度坐标，可能会有几百米的偏移，但在世界地图尺度上通常可接受。
-  
   { name: '上海', lat: 31.2304, lng: 121.4737, date: '2020 - 至今', status: 'living' },
   { name: '六安', lat: 31.73, lng: 116.43, date: '1998', status: 'hometown' },
-  { name: '大阪', lat: 34.6937, lng: 135.5023, date: '2026-05' },
-  { name: '京都', lat: 35.0116, lng: 135.7681, date: '2026-05' },
-  { name: '神户', lat: 34.6901, lng: 135.1955, date: '2026-05' },
+  { name: '大阪', lat: 34.6937, lng: 135.5023, date: '2026-05', country: 'JP' },
+  { name: '京都', lat: 35.0116, lng: 135.7681, date: '2026-05', country: 'JP' },
+  { name: '神户', lat: 34.6901, lng: 135.1955, date: '2026-05', country: 'JP' },
   { name: '扬州', lat: 32.39, lng: 119.41, date: '2025-10' },
   { name: '常州', lat: 31.81, lng: 119.97, date: '2025-10' },
   { name: '香港', lat: 22.28, lng: 114.17, date: '2025-05' },
   { name: '深圳', lat: 22.5431, lng: 114.0579, date: '2025-05' },
-  { name: '济州岛', lat: 33.50, lng: 126.518, date: '2025-05' },
-  { name: '休斯顿', lat: 29.97, lng: -95.689, date: '2025-02' },
+  { name: '济州岛', lat: 33.50, lng: 126.518, date: '2025-05', country: 'KR' },
+  { name: '休斯顿', lat: 29.97, lng: -95.689, date: '2025-02', country: 'US' },
   { name: '南京', lat: 32.06, lng: 118.80, date: '2024-10' },
   { name: '绍兴', lat: 30.05, lng: 120.58, date: '2024-07' },
   { name: '黄山', lat: 30.14, lng: 118.16, date: '2024-07' },
   { name: '长沙', lat: 28.23, lng: 112.94, date: '2024-06' },
   { name: '千岛湖', lat: 29.59, lng: 119.01, date: '2024-05' },
-  { name: '平潭', lat:25.50, lng: 119.79, date: '2023-10' },
+  { name: '平潭', lat: 25.50, lng: 119.79, date: '2023-10' },
   { name: '厦门', lat: 24.48, lng: 118.09, date: '2023-10' },
   { name: '武汉', lat: 30.59, lng: 114.30, date: '2023-08' },
   { name: '西双版纳', lat: 22.01, lng: 100.80, date: '2023-02' },
   { name: '大理', lat: 25.68, lng: 100.30, date: '2023-02' },
-  { name: '丽江', lat: 26.87, lng:100.24, date: '2023-02' },
-  { name: '湖州', lat: 30.89, lng:120.09, date: '2023-01' },
+  { name: '丽江', lat: 26.87, lng: 100.24, date: '2023-02' },
+  { name: '湖州', lat: 30.89, lng: 120.09, date: '2023-01' },
   { name: '杭州', lat: 30.2741, lng: 120.1551, date: '2021-06' },
   { name: '宜春', lat: 28.10, lng: 114.08, date: '2017-12' },
   { name: '烟台', lat: 37.46, lng: 121.45, date: '2015-12' },
   { name: '青岛', lat: 36.06, lng: 120.31, date: '2015-09' },
 ];
 
-// Helper to extract date value for sorting
 const getDateVal = (d: string) => {
-    const match = d.match(/\d{4}([-.]\d{2})?/);
-    return match ? match[0].replace('.', '-') : '';
+  const match = d.match(/\d{4}([-.]\d{2})?/);
+  return match ? match[0].replace('.', '-') : '';
 };
 
-// 1. Separate Special (Living/Hometown) vs Visited
-const specialPlaces = places.filter(p => p.status === 'living' || p.status === 'hometown');
-const visitedPlaces = places.filter(p => !p.status);
+const countryEmoji: Record<string, string> = {
+  JP: '🇯🇵',
+  KR: '🇰🇷',
+  US: '🇺🇸',
+};
 
-// Sort special places: Hometown first, then Living
+const specialPlaces = places.filter((p) => p.status === 'living' || p.status === 'hometown');
+const visitedPlaces = places.filter((p) => !p.status);
+
 specialPlaces.sort((a, b) => {
-    if (a.status === 'hometown' && b.status !== 'hometown') return -1;
-    if (b.status === 'hometown' && a.status !== 'hometown') return 1;
-    return 0;
+  if (a.status === 'hometown' && b.status !== 'hometown') return -1;
+  if (b.status === 'hometown' && a.status !== 'hometown') return 1;
+  return 0;
 });
 
-// 2. Sort visited places by date descending first
 visitedPlaces.sort((a, b) => getDateVal(b.date).localeCompare(getDateVal(a.date)));
 
-// 3. Group by Year
 const placesByYear = visitedPlaces.reduce((acc, place) => {
-    const yearMatch = place.date.match(/\d{4}/);
-    const year = yearMatch ? yearMatch[0] : '其他';
-    if (!acc[year]) acc[year] = [];
-    acc[year].push(place);
-    return acc;
-}, {} as Record<string, typeof places>);
+  const yearMatch = place.date.match(/\d{4}/);
+  const year = yearMatch ? yearMatch[0] : '其他';
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(place);
+  return acc;
+}, {} as Record<string, Place[]>);
 
-// 4. Get sorted years
 const sortedYears = Object.keys(placesByYear).sort((a, b) => b.localeCompare(a));
+const latestPlaces = visitedPlaces.slice(0, 6);
+const latestPlace = visitedPlaces[0];
+const firstYear = sortedYears[sortedYears.length - 1];
+const lastYear = sortedYears[0];
 
-const title = "旅行足迹";
-const description = "读万卷书，行万里路";
+const stats = [
+  { value: String(visitedPlaces.length), label: '到访地点', note: `${specialPlaces.length} 个生活节点` },
+  { value: String(sortedYears.length), label: '记录年份', note: `${firstYear} - ${lastYear}` },
+  { value: latestPlace?.name || '-', label: '最近一站', note: latestPlace?.date || '暂无记录' },
+];
+
+const title = '旅行足迹';
+const description = '读万卷书，行万里路';
 ---
 
 <Base title={title} description={description} fullWidth={true} hideHeader={true} useCard={false} className="layout-wide travel-page">
@@ -81,383 +99,585 @@ const description = "读万卷书，行万里路";
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" slot="head" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" slot="head" defer></script>
 
-  <div class="travel-container">
-    
-    <!-- Header overlay on top of map -->
-    <div class="header-overlay">
-        <SimpleHeader title="Travel" className="transparent-header" />
-    </div>
+  <div class="travel-shell">
+    <SimpleHeader title="Travel" description="旅行足迹" />
 
-    <!-- 全屏地图作为背景的一部分 -->
-    <div class="map-section">
-        <div class="map-overlay top"></div>
-        <div id="map"></div>
-        <div class="map-overlay bottom"></div>
-    </div>
-    
-    <div class="content-wrapper">
-        <div class="places-list">
-            
-            {specialPlaces.length > 0 && (
-                <div class="year-section">
-                    <h2 class="year-title">常驻 & 老家</h2>
-                    <div class="places-grid">
-                        {specialPlaces.map(place => (
-                            <div class="place-card" data-lat={place.lat} data-lng={place.lng}>
-                                <div class="place-header">
-                                    <h3>
-                                        {place.name}
-                                        {place.status === 'living' && <span class="living-badge">Current</span>}
-                                        {place.status === 'hometown' && <span class="hometown-badge">Hometown</span>}
-                                    </h3>
-                                    <span class="date">{place.date}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            )}
+    <section class="travel-hero" aria-labelledby="travel-title">
+      <div class="travel-intro">
+        <p class="eyebrow">Atlas / Timeline</p>
+        <h1 id="travel-title">旅行足迹</h1>
+        <p class="lede">把生活过的地方、路过的城市和近期目的地放在同一张地图上。这里不是攻略，更像一本持续更新的个人地图册。</p>
 
-            {sortedYears.map(year => (
-                <div class="year-section">
-                    <h2 class="year-title">{year}</h2>
-                    <div class="places-grid">
-                        {placesByYear[year].map(place => (
-                            <div class="place-card" data-lat={place.lat} data-lng={place.lng}>
-                                <div class="place-header">
-                                    <h3>{place.name}</h3>
-                                    <span class="date">{place.date}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            ))}
-
+        <div class="travel-stats" aria-label="旅行概览">
+          {stats.map((stat) => (
+            <div class="stat-tile">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+              <small>{stat.note}</small>
+            </div>
+          ))}
         </div>
-    </div>
+      </div>
+
+      <div class="map-card" aria-label="旅行地图">
+        <div class="map-card-header">
+          <span>World Map</span>
+          <span>{visitedPlaces.length + specialPlaces.length} pins</span>
+        </div>
+        <div id="map" data-places={JSON.stringify(places)}></div>
+      </div>
+    </section>
+
+    <main class="travel-content">
+      {specialPlaces.length > 0 && (
+        <section class="travel-section special-section" aria-labelledby="special-title">
+          <div class="section-heading">
+            <p>Base Notes</p>
+            <h2 id="special-title">常驻与老家</h2>
+          </div>
+          <div class="special-grid">
+            {specialPlaces.map((place) => (
+              <button class={`place-card ${place.status}`} type="button" data-lat={place.lat} data-lng={place.lng}>
+                <span class="place-role">{place.status === 'living' ? 'Current' : 'Hometown'}</span>
+                <strong>{place.name}</strong>
+                <span>{place.date}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="travel-section recent-section" aria-labelledby="recent-title">
+        <div class="section-heading">
+          <p>Recent Stops</p>
+          <h2 id="recent-title">最近足迹</h2>
+        </div>
+          <div class="recent-strip">
+          {latestPlaces.map((place, index) => (
+            <button class="recent-stop" type="button" data-lat={place.lat} data-lng={place.lng}>
+              {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
+              <span class="stop-index">{String(index + 1).padStart(2, '0')}</span>
+              <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
+              <span>{place.date}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="travel-section archive-section" aria-labelledby="archive-title">
+        <div class="section-heading">
+          <p>Archive</p>
+          <h2 id="archive-title">年度档案</h2>
+        </div>
+
+        <div class="year-timeline">
+          {sortedYears.map((year) => (
+            <section class="year-row" aria-labelledby={`year-${year}`}>
+              <div class="year-meta">
+                <h3 id={`year-${year}`}>{year}</h3>
+                <span>{placesByYear[year].length} stops</span>
+              </div>
+              <div class="places-grid">
+                {placesByYear[year].map((place) => (
+                  <button class="place-card" type="button" data-lat={place.lat} data-lng={place.lng}>
+                    {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
+                    <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
+                    <span>{place.date}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+    </main>
   </div>
 
   <style>
     :global(body.full-width .global-layout-transparent.travel-page) {
-        max-width: 100%;
+      max-width: 100%;
+      padding: 0;
     }
 
-    .travel-container {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        position: relative;
+    :global(.travel-page > main) {
+      width: 100%;
     }
-    
-    .header-overlay {
-        position: relative;
-        width: 100%;
-        z-index: 10;
-        background: var(--page-bg);
+
+    .travel-shell {
+      width: 100%;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--ink-accent) 2.5%, transparent), transparent 360px),
+        var(--page-bg);
     }
-    
-    :global([data-theme='dark']) .header-overlay {
-        background: var(--page-bg);
+
+    .travel-hero,
+    .travel-content {
+      width: var(--container-full);
+      margin-inline: auto;
     }
-    
-    /* Map Section - Immersive */
-    .map-section {
-        height: 60vh;
-        width: 100%;
-        position: relative;
-        z-index: 1;
-        /* 移除之前的阴影，让它融入 */
+
+    .travel-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(460px, 1.18fr);
+      gap: clamp(var(--space-xl), 5vw, var(--space-3xl));
+      align-items: stretch;
+      padding: clamp(var(--space-lg), 4vw, var(--space-3xl)) 0 var(--space-2xl);
     }
-    
+
+    .travel-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      padding-block: var(--space-lg);
+    }
+
+    .eyebrow,
+    .section-heading p {
+      margin: 0;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-color);
+    }
+
+    .travel-intro h1 {
+      margin: var(--space-sm) 0 0;
+      font-family: var(--serif-font);
+      font-size: clamp(2.25rem, 6vw, 5rem);
+      line-height: 0.96;
+      font-weight: 700;
+      color: var(--heading-color);
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 38rem;
+      margin: var(--space-lg) 0 0;
+      color: var(--text-color);
+      line-height: 1.82;
+    }
+
+    .travel-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+    }
+
+    .stat-tile {
+      min-width: 0;
+      padding: 0.85rem 0.9rem;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--content-bg) 82%, transparent);
+    }
+
+    :global([data-theme='dark']) .stat-tile {
+      background: color-mix(in oklab, var(--content-bg) 78%, transparent);
+    }
+
+    .stat-tile strong,
+    .stat-tile span,
+    .stat-tile small {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-tile strong {
+      font-family: var(--ui-font, inherit);
+      font-size: clamp(1.25rem, 2.8vw, 1.8rem);
+      line-height: 1;
+      color: var(--heading-color);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-tile span {
+      margin-top: 0.45rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .stat-tile small {
+      margin-top: 0.12rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.68rem;
+      color: var(--gray-color);
+      line-height: 1.45;
+    }
+
+    .map-card {
+      min-height: 520px;
+      overflow: hidden;
+      border: 1px solid var(--paper-card-border);
+      border-radius: 10px;
+      background: var(--paper-card-bg);
+      box-shadow: var(--paper-card-shadow);
+    }
+
+    .map-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding: 0.72rem 0.9rem;
+      border-bottom: 1px solid var(--paper-card-border-soft);
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gray-color);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
     #map {
-        height: 100%;
-        width: 100%;
-        background: #e5e5e5; /* Neutral gray while loading */
-        z-index: 1;
-    }
-    
-    /* Gradient overlay to blend map into content */
-    .map-overlay {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 80px; /* Increased for smoother transition */
-        z-index: 2;
-        pointer-events: none;
+      width: 100%;
+      height: calc(100% - 42px);
+      min-height: 478px;
+      background: color-mix(in oklab, var(--accent-color) 5%, var(--content-bg));
+      z-index: 1;
     }
 
-    .map-overlay.bottom {
-        bottom: 0;
-        background: linear-gradient(to bottom, transparent, var(--page-bg));
+    :global(.leaflet-container) {
+      font-family: var(--ui-font, inherit);
+      background: color-mix(in oklab, var(--accent-color) 5%, var(--content-bg));
     }
 
-    .map-overlay.top {
-        top: 0;
-        background: linear-gradient(to bottom, var(--page-bg), transparent);
+    :global(.leaflet-popup-content-wrapper) {
+      border-radius: 8px;
+      box-shadow: var(--paper-card-shadow);
+      color: var(--text-color);
     }
 
-    .content-wrapper {
-        position: relative;
-        z-index: 2;
-        padding: var(--space-3xl) 0 var(--space-3xl);
-        width: 100%;
-        margin: 0;
-        /* Ensure background matches main content to avoid transparency issues over map edges */
-        background-color: var(--page-bg); 
-        min-height: 50vh;
+    :global(.leaflet-popup-content) {
+      margin: 0.6rem 0.72rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.78rem;
+      line-height: 1.45;
     }
 
-    .travel-header {
-        text-align: center;
-        margin: 0;
-        padding: 3rem 2rem 4rem;
-        position: relative;
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    
-    .travel-header h1 {
-        font-family: var(--serif-font);
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: var(--heading-color);
-        margin: 0;
+    .travel-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      padding: 0 0 var(--space-3xl);
     }
 
-    .places-list {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 var(--page-inline);
+    .travel-section {
+      display: grid;
+      grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
+      gap: clamp(var(--space-lg), 4vw, var(--space-2xl));
+      align-items: start;
     }
 
-    .year-title {
-        font-family: var(--serif-font);
-        font-size: 2rem;
-        font-weight: bold;
-        color: color-mix(in oklab, var(--accent-color) 68%, var(--heading-color));
-        opacity: 0.22;
-        position: relative;
-        left: 0;
-        top: 0;
-        z-index: 0;
-        pointer-events: none;
-        border-left: none;
-        padding-left: 0;
-        margin-bottom: var(--space-xs);
-        display: block;
-        width: 100%;
+    .section-heading {
+      position: sticky;
+      top: var(--space-lg);
     }
 
-    .year-section {
-        margin-bottom: var(--space-2xl);
-        position: relative;
+    .section-heading h2 {
+      margin: var(--space-xs) 0 0;
+      font-family: var(--serif-font);
+      font-size: clamp(1.28rem, 2.4vw, 1.8rem);
+      line-height: 1.15;
+      color: var(--heading-color);
     }
 
+    .special-grid,
     .places-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: var(--space-md);
-        position: relative;
-        z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-sm);
     }
 
-    /* Card Styles - Refined */
+    .place-card,
+    .recent-stop {
+      position: relative;
+      min-width: 0;
+      appearance: none;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--content-bg) 92%, transparent);
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      font-family: inherit;
+      overflow: hidden;
+    }
+
+    :global([data-theme='dark']) .place-card,
+    :global([data-theme='dark']) .recent-stop {
+      background: color-mix(in oklab, var(--content-bg) 85%, transparent);
+    }
+
     .place-card {
-        background: rgba(255, 255, 255, 0.4);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        padding: var(--space-sm) var(--space-xs);
-        border-radius: 4px;
-        border: 1px solid rgba(0, 0, 0, 0.03);
-        transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-        position: relative;
-        cursor: pointer;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+      padding: 0.82rem 0.85rem;
     }
 
-    :global([data-theme='dark']) .place-card {
-        background: rgba(255, 255, 255, 0.03);
-        border-color: rgba(255, 255, 255, 0.05);
+    .place-card:hover,
+    .place-card:focus-visible,
+    .recent-stop:hover,
+    .recent-stop:focus-visible {
+      transform: translateY(-2px);
+      border-color: color-mix(in oklab, var(--ink-accent) 28%, var(--paper-card-border));
+      background: color-mix(in oklab, var(--content-bg) 88%, var(--ink-wash));
+      outline: none;
     }
 
-    .place-card:hover {
-        transform: translateY(-4px);
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-        border-color: rgba(0,0,0,0.06);
+    .place-card strong,
+    .recent-stop strong {
+      font-family: var(--serif-font);
+      font-size: 1rem;
+      line-height: 1.25;
+      color: var(--heading-color);
     }
 
-    :global([data-theme='dark']) .place-card:hover {
-        background: rgba(255, 255, 255, 0.08);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        border-color: rgba(255, 255, 255, 0.1);
+    .country-tag {
+      margin-left: 0.35em;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.6rem;
+      font-weight: 600;
+      font-style: normal;
+      color: var(--gray-color);
+      letter-spacing: 0.04em;
+      vertical-align: super;
     }
 
-    .place-header {
-        width: 100%;
+    .flag-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 0.85rem;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.38;
+      filter: grayscale(0.2);
     }
 
-    .place-header h3 {
-        font-family: var(--serif-font);
-        font-size: 0.9rem;
-        margin-bottom: var(--space-2xs);
-        font-weight: 600;
-        letter-spacing: 0.02em;
-        line-height: 1.2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: var(--space-2xs);
+    :global([data-theme='dark']) .flag-badge {
+      opacity: 0.42;
     }
 
-    .date {
-        font-size: 0.7rem;
-        color: var(--gray-color);
-        font-feature-settings: "tnum";
-        font-variant-numeric: tabular-nums;
-        opacity: 0.8;
-        display: block;
+    .place-card span,
+    .recent-stop span {
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--gray-color);
+      font-variant-numeric: tabular-nums;
     }
 
-    .living-badge, .hometown-badge {
-        font-size: 0.5rem;
-        padding: 1px var(--space-2xs);
-        border-radius: 3px;
-        margin-left: 0;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        line-height: 1;
+    .place-card.living,
+    .place-card.hometown {
+      min-height: 6.6rem;
+      justify-content: flex-end;
+      background: color-mix(in oklab, var(--ink-wash) 54%, var(--content-bg));
     }
 
-    .living-badge {
-        background: #e6f7ff;
-        color: #0077b6;
-        border: 1px solid rgba(0, 119, 182, 0.2);
-    }
-    
-    :global([data-theme='dark']) .living-badge {
-        background: rgba(0, 119, 182, 0.3);
-        color: #4fc3f7;
-        border-color: rgba(79, 195, 247, 0.3);
-    }
-
-    .hometown-badge {
-        background: #fff7e6;
-        color: #d46b08;
-        border: 1px solid rgba(212, 107, 8, 0.2);
-    }
-    
-    :global([data-theme='dark']) .hometown-badge {
-        background: rgba(212, 107, 8, 0.3);
-        color: #ffbb96;
-        border-color: rgba(255, 187, 150, 0.3);
+    .place-role {
+      width: fit-content;
+      margin-bottom: auto;
+      padding: 0.14rem 0.42rem;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
     }
 
-    .place-card p {
-        margin: 0;
-        font-size: 0.9rem;
-        color: var(--text-color);
-        opacity: 0.9;
-        line-height: 1.4;
+    .recent-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: var(--space-xs);
     }
 
-    @media (max-width: 600px) {
-        .header-wrapper {
-            padding: 1rem;
-        }
+    .recent-stop {
+      display: grid;
+      gap: 0.18rem;
+      padding: 0.8rem 0.78rem;
+    }
+
+    .stop-index {
+      color: color-mix(in oklab, var(--ink-accent) 58%, var(--gray-color));
+    }
+
+    .year-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .year-row {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--paper-card-border-soft);
+    }
+
+    .year-meta h3 {
+      margin: 0;
+      font-family: var(--ui-font, inherit);
+      font-size: 1.55rem;
+      line-height: 1;
+      color: var(--heading-color);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .year-meta span {
+      display: block;
+      margin-top: var(--space-xs);
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      color: var(--gray-color);
+    }
+
+    @media (max-width: 980px) {
+      .travel-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .map-card {
+        min-height: 420px;
+      }
+
+      #map {
+        min-height: 378px;
+      }
+
+      .travel-section {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        position: static;
+      }
+
+      .recent-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .travel-hero {
+        padding-top: var(--space-md);
+      }
+
+      .travel-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .map-card {
+        min-height: 360px;
+      }
+
+      #map {
+        min-height: 318px;
+      }
+
+      .recent-strip,
+      .year-row {
+        grid-template-columns: 1fr;
+      }
+
+      .special-grid,
+      .places-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      }
     }
   </style>
 
-  <script define:vars={{ places }}>
+  <script is:inline>
     function initMap() {
-        if (!window.L) return;
-
-        // Prevent double initialization
+      if (window.L) {
         const container = document.getElementById('map');
-        if (!container || container._leaflet_id) return;
+        if (container && !container._leaflet_id) {
+          let places = [];
+          try {
+            const data = container.dataset.places;
+            places = data ? JSON.parse(data) : [];
+          } catch (e) {
+            places = [];
+          }
 
-        // Fix default marker icons
-        delete L.Icon.Default.prototype._getIconUrl;
-        L.Icon.Default.mergeOptions({
-            iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-            iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-            shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-        });
+          const map = L.map('map', {
+            scrollWheelZoom: false,
+          }).setView([32.5, 112.5], 4);
 
-        // Initialize map centered on China
-        const map = L.map('map').setView([35.8617, 104.1954], 4);
-
-        // Use CartoDB Positron for better aesthetics and reliability
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            maxZoom: 19
-        }).addTo(map);
+            maxZoom: 19,
+          }).addTo(map);
 
-        const markers = [];
+          const markerColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#425466';
+          const baseMarkers = [];
 
-        places.forEach(place => {
-            const marker = L.marker([place.lat, place.lng]).addTo(map);
-            marker.bindPopup(`<b>${place.name}</b><br><small>${place.date}</small>`);
-            
-            // Highlight resident/hometown places
-            if (place.status === 'living' && marker._icon) {
-                marker._icon.classList.add('resident-marker');
-            } else if (place.status === 'hometown' && marker._icon) {
-                marker._icon.classList.add('hometown-marker');
-            }
+          places.forEach(function(place) {
+            const isSpecial = place.status === 'living' || place.status === 'hometown';
+            const marker = L.circleMarker([place.lat, place.lng], {
+              radius: isSpecial ? 7 : 5,
+              color: markerColor,
+              weight: isSpecial ? 2 : 1.4,
+              opacity: isSpecial ? 0.95 : 0.72,
+              fillColor: markerColor,
+              fillOpacity: isSpecial ? 0.28 : 0.16,
+            }).addTo(map);
 
-            markers.push({
-                marker: marker,
-                lat: place.lat,
-                lng: place.lng
+            marker.bindPopup('<strong>' + place.name + '</strong><br><small>' + place.date + '</small>');
+            baseMarkers.push({ marker: marker, lat: place.lat, lng: place.lng });
+          });
+
+          const bounds = L.latLngBounds(baseMarkers.map(function(item) { return [item.lat, item.lng]; }));
+          if (bounds.isValid()) {
+            map.fitBounds(bounds, { padding: [34, 34], maxZoom: 5 });
+          }
+
+          const cards = document.querySelectorAll('.place-card, .recent-stop');
+          cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+              const lat = Number.parseFloat(card.dataset.lat);
+              const lng = Number.parseFloat(card.dataset.lng);
+              if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                map.flyTo([lat, lng], 9, { duration: 0.8 });
+                const target = baseMarkers.find(function(item) {
+                  return Math.abs(item.lat - lat) < 0.0001 && Math.abs(item.lng - lng) < 0.0001;
+                });
+                if (target) target.marker.openPopup();
+              }
             });
-        });
+          });
 
-        // Add click listeners to cards
-        const cards = document.querySelectorAll('.place-card');
-        cards.forEach(card => {
-            card.addEventListener('click', () => {
-                const lat = parseFloat(card.dataset.lat);
-                const lng = parseFloat(card.dataset.lng);
-                map.flyTo([lat, lng], 10);
-                
-                // Find and open popup
-                const target = markers.find(m => Math.abs(m.lat - lat) < 0.0001 && Math.abs(m.lng - lng) < 0.0001);
-                if (target) {
-                    target.marker.openPopup();
-                }
-            });
-        });
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
+          window.addEventListener('resize', function() {
             map.invalidateSize();
-        });
+          });
+        }
+      }
     }
 
-    // Ensure Leaflet is loaded
     if (typeof L !== 'undefined') {
-        initMap();
+      initMap();
     } else {
-        // Wait for script to load
-        const script = document.querySelector('script[src*="leaflet.js"]');
-        if (script) {
-            script.addEventListener('load', initMap);
-        }
+      const script = document.querySelector('script[src*="leaflet.js"]');
+      if (script) script.addEventListener('load', initMap);
     }
-    
-    // Fallback for DOMContentLoaded if script loaded but DOM not ready
+
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof L !== 'undefined') initMap();
-        });
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof L !== 'undefined') initMap();
+      });
     }
   </script>
 </Base>
