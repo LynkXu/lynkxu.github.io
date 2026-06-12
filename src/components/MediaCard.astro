@@ -1,191 +1,293 @@
 ---
-import { Image } from 'astro:assets';
-
 interface Props {
   title: string;
-  cover: string;
-  rating?: number; // 个人评分 (1-10)
-  neodbRating?: number; // NeoDB 评分
-  comment?: string;
+  cover?: string | null;
+  rating?: number | null;
+  neodbRating?: number | null;
+  comment?: string | null;
   date: string;
-  year?: string | number;
+  recordedDate?: string;
+  year?: string | number | null;
   link?: string;
-  status?: string; // 'progress' or 'complete'
+  status?: string;
+  statusLabel?: string;
+  kind?: string;
 }
 
-const { title, cover, rating, neodbRating, comment, date, year, link, status } = Astro.props;
+const {
+  title,
+  cover,
+  rating,
+  neodbRating,
+  comment,
+  recordedDate,
+  year,
+  link,
+  status,
+  statusLabel,
+  kind,
+} = Astro.props;
 
-// Convert 1-10 rating to 1-5 stars
-const starCount = rating ? Math.round(rating / 2) : 0;
+const hasPersonalRating = typeof rating === 'number' && Number.isFinite(rating);
+const hasNeoDBRating = typeof neodbRating === 'number' && Number.isFinite(neodbRating);
+const ratingLabel = hasPersonalRating
+  ? `${rating}/10`
+  : hasNeoDBRating
+    ? `NeoDB ${neodbRating?.toFixed(1)}`
+    : '';
+const isProgress = status === 'progress';
+const yearLabel = year && year !== '未知' ? String(year) : '';
 ---
 
-<a href={link} target="_blank" rel="noopener noreferrer" class="media-card no-underline">
-    <div class="cover-wrapper">
-        <img src={cover} alt={title} loading="lazy" onerror="this.src='/placeholder.png'"/>
-        {status === 'progress' && <span class="badge-status">在看</span>}
+<a href={link} target="_blank" rel="noopener noreferrer" class={`media-card no-underline ${isProgress ? 'is-progress' : ''}`}>
+  <div class={`cover-frame ${cover ? '' : 'is-missing'}`} data-title={title}>
+    {cover ? (
+      <img
+        src={cover}
+        alt={title}
+        loading="lazy"
+        onerror="this.closest('.cover-frame')?.classList.add('is-missing'); this.remove();"
+      />
+    ) : (
+      <span class="cover-fallback">{title}</span>
+    )}
+    {isProgress && <span class="status-chip">{statusLabel || '进行中'}</span>}
+  </div>
+
+  <div class="media-info">
+    <h3 class="media-title" title={title}>{title}</h3>
+
+    <div class="media-facts">
+      {kind && <span>{kind}</span>}
+      {yearLabel && <span>{yearLabel}</span>}
+      {ratingLabel && <span>{ratingLabel}</span>}
     </div>
-    <div class="info">
-        <h3 class="title" title={title}>{title}</h3>
-        <div class="meta">
-            {starCount > 0 ? (
-                <span class="stars" title={`个人评分: ${rating}/10`}>
-                    {Array.from({ length: 5 }).map((_, i) => (
-                        <span class={`star ${i < starCount ? 'filled' : ''}`}>★</span>
-                    ))}
-                </span>
-            ) : neodbRating ? (
-                <span class="neodb-rating">NeoDB {neodbRating}</span>
-            ) : null}
-            {year && year !== '未知' && <span class="year">{year}</span>}
-        </div>
-        {comment && <p class="comment" title={comment}>{comment}</p>}
-    </div>
+
+    {comment && <p class="media-comment" title={comment}>{comment}</p>}
+    {recordedDate && <p class="media-date">{recordedDate}</p>}
+  </div>
 </a>
 
 <style>
+  .media-card {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-sm);
+    min-height: 132px;
+    padding: var(--space-sm);
+    border: 1px solid color-mix(in oklab, var(--text-color) 8%, transparent);
+    border-radius: 8px;
+    background: color-mix(in oklab, var(--content-bg) 90%, var(--paper-field-bg, transparent));
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none !important;
+    min-width: 0;
+    box-shadow: 0 1px 0 color-mix(in oklab, var(--text-color) 4%, transparent);
+    transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .media-card:hover,
+  .media-card:focus-visible {
+    border-bottom: none !important;
+  }
+
+  .media-card:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in oklab, var(--accent-color) 22%, var(--text-color) 8%);
+    background: color-mix(in oklab, var(--content-bg) 95%, var(--accent-soft-bg));
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  }
+
+  .media-card:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
+    outline-offset: 3px;
+  }
+
+  .cover-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 6px;
+    background:
+      linear-gradient(145deg, color-mix(in oklab, var(--accent-soft-bg) 46%, transparent), transparent),
+      color-mix(in oklab, var(--text-color) 6%, var(--content-bg));
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--text-color) 9%, transparent),
+      0 8px 14px rgba(15, 23, 42, 0.08);
+    transition: box-shadow 0.22s ease, filter 0.22s ease;
+  }
+
+  .media-card:hover .cover-frame {
+    box-shadow:
+      0 1px 0 color-mix(in oklab, var(--text-color) 10%, transparent),
+      0 10px 18px rgba(15, 23, 42, 0.11);
+  }
+
+  .cover-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+  }
+
+  .media-card:hover .cover-frame img {
+    transform: scale(1.025);
+  }
+
+  .cover-frame.is-missing {
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-xs);
+    box-sizing: border-box;
+  }
+
+  .cover-frame.is-missing::after {
+    content: attr(data-title);
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .cover-fallback {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .status-chip {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    max-width: calc(100% - 10px);
+    padding: 2px 5px;
+    border-radius: 999px;
+    background: rgba(17, 24, 39, 0.78);
+    color: #fff;
+    font-family: var(--ui-font);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    backdrop-filter: blur(10px);
+  }
+
+  .media-info {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 1px;
+  }
+
+  .media-title {
+    margin: 0;
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.38;
+    transition: color 0.18s ease;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .media-card:hover .media-title {
+    color: var(--link-color);
+  }
+
+  .media-facts {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px 7px;
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.68rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .media-facts span {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .media-facts span + span::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.45;
+  }
+
+  .media-comment {
+    margin: 2px 0 0;
+    color: var(--text-color);
+    font-size: 0.78rem;
+    line-height: 1.58;
+    opacity: 0.7;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .media-date {
+    margin: 0;
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.64rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    opacity: 0.62;
+  }
+
+  :global([data-theme='dark']) .cover-frame {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.05),
+      0 14px 30px rgba(0, 0, 0, 0.28);
+  }
+
+  :global([data-theme='dark']) .media-card:hover .cover-frame {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06),
+      0 20px 34px rgba(0, 0, 0, 0.42);
+  }
+
+  :global([data-theme='dark']) .media-card {
+    background: color-mix(in oklab, var(--content-bg) 78%, var(--paper-field-bg, transparent));
+    border-color: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+  }
+
+  :global([data-theme='dark']) .media-card:hover {
+    background: color-mix(in oklab, var(--content-bg) 86%, var(--accent-soft-bg));
+    border-color: rgba(255, 255, 255, 0.13);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  }
+
+  @media (max-width: 420px) {
     .media-card {
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        color: inherit;
-        overflow: hidden;
-        position: relative;
-        transition: transform 0.2s ease;
-        border-bottom: none !important; /* 强制覆盖全局的 a 标签 border-bottom */
+      grid-template-columns: 68px minmax(0, 1fr);
+      min-height: 118px;
+      padding: var(--space-xs);
     }
 
-    .media-card:hover {
-        transform: translateY(-4px);
-        border-bottom: none !important; /* 悬浮时也取消下划线 */
+    .media-title {
+      font-size: 0.9rem;
     }
-
-    .media-card:focus-visible {
-        outline: 2px solid rgba(66, 153, 225, 0.6);
-        outline-offset: 4px;
-        border-radius: 4px;
-    }
-
-    .cover-wrapper {
-        position: relative;
-        width: 100%;
-        aspect-ratio: 2 / 3;
-        background: rgba(0, 0, 0, 0.03);
-        border-radius: 4px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        transition: box-shadow 0.2s ease;
-    }
-
-    .media-card:hover .cover-wrapper {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    .cover-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-
-    .media-card:hover .cover-wrapper img {
-        transform: scale(1.03);
-    }
-
-    .badge-status {
-        position: absolute;
-        top: var(--space-xs);
-        right: var(--space-xs);
-        background: var(--heading-color);
-        color: var(--content-bg);
-        font-size: 0.65rem;
-        font-weight: 500;
-        padding: 2px var(--space-xs);
-        border-radius: 4px;
-        z-index: 2;
-        letter-spacing: 0.05em;
-    }
-
-    .info {
-        margin-top: var(--space-sm);
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-2xs);
-    }
-
-    .title {
-        margin: 0;
-        font-size: var(--text-sm);
-        font-weight: 600;
-        color: var(--heading-color);
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        transition: color 0.2s;
-        border-bottom: none; /* 确保标题文字部分也没有下划线 */
-    }
-
-    .media-card:hover .title {
-        color: var(--link-color);
-    }
-
-    .meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: var(--text-xs);
-        color: var(--gray-color);
-        line-height: 1;
-    }
-
-    .stars {
-        display: inline-flex;
-        gap: 1px;
-    }
-
-    .star {
-        color: rgba(0, 0, 0, 0.15);
-        font-size: var(--text-xs);
-    }
-
-    .star.filled {
-        color: #f59e0b;
-    }
-
-    .neodb-rating {
-        font-weight: 500;
-    }
-
-    .year {
-        opacity: 0.8;
-    }
-
-    .comment {
-        margin: var(--space-2xs) 0 0 0;
-        font-size: var(--text-xs);
-        color: var(--gray-color);
-        line-height: 1.55;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        opacity: 0.8;
-    }
-
-    /* ── Dark mode ── */
-    :global([data-theme='dark']) .cover-wrapper {
-        background: rgba(255, 255, 255, 0.03);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    :global([data-theme='dark']) .media-card:hover .cover-wrapper {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    }
-
-    :global([data-theme='dark']) .star {
-        color: rgba(255, 255, 255, 0.15);
-    }
+  }
 </style>
