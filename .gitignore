@@ -22,3 +22,6 @@ yarn.lock
 
 # jetbrains setting folder
 .idea/
+
+# codebuddy setting folder
+.codebuddy

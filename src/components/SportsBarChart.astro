@@ -1,0 +1,351 @@
+---
+export interface BarChartDataPoint {
+  label: string;
+  value: number;
+  displayValue?: string;
+}
+
+interface Props {
+  data: BarChartDataPoint[];
+  unit?: string;
+  id?: string;
+}
+
+const { data, unit, id } = Astro.props;
+
+if (!data || data.length === 0) {
+  return null;
+}
+
+const W = 720;
+const H = 260;
+const P = { top: 10, right: 4, bottom: 28, left: 38 };
+const CW = W - P.left - P.right;
+const CH = H - P.top - P.bottom;
+
+const values = data.map(d => d.value);
+const maxV = Math.max(...values);
+const hasData = maxV > 0;
+const effectiveMax = hasData ? maxV : 1;
+
+// Nice Y axis ticks
+const yTickCount = 4;
+const rawStep = (effectiveMax * 1.08) / (yTickCount - 1);
+const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+const normalized = rawStep / magnitude;
+let niceStep: number;
+if (normalized <= 1) niceStep = magnitude;
+else if (normalized <= 2) niceStep = 2 * magnitude;
+else if (normalized <= 5) niceStep = 5 * magnitude;
+else niceStep = 10 * magnitude;
+const niceMax = Math.ceil((effectiveMax * 1.08) / niceStep) * niceStep;
+
+const barGap = 0.45;
+const barW = CW / data.length * (1 - barGap);
+const barStep = CW / data.length;
+
+const yPos = (v: number) => P.top + CH - (v / niceMax) * CH;
+
+const ticks: number[] = [];
+for (let i = 0; i < yTickCount; i++) {
+  ticks.push(Math.round(i * niceStep * 10) / 10);
+}
+
+const maxIdx = hasData ? values.indexOf(maxV) : -1;
+
+const chartId = id || `bc-${Math.random().toString(36).slice(2, 9)}`;
+
+function formatXAxisLabel(label: string) {
+  const text = String(label || '').trim();
+  const yearMonth = text.match(/^(\d{4})-(\d{1,2})(?:-\d{1,2})?$/);
+  if (yearMonth) {
+    const shortYear = String(Number(yearMonth[1]) % 100).padStart(2, '0');
+    return `${shortYear}.${yearMonth[2].padStart(2, '0')}`;
+  }
+
+  const monthOnly = text.match(/^(\d{1,2})(?:月)?$/);
+  if (monthOnly) {
+    return `${monthOnly[1].padStart(2, '0')}月`;
+  }
+
+  return text;
+}
+---
+
+<div class="bar-chart-box" id={chartId}>
+  <svg viewBox={`0 0 ${W} ${H}`} class="bar-chart-svg" preserveAspectRatio="none">
+    {/* Grid lines */}
+    {ticks.slice(1).map((t) => {
+      const y = yPos(t);
+      return (
+        <line
+          x1={P.left}
+          y1={y}
+          x2={W - P.right}
+          y2={y}
+          class="grid-line"
+          stroke-dasharray="3 3"
+        />
+      );
+    })}
+
+    {/* Y labels */}
+    {ticks.map((t) => (
+      <text x={P.left - 8} y={yPos(t) + 3} class="y-label" text-anchor="end">
+        {Number.isInteger(t) ? String(t) : t.toFixed(1)}
+      </text>
+    ))}
+
+    {/* Zero baseline */}
+    <line
+      x1={P.left}
+      y1={H - P.bottom}
+      x2={W - P.right}
+      y2={H - P.bottom}
+      class="baseline"
+    />
+
+    {/* Bars */}
+    {data.map((d, i) => {
+      const h = (d.value / niceMax) * CH;
+      const x = P.left + i * barStep + (barStep - barW) / 2;
+      const y = P.top + CH - h;
+      const isMax = i === maxIdx;
+      const cx = x + barW / 2;
+      const zeroY = H - P.bottom;
+      return (
+        <g class="bar-group" data-label={d.label} data-value={d.displayValue ?? String(d.value)} data-unit={unit ?? ''}>
+          {d.value === 0 ? (
+            <circle cx={cx} cy={zeroY} r={1.8} class="bar-zero" />
+          ) : (
+            <rect
+              x={x}
+              y={y}
+              width={barW}
+              height={h}
+              rx={3}
+              class={`bar-rect ${isMax ? 'max' : ''}`}
+            />
+          )}
+          {isMax && d.value > 0 && (
+            <text
+              x={cx}
+              y={y - 7}
+              text-anchor="middle"
+              class="bar-value-label"
+            >
+              {d.displayValue ?? d.value}
+            </text>
+          )}
+        </g>
+      );
+    })}
+
+    {/* X labels */}
+    {data.map((d, i) => {
+      const shortLabel = formatXAxisLabel(d.label);
+      return (
+        <text
+          x={P.left + i * barStep + barStep / 2}
+          y={H - P.bottom + 18}
+          class="x-label"
+          text-anchor="middle"
+        >
+          {shortLabel}
+        </text>
+      );
+    })}
+  </svg>
+
+  <div class="bar-tooltip">
+    <span class="tt-label"></span>
+    <span class="tt-value"></span>
+  </div>
+</div>
+
+<script define:vars={{ chartId }}>
+(function initBarChart() {
+  const container = document.getElementById(chartId);
+  if (!container) return;
+  const tooltip = container.querySelector('.bar-tooltip');
+  const bars = container.querySelectorAll('.bar-group');
+  if (!tooltip) return;
+
+  bars.forEach((bar) => {
+    bar.addEventListener('mouseenter', () => {
+      const label = bar.getAttribute('data-label') || '';
+      const value = bar.getAttribute('data-value') || '';
+      const unitText = bar.getAttribute('data-unit') || '';
+
+      const labelEl = tooltip.querySelector('.tt-label');
+      const valueEl = tooltip.querySelector('.tt-value');
+      if (labelEl) labelEl.textContent = label;
+      if (valueEl) valueEl.textContent = value + (unitText ? ` ${unitText}` : '');
+
+      tooltip.classList.add('visible');
+      const rect = bar.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - containerRect.top - 6) + 'px';
+    });
+
+    bar.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+  });
+
+  // Animate bars on enter
+  const rects = container.querySelectorAll('.bar-rect');
+  rects.forEach((r, i) => {
+    const h = r.getAttribute('height');
+    const y = r.getAttribute('y');
+    const origY = parseFloat(y);
+    const origH = parseFloat(h);
+    r.setAttribute('y', origY + origH);
+    r.setAttribute('height', 0);
+    r.style.opacity = '0';
+    setTimeout(() => {
+      r.style.transition = 'y 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+      r.style.opacity = '1';
+      r.setAttribute('y', origY);
+      r.setAttribute('height', origH);
+    }, 30 + i * 35);
+  });
+})();
+</script>
+
+<style>
+  .bar-chart-box {
+    position: relative;
+    width: 100%;
+    height: 260px;
+  }
+
+  .bar-chart-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+  }
+
+  .grid-line {
+    stroke: var(--text-color);
+    stroke-opacity: 0.08;
+    stroke-width: 1;
+  }
+
+  .baseline {
+    stroke: var(--text-color);
+    stroke-opacity: 0.15;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+
+  .y-label {
+    font-size: 0.62rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  .x-label {
+    font-size: 0.62rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  .bar-rect {
+    fill: var(--accent-color);
+    fill-opacity: 0.15;
+    transition: fill-opacity 0.25s ease, filter 0.25s ease;
+  }
+
+  .bar-rect.max {
+    fill-opacity: 0.88;
+    filter: drop-shadow(0 2px 5px color-mix(in oklab, var(--accent-color) 35%, transparent));
+  }
+
+  .bar-group:hover .bar-rect {
+    fill-opacity: 0.42;
+  }
+
+  .bar-group:hover .bar-rect.max {
+    fill-opacity: 1;
+    filter: drop-shadow(0 3px 8px color-mix(in oklab, var(--accent-color) 50%, transparent));
+  }
+
+  .bar-zero {
+    fill: var(--accent-color);
+    fill-opacity: 0.12;
+  }
+
+  .bar-value-label {
+    font-size: 0.6rem;
+    fill: var(--heading-color);
+    font-family: var(--ui-font, inherit);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .bar-tooltip {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(-6px);
+    transition: opacity 0.2s ease;
+    background: rgba(0, 0, 0, 0.82);
+    border: none;
+    border-radius: 5px;
+    padding: 0.35rem 0.55rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    backdrop-filter: blur(4px);
+  }
+
+  .bar-tooltip.visible {
+    opacity: 1;
+  }
+
+  .tt-label {
+    color: rgba(255,255,255,0.65);
+    font-size: 0.68rem;
+  }
+
+  .tt-value {
+    color: #fff;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global([data-theme="dark"]) .bar-tooltip {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  }
+
+  :global([data-theme="dark"]) .tt-label {
+    color: rgba(0,0,0,0.55);
+  }
+
+  :global([data-theme="dark"]) .tt-value {
+    color: #000;
+  }
+
+  @media (max-width: 600px) {
+    .bar-chart-box {
+      height: 190px;
+    }
+    .y-label, .x-label {
+      font-size: 0.6rem;
+    }
+  }
+</style>

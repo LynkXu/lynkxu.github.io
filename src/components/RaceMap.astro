@@ -1,0 +1,168 @@
+---
+interface Race {
+  name: string;
+  date: string;
+  location: string;
+  lat: number;
+  lng: number;
+  time?: string;
+  pace?: string;
+  type?: string;
+  status?: string;
+}
+
+interface Props {
+  races: Race[];
+  id?: string;
+}
+
+const { races, id } = Astro.props;
+
+const mapRaces = races.filter(
+  (r) => r.status === 'completed' && typeof r.lat === 'number' && typeof r.lng === 'number'
+);
+
+if (mapRaces.length === 0) {
+  return null;
+}
+
+const mapId = id || `race-map-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="race-map-wrapper">
+  <div id={mapId} class="race-map-container"></div>
+</div>
+
+<script define:vars={{ mapId, mapRaces }}>
+(function initRaceMap() {
+  function doInit() {
+    if (!window.L) return;
+    const container = document.getElementById(mapId);
+    if (!container || container._leaflet_id) return;
+
+    const lats = mapRaces.map((r) => r.lat);
+    const lngs = mapRaces.map((r) => r.lng);
+    const centerLat = lats.reduce((a, b) => a + b, 0) / lats.length;
+    const centerLng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
+
+    const map = L.map(mapId, { zoomControl: false }).setView([centerLat, centerLng], 5);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    const positron = L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+      {
+        attribution: '',
+        maxZoom: 19,
+      }
+    );
+    let fallbackAdded = false;
+    positron.on('tileerror', function () {
+      if (!fallbackAdded) {
+        map.removeLayer(positron);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '',
+          maxZoom: 19,
+        }).addTo(map);
+        fallbackAdded = true;
+      }
+    });
+    positron.addTo(map);
+
+    // Custom dot marker using accent color
+    const dotHtml = `<div class="race-marker-dot"></div>`;
+    const dotIcon = L.divIcon({
+      className: 'race-marker-icon',
+      html: dotHtml,
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+      popupAnchor: [0, -12],
+    });
+
+    const markers = [];
+    mapRaces.forEach((race) => {
+      const popupHtml = `<b>${race.name}</b><br><small>${race.date}${race.time ? ' · ' + race.time : ''}</small>`;
+      const marker = L.marker([race.lat, race.lng], { icon: dotIcon }).addTo(map);
+      marker.bindPopup(popupHtml);
+      markers.push({ marker, lat: race.lat, lng: race.lng, name: race.name });
+    });
+
+    if (mapRaces.length > 1) {
+      const group = new L.featureGroup(markers.map((m) => m.marker));
+      map.fitBounds(group.getBounds().pad(0.25));
+    }
+
+    window.addEventListener('resize', () => map.invalidateSize());
+  }
+
+  if (typeof L !== 'undefined') {
+    doInit();
+  } else {
+    const script = document.querySelector('script[src*="leaflet.js"]');
+    if (script) {
+      script.addEventListener('load', doInit);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof L !== 'undefined') doInit();
+    });
+  }
+})();
+</script>
+
+<style>
+  .race-map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .race-map-container {
+    width: 100%;
+    height: 100%;
+    background: #f5f5f5;
+  }
+
+  :global([data-theme="dark"]) .race-map-container {
+    filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
+  }
+
+  /* Custom marker styles */
+  :global(.race-marker-icon) {
+    background: transparent;
+    border: none;
+  }
+
+  :global(.race-marker-dot) {
+    width: 12px;
+    height: 12px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.25);
+    position: relative;
+    z-index: 2;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  :global(.race-marker-icon:hover .race-marker-dot) {
+    transform: scale(1.3);
+  }
+
+  :global([data-theme="dark"] .race-marker-dot) {
+    background: var(--accent-color);
+    border-color: #1a1a1a;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+
+  @media (max-width: 768px) {
+    .race-map-wrapper {
+      height: 220px;
+    }
+  }
+</style>

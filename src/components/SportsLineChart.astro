@@ -1,0 +1,390 @@
+---
+export interface LineChartDataPoint {
+  label: string;
+  value: number;
+  displayValue?: string;
+}
+
+interface Props {
+  data: LineChartDataPoint[];
+  title?: string;
+  unit?: string;
+  color?: string;
+  yTickCount?: number;
+  id?: string;
+}
+
+const { data, title, unit, color = 'var(--accent-color)', yTickCount = 5, id } = Astro.props;
+
+if (!data || data.length === 0) {
+  return null;
+}
+
+// SVG dimensions
+const W = 800;
+const H = 280;
+const P = { top: 30, right: 24, bottom: 48, left: 62 };
+const CW = W - P.left - P.right;
+const CH = H - P.top - P.bottom;
+
+// Compute Y range with padding
+const values = data.map(d => d.value);
+const minV = Math.min(...values);
+const maxV = Math.max(...values);
+let range = maxV - minV;
+// Ensure minimum range for single-point or near-identical data
+if (range < 0.0001) {
+  range = maxV * 0.2 || 1;
+}
+const pad = range * 0.12;
+let minY = Math.max(0, minV - pad);
+let maxY = maxV + pad;
+
+// Round ticks for cleaner display
+const rawRange = maxY - minY;
+const tickStep = rawRange / (yTickCount - 1);
+const magnitude = Math.pow(10, Math.floor(Math.log10(tickStep)));
+const normalized = tickStep / magnitude;
+let niceStep: number;
+if (normalized <= 1) niceStep = magnitude;
+else if (normalized <= 2) niceStep = 2 * magnitude;
+else if (normalized <= 5) niceStep = 5 * magnitude;
+else niceStep = 10 * magnitude;
+
+const niceMin = Math.floor(minY / niceStep) * niceStep;
+const niceMax = Math.ceil(maxY / niceStep) * niceStep;
+minY = niceMin;
+maxY = niceMax;
+
+// Helpers
+const yPos = (v: number) => P.top + CH - ((v - minY) / (maxY - minY)) * CH;
+const xPos = (i: number) => P.left + (i / Math.max(1, data.length - 1)) * CW;
+
+// Generate smooth path (catmull-rom spline simplified to straight lines for now)
+const pathD = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${xPos(i)} ${yPos(d.value)}`).join(' ');
+
+// Y ticks
+const ticks: number[] = [];
+for (let v = niceMax; v >= niceMin - 0.0001; v -= niceStep) {
+  ticks.push(Math.round(v * 100) / 100);
+}
+
+// X label skip logic
+const xSkip = data.length > 14 ? 2 : (data.length > 9 ? 1 : 0);
+
+const chartId = id || `lc-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="line-chart-wrapper" id={chartId}>
+  {title && <div class="line-chart-title">{title}</div>}
+  <div class="line-chart-box">
+    <svg viewBox={`0 0 ${W} ${H}`} class="line-chart-svg" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id={`areaGrad-${chartId}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" style={`stop-color:${color};stop-opacity:0.12`} />
+          <stop offset="100%" style={`stop-color:${color};stop-opacity:0`} />
+        </linearGradient>
+      </defs>
+
+      {/* Grid & Y labels */}
+      {ticks.map((t) => {
+        const y = yPos(t);
+        const isZero = Math.abs(t) < 0.0001;
+        return (
+          <g class="grid-group">
+            <line
+              x1={P.left}
+              y1={y}
+              x2={W - P.right}
+              y2={y}
+              class={`grid-line ${isZero ? 'axis-baseline' : ''}`}
+            />
+            <text x={P.left - 10} y={y + 4} class="y-label" text-anchor="end">
+              {Number.isInteger(t) ? String(t) : t.toFixed(1)}
+              {unit ? ` ${unit}` : ''}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* X axis */}
+      <line
+        x1={P.left}
+        y1={H - P.bottom}
+        x2={W - P.right}
+        y2={H - P.bottom}
+        class="axis-line"
+      />
+      {/* Y axis */}
+      <line
+        x1={P.left}
+        y1={P.top}
+        x2={P.left}
+        y2={H - P.bottom}
+        class="axis-line"
+      />
+
+      {/* Area under line */}
+      <path
+        d={`${pathD} L ${xPos(data.length - 1)} ${H - P.bottom} L ${xPos(0)} ${H - P.bottom} Z`}
+        class="area-path"
+        fill={`url(#areaGrad-${chartId})`}
+      />
+
+      {/* Line path */}
+      <path
+        d={pathD}
+        class="line-path"
+        style={`stroke: ${color}`}
+        fill="none"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+
+      {/* Data points */}
+      {data.map((d, i) => (
+        <g
+          class="data-point"
+          data-label={d.label}
+          data-value={d.displayValue ?? String(d.value)}
+          data-unit={unit ?? ''}
+        >
+          <circle
+            cx={xPos(i)}
+            cy={yPos(d.value)}
+            r="3.5"
+            class="point-circle"
+            style={`stroke: ${color}`}
+            fill="var(--page-bg)"
+            stroke-width="2"
+          />
+          <circle
+            cx={xPos(i)}
+            cy={yPos(d.value)}
+            r="14"
+            class="point-hit"
+            fill="transparent"
+          />
+        </g>
+      ))}
+
+      {/* X labels */}
+      {data.map((d, i) => {
+        if (xSkip > 0 && i % (xSkip + 1) !== 0) return null;
+        const label = d.label;
+        // For month labels like "2026-01", show "01" part
+        const shortLabel = label.length > 5 ? label.slice(-2) + '月' : label;
+        return (
+          <text
+            x={xPos(i)}
+            y={H - P.bottom + 22}
+            class="x-label"
+            text-anchor="middle"
+          >
+            {shortLabel}
+          </text>
+        );
+      })}
+    </svg>
+
+    <div class="line-tooltip">
+      <span class="tt-label"></span>
+      <span class="tt-value"></span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ chartId }}>
+(function initLineChart() {
+  const container = document.getElementById(chartId);
+  if (!container) return;
+  const tooltip = container.querySelector('.line-tooltip');
+  const path = container.querySelector('.line-path');
+
+  // Entrance animation: draw line
+  if (path) {
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = String(len);
+    path.style.strokeDashoffset = String(len);
+    // Force reflow
+    path.getBoundingClientRect();
+    path.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)';
+    requestAnimationFrame(() => {
+      path.style.strokeDashoffset = '0';
+    });
+  }
+
+  // Animate area opacity
+  const area = container.querySelector('.area-path');
+  if (area) {
+    area.style.opacity = '0';
+    area.style.transition = 'opacity 1s ease 0.3s';
+    requestAnimationFrame(() => {
+      area.style.opacity = '1';
+    });
+  }
+
+  // Tooltip interaction
+  if (!tooltip) return;
+  const points = container.querySelectorAll('.data-point');
+  points.forEach((pt) => {
+    const hit = pt.querySelector('.point-hit');
+    const circle = pt.querySelector('.point-circle');
+    if (!hit) return;
+
+    hit.addEventListener('mouseenter', () => {
+      const label = pt.getAttribute('data-label') || '';
+      const value = pt.getAttribute('data-value') || '';
+      const unitText = pt.getAttribute('data-unit') || '';
+
+      const labelEl = tooltip.querySelector('.tt-label');
+      const valueEl = tooltip.querySelector('.tt-value');
+      if (labelEl) labelEl.textContent = label;
+      if (valueEl) valueEl.textContent = value + (unitText ? ` ${unitText}` : '');
+
+      tooltip.classList.add('visible');
+      if (circle) {
+        circle.setAttribute('r', '5.5');
+        circle.setAttribute('fill', 'currentColor');
+      }
+
+      // Position tooltip near the visible point
+      const rect = pt.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - containerRect.top - 10) + 'px';
+    });
+
+    hit.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+      if (circle) {
+        circle.setAttribute('r', '3.5');
+        circle.setAttribute('fill', 'var(--page-bg)');
+      }
+    });
+  });
+})();
+</script>
+
+<style>
+  .line-chart-wrapper {
+    margin: var(--space-xl) 0;
+  }
+
+  .line-chart-title {
+    font-family: var(--serif-font);
+    font-size: var(--text-lg, 1.1rem);
+    font-weight: 700;
+    color: var(--heading-color);
+    margin-bottom: var(--space-md);
+    letter-spacing: -0.01em;
+  }
+
+  .line-chart-box {
+    position: relative;
+    width: 100%;
+    height: 280px;
+  }
+
+  .line-chart-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .grid-line {
+    stroke: var(--text-color);
+    stroke-opacity: 0.08;
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+  }
+
+  .grid-line.axis-baseline {
+    stroke-opacity: 0.2;
+    stroke-dasharray: none;
+  }
+
+  .axis-line {
+    stroke: var(--text-color);
+    stroke-opacity: 0.15;
+    stroke-width: 1;
+  }
+
+  .y-label {
+    font-size: 0.7rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .x-label {
+    font-size: 0.7rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .line-path {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+  }
+
+  .point-circle {
+    transition: r 0.2s ease, fill 0.2s ease;
+    cursor: pointer;
+  }
+
+  .point-hit {
+    cursor: pointer;
+  }
+
+  .line-tooltip {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(-8px);
+    transition: opacity 0.2s ease;
+    background: var(--code-background-color);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 0.78rem;
+    white-space: nowrap;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .line-tooltip.visible {
+    opacity: 1;
+  }
+
+  .tt-label {
+    color: var(--gray-color);
+    font-size: 0.72rem;
+  }
+
+  .tt-value {
+    color: var(--heading-color);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global([data-theme="dark"]) .line-tooltip {
+    border-color: rgba(255,255,255,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+
+  @media (max-width: 600px) {
+    .line-chart-svg {
+      min-height: 220px;
+    }
+    .y-label, .x-label {
+      font-size: 0.65rem;
+    }
+  }
+</style>
