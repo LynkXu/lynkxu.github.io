@@ -3,35 +3,8 @@ slug: sports
 title: 运动主页
 pageLayout: Sports
 ---
-import Tabs from '../../components/Tabs.astro';
-import TabItem from '../../components/TabItem.astro';
-import StatGrid from '../../components/StatGrid.astro';
-import StatCard from '../../components/StatCard.astro';
-import YearlyStatGrid from '../../components/YearlyStatGrid.astro';
-import SportsStyles from '../../components/SportsStyles.astro';
-import StravaBadge from '../../components/StravaBadge.astro';
+import SportsDashboard from '../../components/SportsDashboard.astro';
 import sportsStats from '../../data/sports-stats.json';
 import racesData from '../../data/races.json';
 
-export const currentYear = new Date().getFullYear();
-
-<SportsStyles />
-
-<Tabs>
-  <StravaBadge url="https://www.strava.com/athletes/134343081" slot="extra" />
-  <TabItem label="跑步">
-    
-    {/* ### 个人最佳 (PR) */}
-
-    <YearlyStatGrid type="running" stats={sportsStats.running} races={racesData.races} />
-
-  </TabItem>
-
-  <TabItem label="骑行">
-    
-    {/* ### 总计 */}
-    
-    <YearlyStatGrid type="cycling" stats={sportsStats.cycling} />
-
-  </TabItem>
-</Tabs>
+<SportsDashboard stats={sportsStats} races={racesData.races} />

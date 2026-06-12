@@ -73,6 +73,21 @@ for (let v = niceMax; v >= niceMin - 0.0001; v -= niceStep) {
 const xSkip = data.length > 14 ? 2 : (data.length > 9 ? 1 : 0);
 
 const chartId = id || `lc-${Math.random().toString(36).slice(2, 9)}`;
+
+function formatXAxisLabel(label: string) {
+  const text = String(label || '').trim();
+  const yearMonth = text.match(/^(\d{4})-(\d{1,2})(?:-\d{1,2})?$/);
+  if (yearMonth) {
+    return `${yearMonth[2].padStart(2, '0')}月`;
+  }
+
+  const monthOnly = text.match(/^(\d{1,2})(?:月)?$/);
+  if (monthOnly) {
+    return `${monthOnly[1].padStart(2, '0')}月`;
+  }
+
+  return text;
+}
 ---
 
 <div class="line-chart-wrapper" id={chartId}>
@@ -172,9 +187,7 @@ const chartId = id || `lc-${Math.random().toString(36).slice(2, 9)}`;
       {/* X labels */}
       {data.map((d, i) => {
         if (xSkip > 0 && i % (xSkip + 1) !== 0) return null;
-        const label = d.label;
-        // For month labels like "2026-01", show "01" part
-        const shortLabel = label.length > 5 ? label.slice(-2) + '月' : label;
+        const shortLabel = formatXAxisLabel(d.label);
         return (
           <text
             x={xPos(i)}

@@ -1,0 +1,951 @@
+---
+import SportsBarChart from './SportsBarChart.astro';
+import SportsLineChart from './SportsLineChart.astro';
+import RaceMap from './RaceMap.astro';
+
+interface SportsCard {
+  label: string;
+  value: string;
+  unit?: string;
+  subtext?: string;
+}
+
+interface MonthlyEntry {
+  month: string;
+  distanceKm: string;
+  count: number;
+  movingTimeHours: string;
+}
+
+interface YearEntry {
+  distance: string;
+  time: string;
+  count: number;
+}
+
+interface SportStats {
+  years: Record<string, YearEntry>;
+  cards: Record<string, SportsCard>;
+  monthly: MonthlyEntry[];
+  imported?: {
+    sinceLabel: string;
+    distanceKm: string;
+    timeHours: string;
+    avgPaceText: string;
+  };
+}
+
+interface Race {
+  date: string;
+  year: string;
+  name: string;
+  type: string;
+  distance: string;
+  location: string;
+  status: string;
+  time?: string;
+  pace?: string;
+  rank?: string;
+  note?: string;
+  lat?: number;
+  lng?: number;
+}
+
+interface Props {
+  stats: {
+    generatedAt?: string;
+    running: SportStats;
+    cycling: SportStats;
+  };
+  races: Race[];
+}
+
+const { stats, races } = Astro.props;
+
+const numberFormatter = new Intl.NumberFormat('zh-CN', {
+  maximumFractionDigits: 1,
+});
+
+const dateFormatter = new Intl.DateTimeFormat('zh-CN', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+const asNumber = (value: string | number | undefined) => Number(value ?? 0) || 0;
+
+const formatNumber = (value: number) => numberFormatter.format(value);
+
+function formatGeneratedAt(value?: string) {
+  if (!value) return '未记录';
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '未记录';
+  return dateFormatter.format(date);
+}
+
+function parseMonth(value: string) {
+  const match = value.match(/^(\d{4})-(\d{1,2})$/);
+  if (!match) return null;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  if (!year || month < 1 || month > 12) return null;
+  return { year, month };
+}
+
+function formatMonthName(value: string) {
+  const parsed = parseMonth(value);
+  if (!parsed) return value;
+  const shortYear = String(parsed.year % 100).padStart(2, '0');
+  return `${shortYear}.${String(parsed.month).padStart(2, '0')}`;
+}
+
+function formatRaceDate(value: string) {
+  const date = new Date(`${value}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return value;
+  return dateFormatter.format(date);
+}
+
+function parseTimeSeconds(time?: string) {
+  if (!time) return Number.POSITIVE_INFINITY;
+  const parts = time.split(':').map(Number);
+  if (parts.some((part) => Number.isNaN(part))) return Number.POSITIVE_INFINITY;
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
+  if (parts.length === 2) return parts[0] * 60 + parts[1];
+  return Number.POSITIVE_INFINITY;
+}
+
+function getYears(sport: SportStats) {
+  return Object.keys(sport.years).sort((a, b) => Number(b) - Number(a));
+}
+
+function makeYearMonthData(sport: SportStats, year: string) {
+  return Array.from({ length: 12 }, (_, index) => {
+    const month = index + 1;
+    const matched = sport.monthly.find((entry) => {
+      const parsed = parseMonth(entry.month);
+      return parsed?.year === Number(year) && parsed.month === month;
+    });
+
+    const value = asNumber(matched?.distanceKm);
+    return {
+      label: `${month}月`,
+      value,
+      displayValue: value > 0 ? formatNumber(value) : '0',
+    };
+  });
+}
+
+function makeCumulativeData(sport: SportStats) {
+  let total = 0;
+  return [...sport.monthly]
+    .sort((a, b) => {
+      const first = parseMonth(a.month);
+      const second = parseMonth(b.month);
+      if (!first || !second) return a.month.localeCompare(b.month);
+      return first.year === second.year ? first.month - second.month : first.year - second.year;
+    })
+    .map((entry) => {
+      total += asNumber(entry.distanceKm);
+      return {
+        label: entry.month,
+        value: Number(total.toFixed(2)),
+        displayValue: formatNumber(total),
+      };
+    });
+}
+
+function makeAnnualRows(sport: SportStats) {
+  return getYears(sport).map((year) => {
+    const yearStats = sport.years[year];
+    const distance = asNumber(yearStats.distance);
+    const time = asNumber(yearStats.time);
+    const count = yearStats.count || 0;
+    return {
+      year,
+      distance,
+      time,
+      count,
+      avgDistance: count > 0 ? distance / count : 0,
+    };
+  });
+}
+
+const completedRaces = races
+  .filter((race) => race.status === 'completed')
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+const bestHalfRace = completedRaces
+  .filter((race) => race.type.includes('半马') && race.time)
+  .sort((a, b) => parseTimeSeconds(a.time) - parseTimeSeconds(b.time))[0];
+
+const totalRunningDistance = asNumber(stats.running.cards.totalDistance?.value);
+const totalCyclingDistance = asNumber(stats.cycling.cards.totalDistance?.value);
+const totalDistance = totalRunningDistance + totalCyclingDistance;
+const totalTime =
+  asNumber(stats.running.cards.totalTime?.value) + asNumber(stats.cycling.cards.totalTime?.value);
+const totalActivities =
+  makeAnnualRows(stats.running).reduce((sum, row) => sum + row.count, 0) +
+  makeAnnualRows(stats.cycling).reduce((sum, row) => sum + row.count, 0);
+
+const sports = [
+  {
+    key: 'running',
+    label: '跑步',
+    eyebrow: 'Run Log',
+    title: '跑步记录',
+    description: '训练量、月度节奏与比赛结果放在同一个视野里。',
+    stats: stats.running,
+    metricCards: [
+      stats.running.cards.totalDistance,
+      stats.running.cards.totalTime,
+      {
+        label: '累计次数',
+        value: String(makeAnnualRows(stats.running).reduce((sum, row) => sum + row.count, 0)),
+        unit: '次',
+        subtext: stats.running.imported?.sinceLabel ?? '历史累计',
+      },
+      {
+        label: '半马 PB',
+        value: bestHalfRace?.time ?? '--',
+        unit: '',
+        subtext: bestHalfRace ? bestHalfRace.name : '暂无记录',
+      },
+    ],
+    annualRows: makeAnnualRows(stats.running),
+    cumulative: makeCumulativeData(stats.running),
+  },
+  {
+    key: 'cycling',
+    label: '骑行',
+    eyebrow: 'Ride Log',
+    title: '骑行记录',
+    description: '更偏向长距离与年度体量，保留路线感和耐力训练的节奏。',
+    stats: stats.cycling,
+    metricCards: [
+      stats.cycling.cards.totalDistance,
+      stats.cycling.cards.totalTime,
+      stats.cycling.cards.totalCount,
+      stats.cycling.cards.farthest,
+    ],
+    annualRows: makeAnnualRows(stats.cycling),
+    cumulative: makeCumulativeData(stats.cycling),
+  },
+];
+
+const generatedLabel = formatGeneratedAt(stats.generatedAt);
+---
+
+<section class="sports-dashboard" data-sports-dashboard>
+  <div class="sports-hero">
+    <div class="hero-copy">
+      <p class="hero-kicker">Sports Archive</p>
+      <h1>运动档案</h1>
+      <p class="hero-description">
+        把跑步、骑行和比赛结果整理成一张安静的仪表盘：看总量，也看节奏。
+      </p>
+    </div>
+
+    <dl class="hero-stats" aria-label="运动总览">
+      <div>
+        <dt>总里程</dt>
+        <dd>{formatNumber(totalDistance)}<span>km</span></dd>
+      </div>
+      <div>
+        <dt>总时长</dt>
+        <dd>{formatNumber(totalTime)}<span>h</span></dd>
+      </div>
+      <div>
+        <dt>活动</dt>
+        <dd>{totalActivities}<span>次</span></dd>
+      </div>
+      <div>
+        <dt>更新</dt>
+        <dd class="date-value">{generatedLabel}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="sports-switcher" role="tablist" aria-label="运动类型">
+    {sports.map((sport, index) => (
+      <button
+        id={`sports-tab-${sport.key}`}
+        class="sport-tab"
+        type="button"
+        role="tab"
+        aria-selected={index === 0 ? 'true' : 'false'}
+        aria-controls={`sports-panel-${sport.key}`}
+        data-sport-tab={sport.key}
+      >
+        <span>{sport.label}</span>
+        <small>{sport.eyebrow}</small>
+      </button>
+    ))}
+  </div>
+
+  {sports.map((sport, index) => {
+    const years = getYears(sport.stats);
+    const activeYear = years[0];
+
+    return (
+      <section
+        id={`sports-panel-${sport.key}`}
+        class="sport-panel"
+        role="tabpanel"
+        aria-labelledby={`sports-tab-${sport.key}`}
+        data-sport-panel={sport.key}
+        hidden={index !== 0}
+      >
+        <div class="panel-intro">
+          <div>
+            <p class="section-kicker">{sport.eyebrow}</p>
+            <h2>{sport.title}</h2>
+          </div>
+          <p>{sport.description}</p>
+        </div>
+
+        <div class="metric-grid" aria-label={`${sport.label}统计`}>
+          {sport.metricCards.map((card) => (
+            <article class="metric-card">
+              <p>{card.label}</p>
+              <strong>
+                {card.value}
+                {card.unit && <span>{card.unit}</span>}
+              </strong>
+              {card.subtext && <small>{card.subtext}</small>}
+            </article>
+          ))}
+        </div>
+
+        <div class="sports-section-grid">
+          <section class="chart-block">
+            <div class="block-heading">
+              <div>
+                <p class="section-kicker">Monthly</p>
+                <h3>月度里程</h3>
+              </div>
+              <div class="year-switcher" role="group" aria-label={`${sport.label}年份`}>
+                {years.map((year) => (
+                  <button
+                    type="button"
+                    class="year-button"
+                    data-year-button={`${sport.key}-${year}`}
+                    aria-pressed={year === activeYear ? 'true' : 'false'}
+                  >
+                    {year}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {years.map((year) => (
+              <div
+                class="year-chart"
+                data-year-chart={`${sport.key}-${year}`}
+                hidden={year !== activeYear}
+              >
+                <SportsBarChart
+                  data={makeYearMonthData(sport.stats, year)}
+                  unit="km"
+                  id={`${sport.key}-monthly-${year}`}
+                />
+              </div>
+            ))}
+          </section>
+
+          <section class="summary-block">
+            <div class="block-heading">
+              <div>
+                <p class="section-kicker">Years</p>
+                <h3>年度摘要</h3>
+              </div>
+            </div>
+            <div class="annual-list">
+              {sport.annualRows.map((row) => (
+                <article class="annual-row">
+                  <strong>{row.year}</strong>
+                  <span>{formatNumber(row.distance)} km</span>
+                  <span>{row.count} 次</span>
+                  <span>{formatNumber(row.avgDistance)} km/次</span>
+                </article>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        <section class="chart-block trend-block">
+          <div class="block-heading">
+            <div>
+              <p class="section-kicker">Accumulated</p>
+              <h3>累计曲线</h3>
+            </div>
+            <p class="block-note">
+              最近记录：{sport.stats.monthly[0] ? formatMonthName(sport.stats.monthly[0].month) : '暂无'}
+            </p>
+          </div>
+          <SportsLineChart
+            data={sport.cumulative}
+            unit="km"
+            id={`${sport.key}-cumulative`}
+          />
+        </section>
+
+        {sport.key === 'running' && completedRaces.length > 0 && (
+          <section class="race-section">
+            <div class="block-heading">
+              <div>
+                <p class="section-kicker">Races</p>
+                <h3>比赛记录</h3>
+              </div>
+              <p class="block-note">{completedRaces.length} 场已完成</p>
+            </div>
+            <div class="race-grid">
+              <div class="map-panel">
+                <RaceMap races={completedRaces} id="running-race-map" />
+              </div>
+              <div class="race-list">
+                {completedRaces.map((race) => (
+                  <article class="race-item">
+                    <div>
+                      <span>{formatRaceDate(race.date)}</span>
+                      <h4>{race.name}</h4>
+                      <p>{race.location} · {race.type}</p>
+                    </div>
+                    <dl>
+                      <div>
+                        <dt>成绩</dt>
+                        <dd>{race.time ?? '--'}</dd>
+                      </div>
+                      <div>
+                        <dt>配速</dt>
+                        <dd>{race.pace ?? '--'}</dd>
+                      </div>
+                    </dl>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </section>
+    );
+  })}
+</section>
+
+<script>
+(function initSportsDashboard() {
+  const root = document.querySelector('[data-sports-dashboard]');
+  if (!root) return;
+
+  const tabs = Array.from(root.querySelectorAll('[data-sport-tab]'));
+  const panels = Array.from(root.querySelectorAll('[data-sport-panel]'));
+
+  function activateSport(key) {
+    tabs.forEach((tab) => {
+      const isActive = tab.getAttribute('data-sport-tab') === key;
+      tab.setAttribute('aria-selected', String(isActive));
+      tab.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.getAttribute('data-sport-panel') === key;
+      panel.hidden = !isActive;
+      if (isActive) {
+        window.dispatchEvent(new Event('resize'));
+      }
+    });
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    tab.addEventListener('click', () => {
+      const key = tab.getAttribute('data-sport-tab');
+      if (key) activateSport(key);
+    });
+
+    tab.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+      event.preventDefault();
+      const offset = event.key === 'ArrowRight' ? 1 : -1;
+      const nextIndex = (index + offset + tabs.length) % tabs.length;
+      const nextTab = tabs[nextIndex];
+      const key = nextTab.getAttribute('data-sport-tab');
+      nextTab.focus();
+      if (key) activateSport(key);
+    });
+  });
+
+  root.querySelectorAll('.sport-panel').forEach((panel) => {
+    const buttons = Array.from(panel.querySelectorAll('[data-year-button]'));
+    const charts = Array.from(panel.querySelectorAll('[data-year-chart]'));
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const target = button.getAttribute('data-year-button');
+        buttons.forEach((item) => item.setAttribute('aria-pressed', String(item === button)));
+        charts.forEach((chart) => {
+          chart.hidden = chart.getAttribute('data-year-chart') !== target;
+        });
+      });
+    });
+  });
+})();
+</script>
+
+<style>
+  .sports-dashboard {
+    --sports-surface: color-mix(in oklab, var(--content-bg) 82%, var(--page-bg));
+    --sports-surface-soft: color-mix(in oklab, var(--content-bg) 52%, var(--page-bg));
+    --sports-border: color-mix(in oklab, var(--paper-card-border-soft) 86%, var(--accent-color));
+    --sports-muted: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
+    --sports-run: color-mix(in oklab, var(--accent-color) 78%, oklch(0.56 0.09 148));
+    --sports-ride: color-mix(in oklab, var(--accent-color) 72%, oklch(0.58 0.09 42));
+    display: grid;
+    gap: clamp(var(--space-xl), 4vw, var(--space-3xl));
+    padding: clamp(var(--space-xl), 5vw, var(--space-3xl)) 0 var(--space-3xl);
+  }
+
+  .sports-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.86fr);
+    gap: clamp(var(--space-xl), 5vw, var(--space-3xl));
+    align-items: end;
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--sports-border);
+  }
+
+  .hero-copy {
+    max-width: 620px;
+  }
+
+  .hero-kicker,
+  .section-kicker {
+    margin: 0;
+    color: var(--sports-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .sports-hero h1 {
+    margin: var(--space-sm) 0 var(--space-md);
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: clamp(2.4rem, 6vw, 5.2rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: 0;
+  }
+
+  .hero-description {
+    max-width: 34rem;
+    margin: 0;
+    color: var(--gray-color);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+    margin: 0;
+  }
+
+  .hero-stats div,
+  .metric-card,
+  .chart-block,
+  .summary-block,
+  .race-section {
+    border: 1px solid var(--sports-border);
+    border-radius: 8px;
+    background: var(--sports-surface);
+  }
+
+  .hero-stats div {
+    display: grid;
+    gap: var(--space-xs);
+    min-height: 116px;
+    padding: var(--space-md);
+    align-content: space-between;
+  }
+
+  .hero-stats dt,
+  .metric-card p,
+  .race-item dt {
+    margin: 0;
+    color: var(--gray-color);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .hero-stats dd {
+    margin: 0;
+    color: var(--heading-color);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero-stats dd span {
+    margin-left: 0.18em;
+    color: var(--gray-color);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .hero-stats .date-value {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+  }
+
+  .sports-switcher {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    padding: 3px;
+    border: 1px solid var(--sports-border);
+    border-radius: 8px;
+    background: var(--sports-surface-soft);
+    overflow-x: auto;
+  }
+
+  .sport-tab {
+    display: grid;
+    gap: 2px;
+    min-width: 128px;
+    min-height: 54px;
+    padding: var(--space-xs) var(--space-md);
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gray-color);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+
+  .sport-tab span {
+    color: inherit;
+    font-weight: 700;
+  }
+
+  .sport-tab small {
+    color: inherit;
+    font-size: 0.7rem;
+    opacity: 0.72;
+  }
+
+  .sport-tab[aria-selected='true'] {
+    background: var(--content-bg);
+    color: var(--heading-color);
+    box-shadow: 0 1px 4px color-mix(in oklab, var(--shadow-color) 70%, transparent);
+  }
+
+  .sport-tab:hover {
+    color: var(--heading-color);
+  }
+
+  .sport-tab:focus-visible,
+  .year-button:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+  }
+
+  .sport-panel {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .sport-panel[hidden],
+  .year-chart[hidden] {
+    display: none;
+  }
+
+  .panel-intro,
+  .block-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-lg);
+  }
+
+  .panel-intro h2,
+  .block-heading h3 {
+    margin: var(--space-xs) 0 0;
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  .panel-intro h2 {
+    font-size: clamp(1.8rem, 3.6vw, 3rem);
+  }
+
+  .block-heading h3 {
+    font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+  }
+
+  .panel-intro > p,
+  .block-note {
+    max-width: 28rem;
+    margin: 0;
+    color: var(--gray-color);
+    line-height: 1.7;
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
+
+  .metric-card {
+    display: grid;
+    gap: var(--space-sm);
+    min-height: 132px;
+    padding: var(--space-md);
+    align-content: space-between;
+  }
+
+  .metric-card strong {
+    color: var(--heading-color);
+    font-size: clamp(1.45rem, 2.8vw, 2.35rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .metric-card strong span {
+    margin-left: 0.18em;
+    color: var(--gray-color);
+    font-size: 0.84rem;
+  }
+
+  .metric-card small {
+    color: var(--sports-muted);
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .sports-section-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.8fr);
+    gap: var(--space-md);
+    align-items: stretch;
+  }
+
+  .chart-block,
+  .summary-block,
+  .race-section {
+    padding: var(--space-lg);
+  }
+
+  .chart-block {
+    min-width: 0;
+  }
+
+  .year-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-2xs);
+  }
+
+  .year-button {
+    min-width: 58px;
+    min-height: 34px;
+    padding: 0 var(--space-xs);
+    border: 1px solid var(--sports-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gray-color);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  }
+
+  .year-button:hover,
+  .year-button[aria-pressed='true'] {
+    border-color: color-mix(in oklab, var(--accent-color) 24%, var(--sports-border));
+    background: color-mix(in oklab, var(--accent-color) 8%, transparent);
+    color: var(--heading-color);
+  }
+
+  .annual-list {
+    display: grid;
+    gap: var(--space-xs);
+    margin-top: var(--space-lg);
+  }
+
+  .annual-row {
+    display: grid;
+    grid-template-columns: 0.8fr 1.15fr 0.85fr 1.1fr;
+    gap: var(--space-sm);
+    align-items: center;
+    padding: var(--space-sm) 0;
+    border-top: 1px solid color-mix(in oklab, var(--sports-border) 72%, transparent);
+    color: var(--gray-color);
+    font-size: 0.84rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .annual-row:first-child {
+    border-top: 0;
+  }
+
+  .annual-row strong {
+    color: var(--heading-color);
+  }
+
+  .trend-block :global(.line-chart-wrapper) {
+    margin: var(--space-md) 0 0;
+  }
+
+  .race-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+  }
+
+  .map-panel {
+    min-width: 0;
+  }
+
+  .map-panel :global(.race-map-wrapper) {
+    height: 100%;
+    min-height: 330px;
+    border-radius: 6px;
+  }
+
+  .race-list {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .race-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-md);
+    border: 1px solid color-mix(in oklab, var(--sports-border) 74%, transparent);
+    border-radius: 8px;
+    background: color-mix(in oklab, var(--page-bg) 38%, var(--content-bg));
+  }
+
+  .race-item span {
+    color: var(--sports-muted);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .race-item h4 {
+    margin: var(--space-2xs) 0;
+    color: var(--heading-color);
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .race-item p {
+    margin: 0;
+    color: var(--gray-color);
+    font-size: 0.82rem;
+  }
+
+  .race-item dl {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: var(--space-md);
+    margin: 0;
+  }
+
+  .race-item dd {
+    margin: var(--space-2xs) 0 0;
+    color: var(--heading-color);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  :global([data-theme='dark']) .sports-dashboard {
+    --sports-surface: color-mix(in oklab, var(--content-bg) 70%, var(--page-bg));
+    --sports-surface-soft: color-mix(in oklab, var(--content-bg) 48%, var(--page-bg));
+    --sports-border: color-mix(in oklab, var(--paper-card-border-soft) 78%, var(--accent-color));
+  }
+
+  @media (max-width: 1020px) {
+    .sports-hero,
+    .sports-section-grid,
+    .race-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .metric-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .map-panel :global(.race-map-wrapper) {
+      min-height: 280px;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .sports-dashboard {
+      padding-top: var(--space-xl);
+      gap: var(--space-xl);
+    }
+
+    .sports-hero {
+      gap: var(--space-lg);
+      padding-bottom: var(--space-lg);
+    }
+
+    .hero-stats,
+    .metric-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .panel-intro,
+    .block-heading {
+      display: grid;
+      gap: var(--space-md);
+      align-items: start;
+    }
+
+    .year-switcher {
+      justify-content: flex-start;
+    }
+
+    .chart-block,
+    .summary-block,
+    .race-section {
+      padding: var(--space-md);
+    }
+
+    .annual-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .race-item,
+    .race-item dl {
+      grid-template-columns: 1fr;
+    }
+
+    .race-item dl {
+      gap: var(--space-xs);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sport-tab,
+    .year-button {
+      transition: none;
+    }
+  }
+</style>
