@@ -47,13 +47,54 @@ marked.setOptions({
 });
 
 function getDateParts(date: Date) {
-    const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Shanghai' };
-    const day = new Intl.DateTimeFormat('en-US', { ...options, day: '2-digit' }).format(date);
-    const monthNum = new Intl.DateTimeFormat('en-US', { ...options, month: '2-digit' }).format(date);
-    const year = new Intl.DateTimeFormat('en-US', { ...options, year: 'numeric' }).format(date);
-    const time = new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
-    return { day, monthNum, year, time };
+	const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Shanghai' };
+	const day = new Intl.DateTimeFormat('en-US', { ...options, day: '2-digit' }).format(date);
+	const monthNum = new Intl.DateTimeFormat('en-US', { ...options, month: '2-digit' }).format(date);
+	const year = new Intl.DateTimeFormat('en-US', { ...options, year: 'numeric' }).format(date);
+	const time = new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+	return { day, monthNum, year, time };
 }
+
+const memoItems = gossips.map((gossip: any, index) => {
+	const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
+	return {
+		gossip,
+		index,
+		page: Math.floor(index / pageSize) + 1,
+		dayStamp: `${monthNum}-${day}`,
+		monthLabel: `${year}.${monthNum}`,
+		monthId: `memos-${year}-${monthNum}`,
+		year,
+		time,
+		attachments: gossip._raw?.media_attachments || [],
+	};
+});
+
+const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
+	const page = pageIndex + 1;
+	const groups = new Map<string, { label: string; id: string; year: string; items: typeof memoItems }>();
+
+	memoItems
+		.filter((item) => item.page === page)
+		.forEach((item) => {
+			if (!groups.has(item.monthId)) {
+				groups.set(item.monthId, {
+					label: item.monthLabel,
+					id: item.monthId,
+					year: item.year,
+					items: [],
+				});
+			}
+			groups.get(item.monthId)?.items.push(item);
+		});
+
+	return { page, groups: Array.from(groups.values()) };
+});
+
+const hasMemoIntro = Astro.slots.has('default');
+const newestYear = memoItems[0]?.year;
+const oldestYear = memoItems[memoItems.length - 1]?.year;
+const rangeLabel = newestYear && oldestYear && newestYear !== oldestYear ? `${oldestYear}-${newestYear}` : newestYear;
 ---
 
 <link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
@@ -112,42 +153,65 @@ function getDateParts(date: Date) {
     }
 </style>
 
-<MagazineShell title={title} description={title}>
-	<div id='shuoshuo' class="memos-feed" role="list">
+<MagazineShell title={title} description={title} className="memos-surface">
+	<header class="memos-header">
+		<h1 class="memos-title-hidden">{title}</h1>
+		<div class="memos-summary">
+			{hasMemoIntro ? <slot /> : <p>记录一些临时的想法和日常片段。</p>}
+			{gossips.length > 0 && (
+				<p class="memos-count">
+					{gossips.length} fragments
+					{rangeLabel && <span> · {rangeLabel}</span>}
+				</p>
+			)}
+		</div>
+	</header>
+
+	<div id='shuoshuo' class="memos-feed">
 		{
 			gossips.length === 0 ? (
 				<div class='empty-state'>No memos yet.</div>
 			) : (
-				gossips.map((gossip: any, index) => {
-					const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
-					const dateStamp = `${year}-${monthNum}-${day}`;
-					const attachments = gossip._raw?.media_attachments || [];
-					return (
-						<article class='memo-item' data-index={index} role="listitem">
-							<div class="memo-meta">
-								<span class="memo-date">{dateStamp}</span>
-								<span class='memo-time'>{time}</span>
-								{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
-							</div>
-							<div class='memo-body'>
-								<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
-								
-								{attachments.length > 0 && (
-									<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-										{attachments.slice(0, 4).map((media: any) => (
-											<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
-												<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
-											</a>
-										))}
-									</div>
-								)}
-								<div class="memo-actions">
-									<LikeButton id={gossip.data.slug} type="gossip" />
+				pagedGroups.map(({ page, groups }) => (
+					<div class="memos-page" data-page={page}>
+						{groups.map((group) => (
+							<section class="memos-month" id={group.id} data-year={group.year} aria-labelledby={`${group.id}-title`}>
+								<h2 class="memos-month-title" id={`${group.id}-title`}>{group.label}</h2>
+								<div class="memos-month-list" role="list">
+									{group.items.map((item) => {
+										const { gossip, attachments, dayStamp, time, index } = item;
+										return (
+											<article class='memo-item' data-index={index} role="listitem">
+												<time class="memo-stamp" datetime={gossip.data.pubDate.toISOString()}>
+													<span class="memo-date">{dayStamp}</span>
+													<span class='memo-time'>{time}</span>
+												</time>
+												<div class='memo-body'>
+													<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
+
+													{attachments.length > 0 && (
+														<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+															{attachments.slice(0, 4).map((media: any) => (
+																<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
+																	<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
+																</a>
+															))}
+														</div>
+													)}
+													<div class="memo-footer">
+														{gossip.data.tag && <span class="memo-tag">{gossip.data.tag}</span>}
+														{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
+														<LikeButton id={gossip.data.slug} type="gossip" />
+													</div>
+												</div>
+											</article>
+										)
+									})}
 								</div>
-							</div>
-						</article>
-					)
-				})
+							</section>
+						))}
+					</div>
+				))
 			)
 		}
 	</div>
@@ -197,13 +261,13 @@ function getDateParts(date: Date) {
     }
 </script>
 
-<script is:inline define:vars={{ pageSize, totalPages }}>
+<script is:inline define:vars={{ totalPages }}>
 	(() => {
-		const items = Array.from(document.querySelectorAll('#shuoshuo .memo-item'));
+		const pages = Array.from(document.querySelectorAll('#shuoshuo .memos-page'));
 		const pagination = document.getElementById('shuoshuo-pagination');
 		const pageLinks = Array.from(document.querySelectorAll('#shuoshuo-pagination a[data-page]'));
 
-		if (!pagination || !items.length || totalPages <= 1) {
+		if (!pagination || !pages.length || totalPages <= 1) {
 			if (pagination) pagination.style.display = 'none';
 			return;
 		}
@@ -214,17 +278,21 @@ function getDateParts(date: Date) {
 
 		function renderPage(page) {
 			const currentPage = clampPage(page);
-			const start = (currentPage - 1) * pageSize;
-			const end = start + pageSize;
 
-			items.forEach((item, index) => {
-				const visible = index >= start && index < end;
-				item.style.display = visible ? '' : 'none';
+			pages.forEach((pageNode) => {
+				const visible = Number(pageNode.dataset.page) === currentPage;
+				pageNode.hidden = !visible;
 			});
 
 			pageLinks.forEach((link) => {
 				const linkPage = Number(link.dataset.page);
-				link.classList.toggle('active', linkPage === currentPage);
+				const active = linkPage === currentPage;
+				link.classList.toggle('active', active);
+				if (active) {
+					link.setAttribute('aria-current', 'page');
+				} else {
+					link.removeAttribute('aria-current');
+				}
 			});
 
 			params.set('page', String(currentPage));
@@ -250,18 +318,116 @@ function getDateParts(date: Date) {
 </script>
 
 <style>
+	:global(.memos-surface) {
+		--memos-section-gap: 1.75rem;
+	}
+
+	:global(.memos-surface .magazine-main) {
+		gap: var(--memos-section-gap);
+	}
+
+	.memos-header {
+		display: block;
+		gap: 0;
+		margin-bottom: 0 !important;
+		padding: 0 !important;
+		animation: fade-up 0.5s ease-out both;
+	}
+
+	.memos-title-hidden {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.memos-summary {
+		display: flex;
+		width: 100%;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-md);
+		padding: 0.78rem 0.92rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg-soft);
+		box-shadow: 0 1px 2px rgba(15, 23, 42, 0.018);
+	}
+
+	.memos-summary p,
+	.memos-summary :global(p) {
+		margin: 0;
+		font-size: 0.84rem;
+		line-height: 1.55;
+		color: color-mix(in oklab, var(--text-color) 84%, var(--gray-color));
+	}
+
+	.memos-count {
+		flex: none;
+		font-family: var(--field-font);
+		font-size: 0.68rem !important;
+		line-height: 1.35 !important;
+		color: var(--gray-color) !important;
+		letter-spacing: 0.035em;
+		font-variant-numeric: tabular-nums;
+	}
+
 	.memos-feed {
 		display: flex;
 		flex-direction: column;
-		gap: var(--blog-card-gap, 0.9rem);
+		gap: var(--space-xl);
+		margin-top: 0 !important;
 		animation: fade-up 0.5s ease-out 0.08s both;
+	}
+
+	.memos-page {
+		display: flex;
+		flex-direction: column;
+		gap: var(--memos-section-gap);
+	}
+
+	.memos-page[hidden] {
+		display: none;
+	}
+
+	.memos-month {
+		display: grid;
+		grid-template-columns: minmax(5.2rem, 6.8rem) minmax(0, 1fr);
+		gap: clamp(var(--space-md), 2.5vw, var(--space-lg));
+		position: relative;
+	}
+
+	.memos-month-title {
+		position: sticky;
+		top: var(--space-lg);
+		align-self: start;
+		margin: 0;
+		padding-top: 1rem;
+		font-family: var(--field-font);
+		font-size: 0.78rem;
+		font-weight: 500;
+		line-height: 1.35;
+		color: var(--heading-color);
+		letter-spacing: 0.035em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memos-month-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
 	}
 
 	.memo-item {
 		display: grid;
-		grid-template-columns: var(--blog-meta-col, 7.25rem) minmax(0, 1fr);
-		gap: clamp(0.95rem, 2vw, 1.15rem);
-		padding: clamp(0.95rem, 2.4vw, 1.1rem);
+		grid-template-columns: minmax(4.6rem, 5.8rem) minmax(0, 1fr);
+		gap: clamp(var(--space-sm), 2.4vw, var(--space-md));
+		padding: 0.82rem 0.9rem;
 		position: relative;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
@@ -271,54 +437,47 @@ function getDateParts(date: Date) {
 	}
 
 	.memo-item:hover {
-		background: color-mix(in oklab, var(--accent-soft-bg) 20%, var(--paper-card-bg));
+		background: color-mix(in oklab, var(--accent-soft-bg) 18%, var(--paper-card-bg));
 		border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
 	}
 
-	.memo-meta {
+	.memo-stamp {
 		display: flex;
-		align-items: baseline;
-		flex-wrap: wrap;
-		gap: 0.35rem;
-		padding-top: 0.12rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.08rem;
+		padding-top: 0.18rem;
 		font-family: var(--field-font);
-		font-size: 0.7rem;
 		line-height: 1.35;
 		color: var(--gray-color);
-		letter-spacing: 0.025em;
 		font-variant-numeric: tabular-nums;
 	}
 
 	.memo-date {
 		color: var(--heading-color);
+		font-size: 0.74rem;
 		font-weight: 500;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.035em;
 	}
-
-	.memo-date::before { content: "["; opacity: 0.72; margin-right: 1px; }
-	.memo-date::after { content: "]"; opacity: 0.72; margin-left: 1px; }
 
 	.memo-time {
-		opacity: 0.86;
+		font-size: 0.66rem;
+		opacity: 0.78;
 	}
 
-	.draft-indicator {
-		color: color-mix(in oklab, var(--color-warning) 74%, var(--text-color));
-		font-size: 0.62rem;
-		letter-spacing: 0.04em;
-		text-transform: lowercase;
-		margin-left: 7px;
+	.memo-body {
+		min-width: 0;
 	}
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.9rem;
-		line-height: 1.66;
+		font-size: 0.94rem;
+		line-height: 1.74;
 		letter-spacing: 0;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.16rem 0;
+		margin: 0.18rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
@@ -347,35 +506,48 @@ function getDateParts(date: Date) {
 	}
 
 	.memo-content :global(blockquote) {
-		margin: 0.12rem 0;
-		padding-left: 0.36rem;
+		margin: 0.28rem 0;
+		padding-left: 0.62rem;
 		border-left: 1px solid color-mix(in oklab, var(--gray-color) 38%, transparent);
 		color: var(--gray-color);
-		font-size: 0.78rem;
-		line-height: 1.36;
+		font-size: 0.82rem;
+		line-height: 1.48;
 	}
 
-	.memo-actions {
-		margin-top: 0;
+	.memo-footer {
 		display: flex;
 		align-items: center;
+		flex-wrap: wrap;
+		gap: var(--space-xs);
 		opacity: 0;
-		transition: opacity 0.2s ease;
 		position: absolute;
-		right: var(--space-md);
-		bottom: var(--space-md);
-		z-index: 10;
+		right: 0.9rem;
+		bottom: 0.48rem;
+		transition: opacity 0.2s ease;
 	}
 
-	.memo-item:hover .memo-actions {
+	.memo-item:hover .memo-footer,
+	.memo-item:focus-within .memo-footer {
 		opacity: 1;
 	}
 
-	@media (max-width: 720px) {
-		.memo-actions {
-			opacity: 0.6;
-			bottom: var(--space-sm);
-		}
+	.memo-tag,
+	.draft-indicator {
+		font-family: var(--field-font);
+		font-size: 0.65rem;
+		line-height: 1.35;
+		color: var(--gray-color);
+		letter-spacing: 0.035em;
+	}
+
+	.memo-tag::before {
+		content: "#";
+		opacity: 0.55;
+	}
+
+	.draft-indicator {
+		color: color-mix(in oklab, var(--color-warning) 74%, var(--text-color));
+		text-transform: lowercase;
 	}
 
 	.empty-state {
@@ -388,51 +560,58 @@ function getDateParts(date: Date) {
 	.pagination {
 		display: flex;
 		justify-content: center;
-		margin-top: var(--space-lg);
+		margin-top: var(--space-md);
 	}
 
-	.page-link {
+	.pagination-pages {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.12rem;
+		padding: 0.18rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-card-bg-soft) 72%, transparent);
+	}
+
+	.pagination .page-link {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 30px;
-		height: 30px;
-		padding: 0 5px;
-		margin: 0 1px;
+		min-width: 1.55rem;
+		height: 1.45rem;
+		padding: 0 0.38rem;
 		font-family: var(--field-font);
-		font-size: 0.72rem;
+		font-size: 0.68rem;
+		line-height: 1;
 		color: var(--gray-color);
 		text-decoration: none;
-		border: 1px solid var(--paper-card-border-soft);
-		background: var(--paper-field-bg);
-	}
-
-	.page-link:hover {
-		color: var(--heading-color);
-		border-color: var(--paper-card-border);
-		background: color-mix(in oklab, var(--paper-card-bg) 84%, var(--content-bg));
-	}
-
-	.page-link.active {
-		color: var(--heading-color);
-		border-color: color-mix(in oklab, var(--gray-color) 26%, transparent);
+		border: 1px solid transparent;
+		border-radius: calc(var(--paper-card-radius) - 1px);
 		background: transparent;
+		font-variant-numeric: tabular-nums;
+		transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+	}
+
+	.pagination .page-link:hover {
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
+		background: color-mix(in oklab, var(--paper-card-bg) 72%, var(--page-bg));
+	}
+
+	.pagination .page-link.active {
+		color: var(--heading-color);
+		border-color: color-mix(in oklab, var(--gray-color) 18%, transparent);
+		background: var(--paper-card-bg);
 		position: relative;
 	}
 
-	.page-link.active::before {
-		content: "[";
-		margin-right: 1px;
+	.pagination .page-link.active::before,
+	.pagination .page-link.active::after {
+		content: none;
 	}
 
-	.page-link.active::after {
-		content: "]";
-		margin-left: 1px;
-	}
-
-	.page-link:focus-visible {
+	.pagination .page-link:focus-visible {
 		outline: 2px solid var(--accent-color);
-		outline-offset: 1px;
+		outline-offset: 2px;
 	}
 
 	@keyframes fade-up {
@@ -441,24 +620,73 @@ function getDateParts(date: Date) {
 	}
 
 	@media (max-width: 720px) {
+		:global(.memos-surface) {
+			--memos-section-gap: 1.375rem;
+		}
+
+		:global(.memos-surface .magazine-main) {
+			gap: var(--memos-section-gap);
+		}
+
+		.memos-header {
+			padding-top: 0;
+		}
+
+		.memos-summary {
+			align-items: flex-start;
+			flex-direction: column;
+			gap: var(--space-xs);
+			padding: 0.72rem 0.8rem;
+		}
+
+		.memos-summary p,
+		.memos-summary :global(p) {
+			font-size: 0.82rem;
+			line-height: 1.55;
+		}
+
+		.memos-page {
+			gap: var(--space-lg);
+		}
+
+		.memos-month {
+			grid-template-columns: 1fr;
+			gap: var(--space-sm);
+		}
+
+		.memos-month-title {
+			position: static;
+			padding-top: 0;
+			font-size: 0.74rem;
+		}
+
 		.memo-item {
 			grid-template-columns: 1fr;
-			gap: 0.4rem;
-			padding: var(--space-sm);
+			gap: var(--space-xs);
+			padding: 0.78rem 0.82rem;
+		}
+
+		.memo-stamp {
+			flex-direction: row;
+			align-items: baseline;
+			gap: 0.45rem;
+			padding-top: 0;
 		}
 
 		.memo-content {
-			font-size: 0.86rem;
-			line-height: 1.58;
+			font-size: 0.9rem;
+			line-height: 1.64;
 		}
 
-		.memo-meta {
-			padding-top: 0;
-			font-size: 0.64rem;
+		.memo-footer {
+			position: static;
+			margin-top: 0.15rem;
+			opacity: 0.72;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.memos-header,
 		.memos-feed {
 			animation: none;
 		}
