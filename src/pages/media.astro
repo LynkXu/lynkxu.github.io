@@ -101,7 +101,6 @@ const sections = sectionOrder.map((key) => {
 });
 
 const allItems = sortItems(sections.flatMap((section) => section.items));
-const latestItems = allItems.slice(0, 6);
 const totalCount = allItems.length;
 const progressCount = allItems.filter((item) => item.shelf_type === 'progress').length;
 const completedCount = totalCount - progressCount;
@@ -122,7 +121,7 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
         <p class="media-kicker">MEDIA LOG</p>
         <h1 id="media-title">书影音</h1>
         <p class="media-intro">
-          把最近读过、看过、玩过的作品放在同一个安静的书架里。它不追求完整清单，更像一条缓慢更新的生活索引。
+          一些读过的书、看过的电影和玩过的游戏。不全，但都是真的。
         </p>
       </div>
 
@@ -144,32 +143,6 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
           <dd>{yearRange}</dd>
         </div>
       </dl>
-
-      {latestItems.length > 0 && (
-        <div class="latest-shelf" aria-label="最近记录">
-          {latestItems.map((item, index) => (
-            <a
-              class={`latest-cover latest-cover-${index + 1}`}
-              href={getLink(item)}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={getTitle(item)}
-            >
-              {getCover(item) ? (
-                <img
-                  src={getCover(item)}
-                  alt={getTitle(item)}
-                  loading={index < 3 ? 'eager' : 'lazy'}
-                  onerror="this.closest('.latest-cover')?.classList.add('is-missing'); this.remove();"
-                />
-              ) : (
-                <span class="latest-fallback">{getTitle(item)}</span>
-              )}
-              {item.shelf_type === 'progress' && <span class="latest-status">进行中</span>}
-            </a>
-          ))}
-        </div>
-      )}
     </section>
 
     <section class="media-library" aria-label="媒体列表">
@@ -303,12 +276,11 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
 
   .media-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.38fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      'copy shelf'
-      'stats shelf';
+      'copy stats';
     gap: clamp(var(--space-md), 3vw, var(--space-xl));
-    align-items: center;
+    align-items: start;
     padding: clamp(var(--space-md), 2.4vw, var(--space-xl)) 0 clamp(var(--space-lg), 3vw, var(--space-2xl));
     border-bottom: 1px solid color-mix(in oklab, var(--text-color) 10%, transparent);
   }
@@ -379,96 +351,6 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
-  }
-
-  .latest-shelf {
-    grid-area: shelf;
-    align-self: center;
-    display: grid;
-    grid-template-columns: repeat(6, minmax(28px, 1fr));
-    gap: 6px;
-    min-height: 0;
-    padding: var(--space-xs);
-    border: 1px solid color-mix(in oklab, var(--text-color) 9%, transparent);
-    background:
-      linear-gradient(180deg, color-mix(in oklab, var(--content-bg) 88%, transparent), transparent),
-      color-mix(in oklab, var(--accent-soft-bg) 34%, var(--content-bg));
-  }
-
-  .latest-cover {
-    position: relative;
-    display: block;
-    align-self: end;
-    min-width: 0;
-    overflow: hidden;
-    border-bottom: none !important;
-    border-radius: 4px;
-    aspect-ratio: 2 / 3;
-    background:
-      linear-gradient(145deg, color-mix(in oklab, var(--accent-soft-bg) 48%, transparent), transparent),
-      color-mix(in oklab, var(--text-color) 6%, var(--content-bg));
-    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .latest-cover:hover,
-  .latest-cover:focus-visible {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.14);
-  }
-
-  .latest-cover:focus-visible {
-    outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
-    outline-offset: 4px;
-  }
-
-  .latest-cover img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .latest-cover.is-missing {
-    display: flex;
-    align-items: flex-end;
-    padding: var(--space-sm);
-  }
-
-  .latest-fallback {
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    line-height: 1.35;
-  }
-
-  .latest-status {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    padding: 1px 4px;
-    border-radius: 999px;
-    background: rgba(17, 24, 39, 0.78);
-    color: #fff;
-    font-family: var(--ui-font);
-    font-size: 0.56rem;
-    font-weight: 700;
-  }
-
-  .latest-cover-1,
-  .latest-cover-4 {
-    align-self: center;
-  }
-
-  .latest-cover-2,
-  .latest-cover-5 {
-    align-self: start;
-  }
-
-  .latest-cover-3,
-  .latest-cover-6 {
-    align-self: end;
   }
 
   .media-library {
@@ -667,31 +549,13 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
     text-align: center;
   }
 
-  :global([data-theme='dark']) .latest-shelf {
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  }
-
-  :global([data-theme='dark']) .latest-cover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
-  }
-
-  :global([data-theme='dark']) .latest-cover:hover,
-  :global([data-theme='dark']) .latest-cover:focus-visible {
-    box-shadow: 0 22px 44px rgba(0, 0, 0, 0.44);
-  }
-
   @media (max-width: 900px) {
     .media-hero {
       grid-template-columns: 1fr;
       grid-template-areas:
         'copy'
-        'stats'
-        'shelf';
+        'stats';
       align-items: start;
-    }
-
-    .latest-shelf {
-      width: min(420px, 100%);
     }
 
     .media-controls {
@@ -735,15 +599,6 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
     .media-stats {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-md);
-    }
-
-    .latest-shelf {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      min-height: 0;
-    }
-
-    .latest-cover {
-      align-self: stretch;
     }
 
     .panel-summary {

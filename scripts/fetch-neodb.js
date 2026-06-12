@@ -130,7 +130,37 @@ function mergeItems(newItems, existingItems) {
         deduplicated.push(item);
     }
 
-    return deduplicated;
+    // Deduplicate TVSeason by parent_uuid: NeoDB may contain duplicate seasons
+    // for the same show from different sources (e.g. Douban + TMDB).
+    // Keep only the newest entry per parent_uuid.
+    const parentLatest = new Map();
+    for (const item of deduplicated) {
+        if (item?.item?.type === 'TVSeason' && item?.item?.parent_uuid) {
+            const parent = item.item.parent_uuid;
+            const time = normalizeTime(item?.created_time);
+            if (!parentLatest.has(parent) || time > parentLatest.get(parent).time) {
+                parentLatest.set(parent, { item, time });
+            }
+        }
+    }
+
+    const final = [];
+    const parentKept = new Set();
+    for (const item of deduplicated) {
+        if (item?.item?.type === 'TVSeason' && item?.item?.parent_uuid) {
+            const parent = item.item.parent_uuid;
+            if (parentKept.has(parent)) continue;
+            const winner = parentLatest.get(parent)?.item;
+            if (winner === item) {
+                final.push(item);
+                parentKept.add(parent);
+            }
+        } else {
+            final.push(item);
+        }
+    }
+
+    return final;
 }
 
 function buildExistingYearMap(existingData) {
