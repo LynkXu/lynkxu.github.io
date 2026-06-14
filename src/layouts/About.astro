@@ -6,10 +6,35 @@ const { title } = Astro.props;
 
 <MagazineShell title={title} description={title}>
 	<div class="about-hero">
-		<h1 class="about-hero__title">👋 I am Lynk</h1>
-		<p class="about-hero__desc">Fullstack Engineer in Shanghai</p>
-		<p>你好，我是 Lynk，一名在上海工作的全栈（后端）工程师。</p>
-		<p>很高兴你发现了这里，也希望你喜欢我写的内容。祝你拥有美好的一天。</p>
+		<div class="about-hero__copy">
+			<p class="about-hero__kicker">About Lynk</p>
+			<h1 class="about-hero__title">👋 Hi, I am Lynk</h1>
+			<div class="about-hero__intro">
+				<p class="about-hero__lines">
+					<span>一个偏乐观的悲观主义者。</span>
+					<span>一个偏理性的理想主义者。</span>
+					<span>一个想法很多，但却不善表达的人。</span>
+				</p>
+				<p>
+					我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。
+					很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
+				</p>
+			</div>
+		</div>
+		<dl class="about-hero__meta" aria-label="Profile summary">
+			<div>
+				<dt>Base</dt>
+				<dd>Shanghai</dd>
+			</div>
+			<div>
+				<dt>Work</dt>
+				<dd>Fullstack Engineer</dd>
+			</div>
+			<div>
+				<dt>Rhythm</dt>
+				<dd>Training · Reading · Wandering</dd>
+			</div>
+		</dl>
 	</div>
 	<div class="about-sheet">
 		<slot />
@@ -20,30 +45,94 @@ const { title } = Astro.props;
 	/* About hero */
 	.about-hero {
 		position: relative;
+		display: flex;
+		flex-direction: column;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
-		background:
-			linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 36%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 100%);
+		background: var(--paper-card-bg);
 		box-shadow: var(--paper-card-shadow);
-		padding: clamp(1.45rem, 4vw, 2.05rem);
+		padding: clamp(1.15rem, 2.35vw, 1.55rem) clamp(1.05rem, 2.6vw, 1.55rem);
 		animation: fade-up 0.5s ease-out both;
 	}
 
-	.about-hero__title {
-		margin: 10;
-		font-family: var(--serif-font);
-		font-size: clamp(1.32rem, 2.35vw, 1.58rem);
-		font-weight: 500;
-		letter-spacing: -0.014em;
-		color: var(--panel-title-color);
-		line-height: 1.22;
+	.about-hero__copy {
+		max-width: none;
 	}
 
-	.about-hero__desc {
-		margin: 0.45rem 0 0;
-		font-size: 0.84rem;
-		color: var(--gray-color);
-		line-height: 1.55;
+	.about-hero__kicker {
+		margin: 0;
+		font-family: var(--field-font);
+		font-size: clamp(0.74rem, 1.05vw, 0.8rem);
+		font-weight: 650;
+		letter-spacing: 0.06em;
+		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
+	}
+
+	.about-hero__title {
+		margin: clamp(0.42rem, 1vw, 0.56rem) 0 0;
+		font-family: var(--serif-font);
+		font-size: clamp(1.34rem, 2.15vw, 1.68rem);
+		font-weight: 500;
+		color: var(--heading-color);
+		line-height: 1.26;
+	}
+
+	.about-hero__intro {
+		margin: clamp(0.56rem, 1.3vw, 0.7rem) 0 0;
+		font-size: clamp(0.88rem, 1.18vw, 0.92rem);
+		color: color-mix(in oklab, var(--text-color) 70%, var(--gray-color));
+		line-height: 1.66;
+	}
+
+	.about-hero__intro p {
+		margin: 0;
+	}
+
+	.about-hero__intro p + p {
+		margin-top: 0.5rem;
+		max-width: 72ch;
+	}
+
+	.about-hero__lines {
+		display: flex;
+		flex-direction: column;
+		gap: 0.08rem;
+	}
+
+	.about-hero__meta {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(0.75rem, 2.4vw, 1.15rem);
+		margin: clamp(0.7rem, 1.6vw, 0.86rem) 0 0;
+		padding: clamp(0.52rem, 1.25vw, 0.64rem) 0 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-hero__meta div {
+		min-width: 0;
+	}
+
+	.about-hero__meta dt,
+	.about-hero__meta dd {
+		margin: 0;
+	}
+
+	.about-hero__meta dt {
+		font-family: var(--field-font);
+		font-size: clamp(0.68rem, 1vw, 0.74rem);
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		color: color-mix(in oklab, var(--gray-color) 92%, var(--heading-color));
+		line-height: 1.28;
+	}
+
+	.about-hero__meta dd {
+		margin-top: 0.18rem;
+		font-family: var(--serif-font);
+		font-size: clamp(0.84rem, 1.2vw, 0.9rem);
+		font-weight: 400;
+		color: color-mix(in oklab, var(--heading-color) 84%, var(--text-color));
+		line-height: 1.28;
 	}
 
 	/* About sheet sits directly in magazine-main; let inner cards breathe */
@@ -68,6 +157,17 @@ const { title } = Astro.props;
 		.magazine-main > .about-sheet,
 		.magazine-main > .about-sheet > * {
 			animation: none;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.about-hero__meta {
+			grid-template-columns: 1fr;
+			gap: 0.85rem;
+		}
+
+		.about-hero__meta dd {
+			margin-top: 0.2rem;
 		}
 	}
 </style>
