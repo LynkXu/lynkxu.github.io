@@ -45,7 +45,8 @@ function isActive(href: string) {
 	return currentPath === href || currentPath.startsWith(href + '/');
 }
 
-const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
+const normalizedPath = currentPath.replace(/\/+$/, '') || '/';
+const isPostPage = normalizedPath.startsWith('/blog/');
 ---
 
 <Base title={title} description={description} className={`blog-surface-layout ${className}`}>
@@ -126,8 +127,8 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 <style is:global>
 	.blog-surface-layout {
 		--blog-shell-width: 1120px;
-		--blog-shell-sidebar-width: 184px;
-		--blog-shell-gap: clamp(1.5rem, 3vw, 2.75rem);
+		--blog-shell-sidebar-width: 200px;
+		--blog-shell-gap: clamp(1.25rem, 3vw, 2.5rem);
 	}
 
 	/* ── Magazine Shell ── */
@@ -151,13 +152,14 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 1.12rem;
-		padding: clamp(1.35rem, 3vw, 1.75rem) clamp(0.85rem, 1.6vw, 1rem);
+		gap: 1.2rem;
+		padding: clamp(1.5rem, 3vw, 1.9rem) clamp(0.85rem, 1.6vw, 1rem);
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
 		background: var(--paper-card-bg);
 		box-shadow: var(--paper-card-shadow);
 		text-align: center;
+		min-height: 450px;
 	}
 
 	.profile-avatar-link {
@@ -215,7 +217,7 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 		justify-content: center;
 		gap: 0.32rem;
 		width: 100%;
-		padding: 0.52rem 0;
+		padding: 0.62rem 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
@@ -250,13 +252,13 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 	.profile-nav {
 		display: flex;
 		flex-direction: column;
-		gap: 0.15rem;
+		gap: 0.2rem;
 		width: 100%;
 	}
 
 	.profile-nav-link {
 		display: block;
-		padding: 0.4rem 0.6rem;
+		padding: 0.46rem 0.6rem;
 		font-family: var(--field-font);
 		font-size: 0.8rem;
 		color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
@@ -321,6 +323,7 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 			text-align: left;
 			gap: 1.1rem;
 			padding: 1.15rem 1.25rem;
+			min-height: 0;
 		}
 
 		.profile-avatar {
@@ -392,7 +395,7 @@ const isPostPage = currentPath.startsWith('/blog/') && currentPath !== '/blog';
 
 	/* ── Site Meta Card ── */
 	.site-meta-card {
-		margin-top: var(--blog-card-gap, 0.9rem);
+		margin-top: calc(var(--blog-card-gap, 0.9rem) + 0.5rem);
 		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 70%, transparent);
 		border-radius: var(--paper-card-radius);
 		background: color-mix(in oklab, var(--paper-card-bg) 96%, var(--accent-soft-bg));
