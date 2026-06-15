@@ -577,8 +577,8 @@ body:has(.blog-surface-layout) {
 
 .blog-surface-layout footer {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width, 184px);
-  column-gap: var(--blog-shell-gap, clamp(1.5rem, 3vw, 2.75rem));
+  grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width, 200px);
+  column-gap: var(--blog-shell-gap, clamp(1.25rem, 3vw, 2.5rem));
   max-width: var(--blog-shell-width);
   width: min(var(--blog-shell-width), calc(100% - 2 * var(--page-inline)));
   margin-left: auto;
