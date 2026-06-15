@@ -13,7 +13,8 @@ const { label, value, unit, subtext, id } = Astro.props;
 
 <style>
   .stat-card {
-    background: color-mix(in oklab, var(--page-bg) 45%, var(--paper-card-bg));
+    --sport-accent: oklch(0.44 0.045 155);
+    background: var(--paper-card-bg);
     padding: 1.5rem 1.75rem;
     border-radius: 16px;
     border: 1px solid var(--paper-card-border-soft);
@@ -26,29 +27,40 @@ const { label, value, unit, subtext, id } = Astro.props;
     overflow: hidden;
   }
 
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    box-shadow: inset 0 1px 0 color-mix(in oklab, var(--content-bg) 72%, transparent);
+  }
+
   .stat-card:hover {
     transform: translateY(-2px);
-    border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
-    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.1);
+    border-color: color-mix(in oklab, var(--sport-accent) 12%, var(--paper-card-border-soft));
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--heading-color) 5%, transparent),
+      0 16px 34px color-mix(in oklab, var(--heading-color) 7%, transparent);
   }
 
   :global([data-theme="dark"]) .stat-card {
+    --sport-accent: oklch(0.7 0.052 155);
     border-color: var(--paper-card-border-soft);
-    background: color-mix(in oklab, var(--page-bg) 18%, var(--paper-card-bg));
+    background: var(--paper-card-bg);
   }
 
   :global([data-theme="dark"]) .stat-card:hover {
-    border-color: color-mix(in oklab, var(--accent-color) 14%, var(--paper-card-border-soft));
-    box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.4);
+    border-color: color-mix(in oklab, var(--sport-accent) 14%, var(--paper-card-border-soft));
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.32);
   }
 
   .stat-label {
     font-size: 0.72rem;
-    color: var(--gray-color);
+    color: color-mix(in oklab, var(--sport-accent) 24%, var(--gray-color));
     margin-bottom: 0.55rem;
     font-weight: 600;
     letter-spacing: 0.01em;
-    opacity: 0.9;
   }
 
   .stat-main {
@@ -78,7 +90,7 @@ const { label, value, unit, subtext, id } = Astro.props;
     margin-top: 0.5rem;
     font-size: 0.8rem;
     color: var(--gray-color);
-    opacity: 0.75;
+    opacity: 0.78;
     font-weight: 500;
     line-height: 1.45;
   }

@@ -97,6 +97,7 @@
   astro-tabs {
     display: block;
     margin: var(--space-sm) 0;
+    --tabs-accent: oklch(0.39 0.045 155);
   }
 
   .tabs-header {
@@ -138,17 +139,21 @@
   }
 
   :global(.tab-btn.active) {
-    color: var(--accent-color);
-    border-bottom-color: var(--accent-color);
+    color: var(--tabs-accent);
+    border-bottom-color: var(--tabs-accent);
   }
 
   :global(.tab-btn:hover:not(.active)) {
-    color: var(--link-color);
+    color: color-mix(in oklab, var(--tabs-accent) 56%, var(--link-color));
   }
 
   :global(.tab-btn:focus-visible) {
-    outline: 2px solid var(--accent-color);
+    outline: 2px solid var(--tabs-accent);
     outline-offset: 3px;
+  }
+
+  :global([data-theme="dark"]) astro-tabs {
+    --tabs-accent: oklch(0.7 0.052 155);
   }
 
   :global(.tab-count) {

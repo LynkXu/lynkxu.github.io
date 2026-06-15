@@ -235,7 +235,7 @@ const raceTrendDataTotal = sortedRaces
 
   <!-- Monthly bar chart with year switcher -->
   {Object.values(monthlyChartDataByYear).some(arr => arr.length > 0) && (
-    <div class="module-card">
+    <div class="module-card monthly-card">
       <div class="module-header tabbed">
         <h4>
           <svg class="mod-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -252,7 +252,7 @@ const raceTrendDataTotal = sortedRaces
           <button class={`year-chip ${'total' === initialYear ? 'active' : ''}`} data-year="total">全部</button>
         </div>
       </div>
-      <div class="module-body chart-dense">
+      <div class="module-body chart-dense monthly-chart-body">
         {[...yearTabs, 'total'].map(year => (
           <div
             class={`chart-group ${year === initialYear ? 'active' : ''}`}
@@ -510,17 +510,50 @@ const raceTrendDataTotal = sortedRaces
     padding: 0.4rem 0.15rem 0.6rem;
   }
 
+  .monthly-card {
+    border-radius: 18px;
+    background: var(--paper-card-bg);
+  }
+
+  :global([data-theme="dark"]) .monthly-card {
+    background: var(--paper-card-bg);
+  }
+
+  .monthly-card .module-header.tabbed {
+    padding: 0.42rem 0.8rem 0.42rem 1rem;
+    background: var(--paper-card-bg);
+    min-height: 2.35rem;
+  }
+
+  .monthly-card .module-header h4 {
+    font-size: 0.82rem;
+    opacity: 0.9;
+  }
+
+  .monthly-card .mod-icon {
+    color: oklch(0.44 0.045 155);
+    opacity: 0.62;
+  }
+
+  .monthly-chart-body {
+    padding: 0;
+  }
+
   /* Year switcher inside module header */
   .year-switcher-inline {
     display: inline-flex;
     align-items: center;
     gap: 0.25rem;
+    padding: 0.12rem;
+    border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 80%, transparent);
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--paper-card-bg) 72%, transparent);
   }
 
   .year-chip {
     background: transparent;
     border: none;
-    padding: 0.4rem 0.55rem;
+    padding: 0.24rem 0.54rem;
     border-radius: 999px;
     font-size: 0.74rem;
     font-weight: 500;
@@ -533,13 +566,14 @@ const raceTrendDataTotal = sortedRaces
 
   .year-chip:hover {
     color: var(--text-color);
-    background: rgba(0, 0, 0, 0.04);
+    background: color-mix(in oklab, var(--text-color) 5%, transparent);
   }
 
   .year-chip.active {
-    background: rgba(0, 0, 0, 0.06);
+    background: color-mix(in oklab, var(--accent-soft-bg) 72%, var(--paper-card-bg));
     color: var(--heading-color);
     font-weight: 600;
+    box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent-color) 12%, transparent);
   }
 
   :global([data-theme="dark"]) .year-chip:hover {
@@ -547,7 +581,7 @@ const raceTrendDataTotal = sortedRaces
   }
 
   :global([data-theme="dark"]) .year-chip.active {
-    background: rgba(255, 255, 255, 0.09);
+    background: color-mix(in oklab, var(--accent-soft-bg) 34%, rgba(255, 255, 255, 0.08));
     color: var(--heading-color);
   }
 
@@ -836,6 +870,9 @@ const raceTrendDataTotal = sortedRaces
     }
     .module-header.tabbed {
       padding: 0 0 0 0.85rem;
+    }
+    .monthly-chart-body {
+      padding: 0;
     }
     .section-divider {
       margin: 0 0.5rem;

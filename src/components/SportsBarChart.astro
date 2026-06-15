@@ -54,6 +54,35 @@ for (let i = 0; i < yTickCount; i++) {
 const maxIdx = hasData ? values.indexOf(maxV) : -1;
 
 const chartId = id || `bc-${Math.random().toString(36).slice(2, 9)}`;
+const gradientId = `${chartId}-bar-fill`;
+const maxGradientId = `${chartId}-bar-fill-max`;
+const activeData = data.filter(d => Number.isFinite(d.value) && d.value > 0);
+const totalValue = values.reduce((sum, value) => sum + (Number.isFinite(value) ? value : 0), 0);
+const activeAverage = activeData.length > 0 ? totalValue / activeData.length : 0;
+const peakPoint = maxIdx >= 0 ? data[maxIdx] : null;
+const chartUnit = unit || 'km';
+
+function formatNumber(value: number) {
+  const digits = value >= 100 ? 0 : value >= 10 ? 1 : 2;
+  return value.toFixed(digits).replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
+}
+
+function barPath(x: number, y: number, width: number, height: number) {
+  const r = Math.min(4.5, width * 0.18, height);
+  const bottom = y + height;
+  const right = x + width;
+
+  if (height <= 0) return '';
+  return [
+    `M ${x} ${bottom}`,
+    `L ${x} ${y + r}`,
+    `Q ${x} ${y} ${x + r} ${y}`,
+    `L ${right - r} ${y}`,
+    `Q ${right} ${y} ${right} ${y + r}`,
+    `L ${right} ${bottom}`,
+    'Z'
+  ].join(' ');
+}
 
 function formatXAxisLabel(label: string) {
   const text = String(label || '').trim();
@@ -73,89 +102,117 @@ function formatXAxisLabel(label: string) {
 ---
 
 <div class="bar-chart-box" id={chartId}>
-  <svg viewBox={`0 0 ${W} ${H}`} class="bar-chart-svg" preserveAspectRatio="none">
-    {/* Grid lines */}
-    {ticks.slice(1).map((t) => {
-      const y = yPos(t);
-      return (
-        <line
-          x1={P.left}
-          y1={y}
-          x2={W - P.right}
-          y2={y}
-          class="grid-line"
-          stroke-dasharray="3 3"
-        />
-      );
-    })}
+  <div class="bar-chart-summary" aria-label="Monthly summary">
+    <div class="summary-item primary">
+      <span class="summary-label">累计</span>
+      <strong>{formatNumber(totalValue)}</strong>
+      <span class="summary-unit">{chartUnit}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">峰值</span>
+      <strong>{peakPoint ? formatNumber(peakPoint.value) : '0'}</strong>
+      <span class="summary-unit">{chartUnit} · {peakPoint ? formatXAxisLabel(peakPoint.label) : '-'}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">活跃月均</span>
+      <strong>{formatNumber(activeAverage)}</strong>
+      <span class="summary-unit">{chartUnit}</span>
+    </div>
+  </div>
 
-    {/* Y labels */}
-    {ticks.map((t) => (
-      <text x={P.left - 8} y={yPos(t) + 3} class="y-label" text-anchor="end">
-        {Number.isInteger(t) ? String(t) : t.toFixed(1)}
-      </text>
-    ))}
+  <div class="bar-chart-plot">
+    <svg viewBox={`0 0 ${W} ${H}`} class="bar-chart-svg" preserveAspectRatio="none" role="img" aria-label="Monthly distance chart">
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" class="bar-gradient-stop low" />
+          <stop offset="100%" class="bar-gradient-stop high" />
+        </linearGradient>
+        <linearGradient id={maxGradientId} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" class="bar-gradient-stop-max low" />
+          <stop offset="100%" class="bar-gradient-stop-max high" />
+        </linearGradient>
+      </defs>
 
-    {/* Zero baseline */}
-    <line
-      x1={P.left}
-      y1={H - P.bottom}
-      x2={W - P.right}
-      y2={H - P.bottom}
-      class="baseline"
-    />
+      {/* Grid lines */}
+      {ticks.slice(1).map((t) => {
+        const y = yPos(t);
+        return (
+          <line
+            x1={P.left}
+            y1={y}
+            x2={W - P.right}
+            y2={y}
+            class="grid-line"
+            stroke-dasharray="3 3"
+          />
+        );
+      })}
 
-    {/* Bars */}
-    {data.map((d, i) => {
-      const h = (d.value / niceMax) * CH;
-      const x = P.left + i * barStep + (barStep - barW) / 2;
-      const y = P.top + CH - h;
-      const isMax = i === maxIdx;
-      const cx = x + barW / 2;
-      const zeroY = H - P.bottom;
-      return (
-        <g class="bar-group" data-label={d.label} data-value={d.displayValue ?? String(d.value)} data-unit={unit ?? ''}>
-          {d.value === 0 ? (
-            <circle cx={cx} cy={zeroY} r={1.8} class="bar-zero" />
-          ) : (
-            <rect
-              x={x}
-              y={y}
-              width={barW}
-              height={h}
-              rx={3}
-              class={`bar-rect ${isMax ? 'max' : ''}`}
-            />
-          )}
-          {isMax && d.value > 0 && (
-            <text
-              x={cx}
-              y={y - 7}
-              text-anchor="middle"
-              class="bar-value-label"
-            >
-              {d.displayValue ?? d.value}
-            </text>
-          )}
-        </g>
-      );
-    })}
-
-    {/* X labels */}
-    {data.map((d, i) => {
-      const shortLabel = formatXAxisLabel(d.label);
-      return (
-        <text
-          x={P.left + i * barStep + barStep / 2}
-          y={H - P.bottom + 18}
-          class="x-label"
-          text-anchor="middle"
-        >
-          {shortLabel}
+      {/* Y labels */}
+      {ticks.map((t) => (
+        <text x={P.left - 8} y={yPos(t) + 3} class="y-label" text-anchor="end">
+          {Number.isInteger(t) ? String(t) : t.toFixed(1)}
         </text>
-      );
-    })}
-  </svg>
+      ))}
+
+      {/* Zero baseline */}
+      <line
+        x1={P.left}
+        y1={H - P.bottom}
+        x2={W - P.right}
+        y2={H - P.bottom}
+        class="baseline"
+      />
+
+      {/* Bars */}
+      {data.map((d, i) => {
+        const h = (d.value / niceMax) * CH;
+        const x = P.left + i * barStep + (barStep - barW) / 2;
+        const y = P.top + CH - h;
+        const isMax = i === maxIdx;
+        const cx = x + barW / 2;
+        const zeroY = H - P.bottom;
+        return (
+          <g class="bar-group" data-label={d.label} data-value={d.displayValue ?? String(d.value)} data-unit={unit ?? ''}>
+            {d.value === 0 ? (
+              <circle cx={cx} cy={zeroY} r={1.8} class="bar-zero" />
+            ) : (
+              <path
+                d={barPath(x, y, barW, h)}
+                class={`bar-rect ${isMax ? 'max' : ''}`}
+                style={`--bar-delay: ${i * 38}ms; fill: url(#${isMax ? maxGradientId : gradientId});`}
+              />
+            )}
+            {isMax && d.value > 0 && (
+              <text
+                x={cx}
+                y={y - 7}
+                text-anchor="middle"
+                class="bar-value-label"
+              >
+                {d.displayValue ?? d.value}
+              </text>
+            )}
+          </g>
+        );
+      })}
+
+      {/* X labels */}
+      {data.map((d, i) => {
+        const shortLabel = formatXAxisLabel(d.label);
+        return (
+          <text
+            x={P.left + i * barStep + barStep / 2}
+            y={H - P.bottom + 18}
+            class="x-label"
+            text-anchor="middle"
+          >
+            {shortLabel}
+          </text>
+        );
+      })}
+    </svg>
+  </div>
 
   <div class="bar-tooltip">
     <span class="tt-label"></span>
@@ -196,20 +253,15 @@ function formatXAxisLabel(label: string) {
 
   // Animate bars on enter
   const rects = container.querySelectorAll('.bar-rect');
-  rects.forEach((r, i) => {
-    const h = r.getAttribute('height');
-    const y = r.getAttribute('y');
-    const origY = parseFloat(y);
-    const origH = parseFloat(h);
-    r.setAttribute('y', origY + origH);
-    r.setAttribute('height', 0);
+  rects.forEach((r) => {
+    const delay = Number.parseFloat(getComputedStyle(r).getPropertyValue('--bar-delay')) || 0;
     r.style.opacity = '0';
+    r.style.transform = 'scaleY(0.08)';
     setTimeout(() => {
-      r.style.transition = 'y 0.5s cubic-bezier(0.4, 0, 0.2, 1), height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease';
+      r.style.transition = 'transform 0.58s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease';
       r.style.opacity = '1';
-      r.setAttribute('y', origY);
-      r.setAttribute('height', origH);
-    }, 30 + i * 35);
+      r.style.transform = 'scaleY(1)';
+    }, 40 + delay);
   });
 })();
 </script>
@@ -218,26 +270,108 @@ function formatXAxisLabel(label: string) {
   .bar-chart-box {
     position: relative;
     width: 100%;
-    height: 260px;
+    min-height: 320px;
+    padding: clamp(0.7rem, 2vw, 1rem) clamp(0.8rem, 2.4vw, 1.15rem) 0.8rem;
+    color: var(--text-color);
+    --chart-signal: oklch(0.58 0.052 155);
+    --chart-signal-soft: oklch(0.86 0.024 155);
+    --chart-signal-peak: oklch(0.5 0.062 155);
+    background: var(--paper-card-bg);
+    container-type: inline-size;
+  }
+
+  .bar-chart-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr));
+    gap: clamp(0.45rem, 1.4vw, 0.8rem);
+    margin: 0 0 clamp(0.45rem, 1.4vw, 0.7rem);
+  }
+
+  .summary-item {
+    min-width: 0;
+    padding: clamp(0.55rem, 1.5vw, 0.78rem) clamp(0.62rem, 1.8vw, 0.9rem);
+    border: 1px solid var(--paper-card-border-soft);
+    border-radius: 10px;
+    background: var(--paper-card-bg);
+  }
+
+  .summary-item.primary {
+    border-color: color-mix(in oklab, var(--chart-signal) 12%, var(--paper-card-border-soft));
+  }
+
+  .summary-label,
+  .summary-unit {
+    display: block;
+    color: color-mix(in oklab, var(--gray-color) 86%, var(--text-color));
+    font-family: var(--ui-font, inherit);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+  }
+
+  .summary-item strong {
+    display: inline-block;
+    margin: 0.12rem 0.14rem 0.06rem 0;
+    color: var(--heading-color);
+    font-family: var(--ui-font, inherit);
+    font-size: clamp(1rem, 2vw, 1.38rem);
+    font-weight: 760;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .summary-unit {
+    display: inline;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .bar-chart-plot {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--chart-signal) 32%, transparent) transparent;
   }
 
   .bar-chart-svg {
     width: 100%;
-    height: 100%;
+    height: 230px;
     display: block;
     overflow: hidden;
   }
 
+  .bar-gradient-stop.low {
+    stop-color: color-mix(in oklab, var(--chart-signal-soft) 46%, var(--paper-field-bg));
+    stop-opacity: 0.62;
+  }
+
+  .bar-gradient-stop.high {
+    stop-color: var(--chart-signal);
+    stop-opacity: 0.78;
+  }
+
+  .bar-gradient-stop-max.low {
+    stop-color: color-mix(in oklab, var(--chart-signal-soft) 54%, var(--paper-field-bg));
+    stop-opacity: 0.72;
+  }
+
+  .bar-gradient-stop-max.high {
+    stop-color: var(--chart-signal-peak);
+    stop-opacity: 0.9;
+  }
+
   .grid-line {
-    stroke: var(--text-color);
-    stroke-opacity: 0.08;
+    stroke: color-mix(in oklab, var(--text-color) 18%, transparent);
+    stroke-opacity: 0.36;
     stroke-width: 1;
   }
 
   .baseline {
-    stroke: var(--text-color);
-    stroke-opacity: 0.15;
-    stroke-width: 1.5;
+    stroke: color-mix(in oklab, var(--heading-color) 24%, transparent);
+    stroke-opacity: 0.66;
+    stroke-width: 1;
     stroke-linecap: round;
   }
 
@@ -258,28 +392,29 @@ function formatXAxisLabel(label: string) {
   }
 
   .bar-rect {
-    fill: var(--accent-color);
-    fill-opacity: 0.15;
-    transition: fill-opacity 0.25s ease, filter 0.25s ease;
+    opacity: 0.86;
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    transition: opacity 0.25s ease, filter 0.25s ease;
   }
 
   .bar-rect.max {
-    fill-opacity: 0.88;
-    filter: drop-shadow(0 2px 5px color-mix(in oklab, var(--accent-color) 35%, transparent));
+    opacity: 1;
+    filter: drop-shadow(0 6px 10px color-mix(in oklab, var(--chart-signal) 16%, transparent));
   }
 
   .bar-group:hover .bar-rect {
-    fill-opacity: 0.42;
+    opacity: 1;
+    filter: drop-shadow(0 5px 10px color-mix(in oklab, var(--chart-signal) 12%, transparent));
   }
 
   .bar-group:hover .bar-rect.max {
-    fill-opacity: 1;
-    filter: drop-shadow(0 3px 8px color-mix(in oklab, var(--accent-color) 50%, transparent));
+    filter: drop-shadow(0 8px 14px color-mix(in oklab, var(--chart-signal) 22%, transparent));
   }
 
   .bar-zero {
-    fill: var(--accent-color);
-    fill-opacity: 0.12;
+    fill: var(--chart-signal);
+    fill-opacity: 0.16;
   }
 
   .bar-value-label {
@@ -298,18 +433,17 @@ function formatXAxisLabel(label: string) {
     opacity: 0;
     transform: translate(-50%, -100%) translateY(-6px);
     transition: opacity 0.2s ease;
-    background: rgba(0, 0, 0, 0.82);
-    border: none;
-    border-radius: 5px;
-    padding: 0.35rem 0.55rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    background: color-mix(in oklab, var(--heading-color) 90%, var(--page-bg));
+    border: 1px solid color-mix(in oklab, var(--heading-color) 16%, transparent);
+    border-radius: 8px;
+    padding: 0.42rem 0.58rem;
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--heading-color) 16%, transparent);
     font-size: 0.75rem;
     white-space: nowrap;
     z-index: 10;
     display: flex;
     flex-direction: column;
     gap: 0.05rem;
-    backdrop-filter: blur(4px);
   }
 
   .bar-tooltip.visible {
@@ -317,35 +451,71 @@ function formatXAxisLabel(label: string) {
   }
 
   .tt-label {
-    color: rgba(255,255,255,0.65);
+    color: color-mix(in oklab, var(--page-bg) 68%, var(--gray-color));
     font-size: 0.68rem;
   }
 
   .tt-value {
-    color: #fff;
+    color: var(--page-bg);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
   :global([data-theme="dark"]) .bar-tooltip {
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    background: color-mix(in oklab, var(--paper-card-bg) 82%, var(--heading-color));
+    border-color: color-mix(in oklab, var(--heading-color) 12%, transparent);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.32);
   }
 
   :global([data-theme="dark"]) .tt-label {
-    color: rgba(0,0,0,0.55);
+    color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
   }
 
   :global([data-theme="dark"]) .tt-value {
-    color: #000;
+    color: var(--heading-color);
   }
 
   @media (max-width: 600px) {
     .bar-chart-box {
-      height: 190px;
+      min-height: 280px;
+      padding-inline: 0.65rem;
+    }
+    .summary-item {
+      padding: 0.5rem 0.45rem;
+    }
+    .summary-label,
+    .summary-unit {
+      font-size: 0.58rem;
+    }
+    .summary-item strong {
+      font-size: 0.96rem;
+    }
+    .bar-chart-svg {
+      height: 198px;
     }
     .y-label, .x-label {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
+    }
+  }
+
+  @container (max-width: 360px) {
+    .bar-chart-summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summary-item.primary {
+      grid-column: 1 / -1;
+    }
+
+    .bar-chart-svg {
+      min-width: 520px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar-rect {
+      transition: none !important;
+      transform: none !important;
     }
   }
 </style>
