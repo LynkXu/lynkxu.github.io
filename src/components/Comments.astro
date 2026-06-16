@@ -55,12 +55,18 @@ const twikooAuthors = ['lynkxu'];
 	</div>
 </div>
 <script is:inline define:vars={{ embedUrl, twikooEnv, twikooAuthors, manualTwikooLoad }}>
+	(() => {
 		// 防止重复初始化的标志
 		let isInitializing = false;
 		let discourseLoaded = false;
 		let twikooObserver;
 		let twikooScriptPromise;
 		let twikooActivated = !manualTwikooLoad;
+		const twikooScriptUrls = [
+			'/vendor/twikoo.nocss.js',
+			'https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js',
+			'https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js',
+		];
 
 		function getTwikooElements() {
 			return {
@@ -71,15 +77,24 @@ const twikooAuthors = ['lynkxu'];
 			};
 		}
 
+		function getTwikooClient() {
+			const candidate = window.twikoo;
+			if (candidate && typeof candidate.init === 'function') return candidate;
+			if (candidate?.default && typeof candidate.default.init === 'function') return candidate.default;
+			return null;
+		}
+
 		function setTwikooLazyState(state, message) {
 			const { shell, lazyGate, loadButton } = getTwikooElements();
 			if (!shell || !lazyGate || !loadButton) return;
+			const messageEl = lazyGate.querySelector('.twikoo-lazygate__meta');
 
 			shell.dataset.loadState = state;
 			loadButton.disabled = state === 'loading';
 
 			if (state === 'loading') {
 				loadButton.textContent = '加载中...';
+				if (messageEl) messageEl.textContent = '正在连接留言服务...';
 				return;
 			}
 
@@ -89,7 +104,14 @@ const twikooAuthors = ['lynkxu'];
 				return;
 			}
 
+			if (state === 'error') {
+				loadButton.textContent = message || '重试加载';
+				if (messageEl) messageEl.textContent = '留言服务暂时没有加载成功，可以稍后重试。';
+				return;
+			}
+
 			loadButton.textContent = message || '加载留言';
+			if (messageEl) messageEl.textContent = '按需加载留言，减少不必要的评论流量请求。';
 		}
 
 		function revealTwikoo() {
@@ -107,14 +129,14 @@ const twikooAuthors = ['lynkxu'];
 		}
 
 		function loadTwikooScript() {
-			if (typeof twikoo !== 'undefined') return Promise.resolve();
+			if (getTwikooClient()) return Promise.resolve();
 			if (twikooScriptPromise) return twikooScriptPromise;
 
 			function waitForTwikooGlobal() {
 				return new Promise((resolve, reject) => {
 					const startedAt = Date.now();
 					const timer = window.setInterval(() => {
-						if (typeof twikoo !== 'undefined') {
+						if (getTwikooClient()) {
 							window.clearInterval(timer);
 							resolve();
 							return;
@@ -128,20 +150,63 @@ const twikooAuthors = ['lynkxu'];
 				});
 			}
 
-			twikooScriptPromise = new Promise((resolve, reject) => {
-				const existingScript = document.querySelector('script[data-twikoo-script="true"]');
-				if (existingScript) {
-					waitForTwikooGlobal().then(resolve).catch(reject);
-					return;
+			function appendTwikooScript(src) {
+				return new Promise((resolve, reject) => {
+					const existingScript = document.querySelector(`script[data-twikoo-script="true"][src="${src}"]`);
+					if (existingScript?.dataset.twikooStatus === 'error') {
+						existingScript.remove();
+					} else if (existingScript && !getTwikooClient()) {
+						existingScript.remove();
+					} else if (existingScript) {
+						waitForTwikooGlobal().then(resolve).catch(reject);
+						return;
+					}
+
+					const twikooEl = document.getElementById('twikoo');
+					const shouldRestoreTwikooId = twikooEl && window.twikoo === twikooEl && !getTwikooClient();
+					if (shouldRestoreTwikooId) {
+						twikooEl.id = 'twikoo-comments';
+					}
+
+					function restoreTwikooId() {
+						if (shouldRestoreTwikooId && twikooEl?.id === 'twikoo-comments') {
+							twikooEl.id = 'twikoo';
+						}
+					}
+
+					const script = document.createElement('script');
+					script.src = src;
+					script.async = true;
+					script.dataset.twikooScript = 'true';
+					script.dataset.twikooStatus = 'loading';
+					script.onload = () => {
+						script.dataset.twikooStatus = 'loaded';
+						waitForTwikooGlobal().then(resolve).catch(reject).finally(restoreTwikooId);
+					};
+					script.onerror = () => {
+						script.dataset.twikooStatus = 'error';
+						restoreTwikooId();
+						reject(new Error(`Failed to load Twikoo script: ${src}`));
+					};
+					document.body.appendChild(script);
+				});
+			}
+
+			twikooScriptPromise = (async () => {
+				let lastError;
+				for (const src of twikooScriptUrls) {
+					try {
+						await appendTwikooScript(src);
+						return;
+					} catch (error) {
+						lastError = error;
+					}
 				}
 
-				const script = document.createElement('script');
-				script.src = 'https://s4.zstatic.net/npm/twikoo@1.6.44/dist/twikoo.nocss.js';
-				script.async = true;
-				script.dataset.twikooScript = 'true';
-				script.onload = () => waitForTwikooGlobal().then(resolve).catch(reject);
-				script.onerror = () => reject(new Error('Failed to load Twikoo script'));
-				document.body.appendChild(script);
+				throw lastError || new Error('Failed to load Twikoo script');
+			})().catch((error) => {
+				twikooScriptPromise = undefined;
+				throw error;
 			});
 
 			return twikooScriptPromise;
@@ -191,14 +256,15 @@ const twikooAuthors = ['lynkxu'];
 
 			await loadTwikooScript();
 
-			if (typeof twikoo !== 'undefined') {
+			const twikooClient = getTwikooClient();
+			if (twikooClient) {
 				const twikooEl = document.getElementById('twikoo');
 				if (twikooEl) {
 					// 清空旧内容
 					twikooEl.innerHTML = '';
 					revealTwikoo();
 					// 重新初始化
-					twikoo.init({
+					twikooClient.init({
 						envId: twikooEnv,
 						el: '#twikoo',
 						lang: 'zh-CN',
@@ -315,7 +381,7 @@ const twikooAuthors = ['lynkxu'];
 				await initTwikoo(true, source);
 			} catch (error) {
 				console.error(error);
-				setTwikooLazyState('idle');
+				setTwikooLazyState('error', '加载失败，重试');
 			}
 		}
 
@@ -366,6 +432,7 @@ const twikooAuthors = ['lynkxu'];
 				twikooObserver = undefined;
 			}
 		});
+	})();
 </script>
 
 <script>
@@ -523,6 +590,10 @@ const twikooAuthors = ['lynkxu'];
 	.twikoo-load-button:disabled {
 		cursor: wait;
 		opacity: 0.74;
+	}
+
+	.twikoo-shell[data-load-state="error"] .twikoo-lazygate__meta {
+		color: color-mix(in oklab, var(--color-warning) 58%, var(--gray-color));
 	}
 
 	@media (max-width: 600px) {

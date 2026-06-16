@@ -20,105 +20,106 @@
       canvas.style.display = 'none';
     } else {
       const ctx = canvas.getContext('2d', { alpha: true });
-      if (!ctx) return;
-      var width = 0, height = 0;
-      var circles = [];
-      var animationId = 0;
-      var time = 0;
-      var lastDrawTime = 0;
-      var TARGET_FPS = 30;
-      var FRAME_INTERVAL = 1000 / TARGET_FPS;
+      if (ctx) {
+        var width = 0, height = 0;
+        var circles = [];
+        var animationId = 0;
+        var time = 0;
+        var lastDrawTime = 0;
+        var TARGET_FPS = 30;
+        var FRAME_INTERVAL = 1000 / TARGET_FPS;
 
-      function readToken(name, fallback) {
-        var value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-        return value || fallback;
-      }
+        function readToken(name, fallback) {
+          var value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+          return value || fallback;
+        }
 
-      function resize() {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        canvas.width = width;
-        canvas.height = height;
-        initCircles();
-      }
+        function resize() {
+          width = window.innerWidth;
+          height = window.innerHeight;
+          canvas.width = width;
+          canvas.height = height;
+          initCircles();
+        }
 
-      function initCircles() {
-        const minSize = Math.min(width, height);
+        function initCircles() {
+          const minSize = Math.min(width, height);
 
-        circles = [
-          {
-            anchorX: -width * 0.12,
-            anchorY: height * 0.22,
-            baseR: minSize * 0.34,
-            driftX: width * 0.02,
-            driftY: height * 0.016,
-            phase: 0.4,
-            speed: 0.0016,
-            breathAmp: 0.018,
-            alpha: 0.04,
-          },
-        ];
+          circles = [
+            {
+              anchorX: -width * 0.12,
+              anchorY: height * 0.22,
+              baseR: minSize * 0.34,
+              driftX: width * 0.02,
+              driftY: height * 0.016,
+              phase: 0.4,
+              speed: 0.0016,
+              breathAmp: 0.018,
+              alpha: 0.04,
+            },
+          ];
 
-        if (width >= 960) {
-          circles.push({
-            anchorX: width * 1.06,
-            anchorY: height * 0.7,
-            baseR: minSize * 0.22,
-            driftX: width * 0.014,
-            driftY: height * 0.02,
-            phase: 1.9,
-            speed: 0.0012,
-            breathAmp: 0.014,
-            alpha: 0.026,
+          if (width >= 960) {
+            circles.push({
+              anchorX: width * 1.06,
+              anchorY: height * 0.7,
+              baseR: minSize * 0.22,
+              driftX: width * 0.014,
+              driftY: height * 0.02,
+              phase: 1.9,
+              speed: 0.0012,
+              breathAmp: 0.014,
+              alpha: 0.026,
+            });
+          }
+        }
+
+        function isDarkTheme() {
+          return (
+            document.documentElement.getAttribute('data-theme') === 'dark' ||
+            (!document.documentElement.hasAttribute('data-theme') &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches)
+          );
+        }
+
+        function draw(timestamp) {
+          if (!canvas.isConnected) {
+            cancelAnimationFrame(animationId);
+            return;
+          }
+
+          animationId = requestAnimationFrame(draw);
+
+          // Throttle to ~30fps to reduce CPU/GPU usage
+          if (timestamp - lastDrawTime < FRAME_INTERVAL) return;
+          lastDrawTime = timestamp;
+
+          ctx.clearRect(0, 0, width, height);
+          time += 1;
+
+          if (isDarkTheme()) return;
+
+          const stroke = readToken('--background-ornament', 'rgba(0, 0, 0, 0.05)');
+
+          circles.forEach((circle) => {
+            const offsetX = Math.sin(time * circle.speed + circle.phase) * circle.driftX;
+            const offsetY = Math.cos(time * circle.speed * 0.85 + circle.phase) * circle.driftY;
+            const breathOffset = Math.sin(time * circle.speed * 1.5 + circle.phase) * circle.breathAmp;
+            const currentR = circle.baseR * (1 + breathOffset);
+
+            ctx.beginPath();
+            ctx.arc(circle.anchorX + offsetX, circle.anchorY + offsetY, currentR, 0, Math.PI * 2);
+            ctx.strokeStyle = stroke;
+            ctx.lineWidth = 1;
+            ctx.globalAlpha = circle.alpha;
+            ctx.stroke();
           });
         }
-      }
 
-      function isDarkTheme() {
-        return (
-          document.documentElement.getAttribute('data-theme') === 'dark' ||
-          (!document.documentElement.hasAttribute('data-theme') &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches)
-        );
-      }
-
-      function draw(timestamp) {
-        if (!canvas.isConnected) {
-          cancelAnimationFrame(animationId);
-          return;
-        }
-
+        window.addEventListener('resize', resize);
+        resize();
         animationId = requestAnimationFrame(draw);
-
-        // Throttle to ~30fps to reduce CPU/GPU usage
-        if (timestamp - lastDrawTime < FRAME_INTERVAL) return;
-        lastDrawTime = timestamp;
-
-        ctx.clearRect(0, 0, width, height);
-        time += 1;
-
-        if (isDarkTheme()) return;
-
-        const stroke = readToken('--background-ornament', 'rgba(0, 0, 0, 0.05)');
-
-        circles.forEach((circle) => {
-          const offsetX = Math.sin(time * circle.speed + circle.phase) * circle.driftX;
-          const offsetY = Math.cos(time * circle.speed * 0.85 + circle.phase) * circle.driftY;
-          const breathOffset = Math.sin(time * circle.speed * 1.5 + circle.phase) * circle.breathAmp;
-          const currentR = circle.baseR * (1 + breathOffset);
-
-          ctx.beginPath();
-          ctx.arc(circle.anchorX + offsetX, circle.anchorY + offsetY, currentR, 0, Math.PI * 2);
-          ctx.strokeStyle = stroke;
-          ctx.lineWidth = 1;
-          ctx.globalAlpha = circle.alpha;
-          ctx.stroke();
-        });
       }
-
-      window.addEventListener('resize', resize);
-      resize();
-      animationId = requestAnimationFrame(draw);
     }
   }
 </script>
