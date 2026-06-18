@@ -7,7 +7,7 @@ interface Props {
 const { id, type = 'gossip' } = Astro.props;
 ---
 
-<button class={`like-btn ${type}`} data-id={id} aria-label="Like this post">
+<button class={`like-btn ${type} pending`} data-id={id} aria-label="Like this post">
 	<span class="like-icon">♥</span>
 	<span class="like-count">...</span>
 </button>
@@ -114,6 +114,12 @@ const { id, type = 'gossip' } = Astro.props;
 		transform: scale(0.7);
 	}
 
+	/* 等待点赞数加载时先隐藏，避免 0 赞时先闪出再消失 */
+	.like-btn.pending {
+		opacity: 0;
+		pointer-events: none;
+	}
+
 	/* 无点赞时隐藏图标，hover 父级时淡入展示（仅限支持 hover 的设备） */
 	@media (hover: hover) {
 		.like-btn.is-empty {
@@ -172,6 +178,8 @@ const { id, type = 'gossip' } = Astro.props;
 				countSpan.textContent = '0';
 			}
 			updateEmptyState(btn);
+
+			btn.classList.remove('pending');
 
 			// 点击点赞或取消点赞
 			btn.addEventListener('click', async () => {
