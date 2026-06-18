@@ -15,13 +15,13 @@ const { id, type = 'gossip' } = Astro.props;
 <style>
 	.like-btn {
 		display: inline-flex;
-		align-items: baseline;
+		align-items: center;
+		gap: 0.3em;
 		background: transparent;
 		border: none;
 		color: var(--gray-color);
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 		cursor: pointer;
-		transition: all 0.2s ease;
+		transition: color 0.2s ease, opacity 0.2s ease, background 0.2s ease;
 		padding: 0;
 	}
 
@@ -41,20 +41,40 @@ const { id, type = 'gossip' } = Astro.props;
 
 	/* 说说页面的样式 */
 	.like-btn.gossip {
-		font-size: 0.72rem;
-		opacity: 0.5;
+		min-height: 1.4rem;
+		padding: 0 0.34rem;
+		border-radius: 999px;
+		font-family: var(--field-font);
+		font-size: 0.66rem;
+		line-height: 1;
+		opacity: 0.68;
 	}
 
 	/* 文章详情页的样式 */
 	.like-btn.post {
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 		font-size: 0.8rem;
 		opacity: 0.5;
 	}
 
 	.like-icon {
-		margin-right: 0.35em;
 		font-size: 0.9em;
-		transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		line-height: 1;
+		transition: transform 0.18s ease;
+	}
+
+	.like-btn.gossip::before,
+	.like-btn.gossip::after {
+		content: none;
+	}
+
+	.like-btn.gossip .like-icon {
+		color: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
+		font-size: 0.78rem;
+	}
+
+	.like-btn.gossip:hover {
+		background: color-mix(in oklab, var(--paper-hover-bg) 76%, transparent);
 	}
 
 	.like-btn:hover {
@@ -72,6 +92,14 @@ const { id, type = 'gossip' } = Astro.props;
 		opacity: 1;
 	}
 
+	.like-btn.gossip.liked {
+		background: color-mix(in oklab, #e06c75 7%, transparent);
+	}
+
+	.like-btn.gossip.liked .like-icon {
+		color: #e06c75;
+	}
+
 	.like-btn.liked::before,
 	.like-btn.liked::after {
 		opacity: 0.5;
@@ -85,21 +113,46 @@ const { id, type = 'gossip' } = Astro.props;
 	.like-btn:active .like-icon {
 		transform: scale(0.7);
 	}
+
+	/* 无点赞时隐藏图标，hover 父级时淡入展示（仅限支持 hover 的设备） */
+	@media (hover: hover) {
+		.like-btn.is-empty {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.like-btn.is-empty .like-count {
+			display: none;
+		}
+
+		:global(.memo-item:hover) .like-btn.gossip.is-empty,
+		:global(.post-end:hover) .like-btn.post.is-empty {
+			opacity: 0.55;
+			pointer-events: auto;
+		}
+	}
 </style>
 
 <script>
 	// 这里填入你部署好的 Cloudflare Worker 地址
 	// 例如：https://likes.your-domain.workers.dev
-	const API_URL = 'https://blog-likes.xulinxiao.workers.dev'; 
+	const API_URL = 'https://blog-likes.xulinxiao.workers.dev';
 
 	async function initLikes() {
 		const buttons = document.querySelectorAll('.like-btn');
 		if (buttons.length === 0 || !API_URL) return;
 
+		// 点赞数为 0 且未点赞时，标记为空态（CSS 会隐藏图标，hover 时再淡入展示）
+		const updateEmptyState = (btn: Element) => {
+			const count = parseInt(btn.querySelector('.like-count')?.textContent ?? '') || 0;
+			const liked = btn.classList.contains('liked');
+			btn.classList.toggle('is-empty', count <= 0 && !liked);
+		};
+
 		buttons.forEach(async (btn) => {
 			const id = btn.getAttribute('data-id');
 			const countSpan = btn.querySelector('.like-count');
-			
+
 			// 检查本地是否已经点赞过
 			const isLiked = localStorage.getItem(`liked_${id}`);
 			if (isLiked) {
@@ -118,14 +171,15 @@ const { id, type = 'gossip' } = Astro.props;
 			} catch (e) {
 				countSpan.textContent = '0';
 			}
+			updateEmptyState(btn);
 
 			// 点击点赞或取消点赞
 			btn.addEventListener('click', async () => {
 				if (btn.hasAttribute('disabled')) return;
-				
+
 				const isCurrentlyLiked = btn.classList.contains('liked');
 				const currentCount = parseInt(countSpan.textContent) || 0;
-				
+
 				// 乐观更新 UI
 				btn.setAttribute('disabled', 'true');
 				if (isCurrentlyLiked) {
@@ -135,13 +189,14 @@ const { id, type = 'gossip' } = Astro.props;
 					countSpan.textContent = currentCount + 1;
 					btn.classList.add('liked');
 				}
-				
+				updateEmptyState(btn);
+
 				// 发送请求
 				try {
 					const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}&action=${isCurrentlyLiked ? 'unlike' : 'like'}`, {
 						method: 'POST'
 					});
-					
+
 					if (res.ok) {
 						if (isCurrentlyLiked) {
 							localStorage.removeItem(`liked_${id}`);
@@ -156,6 +211,7 @@ const { id, type = 'gossip' } = Astro.props;
 						} else {
 							btn.classList.remove('liked');
 						}
+						updateEmptyState(btn);
 					}
 				} catch (e) {
 					// 失败回滚
@@ -165,6 +221,7 @@ const { id, type = 'gossip' } = Astro.props;
 					} else {
 						btn.classList.remove('liked');
 					}
+					updateEmptyState(btn);
 				} finally {
 					btn.removeAttribute('disabled');
 				}

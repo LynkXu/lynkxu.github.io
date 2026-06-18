@@ -61,34 +61,49 @@ const memoItems = gossips.map((gossip: any, index) => {
 		gossip,
 		index,
 		page: Math.floor(index / pageSize) + 1,
-		dayStamp: `${monthNum}-${day}`,
+		dateLabel: `${year}.${monthNum}.${day}`,
 		monthLabel: `${year}.${monthNum}`,
-		monthId: `memos-${year}-${monthNum}`,
 		year,
 		time,
 		attachments: gossip._raw?.media_attachments || [],
 	};
 });
 
-const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
+function formatMemoDate(date?: Date) {
+	if (!date) return '—';
+	return new Intl.DateTimeFormat('zh-CN', {
+		timeZone: 'Asia/Shanghai',
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	}).format(date).replace(/\//g, '.');
+}
+
+const currentYear = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', year: 'numeric' }).format(new Date());
+const activeMonthCount = new Set(memoItems.map((item) => item.monthLabel)).size;
+const mediaMemoCount = memoItems.filter((item) => item.attachments.length > 0).length;
+const thisYearMemoCount = memoItems.filter((item) => item.year === currentYear).length;
+const latestMemo = memoItems[0];
+const earliestMemo = memoItems.length > 0 ? memoItems[memoItems.length - 1] : undefined;
+const memoStats = [
+	{ label: 'Memos', value: gossips.length },
+	{ label: 'This year', value: thisYearMemoCount },
+	{ label: 'Months', value: activeMonthCount },
+	{ label: 'Media', value: mediaMemoCount },
+];
+const sourceStats = [
+	{ label: 'Local', value: fileGossips.length },
+	{ label: 'Mastodon', value: mastodonGossips.length },
+];
+const latestMemoLabel = formatMemoDate(latestMemo?.gossip.data.pubDate);
+const earliestMemoYear = earliestMemo?.year || '—';
+
+const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;
-	const groups = new Map<string, { label: string; id: string; year: string; items: typeof memoItems }>();
-
-	memoItems
-		.filter((item) => item.page === page)
-		.forEach((item) => {
-			if (!groups.has(item.monthId)) {
-				groups.set(item.monthId, {
-					label: item.monthLabel,
-					id: item.monthId,
-					year: item.year,
-					items: [],
-				});
-			}
-			groups.get(item.monthId)?.items.push(item);
-		});
-
-	return { page, groups: Array.from(groups.values()) };
+	return {
+		page,
+		items: memoItems.filter((item) => item.page === page),
+	};
 });
 
 ---
@@ -150,26 +165,40 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 </style>
 
 <MagazineShell title={title} description={title} className="memos-surface">
-	<div id='shuoshuo' class="memos-feed">
-		{
-			gossips.length === 0 ? (
-				<div class='empty-state'>No memos yet.</div>
-			) : (
-				pagedGroups.map(({ page, groups }) => (
-					<div class="memos-page" data-page={page}>
-						{groups.map((group) => (
-							<section class="memos-month" id={group.id} data-year={group.year} aria-labelledby={`${group.id}-title`}>
-								<h2 class="memos-month-title" id={`${group.id}-title`}>{group.label}</h2>
-								<div class="memos-month-list" role="list">
-									{group.items.map((item) => {
-										const { gossip, attachments, dayStamp, time, index } = item;
+	<div class="memos-layout">
+		<div class="memos-feed-column">
+			<div id='shuoshuo' class="memos-feed">
+				{
+					gossips.length === 0 ? (
+						<div class='empty-state'>No memos yet.</div>
+					) : (
+						pagedMemoPages.map(({ page, items }) => (
+							<div class="memos-page" data-page={page}>
+								<div class="memos-page-list" role="list">
+									{items.map((item) => {
+										const { gossip, attachments, dateLabel, time, index } = item;
 										return (
 											<article class='memo-item' data-index={index} role="listitem">
-												<time class="memo-stamp" datetime={gossip.data.pubDate.toISOString()}>
-													<span class="memo-date">{dayStamp}</span>
-													<span class='memo-time'>{time}</span>
-												</time>
+												<a href="/" class="memo-avatar-link" aria-label="LynkXu">
+													<img src="/ava4.png" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
+												</a>
 												<div class='memo-body'>
+													<header class="memo-header">
+														<div class="memo-header-top">
+															<div class="memo-author-line">
+																<span class="memo-author">LynkXu</span>
+																{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
+															</div>
+															<div class="memo-actions">
+																{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
+																<LikeButton id={gossip.data.slug} type="gossip" />
+															</div>
+														</div>
+														<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
+															{dateLabel} · {time}
+														</time>
+													</header>
+
 													<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
 
 													{attachments.length > 0 && (
@@ -181,38 +210,69 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 															))}
 														</div>
 													)}
-													<div class="memo-footer">
-														{gossip.data.tag && <span class="memo-tag">{gossip.data.tag}</span>}
-														{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
-														<LikeButton id={gossip.data.slug} type="gossip" />
-													</div>
 												</div>
 											</article>
 										)
 									})}
 								</div>
-							</section>
-						))}
-					</div>
-				))
-			)
-		}
-	</div>
-	
-	{totalPages > 1 && (
-		<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
-			<div class='pagination-pages'>
-				{Array.from({ length: totalPages }, (_, index) => {
-					const pageNumber = index + 1;
-					return (
-						<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
-							{pageNumber}
-						</a>
-					);
-				})}
+							</div>
+						))
+					)
+				}
 			</div>
-		</nav>
-	)}
+
+			{totalPages > 1 && (
+				<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
+					<div class='pagination-pages'>
+						{Array.from({ length: totalPages }, (_, index) => {
+							const pageNumber = index + 1;
+							return (
+								<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
+									{pageNumber}
+								</a>
+							);
+						})}
+					</div>
+				</nav>
+			)}
+		</div>
+
+		<aside class="memos-side-rail" aria-label="Memos details">
+			<div class="memos-stats-card">
+				<p class="memos-stats-kicker">Memos</p>
+				<dl class="memos-stats-list">
+					{memoStats.map((stat) => (
+						<div class="memos-stat-row">
+							<dt>{stat.label}</dt>
+							<dd>{stat.value}</dd>
+						</div>
+					))}
+				</dl>
+				<div class="memos-stats-foot">
+					<span>Latest</span>
+					{latestMemo ? (
+						<time datetime={latestMemo.gossip.data.pubDate.toISOString()}>{latestMemoLabel}</time>
+					) : (
+						<span>{latestMemoLabel}</span>
+					)}
+					<span>Since</span>
+					<span>{earliestMemoYear}</span>
+				</div>
+			</div>
+
+			<div class="memos-source-card">
+				<p class="memos-stats-kicker">Sources</p>
+				<dl class="memos-source-list">
+					{sourceStats.map((stat) => (
+						<div class="memos-source-row">
+							<dt>{stat.label}</dt>
+							<dd>{stat.value}</dd>
+						</div>
+					))}
+				</dl>
+			</div>
+		</aside>
+	</div>
 </MagazineShell>
 
 <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
@@ -302,17 +362,162 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style>
 	:global(.memos-surface) {
-		--memos-section-gap: 1.75rem;
+		--blog-shell-width: 1040px;
+		--blog-shell-sidebar-width: 11rem;
+		--blog-shell-gap: var(--memos-column-gap);
+		--memos-feed-width: 34.5rem;
+		--memos-column-gap: clamp(1.25rem, 3vw, 2.5rem);
+		--memos-section-gap: 0.72rem;
+	}
+
+	:global(.memos-surface .magazine-shell) {
+		grid-template-columns: max-content var(--blog-shell-sidebar-width);
+		justify-content: center;
 	}
 
 	:global(.memos-surface .magazine-main) {
 		gap: var(--memos-section-gap);
+		width: max-content;
+	}
+
+	.memos-layout {
+		display: grid;
+		grid-template-columns: var(--blog-shell-sidebar-width) minmax(0, var(--memos-feed-width));
+		grid-template-areas: "stats feed";
+		align-items: start;
+		gap: var(--memos-column-gap);
+	}
+
+	.memos-feed-column {
+		grid-area: feed;
+		display: flex;
+		flex-direction: column;
+		gap: var(--memos-section-gap);
+		min-width: 0;
+	}
+
+	.memos-side-rail {
+		grid-area: stats;
+		position: sticky;
+		top: var(--space-lg);
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--blog-card-gap, 0.9rem) + 0.5rem);
+	}
+
+	.memos-stats-card,
+	.memos-source-card {
+		padding: 0.88rem 0.82rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+	}
+
+	.memos-stats-card {
+		animation: fade-up 0.5s ease-out 0.12s both;
+	}
+
+	.memos-source-card {
+		animation: fade-up 0.5s ease-out 0.18s both;
+	}
+
+	.memos-stats-kicker {
+		margin: 0 0 0.62rem;
+		font-family: var(--field-font);
+		font-size: 0.68rem;
+		font-weight: 500;
+		line-height: 1.35;
+		color: color-mix(in oklab, var(--heading-color) 80%, var(--gray-color));
+		letter-spacing: 0.04em;
+	}
+
+	.memos-stats-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin: 0;
+	}
+
+	.memos-stat-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding: 0.42rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.memos-stat-row dt {
+		font-size: 0.66rem;
+		line-height: 1.35;
+		color: var(--gray-color);
+		letter-spacing: 0.01em;
+	}
+
+	.memos-stat-row dd {
+		margin: 0;
+		font-family: var(--field-font);
+		font-size: 0.8rem;
+		font-weight: 500;
+		line-height: 1.25;
+		color: var(--heading-color);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memos-source-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.38rem;
+		margin: 0;
+	}
+
+	.memos-source-row {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.7rem;
+		font-size: 0.64rem;
+		line-height: 1.4;
+	}
+
+	.memos-source-row dt {
+		color: var(--gray-color);
+	}
+
+	.memos-source-row dd {
+		margin: 0;
+		font-family: var(--field-font);
+		color: color-mix(in oklab, var(--heading-color) 84%, var(--gray-color));
+		font-size: 0.72rem;
+		font-weight: 500;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memos-stats-foot {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		row-gap: 0.18rem;
+		column-gap: 0.6rem;
+		margin-top: 0.54rem;
+		padding-top: 0.58rem;
+		border-top: 1px solid var(--paper-card-border-soft);
+		font-size: 0.62rem;
+		line-height: 1.4;
+		color: var(--faint-color);
+	}
+
+	.memos-stats-foot time,
+	.memos-stats-foot span:nth-child(2n) {
+		font-family: var(--field-font);
+		color: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
+		font-variant-numeric: tabular-nums;
 	}
 
 	.memos-feed {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-xl);
+		gap: var(--memos-section-gap);
 		margin-top: 0 !important;
 		animation: fade-up 0.5s ease-out 0.08s both;
 	}
@@ -327,39 +532,17 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: none;
 	}
 
-	.memos-month {
-		display: grid;
-		grid-template-columns: minmax(4.5rem, 5.25rem) minmax(0, 1fr);
-		gap: var(--space-sm);
-		position: relative;
-	}
-
-	.memos-month-title {
-		position: sticky;
-		top: var(--space-lg);
-		align-self: start;
-		margin: 0;
-		padding-top: 1rem;
-		font-family: var(--field-font);
-		font-size: 0.78rem;
-		font-weight: 500;
-		line-height: 1.35;
-		color: var(--heading-color);
-		letter-spacing: 0.035em;
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-month-list {
+	.memos-page-list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-sm);
+		gap: var(--memos-section-gap);
 	}
 
 	.memo-item {
 		display: grid;
-		grid-template-columns: minmax(4rem, 4.6rem) minmax(0, 1fr);
-		gap: var(--space-xs);
-		padding: 0.82rem 0.9rem;
+		grid-template-columns: 2.25rem minmax(0, 1fr);
+		gap: 0.62rem;
+		padding: 0.74rem 0.82rem 0.64rem;
 		position: relative;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
@@ -373,43 +556,113 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 		border-color: var(--paper-hover-border);
 	}
 
-	.memo-stamp {
+	.memo-avatar-link {
+		display: block;
+		border: none !important;
+		background: none !important;
+		line-height: 0;
+		border-radius: 50%;
+	}
+
+	.memo-avatar-link:hover {
+		transform: none;
+	}
+
+	.memo-avatar {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 1px solid var(--paper-card-border-soft);
+		background: var(--paper-field-bg);
+	}
+
+	.memo-body {
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.memo-header {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		gap: 0.08rem;
-		padding-top: 0.18rem;
+		gap: 0.12rem;
+		margin-bottom: 0.16rem;
+		line-height: 1.35;
+	}
+
+	.memo-header-top {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.65rem;
+		width: 100%;
+		min-width: 0;
+	}
+
+	.memo-author-line {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		min-width: 0;
+	}
+
+	.memo-author {
+		color: var(--heading-color);
+		font-size: 0.86rem;
+		font-weight: 600;
+	}
+
+	.memo-actions {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.4rem;
+		flex-shrink: 0;
+		margin-top: -0.04rem;
+		opacity: 0.74;
+		transition: opacity 0.2s ease;
+	}
+
+	.memo-item:hover .memo-actions,
+	.memo-item:focus-within .memo-actions {
+		opacity: 1;
+	}
+
+	.memo-source {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.05rem;
+		padding: 0 0.36rem;
+		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
 		font-family: var(--field-font);
+		font-size: 0.58rem;
+		color: var(--gray-color);
+		letter-spacing: 0.02em;
+	}
+
+	.memo-meta-time {
+		font-family: var(--field-font);
+		font-size: 0.64rem;
 		line-height: 1.35;
 		color: var(--gray-color);
 		font-variant-numeric: tabular-nums;
 	}
 
-	.memo-date {
-		color: var(--heading-color);
-		font-size: 0.74rem;
-		font-weight: 500;
-		letter-spacing: 0.035em;
-	}
-
-	.memo-time {
-		font-size: 0.66rem;
-		opacity: 0.78;
-	}
-
-	.memo-body {
-		min-width: 0;
-	}
-
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.92rem;
-		line-height: 1.68;
+		font-size: 0.89rem;
+		line-height: 1.58;
 		letter-spacing: 0;
+		margin-bottom: 0.16rem;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.14rem 0;
+		margin: 0.08rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
@@ -444,23 +697,6 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 		color: var(--gray-color);
 		font-size: 0.82rem;
 		line-height: 1.48;
-	}
-
-	.memo-footer {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: var(--space-xs);
-		opacity: 0;
-		position: absolute;
-		right: 0.9rem;
-		bottom: 0.48rem;
-		transition: opacity 0.2s ease;
-	}
-
-	.memo-item:hover .memo-footer,
-	.memo-item:focus-within .memo-footer {
-		opacity: 1;
 	}
 
 	.memo-tag,
@@ -551,41 +787,61 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 		to { opacity: 1; transform: translateY(0); }
 	}
 
-	@media (max-width: 720px) {
+	@media (max-width: 1023px) {
 		:global(.memos-surface) {
-			--memos-section-gap: 1.375rem;
+			--memos-section-gap: 0.82rem;
 		}
 
+		:global(.memos-surface .magazine-shell) {
+			grid-template-columns: 1fr;
+			justify-content: stretch;
+		}
+
+		:global(.memos-surface .magazine-shell),
 		:global(.memos-surface .magazine-main) {
 			gap: var(--memos-section-gap);
+			width: auto;
 		}
 
 		.memos-page {
-			gap: var(--space-lg);
+			gap: var(--memos-section-gap);
 		}
 
-		.memos-month {
+		.memos-layout {
 			grid-template-columns: 1fr;
-			gap: var(--space-sm);
+			grid-template-areas:
+				"feed"
+				"stats";
+			width: min(100%, var(--memos-feed-width));
+			margin: 0 auto;
+			row-gap: var(--space-lg);
 		}
 
-		.memos-month-title {
+		.memos-side-rail {
 			position: static;
-			padding-top: 0;
-			font-size: 0.74rem;
+			min-height: 0;
+		}
+
+		.memos-stats-list {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: 0.85rem;
+		}
+
+		:global(.memos-surface .profile-sidebar) {
+			width: min(100%, var(--memos-feed-width));
+			justify-self: center;
 		}
 
 		.memo-item {
-			grid-template-columns: 1fr;
-			gap: var(--space-xs);
-			padding: 0.78rem 0.82rem;
+			grid-template-columns: 2.1rem minmax(0, 1fr);
+			gap: 0.56rem;
+			padding: 0.7rem 0.76rem 0.62rem;
 		}
 
-		.memo-stamp {
-			flex-direction: row;
-			align-items: baseline;
-			gap: 0.45rem;
-			padding-top: 0;
+		.memo-avatar {
+			width: 34px;
+			height: 34px;
 		}
 
 		.memo-content {
@@ -593,15 +849,19 @@ const pagedGroups = Array.from({ length: totalPages }, (_, pageIndex) => {
 			line-height: 1.6;
 		}
 
-		.memo-footer {
-			position: static;
-			margin-top: 0.15rem;
-			opacity: 0.72;
+		.memo-header-top {
+			gap: 0.5rem;
+		}
+
+		.memo-actions {
+			opacity: 0.82;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.memos-feed {
+		.memos-feed,
+		.memos-stats-card,
+		.memos-source-card {
 			animation: none;
 		}
 	}
