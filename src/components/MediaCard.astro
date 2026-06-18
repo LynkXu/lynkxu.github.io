@@ -94,8 +94,8 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
 
   .media-card:hover {
     transform: translateY(-1px);
-    border-color: color-mix(in oklab, var(--accent-color) 22%, var(--text-color) 8%);
-    background: color-mix(in oklab, var(--content-bg) 95%, var(--accent-soft-bg));
+    border-color: var(--paper-hover-border);
+    background: var(--paper-hover-bg);
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
   }
 
@@ -234,10 +234,9 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
 
   .media-comment {
     margin: 2px 0 0;
-    color: var(--text-color);
+    color: color-mix(in oklab, var(--text-color) 86%, var(--gray-color));
     font-size: 0.78rem;
     line-height: 1.58;
-    opacity: 0.7;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
@@ -246,13 +245,12 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
 
   .media-date {
     margin: 0;
-    color: var(--gray-color);
+    color: var(--faint-color);
     font-family: var(--ui-font);
     font-size: 0.64rem;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.04em;
-    opacity: 0.62;
   }
 
   :global([data-theme='dark']) .cover-frame {
@@ -274,8 +272,8 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
   }
 
   :global([data-theme='dark']) .media-card:hover {
-    background: color-mix(in oklab, var(--content-bg) 86%, var(--accent-soft-bg));
-    border-color: rgba(255, 255, 255, 0.13);
+    background: var(--paper-hover-bg);
+    border-color: var(--paper-hover-border);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
   }
 

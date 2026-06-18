@@ -398,7 +398,7 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 	/* ── Site Meta Card ── */
 	.site-meta-card {
 		margin-top: calc(var(--blog-card-gap, 0.9rem) + 0.5rem);
-		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 70%, transparent);
+		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
 		background: color-mix(in oklab, var(--paper-card-bg) 96%, var(--accent-soft-bg));
 		box-shadow: none;
@@ -408,7 +408,7 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 	}
 
 	.site-meta-card:hover {
-		border-color: color-mix(in oklab, var(--paper-card-border-soft) 90%, var(--accent-color));
+		border-color: var(--paper-hover-border);
 	}
 
 	.site-meta-inner {
@@ -437,8 +437,7 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 		margin: 0;
 		font-family: var(--field-font);
 		font-size: 0.6rem;
-		color: var(--gray-color);
-		opacity: 0.45;
+		color: var(--faint-color);
 		letter-spacing: 0.01em;
 		font-variant-numeric: tabular-nums;
 	}
@@ -453,8 +452,7 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		color: var(--gray-color);
-		opacity: 0.52;
+		color: var(--faint-color);
 		transition: opacity 0.2s ease, color 0.2s ease;
 	}
 

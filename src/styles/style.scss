@@ -36,144 +36,154 @@
   --measure-readable: 70ch;
   --z-fab: 30;
   --z-modal: 80;
-  --background-color: oklch(0.988 0.002 75);
-  --page-bg: oklch(0.988 0.002 75);
-  --content-bg: oklch(0.999 0 0);
+  --background-color: oklch(0.978 0.006 75);
+  --page-bg: oklch(0.978 0.006 75);
+  --content-bg: oklch(0.995 0.003 75);
   --heading-color: oklch(0.18 0.011 244);
-  --panel-title-color: oklch(0.31 0.011 244);
+  --panel-title-color: oklch(0.27 0.012 244);
   --text-color: oklch(0.275 0.008 244);
-  --accent-color: oklch(0.38 0.02 228);
-  --link-color: oklch(0.3 0.026 228);
-  --ink-accent: oklch(0.46 0.036 34);
-  --ink-wash: color-mix(in oklab, var(--ink-accent) 3.5%, var(--content-bg));
-  --ink-line: color-mix(in oklab, var(--ink-accent) 22%, var(--paper-card-border));
-  --accent-soft-bg: oklch(0.993 0.001 230);
-  --accent-soft-border: oklch(0.82 0.01 228);
-  --rule-color: oklch(0.2 0.008 244 / 0.11);
-  --code-background-color: oklch(0.985 0 0);
+  --gray-color: oklch(0.44 0.008 244);
+  --faint-color: oklch(0.58 0.006 244);
+  --accent-color: oklch(0.34 0.03 228);
+  --link-color: oklch(0.27 0.038 228);
+  --ink-accent: oklch(0.42 0.05 34);
+  --ink-wash: color-mix(in oklab, var(--ink-accent) 5%, var(--content-bg));
+  --ink-line: color-mix(in oklab, var(--ink-accent) 32%, var(--paper-card-border));
+  --accent-soft-bg: oklch(0.952 0.011 228);
+  --accent-soft-border: oklch(0.69 0.02 228);
+  --rule-color: oklch(0.2 0.008 244 / 0.17);
+  --code-background-color: oklch(0.968 0.004 244);
   --code-color: oklch(0.24 0.009 244);
   --blockquote-color: oklch(0.39 0.012 244);
-  --gray-color: oklch(0.5 0.007 244);
-  --selection-bg: oklch(0.93 0.01 228);
+  --selection-bg: oklch(0.89 0.018 228);
   --selection-color: oklch(0.18 0.011 244);
-  --background-ornament: color-mix(in oklab, var(--heading-color) 5%, transparent);
+  --background-ornament: color-mix(in oklab, var(--heading-color) 7%, transparent);
   --color-info: oklch(0.58 0.08 245);
   --color-success: oklch(0.58 0.1 150);
   --color-warning: oklch(0.64 0.1 70);
   --color-danger: oklch(0.56 0.14 25);
-  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px rgba(15, 23, 42, 0.035);
-  --card-border: 1px solid rgba(0, 0, 0, 0.07);
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.055), 0 12px 32px rgba(15, 23, 42, 0.045);
+  --card-border: 1px solid rgba(0, 0, 0, 0.1);
   --paper-surface: var(--page-bg);
-  --paper-card-bg: var(--content-bg);
-  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 92%, var(--page-bg));
-  --paper-card-border: color-mix(in oklab, var(--rule-color) 55%, transparent);
-  --paper-card-border-soft: color-mix(in oklab, var(--rule-color) 30%, transparent);
+  --paper-card-bg: color-mix(in oklab, var(--content-bg) 96%, var(--page-bg));
+  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 82%, var(--page-bg));
+  --paper-card-border: color-mix(in oklab, var(--rule-color) 86%, transparent);
+  --paper-card-border-soft: color-mix(in oklab, var(--rule-color) 58%, transparent);
   --paper-card-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.03),
-    0 10px 28px rgba(15, 23, 42, 0.032);
+    0 1px 2px rgba(15, 23, 42, 0.045),
+    0 12px 30px rgba(15, 23, 42, 0.042);
   --paper-card-radius: 4px;
   --paper-panel-rule: 1px;
   --paper-accent-mark: var(--ink-accent);
-  --paper-field-bg: color-mix(in oklab, var(--content-bg) 34%, var(--page-bg));
+  --paper-field-bg: color-mix(in oklab, var(--content-bg) 52%, var(--page-bg));
+  --paper-hover-bg: color-mix(in oklab, var(--paper-card-bg) 82%, var(--page-bg));
+  --paper-hover-border: color-mix(in oklab, var(--ink-accent) 16%, var(--paper-card-border-soft));
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --background-color: oklch(0.145 0.004 244);
-    --page-bg: oklch(0.145 0.004 244);
-    --content-bg: oklch(0.175 0.004 244);
+    --background-color: oklch(0.128 0.005 244);
+    --page-bg: oklch(0.128 0.005 244);
+    --content-bg: oklch(0.178 0.006 244);
     --heading-color: oklch(0.95 0.004 244);
-    --panel-title-color: oklch(0.84 0.005 244);
-    --text-color: oklch(0.82 0.005 244);
-    --accent-color: oklch(0.68 0.055 224);
-    --link-color: oklch(0.78 0.05 224);
-    --ink-accent: oklch(0.7 0.055 42);
-    --ink-wash: color-mix(in oklab, var(--ink-accent) 7%, var(--paper-card-bg));
-    --ink-line: color-mix(in oklab, var(--ink-accent) 22%, var(--paper-card-border));
-    --accent-soft-bg: oklch(0.24 0.005 244);
-    --accent-soft-border: oklch(0.34 0.008 244);
-    --rule-color: oklch(0.95 0.004 244 / 0.15);
-    --code-background-color: oklch(0.2 0.004 244);
+    --panel-title-color: oklch(0.88 0.006 244);
+    --text-color: oklch(0.84 0.006 244);
+    --gray-color: oklch(0.68 0.006 244);
+    --faint-color: oklch(0.54 0.006 244);
+    --accent-color: oklch(0.72 0.065 224);
+    --link-color: oklch(0.81 0.06 224);
+    --ink-accent: oklch(0.74 0.065 42);
+    --ink-wash: color-mix(in oklab, var(--ink-accent) 10%, var(--paper-card-bg));
+    --ink-line: color-mix(in oklab, var(--ink-accent) 34%, var(--paper-card-border));
+    --accent-soft-bg: oklch(0.265 0.012 244);
+    --accent-soft-border: oklch(0.42 0.014 244);
+    --rule-color: oklch(0.95 0.004 244 / 0.22);
+    --code-background-color: oklch(0.215 0.006 244);
     --code-color: oklch(0.88 0.004 244);
-    --blockquote-color: oklch(0.72 0.008 244);
-    --gray-color: oklch(0.61 0.006 244);
-    --selection-bg: oklch(0.42 0.035 224);
+    --blockquote-color: oklch(0.76 0.008 244);
+    --selection-bg: oklch(0.45 0.045 224);
     --selection-color: oklch(0.97 0.004 244);
-    --background-ornament: color-mix(in oklab, var(--heading-color) 5%, transparent);
+    --background-ornament: color-mix(in oklab, var(--heading-color) 7%, transparent);
     --color-info: oklch(0.68 0.08 245);
     --color-success: oklch(0.72 0.09 150);
     --color-warning: oklch(0.76 0.09 70);
     --color-danger: oklch(0.68 0.12 25);
-    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.22), 0 8px 24px rgba(0, 0, 0, 0.18);
-    --card-border: 1px solid rgba(255, 255, 255, 0.07);
-    --paper-card-bg: color-mix(in oklab, var(--content-bg) 86%, var(--page-bg));
-    --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 72%, var(--page-bg));
+    --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 10px 28px rgba(0, 0, 0, 0.22);
+    --card-border: 1px solid rgba(255, 255, 255, 0.11);
+    --paper-card-bg: color-mix(in oklab, var(--content-bg) 88%, var(--page-bg));
+    --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 76%, var(--page-bg));
+    --paper-hover-bg: color-mix(in oklab, var(--paper-card-bg) 82%, var(--content-bg));
+    --paper-hover-border: color-mix(in oklab, var(--ink-accent) 18%, var(--paper-card-border-soft));
     color-scheme: dark;
   }
 }
 
 :root[data-theme="light"] {
-  --background-color: oklch(0.988 0.002 75);
-  --page-bg: oklch(0.988 0.002 75);
-  --content-bg: oklch(0.999 0 0);
+  --background-color: oklch(0.978 0.006 75);
+  --page-bg: oklch(0.978 0.006 75);
+  --content-bg: oklch(0.995 0.003 75);
   --heading-color: oklch(0.18 0.011 244);
-  --panel-title-color: oklch(0.31 0.011 244);
+  --panel-title-color: oklch(0.27 0.012 244);
   --text-color: oklch(0.275 0.008 244);
-  --accent-color: oklch(0.38 0.02 228);
-  --link-color: oklch(0.3 0.026 228);
-  --ink-accent: oklch(0.46 0.036 34);
-  --ink-wash: color-mix(in oklab, var(--ink-accent) 3.5%, var(--content-bg));
-  --ink-line: color-mix(in oklab, var(--ink-accent) 22%, var(--paper-card-border));
-  --accent-soft-bg: oklch(0.993 0.001 230);
-  --accent-soft-border: oklch(0.82 0.01 228);
-  --rule-color: oklch(0.2 0.008 244 / 0.11);
-  --code-background-color: oklch(0.985 0 0);
+  --gray-color: oklch(0.44 0.008 244);
+  --faint-color: oklch(0.58 0.006 244);
+  --accent-color: oklch(0.34 0.03 228);
+  --link-color: oklch(0.27 0.038 228);
+  --ink-accent: oklch(0.42 0.05 34);
+  --ink-wash: color-mix(in oklab, var(--ink-accent) 5%, var(--content-bg));
+  --ink-line: color-mix(in oklab, var(--ink-accent) 32%, var(--paper-card-border));
+  --accent-soft-bg: oklch(0.952 0.011 228);
+  --accent-soft-border: oklch(0.69 0.02 228);
+  --rule-color: oklch(0.2 0.008 244 / 0.17);
+  --code-background-color: oklch(0.968 0.004 244);
   --code-color: oklch(0.24 0.009 244);
   --blockquote-color: oklch(0.39 0.012 244);
-  --gray-color: oklch(0.5 0.007 244);
-  --selection-bg: oklch(0.93 0.01 228);
+  --selection-bg: oklch(0.89 0.018 228);
   --selection-color: oklch(0.18 0.011 244);
-  --background-ornament: color-mix(in oklab, var(--heading-color) 5%, transparent);
+  --background-ornament: color-mix(in oklab, var(--heading-color) 7%, transparent);
   --color-info: oklch(0.58 0.08 245);
   --color-success: oklch(0.58 0.1 150);
   --color-warning: oklch(0.64 0.1 70);
   --color-danger: oklch(0.56 0.14 25);
-  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 30px rgba(15, 23, 42, 0.035);
-  --card-border: 1px solid rgba(0, 0, 0, 0.07);
+  --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.055), 0 12px 32px rgba(15, 23, 42, 0.045);
+  --card-border: 1px solid rgba(0, 0, 0, 0.1);
   color-scheme: light;
 }
 
 :root[data-theme="dark"] {
-  --background-color: oklch(0.145 0.004 244);
-  --page-bg: oklch(0.145 0.004 244);
-  --content-bg: oklch(0.175 0.004 244);
+  --background-color: oklch(0.128 0.005 244);
+  --page-bg: oklch(0.128 0.005 244);
+  --content-bg: oklch(0.178 0.006 244);
   --heading-color: oklch(0.95 0.004 244);
-  --panel-title-color: oklch(0.84 0.005 244);
-  --text-color: oklch(0.82 0.005 244);
-  --accent-color: oklch(0.68 0.055 224);
-  --link-color: oklch(0.78 0.05 224);
-  --ink-accent: oklch(0.7 0.055 42);
-  --ink-wash: color-mix(in oklab, var(--ink-accent) 7%, var(--content-bg));
-  --ink-line: color-mix(in oklab, var(--ink-accent) 22%, var(--paper-card-border));
-  --accent-soft-bg: oklch(0.24 0.005 244);
-  --accent-soft-border: oklch(0.34 0.008 244);
-  --rule-color: oklch(0.95 0.004 244 / 0.15);
-  --code-background-color: oklch(0.2 0.004 244);
+  --panel-title-color: oklch(0.88 0.006 244);
+  --text-color: oklch(0.84 0.006 244);
+  --gray-color: oklch(0.68 0.006 244);
+  --faint-color: oklch(0.54 0.006 244);
+  --accent-color: oklch(0.72 0.065 224);
+  --link-color: oklch(0.81 0.06 224);
+  --ink-accent: oklch(0.74 0.065 42);
+  --ink-wash: color-mix(in oklab, var(--ink-accent) 10%, var(--content-bg));
+  --ink-line: color-mix(in oklab, var(--ink-accent) 34%, var(--paper-card-border));
+  --accent-soft-bg: oklch(0.265 0.012 244);
+  --accent-soft-border: oklch(0.42 0.014 244);
+  --rule-color: oklch(0.95 0.004 244 / 0.22);
+  --code-background-color: oklch(0.215 0.006 244);
   --code-color: oklch(0.88 0.004 244);
-  --blockquote-color: oklch(0.72 0.008 244);
-  --gray-color: oklch(0.61 0.006 244);
-  --selection-bg: oklch(0.42 0.035 224);
+  --blockquote-color: oklch(0.76 0.008 244);
+  --selection-bg: oklch(0.45 0.045 224);
   --selection-color: oklch(0.97 0.004 244);
-  --background-ornament: color-mix(in oklab, var(--heading-color) 5%, transparent);
+  --background-ornament: color-mix(in oklab, var(--heading-color) 7%, transparent);
   --color-info: oklch(0.68 0.08 245);
   --color-success: oklch(0.72 0.09 150);
   --color-warning: oklch(0.76 0.09 70);
   --color-danger: oklch(0.68 0.12 25);
-  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.22), 0 8px 24px rgba(0, 0, 0, 0.18);
-  --card-border: 1px solid rgba(255, 255, 255, 0.07);
-  --paper-card-bg: color-mix(in oklab, var(--content-bg) 86%, var(--page-bg));
-  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 72%, var(--page-bg));
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.28), 0 10px 28px rgba(0, 0, 0, 0.22);
+  --card-border: 1px solid rgba(255, 255, 255, 0.11);
+  --paper-card-bg: color-mix(in oklab, var(--content-bg) 88%, var(--page-bg));
+  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 76%, var(--page-bg));
+  --paper-hover-bg: color-mix(in oklab, var(--paper-card-bg) 82%, var(--content-bg));
+  --paper-hover-border: color-mix(in oklab, var(--ink-accent) 18%, var(--paper-card-border-soft));
   color-scheme: dark;
 }
 
@@ -415,7 +425,7 @@ body:has(.blog-surface-layout) {
   height: 0.34rem;
   flex: 0 0 auto;
   background: var(--paper-accent-mark);
-  opacity: 0.62;
+  opacity: 0.78;
 }
 
 .blog-surface-layout .site-name {
@@ -426,7 +436,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .site-separator {
-  color: color-mix(in oklab, var(--gray-color) 72%, transparent);
+  color: var(--faint-color);
   font-size: 0.78rem;
   line-height: 1;
   transform: translateY(-0.02rem);
@@ -439,7 +449,7 @@ body:has(.blog-surface-layout) {
   letter-spacing: 0.08em;
   font-style: normal;
   text-transform: none;
-  color: color-mix(in oklab, var(--gray-color) 88%, transparent);
+  color: var(--gray-color);
 }
 
 .blog-surface-layout .site-home,
@@ -511,8 +521,8 @@ body:has(.blog-surface-layout) {
   border-radius: 999px;
   vertical-align: 0;
   flex: 0 0 auto;
-  background: color-mix(in oklab, var(--gray-color) 28%, transparent);
-  opacity: 0.58;
+  background: var(--faint-color);
+  opacity: 0.7;
 }
 
 .blog-surface-layout > header nav.section-nav .nav-link-text::after {
@@ -594,7 +604,7 @@ body:has(.blog-surface-layout) {
   width: 2.75rem;
   height: 1px;
   background: var(--ink-accent);
-  opacity: 0.28;
+  opacity: 0.4;
 }
 
 .blog-surface-layout footer > * {
@@ -1348,8 +1358,8 @@ body:has(.blog-surface-layout) {
 
 .blog-surface-layout .paper-ledger > :where(.stream-card, .feed-item):hover,
 .blog-surface-layout .paper-ledger > .year-group:hover {
-  border-color: color-mix(in oklab, var(--accent-color) 12%, var(--paper-card-border-soft));
-  background: var(--paper-card-bg);
+  border-color: var(--paper-hover-border);
+  background: var(--paper-hover-bg);
   box-shadow:
     0 1px 2px rgba(17, 24, 39, 0.03),
     0 12px 30px rgba(17, 24, 39, 0.04);
@@ -1378,7 +1388,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .paper-ledger .year-group :where(ul.posts li):hover {
-  background: color-mix(in oklab, var(--accent-soft-bg) 24%, transparent);
+  background: var(--paper-hover-bg);
 }
 
 .blog-surface-layout .section-heading h2,
@@ -1388,7 +1398,7 @@ body:has(.blog-surface-layout) {
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: none;
-  color: color-mix(in oklab, var(--gray-color) 88%, var(--content-bg));
+  color: var(--gray-color);
 }
 
 .blog-surface-layout .section-heading h2::before,
@@ -1400,7 +1410,7 @@ body:has(.blog-surface-layout) {
   margin-right: 0.38rem;
   vertical-align: middle;
   background: var(--ink-accent);
-  opacity: 0.42;
+  opacity: 0.56;
 }
 
 .blog-surface-layout :where(.home-kicker, .post-kicker, .entry-meta, .stream-meta, .toc-header, .year-title, .page-rail__meta, .list-intro, .profile-desc, .taxonomy-hero__eyebrow, .taxonomy-hero__description) {
@@ -2131,7 +2141,7 @@ header nav a {
   font-size: 0.72rem;
   font-weight: 430;
   text-decoration: none;
-  color: color-mix(in oklab, var(--gray-color) 82%, var(--content-bg));
+  color: var(--gray-color);
   letter-spacing: 0.005em;
   line-height: 1.25;
   transition: color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.25s ease, transform 0.25s ease;
@@ -2144,7 +2154,7 @@ header nav a::before {
 header nav a + a::before {
   content: "·";
   margin: 0 0.55rem;
-  color: color-mix(in oklab, var(--gray-color) 42%, transparent);
+  color: var(--faint-color);
   font-weight: 400;
 }
 
@@ -2192,7 +2202,7 @@ time,
 
 blockquote {
   margin: 1.75em 0;
-  border-left: 2px solid color-mix(in oklab, var(--gray-color) 42%, transparent);
+  border-left: 1px solid var(--accent-soft-border);
   color: var(--blockquote-color);
   padding: 0.1em 0 0.1em 1.1em;
   border-radius: 0;
@@ -2285,13 +2295,13 @@ footer {
 }
 
 .site-separator {
-  color: color-mix(in oklab, var(--gray-color) 62%, transparent);
+  color: var(--faint-color);
   font-size: 0.72rem;
   line-height: 1;
 }
 
 .site-label {
-  color: color-mix(in oklab, var(--gray-color) 78%, transparent);
+  color: var(--gray-color);
   font-family: var(--ui-font);
   font-size: 0.58rem;
   font-weight: 600;
@@ -2332,18 +2342,18 @@ ul.posts li {
 }
 
 ul.posts li:hover {
-  background: color-mix(in oklab, var(--accent-soft-bg) 75%, transparent);
+  background: var(--paper-hover-bg);
   transform: translateX(6px);
 }
 
 :root[data-theme="dark"] ul.posts li:hover {
-  background: color-mix(in oklab, var(--accent-soft-bg) 58%, transparent);
+  background: var(--paper-hover-bg);
   transform: translateX(6px);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) ul.posts li:hover {
-    background: color-mix(in oklab, var(--accent-soft-bg) 58%, transparent);
+    background: var(--paper-hover-bg);
     transform: translateX(6px);
   }
 }
@@ -2742,8 +2752,8 @@ ul.posts li a:visited {
 }
 
 .blog-surface-layout .taxonomy-shell > ul.posts li:hover {
-  background: var(--paper-card-bg);
-  border-color: color-mix(in oklab, var(--accent-color) 12%, var(--paper-card-border-soft));
+  background: var(--paper-hover-bg);
+  border-color: var(--paper-hover-border);
   box-shadow:
     0 1px 2px rgba(17, 24, 39, 0.03),
     0 12px 30px rgba(17, 24, 39, 0.04);
@@ -3332,11 +3342,11 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
 }
 
 .link-card__fallback:hover {
-  background: color-mix(in oklab, var(--accent-soft-bg) 35%, transparent);
+  background: var(--paper-hover-bg);
 }
 
 .link-card:hover {
-  border-color: color-mix(in oklab, var(--accent-color) 12%, var(--paper-card-border));
+  border-color: var(--paper-hover-border);
   box-shadow:
     0 1px 2px rgba(17, 24, 39, 0.03),
     0 12px 30px rgba(17, 24, 39, 0.04);

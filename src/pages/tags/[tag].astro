@@ -99,8 +99,8 @@ const tagItems = Array.from(tagsMap.entries())
 	}
 
 	.tag-section:hover {
-		background: color-mix(in oklab, var(--accent-soft-bg) 20%, var(--paper-card-bg));
-		border-color: color-mix(in oklab, var(--accent-color) 10%, var(--paper-card-border-soft));
+		background: var(--paper-hover-bg);
+		border-color: var(--paper-hover-border);
 	}
 
 	.tag-label {
@@ -136,7 +136,7 @@ const tagItems = Array.from(tagsMap.entries())
 	}
 
 	.tag-item:hover {
-		background: color-mix(in oklab, var(--accent-soft-bg) 25%, transparent);
+		background: var(--paper-hover-bg);
 	}
 
 	.tag-date {

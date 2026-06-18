@@ -120,10 +120,8 @@ function getTopicTier(count: number) {
 
 	.topic-token:hover {
 		transform: translateY(-2px);
-		border-color: color-mix(in oklab, var(--accent-color) 15%, var(--paper-card-border-soft)) !important;
-		background:
-			linear-gradient(180deg, color-mix(in oklab, var(--accent-soft-bg) 38%, transparent), transparent 58%),
-			var(--paper-card-bg) !important;
+		border-color: var(--paper-hover-border) !important;
+		background: var(--paper-hover-bg) !important;
 	}
 
 	.topic-token--large {

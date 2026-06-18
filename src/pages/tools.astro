@@ -185,11 +185,12 @@ const description = "工欲善其事，必先利其器";
     .tool-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-      background: color-mix(in oklab, var(--section-tint) 74%, var(--content-bg));
+      background: var(--paper-hover-bg);
+      border-color: var(--paper-hover-border);
     }
     
     :global([data-theme='dark']) .tool-card:hover {
-      background: color-mix(in oklab, var(--section-tint) 40%, var(--content-bg));
+      background: var(--paper-hover-bg);
     }
     .link-card {
         text-decoration: none;

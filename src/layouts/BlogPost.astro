@@ -77,15 +77,14 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: linear-gradient(
 				90deg,
 				transparent 0%,
-				color-mix(in oklab, var(--paper-card-border-soft) 80%, transparent) 50%,
+				var(--paper-card-border-soft) 50%,
 				transparent 100%
 			);
 		}
 
 		.post-end-text {
 			flex-shrink: 0;
-			color: var(--gray-color);
-			opacity: 0.5;
+			color: var(--faint-color);
 			font-family: var(--meta-font);
 			font-size: 0.75rem;
 			letter-spacing: 0.06em;
@@ -141,20 +140,19 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			width: 8px;
 			height: 8px;
 			border-radius: 0;
-			background-color: var(--gray-color);
-			opacity: 0.25;
+			background-color: var(--faint-color);
+			opacity: 0.5;
 		}
 
 		.code-lang {
 			font-size: 0.75rem;
-			color: var(--gray-color);
+			color: var(--faint-color);
 			font-family: var(--field-font, "Lilex", ui-monospace, monospace);
 			text-transform: none;
 			font-weight: 500;
 			position: absolute;
 			left: 50%;
 			transform: translateX(-50%);
-			opacity: 0.42;
 			user-select: none;
 		}
 
@@ -212,7 +210,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-meta-sep {
-			opacity: 0.35;
+			color: var(--faint-color);
 		}
 
 		.post-kind {
@@ -241,7 +239,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-description {
 			margin: 0;
-			color: color-mix(in oklab, var(--gray-color) 72%, var(--text-color));
+			color: color-mix(in oklab, var(--gray-color) 58%, var(--text-color));
 			font-size: 0.95rem;
 			line-height: 1.72;
 		}
@@ -306,7 +304,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-tail {
 			position: relative;
 			padding: clamp(1.7rem, 3.8vw, 2.1rem) 0 clamp(0.8rem, 1.6vw, 1rem);
-			border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
+			border-top: 1px solid var(--paper-card-border-soft);
 			background: color-mix(in oklab, var(--content-bg) 74%, var(--paper-field-bg));
 		}
 
@@ -365,7 +363,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.sidebar-toc-card .toc-list .toc-list {
 			margin-left: 0.6rem;
 			padding-left: 0.4rem;
-			border-left: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 60%, transparent);
+			border-left: 1px solid var(--paper-card-border-soft);
 			margin-top: 0.15rem;
 			gap: 0.1rem;
 		}
@@ -375,7 +373,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 0.2rem 0.35rem;
 			font-size: 0.72rem;
 			line-height: 1.45;
-			color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
+			color: color-mix(in oklab, var(--text-color) 82%, var(--gray-color));
 			text-decoration: none;
 			border-radius: 3px;
 			transition: color 0.15s ease, background 0.15s ease;
