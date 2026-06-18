@@ -10,7 +10,7 @@
  */
 
 #twikoo {
-  margin-top: 1.2rem;
+  margin-top: 0;
 }
 
 .tk-avatar {
@@ -67,6 +67,24 @@
 
 .tk-meta-input .el-input .el-input-group__prepend {
   padding: 0 0.6rem;
+}
+
+.tk-meta-input .el-input-group__prepend,
+.tk-meta-input .el-input__inner {
+  border-color: var(--paper-card-border-soft);
+  background: var(--paper-field-bg);
+  box-shadow: none;
+}
+
+.tk-meta-input .el-input__inner::placeholder,
+.tk-input .el-textarea__inner::placeholder {
+  color: var(--faint-color);
+}
+
+.tk-meta-input .el-input__inner:focus,
+.tk-input .el-textarea__inner:focus {
+  border-color: var(--paper-hover-border);
+  box-shadow: none;
 }
 
 .tk-meta-input .el-input input:invalid {
@@ -142,8 +160,8 @@
 
 .tk-row.actions {
   position: relative;
-  margin-top: 0.6rem;
-  margin-bottom: 0.6rem;
+  margin-top: 0.55rem;
+  margin-bottom: 0;
   margin-left: 2.8rem;
   align-items: center;
   justify-content: flex-end;
@@ -194,8 +212,9 @@
   height: 88px !important;
   resize: none;
   border-radius: 0;
-  border-color: rgba(0, 0, 0, 0.08);
-  background-color: #fafbfc;
+  border-color: var(--paper-card-border-soft);
+  background-color: var(--paper-field-bg);
+  box-shadow: none;
 }
 
 .tk-turnstile-container {
@@ -216,7 +235,7 @@
   padding: 4px 12px;
   border: none;
   border-radius: 0;
-  background: #fafbfc;
+  background: var(--paper-field-bg);
   word-break: break-word;
 }
 
@@ -518,18 +537,17 @@
   margin: 0;
   background: transparent;
   border: none;
-  border-left: 1.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 0;
-  padding: 2px 6px 0 10px;
+  padding: 2px 6px 0 0;
   margin-right: 0;
 }
 
 .tk-submit {
-  margin-top: 0.5rem;
+  margin-top: 0;
   border: none;
-  background: #fff;
-  padding: 0.6em 0.7em;
-  margin-bottom: 0.5em;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 1.1rem;
   border-radius: 0;
   box-shadow: none;
   transition: box-shadow 0.2s ease;
@@ -573,12 +591,12 @@
 .tk-comments-title {
   font-size: 1.1rem;
   font-weight: bold;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.4rem;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 0.45rem;
+  border-bottom: 1px solid var(--paper-card-border-soft);
 }
 
 .tk-comments-count.__hidden {
@@ -593,9 +611,9 @@
 
 .tk-comments-container>.tk-comment {
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  background: #fff;
-  padding: 0.6em 0.6em;
+  border-bottom: 1px solid var(--paper-card-border-soft);
+  background: transparent;
+  padding: 0.7em 0;
   border-radius: 0;
   box-shadow: none;
   transition: box-shadow 0.2s ease;
@@ -2449,4 +2467,45 @@
   background-color: rgba(144, 147, 153, 0.13);
   -webkit-transition: .3s;
   transition: .3s;
+}
+
+/* Final quiet guestbook overrides. Keep these after Twikoo/Element UI defaults. */
+#twikoo .tk-submit,
+#twikoo .tk-comments-container > .tk-comment,
+#twikoo .tk-preview-container {
+  background: transparent;
+  box-shadow: none;
+}
+
+#twikoo .tk-submit {
+  padding: 0;
+}
+
+#twikoo .tk-comments-container > .tk-comment {
+  border-bottom-color: var(--paper-card-border-soft);
+}
+
+#twikoo .tk-replies .tk-comment {
+  border-left: none;
+}
+
+#twikoo .el-input__inner,
+#twikoo .el-textarea__inner,
+#twikoo .el-input-group__prepend {
+  background-color: var(--paper-field-bg);
+  border-color: var(--paper-card-border-soft);
+  box-shadow: none;
+}
+
+#twikoo .el-input__inner:hover,
+#twikoo .el-textarea__inner:hover,
+#twikoo .el-input__inner:focus,
+#twikoo .el-textarea__inner:focus {
+  border-color: var(--paper-hover-border);
+  box-shadow: none;
+}
+
+#twikoo .el-input__inner::placeholder,
+#twikoo .el-textarea__inner::placeholder {
+  color: var(--faint-color);
 }

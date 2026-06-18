@@ -38,7 +38,7 @@
   --z-modal: 80;
   --background-color: oklch(0.978 0.006 75);
   --page-bg: oklch(0.978 0.006 75);
-  --content-bg: oklch(0.995 0.003 75);
+  --content-bg: oklch(0.998 0.002 75);
   --heading-color: oklch(0.18 0.011 244);
   --panel-title-color: oklch(0.27 0.012 244);
   --text-color: oklch(0.275 0.008 244);
@@ -65,8 +65,8 @@
   --card-shadow: 0 1px 2px rgba(15, 23, 42, 0.055), 0 12px 32px rgba(15, 23, 42, 0.045);
   --card-border: 1px solid rgba(0, 0, 0, 0.1);
   --paper-surface: var(--page-bg);
-  --paper-card-bg: color-mix(in oklab, var(--content-bg) 96%, var(--page-bg));
-  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 82%, var(--page-bg));
+  --paper-card-bg: var(--content-bg);
+  --paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 90%, var(--page-bg));
   --paper-card-border: color-mix(in oklab, var(--rule-color) 86%, transparent);
   --paper-card-border-soft: color-mix(in oklab, var(--rule-color) 58%, transparent);
   --paper-card-shadow:
@@ -75,8 +75,8 @@
   --paper-card-radius: 4px;
   --paper-panel-rule: 1px;
   --paper-accent-mark: var(--ink-accent);
-  --paper-field-bg: color-mix(in oklab, var(--content-bg) 52%, var(--page-bg));
-  --paper-hover-bg: color-mix(in oklab, var(--paper-card-bg) 82%, var(--page-bg));
+  --paper-field-bg: color-mix(in oklab, var(--content-bg) 58%, var(--page-bg));
+  --paper-hover-bg: color-mix(in oklab, var(--paper-card-bg) 88%, var(--page-bg));
   --paper-hover-border: color-mix(in oklab, var(--ink-accent) 16%, var(--paper-card-border-soft));
   color-scheme: light;
 }
@@ -122,7 +122,7 @@
 :root[data-theme="light"] {
   --background-color: oklch(0.978 0.006 75);
   --page-bg: oklch(0.978 0.006 75);
-  --content-bg: oklch(0.995 0.003 75);
+  --content-bg: oklch(0.998 0.002 75);
   --heading-color: oklch(0.18 0.011 244);
   --panel-title-color: oklch(0.27 0.012 244);
   --text-color: oklch(0.275 0.008 244);

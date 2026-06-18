@@ -538,10 +538,11 @@ const twikooAuthors = ['lynkxu'];
 
 	.twikoo-lazygate {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
+		align-items: center;
+		justify-content: space-between;
 		gap: 0.8rem;
-		padding: 0.15rem 0;
+		padding: 0.45rem 0 0.75rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
 	.twikoo-lazygate[hidden],
@@ -565,7 +566,7 @@ const twikooAuthors = ['lynkxu'];
 		padding: 0.55rem 0.95rem;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
-		background: var(--paper-field-bg);
+		background: transparent;
 		color: color-mix(in oklab, var(--text-color) 88%, var(--gray-color));
 		font-family: var(--field-font);
 		font-size: 0.78rem;
@@ -581,9 +582,9 @@ const twikooAuthors = ['lynkxu'];
 	}
 
 	.twikoo-load-button:hover:not(:disabled) {
-		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
-		border-color: color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
-		background: color-mix(in oklab, var(--accent-soft-bg) 55%, var(--paper-field-bg));
+		color: var(--heading-color);
+		border-color: var(--paper-hover-border);
+		background: var(--paper-hover-bg);
 		transform: translateY(-1px);
 	}
 
@@ -597,6 +598,11 @@ const twikooAuthors = ['lynkxu'];
 	}
 
 	@media (max-width: 600px) {
+		.twikoo-lazygate {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
 		.comment-tabs {
 			justify-content: space-between;
 		}
