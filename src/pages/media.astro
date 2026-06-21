@@ -423,7 +423,7 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
     font-family: var(--ui-font);
     font-size: var(--text-sm);
     font-weight: 700;
-    transition: color 0.2s ease, background 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     white-space: nowrap;
   }
 
@@ -438,6 +438,7 @@ const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}`
   .media-tab.is-active {
     background: var(--heading-color);
     color: var(--content-bg);
+    box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--accent-color) 70%, var(--content-bg));
   }
 
   .media-tab:hover:not(.is-active) {

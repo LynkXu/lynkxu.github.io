@@ -78,7 +78,7 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
     padding: var(--space-sm);
     border: 1px solid color-mix(in oklab, var(--text-color) 8%, transparent);
     border-radius: 8px;
-    background: color-mix(in oklab, var(--content-bg) 90%, var(--paper-field-bg, transparent));
+    background: var(--paper-card-bg);
     color: inherit;
     text-decoration: none;
     border-bottom: none !important;
@@ -95,7 +95,7 @@ const yearLabel = year && year !== '未知' ? String(year) : '';
   .media-card:hover {
     transform: translateY(-1px);
     border-color: var(--paper-hover-border);
-    background: var(--paper-hover-bg);
+    background: color-mix(in oklab, var(--paper-card-bg) 97%, var(--accent-soft-bg));
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
   }
 
