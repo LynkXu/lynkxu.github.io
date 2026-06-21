@@ -61,6 +61,24 @@ function formatDateYmdDot(dateLike) {
   return `${y}.${m}.${day}`;
 }
 
+function formatMonthKey(dateLike) {
+  const d = new Date(dateLike);
+  if (!Number.isFinite(d.getTime())) return null;
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`;
+}
+
+function parseSinceMonth(sinceLabel) {
+  const match = String(sinceLabel || '').match(/(\d{4})[.-](\d{1,2})/);
+  if (!match) return null;
+  return `${match[1]}-${pad2(Number(match[2]))}`;
+}
+
+function isOnOrAfterMonth(activity, startMonth) {
+  if (!startMonth) return true;
+  const month = formatMonthKey(activity.start_date_local || activity.start_date);
+  return month ? month >= startMonth : false;
+}
+
 function formatPaceSecPerKm(secPerKm) {
   if (!Number.isFinite(secPerKm) || secPerKm <= 0) return null;
   const total = Math.round(secPerKm);
@@ -220,7 +238,11 @@ function parsePaceToSeconds(paceText) {
 }
 
 function computeSportsStats({ baseline, activities, athleteStats }) {
-  const runs = activities.filter(isRun);
+  const allRuns = activities.filter(isRun);
+  const runningSinceMonth = parseSinceMonth(baseline?.running?.sinceLabel);
+  const runs = runningSinceMonth
+    ? allRuns.filter((a) => isOnOrAfterMonth(a, runningSinceMonth))
+    : allRuns;
   const rides = activities.filter(isRide);
 
   const sum = (arr, pick) => arr.reduce((acc, x) => acc + (Number(pick(x)) || 0), 0);
@@ -256,15 +278,22 @@ function computeSportsStats({ baseline, activities, athleteStats }) {
   // 总计优先用 athlete stats（与活动列表是不同 API，且更“官方总计”）
   const statsAllRun = athleteStats?.all_run_totals ?? null;
   const statsAllRide = athleteStats?.all_ride_totals ?? null;
+  const runActivityDistanceKm = sum(runs, (a) => a.distance_m) / 1000;
+  const runActivityTimeH = sum(runs, (a) => a.moving_time_s) / 3600;
+  const canUseRunAthleteTotals = !runningSinceMonth;
 
   // 跑步：仍然需要加上 baseline（你已有历史跑量/PR）
   const runDistanceKm =
     (baselineRun.distanceKm || 0) +
-    (statsAllRun?.distance != null ? Number(statsAllRun.distance) / 1000 : sum(runs, (a) => a.distance_m) / 1000);
+    (canUseRunAthleteTotals && statsAllRun?.distance != null
+      ? Number(statsAllRun.distance) / 1000
+      : runActivityDistanceKm);
 
   const runTimeH =
     (baselineRun.timeHours || 0) +
-    (statsAllRun?.moving_time != null ? Number(statsAllRun.moving_time) / 3600 : sum(runs, (a) => a.moving_time_s) / 3600);
+    (canUseRunAthleteTotals && statsAllRun?.moving_time != null
+      ? Number(statsAllRun.moving_time) / 3600
+      : runActivityTimeH);
 
   // 骑行：完全依赖 Strava（不加 baseline）
   const rideDistanceKm =
@@ -370,18 +399,12 @@ function computeSportsStats({ baseline, activities, athleteStats }) {
 
   const cyclingAvgKmPerRide = rideCount > 0 ? rideDistanceKm / rideCount : 0;
 
-  const monthKey = (dateLike) => {
-    const d = new Date(dateLike);
-    const y = d.getFullYear();
-    const m = pad2(d.getMonth() + 1);
-    return `${y}-${m}`;
-  };
-
   const groupMonthly = (arr, baselineData = null) => {
     const m = new Map();
 
     for (const a of arr) {
-      const key = monthKey(a.start_date_local || a.start_date);
+      const key = formatMonthKey(a.start_date_local || a.start_date);
+      if (!key) continue;
       const prev = m.get(key) || { month: key, distanceKm: 0, count: 0, movingTimeHours: 0 };
       prev.distanceKm += (Number(a.distance_m) || 0) / 1000;
       prev.movingTimeHours += (Number(a.moving_time_s) || 0) / 3600;
@@ -415,11 +438,12 @@ function computeSportsStats({ baseline, activities, athleteStats }) {
 
   const computeYearlyStats = (activities, baselineData = null) => {
     const years = {};
-    const getYear = (dateStr) => new Date(dateStr).getFullYear().toString();
+    const getYear = (dateStr) => formatMonthKey(dateStr)?.slice(0, 4) ?? null;
     
     // Process activities
     for (const a of activities) {
       const y = getYear(a.start_date_local || a.start_date);
+      if (!y) continue;
       if (!years[y]) years[y] = { distance: 0, time: 0, count: 0 };
       years[y].distance += (Number(a.distance_m) || 0) / 1000;
       years[y].time += (Number(a.moving_time_s) || 0) / 3600;

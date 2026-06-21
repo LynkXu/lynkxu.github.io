@@ -107,8 +107,13 @@ const fullMarathonCard = fullPbRace
   : stats.cards.fullMarathon;
 
 // --- Fixed stat cards: always show totals ---
+const runningPaceSub = paceText(stats.cards.totalDistance.value, stats.cards.totalTime.value);
+const importedDistanceKm = Number(stats.imported?.distanceKm) || 0;
+const hasImportedAggregate = type === 'running' && importedDistanceKm > 0 && stats.imported?.hasMonthly === false;
 const totalDistSub = type === 'running'
-  ? paceText(stats.cards.totalDistance.value, stats.cards.totalTime.value)
+  ? hasImportedAggregate
+    ? `${runningPaceSub} · 含导入${toFixedTrim(importedDistanceKm, 1)} km`
+    : runningPaceSub
   : stats.cards.totalDistance.subtext;
 
 const totalCountSub = type === 'cycling'
