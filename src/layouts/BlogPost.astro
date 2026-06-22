@@ -54,9 +54,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: 1.25rem;
+			gap: 1rem;
 			margin: 0;
-			padding: 0.6rem 0 0.2rem;
+			padding: 0.15rem 0 0;
 		}
 
 		.post-tail .changelog {
@@ -66,20 +66,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-end-mark {
 			display: flex;
 			align-items: center;
-			gap: 0.75rem;
-			width: 100%;
-			max-width: 16rem;
-		}
-
-		.post-end-line {
-			flex: 1;
-			height: 1px;
-			background: linear-gradient(
-				90deg,
-				transparent 0%,
-				var(--paper-card-border-soft) 50%,
-				transparent 100%
-			);
+			justify-content: center;
 		}
 
 		.post-end-text {
@@ -302,20 +289,38 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-tail {
 			position: relative;
-			padding: clamp(1.7rem, 3.8vw, 2.1rem) 0 clamp(0.8rem, 1.6vw, 1rem);
-			border-top: 1px solid var(--paper-card-border-soft);
+			padding: clamp(2.25rem, 4.6vw, 2.85rem) 0 clamp(0.8rem, 1.6vw, 1rem);
 			background: color-mix(in oklab, var(--content-bg) 74%, var(--paper-field-bg));
+		}
+
+		.post-tail::before {
+			content: "";
+			position: absolute;
+			top: clamp(0.85rem, 1.8vw, 1.08rem);
+			left: 50%;
+			width: min(14rem, 36%);
+			height: 1px;
+			transform: translateX(-50%);
+			background: linear-gradient(
+				90deg,
+				transparent 0%,
+				color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent) 50%,
+				transparent 100%
+			);
 		}
 
 		.post-tail-inner {
 			display: flex;
 			flex-direction: column;
-			gap: clamp(1.25rem, 3vw, 1.5rem);
+			gap: clamp(1.35rem, 3.2vw, 1.75rem);
 		}
 
 		.post-tail-inner > .history-fold.changelog {
 			margin-left: auto !important;
 			margin-right: auto !important;
+			width: min(100%, 28rem);
+			box-shadow: none;
+			background: color-mix(in oklab, var(--paper-card-bg) 94%, var(--paper-field-bg));
 		}
 
 		/* Sidebar TOC card */
@@ -454,19 +459,17 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 			<div class="post-tail">
 				<div class="post-flow post-tail-inner">
-					{changelog && changelog.length > 0 && (
-						<Changelog entries={changelog} />
-					)}
-
 					<!-- 文章结束标识和点赞 -->
 					<div class='post-end' aria-hidden="true">
 						<div class="post-end-mark">
-							<span class="post-end-line" aria-hidden="true"></span>
 							<span class="post-end-text">End of entry</span>
-							<span class="post-end-line" aria-hidden="true"></span>
 						</div>
 						<LikeButton id={postId || Astro.url.pathname} type="post" />
 					</div>
+
+					{changelog && changelog.length > 0 && (
+						<Changelog entries={changelog} />
+					)}
 				</div>
 			</div>
 		</article>

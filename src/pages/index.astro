@@ -94,8 +94,10 @@ function formatPostDate(date: Date) {
 								<time datetime={featuredPost.data.pubDate.toISOString()}>{formatPostDate(featuredPost.data.pubDate)}</time>
 								{getPostTopic(featuredPost) && <span>{getPostTopic(featuredPost)}</span>}
 							</span>
-							<strong>{featuredPost.data.title}</strong>
-							{getPostSummary(featuredPost) && <span class="home-post__summary">{getPostSummary(featuredPost)}</span>}
+							<span class="home-post__body">
+								<strong>{featuredPost.data.title}</strong>
+								{getPostSummary(featuredPost) && <span class="home-post__summary">{getPostSummary(featuredPost)}</span>}
+							</span>
 						</a>
 					)}
 
@@ -119,12 +121,17 @@ function formatPostDate(date: Date) {
 			</section>
 
 			<nav class="home-entry-list" aria-label="专题入口">
-				{secondaryEntryLinks.map((item) => (
-					<a href={item.href} class="home-secondary-link" title={item.title}>
-						<span>{item.label}</span>
-						<small>{item.title}</small>
-					</a>
-				))}
+				<div class="home-entry-list__head">
+					<h2 class="home-entry-list__title">Index</h2>
+				</div>
+				<div class="home-entry-list__items">
+					{secondaryEntryLinks.map((item) => (
+						<a href={item.href} class="home-secondary-link" title={item.title}>
+							<span>{item.label}</span>
+							<small>{item.title}</small>
+						</a>
+					))}
+				</div>
 			</nav>
 		</div>
 
@@ -235,6 +242,7 @@ function formatPostDate(date: Date) {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
+		gap: clamp(1rem, 2.4vw, 1.45rem);
 		min-height: 100%;
 		padding: clamp(1.15rem, 2.6vw, 1.42rem) clamp(1.05rem, 2.4vw, 1.34rem);
 	}
@@ -264,9 +272,16 @@ function formatPostDate(date: Date) {
 		vertical-align: 0.12em;
 	}
 
-	.home-post--featured strong {
-		display: block;
+	.home-post--featured .home-post__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.62rem;
 		margin-top: auto;
+	}
+
+	.home-post--featured .home-post__body strong {
+		display: block;
+		margin-top: 0;
 		color: var(--heading-color);
 		font-family: var(--serif-font);
 		font-size: clamp(1.12rem, 2.35vw, 1.32rem);
@@ -284,15 +299,23 @@ function formatPostDate(date: Date) {
 	.home-post__summary {
 		display: -webkit-box;
 		width: 100%;
-		max-width: 22rem;
+		max-width: 100%;
 		margin-top: 0.62rem;
 		overflow: hidden;
 		overflow-wrap: anywhere;
 		word-break: break-word;
 		color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
+		font-family: var(--serif-font);
 		font-size: 0.84rem;
 		line-height: 1.62;
 		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 3;
+	}
+
+	.home-post--featured .home-post__summary {
+		margin-top: 0;
+		font-size: 0.84rem;
+		line-height: 1.62;
 		-webkit-line-clamp: 3;
 	}
 
@@ -352,24 +375,48 @@ function formatPostDate(date: Date) {
 		min-width: 0;
 		overflow: hidden;
 		overflow-wrap: anywhere;
-		color: var(--gray-color);
-		font-family: var(--field-font);
-		font-size: 0.7rem;
-		font-weight: 500;
-		letter-spacing: 0.01em;
-		line-height: 1.5;
+		color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
+		font-family: var(--serif-font);
+		font-size: 0.8rem;
+		font-weight: 400;
+		letter-spacing: 0.002em;
+		line-height: 1.6;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 	}
 
 	.home-entry-list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xs);
+		width: 100%;
+		min-width: 0;
+	}
+
+	.home-entry-list__head {
+		display: flex;
+		align-items: center;
+		min-height: 1.35rem;
+	}
+
+	.home-entry-list__title {
+		margin: 0;
+		font-family: var(--field-font);
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		line-height: 1.35;
+		color: var(--gray-color);
+	}
+
+	.home-entry-list__items {
 		display: grid;
-		grid-template-rows: 1.12fr 0.96fr 1.02fr 0.96fr 1.08fr;
+		grid-template-rows: repeat(5, minmax(0, 1fr));
 		align-items: stretch;
 		gap: 0.52rem;
 		width: 100%;
 		min-width: 0;
-		padding-top: calc(var(--space-xs) + 0.945rem);
+		flex: 1;
 	}
 
 	.home-secondary-link {
@@ -414,16 +461,6 @@ function formatPostDate(date: Date) {
 		letter-spacing: 0.01em;
 		line-height: 1.35;
 		opacity: 0.78;
-	}
-
-	.home-secondary-link:nth-child(1),
-	.home-secondary-link:nth-child(4) {
-		background: color-mix(in oklab, var(--accent-soft-bg) 18%, var(--paper-card-bg)) !important;
-	}
-
-	.home-secondary-link:nth-child(2),
-	.home-secondary-link:nth-child(5) {
-		margin-left: 0.36rem;
 	}
 
 	.home-secondary-link:hover {
@@ -477,10 +514,6 @@ function formatPostDate(date: Date) {
 			padding-inline: clamp(0.9rem, 5vw, 1.08rem);
 		}
 
-		.home-post--featured strong {
-			margin-top: 0.48rem;
-		}
-
 		.home-latest__more {
 			border-top: 1px solid var(--paper-card-border-soft);
 			border-left: 0;
@@ -501,15 +534,9 @@ function formatPostDate(date: Date) {
 			word-break: break-all;
 		}
 
-		.home-entry-list {
+		.home-entry-list__items {
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 			grid-template-rows: none;
-			padding-top: 0;
-		}
-
-		.home-secondary-link:nth-child(2),
-		.home-secondary-link:nth-child(5) {
-			margin-left: 0;
 		}
 	}
 
@@ -522,7 +549,7 @@ function formatPostDate(date: Date) {
 			font-size: 1.04rem;
 		}
 
-		.home-entry-list {
+		.home-entry-list__items {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 0.48rem;
 		}
