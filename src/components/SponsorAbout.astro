@@ -19,23 +19,34 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 	<details class="sponsor-fold">
 		<summary>Crypto</summary>
-		<div class="sponsor-grid sponsor-grid--3">
+		<div class="crypto-list">
 			{SPONSOR_GROUPS.find((g) => g.name === 'Crypto')?.items.map((item) => (
-				<div class="sponsor-card">
-					<div class="sponsor-card__name">{item.name}</div>
-					{item.desc && <div class="sponsor-card__desc">{item.desc}</div>}
-					<div class="sponsor-card__qr">
+				<article class="crypto-item">
+					<div class="crypto-item__qr">
 						<img src={item.image} alt={`${item.name} QR`} loading="lazy" />
 					</div>
-					{item.address && (
-						<div class="sponsor-card__addr">
-							<code class="addr-text">{item.address}</code>
-							<button class="addr-copy" type="button" data-clipboard-text={item.address} aria-label="Copy Address">
-								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-							</button>
+					<div class="crypto-item__content">
+						<div class="crypto-item__heading">
+							<h3>{item.name}</h3>
+							{item.desc && <p>{item.desc}</p>}
 						</div>
-					)}
-				</div>
+						{item.address && (
+							<div class="crypto-address">
+								<span class="crypto-address__label">Wallet address</span>
+								<code>{item.address}</code>
+								<button
+									class="addr-copy"
+									type="button"
+									data-clipboard-text={item.address}
+									aria-label={`Copy ${item.name} wallet address`}
+								>
+									<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+									<span class="addr-copy__label" aria-live="polite">复制地址</span>
+								</button>
+							</div>
+						)}
+					</div>
+				</article>
 			))}
 		</div>
 	</details>
@@ -47,6 +58,7 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
+		container-type: inline-size;
 	}
 
 	/* Fold */
@@ -115,19 +127,8 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	.sponsor-grid--3 {
-		grid-template-columns: repeat(3, 1fr);
-	}
-
-	@media (max-width: 600px) {
-		.sponsor-grid--3 {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
 	@media (max-width: 400px) {
-		.sponsor-grid--2,
-		.sponsor-grid--3 {
+		.sponsor-grid--2 {
 			grid-template-columns: 1fr;
 		}
 	}
@@ -152,15 +153,8 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		margin-bottom: 0.35rem;
 	}
 
-	.sponsor-card__desc {
-		font-size: 0.72rem;
-		color: var(--gray-color);
-		margin-bottom: 0.3rem;
-		line-height: 1.3;
-	}
-
 	.sponsor-card__qr {
-		background: #fff;
+		background: oklch(0.99 0.003 80);
 		border-radius: var(--paper-card-radius);
 		padding: 0.25rem;
 		display: flex;
@@ -177,53 +171,211 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		border-radius: calc(var(--paper-card-radius) - 2px);
 	}
 
-	/* Address */
-	.sponsor-card__addr {
-		margin-top: 0.4rem;
+	/* Crypto */
+	.crypto-list {
 		display: flex;
-		align-items: flex-start;
-		gap: 0.35rem;
+		flex-direction: column;
+		gap: 0;
+		padding: 0 0.75rem;
 	}
 
-	.addr-text {
-		flex: 1;
-		font-size: 0.68rem;
-		padding: 0.2rem 0.35rem;
+	.crypto-item {
+		display: grid;
+		grid-template-columns: 112px minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		padding: 1rem 0;
+	}
+
+	.crypto-item + .crypto-item {
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.crypto-item__qr {
+		display: grid;
+		place-items: center;
+		width: 112px;
+		aspect-ratio: 1;
+		padding: 0.35rem;
+		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
-		background: rgba(0, 0, 0, 0.04);
-		word-break: break-all;
-		line-height: 1.4;
+		background: oklch(0.99 0.003 80);
 	}
 
-	:global([data-theme='dark']) .addr-text {
-		background: rgba(255, 255, 255, 0.05);
+	.crypto-item__qr img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		border-radius: calc(var(--paper-card-radius) - 2px);
+		object-fit: contain;
+	}
+
+	.crypto-item__content {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.crypto-item__heading {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.crypto-item__heading h3,
+	.crypto-item__heading p {
+		margin: 0;
+	}
+
+	.crypto-item__heading h3 {
+		font-family: var(--field-font);
+		font-size: 0.9rem;
+		font-weight: 650;
+		line-height: 1.3;
+		color: var(--heading-color);
+	}
+
+	.crypto-item__heading p {
+		max-width: 42ch;
+		font-size: 0.72rem;
+		line-height: 1.5;
+		color: color-mix(in oklab, var(--text-color) 64%, var(--gray-color));
+	}
+
+	.crypto-address {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.45rem 0.6rem;
+		align-items: end;
+	}
+
+	.crypto-address__label {
+		grid-column: 1 / -1;
+		font-family: var(--field-font);
+		font-size: 0.65rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		line-height: 1;
+		text-transform: uppercase;
+		color: var(--gray-color);
+	}
+
+	.crypto-address code {
+		min-width: 0;
+		padding: 0.55rem 0.65rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-field-bg);
+		font-size: 0.69rem;
+		color: var(--text-color);
+		word-break: break-all;
+		line-height: 1.45;
 	}
 
 	.addr-copy {
-		flex-shrink: 0;
-		padding: 0.2rem;
-		background: none;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		color: var(--gray-color);
-		cursor: pointer;
-		display: flex;
+		display: inline-flex;
+		min-height: 2.35rem;
 		align-items: center;
 		justify-content: center;
-		transition: all 0.15s;
-	}
-
-	:global([data-theme='dark']) .addr-copy {
-		border-color: var(--paper-card-border-soft);
+		gap: 0.35rem;
+		padding: 0.45rem 0.65rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		color: color-mix(in oklab, var(--text-color) 78%, var(--gray-color));
+		cursor: pointer;
+		font-family: var(--field-font);
+		font-size: 0.7rem;
+		font-weight: 600;
+		white-space: nowrap;
+		transition:
+			border-color 0.15s ease,
+			background 0.15s ease,
+			color 0.15s ease;
 	}
 
 	.addr-copy:hover {
-		color: var(--text-color);
-		border-color: var(--text-color);
+		border-color: color-mix(in oklab, var(--accent-color) 38%, var(--paper-card-border-soft));
+		background: color-mix(in oklab, var(--accent-soft-bg) 40%, var(--paper-card-bg));
+		color: var(--heading-color);
+	}
+
+	.addr-copy:focus-visible {
+		outline: 2px solid color-mix(in oklab, var(--accent-color) 58%, transparent);
+		outline-offset: 2px;
+	}
+
+	.addr-copy.is-copied {
+		border-color: color-mix(in oklab, var(--accent-color) 46%, var(--paper-card-border-soft));
+		background: var(--accent-soft-bg);
+		color: var(--heading-color);
 	}
 
 	.addr-copy svg {
 		display: block;
+		flex-shrink: 0;
+	}
+
+	@container (max-width: 430px) {
+		.crypto-item {
+			grid-template-columns: 88px minmax(0, 1fr);
+			gap: 0.75rem;
+		}
+
+		.crypto-item__qr {
+			width: 88px;
+		}
+
+		.crypto-item__content {
+			display: contents;
+		}
+
+		.crypto-item__heading {
+			align-self: center;
+		}
+
+		.crypto-address {
+			grid-column: 1 / -1;
+			grid-template-columns: minmax(0, 1fr) auto;
+			align-items: center;
+		}
+
+		.crypto-address__label {
+			grid-column: auto;
+		}
+
+		.crypto-address code {
+			grid-column: 1 / -1;
+			grid-row: 2;
+		}
+
+		.addr-copy {
+			grid-column: 2;
+			grid-row: 1;
+			min-height: 1.85rem;
+			padding-block: 0.3rem;
+		}
+	}
+
+	@container (max-width: 300px) {
+		.crypto-item {
+			grid-template-columns: 1fr;
+		}
+
+		.crypto-item__qr {
+			width: min(132px, 100%);
+		}
+
+		.crypto-item__heading,
+		.crypto-address {
+			grid-column: auto;
+		}
+
+		.addr-copy {
+			min-height: 2.2rem;
+		}
 	}
 </style>
 
@@ -234,15 +386,20 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 
 		const copyBtns = root.querySelectorAll('.addr-copy');
 		copyBtns.forEach((btn) => {
+			if (btn.getAttribute('data-copy-bound') === 'true') return;
+			btn.setAttribute('data-copy-bound', 'true');
+
 			btn.addEventListener('click', async () => {
 				const text = btn.getAttribute('data-clipboard-text');
 				if (!text) return;
 				try {
 					await navigator.clipboard.writeText(text);
-					const oldHtml = btn.innerHTML;
-					btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+					const label = btn.querySelector('.addr-copy__label');
+					btn.classList.add('is-copied');
+					if (label) label.textContent = '已复制';
 					setTimeout(() => {
-						btn.innerHTML = oldHtml;
+						btn.classList.remove('is-copied');
+						if (label) label.textContent = '复制地址';
 					}, 1500);
 				} catch (e) {
 					// ignore
