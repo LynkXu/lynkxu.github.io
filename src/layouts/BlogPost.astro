@@ -144,8 +144,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 76ch;
-			--post-inline-padding: clamp(0.8rem, 2.2vw, 1.05rem);
+			--measure-readable: 70ch;
+			--post-inline-padding: clamp(var(--space-lg), 2.4vw, var(--space-xl));
 			--post-rail-width: calc(var(--measure-readable) + var(--post-inline-padding) + var(--post-inline-padding));
 			--post-content-width: var(--post-rail-width);
 			display: flex;
@@ -403,7 +403,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		@media (max-width: 720px) {
 			.entry-sheet {
-				--post-inline-padding: 0.95rem;
+				--post-inline-padding: var(--space-md);
 				border-radius: 0;
 				border-left: none;
 				border-right: none;

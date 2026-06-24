@@ -237,41 +237,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			)}
 		</div>
 
-		<aside class="memos-side-rail" aria-label="Memos details">
-			<div class="memos-stats-card">
-				<p class="memos-stats-kicker">Memos</p>
-				<dl class="memos-stats-list">
-					{memoStats.map((stat) => (
-						<div class="memos-stat-row">
-							<dt>{stat.label}</dt>
-							<dd>{stat.value}</dd>
-						</div>
-					))}
-				</dl>
-				<div class="memos-stats-foot">
-					<span>Latest</span>
-					{latestMemo ? (
-						<time datetime={latestMemo.gossip.data.pubDate.toISOString()}>{latestMemoLabel}</time>
-					) : (
-						<span>{latestMemoLabel}</span>
-					)}
-					<span>Since</span>
-					<span>{earliestMemoYear}</span>
-				</div>
-			</div>
-
-			<div class="memos-source-card">
-				<p class="memos-stats-kicker">Sources</p>
-				<dl class="memos-source-list">
-					{sourceStats.map((stat) => (
-						<div class="memos-source-row">
-							<dt>{stat.label}</dt>
-							<dd>{stat.value}</dd>
-						</div>
-					))}
-				</dl>
-			</div>
-		</aside>
 	</div>
 </MagazineShell>
 
@@ -362,30 +327,28 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style>
 	:global(.memos-surface) {
-		--blog-shell-width: 1040px;
+		--blog-shell-width: 1000px;
 		--blog-shell-sidebar-width: 11rem;
 		--blog-shell-gap: var(--memos-column-gap);
 		--memos-feed-width: 34.5rem;
-		--memos-column-gap: clamp(1.25rem, 3vw, 2.5rem);
+		--memos-column-gap: clamp(var(--space-lg), 2.2vw, var(--space-xl));
 		--memos-section-gap: 0.72rem;
 	}
 
 	:global(.memos-surface .magazine-shell) {
-		grid-template-columns: max-content var(--blog-shell-sidebar-width);
-		justify-content: center;
+		grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width);
 	}
 
 	:global(.memos-surface .magazine-main) {
 		gap: var(--memos-section-gap);
-		width: max-content;
 	}
 
 	.memos-layout {
 		display: grid;
-		grid-template-columns: var(--blog-shell-sidebar-width) minmax(0, var(--memos-feed-width));
-		grid-template-areas: "stats feed";
+		grid-template-columns: minmax(0, var(--memos-feed-width));
+		grid-template-areas: "feed";
+		justify-content: end;
 		align-items: start;
-		gap: var(--memos-column-gap);
 	}
 
 	.memos-feed-column {
@@ -809,12 +772,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 		.memos-layout {
 			grid-template-columns: 1fr;
-			grid-template-areas:
-				"feed"
-				"stats";
+			grid-template-areas: "feed";
+			justify-content: stretch;
 			width: min(100%, var(--memos-feed-width));
 			margin: 0 auto;
-			row-gap: var(--space-lg);
 		}
 
 		.memos-side-rail {

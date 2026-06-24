@@ -127,9 +127,9 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 
 <style is:global>
 	.blog-surface-layout {
-		--blog-shell-width: 1120px;
-		--blog-shell-sidebar-width: 200px;
-		--blog-shell-gap: clamp(1.25rem, 3vw, 2.5rem);
+		--blog-shell-width: 1000px;
+		--blog-shell-sidebar-width: 11rem;
+		--blog-shell-gap: clamp(var(--space-lg), 2.2vw, var(--space-xl));
 	}
 
 	/* ── Magazine Shell ── */
@@ -313,6 +313,12 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 			padding-top: 0.8rem;
 		}
 
+		.magazine-main,
+		.profile-sidebar {
+			width: min(100%, var(--content-width));
+			justify-self: center;
+		}
+
 		.profile-sidebar {
 			position: static;
 			order: 1;
@@ -351,7 +357,11 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 	}
 
 	/* ── Responsive: Mobile ── */
-	@media (max-width: 767px) {
+	@media (max-width: 768px) {
+		.magazine-shell {
+			width: 100%;
+		}
+
 		.profile-card {
 			flex-direction: column;
 			align-items: center;
