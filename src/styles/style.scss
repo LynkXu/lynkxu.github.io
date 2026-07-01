@@ -634,6 +634,21 @@ body:has(.blog-surface-layout) {
   }
 }
 
+@media (max-width: 520px) {
+  .blog-surface-layout footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    width: min(100%, calc(100% - 2 * var(--page-inline)));
+  }
+
+  .blog-surface-layout footer > * {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
 /* Panel：首页 / 分类页等「入口型」页头（文章页不用 Panel，避免层级过多） */
 .blog-surface-layout :where(.home-hero, .taxonomy-hero) {
   position: relative;
@@ -3228,6 +3243,7 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
 /* ── LinkCard ── */
 .link-card {
   display: block;
+  max-width: 100%;
   margin: 1.25rem 0;
   border: 1px solid var(--paper-card-border);
   border-radius: var(--paper-card-radius);
@@ -3253,6 +3269,7 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
 
 .link-card__content {
   width: 100%;
+  min-width: 0;
 }
 
 .link-card__image-wrapper {
@@ -3293,6 +3310,7 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .link-card__body p {
@@ -3306,6 +3324,7 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  overflow-wrap: anywhere;
 }
 
 .link-card__host {
@@ -3319,6 +3338,7 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
   color: var(--gray-color);
   margin-top: 0.35rem;
   opacity: 0.72;
+  overflow-wrap: anywhere;
 }
 
 .link-card__host::before {

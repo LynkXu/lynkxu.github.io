@@ -4,39 +4,6 @@ import MagazineShell from '../layouts/MagazineShell.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 
-	const secondaryEntryLinks = [
-		{
-			href: '/photography',
-			label: 'Photography',
-			title: '光影瞬间',
-		},
-		{
-			href: '/media',
-			label: 'Media',
-			title: '书影音',
-		},
-		{
-			href: '/travel',
-			label: 'Travel',
-			title: '旅行足迹',
-		},
-		{
-			href: '/sports',
-			label: 'Sports',
-			title: '运动记录',
-		},
-		{
-			href: '/tools',
-			label: 'Tools',
-			title: '常用工具',
-		},
-		{
-			href: '/copyright',
-			label: 'Copyright',
-			title: '版权声明',
-		},
-	];
-
 const latestPosts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -99,20 +66,6 @@ function formatPostDate(date: Date) {
 				</div>
 			</section>
 
-			<nav class="home-entry-list" aria-label="专题入口">
-				<div class="home-entry-list__head">
-					<h2 class="home-entry-list__title">Index</h2>
-				</div>
-				<div class="home-entry-list__items">
-					{secondaryEntryLinks.map((item) => (
-						<a href={item.href} class="home-entry-link" title={item.title}>
-							<span>{item.label}</span>
-							<small>{item.title}</small>
-							<span class="home-entry-link__arrow" aria-hidden="true">→</span>
-						</a>
-					))}
-				</div>
-			</nav>
 		</div>
 
 	</section>
@@ -122,9 +75,9 @@ function formatPostDate(date: Date) {
 	.home-index {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(var(--space-lg), 3.2vw, var(--space-2xl));
+		gap: clamp(var(--space-xl), 4vw, var(--space-2xl));
 		width: 100%;
-		padding: clamp(var(--space-md), 2vw, var(--space-xl)) 0 clamp(var(--space-2xl), 7vw, var(--space-4xl));
+		padding: clamp(var(--space-xs), 1vw, var(--space-sm)) 0 clamp(var(--space-2xl), 7vw, var(--space-4xl));
 	}
 
 	.home-statement {
@@ -158,17 +111,15 @@ function formatPostDate(date: Date) {
 	}
 
 	.home-board {
-		display: grid;
-		grid-template-columns: minmax(0, 0.82fr) minmax(10.5rem, 0.32fr);
-		align-items: start;
-		gap: clamp(var(--space-lg), 2.4vw, var(--space-xl));
+		display: flex;
+		flex-direction: column;
+		gap: clamp(var(--space-xl), 4vw, var(--space-2xl));
 		width: 100%;
 		min-width: 0;
 		animation: home-fade-up 0.55s ease-out 0.12s both;
 	}
 
-	.home-latest,
-	.home-entry-list {
+	.home-latest {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-xs);
@@ -176,15 +127,13 @@ function formatPostDate(date: Date) {
 		min-width: 0;
 	}
 
-	.home-latest__head,
-	.home-entry-list__head {
+	.home-latest__head {
 		display: flex;
 		align-items: center;
 		min-height: 1.35rem;
 	}
 
-	.home-latest__title,
-	.home-entry-list__title {
+	.home-latest__title {
 		margin: 0;
 		font-family: var(--field-font);
 		font-size: 0.7rem;
@@ -198,7 +147,7 @@ function formatPostDate(date: Date) {
 		display: grid;
 		grid-template-rows: repeat(4, minmax(0, 1fr));
 		align-items: stretch;
-		gap: 0.52rem;
+		gap: var(--space-xs);
 		position: relative;
 		width: 100%;
 		min-width: 0;
@@ -206,13 +155,7 @@ function formatPostDate(date: Date) {
 	}
 
 	.home-latest__items::after {
-		content: '';
-		position: absolute;
-		right: calc(-1 * clamp(0.8rem, 2.1vw, 1.4rem));
-		top: 0;
-		bottom: 0;
-		width: 1px;
-		background: color-mix(in oklab, var(--paper-card-border-soft) 60%, transparent);
+		content: none;
 	}
 
 	.home-latest-card {
@@ -247,6 +190,8 @@ function formatPostDate(date: Date) {
 	.home-latest-card__title {
 		display: block;
 		width: 100%;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	.home-latest-card__summary {
@@ -255,17 +200,20 @@ function formatPostDate(date: Date) {
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 		width: 100%;
+		min-width: 0;
 		font-family: var(--ui-font);
 		font-size: 0.7rem;
 		font-weight: 400;
 		letter-spacing: 0;
 		line-height: 1.5;
 		color: color-mix(in oklab, var(--text-color) 65%, var(--gray-color));
+		overflow-wrap: anywhere;
 	}
 
 	.home-latest-card small {
 		display: block;
 		width: 100%;
+		min-width: 0;
 		color: color-mix(in oklab, var(--gray-color) 72%, var(--paper-bg));
 		font-family: var(--field-font);
 		font-size: 0.58rem;
@@ -286,79 +234,6 @@ function formatPostDate(date: Date) {
 		transform: translateY(-1px);
 	}
 
-	.home-entry-list__items {
-		display: flex;
-		flex-direction: column;
-		gap: 0.18rem;
-		width: 100%;
-		min-width: 0;
-		flex: 1;
-	}
-
-	.home-entry-link {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.08rem;
-		position: relative;
-		padding: 0.5rem 1.1rem 0.5rem 0;
-		color: color-mix(in oklab, var(--text-color) 78%, var(--gray-color));
-		font-family: var(--field-font);
-		font-size: 0.76rem;
-		font-weight: 400;
-		letter-spacing: 0.02em;
-		line-height: 1.4;
-		text-decoration: none;
-		border-bottom: none !important;
-		background: none !important;
-		transition:
-			color 0.2s ease,
-			transform 0.2s ease;
-	}
-
-	.home-entry-link__arrow {
-		position: absolute;
-		right: 0;
-		top: 50%;
-		transform: translateY(-50%) translateX(-4px);
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.72rem;
-		font-weight: 400;
-		line-height: 1;
-		opacity: 0;
-		transition:
-			opacity 0.2s ease,
-			transform 0.2s ease,
-			color 0.2s ease;
-	}
-
-	.home-entry-link:hover {
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		transform: translateX(3px);
-	}
-
-	.home-entry-link:hover .home-entry-link__arrow {
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		opacity: 1;
-		transform: translateY(-50%) translateX(0);
-	}
-
-	.home-entry-link span,
-	.home-entry-link small {
-		display: block;
-	}
-
-	.home-entry-link small {
-		color: color-mix(in oklab, var(--gray-color) 72%, var(--paper-bg));
-		font-family: var(--ui-font);
-		font-size: 0.52rem;
-		font-weight: 400;
-		letter-spacing: 0.015em;
-		line-height: 1.35;
-		opacity: 0.48;
-	}
-
 	@keyframes home-fade-up {
 		from {
 			opacity: 0;
@@ -373,31 +248,20 @@ function formatPostDate(date: Date) {
 	@media (max-width: 760px) {
 		.home-index,
 		.home-board,
-		.home-latest,
-		.home-entry-list {
+		.home-latest {
 			max-width: 100%;
 			overflow-x: hidden;
 		}
 
-		.home-board {
-			grid-template-columns: 1fr;
-		}
-
-		.home-latest,
-		.home-entry-list {
+		.home-latest {
 			width: 100%;
 		}
 
-	.home-latest__items {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		grid-template-rows: none;
-	}
-
-		.home-entry-list__items {
-			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 0.42rem 1rem;
+		.home-latest__items {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-rows: none;
 		}
+
 	}
 
 	@media (max-width: 520px) {
@@ -414,10 +278,6 @@ function formatPostDate(date: Date) {
 			gap: 0.48rem;
 		}
 
-		.home-entry-list__items {
-			flex-direction: column;
-			gap: 0.18rem;
-		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
@@ -426,8 +286,7 @@ function formatPostDate(date: Date) {
 			animation: none;
 		}
 
-		.home-latest-card,
-		.home-entry-link {
+		.home-latest-card {
 			transition: none;
 		}
 	}
