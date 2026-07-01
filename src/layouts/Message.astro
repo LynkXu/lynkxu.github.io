@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import MagazineShell from './MagazineShell.astro';
+import ListingFrame from '../components/ListingFrame.astro';
 import Comments from '../components/Comments.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
@@ -11,9 +12,15 @@ const { title } = Astro.props;
 ---
 
 <MagazineShell title={title} description={title}>
-	<div class="message-card">
-		<Comments showLinuxDo={false} manualTwikooLoad={true} />
-	</div>
+	<ListingFrame
+		eyebrow="Leaves"
+		title={title}
+		description="Notes, messages, and small conversations left at the edge of the site."
+	>
+		<div class="message-card">
+			<Comments showLinuxDo={false} manualTwikooLoad={true} />
+		</div>
+	</ListingFrame>
 </MagazineShell>
 
 <style>

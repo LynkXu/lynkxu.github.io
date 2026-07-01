@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import { getCollection } from 'astro:content';
 import MagazineShell from './MagazineShell.astro';
+import ListingFrame from '../components/ListingFrame.astro';
 import { marked } from 'marked';
 import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 import fs from 'fs';
@@ -165,79 +166,86 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 </style>
 
 <MagazineShell title={title} description={title} className="memos-surface">
-	<div class="memos-layout">
-		<div class="memos-feed-column">
-			<div id='shuoshuo' class="memos-feed">
-				{
-					gossips.length === 0 ? (
-						<div class='empty-state'>No memos yet.</div>
-					) : (
-						pagedMemoPages.map(({ page, items }) => (
-							<div class="memos-page" data-page={page}>
-								<div class="memos-page-list" role="list">
-									{items.map((item) => {
-										const { gossip, attachments, dateLabel, time, index } = item;
-										return (
-											<article class='memo-item' data-index={index} role="listitem">
-												<a href="/" class="memo-avatar-link" aria-label="LynkXu">
-													<img src="/ava4.png" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
-												</a>
-												<div class='memo-body'>
-													<header class="memo-header">
-														<div class="memo-header-top">
-															<div class="memo-author-line">
-																<span class="memo-author">LynkXu</span>
-																{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
+	<ListingFrame
+		eyebrow="Notes"
+		title="Memos"
+		description={`${gossips.length} short notes, gathered by time.`}
+		bodyWidth="36rem"
+	>
+		<div class="memos-layout">
+			<div class="memos-feed-column">
+				<div id='shuoshuo' class="memos-feed">
+					{
+						gossips.length === 0 ? (
+							<div class='empty-state'>No memos yet.</div>
+						) : (
+							pagedMemoPages.map(({ page, items }) => (
+								<div class="memos-page" data-page={page}>
+									<div class="memos-page-list" role="list">
+										{items.map((item) => {
+											const { gossip, attachments, dateLabel, time, index } = item;
+											return (
+												<article class='memo-item' data-index={index} role="listitem">
+													<a href="/" class="memo-avatar-link" aria-label="LynkXu">
+														<img src="/ava4.png" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
+													</a>
+													<div class='memo-body'>
+														<header class="memo-header">
+															<div class="memo-header-top">
+																<div class="memo-author-line">
+																	<span class="memo-author">LynkXu</span>
+																	{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
+																</div>
+																<div class="memo-actions">
+																	{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
+																	<LikeButton id={gossip.data.slug} type="gossip" />
+																</div>
 															</div>
-															<div class="memo-actions">
-																{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
-																<LikeButton id={gossip.data.slug} type="gossip" />
+															<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
+																{dateLabel} · {time}
+															</time>
+														</header>
+
+														<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
+
+														{attachments.length > 0 && (
+															<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+																{attachments.slice(0, 4).map((media: any) => (
+																	<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
+																		<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
+																	</a>
+																))}
 															</div>
-														</div>
-														<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
-															{dateLabel} · {time}
-														</time>
-													</header>
-
-													<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
-
-													{attachments.length > 0 && (
-														<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-															{attachments.slice(0, 4).map((media: any) => (
-																<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
-																	<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
-																</a>
-															))}
-														</div>
-													)}
-												</div>
-											</article>
-										)
-									})}
+														)}
+													</div>
+												</article>
+											)
+										})}
+									</div>
 								</div>
-							</div>
-						))
-					)
-				}
+							))
+						)
+					}
+				</div>
+
+				{totalPages > 1 && (
+					<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
+						<div class='pagination-pages'>
+							{Array.from({ length: totalPages }, (_, index) => {
+								const pageNumber = index + 1;
+								return (
+									<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
+										{pageNumber}
+									</a>
+								);
+							})}
+						</div>
+					</nav>
+				)}
 			</div>
 
-			{totalPages > 1 && (
-				<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
-					<div class='pagination-pages'>
-						{Array.from({ length: totalPages }, (_, index) => {
-							const pageNumber = index + 1;
-							return (
-								<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
-									{pageNumber}
-								</a>
-							);
-						})}
-					</div>
-				</nav>
-			)}
 		</div>
-
-	</div>
+	</ListingFrame>
 </MagazineShell>
 
 <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>

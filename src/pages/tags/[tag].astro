@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import MagazineShell from '../../layouts/MagazineShell.astro';
+import ListingFrame from '../../components/ListingFrame.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import CategoryFilter from '../../components/CategoryFilter.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
@@ -48,52 +49,59 @@ const tagItems = Array.from(tagsMap.entries())
 ---
 
 <MagazineShell title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`}>
-	<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
+	<ListingFrame
+		eyebrow="Topic"
+		title={tag}
+		description={`${posts.length} ${posts.length === 1 ? 'entry' : 'entries'} filed under this topic.`}
+	>
+		<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
 
-	<div class="tag-entries">
-		<section class="tag-section" aria-labelledby={`tag-heading-${tag}`}>
-			<h2 class="tag-label" id={`tag-heading-${tag}`}>{tag}</h2>
-			<ul class="tag-list">
-				{
-					posts.map((post) => (
-						<li class="tag-item">
-							<time class="tag-date" datetime={post.data.pubDate.toISOString()}>
-								<FormattedDate date={post.data.pubDate} />
-							</time>
-							<a
-								href={`/blog/${post.data.slug ?? post.id}.html`}
-								class="tag-link"
-								transition:name={`post-title-${post.id}`}
-							>
-								{post.data.title}
-							</a>
-							{INCLUDE_DRAFTS && post.data.draft && (
-								<span class="draft-badge" aria-label="Draft">Draft</span>
-							)}
-						</li>
-					))
-				}
-			</ul>
-		</section>
-	</div>
+		<div class="tag-entries">
+			<section class="tag-section" aria-labelledby={`tag-heading-${tag}`}>
+				<h2 class="tag-label" id={`tag-heading-${tag}`}>{tag}</h2>
+				<ul class="tag-list">
+					{
+						posts.map((post) => (
+							<li class="tag-item">
+								<time class="tag-date" datetime={post.data.pubDate.toISOString()}>
+									<FormattedDate date={post.data.pubDate} />
+								</time>
+								<a
+									href={`/blog/${post.data.slug ?? post.id}.html`}
+									class="tag-link"
+									transition:name={`post-title-${post.id}`}
+								>
+									{post.data.title}
+								</a>
+								{INCLUDE_DRAFTS && post.data.draft && (
+									<span class="draft-badge" aria-label="Draft">Draft</span>
+								)}
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</div>
+	</ListingFrame>
 </MagazineShell>
 
 <style>
 	.tag-entries {
 		display: flex;
 		flex-direction: column;
-		gap: var(--blog-card-gap, 0.9rem);
+		gap: 0.68rem;
+		margin-top: 0.82rem;
 	}
 
 	.tag-section {
 		display: grid;
 		grid-template-columns: 4.5rem minmax(0, 1fr);
-		gap: clamp(0.85rem, 2vw, 1.1rem);
-		padding: clamp(0.85rem, 2.2vw, 1.05rem) clamp(1rem, 2.4vw, 1.3rem);
+		gap: clamp(0.78rem, 1.8vw, 1rem);
+		padding: clamp(0.72rem, 1.85vw, 0.92rem) clamp(0.82rem, 2.1vw, 1.05rem);
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
 		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
+		box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
 		transition: background 0.2s ease, border-color 0.2s ease;
 		animation: fade-up 0.5s ease-out both;
 	}
@@ -106,9 +114,9 @@ const tagItems = Array.from(tagsMap.entries())
 	.tag-label {
 		margin: 0;
 		font-family: var(--field-font);
-		font-size: 0.85rem;
+		font-size: 0.78rem;
 		font-weight: 500;
-		color: var(--heading-color);
+		color: color-mix(in oklab, var(--heading-color) 82%, var(--gray-color));
 		letter-spacing: 0.04em;
 		line-height: 1.4;
 		padding-top: 0.12rem;
@@ -125,9 +133,9 @@ const tagItems = Array.from(tagsMap.entries())
 	.tag-item {
 		display: flex;
 		align-items: baseline;
-		gap: 0.85rem;
-		padding: 0.45rem 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 45%, transparent);
+		gap: 0.78rem;
+		padding: 0.36rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 36%, transparent);
 		transition: background 0.15s ease;
 	}
 
@@ -142,7 +150,7 @@ const tagItems = Array.from(tagsMap.entries())
 	.tag-date {
 		font-family: var(--field-font);
 		font-size: 0.72rem;
-		color: var(--gray-color);
+		color: color-mix(in oklab, var(--gray-color) 82%, var(--paper-bg));
 		font-variant-numeric: tabular-nums;
 		letter-spacing: 0.02em;
 		flex-shrink: 0;
@@ -151,7 +159,7 @@ const tagItems = Array.from(tagsMap.entries())
 
 	.tag-link {
 		color: var(--heading-color);
-		font-size: 0.94rem;
+		font-size: 0.9rem;
 		font-weight: 500;
 		letter-spacing: -0.005em;
 		text-decoration: none;

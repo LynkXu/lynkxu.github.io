@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import MagazineShell from '../layouts/MagazineShell.astro';
+import ListingFrame from '../components/ListingFrame.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 
@@ -39,14 +40,7 @@ function formatPostDate(date: Date) {
 ---
 
 <MagazineShell title={SITE_TITLE} description={SITE_DESCRIPTION} className="home-index-layout">
-	<section class="home-index" aria-labelledby="home-title">
-		<div class="home-statement">
-			<h1 id="home-title">
-				<span>Do the right thing.</span>
-				<span>Do things right.</span>
-			</h1>
-		</div>
-
+	<ListingFrame eyebrow="Front page" title="Do the right thing. / Do things right." bodyWidth="40rem">
 		<div class="home-board">
 			<section class="home-latest" aria-labelledby="home-latest-title">
 				<div class="home-latest__head">
@@ -67,49 +61,10 @@ function formatPostDate(date: Date) {
 			</section>
 
 		</div>
-
-	</section>
+	</ListingFrame>
 </MagazineShell>
 
 <style>
-	.home-index {
-		display: flex;
-		flex-direction: column;
-		gap: clamp(var(--space-xl), 4vw, var(--space-2xl));
-		width: 100%;
-		padding: clamp(var(--space-xs), 1vw, var(--space-sm)) 0 clamp(var(--space-2xl), 7vw, var(--space-4xl));
-	}
-
-	.home-statement {
-		max-width: none;
-		animation: home-fade-up 0.5s ease-out both;
-	}
-
-	.home-statement h1 {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.18rem 0.45rem;
-		margin: 0;
-		font-family: var(--serif-font);
-		font-size: clamp(1.02rem, 1.9vw, 1.2rem);
-		font-weight: 500;
-		line-height: 1.36;
-		letter-spacing: -0.01em;
-		color: color-mix(in oklab, var(--heading-color) 72%, var(--gray-color));
-		text-wrap: balance;
-	}
-
-	.home-statement h1 span {
-		display: inline;
-	}
-
-	.home-statement h1 span + span::before {
-		content: "/";
-		margin-right: 0.45rem;
-		color: var(--faint-color);
-		font-size: 0.82em;
-	}
-
 	.home-board {
 		display: flex;
 		flex-direction: column;
@@ -246,7 +201,6 @@ function formatPostDate(date: Date) {
 	}
 
 	@media (max-width: 760px) {
-		.home-index,
 		.home-board,
 		.home-latest {
 			max-width: 100%;
@@ -265,14 +219,6 @@ function formatPostDate(date: Date) {
 	}
 
 	@media (max-width: 520px) {
-		.home-index {
-			gap: var(--space-lg);
-		}
-
-		.home-statement h1 {
-			font-size: 1.04rem;
-		}
-
 		.home-latest__items {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 0.48rem;
@@ -281,7 +227,6 @@ function formatPostDate(date: Date) {
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.home-statement,
 		.home-board {
 			animation: none;
 		}
