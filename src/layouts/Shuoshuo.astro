@@ -180,7 +180,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		<header class="memos-panel__header">
 			<p class="magazine-section-label">Timeline</p>
 			<h1 id="memos-title" class="sr-only">Memos</h1>
-			<p>Short notes gathered by time. Filters stay secondary.</p>
+			<p>Short notes gathered by time, with source and month context kept aside.</p>
 		</header>
 
 		<div class="memos-layout">
@@ -258,14 +258,16 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	</section>
 
 	<div slot="sidebar-extra" class="memos-rail">
-		<section class="magazine-rail-card memos-filter-card" aria-labelledby="memos-filter-title">
-			<p id="memos-filter-title" class="magazine-section-label">Filters</p>
-			<div class="memos-filter-chips" aria-label="Visual filters">
-				<span class="active">All</span>
-				<span>Local</span>
-				<span>Mastodon</span>
-				<span>Media</span>
-			</div>
+		<section class="magazine-rail-card memos-snapshot-card" aria-labelledby="memos-snapshot-title">
+			<p id="memos-snapshot-title" class="magazine-section-label">Snapshot</p>
+			<dl class="memos-stats-list">
+				{memoStats.map((item) => (
+					<div class="memos-stat-row">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
 		</section>
 
 		<section class="magazine-rail-card memos-month-card" aria-labelledby="memos-month-title">
@@ -416,7 +418,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.88rem;
-		font-weight: var(--weight-semibold);
+		font-weight: var(--weight-medium);
 		line-height: 1.5;
 	}
 
@@ -460,12 +462,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 0.75rem;
-		padding: 0.42rem 0;
+		padding: 0.58rem 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
+	.memos-stat-row:first-child {
+		padding-top: 0;
+		border-top: 0;
+	}
+
 	.memos-stat-row dt {
-		font-size: 0.66rem;
+		font-size: 0.8rem;
+		font-weight: var(--weight-medium);
 		line-height: 1.35;
 		color: var(--gray-color);
 		letter-spacing: 0.01em;
@@ -473,9 +481,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memos-stat-row dd {
 		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.8rem;
-		font-weight: var(--weight-medium);
+		font-family: var(--ui-font);
+		font-size: 0.92rem;
+		font-weight: var(--weight-semibold);
 		line-height: 1.25;
 		color: var(--heading-color);
 		font-variant-numeric: tabular-nums;
@@ -747,39 +755,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		margin-top: var(--space-md);
 	}
 
-	.memos-filter-card,
+	.memos-snapshot-card,
 	.memos-month-card,
 	.memos-source-card {
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
-	}
-
-	.memos-filter-chips {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.82rem;
-	}
-
-	.memos-filter-chips span {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 4.15rem;
-		min-height: 1.75rem;
-		padding: 0.25rem 0.75rem;
-		border-radius: 5px;
-		background: color-mix(in oklab, var(--paper-field-bg) 76%, var(--accent-soft-bg));
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 0.76rem;
-		font-weight: var(--weight-bold);
-		line-height: 1;
-	}
-
-	.memos-filter-chips span.active {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		background: color-mix(in oklab, var(--accent-soft-bg) 70%, var(--paper-card-bg));
 	}
 
 	.memos-month-list {

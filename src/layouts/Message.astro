@@ -15,7 +15,7 @@ const { title } = Astro.props;
 		<header class="message-panel__header">
 			<p class="magazine-section-label">Messages</p>
 			<h1 id="message-title" class="sr-only">Leaves</h1>
-			<p>Notes left by visitors. The input stays secondary.</p>
+			<p>Notes left by visitors. Comments load only when needed.</p>
 		</header>
 
 		<div class="message-comments">
@@ -27,14 +27,14 @@ const { title } = Astro.props;
 		<section class="magazine-rail-card message-summary-card" aria-labelledby="message-summary-title">
 			<p id="message-summary-title" class="magazine-section-label">Summary</p>
 			<div class="message-summary-card__count">
-				<strong>Leaves</strong>
-				<span>留言按需加载，减少不必要的评论流量请求。</span>
+				<strong>Guestbook</strong>
+				<span>留言区按需加载，先阅读页面，再决定是否展开评论流。</span>
 			</div>
 		</section>
 
 		<section class="magazine-rail-card message-note-card" aria-labelledby="message-note-title">
-			<p id="message-note-title" class="magazine-section-label">Leave a note</p>
-			<p>写下想说的话。输入区保持次级，不打断留言阅读。</p>
+			<p id="message-note-title" class="magazine-section-label">Write</p>
+			<p>跳到输入区域，写下想说的话。</p>
 			<a href="#twikoo-lazygate">Start writing</a>
 		</section>
 	</div>
@@ -42,7 +42,7 @@ const { title } = Astro.props;
 
 <style is:global>
 	.message-panel {
-		min-height: min(52rem, calc(100vh - 10rem));
+		min-height: min(40rem, calc(100vh - 10rem));
 	}
 
 	.message-panel__header {
@@ -54,7 +54,7 @@ const { title } = Astro.props;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.88rem;
-		font-weight: var(--weight-semibold);
+		font-weight: var(--weight-medium);
 		line-height: 1.5;
 	}
 
@@ -125,8 +125,8 @@ const { title } = Astro.props;
 
 	.message-summary-card__count strong {
 		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: 1.65rem;
-		font-weight: var(--weight-bold);
+		font-size: 1.35rem;
+		font-weight: var(--weight-semibold);
 		line-height: 1;
 	}
 
@@ -136,7 +136,7 @@ const { title } = Astro.props;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.9rem;
-		font-weight: var(--weight-semibold);
+		font-weight: var(--weight-medium);
 		line-height: 1.7;
 	}
 

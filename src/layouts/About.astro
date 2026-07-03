@@ -29,18 +29,42 @@ const { title } = Astro.props;
 	<div slot="sidebar-extra" class="about-rail">
 		<section class="magazine-rail-card about-now" aria-labelledby="about-now-title">
 			<p id="about-now-title" class="magazine-section-label">Now</p>
-			<h2>What I care about</h2>
-			<p>细节、工具、长期主义，以及如何让日常记录保持可回看。</p>
-			<strong>Shanghai · Fullstack Engineer · Training rhythm</strong>
+			<dl class="about-now-list">
+				<div>
+					<dt>Base</dt>
+					<dd>Shanghai</dd>
+				</div>
+				<div>
+					<dt>Work</dt>
+					<dd>Fullstack engineer</dd>
+				</div>
+				<div>
+					<dt>Writing</dt>
+					<dd>AI, blog systems, life notes</dd>
+				</div>
+				<div>
+					<dt>Sports</dt>
+					<dd>Marathon / Fitness / Cycling</dd>
+				</div>
+			</dl>
 		</section>
 
 		<section class="magazine-rail-card about-colophon-card" aria-labelledby="about-colophon-title">
-			<p id="about-colophon-title" class="magazine-section-label">Colophon</p>
-			<h2>About this blog</h2>
-			<p>
-				Astro 与 GitHub Pages 驱动。内容从 Obsidian、NeoDB、Strava 和 Mastodon 自动同步，
-				最后收束成可长期阅读的个人内容中枢。
-			</p>
+			<p id="about-colophon-title" class="magazine-section-label">Index</p>
+			<nav class="about-link-list" aria-label="About page shortcuts">
+				<a href="/blog">
+					<strong>Archive</strong>
+					<span>长文、记录和阶段性复盘</span>
+				</a>
+				<a href="/shuoshuo">
+					<strong>Memos</strong>
+					<span>短想法与 Mastodon 同步</span>
+				</a>
+				<a href="/sports">
+					<strong>Sports</strong>
+					<span>跑步、骑行和训练数据</span>
+				</a>
+			</nav>
 		</section>
 
 		<section class="magazine-rail-card about-support-card" aria-labelledby="about-support-title">
@@ -53,7 +77,7 @@ const { title } = Astro.props;
 
 <style is:global>
 	.about-profile {
-		min-height: min(52rem, calc(100vh - 10rem));
+		min-height: min(48rem, calc(100vh - 10rem));
 	}
 
 	.about-profile h1 {
@@ -99,7 +123,7 @@ const { title } = Astro.props;
 	}
 
 	.about-profile__facts {
-		margin-top: clamp(2.8rem, 8vw, 5.2rem);
+		margin-top: clamp(2.35rem, 6vw, 4.2rem);
 	}
 
 	.about-panels {
@@ -117,19 +141,19 @@ const { title } = Astro.props;
 		padding: clamp(1rem, 2.2vw, 1.35rem);
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 72%, var(--paper-card-bg));
+		background: color-mix(in oklab, var(--paper-field-bg) 54%, var(--paper-card-bg));
 	}
 
 	.about-panel__header {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 2.7rem;
-		height: 2.7rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: 5px;
-		background: var(--paper-card-bg);
-		color: var(--heading-color);
+		width: 2.3rem;
+		height: 2.3rem;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
 	}
 
 	.about-panel__header svg {
@@ -151,14 +175,14 @@ const { title } = Astro.props;
 		margin: 0;
 		color: var(--gray-color);
 		font-size: 0.88rem;
-		font-weight: var(--weight-semibold);
+		font-weight: var(--weight-medium);
 		line-height: 1.55;
 	}
 
 	.about-facts li:first-child {
 		color: var(--heading-color);
 		font-size: 1rem;
-		font-weight: var(--weight-bold);
+		font-weight: var(--weight-semibold);
 	}
 
 	.about-rail {
@@ -175,37 +199,92 @@ const { title } = Astro.props;
 		gap: 1rem;
 	}
 
-	.about-now h2,
-	.about-colophon-card h2,
 	.about-support-card h2 {
 		margin: 0;
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: clamp(1.35rem, 2.5vw, 1.85rem);
-		font-weight: var(--weight-bold);
+		font-size: 1.16rem;
+		font-weight: var(--weight-semibold);
 		line-height: 1.15;
 		letter-spacing: 0;
 	}
 
-	.about-now p,
-	.about-colophon-card p {
+	.about-now-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
 		margin: 0;
-		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		line-height: 1.8;
 	}
 
-	.about-now strong {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+	.about-now-list div {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: 0.85rem;
+		padding: 0.68rem 0;
+		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
+	}
+
+	.about-now-list div:first-child {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.about-now-list dt {
+		color: var(--gray-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
+	}
+
+	.about-now-list dd {
+		margin: 0;
+		color: var(--heading-color);
+		font-size: 0.86rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.45;
+	}
+
+	.about-link-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.12rem;
+	}
+
+	.about-link-list a {
+		display: flex;
+		flex-direction: column;
+		gap: 0.18rem;
+		padding: 0.62rem 0;
+		border: 0 !important;
+		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent) !important;
+		background: none !important;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.about-link-list a:first-child {
+		padding-top: 0;
+		border-top: 0 !important;
+	}
+
+	.about-link-list strong {
+		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: 0.88rem;
-		font-weight: var(--weight-bold);
-		line-height: 1.5;
+		font-size: 0.9rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.35;
+	}
+
+	.about-link-list span {
+		color: var(--gray-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
 	}
 
 	.about-support-card h2 {
-		font-size: 1.25rem;
+		font-size: 1.08rem;
 	}
 
 	.about-support-card h2 span {

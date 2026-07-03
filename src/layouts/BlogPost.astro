@@ -180,6 +180,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			--post-inline-padding: clamp(var(--space-lg), 2.4vw, var(--space-xl));
 			--post-rail-width: calc(70ch + var(--post-inline-padding) + var(--post-inline-padding));
 			padding: clamp(1.35rem, 3vw, 1.8rem) 0;
+			background: color-mix(in oklab, var(--paper-card-bg) 92%, var(--paper-field-bg));
+			box-shadow: none;
 		}
 
 		.post-header {
@@ -239,7 +241,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-header .post-title {
 			margin: 0;
 			font-family: var(--display-font);
-			font-size: clamp(2rem, 4.4vw, 2.8rem);
+			font-size: clamp(1.9rem, 4vw, 2.62rem);
 			font-weight: var(--weight-bold);
 			line-height: 1.08;
 			letter-spacing: 0;
@@ -368,8 +370,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			color: var(--blog-section-label-color);
 			font-family: var(--ui-font);
 			font-size: 0.9rem;
-			font-weight: var(--weight-bold);
-			letter-spacing: 0.045em;
+			font-weight: var(--weight-medium);
+			letter-spacing: 0.035em;
 			line-height: 1.1;
 			text-transform: uppercase;
 		}
@@ -377,8 +379,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.sidebar-toc-card .toc-header::after {
 			content: "";
 			display: block;
-			width: 2.75rem;
-			height: 2px;
+			width: 2.35rem;
+			height: 1px;
 			margin-top: 0.42rem;
 			border-radius: 999px;
 			background: currentColor;
@@ -443,7 +445,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			.post-meta-list dt {
 				color: var(--gray-color);
 				font-size: 0.82rem;
-				font-weight: var(--weight-semibold);
+				font-weight: var(--weight-medium);
 				line-height: 1.4;
 			}
 
@@ -451,7 +453,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				margin: 0;
 				color: var(--heading-color);
 				font-size: 0.9rem;
-				font-weight: var(--weight-bold);
+				font-weight: var(--weight-semibold);
 				line-height: 1.4;
 			}
 
