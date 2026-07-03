@@ -1,173 +1,233 @@
 ---
 import MagazineShell from './MagazineShell.astro';
+import SponsorAbout from '../components/SponsorAbout.astro';
 
 const { title } = Astro.props;
 ---
 
-<MagazineShell title={title} description={title}>
-	<div class="about-hero">
-		<div class="about-hero__copy">
-			<p class="about-hero__kicker">About Lynk</p>
-			<h1 class="about-hero__title">👋 Hi, I am Lynk</h1>
-			<div class="about-hero__intro">
-				<p class="about-hero__lines">
-					<span>一个偏乐观的悲观主义者。</span>
-					<span>一个偏现实的理想主义者。</span>
-					<span>一个想法很多，但却不善表达的人。</span>
-				</p>
-				<p>
-					我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。
-					很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
-				</p>
-			</div>
+<MagazineShell title={title} description={title} showProfileCard={false}>
+	<section class="about-profile magazine-panel" aria-labelledby="about-title">
+		<p class="magazine-section-label">Profile</p>
+		<h1 id="about-title">Hi, I am Lynk</h1>
+		<div class="about-profile__lead">
+			<p>
+				<span>一个偏乐观的悲观主义者。</span>
+				<span>一个偏现实的理想主义者。</span>
+				<span>一个想法很多，但却不善表达的人。</span>
+			</p>
 		</div>
-		<dl class="about-hero__meta" aria-label="Profile summary">
-			<div>
-				<dt>Base</dt>
-				<dd>Shanghai</dd>
-			</div>
-			<div>
-				<dt>Work</dt>
-				<dd>Fullstack Engineer</dd>
-			</div>
-			<div>
-				<dt>Rhythm</dt>
-				<dd>Training · Reading · Wandering</dd>
-			</div>
-		</dl>
-	</div>
-	<div class="about-sheet">
-		<slot />
+		<div class="about-profile__rule" aria-hidden="true"></div>
+		<p class="about-profile__note">
+			我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。
+			这个页面更像一张说明书：我是谁、我在做什么、以及这个博客如何被维护。
+		</p>
+		<div class="about-profile__facts">
+			<slot />
+		</div>
+	</section>
+
+	<div slot="sidebar-extra" class="about-rail">
+		<section class="magazine-rail-card about-now" aria-labelledby="about-now-title">
+			<p id="about-now-title" class="magazine-section-label">Now</p>
+			<h2>What I care about</h2>
+			<p>细节、工具、长期主义，以及如何让日常记录保持可回看。</p>
+			<strong>Shanghai · Fullstack Engineer · Training rhythm</strong>
+		</section>
+
+		<section class="magazine-rail-card about-colophon-card" aria-labelledby="about-colophon-title">
+			<p id="about-colophon-title" class="magazine-section-label">Colophon</p>
+			<h2>About this blog</h2>
+			<p>
+				Astro 与 GitHub Pages 驱动。内容从 Obsidian、NeoDB、Strava 和 Mastodon 自动同步，
+				最后收束成可长期阅读的个人内容中枢。
+			</p>
+		</section>
+
+		<section class="magazine-rail-card about-support-card" aria-labelledby="about-support-title">
+			<p id="about-support-title" class="magazine-section-label">Support</p>
+			<h2>Sponsor <span>赞助入口保持低优先级，不打断关于页的叙事。</span></h2>
+			<SponsorAbout />
+		</section>
 	</div>
 </MagazineShell>
 
 <style is:global>
-	/* About hero */
-	.about-hero {
-		position: relative;
-		display: flex;
-		flex-direction: column;
+	.about-profile {
+		min-height: min(52rem, calc(100vh - 10rem));
+	}
+
+	.about-profile h1 {
+		margin: clamp(1rem, 2vw, 1.35rem) 0 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: clamp(1.85rem, 4vw, 2.5rem);
+		font-weight: var(--weight-bold);
+		line-height: 1.15;
+		letter-spacing: 0;
+	}
+
+	.about-profile__lead {
+		margin-top: clamp(1.3rem, 3vw, 1.8rem);
+		color: var(--text-color);
+		font-family: var(--ui-font);
+		font-size: clamp(1rem, 1.7vw, 1.18rem);
+		font-weight: 760;
+		line-height: 1.85;
+	}
+
+	.about-profile__lead p,
+	.about-profile__note {
+		margin: 0;
+	}
+
+	.about-profile__lead span {
+		display: block;
+	}
+
+	.about-profile__rule {
+		height: 1px;
+		margin: clamp(2.3rem, 5vw, 3.3rem) 0 clamp(1.7rem, 3.8vw, 2.4rem);
+		background: var(--paper-card-border-soft);
+	}
+
+	.about-profile__note {
+		max-width: 45rem;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.95rem;
+		line-height: 1.85;
+	}
+
+	.about-profile__facts {
+		margin-top: clamp(2.8rem, 8vw, 5.2rem);
+	}
+
+	.about-panels {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(var(--space-md), 2vw, var(--space-lg));
+	}
+
+	.about-panel {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
+		align-items: start;
+		min-height: 6rem;
+		padding: clamp(1rem, 2.2vw, 1.35rem);
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 72%, var(--paper-card-bg));
+	}
+
+	.about-panel__header {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.7rem;
+		height: 2.7rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: 5px;
 		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		padding: clamp(1.15rem, 2.35vw, 1.55rem) clamp(1.05rem, 2.6vw, 1.55rem);
-		animation: fade-up 0.5s ease-out both;
-	}
-
-	.about-hero__copy {
-		max-width: none;
-	}
-
-	.about-hero__kicker {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: clamp(0.74rem, 1.05vw, 0.8rem);
-		font-weight: 650;
-		letter-spacing: 0.06em;
-		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
-	}
-
-	.about-hero__title {
-		margin: clamp(0.42rem, 1vw, 0.56rem) 0 0;
-		font-family: var(--serif-font);
-		font-size: clamp(1.34rem, 2.15vw, 1.68rem);
-		font-weight: 500;
 		color: var(--heading-color);
-		line-height: 1.26;
 	}
 
-	.about-hero__intro {
-		margin: clamp(0.56rem, 1.3vw, 0.7rem) 0 0;
-		font-size: clamp(0.88rem, 1.18vw, 0.92rem);
-		color: color-mix(in oklab, var(--text-color) 70%, var(--gray-color));
-		line-height: 1.66;
+	.about-panel__header svg {
+		width: 1rem;
+		height: 1rem;
 	}
 
-	.about-hero__intro p {
-		margin: 0;
-	}
-
-	.about-hero__intro p + p {
-		margin-top: 0.5rem;
-		max-width: 72ch;
-	}
-
-	.about-hero__lines {
+	.about-facts {
 		display: flex;
 		flex-direction: column;
-		gap: 0.08rem;
-	}
-
-	.about-hero__meta {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: clamp(0.75rem, 2.4vw, 1.15rem);
-		margin: clamp(0.7rem, 1.6vw, 0.86rem) 0 0;
-		padding: clamp(0.52rem, 1.25vw, 0.64rem) 0 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-hero__meta div {
-		min-width: 0;
-	}
-
-	.about-hero__meta dt,
-	.about-hero__meta dd {
+		gap: 0.34rem;
 		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--ui-font);
 	}
 
-	.about-hero__meta dt {
-		font-family: var(--field-font);
-		font-size: clamp(0.68rem, 1vw, 0.74rem);
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		color: color-mix(in oklab, var(--gray-color) 92%, var(--heading-color));
-		line-height: 1.28;
+	.about-facts li {
+		margin: 0;
+		color: var(--gray-color);
+		font-size: 0.88rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.55;
 	}
 
-	.about-hero__meta dd {
-		margin-top: 0.18rem;
-		font-family: var(--serif-font);
-		font-size: clamp(0.84rem, 1.2vw, 0.9rem);
-		font-weight: 400;
-		color: color-mix(in oklab, var(--heading-color) 84%, var(--text-color));
-		line-height: 1.28;
+	.about-facts li:first-child {
+		color: var(--heading-color);
+		font-size: 1rem;
+		font-weight: var(--weight-bold);
 	}
 
-	/* About sheet sits directly in magazine-main; let inner cards breathe */
-	.magazine-main > .about-sheet {
-		animation: fade-up 0.5s ease-out 0.08s both;
+	.about-rail {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(var(--space-md), 2vw, var(--space-lg));
 	}
 
-	.magazine-main > .about-sheet > :first-child {
-		animation: fade-up 0.5s ease-out 0.14s both;
+	.about-now,
+	.about-colophon-card,
+	.about-support-card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
 	}
 
-	.magazine-main > .about-sheet > :nth-child(2) {
-		animation: fade-up 0.5s ease-out 0.2s both;
+	.about-now h2,
+	.about-colophon-card h2,
+	.about-support-card h2 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+		font-weight: var(--weight-bold);
+		line-height: 1.15;
+		letter-spacing: 0;
 	}
 
-	.magazine-main > .about-sheet > :nth-child(3) {
-		animation: fade-up 0.5s ease-out 0.26s both;
+	.about-now p,
+	.about-colophon-card p {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		line-height: 1.8;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.about-hero,
-		.magazine-main > .about-sheet,
-		.magazine-main > .about-sheet > * {
-			animation: none;
-		}
+	.about-now strong {
+		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+		font-family: var(--ui-font);
+		font-size: 0.88rem;
+		font-weight: var(--weight-bold);
+		line-height: 1.5;
 	}
 
-	@media (max-width: 640px) {
-		.about-hero__meta {
+	.about-support-card h2 {
+		font-size: 1.25rem;
+	}
+
+	.about-support-card h2 span {
+		display: block;
+		margin-top: 0.35rem;
+		color: var(--gray-color);
+		font-size: 0.86rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.7;
+	}
+
+	.about-support-card .sponsor-about {
+		margin-top: 0;
+	}
+
+	@media (max-width: 680px) {
+		.about-panels {
 			grid-template-columns: 1fr;
-			gap: 0.85rem;
 		}
 
-		.about-hero__meta dd {
-			margin-top: 0.2rem;
+		.about-panel {
+			grid-template-columns: auto minmax(0, 1fr);
 		}
 	}
 </style>

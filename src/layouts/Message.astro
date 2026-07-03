@@ -10,26 +10,173 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 ---
 
-<MagazineShell title={title} description={title}>
-	<div class="message-card">
-		<Comments showLinuxDo={false} manualTwikooLoad={true} />
+<MagazineShell title={title} description={title} showProfileCard={false}>
+	<section class="message-panel magazine-panel" aria-labelledby="message-title">
+		<header class="message-panel__header">
+			<p class="magazine-section-label">Messages</p>
+			<h1 id="message-title" class="sr-only">Leaves</h1>
+			<p>Notes left by visitors. The input stays secondary.</p>
+		</header>
+
+		<div class="message-comments">
+			<Comments showLinuxDo={false} manualTwikooLoad={true} />
+		</div>
+	</section>
+
+	<div slot="sidebar-extra" class="message-rail">
+		<section class="magazine-rail-card message-summary-card" aria-labelledby="message-summary-title">
+			<p id="message-summary-title" class="magazine-section-label">Summary</p>
+			<div class="message-summary-card__count">
+				<strong>Leaves</strong>
+				<span>留言按需加载，减少不必要的评论流量请求。</span>
+			</div>
+		</section>
+
+		<section class="magazine-rail-card message-note-card" aria-labelledby="message-note-title">
+			<p id="message-note-title" class="magazine-section-label">Leave a note</p>
+			<p>写下想说的话。输入区保持次级，不打断留言阅读。</p>
+			<a href="#twikoo-lazygate">Start writing</a>
+		</section>
 	</div>
 </MagazineShell>
 
-<style>
-	.message-card {
-		padding: clamp(0.25rem, 1vw, 0.6rem) 0 clamp(1.8rem, 4vw, 2.6rem);
-		animation: fade-up 0.5s ease-out 0.1s both;
+<style is:global>
+	.message-panel {
+		min-height: min(52rem, calc(100vh - 10rem));
 	}
 
-	@keyframes fade-up {
-		from { opacity: 0; transform: translateY(10px); }
-		to { opacity: 1; transform: translateY(0); }
+	.message-panel__header {
+		margin-bottom: clamp(var(--space-lg), 3vw, var(--space-xl));
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.message-card {
-			animation: none;
+	.message-panel__header p:last-child {
+		margin: 0.72rem 0 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.88rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.5;
+	}
+
+	.message-comments {
+		border-radius: var(--paper-card-radius);
+	}
+
+	.message-comments .comments.single {
+		margin: 0;
+	}
+
+	.message-comments .twikoo-shell {
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 74%, var(--paper-card-bg));
+		overflow: hidden;
+	}
+
+	.message-comments .twikoo-lazygate {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-md);
+		padding: clamp(1rem, 2.3vw, 1.35rem);
+	}
+
+	.message-comments .twikoo-lazygate__meta {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.6;
+	}
+
+	.message-comments .twikoo-load-button {
+		min-width: 8rem;
+		min-height: 2.55rem;
+		border: 1px solid color-mix(in oklab, var(--accent-color) 70%, var(--paper-card-border-soft));
+		border-radius: 5px;
+		background: color-mix(in oklab, var(--accent-color) 82%, var(--heading-color));
+		color: var(--content-bg);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		font-weight: var(--weight-bold);
+		cursor: pointer;
+	}
+
+	.message-rail {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(var(--space-md), 2vw, var(--space-lg));
+	}
+
+	.message-summary-card,
+	.message-note-card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.message-summary-card__count {
+		display: flex;
+		flex-direction: column;
+		gap: 0.72rem;
+		font-family: var(--ui-font);
+	}
+
+	.message-summary-card__count strong {
+		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+		font-size: 1.65rem;
+		font-weight: var(--weight-bold);
+		line-height: 1;
+	}
+
+	.message-summary-card__count span,
+	.message-note-card p {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.7;
+	}
+
+	.message-note-card a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: fit-content;
+		min-height: 2.4rem;
+		padding: 0 1.2rem;
+		border: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 5px;
+		background: var(--paper-card-bg) !important;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.86rem;
+		font-weight: var(--weight-bold);
+		text-decoration: none;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	@media (max-width: 640px) {
+		.message-comments .twikoo-lazygate {
+			flex-direction: column;
+			align-items: stretch;
+		}
+
+		.message-comments .twikoo-load-button {
+			width: 100%;
 		}
 	}
 </style>

@@ -2,27 +2,24 @@
 import Base from './Base.astro';
 import { getCollection } from 'astro:content';
 import { filterDrafts } from '../utils/drafts';
-import { execSync } from 'node:child_process';
 
 interface Props {
 	title: string;
 	description: string;
 	className?: string;
+	showProfileCard?: boolean;
+	shellLabel?: string;
 }
 
-const { title, description, className = '' } = Astro.props;
+const {
+	title,
+	description,
+	className = '',
+	showProfileCard = true,
+	shellLabel = 'Blog',
+} = Astro.props;
+
 const currentPath = Astro.url.pathname;
-
-function getLastCommitDate(): string {
-	try {
-		return execSync('git log -1 --format=%cd --date=short', { encoding: 'utf-8' }).trim();
-	} catch {
-		return '';
-	}
-}
-
-const lastCommitDate = getLastCommitDate();
-
 const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
 
 const tagsMap = new Map<string, number>();
@@ -31,141 +28,382 @@ allPosts.forEach((post) => {
 		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
 	});
 });
+
 const sortedTags = Array.from(tagsMap.entries()).sort((a, b) => b[1] - a[1]);
 
 const navItems = [
 	{ href: '/blog', label: 'Archive' },
-	{ href: '/tags', label: 'Topics' },
 	{ href: '/shuoshuo', label: 'Memos' },
 	{ href: '/message', label: 'Leaves' },
 	{ href: '/about', label: 'About' },
+	{ href: '/index.xml', label: 'RSS' },
 ];
 
 function isActive(href: string) {
+	if (href === '/index.xml') return false;
 	if (href === '/') return currentPath === '/';
 	return currentPath === href || currentPath.startsWith(href + '/');
 }
 
-const normalizedPath = currentPath.replace(/\/+$/, '') || '/';
-const isPostPage = normalizedPath.startsWith('/blog/');
+const hasSidebarExtra = Astro.slots.has('sidebar-extra');
+const shouldRenderRail = showProfileCard || hasSidebarExtra;
 ---
 
-<Base title={title} description={description} className={`blog-surface-layout ${className}`}>
+<Base
+	title={title}
+	description={description}
+	className={`blog-surface-layout ${className}`}
+	hideHeader={true}
+>
 	<slot name="head" slot="head" />
-	<div class="magazine-shell">
-		<!-- 主内容 -->
+
+	<header class="magazine-topbar">
+		<a href="/" class="magazine-brand" aria-label="LynkXu / Blog">
+			<span class="magazine-brand__name">LynkXu</span>
+			<span class="magazine-brand__slash">/</span>
+			<span class="magazine-brand__label">{shellLabel}</span>
+		</a>
+
+		<nav class="magazine-nav" aria-label="Primary navigation">
+			{navItems.map((item) => (
+				<a
+					href={item.href}
+					class:list={['magazine-nav__link', { active: isActive(item.href) }]}
+					aria-current={isActive(item.href) ? 'page' : undefined}
+				>
+					{item.label}
+				</a>
+			))}
+		</nav>
+
+		<button
+			class="magazine-search"
+			type="button"
+			aria-label="Search articles"
+			onclick="window.openSearchModal && window.openSearchModal()"
+		>
+			<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+				<circle cx="11" cy="11" r="7"></circle>
+				<path d="m20 20-3.5-3.5"></path>
+			</svg>
+			<span>Search</span>
+			<kbd>⌘K</kbd>
+		</button>
+	</header>
+
+	<div class:list={['magazine-shell', { 'magazine-shell--no-rail': !shouldRenderRail }]}>
 		<main class="magazine-main">
 			<slot />
 		</main>
 
-		<!-- 右侧个人档案栏 -->
-		<aside class="profile-sidebar" aria-label="Author profile">
-			<div class="profile-card">
-				<a href="/" class="profile-avatar-link" aria-label="回到首页">
-					<img src="/ava4.png" alt="" class="profile-avatar" loading="eager" width="72" height="72" />
-				</a>
-				<div class="profile-info">
-					<h2 class="profile-name">LynkXu</h2>
-					<!-- <p class="profile-bio">在做一些旁注和思考</p> -->
-				</div>
-				<div class="profile-stats">
-					<div class="stat-item">
-						<span class="stat-num">{allPosts.length}</span>
-						<span class="stat-label">Entries</span>
-					</div>
-					<div class="stat-sep" aria-hidden="true">·</div>
-					<div class="stat-item">
-						<span class="stat-num">{sortedTags.length}</span>
-						<span class="stat-label">Topics</span>
-					</div>
-					<div class="stat-sep" aria-hidden="true">·</div>
-					<div class="stat-item">
-						<span class="stat-num">2021</span>
-						<span class="stat-label">Since</span>
-					</div>
-				</div>
-				<nav class="profile-nav" aria-label="Quick navigation">
-					{navItems.map((item) => (
-						<a
-							href={item.href}
-							class:list={['profile-nav-link', { active: isActive(item.href) }]}
-							aria-current={isActive(item.href) ? 'page' : undefined}
-						>
-							{item.label}
+		{shouldRenderRail && (
+			<aside class="magazine-rail" aria-label="Page context">
+				{showProfileCard && (
+					<div class="profile-card">
+						<a href="/" class="profile-avatar-link" aria-label="回到首页">
+							<img src="/ava4.png" alt="" class="profile-avatar" loading="eager" width="72" height="72" />
 						</a>
-					))}
-				</nav>
-			</div>
-			<slot name="sidebar-extra" />
-
-			{!isPostPage && lastCommitDate && (
-				<div class="site-meta-card">
-					<div class="site-meta-inner">
-						<div class="site-meta-social">
-							<a href="https://github.com/lynkxu" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-							</a>
-							<a href="https://x.com/lynk_xv" target="_blank" rel="noopener noreferrer" aria-label="X">
-								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-							</a>
-							<a href="https://mastodon.social/@lynkxu" target="_blank" rel="noopener noreferrer me" aria-label="Mastodon">
-								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23.193 7.879c0-5.206-3.411-6.732-3.411-6.732C18.062.357 15.108.025 12.041 0h-.076c-3.068.025-6.02.357-7.74 1.147 0 0-3.411 1.526-3.411 6.732 0 1.192-.023 2.618.014 4.129.124 5.092.934 10.109 5.641 11.355 2.17.574 4.034.695 5.535.612 2.722-.15 4.25-.972 4.25-.972l-.09-1.977s-1.945.615-4.13.54c-2.165-.074-4.449-.233-4.799-2.891a5.499 5.499 0 0 1-.048-.748s2.121.517 4.811.64c1.643.076 3.186-.097 4.747-.283 3.007-.355 5.622-2.186 5.95-3.85.519-2.665.475-6.507.475-6.507zm-4.024 6.709h-2.475V9.236c0-1.27-.535-1.914-1.604-1.914-1.183 0-1.776.766-1.776 2.28v3.456H10.87V9.602c0-1.514-.593-2.28-1.776-2.28-1.07 0-1.604.645-1.604 1.914v5.352H4.99V8.97c0-1.27.323-2.28.97-3.028.667-.748 1.54-1.133 2.62-1.133 1.252 0 2.2.481 2.825 1.442l.608 1.02.608-1.02c.625-.961 1.573-1.442 2.825-1.442 1.08 0 1.953.385 2.62 1.133.646.748.97 1.758.97 3.028v5.618z"/></svg>
-							</a>
-							<a href="mailto:xulinxiao@live.com" aria-label="Email">
-								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-							</a>
-							<a href="/index.xml" aria-label="RSS">
-								<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-							</a>
+						<div class="profile-info">
+							<h2 class="profile-name">LynkXu</h2>
+							<p class="profile-bio">细节控 / APP 体验家 / Web3 爱好 / AI 依赖</p>
+						</div>
+						<div class="profile-stats" aria-label="Blog statistics">
+							<div class="stat-item">
+								<span class="stat-num">{allPosts.length}</span>
+								<span class="stat-label">Entries</span>
+							</div>
+							<div class="stat-sep" aria-hidden="true">·</div>
+							<div class="stat-item">
+								<span class="stat-num">{sortedTags.length}</span>
+								<span class="stat-label">Topics</span>
+							</div>
+							<div class="stat-sep" aria-hidden="true">·</div>
+							<div class="stat-item">
+								<span class="stat-num">2021</span>
+								<span class="stat-label">Since</span>
+							</div>
 						</div>
 					</div>
-				</div>
-			)}
-		</aside>
+				)}
+				<slot name="sidebar-extra" />
+			</aside>
+		)}
 	</div>
 </Base>
 
 <style is:global>
 	.blog-surface-layout {
-		--blog-shell-width: 1000px;
-		--blog-shell-sidebar-width: 11rem;
-		--blog-shell-gap: clamp(var(--space-lg), 2.2vw, var(--space-xl));
+		--blog-shell-width: 1160px;
+		--blog-shell-sidebar-width: 18.5rem;
+		--blog-shell-gap: clamp(1.35rem, 2.5vw, 2rem);
+		--blog-card-gap: clamp(1.2rem, 2.4vw, 1.6rem);
+		--blog-section-label-color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
+		font-family: var(--ui-font);
 	}
 
-	/* ── Magazine Shell ── */
+	.blog-surface-layout.global-layout-card {
+		width: 100%;
+		max-width: none;
+		min-height: 100vh;
+		margin: 0;
+		padding: 0 0 var(--space-xl);
+		border: 0;
+		border-radius: 0;
+		background: var(--page-bg);
+		box-shadow: none;
+	}
+
+	.blog-surface-layout > main {
+		width: 100%;
+	}
+
+	body:has(.blog-surface-layout) {
+		overflow-x: clip;
+	}
+
+	.blog-surface-layout .sr-only {
+		font-size: 0;
+		line-height: 0;
+	}
+
+	.magazine-topbar {
+		display: grid;
+		grid-template-columns: minmax(12rem, 1fr) auto minmax(12rem, 1fr);
+		align-items: center;
+		gap: clamp(var(--space-md), 2vw, var(--space-xl));
+		width: 100%;
+		min-height: 4.9rem;
+		padding: 0 clamp(var(--space-lg), 4.6vw, var(--space-3xl));
+		border-bottom: 1px solid var(--paper-card-border-soft);
+		background: color-mix(in oklab, var(--content-bg) 86%, var(--page-bg));
+	}
+
+	.magazine-brand {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.28rem;
+		justify-self: start;
+		width: fit-content;
+		border: 0 !important;
+		background: none !important;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: clamp(1.22rem, 2vw, 1.5rem);
+		font-weight: var(--weight-bold);
+		letter-spacing: 0;
+		line-height: 1;
+		text-decoration: none;
+	}
+
+	.magazine-brand__name {
+		color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
+	}
+
+	.magazine-brand__slash {
+		color: color-mix(in oklab, var(--heading-color) 74%, var(--gray-color));
+	}
+
+	.magazine-brand__label {
+		color: var(--heading-color);
+	}
+
+	.magazine-nav {
+		display: flex;
+		align-items: stretch;
+		justify-content: center;
+		gap: clamp(1.35rem, 3vw, 2.35rem);
+		height: 100%;
+	}
+
+	.magazine-nav__link {
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		border: 0 !important;
+		background: none !important;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.92rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-decoration: none;
+		transition: color 0.18s ease;
+	}
+
+	.magazine-nav__link::before {
+		content: none !important;
+	}
+
+	.magazine-nav__link::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		height: 3px;
+		border-radius: 999px 999px 0 0;
+		background: var(--accent-color);
+		opacity: 0;
+		transform: scaleX(0.65);
+		transition: opacity 0.18s ease, transform 0.18s ease;
+	}
+
+	.magazine-nav__link:hover,
+	.magazine-nav__link.active {
+		color: color-mix(in oklab, var(--accent-color) 55%, var(--heading-color));
+	}
+
+	.magazine-nav__link.active::after {
+		opacity: 1;
+		transform: scaleX(1);
+	}
+
+	.magazine-search {
+		display: inline-flex;
+		align-items: center;
+		justify-self: end;
+		gap: 0.55rem;
+		min-width: 9.5rem;
+		height: 2.35rem;
+		padding: 0 0.9rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: 999px;
+		background: var(--paper-card-bg);
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.88rem;
+		line-height: 1;
+		box-shadow: none;
+		cursor: pointer;
+		transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
+	}
+
+	.magazine-search:hover {
+		border-color: var(--paper-hover-border);
+		background: var(--paper-hover-bg);
+		color: var(--heading-color);
+	}
+
+	.magazine-search svg {
+		flex: 0 0 auto;
+	}
+
+	.magazine-search kbd {
+		margin-left: auto;
+		border: 0;
+		background: transparent;
+		color: var(--faint-color);
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+	}
+
 	.magazine-shell {
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width);
 		gap: var(--blog-shell-gap);
 		width: min(var(--blog-shell-width), calc(100% - 2 * var(--page-inline)));
 		margin: 0 auto;
-		padding: clamp(0.5rem, 1.4vw, 0.85rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+		padding: clamp(1.6rem, 3.6vw, 2.4rem) 0 clamp(2.8rem, 5vw, 4rem);
 	}
 
-	/* ── Profile Sidebar ── */
-	.profile-sidebar {
+	.magazine-shell--no-rail {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.magazine-main {
+		display: flex;
+		flex-direction: column;
+		gap: var(--blog-card-gap, var(--space-lg));
+		min-width: 0;
+	}
+
+	.magazine-rail {
 		position: sticky;
-		top: 2rem;
+		top: var(--space-lg);
+		display: flex;
+		flex-direction: column;
+		gap: clamp(var(--space-md), 2vw, var(--space-lg));
 		align-self: start;
+		min-width: 0;
+	}
+
+	.magazine-panel,
+	.magazine-rail-card,
+	.profile-card {
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: var(--paper-card-radius);
+		background: var(--paper-card-bg);
+		box-shadow: var(--paper-card-shadow);
+	}
+
+	.magazine-panel {
+		padding: clamp(1.35rem, 2.8vw, 1.9rem);
+	}
+
+	.magazine-rail-card {
+		padding: clamp(1.1rem, 2.1vw, 1.4rem);
+	}
+
+	.magazine-section-label {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.42rem;
+		width: fit-content;
+		margin: 0;
+		color: var(--blog-section-label-color);
+		font-family: var(--ui-font);
+		font-size: 0.86rem;
+		font-weight: var(--weight-bold);
+		letter-spacing: 0.045em;
+		line-height: 1.1;
+		text-transform: uppercase;
+	}
+
+	.magazine-section-label::after {
+		content: "";
+		width: 2.75rem;
+		height: 2px;
+		border-radius: 999px;
+		background: currentColor;
+	}
+
+	.magazine-muted {
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		line-height: 1.65;
+	}
+
+	.magazine-chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 1.65rem;
+		padding: 0.22rem 0.72rem;
+		border: 0;
+		border-radius: 5px;
+		background: color-mix(in oklab, var(--accent-soft-bg) 54%, var(--paper-field-bg));
+		color: color-mix(in oklab, var(--accent-color) 65%, var(--heading-color));
+		font-family: var(--ui-font);
+		font-size: 0.76rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1;
+		text-decoration: none;
 	}
 
 	.profile-card {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.92rem;
-		padding: clamp(1.15rem, 2.4vw, 1.38rem) clamp(0.78rem, 1.5vw, 0.95rem);
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
+		gap: 0.9rem;
+		padding: clamp(1.25rem, 2.4vw, 1.55rem);
 		text-align: center;
-		min-height: 0;
 	}
 
 	.profile-avatar-link {
 		display: block;
-		border: none !important;
+		border: 0 !important;
 		background: none !important;
 		line-height: 0;
 		border-radius: 50%;
@@ -198,29 +436,29 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 
 	.profile-name {
 		margin: 0;
-		font-family: var(--serif-font);
-		font-size: 1.15rem;
-		font-weight: 500;
 		color: var(--heading-color);
-		letter-spacing: -0.01em;
+		font-family: var(--ui-font);
+		font-size: 1.2rem;
+		font-weight: var(--weight-bold);
+		line-height: 1.2;
 	}
 
 	.profile-bio {
 		margin: 0;
-		font-size: 0.82rem;
 		color: var(--gray-color);
-		line-height: 1.5;
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		line-height: 1.55;
 	}
 
 	.profile-stats {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 0.32rem;
+		gap: 0.36rem;
 		width: 100%;
-		padding: 0.5rem 0;
+		padding-top: 0.8rem;
 		border-top: 1px solid var(--paper-card-border-soft);
-		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
 	.stat-item {
@@ -231,65 +469,26 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 	}
 
 	.stat-num {
-		font-family: var(--field-font);
-		font-size: 0.92rem;
-		font-weight: 500;
-		color: var(--heading-color);
+		color: color-mix(in oklab, var(--accent-color) 70%, var(--heading-color));
+		font-family: var(--ui-font);
+		font-size: 0.96rem;
+		font-weight: var(--weight-bold);
 		font-variant-numeric: tabular-nums;
+		line-height: 1;
 	}
 
 	.stat-label {
-		font-size: 0.65rem;
 		color: var(--gray-color);
-		letter-spacing: 0.02em;
+		font-family: var(--ui-font);
+		font-size: 0.62rem;
+		letter-spacing: 0.01em;
 	}
 
 	.stat-sep {
-		color: var(--gray-color);
-		opacity: 0.35;
-		font-size: 0.8rem;
+		color: var(--faint-color);
+		font-size: 0.75rem;
 	}
 
-	.profile-nav {
-		display: flex;
-		flex-direction: column;
-		gap: 0.2rem;
-		width: 100%;
-	}
-
-	.profile-nav-link {
-		display: block;
-		padding: 0.42rem 0.6rem;
-		font-family: var(--field-font);
-		font-size: 0.8rem;
-		color: color-mix(in oklab, var(--text-color) 72%, var(--gray-color));
-		text-decoration: none;
-		border-radius: 4px;
-		transition: color 0.2s ease, background 0.2s ease;
-		border: none !important;
-		background: none !important;
-	}
-
-	.profile-nav-link:hover {
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		background: color-mix(in oklab, var(--accent-soft-bg) 50%, transparent) !important;
-	}
-
-	.profile-nav-link.active {
-		color: var(--heading-color);
-		font-weight: 500;
-		background: color-mix(in oklab, var(--accent-soft-bg) 70%, transparent) !important;
-	}
-
-	/* ── Main Content ── */
-	.magazine-main {
-		display: flex;
-		flex-direction: column;
-		gap: var(--blog-card-gap);
-		min-width: 0;
-	}
-
-	/* ── Animations ── */
 	@keyframes fade-up {
 		from {
 			opacity: 0;
@@ -301,42 +500,73 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 		}
 	}
 
-	.profile-card {
-		animation: fade-up 0.6s ease-out both;
+	.magazine-main > *,
+	.magazine-rail > * {
+		animation: fade-up 0.48s ease-out both;
 	}
 
-	/* ── Responsive: Tablet ── */
+	.magazine-rail > :nth-child(2) {
+		animation-delay: 0.07s;
+	}
+
+	.magazine-rail > :nth-child(3) {
+		animation-delay: 0.14s;
+	}
+
 	@media (max-width: 1023px) {
+		.magazine-topbar {
+			grid-template-columns: 1fr auto;
+			row-gap: 0.85rem;
+			min-height: 0;
+			padding-top: 1rem;
+			padding-bottom: 0.9rem;
+		}
+
+		.magazine-brand {
+			grid-column: 1;
+		}
+
+		.magazine-search {
+			grid-column: 2;
+			min-width: 0;
+		}
+
+		.magazine-nav {
+			grid-column: 1 / -1;
+			justify-content: flex-start;
+			gap: 1rem;
+			height: auto;
+			overflow-x: auto;
+			padding-bottom: 0.1rem;
+			flex-wrap: nowrap;
+		}
+
+		.magazine-nav__link {
+			min-height: 2rem;
+			flex: 0 0 auto;
+			font-size: 0.84rem;
+			white-space: nowrap;
+		}
+
 		.magazine-shell {
 			grid-template-columns: 1fr;
-			gap: 1.5rem;
-			padding-top: 0.8rem;
+			width: min(var(--content-width), calc(100% - 2 * var(--page-inline)));
 		}
 
-		.magazine-main,
-		.profile-sidebar {
-			width: min(100%, var(--content-width));
-			justify-self: center;
-		}
-
-		.profile-sidebar {
+		.magazine-rail {
 			position: static;
-			order: 1;
+			order: 2;
 		}
 
 		.profile-card {
 			flex-direction: row;
 			align-items: center;
 			text-align: left;
-			gap: 1.1rem;
-			padding: 1.15rem 1.25rem;
-			min-height: 0;
 		}
 
 		.profile-avatar {
 			width: 56px;
 			height: 56px;
-			flex-shrink: 0;
 		}
 
 		.profile-info {
@@ -346,139 +576,68 @@ const isPostPage = normalizedPath.startsWith('/blog/');
 
 		.profile-stats {
 			width: auto;
-			border: none;
-			padding: 0;
-			gap: 0.6rem;
-		}
-
-		.profile-nav {
-			display: none;
+			padding-top: 0;
+			border-top: 0;
 		}
 	}
 
-	/* ── Responsive: Mobile ── */
-	@media (max-width: 768px) {
+	@media (max-width: 640px) {
+		.magazine-topbar {
+			padding-right: var(--page-inline);
+			padding-left: var(--page-inline);
+		}
+
+		.magazine-search {
+			width: 2.35rem;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.magazine-search span,
+		.magazine-search kbd {
+			display: none;
+		}
+
 		.magazine-shell {
 			width: 100%;
+			padding-top: var(--space-lg);
+		}
+
+		.magazine-nav {
+			gap: 0.78rem;
+		}
+
+		.magazine-nav__link {
+			font-size: 0.72rem;
+		}
+
+		.magazine-panel,
+		.magazine-rail-card {
+			border-right: 0;
+			border-left: 0;
+			border-radius: 0;
 		}
 
 		.profile-card {
+			margin: 0 var(--page-inline);
 			flex-direction: column;
-			align-items: center;
 			text-align: center;
-			gap: 0.65rem;
-			padding: 1.35rem 1rem;
-		}
-
-		.profile-info {
-			min-width: auto;
-		}
-
-		.profile-avatar {
-			width: 56px;
-			height: 56px;
 		}
 
 		.profile-stats {
 			justify-content: center;
-			padding: 0.4rem 0;
-			border-top: 1px solid var(--paper-card-border-soft);
-			border-bottom: 1px solid var(--paper-card-border-soft);
 			width: 100%;
-			margin-top: 0.2rem;
+			padding-top: 0.72rem;
+			border-top: 1px solid var(--paper-card-border-soft);
 		}
-
-		.profile-name {
-			font-size: 1.05rem;
-		}
-
-		.profile-bio {
-			font-size: 0.78rem;
-		}
-
 	}
 
-	/* ── Reduced motion ── */
 	@media (prefers-reduced-motion: reduce) {
-		.profile-card {
+		.magazine-main > *,
+		.magazine-rail > *,
+		.profile-avatar {
 			animation: none;
-		}
-	}
-
-	/* ── Site Meta Card ── */
-	.site-meta-card {
-		margin-top: 0.5rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-card-bg) 96%, var(--accent-soft-bg));
-		box-shadow: none;
-		animation: fade-up 0.5s ease-out 0.2s both;
-		overflow: hidden;
-		transition: border-color 0.2s ease;
-	}
-
-	.site-meta-card:hover {
-		border-color: var(--paper-hover-border);
-	}
-
-	.site-meta-inner {
-		padding: 0.62rem 0.75rem;
-	}
-
-	.site-meta-header {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.5rem;
-		margin-bottom: 0.2rem;
-	}
-
-	.site-meta-heading {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.62rem;
-		font-weight: 500;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: color-mix(in oklab, var(--gray-color) 60%, var(--heading-color));
-	}
-
-	.site-meta-date {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.6rem;
-		color: var(--faint-color);
-		letter-spacing: 0.01em;
-		font-variant-numeric: tabular-nums;
-	}
-
-	.site-meta-social {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.site-meta-social a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--faint-color);
-		transition: opacity 0.2s ease, color 0.2s ease;
-	}
-
-	.site-meta-social a:hover {
-		opacity: 0.9;
-		color: var(--heading-color);
-	}
-
-	/* ── Header with sidebar: hide nav & brand on desktop ── */
-	@media (min-width: 1024px) {
-		.blog-surface-layout:has(.magazine-shell) > header nav.section-nav {
-			display: none;
-		}
-
-		.blog-surface-layout:has(.magazine-shell) > header .title {
-			display: none;
+			transition: none;
 		}
 	}
 </style>
