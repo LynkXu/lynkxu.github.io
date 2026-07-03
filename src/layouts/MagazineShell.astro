@@ -173,9 +173,14 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		gap: clamp(var(--space-md), 2vw, var(--space-xl));
 		width: 100%;
 		min-height: 4.9rem;
+		margin: 0;
 		padding: 0 clamp(var(--space-lg), 4.6vw, var(--space-3xl));
 		border-bottom: 1px solid var(--paper-card-border-soft);
 		background: color-mix(in oklab, var(--content-bg) 86%, var(--page-bg));
+	}
+
+	.global-layout-card .magazine-topbar {
+		margin-bottom: 0;
 	}
 
 	.magazine-brand {
