@@ -20,8 +20,24 @@ This document records the current redesign direction after the homepage iteratio
 - Section labels such as Latest and Index should be light, not headline-heavy.
 - Links and metadata should be correct and intentional; decorative or incorrect icons should be fixed rather than ignored.
 - Data stream surfaces should be softer than primary content cards.
-- Text weight in lower content modules should stay moderate. Heavy type is reserved for page identity and article titles.
+- Text weight should stay light-to-moderate across the site. Most UI emphasis should sit around medium weight; heavy type is rare and reserved for the strongest page identity moments only.
 - Spacing should breathe. If a section feels cramped, increase rhythm before adding more decoration.
+
+## Typography Weight Strategy
+
+- Body text uses regular weight.
+- Current global weight scale: medium `430`, semibold `500`, bold `560`, display `640`.
+- Secondary UI labels, metadata, rail content, and small navigation text should avoid bold weight.
+- Section labels should be light and quiet, not headline-heavy.
+- Article/list titles should usually use medium or semibold weight, not heavy bold.
+- Large display text may be stronger, but should still feel restrained rather than poster-like.
+- Avoid hard-coded high weights such as 700, 760, 800 unless there is a specific visual reason.
+- Use size and weight together to express hierarchy:
+  - Page identity: larger size, `560`, rarely `640`.
+  - Year/stat anchors: larger size, `560`.
+  - Article/card titles: medium size, `500`.
+  - Dates, tags, metadata, side-rail values: small-to-medium size, `430` or `500`.
+  - Supporting descriptions: regular body weight.
 
 ## Page-Level Requirements
 
@@ -63,6 +79,7 @@ This document records the current redesign direction after the homepage iteratio
 - Can the page be understood at default desktop size without the first screen feeling crowded?
 - Does the main content win over the right rail?
 - Are all section labels lighter than page titles and article titles?
+- Does any page feel globally too bold or visually loud because too many elements use semibold/bold?
 - Are there unnecessary nested borders or cards?
 - Is every right-rail item useful, current, and non-redundant?
 - Are summaries shown only where they help the user decide what to read?

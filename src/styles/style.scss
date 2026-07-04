@@ -38,10 +38,10 @@
   --lh-body: 1.82;
   --lh-loose: 1.92;
   --weight-regular: 400;
-  --weight-medium: 520;
-  --weight-semibold: 640;
-  --weight-bold: 740;
-  --weight-display: 820;
+  --weight-medium: 430;
+  --weight-semibold: 500;
+  --weight-bold: 560;
+  --weight-display: 640;
   --measure-readable: 70ch;
   --z-fab: 30;
   --z-modal: 80;
@@ -253,12 +253,11 @@ body {
     减轻“看起来像加粗”的观感：
     - 明确正文用常规字重
     - 禁止浏览器合成粗体/斜体（避免 fallback 字体缺字重时被“合成加粗”）
-    - macOS 下开启更偏“细”的抗锯齿方式
+    - macOS 下全局使用更轻的抗锯齿方式
   */
   font-synthesis: none;
-  /* 浅色模式使用默认平滑（看起来更粗），深色模式使用抗锯齿（看起来更细） */
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   @media (prefers-color-scheme: dark) {
     -webkit-font-smoothing: antialiased;

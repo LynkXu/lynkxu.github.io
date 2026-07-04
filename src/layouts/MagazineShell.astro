@@ -258,6 +258,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: color-mix(in oklab, var(--accent-color) 55%, var(--heading-color));
 	}
 
+	.magazine-nav__link.active {
+		font-weight: var(--weight-semibold);
+	}
+
 	.magazine-nav__link.active::after {
 		opacity: 1;
 		transform: scaleX(1);
@@ -358,9 +362,9 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		margin: 0;
 		color: var(--blog-section-label-color);
 		font-family: var(--ui-font);
-		font-size: 0.86rem;
+		font-size: 0.78rem;
 		font-weight: var(--weight-medium);
-		letter-spacing: 0.035em;
+		letter-spacing: 0.045em;
 		line-height: 1.1;
 		text-transform: uppercase;
 	}
@@ -377,6 +381,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.9rem;
+		font-weight: var(--weight-regular);
 		line-height: 1.65;
 	}
 
@@ -391,8 +396,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		background: color-mix(in oklab, var(--accent-soft-bg) 54%, var(--paper-field-bg));
 		color: color-mix(in oklab, var(--accent-color) 65%, var(--heading-color));
 		font-family: var(--ui-font);
-		font-size: 0.76rem;
-		font-weight: var(--weight-semibold);
+		font-size: 0.72rem;
+		font-weight: var(--weight-medium);
 		line-height: 1;
 		text-decoration: none;
 	}
@@ -444,7 +449,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: var(--heading-color);
 		font-family: var(--ui-font);
 		font-size: 1.2rem;
-		font-weight: var(--weight-bold);
+		font-weight: var(--weight-semibold);
 		line-height: 1.2;
 	}
 
@@ -477,7 +482,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: color-mix(in oklab, var(--accent-color) 70%, var(--heading-color));
 		font-family: var(--ui-font);
 		font-size: 0.96rem;
-		font-weight: var(--weight-bold);
+		font-weight: var(--weight-semibold);
 		font-variant-numeric: tabular-nums;
 		line-height: 1;
 	}
