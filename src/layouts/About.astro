@@ -8,7 +8,7 @@ const { title } = Astro.props;
 <MagazineShell title={title} description={title} showProfileCard={false}>
 	<section class="about-profile magazine-panel" aria-labelledby="about-title">
 		<p class="magazine-section-label">Profile</p>
-		<h1 id="about-title">Hi, I am Lynk</h1>
+		<h1 id="about-title">👋 Hi, I am Lynk</h1>
 		<div class="about-profile__lead">
 			<p>
 				<span>一个偏乐观的悲观主义者。</span>
@@ -18,11 +18,33 @@ const { title } = Astro.props;
 		</div>
 		<div class="about-profile__rule" aria-hidden="true"></div>
 		<p class="about-profile__note">
-			我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。
-			这个页面更像一张说明书：我是谁、我在做什么、以及这个博客如何被维护。
+			我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。 很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
 		</p>
-		<div class="about-profile__facts">
-			<slot />
+		<div class="about-profile__fragments" aria-label="Personal fragments">
+			<div>
+				<span>Input</span>
+				<strong>数码产品 / APP 细节 / AI 工具</strong>
+			</div>
+			<div>
+				<span>Pace</span>
+				<strong>力量训练 / 马拉松 / 骑行 / 长时间散步</strong>
+			</div>
+			<div>
+				<span>Temper</span>
+				<strong>长期主义 / 混沌中立 / 慢热表达</strong>
+			</div>
+		</div>
+		<div class="about-profile__sections" aria-label="About LynkXu's Blog">
+			<section>
+				<span>Writing</span>
+				<h2>这里会写什么</h2>
+				<p>长文、阶段性复盘、生活观察、工具体验、AI 学习，以及旅行和运动记录。内容不追热点，更像持续更新的个人索引。</p>
+			</section>
+			<section>
+				<span>System</span>
+				<h2>这个博客如何运转</h2>
+				<p>以 Astro 为骨架，连接 Obsidian、Mastodon、NeoDB、Strava 等数据流，把分散在各处的记录汇总到一个长期维护的地方。</p>
+			</section>
 		</div>
 	</section>
 
@@ -38,38 +60,12 @@ const { title } = Astro.props;
 					<dt>Work</dt>
 					<dd>Fullstack engineer</dd>
 				</div>
-				<div>
-					<dt>Writing</dt>
-					<dd>AI, blog systems, life notes</dd>
-				</div>
-				<div>
-					<dt>Sports</dt>
-					<dd>Marathon / Fitness / Cycling</dd>
-				</div>
 			</dl>
-		</section>
-
-		<section class="magazine-rail-card about-colophon-card" aria-labelledby="about-colophon-title">
-			<p id="about-colophon-title" class="magazine-section-label">Index</p>
-			<nav class="about-link-list" aria-label="About page shortcuts">
-				<a href="/blog">
-					<strong>Archive</strong>
-					<span>长文、记录和阶段性复盘</span>
-				</a>
-				<a href="/shuoshuo">
-					<strong>Memos</strong>
-					<span>短想法与 Mastodon 同步</span>
-				</a>
-				<a href="/sports">
-					<strong>Sports</strong>
-					<span>跑步、骑行和训练数据</span>
-				</a>
-			</nav>
 		</section>
 
 		<section class="magazine-rail-card about-support-card" aria-labelledby="about-support-title">
 			<p id="about-support-title" class="magazine-section-label">Support</p>
-			<h2>Sponsor <span>赞助入口保持低优先级，不打断关于页的叙事。</span></h2>
+			<!-- <h2>Sponsor <span>支持这个博客的长期维护。</span></h2> -->
 			<SponsorAbout />
 		</section>
 	</div>
@@ -77,26 +73,46 @@ const { title } = Astro.props;
 
 <style is:global>
 	.about-profile {
-		min-height: min(48rem, calc(100vh - 10rem));
+		display: grid;
+		grid-template-columns: minmax(0, 0.82fr) minmax(18rem, 1fr);
+		grid-template-areas:
+			"label label"
+			"title title"
+			"lead lead"
+			"note note"
+			"fragments fragments"
+			"rule rule"
+			"sections sections";
+		column-gap: clamp(1.4rem, 3vw, 2.4rem);
+		row-gap: clamp(0.92rem, 1.8vw, 1.24rem);
+		min-height: 0;
+		padding: clamp(1.2rem, 2.35vw, 1.62rem);
+	}
+
+	.about-profile > .magazine-section-label {
+		grid-area: label;
 	}
 
 	.about-profile h1 {
-		margin: clamp(1rem, 2vw, 1.35rem) 0 0;
+		grid-area: title;
+		margin: 0;
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: clamp(1.85rem, 4vw, 2.5rem);
+		font-size: clamp(1.78rem, 3.4vw, 2.35rem);
 		font-weight: var(--weight-bold);
 		line-height: 1.15;
 		letter-spacing: 0;
 	}
 
 	.about-profile__lead {
-		margin-top: clamp(1.3rem, 3vw, 1.8rem);
+		grid-area: lead;
+		margin-top: 0;
+		max-width: 48rem;
 		color: var(--text-color);
 		font-family: var(--ui-font);
-		font-size: clamp(1rem, 1.7vw, 1.18rem);
-		font-weight: var(--weight-semibold);
-		line-height: 1.85;
+		font-size: clamp(0.98rem, 1.35vw, 1.08rem);
+		font-weight: var(--weight-medium);
+		line-height: 1.65;
 	}
 
 	.about-profile__lead p,
@@ -109,95 +125,112 @@ const { title } = Astro.props;
 	}
 
 	.about-profile__rule {
+		grid-area: rule;
 		height: 1px;
-		margin: clamp(2.3rem, 5vw, 3.3rem) 0 clamp(1.7rem, 3.8vw, 2.4rem);
+		margin: 0.18rem 0 0;
 		background: var(--paper-card-border-soft);
 	}
 
 	.about-profile__note {
-		max-width: 45rem;
+		grid-area: note;
+		max-width: 47rem;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.95rem;
+		font-size: 0.9rem;
 		font-weight: var(--weight-regular);
-		line-height: 1.85;
+		line-height: 1.72;
 	}
 
-	.about-profile__facts {
-		margin-top: clamp(2.35rem, 6vw, 4.2rem);
-	}
-
-	.about-panels {
+	.about-profile__fragments {
+		grid-area: fragments;
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: clamp(var(--space-md), 2vw, var(--space-lg));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(0.58rem, 1.35vw, 0.82rem);
+		margin-top: 0.04rem;
 	}
 
-	.about-panel {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
-		gap: 1rem;
-		align-items: start;
-		min-height: 6rem;
-		padding: clamp(1rem, 2.2vw, 1.35rem);
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 54%, var(--paper-card-bg));
-	}
-
-	.about-panel__header {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.3rem;
-		height: 2.3rem;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
-	}
-
-	.about-panel__header svg {
-		width: 1rem;
-		height: 1rem;
-	}
-
-	.about-facts {
+	.about-profile__fragments div {
 		display: flex;
+		min-width: 0;
 		flex-direction: column;
-		gap: 0.34rem;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		font-family: var(--ui-font);
+		gap: 0.3rem;
+		padding: 0.68rem 0.72rem;
+		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 68%, transparent);
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 44%, transparent);
 	}
 
-	.about-facts li {
+	.about-profile__fragments span {
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.63rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.about-profile__fragments strong {
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.48;
+	}
+
+	.about-profile__sections {
+		grid-area: sections;
+		display: grid;
+		grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+		gap: clamp(1.1rem, 2vw, 1.45rem);
+	}
+
+	.about-profile__sections section {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 0.4rem;
+		padding: 0;
+	}
+
+	.about-profile__sections span {
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.64rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.about-profile__sections h2 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.98rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.35;
+		letter-spacing: 0;
+	}
+
+	.about-profile__sections p {
 		margin: 0;
 		color: var(--gray-color);
-		font-size: 0.88rem;
+		font-family: var(--ui-font);
+		font-size: 0.84rem;
 		font-weight: var(--weight-regular);
-		line-height: 1.55;
-	}
-
-	.about-facts li:first-child {
-		color: var(--heading-color);
-		font-size: 1rem;
-		font-weight: var(--weight-semibold);
+		line-height: 1.65;
 	}
 
 	.about-rail {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(var(--space-md), 2vw, var(--space-lg));
+		gap: clamp(1.1rem, 2vw, 1.35rem);
 	}
 
 	.about-now,
-	.about-colophon-card,
 	.about-support-card {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: 0.92rem;
 	}
 
 	.about-support-card h2 {
@@ -222,7 +255,7 @@ const { title } = Astro.props;
 		display: grid;
 		grid-template-columns: 4.5rem minmax(0, 1fr);
 		gap: 0.85rem;
-		padding: 0.68rem 0;
+		padding: 0.64rem 0;
 		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
 	}
 
@@ -246,44 +279,6 @@ const { title } = Astro.props;
 		line-height: 1.45;
 	}
 
-	.about-link-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.12rem;
-	}
-
-	.about-link-list a {
-		display: flex;
-		flex-direction: column;
-		gap: 0.18rem;
-		padding: 0.62rem 0;
-		border: 0 !important;
-		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent) !important;
-		background: none !important;
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.about-link-list a:first-child {
-		padding-top: 0;
-		border-top: 0 !important;
-	}
-
-	.about-link-list strong {
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.35;
-	}
-
-	.about-link-list span {
-		color: var(--gray-color);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
-	}
-
 	.about-support-card h2 {
 		font-size: 1.08rem;
 	}
@@ -292,22 +287,44 @@ const { title } = Astro.props;
 		display: block;
 		margin-top: 0.35rem;
 		color: var(--gray-color);
-		font-size: 0.86rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.7;
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.55;
 	}
 
 	.about-support-card .sponsor-about {
 		margin-top: 0;
 	}
 
-	@media (max-width: 680px) {
-		.about-panels {
+	@media (max-width: 860px) {
+		.about-profile {
+			grid-template-columns: 1fr;
+			grid-template-areas:
+				"label"
+				"title"
+				"lead"
+				"note"
+				"fragments"
+				"rule"
+				"sections";
+		}
+
+		.about-profile__note {
+			max-width: none;
+		}
+
+		.about-profile__fragments {
 			grid-template-columns: 1fr;
 		}
 
-		.about-panel {
-			grid-template-columns: auto minmax(0, 1fr);
+		.about-profile__sections {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 680px) {
+		.about-profile__lead span {
+			display: inline;
 		}
 	}
 </style>
