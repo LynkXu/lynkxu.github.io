@@ -95,6 +95,17 @@ const sourceStats = [
 	{ label: 'Local', value: fileGossips.length },
 	{ label: 'Mastodon', value: mastodonGossips.length },
 ];
+const monthStats = Array.from(
+	memoItems.reduce((map, item) => {
+		const entry = map.get(item.monthLabel) || { label: item.monthLabel, count: 0, media: 0 };
+		entry.count += 1;
+		if (item.attachments.length > 0) entry.media += 1;
+		map.set(item.monthLabel, entry);
+		return map;
+	}, new Map<string, { label: string; count: number; media: number }>())
+	.values()
+).slice(0, 4);
+const maxMonthCount = Math.max(1, ...monthStats.map((item) => item.count));
 const latestMemoLabel = formatMemoDate(latestMemo?.gossip.data.pubDate);
 const earliestMemoYear = earliestMemo?.year || '—';
 
@@ -164,9 +175,16 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
     }
 </style>
 
-<MagazineShell title={title} description={title} className="memos-surface">
-	<div class="memos-layout">
-		<div class="memos-feed-column">
+<MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
+	<section class="memos-panel" aria-labelledby="memos-title">
+		<header class="memos-panel__header">
+			<p class="magazine-section-label">Timeline</p>
+			<h1 id="memos-title" class="sr-only">Memos</h1>
+			<!-- <p>Short notes gathered by time, with source and month context kept aside.</p> -->
+		</header>
+
+		<div class="memos-layout">
+			<div class="memos-feed-column">
 			<div id='shuoshuo' class="memos-feed">
 				{
 					gossips.length === 0 ? (
@@ -236,7 +254,40 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 				</nav>
 			)}
 		</div>
+	</div>
+	</section>
 
+	<div slot="sidebar-extra" class="memos-rail">
+		<section class="magazine-rail-card memos-rail-card" aria-labelledby="memos-snapshot-title">
+			<p id="memos-snapshot-title" class="magazine-section-label">Snapshot</p>
+			<dl class="memos-summary-list">
+				{memoStats.map((item) => (
+					<div class="memos-stat-row">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
+			<p id="memos-month-title" class="magazine-section-label memos-subsection-label">Months</p>
+			<div class="memos-month-list">
+				{monthStats.map((month) => (
+					<div class="memos-month-row">
+						<strong>{month.label}</strong>
+						<span class="memos-month-meter" style={`--month-size: ${(month.count / maxMonthCount) * 100}%`} aria-hidden="true"></span>
+						<em>{month.count}</em>
+					</div>
+				))}
+			</div>
+			<p id="memos-source-title" class="magazine-section-label memos-subsection-label">Sources</p>
+			<dl class="memos-source-list">
+				{sourceStats.map((item) => (
+					<div class="memos-source-row">
+						<dt>{item.label}</dt>
+						<dd>{item.value}</dd>
+					</div>
+				))}
+			</dl>
+		</section>
 	</div>
 </MagazineShell>
 
@@ -327,28 +378,43 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style>
 	:global(.memos-surface) {
-		--blog-shell-width: 1000px;
-		--blog-shell-sidebar-width: 11rem;
-		--blog-shell-gap: var(--memos-column-gap);
-		--memos-feed-width: 36rem;
-		--memos-column-gap: clamp(var(--space-lg), 2.2vw, var(--space-xl));
-		--memos-section-gap: 0.72rem;
+		--blog-shell-width: 1160px;
+		--blog-shell-sidebar-width: 16.5rem;
+		--memos-feed-width: 100%;
+		--memos-section-gap: 0.58rem;
 	}
 
-	:global(.memos-surface .magazine-shell) {
-		grid-template-columns: minmax(0, 1fr) var(--blog-shell-sidebar-width);
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 	}
 
-	:global(.memos-surface .magazine-main) {
-		gap: var(--memos-section-gap);
+	.memos-panel {
+		min-height: min(52rem, calc(100vh - 10rem));
+	}
+
+	.memos-panel__header {
+		margin-bottom: clamp(var(--space-md), 2.4vw, var(--space-lg));
+	}
+
+	.memos-panel__header p:last-child {
+		margin: 0.58rem 0 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.84rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.5;
 	}
 
 	.memos-layout {
-		display: grid;
-		grid-template-columns: minmax(0, var(--memos-feed-width));
-		grid-template-areas: "feed";
-		justify-content: end;
-		align-items: start;
+		display: block;
 	}
 
 	.memos-feed-column {
@@ -359,37 +425,17 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		min-width: 0;
 	}
 
-	.memos-side-rail {
-		grid-area: stats;
-		position: sticky;
-		top: var(--space-lg);
+	.memos-rail {
 		display: flex;
 		flex-direction: column;
-		gap: calc(var(--blog-card-gap, 0.9rem) + 0.5rem);
-	}
-
-	.memos-stats-card,
-	.memos-source-card {
-		padding: 0.88rem 0.82rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-	}
-
-	.memos-stats-card {
-		animation: fade-up 0.5s ease-out 0.12s both;
-	}
-
-	.memos-source-card {
-		animation: fade-up 0.5s ease-out 0.18s both;
+		gap: 0.72rem;
 	}
 
 	.memos-stats-kicker {
 		margin: 0 0 0.62rem;
 		font-family: var(--field-font);
 		font-size: 0.68rem;
-		font-weight: 500;
+		font-weight: var(--weight-medium);
 		line-height: 1.35;
 		color: color-mix(in oklab, var(--heading-color) 80%, var(--gray-color));
 		letter-spacing: 0.04em;
@@ -402,17 +448,30 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		margin: 0;
 	}
 
+	.memos-summary-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.46rem 0.7rem;
+		margin: 0;
+		padding-top: 0.18rem;
+	}
+
 	.memos-stat-row {
 		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.75rem;
-		padding: 0.42rem 0;
-		border-top: 1px solid var(--paper-card-border-soft);
+		flex-direction: column;
+		gap: 0.14rem;
+		padding: 0;
+		border-top: 0;
+	}
+
+	.memos-stat-row:first-child {
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	.memos-stat-row dt {
-		font-size: 0.66rem;
+		font-size: 0.68rem;
+		font-weight: var(--weight-regular);
 		line-height: 1.35;
 		color: var(--gray-color);
 		letter-spacing: 0.01em;
@@ -420,27 +479,26 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memos-stat-row dd {
 		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.8rem;
-		font-weight: 500;
+		font-family: var(--ui-font);
+		font-size: 1.02rem;
+		font-weight: var(--weight-semibold);
 		line-height: 1.25;
-		color: var(--heading-color);
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
 		font-variant-numeric: tabular-nums;
 	}
 
 	.memos-source-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.38rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.42rem 0.72rem;
 		margin: 0;
 	}
 
 	.memos-source-row {
-		display: flex;
+		display: inline-flex;
 		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.7rem;
-		font-size: 0.64rem;
+		gap: 0.36rem;
+		font-size: 0.68rem;
 		line-height: 1.4;
 	}
 
@@ -453,7 +511,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		font-family: var(--field-font);
 		color: color-mix(in oklab, var(--heading-color) 84%, var(--gray-color));
 		font-size: 0.72rem;
-		font-weight: 500;
+		font-weight: var(--weight-regular);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -482,7 +540,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		flex-direction: column;
 		gap: var(--memos-section-gap);
 		margin-top: 0 !important;
-		animation: fade-up 0.5s ease-out 0.08s both;
 	}
 
 	.memos-page {
@@ -503,9 +560,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-item {
 		display: grid;
-		grid-template-columns: 2.25rem minmax(0, 1fr);
-		gap: 0.62rem;
-		padding: 0.74rem 0.82rem 0.64rem;
+		grid-template-columns: 2.1rem minmax(0, 1fr);
+		gap: 0.6rem;
+		padding: clamp(0.68rem, 1.35vw, 0.82rem);
 		position: relative;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
@@ -532,12 +589,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-avatar {
-		width: 36px;
-		height: 36px;
+		width: 32px;
+		height: 32px;
 		border-radius: 50%;
 		object-fit: cover;
-		border: 1px solid var(--paper-card-border-soft);
-		background: var(--paper-field-bg);
+		border: 0;
+		background: color-mix(in oklab, var(--accent-soft-bg) 72%, var(--paper-field-bg));
 	}
 
 	.memo-body {
@@ -551,7 +608,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 0.12rem;
-		margin-bottom: 0.16rem;
+		margin-bottom: 0.08rem;
 		line-height: 1.35;
 	}
 
@@ -568,14 +625,15 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: flex;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 0.4rem;
+		gap: 0.34rem;
 		min-width: 0;
 	}
 
 	.memo-author {
 		color: var(--heading-color);
-		font-size: 0.86rem;
-		font-weight: 600;
+		font-family: var(--ui-font);
+		font-size: 0.84rem;
+		font-weight: var(--weight-medium);
 	}
 
 	.memo-actions {
@@ -597,8 +655,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-source {
 		display: inline-flex;
 		align-items: center;
-		min-height: 1.05rem;
-		padding: 0 0.36rem;
+		min-height: 0.98rem;
+		padding: 0 0.32rem;
 		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
 		border-radius: 999px;
 		background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
@@ -610,7 +668,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-meta-time {
 		font-family: var(--field-font);
-		font-size: 0.64rem;
+		font-size: 0.66rem;
 		line-height: 1.35;
 		color: var(--gray-color);
 		font-variant-numeric: tabular-nums;
@@ -618,14 +676,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.89rem;
-		line-height: 1.58;
+		font-size: 0.88rem;
+		line-height: 1.54;
 		letter-spacing: 0;
-		margin-bottom: 0.16rem;
+		margin-bottom: 0.1rem;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.08rem 0;
+		margin: 0.04rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
@@ -638,7 +696,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-content :global(strong) {
 		color: var(--heading-color);
-		font-weight: 600;
+		font-weight: var(--weight-medium);
 	}
 
 	.memo-content :global(a) {
@@ -692,6 +750,63 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: flex;
 		justify-content: center;
 		margin-top: var(--space-md);
+	}
+
+	.memos-rail-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.72rem;
+	}
+
+	.memos-subsection-label {
+		margin-top: 0.68rem;
+	}
+
+	.memos-month-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.46rem;
+	}
+
+	.memos-month-row {
+		display: grid;
+		grid-template-columns: 4.3rem minmax(3.2rem, 1fr) auto;
+		align-items: center;
+		gap: 0.5rem;
+		font-family: var(--ui-font);
+	}
+
+	.memos-month-row strong {
+		color: var(--heading-color);
+		font-size: 0.8rem;
+		font-weight: var(--weight-regular);
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+	}
+
+	.memos-month-row em {
+		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+		font-size: 0.72rem;
+		font-style: normal;
+		font-weight: var(--weight-regular);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memos-month-meter {
+		position: relative;
+		height: 0.32rem;
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--accent-soft-bg) 46%, var(--paper-field-bg));
+		overflow: hidden;
+	}
+
+	.memos-month-meter::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: var(--month-size);
+		border-radius: inherit;
+		background: color-mix(in oklab, var(--accent-color) 82%, var(--heading-color));
 	}
 
 	.pagination-pages {
@@ -763,7 +878,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		:global(.memos-surface .magazine-shell),
 		:global(.memos-surface .magazine-main) {
 			gap: var(--memos-section-gap);
-			width: auto;
 		}
 
 		.memos-page {
@@ -771,27 +885,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		}
 
 		.memos-layout {
-			grid-template-columns: 1fr;
-			grid-template-areas: "feed";
-			justify-content: stretch;
-			width: min(100%, var(--memos-feed-width));
-			margin: 0 auto;
-		}
-
-		.memos-side-rail {
-			position: static;
-			min-height: 0;
-		}
-
-		.memos-stats-list {
-			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			column-gap: 0.85rem;
-		}
-
-		:global(.memos-surface .profile-sidebar) {
-			width: min(100%, var(--memos-feed-width));
-			justify-self: center;
+			width: 100%;
 		}
 
 		.memo-item {
@@ -819,10 +913,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		}
 	}
 
+	@media (max-width: 640px) {
+		.memos-panel {
+			padding-inline: var(--page-inline);
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.memos-feed,
-		.memos-stats-card,
-		.memos-source-card {
+		.memos-feed {
 			animation: none;
 		}
 	}

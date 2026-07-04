@@ -1,173 +1,537 @@
 ---
 import MagazineShell from './MagazineShell.astro';
+import SponsorAbout from '../components/SponsorAbout.astro';
 
 const { title } = Astro.props;
+
+const blogHistory = [
+	{ date: '2026.01', text: '接入 Memos、NeoDB、Strava 等数据流'},
+	{ date: '2026.01', text: '购买 lynkxu.com，并开始自建博客主题'},
+	{ date: '2025.06', text: '使用 Astro + astro-blog theme'},
+	{ date: '2024.06', text: '使用 Astro + Astro Theme Pure'},
+	{ date: '2022.09', text: '使用 Gatsby + breeze theme' },
+	{ date: '2020.09', text: '使用 GitHub Pages + Hexo' },
+	{ date: '2018.07', text: '因为备案要求过多以及考研，博客几乎荒废' },
+	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
+];
+
+const contactLinks = [
+	{ href: 'mailto:xulinxiao@live.com', label: 'Email', value: 'xulinxiao#live.com' },
+	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
+	// { href: 'https://x.com/lynkxu', label: 'X', value: '@lynkxu', external: true },
+];
 ---
 
-<MagazineShell title={title} description={title}>
-	<div class="about-hero">
-		<div class="about-hero__copy">
-			<p class="about-hero__kicker">About Lynk</p>
-			<h1 class="about-hero__title">👋 Hi, I am Lynk</h1>
-			<div class="about-hero__intro">
-				<p class="about-hero__lines">
-					<span>一个偏乐观的悲观主义者。</span>
-					<span>一个偏现实的理想主义者。</span>
-					<span>一个想法很多，但却不善表达的人。</span>
-				</p>
-				<p>
-					我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。
-					很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
-				</p>
+<MagazineShell title={title} description={title} showProfileCard={false}>
+	<section class="about-profile magazine-panel" aria-labelledby="about-title">
+		<p class="magazine-section-label">Profile</p>
+		<h1 id="about-title">👋 Hi, I am Lynk</h1>
+		<div class="about-profile__lead">
+			<p>
+				<span>一个偏乐观的悲观主义者。</span>
+				<span>一个偏现实的理想主义者。</span>
+				<span>一个想法很多，但却不善表达的人。</span>
+			</p>
+		</div>
+		<div class="about-profile__rule" aria-hidden="true"></div>
+		<p class="about-profile__note">
+			我尝试在这里记下自己的所思所想，生活需要记录，记录是为了更好地生活。 很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
+		</p>
+		<div class="about-profile__fragments" aria-label="Personal fragments">
+			<div>
+				<span>Input</span>
+				<strong>数码产品 / APP 细节 / AI 工具</strong>
+			</div>
+			<div>
+				<span>Pace</span>
+				<strong>力量训练 / 马拉松 / 骑行 / 长时间散步</strong>
+			</div>
+			<div>
+				<span>Temper</span>
+				<strong>长期主义 / 混沌中立 / 慢热表达</strong>
 			</div>
 		</div>
-		<dl class="about-hero__meta" aria-label="Profile summary">
-			<div>
-				<dt>Base</dt>
-				<dd>Shanghai</dd>
-			</div>
-			<div>
-				<dt>Work</dt>
-				<dd>Fullstack Engineer</dd>
-			</div>
-			<div>
-				<dt>Rhythm</dt>
-				<dd>Training · Reading · Wandering</dd>
-			</div>
-		</dl>
-	</div>
-	<div class="about-sheet">
-		<slot />
+		<div class="about-profile__sections" aria-label="About LynkXu's Blog">
+			<section class="about-module about-module--contact">
+				<div class="about-module__header">
+					<span>Contact</span>
+					<h2>联系我</h2>
+				</div>
+				<div class="about-module__links">
+					{contactLinks.map((link) => (
+						<a
+							href={link.href}
+							target={link.external ? '_blank' : undefined}
+							rel={link.external ? 'noopener noreferrer' : undefined}
+						>
+							<span>{link.label}</span>
+							<strong>{link.value}</strong>
+						</a>
+					))}
+				</div>
+			</section>
+
+			<section class="about-module about-module--support">
+				<div class="about-module__header">
+					<span>Support</span>
+					<h2>Sponsor</h2>
+				</div>
+				<SponsorAbout />
+			</section>
+		</div>
+	</section>
+
+	<div slot="sidebar-extra" class="about-rail">
+		<section class="magazine-rail-card about-now" aria-labelledby="about-now-title">
+			<p id="about-now-title" class="magazine-section-label">Now</p>
+			<dl class="about-now-list">
+				<div>
+					<dt>Base</dt>
+					<dd>Shanghai</dd>
+				</div>
+				<div>
+					<dt>Work</dt>
+					<dd>Fullstack engineer</dd>
+				</div>
+			</dl>
+		</section>
+
+		<section class="magazine-rail-card about-history-card" aria-labelledby="about-history-title">
+			<p id="about-history-title" class="magazine-section-label">Blog History</p>
+			<!-- <h2>博客历史</h2> -->
+			<!-- <p>从零散记录到个人内容中枢，这个站点也在跟着我的生活方式一起变化。</p> -->
+			<ol class="about-history-list">
+				{blogHistory.map((item) => (
+					<li>
+						<time>{item.date}</time>
+						<span>{item.text}</span>
+					</li>
+				))}
+			</ol>
+		</section>
 	</div>
 </MagazineShell>
 
 <style is:global>
-	/* About hero */
-	.about-hero {
+	.about-profile {
+		display: grid;
+		grid-template-columns: minmax(0, 0.82fr) minmax(18rem, 1fr);
+		grid-template-areas:
+			"label label"
+			"title title"
+			"lead lead"
+			"note note"
+			"fragments fragments"
+			"rule rule"
+			"sections sections";
+		column-gap: clamp(1.4rem, 3vw, 2.4rem);
+		row-gap: clamp(0.92rem, 1.8vw, 1.24rem);
+		min-height: 0;
+		padding: clamp(1.2rem, 2.35vw, 1.62rem);
+	}
+
+	.about-profile > .magazine-section-label {
+		grid-area: label;
+	}
+
+	.about-profile h1 {
+		grid-area: title;
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: clamp(1.78rem, 3.4vw, 2.35rem);
+		font-weight: var(--weight-bold);
+		line-height: 1.15;
+		letter-spacing: 0;
+	}
+
+	.about-profile__lead {
+		grid-area: lead;
+		margin-top: 0;
+		max-width: 48rem;
+		color: var(--text-color);
+		font-family: var(--ui-font);
+		font-size: clamp(0.98rem, 1.35vw, 1.08rem);
+		font-weight: var(--weight-medium);
+		line-height: 1.65;
+	}
+
+	.about-profile__lead p,
+	.about-profile__note {
+		margin: 0;
+	}
+
+	.about-profile__lead span {
+		display: block;
+	}
+
+	.about-profile__rule {
+		grid-area: rule;
+		height: 1px;
+		margin: 0.18rem 0 0;
+		background: var(--paper-card-border-soft);
+	}
+
+	.about-profile__note {
+		grid-area: note;
+		max-width: 47rem;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.9rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.72;
+	}
+
+	.about-profile__fragments {
+		grid-area: fragments;
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: clamp(0.58rem, 1.35vw, 0.82rem);
+		margin-top: 0.04rem;
+	}
+
+	.about-profile__fragments div {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 0.3rem;
+		padding: 0.68rem 0.72rem;
+		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 68%, transparent);
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 44%, transparent);
+	}
+
+	.about-profile__fragments span {
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.63rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.about-profile__fragments strong {
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.48;
+	}
+
+	.about-profile__sections {
+		grid-area: sections;
+		display: grid;
+		grid-template-columns: minmax(14rem, 0.86fr) minmax(18rem, 1.14fr);
+		gap: clamp(1.2rem, 2.4vw, 1.7rem);
+		align-items: start;
+	}
+
+	.about-module {
+		display: flex;
+		min-width: 0;
+		flex-direction: column;
+		gap: 0.72rem;
+		padding: 0;
+	}
+
+	.about-module__header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.34rem;
+	}
+
+	.about-module__header span {
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.64rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.about-module__header h2 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 1rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.35;
+		letter-spacing: 0;
+	}
+
+	.about-module p {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.84rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.65;
+	}
+
+	.about-module__links {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-top: 0.05rem;
+	}
+
+	.about-module__links a {
+		display: grid;
+		grid-template-columns: 4.2rem minmax(0, 1fr);
+		gap: 0.85rem;
+		align-items: center;
+		min-height: 2.25rem;
+		padding: 0.55rem 0.72rem;
+		border: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 54%, transparent) !important;
+		color: inherit;
+		font-family: var(--ui-font);
+		text-decoration: none;
+		transition:
+			border-color 0.18s ease,
+			background 0.18s ease;
+	}
+
+	.about-module__links span {
+		color: var(--gray-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
+	}
+
+	.about-module__links strong {
+		min-width: 0;
+		overflow: hidden;
+		color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
+		font-size: 0.84rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.about-module__links a:hover strong {
+		color: var(--heading-color);
+	}
+
+	.about-module__links a:hover {
+		border-color: var(--paper-hover-border) !important;
+		background: var(--paper-hover-bg) !important;
+	}
+
+	.about-module--support .sponsor-about {
+		margin: 0;
+		gap: 0.55rem;
+	}
+
+	.about-module--support .sponsor-fold {
+		margin: 0;
+		background: color-mix(in oklab, var(--paper-field-bg) 54%, transparent);
+	}
+
+	.about-module--support .sponsor-fold summary {
+		display: flex;
+		align-items: center;
+		min-height: 2.25rem;
+		padding: 0.55rem 0.72rem;
+		font-weight: var(--weight-medium);
+	}
+
+	.about-module--support .sponsor-grid,
+	.about-module--support .crypto-list {
+		animation: aboutSponsorReveal 0.18s ease-out;
+	}
+
+	@keyframes aboutSponsorReveal {
+		from {
+			opacity: 0;
+			transform: translateY(-0.25rem);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.about-rail {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.1rem, 2vw, 1.35rem);
+	}
+
+	.about-now,
+	.about-history-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.92rem;
+	}
+
+	.about-history-card h2,
+	.about-support-card h2 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 1.16rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.15;
+		letter-spacing: 0;
+	}
+
+	.about-history-card h2 {
+		font-size: 1rem;
+	}
+
+	.about-history-card p {
+		margin: 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.8rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.62;
+	}
+
+	.about-history-list {
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
+		gap: 0.18rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		font-family: var(--ui-font);
+	}
+
+	.about-history-list::before {
+		position: absolute;
+		top: 1.05rem;
+		bottom: 1.05rem;
+		left: 4.08rem;
+		width: 1px;
+		background: color-mix(in oklab, var(--accent-color) 36%, var(--paper-card-border-soft));
+		content: "";
+	}
+
+	.about-history-list li {
+		position: relative;
+		display: grid;
+		grid-template-columns: 3.35rem minmax(0, 1fr);
+		gap: 1.35rem;
+		align-items: start;
+		padding: 0.42rem 0;
+	}
+
+	.about-history-list li::before {
+		position: absolute;
+		top: 0.9rem;
+		left: 3.88rem;
+		z-index: 1;
+		width: 0.42rem;
+		height: 0.42rem;
+		border: 1px solid color-mix(in oklab, var(--accent-color) 72%, var(--paper-card-bg));
+		border-radius: 999px;
 		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		padding: clamp(1.15rem, 2.35vw, 1.55rem) clamp(1.05rem, 2.6vw, 1.55rem);
-		animation: fade-up 0.5s ease-out both;
+		content: "";
 	}
 
-	.about-hero__copy {
-		max-width: none;
+	.about-history-list time {
+		color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.55;
+		white-space: nowrap;
 	}
 
-	.about-hero__kicker {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: clamp(0.74rem, 1.05vw, 0.8rem);
-		font-weight: 650;
-		letter-spacing: 0.06em;
-		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
+	.about-history-list span {
+		color: var(--text-color);
+		font-size: 0.8rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.58;
 	}
 
-	.about-hero__title {
-		margin: clamp(0.42rem, 1vw, 0.56rem) 0 0;
-		font-family: var(--serif-font);
-		font-size: clamp(1.34rem, 2.15vw, 1.68rem);
-		font-weight: 500;
-		color: var(--heading-color);
-		line-height: 1.26;
-	}
-
-	.about-hero__intro {
-		margin: clamp(0.56rem, 1.3vw, 0.7rem) 0 0;
-		font-size: clamp(0.88rem, 1.18vw, 0.92rem);
-		color: color-mix(in oklab, var(--text-color) 70%, var(--gray-color));
-		line-height: 1.66;
-	}
-
-	.about-hero__intro p {
-		margin: 0;
-	}
-
-	.about-hero__intro p + p {
-		margin-top: 0.5rem;
-		max-width: 72ch;
-	}
-
-	.about-hero__lines {
+	.about-now-list {
 		display: flex;
 		flex-direction: column;
-		gap: 0.08rem;
-	}
-
-	.about-hero__meta {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: clamp(0.75rem, 2.4vw, 1.15rem);
-		margin: clamp(0.7rem, 1.6vw, 0.86rem) 0 0;
-		padding: clamp(0.52rem, 1.25vw, 0.64rem) 0 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-hero__meta div {
-		min-width: 0;
-	}
-
-	.about-hero__meta dt,
-	.about-hero__meta dd {
+		gap: 0;
 		margin: 0;
+		font-family: var(--ui-font);
 	}
 
-	.about-hero__meta dt {
-		font-family: var(--field-font);
-		font-size: clamp(0.68rem, 1vw, 0.74rem);
-		font-weight: 500;
-		letter-spacing: 0.04em;
-		color: color-mix(in oklab, var(--gray-color) 92%, var(--heading-color));
-		line-height: 1.28;
+	.about-now-list div {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: 0.85rem;
+		padding: 0.64rem 0;
+		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
 	}
 
-	.about-hero__meta dd {
-		margin-top: 0.18rem;
-		font-family: var(--serif-font);
-		font-size: clamp(0.84rem, 1.2vw, 0.9rem);
-		font-weight: 400;
-		color: color-mix(in oklab, var(--heading-color) 84%, var(--text-color));
-		line-height: 1.28;
+	.about-now-list div:first-child {
+		padding-top: 0;
+		border-top: 0;
 	}
 
-	/* About sheet sits directly in magazine-main; let inner cards breathe */
-	.magazine-main > .about-sheet {
-		animation: fade-up 0.5s ease-out 0.08s both;
+	.about-now-list dt {
+		color: var(--gray-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
 	}
 
-	.magazine-main > .about-sheet > :first-child {
-		animation: fade-up 0.5s ease-out 0.14s both;
+	.about-now-list dd {
+		margin: 0;
+		color: var(--heading-color);
+		font-size: 0.86rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.45;
 	}
 
-	.magazine-main > .about-sheet > :nth-child(2) {
-		animation: fade-up 0.5s ease-out 0.2s both;
+	.about-support-card h2 {
+		font-size: 1.08rem;
 	}
 
-	.magazine-main > .about-sheet > :nth-child(3) {
-		animation: fade-up 0.5s ease-out 0.26s both;
+	.about-support-card h2 span {
+		display: block;
+		margin-top: 0.35rem;
+		color: var(--gray-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.55;
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.about-hero,
-		.magazine-main > .about-sheet,
-		.magazine-main > .about-sheet > * {
-			animation: none;
-		}
+	.about-support-card .sponsor-about {
+		margin-top: 0;
 	}
 
-	@media (max-width: 640px) {
-		.about-hero__meta {
+	@media (max-width: 860px) {
+		.about-profile {
 			grid-template-columns: 1fr;
-			gap: 0.85rem;
+			grid-template-areas:
+				"label"
+				"title"
+				"lead"
+				"note"
+				"fragments"
+				"rule"
+				"sections";
 		}
 
-		.about-hero__meta dd {
-			margin-top: 0.2rem;
+		.about-profile__note {
+			max-width: none;
+		}
+
+		.about-profile__fragments {
+			grid-template-columns: 1fr;
+		}
+
+		.about-profile__sections {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 680px) {
+		.about-profile__lead span {
+			display: inline;
 		}
 	}
 </style>

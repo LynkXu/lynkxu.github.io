@@ -21,169 +21,362 @@ const years = Object.keys(postsByYear)
 	.map(Number)
 	.sort((a, b) => b - a);
 
+const tagsMap = new Map<string, number>();
+posts.forEach((post) => {
+	(post.data.tags || []).forEach((tag) => {
+		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+	});
+});
+
+const tags = Array.from(tagsMap.entries())
+	.map(([name, count]) => ({ name, count, href: `/tags/${name}/` }))
+	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+
 function getArchiveDate(date: Date) {
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const day = String(date.getDate()).padStart(2, '0');
 	return `${month}.${day}`;
 }
+
+function getPostHref(post: (typeof posts)[number]) {
+	return `/blog/${post.data.slug ?? post.id}.html`;
+}
+
 ---
 
-<MagazineShell title='Archive' description={SITE_DESCRIPTION}>
-	<div class="archive-entries">
-		{
-			years.map((year) => (
-				<section class="year-section" aria-labelledby={`archive-year-${year}`}>
-					<h2 class="year-label" id={`archive-year-${year}`}>{year}</h2>
-					<ul class="year-list">
-						{postsByYear[year].map((post) => (
-							<li class="year-item">
-								<time class="year-date" datetime={post.data.pubDate.toISOString()}>
-									{getArchiveDate(post.data.pubDate)}
-								</time>
-								<a
-									href={`/blog/${post.data.slug ?? post.id}.html`}
-									class="year-link"
-									transition:name={`post-title-${post.id}`}
-								>
-									{post.data.title}
-								</a>
-								{INCLUDE_DRAFTS && post.data.draft && (
-									<span class="draft-badge" aria-label="Draft">Draft</span>
-								)}
-							</li>
-						))}
+<MagazineShell title='Archive' description={SITE_DESCRIPTION} className="archive-layout" showProfileCard={false}>
+	<section class="archive-board magazine-panel" aria-labelledby="archive-title">
+		<header class="archive-board__header">
+			<div>
+				<p class="magazine-section-label">Articles</p>
+				<h1 id="archive-title" class="sr-only">Archive</h1>
+				<p class="archive-board__intro">{posts.length} entries, filed by year. Tags stay secondary.</p>
+			</div>
+		</header>
+
+		<div class="archive-ledger" role="list">
+			{years.map((year) => (
+				<section class="archive-year" aria-labelledby={`archive-year-${year}`} role="listitem">
+					<h2 id={`archive-year-${year}`} class="archive-year__label">{year}</h2>
+					<ul class="archive-year__posts">
+						{postsByYear[year].map((post) => {
+							const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
+							return (
+								<li class="archive-entry">
+									<time class="archive-entry__date" datetime={post.data.pubDate.toISOString()}>
+										{getArchiveDate(post.data.pubDate)}
+									</time>
+									<div class="archive-entry__main">
+										<a
+											href={getPostHref(post)}
+											class="archive-entry__title"
+											transition:name={`post-title-${post.id}`}
+										>
+											{post.data.title}
+										</a>
+									</div>
+									<div class="archive-entry__meta">
+										{primaryTag && <a class="magazine-chip" href={`/tags/${primaryTag}/`}>{primaryTag}</a>}
+										{INCLUDE_DRAFTS && post.data.draft && (
+											<span class="draft-badge" aria-label="Draft">Draft</span>
+										)}
+									</div>
+								</li>
+							)
+						})}
 					</ul>
 				</section>
-			))
-		}
+			))}
+		</div>
+	</section>
+
+	<div slot="sidebar-extra" class="archive-rail">
+		<section class="magazine-rail-card archive-rail-card" aria-labelledby="archive-tags-title">
+			<p id="archive-tags-title" class="magazine-section-label">Tags</p>
+			<div class="archive-tag-cloud">
+				{tags.slice(0, 10).map((tag) => (
+					<a href={tag.href} class="archive-tag-chip">
+						<span>{tag.name}</span>
+					</a>
+				))}
+			</div>
+			<div class="archive-summary" aria-label="Archive summary">
+				<span><strong>{posts.length}</strong> entries</span>
+				<span><strong>{tags.length}</strong> topics</span>
+				<span>since {years[years.length - 1]}</span>
+			</div>
+			<p id="archive-index-title" class="magazine-section-label archive-index-label">Years</p>
+			<nav class="archive-year-index" aria-label="Archive years">
+				{years.map((year) => (
+					<a href={`#archive-year-${year}`}>
+						<strong>{year}</strong>
+						<span>{postsByYear[year].length} {postsByYear[year].length === 1 ? 'entry' : 'entries'}</span>
+					</a>
+				))}
+			</nav>
+		</section>
 	</div>
 </MagazineShell>
 
 <style>
-	.archive-entries {
+	:global(.archive-layout) {
+		--blog-shell-sidebar-width: 16.5rem;
+	}
+
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.archive-board {
+		min-height: min(50rem, calc(100vh - 10rem));
+	}
+
+	.archive-board__header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--space-lg);
+		margin-bottom: clamp(var(--space-md), 2.4vw, var(--space-lg));
+	}
+
+	.archive-board__intro {
+		margin: 0.58rem 0 0;
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.84rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.5;
+	}
+
+	.archive-ledger {
 		display: flex;
 		flex-direction: column;
-		gap: var(--blog-card-gap, 0.9rem);
+		gap: 0.42rem;
 	}
 
-	.year-section {
+	.archive-year {
 		display: grid;
-		grid-template-columns: 4.5rem minmax(0, 1fr);
-		gap: clamp(0.85rem, 2vw, 1.1rem);
-		padding: clamp(0.85rem, 2.2vw, 1.05rem) clamp(1rem, 2.4vw, 1.3rem);
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		transition: background 0.2s ease, border-color 0.2s ease;
-		animation: fade-up 0.5s ease-out both;
+		grid-template-columns: 4.35rem minmax(0, 1fr);
+		gap: var(--space-md);
 	}
 
-	.year-section:hover {
-		background: var(--paper-hover-bg);
-		border-color: var(--paper-hover-border);
+	.archive-year + .archive-year {
+		margin-top: 0.24rem;
 	}
 
-	.year-label {
+	.archive-year__label {
+		position: sticky;
+		top: calc(var(--space-lg) + 5rem);
+		align-self: start;
 		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.85rem;
-		font-weight: 500;
-		color: var(--heading-color);
-		letter-spacing: 0.04em;
-		line-height: 1.4;
-		padding-top: 0.12rem;
+		color: color-mix(in oklab, var(--accent-color) 64%, var(--heading-color));
+		font-family: var(--ui-font);
+		font-size: clamp(1.3rem, 2.25vw, 1.5rem);
+		font-weight: var(--weight-semibold);
+		letter-spacing: 0;
+		line-height: 1;
 	}
 
-	.year-list {
-		list-style: none;
+	.archive-year__posts {
+		display: flex;
+		flex-direction: column;
 		margin: 0;
 		padding: 0;
+		list-style: none;
+	}
+
+	.archive-entry {
+		display: grid;
+		grid-template-columns: 3.05rem minmax(0, 1fr) minmax(3.6rem, auto);
+		align-items: center;
+		gap: var(--space-xs);
+		min-width: 0;
+		padding: 0.5rem 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 64%, transparent);
+	}
+
+	.archive-entry:first-child {
+		padding-top: 0;
+	}
+
+	.archive-entry__date {
+		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
+		font-family: var(--ui-font);
+		font-size: 0.82rem;
+		font-weight: var(--weight-medium);
+		font-variant-numeric: tabular-nums;
+		line-height: 1.25;
+		text-align: left;
+	}
+
+	.archive-entry__main {
+		min-width: 0;
+	}
+
+	.archive-entry__title {
+		display: inline;
+		border: 0 !important;
+		background: none !important;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: clamp(0.9rem, 1.06vw, 0.98rem);
+		font-weight: var(--weight-regular);
+		line-height: 1.28;
+		text-decoration: none;
+		overflow-wrap: anywhere;
+		transition: color 0.18s ease;
+	}
+
+	.archive-entry__title:hover {
+		color: color-mix(in oklab, var(--accent-color) 50%, var(--heading-color));
+	}
+
+	.archive-entry__meta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.36rem;
+		min-width: 0;
+	}
+
+	.archive-rail {
+		display: contents;
+	}
+
+	.archive-rail-card {
 		display: flex;
 		flex-direction: column;
+		gap: 0.72rem;
 	}
 
-	.year-item {
+	.archive-tag-cloud {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.42rem;
+		padding-top: 0.18rem;
+	}
+
+	.archive-tag-chip {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-width: 0;
+		min-height: 1.52rem;
+		padding: 0.18rem 0.58rem;
+		border: 0 !important;
+		border-radius: 5px;
+		background: color-mix(in oklab, var(--paper-field-bg) 76%, var(--accent-soft-bg)) !important;
+		color: color-mix(in oklab, var(--heading-color) 82%, var(--gray-color));
+		font-family: var(--ui-font);
+		font-size: 0.7rem;
+		font-weight: var(--weight-regular);
+		line-height: 1;
+		text-decoration: none;
+	}
+
+	.archive-summary {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: baseline;
+		gap: 0.42rem 0.72rem;
+		margin-top: 0.14rem;
+		padding-top: 0.82rem;
+		border-top: 1px solid var(--paper-card-border-soft);
+		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.76rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.25;
+	}
+
+	.archive-summary strong {
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
+		font-size: 1.02rem;
+		font-weight: var(--weight-semibold);
+	}
+
+	.archive-summary span:last-child {
+		grid-column: 1 / -1;
+		font-size: 0.7rem;
+		color: var(--faint-color);
+	}
+
+	.archive-index-label {
+		margin-top: 0.72rem;
+	}
+
+	.archive-year-index {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.42rem 0.62rem;
+	}
+
+	.archive-year-index a {
 		display: flex;
 		align-items: baseline;
-		gap: 0.85rem;
-		padding: 0.45rem 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 45%, transparent);
-		transition: background 0.15s ease;
-	}
-
-	.year-item:last-child {
-		border-bottom: none;
-	}
-
-	.year-item:hover {
-		background: var(--paper-hover-bg);
-	}
-
-	.year-date {
-		font-family: var(--field-font);
-		font-size: 0.72rem;
-		color: var(--gray-color);
-		font-variant-numeric: tabular-nums;
-		letter-spacing: 0.02em;
-		flex-shrink: 0;
-		min-width: 2.4rem;
-	}
-
-	.year-link {
-		color: var(--heading-color);
-		font-size: 0.94rem;
-		font-weight: 500;
-		letter-spacing: -0.005em;
-		text-decoration: none;
-		border-bottom: none !important;
+		gap: 0.42rem;
+		width: 100%;
+		border: 0 !important;
 		background: none !important;
-		transition: color 0.2s ease;
-		flex: 1;
+		color: inherit;
+		font-family: var(--ui-font);
+		text-decoration: none;
 	}
 
-	.year-link:hover {
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+	.archive-year-index strong {
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
+		font-size: 1.08rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1;
+	}
+
+	.archive-year-index span {
+		color: var(--gray-color);
+		font-size: 0.68rem;
+		font-weight: var(--weight-regular);
+		white-space: nowrap;
 	}
 
 	.draft-badge {
-		font-family: var(--field-font);
-		font-size: 0.65rem;
-		font-weight: 500;
-		color: color-mix(in oklab, var(--color-warning) 65%, var(--gray-color));
-		letter-spacing: 0.02em;
-		flex-shrink: 0;
+		font-family: var(--ui-font);
+		font-size: 0.68rem;
+		font-weight: var(--weight-medium);
+		color: color-mix(in oklab, var(--color-warning) 68%, var(--gray-color));
 	}
 
-	@keyframes fade-up {
-		from { opacity: 0; transform: translateY(10px); }
-		to { opacity: 1; transform: translateY(0); }
-	}
-
-	.year-section:nth-child(1) { animation-delay: 0.06s; }
-	.year-section:nth-child(2) { animation-delay: 0.12s; }
-	.year-section:nth-child(3) { animation-delay: 0.18s; }
-	.year-section:nth-child(4) { animation-delay: 0.24s; }
-	.year-section:nth-child(5) { animation-delay: 0.30s; }
-	.year-section:nth-child(6) { animation-delay: 0.36s; }
-
-	@media (max-width: 720px) {
-		.year-section {
+	@media (max-width: 760px) {
+		.archive-year {
 			grid-template-columns: 1fr;
-			gap: 0.5rem;
-			padding: var(--space-sm);
+			gap: 0.65rem;
 		}
 
-		.year-label {
-			font-size: 0.78rem;
-			padding-bottom: 0.3rem;
+		.archive-year__label {
+			position: static;
+			padding-bottom: 0.35rem;
 			border-bottom: 1px solid var(--paper-card-border-soft);
+			font-size: 1.38rem;
 		}
-	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.year-section {
-			animation: none;
+		.archive-entry {
+			grid-template-columns: 3.4rem minmax(0, 1fr);
+			gap: var(--space-sm);
+		}
+
+		.archive-entry__meta {
+			grid-column: 2;
+			justify-content: flex-start;
+		}
+
+		.archive-entry__date {
+			text-align: left;
 		}
 	}
 </style>

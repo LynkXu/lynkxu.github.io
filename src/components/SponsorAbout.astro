@@ -384,6 +384,19 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		const root = document.querySelector('.sponsor-about');
 		if (!root) return;
 
+		const folds = root.querySelectorAll('.sponsor-fold');
+		folds.forEach((fold) => {
+			if (fold.getAttribute('data-accordion-bound') === 'true') return;
+			fold.setAttribute('data-accordion-bound', 'true');
+
+			fold.addEventListener('toggle', () => {
+				if (!fold.open) return;
+				folds.forEach((other) => {
+					if (other !== fold) other.open = false;
+				});
+			});
+		});
+
 		const copyBtns = root.querySelectorAll('.addr-copy');
 		copyBtns.forEach((btn) => {
 			if (btn.getAttribute('data-copy-bound') === 'true') return;
