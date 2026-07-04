@@ -10,8 +10,8 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 ---
 
-<MagazineShell title={title} description={title} showProfileCard={false}>
-	<section class="message-panel magazine-panel" aria-labelledby="message-title">
+<MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
+	<section class="message-panel" aria-labelledby="message-title">
 		<header class="message-panel__header">
 			<p class="magazine-section-label">Messages</p>
 			<h1 id="message-title" class="sr-only">Leaves</h1>
@@ -24,23 +24,25 @@ const { title } = Astro.props;
 	</section>
 
 	<div slot="sidebar-extra" class="message-rail">
-		<section class="magazine-rail-card message-summary-card" aria-labelledby="message-summary-title">
-			<p id="message-summary-title" class="magazine-section-label">Summary</p>
-			<div class="message-summary-card__count">
-				<strong>Guestbook</strong>
-				<span>留言区按需加载，先阅读页面，再决定是否展开评论流。</span>
+		<section class="magazine-rail-card message-contact-card" aria-labelledby="message-contact-title">
+			<p id="message-contact-title" class="magazine-section-label">Contact</p>
+			<p class="message-contact-intro">公开留言适合文章反馈、问题和随手想到的想法；如果不想公开，可以换到下面的平台。</p>
+			<div class="message-action-list" aria-label="Contact actions">
+				<a href="#twikoo-lazygate">Write here</a>
+				<a href="https://mastodon.social/@lynkxu" target="_blank" rel="noopener noreferrer">Mastodon</a>
+				<a href="https://github.com/LynkXu" target="_blank" rel="noopener noreferrer">GitHub</a>
 			</div>
-		</section>
-
-		<section class="magazine-rail-card message-note-card" aria-labelledby="message-note-title">
-			<p id="message-note-title" class="magazine-section-label">Write</p>
-			<p>跳到输入区域，写下想说的话。</p>
-			<a href="#twikoo-lazygate">Start writing</a>
 		</section>
 	</div>
 </MagazineShell>
 
 <style is:global>
+	.message-surface {
+		--blog-shell-width: 1160px;
+		--blog-shell-sidebar-width: 16.5rem;
+		--blog-shell-gap: clamp(1rem, 2vw, 1.45rem);
+	}
+
 	.message-panel {
 		min-height: min(40rem, calc(100vh - 10rem));
 	}
@@ -71,6 +73,12 @@ const { title } = Astro.props;
 		border-radius: var(--paper-card-radius);
 		background: color-mix(in oklab, var(--paper-field-bg) 74%, var(--paper-card-bg));
 		overflow: hidden;
+	}
+
+	.message-comments .twikoo-shell[data-load-state="loaded"] {
+		border: 0;
+		background: transparent;
+		overflow: visible;
 	}
 
 	.message-comments .twikoo-lazygate {
@@ -106,55 +114,51 @@ const { title } = Astro.props;
 	.message-rail {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(var(--space-md), 2vw, var(--space-lg));
-	}
-
-	.message-summary-card,
-	.message-note-card {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.message-summary-card__count {
-		display: flex;
-		flex-direction: column;
 		gap: 0.72rem;
-		font-family: var(--ui-font);
 	}
 
-	.message-summary-card__count strong {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: 1.35rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1;
+	.message-contact-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.82rem;
 	}
 
-	.message-summary-card__count span,
-	.message-note-card p {
+	.message-contact-intro {
 		margin: 0;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.7;
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.62;
 	}
 
-	.message-note-card a {
+	.message-action-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.42rem;
+	}
+
+	.message-action-list a {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: fit-content;
-		min-height: 2.4rem;
-		padding: 0 1.2rem;
+		min-height: 1.78rem;
+		padding: 0.24rem 0.62rem;
 		border: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 5px;
-		background: var(--paper-card-bg) !important;
-		color: var(--heading-color);
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--paper-card-bg-soft) 72%, transparent) !important;
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
 		font-family: var(--ui-font);
-		font-size: 0.86rem;
-		font-weight: var(--weight-semibold);
+		font-size: 0.72rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.2;
 		text-decoration: none;
+	}
+
+	.message-action-list a:hover {
+		color: var(--heading-color);
+		border-color: var(--paper-hover-border) !important;
+		background: var(--paper-hover-bg) !important;
 	}
 
 	.sr-only {
@@ -170,6 +174,10 @@ const { title } = Astro.props;
 	}
 
 	@media (max-width: 640px) {
+		.message-panel {
+			padding-inline: var(--page-inline);
+		}
+
 		.message-comments .twikoo-lazygate {
 			flex-direction: column;
 			align-items: stretch;
