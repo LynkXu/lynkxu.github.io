@@ -69,10 +69,10 @@ const { title } = Astro.props;
 	}
 
 	.message-comments .twikoo-shell {
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 74%, var(--paper-card-bg));
-		overflow: hidden;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		overflow: visible;
 	}
 
 	.message-comments .twikoo-shell[data-load-state="loaded"] {
@@ -85,30 +85,36 @@ const { title } = Astro.props;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--space-md);
-		padding: clamp(1rem, 2.3vw, 1.35rem);
+		gap: var(--space-sm);
+		padding: 0.62rem 0 0.72rem;
 	}
 
 	.message-comments .twikoo-lazygate__meta {
 		margin: 0;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.6;
+		font-size: 0.82rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.5;
 	}
 
 	.message-comments .twikoo-load-button {
-		min-width: 8rem;
-		min-height: 2.55rem;
-		border: 1px solid color-mix(in oklab, var(--accent-color) 70%, var(--paper-card-border-soft));
-		border-radius: 5px;
-		background: color-mix(in oklab, var(--accent-color) 82%, var(--heading-color));
-		color: var(--content-bg);
+		min-width: 5.8rem;
+		min-height: 1.95rem;
+		border: 1px solid var(--paper-card-border-soft);
+		border-radius: 999px;
+		background: transparent;
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
 		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		font-weight: var(--weight-semibold);
+		font-size: 0.76rem;
+		font-weight: var(--weight-regular);
 		cursor: pointer;
+	}
+
+	.message-comments .twikoo-load-button:hover:not(:disabled) {
+		border-color: var(--paper-hover-border);
+		background: var(--paper-hover-bg);
+		color: var(--heading-color);
 	}
 
 	.message-rail {
