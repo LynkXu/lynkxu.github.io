@@ -44,7 +44,7 @@ function getPostHref(post: (typeof posts)[number]) {
 
 ---
 
-<MagazineShell title='Archive' description={SITE_DESCRIPTION} showProfileCard={false}>
+<MagazineShell title='Archive' description={SITE_DESCRIPTION} className="archive-layout" showProfileCard={false}>
 	<section class="archive-board magazine-panel" aria-labelledby="archive-title">
 		<header class="archive-board__header">
 			<div>
@@ -91,9 +91,8 @@ function getPostHref(post: (typeof posts)[number]) {
 	</section>
 
 	<div slot="sidebar-extra" class="archive-rail">
-		<section class="magazine-rail-card archive-tags-card" aria-labelledby="archive-tags-title">
+		<section class="magazine-rail-card archive-rail-card" aria-labelledby="archive-tags-title">
 			<p id="archive-tags-title" class="magazine-section-label">Tags</p>
-			<p class="magazine-muted">辅助筛选，不抢走文章列表的注意力。</p>
 			<div class="archive-tag-cloud">
 				{tags.slice(0, 10).map((tag) => (
 					<a href={tag.href} class="archive-tag-chip">
@@ -101,15 +100,12 @@ function getPostHref(post: (typeof posts)[number]) {
 					</a>
 				))}
 			</div>
-			<div class="archive-total">
-				<strong>{posts.length}</strong>
-				<span>entries since {years[years.length - 1]}</span>
+			<div class="archive-summary" aria-label="Archive summary">
+				<span><strong>{posts.length}</strong> entries</span>
+				<span><strong>{tags.length}</strong> topics</span>
+				<span>since {years[years.length - 1]}</span>
 			</div>
-			<p class="archive-topic-count">{tags.length} topics, listed by latest update</p>
-		</section>
-
-		<section class="magazine-rail-card archive-index-card" aria-labelledby="archive-index-title">
-			<p id="archive-index-title" class="magazine-section-label">Quick Index</p>
+			<p id="archive-index-title" class="magazine-section-label archive-index-label">Years</p>
 			<nav class="archive-year-index" aria-label="Archive years">
 				{years.map((year) => (
 					<a href={`#archive-year-${year}`}>
@@ -123,6 +119,11 @@ function getPostHref(post: (typeof posts)[number]) {
 </MagazineShell>
 
 <style>
+	:global(.archive-layout) {
+		--blog-shell-sidebar-width: 16.5rem;
+		--blog-shell-gap: clamp(1rem, 2vw, 1.45rem);
+	}
+
 	.sr-only {
 		position: absolute;
 		width: 1px;
@@ -148,10 +149,10 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	.archive-board__intro {
-		margin: 0.72rem 0 0;
+		margin: 0.58rem 0 0;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.88rem;
+		font-size: 0.84rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.5;
 	}
@@ -159,17 +160,17 @@ function getPostHref(post: (typeof posts)[number]) {
 	.archive-ledger {
 		display: flex;
 		flex-direction: column;
-		gap: 0.62rem;
+		gap: 0.42rem;
 	}
 
 	.archive-year {
 		display: grid;
-		grid-template-columns: 6.2rem minmax(0, 1fr);
-		gap: clamp(var(--space-sm), 1.8vw, var(--space-lg));
+		grid-template-columns: 4.35rem minmax(0, 1fr);
+		gap: var(--space-md);
 	}
 
 	.archive-year + .archive-year {
-		margin-top: 0.32rem;
+		margin-top: 0.24rem;
 	}
 
 	.archive-year__label {
@@ -177,10 +178,10 @@ function getPostHref(post: (typeof posts)[number]) {
 		top: calc(var(--space-lg) + 5rem);
 		align-self: start;
 		margin: 0;
-		color: color-mix(in oklab, var(--accent-color) 76%, var(--heading-color));
+		color: color-mix(in oklab, var(--accent-color) 64%, var(--heading-color));
 		font-family: var(--ui-font);
-		font-size: clamp(1.55rem, 3vw, 1.9rem);
-		font-weight: var(--weight-bold);
+		font-size: clamp(1.3rem, 2.25vw, 1.5rem);
+		font-weight: var(--weight-semibold);
 		letter-spacing: 0;
 		line-height: 1;
 	}
@@ -195,11 +196,11 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	.archive-entry {
 		display: grid;
-		grid-template-columns: 4rem minmax(0, 1fr) minmax(4rem, auto);
+		grid-template-columns: 3.05rem minmax(0, 1fr) minmax(3.6rem, auto);
 		align-items: center;
-		gap: clamp(var(--space-sm), 1.6vw, var(--space-md));
+		gap: var(--space-xs);
 		min-width: 0;
-		padding: 0.68rem 0;
+		padding: 0.5rem 0;
 		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 64%, transparent);
 	}
 
@@ -208,13 +209,13 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	.archive-entry__date {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
 		font-family: var(--ui-font);
-		font-size: 0.9rem;
+		font-size: 0.82rem;
 		font-weight: var(--weight-medium);
 		font-variant-numeric: tabular-nums;
 		line-height: 1.25;
-		text-align: right;
+		text-align: left;
 	}
 
 	.archive-entry__main {
@@ -227,9 +228,9 @@ function getPostHref(post: (typeof posts)[number]) {
 		background: none !important;
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: clamp(0.98rem, 1.38vw, 1.08rem);
-		font-weight: var(--weight-semibold);
-		line-height: 1.32;
+		font-size: clamp(0.9rem, 1.06vw, 0.98rem);
+		font-weight: var(--weight-regular);
+		line-height: 1.28;
 		text-decoration: none;
 		overflow-wrap: anywhere;
 		transition: color 0.18s ease;
@@ -243,7 +244,7 @@ function getPostHref(post: (typeof posts)[number]) {
 		display: inline-flex;
 		align-items: center;
 		justify-content: flex-end;
-		gap: 0.45rem;
+		gap: 0.36rem;
 		min-width: 0;
 	}
 
@@ -251,81 +252,79 @@ function getPostHref(post: (typeof posts)[number]) {
 		display: contents;
 	}
 
-	.archive-tags-card,
-	.archive-index-card {
+	.archive-rail-card {
 		display: flex;
 		flex-direction: column;
-		gap: 0.82rem;
+		gap: 0.72rem;
 	}
 
 	.archive-tag-cloud {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.64rem;
-		padding-top: 0.35rem;
+		gap: 0.42rem;
+		padding-top: 0.18rem;
 	}
 
 	.archive-tag-chip {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 3.9rem;
-		min-height: 1.75rem;
-		padding: 0.25rem 0.72rem;
+		min-width: 0;
+		min-height: 1.52rem;
+		padding: 0.18rem 0.58rem;
 		border: 0 !important;
 		border-radius: 5px;
 		background: color-mix(in oklab, var(--paper-field-bg) 76%, var(--accent-soft-bg)) !important;
-		color: var(--heading-color);
+		color: color-mix(in oklab, var(--heading-color) 82%, var(--gray-color));
 		font-family: var(--ui-font);
-		font-size: 0.75rem;
-		font-weight: var(--weight-medium);
+		font-size: 0.7rem;
+		font-weight: var(--weight-regular);
 		line-height: 1;
 		text-decoration: none;
 	}
 
-	.archive-total {
-		display: flex;
+	.archive-summary {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 		align-items: baseline;
-		gap: 0.5rem;
-		margin-top: 0.45rem;
-		padding-top: 1.1rem;
+		gap: 0.42rem 0.72rem;
+		margin-top: 0.14rem;
+		padding-top: 0.82rem;
 		border-top: 1px solid var(--paper-card-border-soft);
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-	}
-
-	.archive-total strong {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: 1.95rem;
-		font-weight: var(--weight-bold);
-		line-height: 1;
-	}
-
-	.archive-total span {
-		font-size: 0.92rem;
-		font-weight: var(--weight-medium);
-	}
-
-	.archive-topic-count {
-		margin: -0.35rem 0 0;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.82rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
+		font-size: 0.76rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.25;
+	}
+
+	.archive-summary strong {
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
+		font-size: 1.02rem;
+		font-weight: var(--weight-semibold);
+	}
+
+	.archive-summary span:last-child {
+		grid-column: 1 / -1;
+		font-size: 0.7rem;
+		color: var(--faint-color);
+	}
+
+	.archive-index-label {
+		margin-top: 0.28rem;
 	}
 
 	.archive-year-index {
-		display: flex;
-		flex-direction: column;
-		gap: 0.72rem;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.42rem 0.62rem;
 	}
 
 	.archive-year-index a {
 		display: flex;
 		align-items: baseline;
-		gap: 1rem;
-		width: fit-content;
+		gap: 0.42rem;
+		width: 100%;
 		border: 0 !important;
 		background: none !important;
 		color: inherit;
@@ -334,16 +333,17 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	.archive-year-index strong {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: 1.55rem;
-		font-weight: var(--weight-bold);
+		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
+		font-size: 1.08rem;
+		font-weight: var(--weight-semibold);
 		line-height: 1;
 	}
 
 	.archive-year-index span {
 		color: var(--gray-color);
-		font-size: 0.86rem;
-		font-weight: var(--weight-medium);
+		font-size: 0.68rem;
+		font-weight: var(--weight-regular);
+		white-space: nowrap;
 	}
 
 	.draft-badge {
