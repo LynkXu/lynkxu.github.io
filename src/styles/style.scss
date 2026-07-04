@@ -23,8 +23,8 @@
   --page-inline: clamp(var(--space-lg), 4vw, var(--space-xl));
   --display-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --ui-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --reading-font: "Lora", "Noto Serif SC", "Songti SC", "Source Han Serif CN", "SimSun", serif;
-  --serif-font: var(--reading-font);
+  --reading-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --serif-font: "Songti SC", "Noto Serif SC", "Source Han Serif CN", "SimSun", serif;
   --code-font: "Lilex", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   --meta-font: var(--ui-font);
   --text-xs: 0.75rem;
@@ -2465,13 +2465,13 @@ ul.posts li a:visited {
 
 .post-content {
   font-family: var(--reading-font);
-  font-size: var(--text-body);
+  font-size: 1.035rem;
   font-weight: var(--weight-regular);
-  line-height: 1.86;
+  line-height: 1.78;
   max-width: 68ch;
   margin-left: auto;
   margin-right: auto;
-  color: color-mix(in oklab, var(--text-color) 94%, var(--heading-color));
+  color: color-mix(in oklab, var(--text-color) 97%, var(--heading-color));
   /* Auto spacing between CJK and Latin/punctuation */
   text-autospace: ideograph-alpha ideograph-numeric;
 
@@ -2915,7 +2915,7 @@ ul.posts li a:visited {
   margin: 0;
   color: var(--panel-title-color);
   font-family: var(--display-font);
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-display);
   letter-spacing: 0;
 }
 
