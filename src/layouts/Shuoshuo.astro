@@ -410,7 +410,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memos-panel__header {
-		margin-bottom: clamp(var(--space-lg), 3vw, var(--space-xl));
+		margin-bottom: clamp(var(--space-md), 2.4vw, var(--space-lg));
 	}
 
 	.memos-panel__header p:last-child {
@@ -563,9 +563,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-item {
 		display: grid;
-		grid-template-columns: 2.5rem minmax(0, 1fr);
-		gap: 0.8rem;
-		padding: clamp(0.9rem, 2vw, 1.12rem);
+		grid-template-columns: 2.35rem minmax(0, 1fr);
+		gap: 0.68rem;
+		padding: clamp(0.76rem, 1.55vw, 0.95rem);
 		position: relative;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
@@ -592,8 +592,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-avatar {
-		width: 40px;
-		height: 40px;
+		width: 36px;
+		height: 36px;
 		border-radius: 50%;
 		object-fit: cover;
 		border: 0;
@@ -611,7 +611,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		flex-direction: column;
 		align-items: flex-start;
 		gap: 0.12rem;
-		margin-bottom: 0.16rem;
+		margin-bottom: 0.08rem;
 		line-height: 1.35;
 	}
 
@@ -635,7 +635,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-author {
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: 0.92rem;
+		font-size: 0.88rem;
 		font-weight: var(--weight-semibold);
 	}
 
@@ -671,7 +671,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-meta-time {
 		font-family: var(--field-font);
-		font-size: 0.72rem;
+		font-size: 0.68rem;
 		line-height: 1.35;
 		color: var(--gray-color);
 		font-variant-numeric: tabular-nums;
@@ -679,14 +679,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.94rem;
-		line-height: 1.68;
+		font-size: 0.9rem;
+		line-height: 1.58;
 		letter-spacing: 0;
 		margin-bottom: 0.16rem;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.08rem 0;
+		margin: 0.04rem 0;
 	}
 
 	.memo-content :global(p:first-child) {

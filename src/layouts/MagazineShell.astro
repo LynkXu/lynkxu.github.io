@@ -312,7 +312,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		gap: var(--blog-shell-gap);
 		width: min(var(--blog-shell-width), calc(100% - 2 * var(--page-inline)));
 		margin: 0 auto;
-		padding: clamp(1.6rem, 3.6vw, 2.4rem) 0 clamp(2.8rem, 5vw, 4rem);
+		padding: clamp(1.35rem, 3vw, 2rem) 0 clamp(2.35rem, 4.4vw, 3.4rem);
 	}
 
 	.magazine-shell--no-rail {
@@ -322,7 +322,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	.magazine-main {
 		display: flex;
 		flex-direction: column;
-		gap: var(--blog-card-gap, var(--space-lg));
+		gap: var(--blog-card-gap, clamp(var(--space-md), 2vw, var(--space-lg)));
 		min-width: 0;
 	}
 
@@ -346,11 +346,11 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.magazine-panel {
-		padding: clamp(1.35rem, 2.8vw, 1.9rem);
+		padding: clamp(1.15rem, 2.25vw, 1.55rem);
 	}
 
 	.magazine-rail-card {
-		padding: clamp(1.1rem, 2.1vw, 1.4rem);
+		padding: clamp(0.95rem, 1.8vw, 1.2rem);
 	}
 
 	.magazine-section-label {

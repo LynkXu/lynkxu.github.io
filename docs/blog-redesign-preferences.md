@@ -11,6 +11,7 @@ This document records the current redesign direction after the homepage iteratio
 - Main content should carry the page. Right rails are supportive and should not explain the obvious.
 - Prefer meaningful information density over large decorative blocks.
 - Core blog pages use a consistent shell width of `1160px` so Home, Archive, Memos, Leaves, About, and post detail pages share the same horizontal rhythm. Feature pages can diverge only when their content type requires it.
+- Core blog pages should use medium information density: enough content visible in a default window, without turning long-form reading into an app-like table.
 
 ## Confirmed Preferences From The Homepage Pass
 
@@ -25,12 +26,13 @@ This document records the current redesign direction after the homepage iteratio
 - Text weight should stay light-to-moderate across the site. Most UI emphasis should sit around medium weight; heavy type is rare and reserved for the strongest page identity moments only.
 - Spacing should breathe. If a section feels cramped, increase rhythm before adding more decoration.
 - Reading text uses the same sans-based mixed Chinese/Latin stack as the UI for steadier gray value in long articles. Serif faces are reserved for selective editorial accents, not the default article body.
+- Density should be tuned by role: article pages tighten line-height and padding first; Archive can be the densest scanning surface; Memos can be compact but should still feel like a calm timeline; About and Leaves should only be lightly compressed.
 
 ## Typography Weight Strategy
 
 - Body text uses regular weight.
 - Current global weight scale: medium `430`, semibold `500`, bold `560`, display `640`.
-- Article body should feel clear and steady before it feels literary; prefer font family, color, line-height, and size tuning before increasing body weight.
+- Article body should feel clear and steady before it feels literary; prefer font family, color, line-height, width, and padding tuning before increasing body weight.
 - Secondary UI labels, metadata, rail content, and small navigation text should avoid bold weight.
 - Section labels should be light and quiet, not headline-heavy.
 - Article/list titles should usually use medium or semibold weight, not heavy bold.

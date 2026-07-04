@@ -297,7 +297,7 @@ function getMonth(date: Date) {
 	.home-dashboard {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1.35rem, 2.4vw, 1.8rem);
+		gap: clamp(1.2rem, 2vw, 1.55rem);
 		width: 100%;
 		font-family: var(--ui-font);
 	}
@@ -505,7 +505,7 @@ function getMonth(date: Date) {
 		grid-template-columns: auto minmax(0, 1fr) auto;
 		align-items: start;
 		gap: 1rem;
-		margin-bottom: 0.95rem;
+		margin-bottom: 0.72rem;
 	}
 
 	.home-panel-head .magazine-section-label {
@@ -524,17 +524,17 @@ function getMonth(date: Date) {
 
 	.home-latest-list {
 		display: grid;
-		gap: 0.72rem;
+		gap: 0.58rem;
 	}
 
 	.home-latest-row {
 		display: grid;
-		grid-template-columns: 4.75rem minmax(0, 1fr) auto;
-		gap: clamp(0.85rem, 1.5vw, 1.2rem);
+		grid-template-columns: 4.35rem minmax(0, 1fr) auto;
+		gap: clamp(0.72rem, 1.2vw, 0.95rem);
 		align-items: center;
 		min-width: 0;
-		min-height: 4.85rem;
-		padding: 0.82rem 0.98rem;
+		min-height: 4.25rem;
+		padding: 0.68rem 0.82rem;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
 		color: var(--heading-color);
@@ -555,7 +555,7 @@ function getMonth(date: Date) {
 		gap: 0.18rem;
 		place-items: center;
 		align-self: stretch;
-		min-height: 3.25rem;
+		min-height: 2.95rem;
 		border-radius: calc(var(--paper-card-radius) - 1px);
 		background: color-mix(in oklab, var(--accent-soft-bg) 42%, var(--paper-card-bg));
 		color: color-mix(in oklab, var(--accent-color) 75%, var(--heading-color));
@@ -567,14 +567,14 @@ function getMonth(date: Date) {
 
 	.home-post-date span {
 		color: color-mix(in oklab, var(--accent-color) 58%, var(--gray-color));
-		font-size: 0.72rem;
+		font-size: 0.68rem;
 		font-weight: var(--weight-medium);
 		line-height: 1;
 	}
 
 	.home-post-date strong {
 		color: inherit;
-		font-size: 1.32rem;
+		font-size: 1.18rem;
 		font-weight: var(--weight-semibold);
 		line-height: 1;
 	}
@@ -589,7 +589,7 @@ function getMonth(date: Date) {
 	.home-post-copy strong {
 		display: block;
 		color: var(--heading-color);
-		font-size: 1.02rem;
+		font-size: 0.98rem;
 		font-weight: var(--weight-semibold);
 		line-height: 1.35;
 	}
@@ -600,7 +600,7 @@ function getMonth(date: Date) {
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 		color: var(--gray-color);
-		font-size: 0.86rem;
+		font-size: 0.82rem;
 		font-weight: var(--weight-medium);
 		line-height: 1.5;
 	}
@@ -650,17 +650,17 @@ function getMonth(date: Date) {
 	.home-index-grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.82rem;
-		margin-bottom: 0.95rem;
+		gap: 0.64rem;
+		margin-bottom: 0.72rem;
 	}
 
 	.home-index-card {
 		display: grid;
-		grid-template-columns: 2.55rem minmax(0, 1fr) auto;
-		gap: 0.82rem;
+		grid-template-columns: 2.35rem minmax(0, 1fr) auto;
+		gap: 0.68rem;
 		align-items: center;
-		min-height: 5.15rem;
-		padding: 0.86rem 0.98rem;
+		min-height: 4.55rem;
+		padding: 0.72rem 0.82rem;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
 		background: color-mix(in oklab, var(--paper-card-bg) 90%, var(--paper-field-bg)) !important;
@@ -692,7 +692,7 @@ function getMonth(date: Date) {
 	}
 
 	.home-index-card strong {
-		font-size: 0.94rem;
+		font-size: 0.9rem;
 		font-weight: var(--weight-semibold);
 		line-height: 1.2;
 	}
@@ -700,7 +700,7 @@ function getMonth(date: Date) {
 	.home-index-card em {
 		margin-top: 0.14rem;
 		color: var(--heading-color);
-		font-size: 0.86rem;
+		font-size: 0.82rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.25;
 	}
@@ -708,7 +708,7 @@ function getMonth(date: Date) {
 	.home-index-card small {
 		margin-top: 0.28rem;
 		color: var(--gray-color);
-		font-size: 0.78rem;
+		font-size: 0.74rem;
 		font-weight: var(--weight-medium);
 		line-height: 1.35;
 	}
@@ -726,9 +726,9 @@ function getMonth(date: Date) {
 		display: flex;
 		flex-direction: column;
 		gap: 0;
-		min-height: 7.15rem;
+		min-height: 6.45rem;
 		margin-top: auto;
-		padding: 1.12rem 1.25rem;
+		padding: 0.95rem 1.05rem;
 		border: 1px solid color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
 		border-radius: var(--paper-card-radius);
 		background:
@@ -744,7 +744,7 @@ function getMonth(date: Date) {
 	}
 
 	.home-stream-card h2 {
-		font-size: clamp(1.14rem, 1.75vw, 1.3rem);
+		font-size: clamp(1.08rem, 1.55vw, 1.2rem);
 		font-weight: var(--weight-semibold);
 		line-height: 1.2;
 	}
@@ -752,16 +752,16 @@ function getMonth(date: Date) {
 	.home-stream-card p {
 		margin-top: 0.32rem;
 		color: var(--gray-color);
-		font-size: 0.86rem;
+		font-size: 0.82rem;
 		font-weight: var(--weight-medium);
-		line-height: 1.55;
+		line-height: 1.45;
 	}
 
 	.home-stream-links {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.55rem;
-		margin-top: 0.75rem;
+		gap: 0.48rem;
+		margin-top: 0.62rem;
 		padding-right: 1.5rem;
 	}
 
@@ -769,13 +769,13 @@ function getMonth(date: Date) {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.42rem;
-		min-height: 2.02rem;
-		padding: 0 0.82rem;
+		min-height: 1.82rem;
+		padding: 0 0.72rem;
 		border: 1px solid color-mix(in oklab, var(--accent-color) 18%, var(--paper-card-border-soft));
 		border-radius: 999px;
 		background: color-mix(in oklab, var(--paper-card-bg) 84%, var(--accent-soft-bg)) !important;
 		color: color-mix(in oklab, var(--accent-color) 58%, var(--heading-color));
-		font-size: 0.8rem;
+		font-size: 0.76rem;
 		font-weight: var(--weight-medium);
 		text-decoration: none;
 	}
