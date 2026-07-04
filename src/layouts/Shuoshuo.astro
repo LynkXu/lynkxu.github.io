@@ -176,7 +176,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 </style>
 
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
-	<section class="memos-panel magazine-panel" aria-labelledby="memos-title">
+	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
 			<p class="magazine-section-label">Timeline</p>
 			<h1 id="memos-title" class="sr-only">Memos</h1>
@@ -761,7 +761,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memos-subsection-label {
-		margin-top: 0.24rem;
+		margin-top: 0.68rem;
 	}
 
 	.memos-month-list {
@@ -912,6 +912,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 		.memo-actions {
 			opacity: 0.82;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.memos-panel {
+			padding-inline: var(--page-inline);
 		}
 	}
 
