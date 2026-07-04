@@ -269,7 +269,7 @@ function getMonth(date: Date) {
 
 <style>
 	:global(.home-index-layout) {
-		--blog-shell-width: 1360px;
+		--blog-shell-width: 1160px;
 		--blog-card-gap: clamp(1rem, 2vw, 1.45rem);
 	}
 
@@ -280,7 +280,7 @@ function getMonth(date: Date) {
 
 	:global(.home-index-layout footer) {
 		grid-template-columns: minmax(0, 1fr);
-		max-width: 1360px;
+		max-width: var(--blog-shell-width);
 		text-align: center;
 	}
 
@@ -348,7 +348,6 @@ function getMonth(date: Date) {
 	}
 
 	.home-stat-card,
-	.home-panel,
 	.home-profile-card {
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: var(--paper-card-radius);
@@ -494,7 +493,11 @@ function getMonth(date: Date) {
 		flex-direction: column;
 		gap: 0;
 		min-width: 0;
-		padding: clamp(1.05rem, 2vw, 1.3rem);
+		padding: 0;
+	}
+
+	.home-index-panel {
+		min-height: 100%;
 	}
 
 	.home-panel-head {
@@ -648,6 +651,7 @@ function getMonth(date: Date) {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 0.82rem;
+		margin-bottom: 0.95rem;
 	}
 
 	.home-index-card {
@@ -723,7 +727,7 @@ function getMonth(date: Date) {
 		flex-direction: column;
 		gap: 0;
 		min-height: 7.15rem;
-		margin-top: 0.95rem;
+		margin-top: auto;
 		padding: 1.12rem 1.25rem;
 		border: 1px solid color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
 		border-radius: var(--paper-card-radius);
@@ -832,6 +836,10 @@ function getMonth(date: Date) {
 			border-radius: 0;
 		}
 
+		.home-panel {
+			padding: 0 var(--page-inline);
+		}
+
 		.home-profile-main {
 			grid-template-columns: 1fr;
 			justify-items: start;
@@ -850,7 +858,7 @@ function getMonth(date: Date) {
 			grid-template-columns: 4.8rem minmax(0, 1fr);
 			gap: 0.95rem;
 			min-height: 0;
-			padding: 0.95rem var(--page-inline);
+			padding: 0.95rem;
 		}
 
 		.home-post-date {

@@ -1496,6 +1496,10 @@ body:has(.blog-surface-layout) {
   opacity: 0.45;
 }
 
+.global-layout-card.blog-surface-layout::before {
+  content: none;
+}
+
 :root[data-theme="dark"] .global-layout-card::before {
   box-shadow: 0 0 20px color-mix(in oklab, var(--content-bg) 14%, transparent);
   opacity: 0.55;

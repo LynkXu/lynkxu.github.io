@@ -10,6 +10,7 @@ This document records the current redesign direction after the homepage iteratio
 - The homepage is the style anchor: strong opening identity is allowed, but content modules must quickly become the focus.
 - Main content should carry the page. Right rails are supportive and should not explain the obvious.
 - Prefer meaningful information density over large decorative blocks.
+- Core blog pages use a consistent shell width of `1160px` so Home, Archive, Memos, Leaves, About, and post detail pages share the same horizontal rhythm. Feature pages can diverge only when their content type requires it.
 
 ## Confirmed Preferences From The Homepage Pass
 
@@ -17,6 +18,7 @@ This document records the current redesign direction after the homepage iteratio
 - Avoid overly dominant top sections. Lower content such as Latest and Index should not feel visually weaker than the hero.
 - Keep useful structural anchors, such as the date block in Latest, when they improve scanning.
 - Reduce nested-card noise by removing unnecessary inner borders before removing useful structure.
+- On the homepage, content sections should not use an outer card when their children are already card-like. Use spacing and alignment for the section; keep cards only for actual entries or links.
 - Section labels such as Latest and Index should be light, not headline-heavy.
 - Links and metadata should be correct and intentional; decorative or incorrect icons should be fixed rather than ignored.
 - Data stream surfaces should be softer than primary content cards.
