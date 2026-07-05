@@ -1467,7 +1467,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .toc-link {
-  border-left-color: color-mix(in oklab, var(--rule-color) 30%, transparent);
+  border-left-color: transparent;
 }
 
 .blog-surface-layout .toc-link.active {
@@ -3067,8 +3067,8 @@ ul.posts li a:visited {
 }
 
 .toc-list .toc-list {
-  padding-left: 1rem;
-  margin-top: 0.25rem;
+  padding-left: 0.85rem;
+  margin-top: 0.12rem;
 }
 
 
