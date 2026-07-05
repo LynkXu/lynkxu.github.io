@@ -385,7 +385,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		--memo-column-gap: clamp(0.58rem, 1.35vw, 0.78rem);
 		--memo-inline-pad: clamp(0.72rem, 1.65vw, 1rem);
 		--memo-block-pad: clamp(0.78rem, 1.75vw, 1rem);
-		--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
 	}
 
 	.memos-surface #shuoshuo {
@@ -440,8 +439,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		box-shadow: none;
 	}
 
-	.memo-item::before,
-	.memo-item::after {
+	.memo-item::before {
 		content: "";
 		position: absolute;
 		pointer-events: none;
@@ -453,14 +451,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		background: color-mix(in oklab, var(--paper-hover-bg) 58%, transparent);
 		opacity: 1;
 		transition: opacity 0.18s ease, background 0.18s ease;
-	}
-
-	.memo-item::after {
-		right: var(--memo-inline-pad);
-		bottom: 0;
-		left: var(--memo-rule-start);
-		height: 1px;
-		background: color-mix(in oklab, var(--paper-card-border-soft) 62%, transparent);
 	}
 
 	.memo-item:hover {
@@ -813,7 +803,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			--memo-column-gap: 0.6rem;
 			--memo-inline-pad: 0.68rem;
 			--memo-block-pad: 0.78rem;
-			--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
 		}
 
 		.memo-item {
