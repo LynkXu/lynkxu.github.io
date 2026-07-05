@@ -175,6 +175,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
     }
 </style>
 
+
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
 	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
@@ -376,173 +377,47 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	})();
 </script>
 
-<style>
-	:global(.memos-surface) {
+
+<style is:global>
+	.memos-surface {
 		--blog-shell-width: 1160px;
 		--blog-shell-sidebar-width: 16.5rem;
-		--memos-feed-width: 100%;
-		--memos-section-gap: 0.58rem;
+		--memos-section-gap: clamp(0.54rem, 1.35vw, 0.82rem);
+		--memo-avatar-size: 1.75rem;
+		--memo-column-gap: clamp(0.58rem, 1.35vw, 0.78rem);
+		--memo-inline-pad: clamp(0.72rem, 1.65vw, 1rem);
+		--memo-block-pad: clamp(0.78rem, 1.75vw, 1rem);
+		--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
 	}
 
-	.sr-only {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
+	.memos-surface #shuoshuo {
+		width: 100%;
+		margin: 0;
 	}
 
 	.memos-panel {
-		min-height: min(52rem, calc(100vh - 10rem));
+		min-height: 0;
 	}
 
 	.memos-panel__header {
-		margin-bottom: clamp(var(--space-md), 2.4vw, var(--space-lg));
+		margin-bottom: clamp(1rem, 3vw, 1.6rem);
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
-	.memos-panel__header p:last-child {
-		margin: 0.58rem 0 0;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.84rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.5;
-	}
-
-	.memos-layout {
-		display: block;
-	}
-
-	.memos-feed-column {
-		grid-area: feed;
-		display: flex;
-		flex-direction: column;
-		gap: var(--memos-section-gap);
+	.memos-layout,
+	.memos-feed-column,
+	.memos-feed,
+	.memos-page,
+	.memos-page-list {
+		width: 100%;
 		min-width: 0;
 	}
 
-	.memos-rail {
-		display: flex;
-		flex-direction: column;
-		gap: 0.72rem;
-	}
-
-	.memos-stats-kicker {
-		margin: 0 0 0.62rem;
-		font-family: var(--field-font);
-		font-size: 0.68rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.35;
-		color: color-mix(in oklab, var(--heading-color) 80%, var(--gray-color));
-		letter-spacing: 0.04em;
-	}
-
-	.memos-stats-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		margin: 0;
-	}
-
-	.memos-summary-list {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.46rem 0.7rem;
-		margin: 0;
-		padding-top: 0.18rem;
-	}
-
-	.memos-stat-row {
-		display: flex;
-		flex-direction: column;
-		gap: 0.14rem;
-		padding: 0;
-		border-top: 0;
-	}
-
-	.memos-stat-row:first-child {
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	.memos-stat-row dt {
-		font-size: 0.68rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.35;
-		color: var(--gray-color);
-		letter-spacing: 0.01em;
-	}
-
-	.memos-stat-row dd {
-		margin: 0;
-		font-family: var(--ui-font);
-		font-size: 1.02rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.25;
-		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-source-list {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.42rem 0.72rem;
-		margin: 0;
-	}
-
-	.memos-source-row {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.36rem;
-		font-size: 0.68rem;
-		line-height: 1.4;
-	}
-
-	.memos-source-row dt {
-		color: var(--gray-color);
-	}
-
-	.memos-source-row dd {
-		margin: 0;
-		font-family: var(--field-font);
-		color: color-mix(in oklab, var(--heading-color) 84%, var(--gray-color));
-		font-size: 0.72rem;
-		font-weight: var(--weight-regular);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-stats-foot {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		row-gap: 0.18rem;
-		column-gap: 0.6rem;
-		margin-top: 0.54rem;
-		padding-top: 0.58rem;
-		border-top: 1px solid var(--paper-card-border-soft);
-		font-size: 0.62rem;
-		line-height: 1.4;
-		color: var(--faint-color);
-	}
-
-	.memos-stats-foot time,
-	.memos-stats-foot span:nth-child(2n) {
-		font-family: var(--field-font);
-		color: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-feed {
-		display: flex;
-		flex-direction: column;
-		gap: var(--memos-section-gap);
-		margin-top: 0 !important;
-	}
-
-	.memos-page {
+	.memos-feed-column,
+	.memos-feed,
+	.memos-page,
+	.memos-page-list {
 		display: flex;
 		flex-direction: column;
 		gap: var(--memos-section-gap);
@@ -552,33 +427,62 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: none;
 	}
 
-	.memos-page-list {
-		display: flex;
-		flex-direction: column;
-		gap: var(--memos-section-gap);
+	.memo-item {
+		position: relative;
+		display: grid;
+		grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
+		column-gap: var(--memo-column-gap);
+		row-gap: 0;
+		align-items: start;
+		padding: var(--memo-block-pad) var(--memo-inline-pad);
+		border: 0;
+		border-bottom: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
 	}
 
-	.memo-item {
-		display: grid;
-		grid-template-columns: 2.1rem minmax(0, 1fr);
-		gap: 0.6rem;
-		padding: clamp(0.68rem, 1.35vw, 0.82rem);
-		position: relative;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		transition: background 0.2s ease, border-color 0.2s ease;
+	.memo-item::before,
+	.memo-item::after {
+		content: "";
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.memo-item::before {
+		inset: 0;
+		border-radius: 3px;
+		background: color-mix(in oklab, var(--paper-hover-bg) 58%, transparent);
+		opacity: 1;
+		transition: opacity 0.18s ease, background 0.18s ease;
+	}
+
+	.memo-item::after {
+		right: var(--memo-inline-pad);
+		bottom: 0;
+		left: var(--memo-rule-start);
+		height: 1px;
+		background: color-mix(in oklab, var(--paper-card-border-soft) 62%, transparent);
 	}
 
 	.memo-item:hover {
+		background: transparent;
+	}
+
+	.memo-item:hover::before {
 		background: var(--paper-hover-bg);
-		border-color: var(--paper-hover-border);
+		opacity: 1;
 	}
 
 	.memo-avatar-link {
+		position: relative;
 		display: block;
-		border: none !important;
+		grid-column: 1;
+		grid-row: 1;
+		width: var(--memo-avatar-size);
+		height: var(--memo-avatar-size);
+		margin: 0;
+		border: 0 !important;
 		background: none !important;
 		line-height: 0;
 		border-radius: 50%;
@@ -589,15 +493,20 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-avatar {
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		object-fit: cover;
+		display: block;
+		width: var(--memo-avatar-size);
+		height: var(--memo-avatar-size);
 		border: 0;
-		background: color-mix(in oklab, var(--accent-soft-bg) 72%, var(--paper-field-bg));
+		border-radius: 50%;
+		background: var(--paper-field-bg);
+		object-fit: cover;
+		filter: none;
 	}
 
 	.memo-body {
+		position: relative;
+		grid-column: 2;
+		grid-row: 1;
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
@@ -606,34 +515,65 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-header {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-start;
+		align-items: stretch;
 		gap: 0.12rem;
-		margin-bottom: 0.08rem;
+		margin: 0 0 0.38rem;
+		padding: 0;
+		border: 0;
 		line-height: 1.35;
+	}
+
+	.memos-surface .memo-header {
+		margin: 0 0 0.38rem;
+		padding: 0;
+		border: 0;
 	}
 
 	.memo-header-top {
 		display: flex;
-		align-items: flex-start;
+		align-items: center;
 		justify-content: space-between;
 		gap: 0.65rem;
 		width: 100%;
 		min-width: 0;
+		min-height: 0;
 	}
 
 	.memo-author-line {
-		display: flex;
+		display: inline-flex;
 		align-items: center;
 		flex-wrap: wrap;
-		gap: 0.34rem;
+		gap: 0.36rem;
 		min-width: 0;
 	}
 
 	.memo-author {
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: 0.84rem;
+		font-size: 0.8rem;
 		font-weight: var(--weight-medium);
+		line-height: 1.2;
+	}
+
+	.memo-source {
+		display: inline-flex;
+		align-items: center;
+		min-height: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		color: var(--gray-color);
+		font-family: var(--field-font);
+		font-size: 0.66rem;
+		line-height: 1.2;
+		letter-spacing: 0.02em;
+	}
+
+	.memo-source::before {
+		content: "/";
+		margin-right: 0.3rem;
+		color: var(--faint-color);
 	}
 
 	.memo-actions {
@@ -641,9 +581,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		align-items: center;
 		justify-content: flex-end;
 		gap: 0.4rem;
+		align-self: center;
 		flex-shrink: 0;
-		margin-top: -0.04rem;
-		opacity: 0.74;
+		margin-top: 0;
+		opacity: 0.68;
 		transition: opacity 0.2s ease;
 	}
 
@@ -652,45 +593,46 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		opacity: 1;
 	}
 
-	.memo-source {
-		display: inline-flex;
-		align-items: center;
-		min-height: 0.98rem;
-		padding: 0 0.32rem;
-		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
-		font-family: var(--field-font);
-		font-size: 0.58rem;
-		color: var(--gray-color);
-		letter-spacing: 0.02em;
-	}
-
 	.memo-meta-time {
-		font-family: var(--field-font);
-		font-size: 0.66rem;
-		line-height: 1.35;
+		position: static;
+		width: auto;
+		margin: 0;
+		padding-top: 0;
 		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.7rem;
+		line-height: 1.28;
 		font-variant-numeric: tabular-nums;
 	}
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.88rem;
-		line-height: 1.54;
+		font-size: 0.92rem;
+		line-height: 1.64;
 		letter-spacing: 0;
-		margin-bottom: 0.1rem;
 	}
 
 	.memo-content :global(p) {
-		margin: 0.04rem 0;
+		margin: 0.26rem 0;
+	}
+
+	.memos-surface .memo-content p {
+		margin: 0.24rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
 		margin-top: 0;
 	}
 
+	.memos-surface .memo-content p:first-child {
+		margin-top: 0;
+	}
+
 	.memo-content :global(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	.memos-surface .memo-content p:last-child {
 		margin-bottom: 0;
 	}
 
@@ -707,8 +649,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-content :global(img) {
 		max-width: 100%;
 		margin-top: 6px;
-		opacity: 0.92;
 		border-radius: 3px;
+		opacity: 0.92;
 	}
 
 	.memo-content :global(blockquote) {
@@ -720,139 +662,56 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		line-height: 1.48;
 	}
 
-	.memo-tag,
 	.draft-indicator {
+		color: color-mix(in oklab, var(--color-warning) 74%, var(--text-color));
 		font-family: var(--field-font);
 		font-size: 0.65rem;
 		line-height: 1.35;
-		color: var(--gray-color);
 		letter-spacing: 0.035em;
-	}
-
-	.memo-tag::before {
-		content: "#";
-		opacity: 0.55;
-	}
-
-	.draft-indicator {
-		color: color-mix(in oklab, var(--color-warning) 74%, var(--text-color));
 		text-transform: lowercase;
 	}
 
 	.empty-state {
-		text-align: center;
 		padding: 3rem 1rem;
 		color: var(--gray-color);
 		font-size: 0.9rem;
+		text-align: center;
 	}
 
 	.pagination {
 		display: flex;
-		justify-content: center;
-		margin-top: var(--space-md);
-	}
-
-	.memos-rail-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.72rem;
-	}
-
-	.memos-subsection-label {
-		margin-top: 0.68rem;
-	}
-
-	.memos-month-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.46rem;
-	}
-
-	.memos-month-row {
-		display: grid;
-		grid-template-columns: 4.3rem minmax(3.2rem, 1fr) auto;
-		align-items: center;
-		gap: 0.5rem;
-		font-family: var(--ui-font);
-	}
-
-	.memos-month-row strong {
-		color: var(--heading-color);
-		font-size: 0.8rem;
-		font-weight: var(--weight-regular);
-		font-variant-numeric: tabular-nums;
-		line-height: 1;
-	}
-
-	.memos-month-row em {
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: 0.72rem;
-		font-style: normal;
-		font-weight: var(--weight-regular);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-month-meter {
-		position: relative;
-		height: 0.32rem;
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--accent-soft-bg) 46%, var(--paper-field-bg));
-		overflow: hidden;
-	}
-
-	.memos-month-meter::before {
-		content: "";
-		position: absolute;
-		inset: 0 auto 0 0;
-		width: var(--month-size);
-		border-radius: inherit;
-		background: color-mix(in oklab, var(--accent-color) 82%, var(--heading-color));
+		justify-content: flex-start;
+		margin-top: 1.2rem;
 	}
 
 	.pagination-pages {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.12rem;
-		padding: 0.18rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-card-bg-soft) 72%, transparent);
+		display: flex;
+		gap: 0.45rem;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
 	}
 
 	.pagination .page-link {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 1.55rem;
-		height: 1.45rem;
-		padding: 0 0.38rem;
-		font-family: var(--field-font);
-		font-size: 0.68rem;
-		line-height: 1;
+		min-width: 1.4rem;
+		height: 1.4rem;
+		border: 0 !important;
+		border-radius: 0;
+		background: transparent !important;
 		color: var(--gray-color);
+		font-family: var(--ui-font);
+		font-size: 0.76rem;
 		text-decoration: none;
-		border: 1px solid transparent;
-		border-radius: calc(var(--paper-card-radius) - 1px);
-		background: transparent;
-		font-variant-numeric: tabular-nums;
-		transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-	}
-
-	.pagination .page-link:hover {
-		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
-		background: color-mix(in oklab, var(--paper-card-bg) 72%, var(--page-bg));
 	}
 
 	.pagination .page-link.active {
 		color: var(--heading-color);
-		border-color: color-mix(in oklab, var(--gray-color) 18%, transparent);
-		background: var(--paper-card-bg);
-		position: relative;
-	}
-
-	.pagination .page-link.active::before,
-	.pagination .page-link.active::after {
-		content: none;
+		text-decoration: underline;
+		text-underline-offset: 0.22em;
 	}
 
 	.pagination .page-link:focus-visible {
@@ -860,68 +719,128 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		outline-offset: 2px;
 	}
 
-	@keyframes fade-up {
-		from { opacity: 0; transform: translateY(10px); }
-		to { opacity: 1; transform: translateY(0); }
+	.memos-rail {
+		display: flex;
+		flex-direction: column;
+		gap: 0.72rem;
 	}
 
-	@media (max-width: 1023px) {
-		:global(.memos-surface) {
-			--memos-section-gap: 0.82rem;
-		}
+	.memos-rail-card {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 
-		:global(.memos-surface .magazine-shell) {
-			grid-template-columns: 1fr;
-			justify-content: stretch;
-		}
+	.memos-summary-list,
+	.memos-source-list {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		margin: 0;
+	}
 
-		:global(.memos-surface .magazine-shell),
-		:global(.memos-surface .magazine-main) {
-			gap: var(--memos-section-gap);
-		}
+	.memos-stat-row,
+	.memos-source-row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.7rem;
+		align-items: baseline;
+		padding: 0.45rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
 
-		.memos-page {
-			gap: var(--memos-section-gap);
-		}
+	.memos-stat-row dt,
+	.memos-source-row dt {
+		color: var(--gray-color);
+		font-size: 0.74rem;
+		line-height: 1.35;
+	}
 
-		.memos-layout {
-			width: 100%;
+	.memos-stat-row dd,
+	.memos-source-row dd {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memos-subsection-label {
+		margin-top: 0.3rem;
+	}
+
+	.memos-month-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.54rem;
+	}
+
+	.memos-month-row {
+		display: grid;
+		grid-template-columns: 4.4rem minmax(0, 1fr) auto;
+		gap: 0.58rem;
+		align-items: center;
+		color: var(--gray-color);
+		font-size: 0.72rem;
+		line-height: 1.2;
+	}
+
+	.memos-month-row strong,
+	.memos-month-row em {
+		color: var(--gray-color);
+		font-style: normal;
+		font-weight: var(--weight-regular);
+	}
+
+	.memos-month-meter {
+		position: relative;
+		display: block;
+		height: 1px;
+		background: var(--paper-card-border-soft);
+		overflow: hidden;
+	}
+
+	.memos-month-meter::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: var(--month-size, 0%);
+		background: var(--accent-color);
+	}
+
+	@media (max-width: 720px) {
+		.memos-surface {
+			--memo-avatar-size: 1.75rem;
+			--memo-column-gap: 0.6rem;
+			--memo-inline-pad: 0.68rem;
+			--memo-block-pad: 0.78rem;
+			--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
 		}
 
 		.memo-item {
-			grid-template-columns: 2.1rem minmax(0, 1fr);
-			gap: 0.56rem;
-			padding: 0.7rem 0.76rem 0.62rem;
+			grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
+			column-gap: var(--memo-column-gap);
+			padding: var(--memo-block-pad) var(--memo-inline-pad);
 		}
 
-		.memo-avatar {
-			width: 34px;
-			height: 34px;
+		.memo-avatar-link {
+			grid-column: 1;
+			grid-row: 1;
 		}
 
-		.memo-content {
-			font-size: 0.88rem;
-			line-height: 1.6;
+		.memo-body {
+			grid-column: 2;
 		}
 
-		.memo-header-top {
-			gap: 0.5rem;
-		}
-
-		.memo-actions {
-			opacity: 0.82;
-		}
-	}
-
-	@media (max-width: 640px) {
-		.memos-panel {
-			padding-inline: var(--page-inline);
+		.memo-header {
+			display: flex;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.memos-feed {
-			animation: none;
+		.memo-actions {
+			transition: none;
 		}
 	}
 </style>

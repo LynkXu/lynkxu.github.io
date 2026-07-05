@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import MagazineShell from '../layouts/MagazineShell.astro';
-import neodbData from '../data/neodb.json';
 import stravaData from '../data/strava/activities.min.json';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
@@ -10,29 +9,20 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 4);
-const topicCount = new Set(posts.flatMap((post) => post.data.tags || [])).size;
-const oldestPost = posts[posts.length - 1];
-const sinceYear = oldestPost ? oldestPost.data.pubDate.getFullYear() : new Date().getFullYear();
+const latestPosts = posts.slice(0, 5);
+const featuredPost = latestPosts[0];
+const recentPosts = latestPosts.slice(1);
 const photographyImages = import.meta.glob('../content/photography/*.{jpg,jpeg,png,webp,gif,heic,HEIC}');
-const neodbRecordCount = Object.values(neodbData as Record<string, unknown[]>).reduce(
-	(total, records) => total + (Array.isArray(records) ? records.length : 0),
-	0,
-);
 const stravaActivities = Array.isArray(stravaData) ? stravaData : [];
 
-const profileRows = [
-	{
-		icon: 'code',
-		label: 'Currently',
-		value: 'AI coding agent / Astro blog',
-	},
-	{
-		icon: 'activity',
-		label: 'Sports',
-		value: 'Marathon / Fitness / Cycling',
-	},
-];
+const tagsMap = new Map<string, number>();
+posts.forEach((post) => {
+	(post.data.tags || []).forEach((tag) => {
+		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+	});
+});
+
+const sinceYear = posts.length > 0 ? posts[posts.length - 1].data.pubDate.getFullYear() : new Date().getFullYear();
 
 const indexLinks = [
 	{
@@ -40,14 +30,14 @@ const indexLinks = [
 		icon: 'camera',
 		label: 'Photography',
 		title: '光影瞬间',
-		meta: `${Object.keys(photographyImages).length} images with EXIF`,
+		meta: `${Object.keys(photographyImages).length} images`,
 	},
 	{
 		href: '/media',
 		icon: 'book',
 		label: 'Media',
 		title: '书影音',
-		meta: `${neodbRecordCount} NeoDB records`,
+		meta: 'books / movies / music',
 	},
 	{
 		href: '/travel',
@@ -61,48 +51,15 @@ const indexLinks = [
 		icon: 'activity',
 		label: 'Sports',
 		title: '运动记录',
-		meta: `${stravaActivities.length} Strava activities`,
+		meta: `${stravaActivities.length} activities`,
 	},
-];
-
-const socialLinks = [
-	{
-		href: 'https://github.com/LynkXu',
-		label: 'GitHub',
-		icon: 'github',
-	},
-	{
-		href: 'https://x.com/lynkxu',
-		label: 'X',
-		icon: 'x',
-	},
-	{
-		href: '/index.xml',
-		label: 'RSS',
-		icon: 'rss',
-	},
-];
-
-const streamLinks = [
-	{ href: 'https://mastodon.social/@lynkxu', label: 'Mastodon', icon: 'mastodon' },
-	{ href: 'https://neodb.social/users/LynkXu/', label: 'NeoDB', icon: 'neodb' },
-	{ href: 'https://www.strava.com/athletes/134343081', label: 'Strava', icon: 'strava' },
 ];
 
 const iconPaths: Record<string, string> = {
-	code: '<polyline points="8 9 4 12 8 15"></polyline><polyline points="16 9 20 12 16 15"></polyline><path d="m14 7-4 10"></path><rect x="3" y="4" width="18" height="16" rx="2"></rect>',
-	edit: '<path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path>',
-	sync: '<path d="M21 12a9 9 0 0 0-15.4-6.4L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 15.4 6.4L21 16"></path><path d="M16 16h5v5"></path>',
 	camera: '<path d="M6 8h2l1.4-2h5.2L16 8h2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3"></circle>',
 	book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H7a3 3 0 0 0-3 3Z"></path><path d="M4 5.5v16"></path><path d="M20 3v16"></path>',
 	pin: '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.7"></circle>',
 	activity: '<path d="M5 17h14"></path><path d="m5 17 4-9 3 6 2-4 5 7"></path>',
-	github: '<path d="M15 22v-4a3.7 3.7 0 0 0-1-2.8c3.4-.4 7-1.7 7-7.5A5.8 5.8 0 0 0 19.4 4 5.4 5.4 0 0 0 19.3.3S18 0 15 1.8a12.4 12.4 0 0 0-6 0C6 0 4.7.3 4.7.3A5.4 5.4 0 0 0 4.6 4 5.8 5.8 0 0 0 3 7.7c0 5.8 3.6 7.1 7 7.5a3.7 3.7 0 0 0-1 2.8v4"></path><path d="M9 18c-3 .9-5-1-6-3"></path>',
-	x: '<path d="M18.9 2.2h2.8l-6.1 7 7.2 9.6h-5.6l-4.4-5.8-5 5.8H5l6.5-7.5-6.9-9.1h5.8l4 5.2 4.5-5.2Zm-1 14.9h1.6L9.6 3.8H7.9l10 13.3Z" fill="currentColor" stroke="none"></path>',
-	rss: '<path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle>',
-	mastodon: '<path d="M5.8 15.2c-.4-2-.5-4.2-.3-6.2.3-3.6 2.8-4.7 6.5-4.7s6.2 1.1 6.5 4.7c.2 1.8.1 3.3-.2 4.6-.5 2.3-3.1 2.7-5.5 2.7h-1.7c-1 0-1.8.6-1.8 1.4 0 1.2 1.6 1.5 3.2 1.5 1.4 0 2.8-.2 4.1-.6"></path><path d="M8.7 12.4V8.9c0-1 .7-1.8 1.7-1.8s1.6.7 1.6 1.7v2"></path><path d="M12 8.8c0-1 .7-1.7 1.6-1.7s1.7.8 1.7 1.8v3.5"></path>',
-	neodb: '<path d="M6.2 6.3A7.9 7.9 0 0 1 12 4c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8"></path><path d="M7.6 16.4V7.7l8.8 8.6V7.6"></path>',
-	strava: '<path d="m7.2 15.1 4.8-9.5 4.8 9.5h-3l-1.8-3.7-1.8 3.7H7.2Z"></path><path d="m10.2 18.4 1.8-3.7 1.8 3.7h-3.6Z"></path>',
 };
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -121,7 +78,7 @@ function getPostSummary(post: (typeof posts)[number]) {
 		.trim();
 
 	if (plainSummary) {
-		return plainSummary.length > 58 ? `${plainSummary.slice(0, 58).trim()}...` : plainSummary;
+		return plainSummary.length > 84 ? `${plainSummary.slice(0, 84).trim()}...` : plainSummary;
 	}
 
 	return post.data.tags?.slice(0, 2).join(' / ') || '';
@@ -144,67 +101,46 @@ function getMonth(date: Date) {
 	showProfileCard={false}
 >
 	<section class="home-dashboard" aria-labelledby="home-title">
-		<div class="home-hero-grid">
-			<div class="home-intro">
-				<h1 id="home-title">
-					<span>Do the right thing.</span>
-					<span>Do things right.</span>
-				</h1>
-				<div class="home-stats" aria-label="Blog statistics">
-					<div class="home-stat-card">
+		<div class="home-overview-grid">
+			<header class="home-intro">
+				<h1 id="home-title">LynkXu</h1>
+				<div class="home-stats" aria-label="Site summary">
+					<div class="home-stat">
 						<strong>{posts.length}</strong>
-						<span>Entries</span>
+						<span>entries</span>
 					</div>
-					<div class="home-stat-card">
-						<strong>{topicCount}</strong>
-						<span>Topics</span>
+					<div class="home-stat">
+						<strong>{tagsMap.size}</strong>
+						<span>topics</span>
 					</div>
-					<div class="home-stat-card">
+					<div class="home-stat">
 						<strong>{sinceYear}</strong>
-						<span>Since</span>
+						<span>since</span>
 					</div>
 				</div>
-			</div>
+			</header>
 
-			<section class="home-profile-card" aria-labelledby="home-profile-title">
-				<div class="home-profile-main">
-					<img src="/ava4.png" alt="" class="home-profile-avatar" loading="eager" width="128" height="128" />
-					<div class="home-profile-copy">
-						<h2 id="home-profile-title">LynkXu</h2>
-					</div>
-				</div>
-
-				<div class="home-profile-rows">
-					{profileRows.map((item) => (
-						<div class="home-profile-row">
-							<span class="home-icon" aria-hidden="true">
-								<svg viewBox="0 0 24 24" set:html={iconPaths[item.icon]}></svg>
-							</span>
-							<strong>{item.label}</strong>
-							<span>{item.value}</span>
-						</div>
-					))}
-				</div>
-
-				<div class="home-socials" aria-label="Social links">
-					{socialLinks.map((item) => (
-						<a href={item.href} aria-label={item.label} title={item.label}>
-							<svg viewBox="0 0 24 24" set:html={iconPaths[item.icon]}></svg>
-						</a>
-					))}
-				</div>
-			</section>
-		</div>
-
-		<div class="home-content-grid">
 			<section class="home-panel home-latest-panel" aria-labelledby="home-latest-title">
 				<header class="home-panel-head">
-					<p id="home-latest-title" class="magazine-section-label">Latest</p>
-					<a href="/blog" class="home-all-link">View all entries <span aria-hidden="true">→</span></a>
+					<p id="home-latest-title" class="magazine-section-label">Latest entry</p>
+					<a href="/blog" class="home-all-link">Archive <span aria-hidden="true">→</span></a>
 				</header>
 
-				<div class="home-latest-list" role="list">
-					{latestPosts.map((post) => {
+				{featuredPost && (
+					<a href={getPostHref(featuredPost)} class="home-featured-row">
+						<time class="home-post-date home-post-date--featured" datetime={featuredPost.data.pubDate.toISOString()}>
+							<span>{getMonth(featuredPost.data.pubDate)}</span>
+							<strong>{String(featuredPost.data.pubDate.getDate()).padStart(2, '0')}</strong>
+						</time>
+						<span class="home-post-copy home-post-copy--featured">
+							<strong>{featuredPost.data.title}</strong>
+							<span>{getPostSummary(featuredPost)}</span>
+						</span>
+					</a>
+				)}
+
+				<div class="home-latest-list" role="list" aria-label="Recent entries">
+					{recentPosts.map((post) => {
 						const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
 						return (
 							<a href={getPostHref(post)} class="home-latest-row" role="listitem">
@@ -218,7 +154,7 @@ function getMonth(date: Date) {
 								</span>
 								<span class="home-post-meta">
 									{primaryTag && <span class="home-tag">{primaryTag}</span>}
-									<small>{getReadingMinutes(post)} min read</small>
+									<small>{getReadingMinutes(post)} min</small>
 								</span>
 							</a>
 						);
@@ -237,31 +173,14 @@ function getMonth(date: Date) {
 							<span class="home-index-icon" aria-hidden="true">
 								<svg viewBox="0 0 24 24" set:html={iconPaths[item.icon]}></svg>
 							</span>
-							<span>
+							<span class="home-index-copy">
 								<strong>{item.label}</strong>
 								<em>{item.title}</em>
 								<small>{item.meta}</small>
 							</span>
-							<i aria-hidden="true">›</i>
 						</a>
 					))}
 				</div>
-
-				<section class="home-stream-card" aria-labelledby="home-stream-title">
-					<div>
-						<h2 id="home-stream-title">Data streams</h2>
-						<p>订阅我在各平台的数据与动态，自动同步，持续更新。</p>
-					</div>
-					<div class="home-stream-links">
-						{streamLinks.map((item) => (
-							<a href={item.href}>
-								<svg viewBox="0 0 24 24" set:html={iconPaths[item.icon]}></svg>
-								<span>{item.label}</span>
-							</a>
-						))}
-					</div>
-					<span class="home-stream-arrow" aria-hidden="true">›</span>
-				</section>
 			</section>
 		</div>
 	</section>
@@ -269,13 +188,17 @@ function getMonth(date: Date) {
 
 <style>
 	:global(.home-index-layout) {
-		--blog-shell-width: 1160px;
-		--blog-card-gap: clamp(1rem, 2vw, 1.45rem);
+		--blog-shell-width: 1168px;
 	}
 
-	:global(.home-index-layout .magazine-shell) {
-		padding-top: clamp(1.15rem, 2.4vw, 1.7rem);
-		padding-bottom: clamp(2rem, 4vw, 3rem);
+	:global(.home-index-layout .ledger-main) {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100vh - clamp(5.5rem, 10vw, 8rem));
+	}
+
+	:global(.home-index-layout .ledger-main > footer) {
+		margin-top: clamp(2rem, 5vw, 3.5rem);
 	}
 
 	:global(.home-index-layout footer) {
@@ -289,309 +212,233 @@ function getMonth(date: Date) {
 		transform: translateX(-50%);
 	}
 
-	:global(.home-index-layout footer .social-links) {
-		grid-column: 1;
-		justify-content: center;
-	}
-
 	.home-dashboard {
-		display: flex;
-		flex-direction: column;
-		gap: clamp(1.2rem, 2vw, 1.55rem);
 		width: 100%;
 		font-family: var(--ui-font);
 	}
 
-	.home-hero-grid,
-	.home-content-grid {
+	.home-overview-grid {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(23rem, 0.96fr);
-		gap: clamp(1.2rem, 2.1vw, 1.7rem);
-	}
-
-	.home-hero-grid {
-		align-items: center;
-		min-height: clamp(14rem, 20vw, 16.25rem);
-	}
-
-	.home-content-grid {
-		align-items: stretch;
+		grid-template-areas:
+			"intro latest"
+			"index latest";
+		grid-template-columns: minmax(14rem, 17rem) minmax(0, 1fr);
+		grid-template-rows: auto 1fr;
+		column-gap: clamp(2.4rem, 5vw, 4.4rem);
+		row-gap: clamp(1.45rem, 3vw, 2.1rem);
+		align-items: start;
 	}
 
 	.home-intro {
+		grid-area: intro;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		min-width: 0;
-		padding: clamp(1rem, 1.8vw, 1.35rem) 0;
+		gap: clamp(1.1rem, 2.4vw, 1.55rem);
+		padding-top: clamp(0.2rem, 0.8vw, 0.45rem);
 	}
 
 	.home-intro h1 {
-		display: flex;
-		flex-direction: column;
-		gap: 0.12em;
 		margin: 0;
-		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
-		font-family: var(--ui-font);
-		font-size: clamp(2.55rem, 4.05vw, 3.75rem);
-		font-weight: var(--weight-display);
+		color: var(--heading-color);
+		font-size: clamp(2.65rem, 5.8vw, 4.85rem);
+		font-weight: var(--weight-semibold);
 		letter-spacing: 0;
-		line-height: 0.98;
-		text-wrap: balance;
+		line-height: 0.94;
 	}
 
 	.home-stats {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 8.75rem));
-		gap: clamp(0.7rem, 1.4vw, 1rem);
-		margin-top: clamp(1rem, 1.8vw, 1.25rem);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border-top: 1px solid var(--paper-card-border-soft);
+		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
-	.home-stat-card,
-	.home-profile-card {
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
+	.home-stat {
+		min-width: 0;
+		padding: 0.62rem 0.52rem 0.62rem 0;
 	}
 
-	.home-stat-card {
-		min-height: 3.95rem;
-		padding: 0.84rem 1rem;
-		box-shadow: none;
+	.home-stat + .home-stat {
+		padding-left: 0.65rem;
+		border-left: 1px solid var(--paper-card-border-soft);
 	}
 
-	.home-stat-card strong {
+	.home-stat strong,
+	.home-stat span {
 		display: block;
-		color: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
-		font-size: clamp(1.16rem, 1.7vw, 1.32rem);
-		font-weight: var(--weight-bold);
+		min-width: 0;
+	}
+
+	.home-stat strong {
+		color: var(--heading-color);
+		font-size: 0.98rem;
+		font-weight: var(--weight-medium);
 		line-height: 1;
 	}
 
-	.home-stat-card span {
-		display: block;
-		margin-top: 0.34rem;
-		color: var(--heading-color);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
-	}
-
-	.home-profile-card {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		gap: clamp(1.08rem, 1.9vw, 1.35rem);
-		min-height: clamp(13.2rem, 18vw, 15.4rem);
-		padding: clamp(1.35rem, 2.4vw, 1.7rem);
-		box-shadow: none;
-	}
-
-	.home-profile-main {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
-		gap: clamp(1rem, 1.7vw, 1.3rem);
-		align-items: center;
-	}
-
-	.home-profile-avatar {
-		width: clamp(4.2rem, 5.8vw, 5.2rem);
-		height: clamp(4.2rem, 5.8vw, 5.2rem);
-		border-radius: 50%;
-		object-fit: cover;
-		background: var(--paper-field-bg);
-	}
-
-	.home-profile-copy h2 {
-		margin: 0;
-		color: var(--heading-color);
-		font-size: clamp(1.25rem, 1.9vw, 1.48rem);
-		font-weight: var(--weight-bold);
-		line-height: 1.1;
-	}
-
-	.home-profile-rows {
-		display: flex;
-		flex-direction: column;
-		gap: 0.68rem;
-		padding-top: 1.02rem;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.home-profile-row {
-		display: grid;
-		grid-template-columns: 1.55rem 5.4rem minmax(0, 1fr);
-		gap: 0.72rem;
-		align-items: center;
-		min-width: 0;
+	.home-stat span {
+		margin-top: 0.24rem;
 		color: var(--gray-color);
-		font-size: 0.86rem;
-		line-height: 1.4;
-	}
-
-	.home-profile-row strong {
-		color: var(--heading-color);
-		font-weight: var(--weight-semibold);
-	}
-
-	.home-profile-row span:last-child {
-		min-width: 0;
-		overflow-wrap: anywhere;
-	}
-
-	.home-icon,
-	.home-index-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--heading-color);
-	}
-
-	.home-icon svg,
-	.home-index-icon svg,
-	.home-socials svg,
-	.home-stream-links svg {
-		width: 1.25rem;
-		height: 1.25rem;
-		fill: none;
-		stroke: currentColor;
-		stroke-width: 1.8;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-	}
-
-	.home-socials {
-		display: flex;
-		gap: 0.72rem;
-		padding-top: 1.02rem;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.home-socials a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 2.25rem;
-		height: 2.25rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: 7px;
-		background: color-mix(in oklab, var(--paper-card-bg) 86%, var(--paper-field-bg));
-		color: var(--heading-color);
-		text-decoration: none;
-		transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
-	}
-
-	.home-socials a:hover {
-		border-color: var(--paper-hover-border);
-		background: var(--paper-hover-bg);
-		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
-		transform: translateY(-1px);
+		font-size: 0.68rem;
+		line-height: 1.2;
 	}
 
 	.home-panel {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
 		min-width: 0;
-		padding: 0;
+	}
+
+	.home-latest-panel {
+		grid-area: latest;
 	}
 
 	.home-index-panel {
-		min-height: 100%;
+		grid-area: index;
 	}
 
 	.home-panel-head {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr) auto;
-		align-items: start;
+		align-items: baseline;
 		gap: 1rem;
-		margin-bottom: 0.72rem;
+		margin: 0;
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
 	.home-panel-head .magazine-section-label {
 		margin: 0;
-		color: color-mix(in oklab, var(--blog-section-label-color) 62%, var(--gray-color));
-		font-size: 0.8rem;
+		color: var(--gray-color);
+		font-size: 0.72rem;
 		font-weight: var(--weight-medium);
-		letter-spacing: 0.035em;
+		letter-spacing: 0.04em;
 	}
 
-	.home-panel-head .magazine-section-label::after {
-		width: 2.1rem;
-		height: 1px;
-		opacity: 0.75;
+	.home-all-link {
+		border: 0 !important;
+		color: var(--gray-color);
+		font-size: 0.74rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.15;
+		text-decoration: none;
+		white-space: nowrap;
 	}
 
-	.home-latest-list {
+	.home-all-link:hover {
+		color: var(--heading-color);
+	}
+
+	.home-featured-row {
 		display: grid;
-		gap: 0.58rem;
+		grid-template-columns: 5rem minmax(0, 1fr);
+		gap: clamp(1rem, 2vw, 1.4rem);
+		align-items: start;
+		padding: clamp(1.05rem, 2.4vw, 1.45rem) 0;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		background: transparent !important;
+		color: var(--heading-color);
+		text-decoration: none;
+	}
+
+	.home-latest-list,
+	.home-index-grid {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+	}
+
+	.home-latest-row,
+	.home-index-card {
+		display: grid;
+		min-height: 0;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0;
+		background: transparent !important;
+		color: var(--heading-color);
+		box-shadow: none;
+		text-decoration: none;
+		transition: color 0.18s ease;
 	}
 
 	.home-latest-row {
-		display: grid;
-		grid-template-columns: 4.35rem minmax(0, 1fr) auto;
-		gap: clamp(0.72rem, 1.2vw, 0.95rem);
-		align-items: center;
-		min-width: 0;
-		min-height: 4.25rem;
-		padding: 0.68rem 0.82rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		color: var(--heading-color);
-		text-decoration: none;
-		background: color-mix(in oklab, var(--paper-card-bg) 90%, var(--paper-field-bg)) !important;
-		transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+		grid-template-columns: 4.1rem minmax(0, 1fr) auto;
+		gap: clamp(0.8rem, 1.8vw, 1.2rem);
+		align-items: baseline;
+		padding: 0.82rem 0;
 	}
 
-	.home-latest-row:hover {
-		border-color: var(--paper-hover-border);
-		background: var(--paper-hover-bg) !important;
-		color: color-mix(in oklab, var(--accent-color) 60%, var(--heading-color));
-		transform: translateY(-1px);
+	.home-featured-row:hover,
+	.home-latest-row:hover,
+	.home-index-card:hover {
+		color: var(--heading-color);
+		transform: none;
 	}
 
 	.home-post-date {
+		display: inline-flex;
+		gap: 0.16rem;
+		min-height: 0;
+		border-radius: 0;
+		background: transparent;
+		color: var(--gray-color);
+		font-variant-numeric: tabular-nums;
+		line-height: 1.35;
+		text-align: left;
+	}
+
+	.home-post-date span,
+	.home-post-date strong {
+		color: inherit;
+		font-size: 0.74rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.35;
+	}
+
+	.home-post-date span::after {
+		content: ".";
+	}
+
+	.home-post-date--featured {
 		display: grid;
 		gap: 0.18rem;
-		place-items: center;
-		align-self: stretch;
-		min-height: 2.95rem;
-		border-radius: calc(var(--paper-card-radius) - 1px);
-		background: color-mix(in oklab, var(--accent-soft-bg) 42%, var(--paper-card-bg));
-		color: color-mix(in oklab, var(--accent-color) 75%, var(--heading-color));
-		font-variant-numeric: tabular-nums;
+		align-self: start;
 		line-height: 1;
-		text-align: center;
+	}
+
+	.home-post-date--featured span {
+		font-size: 0.72rem;
+		line-height: 1;
 		text-transform: uppercase;
 	}
 
-	.home-post-date span {
-		color: color-mix(in oklab, var(--accent-color) 58%, var(--gray-color));
-		font-size: 0.68rem;
-		font-weight: var(--weight-medium);
-		line-height: 1;
+	.home-post-date--featured span::after {
+		content: "";
 	}
 
-	.home-post-date strong {
-		color: inherit;
-		font-size: 1.18rem;
+	.home-post-date--featured strong {
+		color: color-mix(in oklab, var(--accent-color) 58%, var(--heading-color));
+		font-size: clamp(1.8rem, 4vw, 2.65rem);
 		font-weight: var(--weight-semibold);
-		line-height: 1;
+		line-height: 0.92;
 	}
 
-	.home-post-copy {
+	.home-post-copy,
+	.home-index-copy {
 		display: flex;
 		flex-direction: column;
-		gap: 0.26rem;
 		min-width: 0;
 	}
 
+	.home-post-copy {
+		gap: 0.24rem;
+	}
+
 	.home-post-copy strong {
-		display: block;
 		color: var(--heading-color);
-		font-size: 0.98rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.35;
+		font-size: 1rem;
+		font-weight: var(--weight-medium);
+		line-height: 1.34;
 	}
 
 	.home-post-copy span {
@@ -600,86 +447,70 @@ function getMonth(date: Date) {
 		-webkit-line-clamp: 1;
 		overflow: hidden;
 		color: var(--gray-color);
-		font-size: 0.82rem;
-		font-weight: var(--weight-medium);
+		font-size: 0.8rem;
 		line-height: 1.5;
+	}
+
+	.home-post-copy--featured strong {
+		font-size: clamp(1.34rem, 3.1vw, 2.15rem);
+		line-height: 1.22;
+		text-wrap: balance;
+	}
+
+	.home-post-copy--featured span {
+		display: block;
+		-webkit-line-clamp: unset;
+		margin-top: 0.34rem;
+		font-size: 0.9rem;
+		line-height: 1.62;
 	}
 
 	.home-post-meta {
 		display: flex;
 		align-items: center;
 		justify-content: flex-end;
-		gap: 0.7rem;
-		min-width: 7.6rem;
+		gap: 0.62rem;
+		min-width: 6.8rem;
 		color: var(--gray-color);
 		white-space: nowrap;
 	}
 
+	.home-post-meta small,
 	.home-tag {
-		display: inline-flex;
-		align-items: center;
-		min-height: 1.72rem;
-		padding: 0 0.72rem;
-		border-radius: 5px;
-		background: color-mix(in oklab, var(--accent-soft-bg) 46%, var(--paper-card-bg));
-		color: color-mix(in oklab, var(--accent-color) 64%, var(--gray-color));
-		font-size: 0.76rem;
-		font-weight: var(--weight-medium);
-	}
-
-	.home-post-meta small {
 		color: var(--gray-color);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
+		font-size: 0.72rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.2;
 	}
 
-	.home-all-link {
-		width: fit-content;
-		margin-top: 0;
-		grid-column: 3;
-		justify-self: end;
-		border: 0 !important;
-		color: color-mix(in oklab, var(--accent-color) 58%, var(--gray-color));
-		font-size: 0.8rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.15;
-		text-decoration: none;
-		white-space: nowrap;
-	}
-
-	.home-index-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.64rem;
-		margin-bottom: 0.72rem;
+	.home-tag::before {
+		content: "#";
+		opacity: 0.55;
 	}
 
 	.home-index-card {
-		display: grid;
-		grid-template-columns: 2.35rem minmax(0, 1fr) auto;
-		gap: 0.68rem;
+		grid-template-columns: 1.35rem minmax(0, 1fr);
+		gap: 0.72rem;
+		align-items: start;
+		padding: 0.78rem 0;
+	}
+
+	.home-index-icon {
+		display: inline-flex;
 		align-items: center;
-		min-height: 4.55rem;
-		padding: 0.72rem 0.82rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-card-bg) 90%, var(--paper-field-bg)) !important;
+		justify-content: center;
+		padding-top: 0.08rem;
 		color: var(--heading-color);
-		text-decoration: none;
-		transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 	}
 
-	.home-index-card:hover {
-		border-color: var(--paper-hover-border);
-		background: var(--paper-hover-bg) !important;
-		color: color-mix(in oklab, var(--accent-color) 62%, var(--heading-color));
-		transform: translateY(-1px);
-	}
-
-	.home-index-card span:nth-child(2) {
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
+	.home-index-icon svg {
+		width: 0.95rem;
+		height: 0.95rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.65;
+		stroke-linecap: round;
+		stroke-linejoin: round;
 	}
 
 	.home-index-card strong,
@@ -687,227 +518,61 @@ function getMonth(date: Date) {
 	.home-index-card small {
 		display: block;
 		min-width: 0;
-		overflow-wrap: anywhere;
 		font-style: normal;
+		overflow-wrap: anywhere;
 	}
 
 	.home-index-card strong {
+		color: var(--heading-color);
 		font-size: 0.9rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.2;
+		font-weight: var(--weight-medium);
+		line-height: 1.25;
+	}
+
+	.home-index-card em,
+	.home-index-card small {
+		color: var(--gray-color);
+		font-size: 0.74rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.35;
 	}
 
 	.home-index-card em {
 		margin-top: 0.14rem;
-		color: var(--heading-color);
-		font-size: 0.82rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.25;
 	}
 
 	.home-index-card small {
-		margin-top: 0.28rem;
-		color: var(--gray-color);
-		font-size: 0.74rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.35;
+		margin-top: 0.18rem;
+		color: var(--faint-color);
 	}
 
-	.home-index-card i {
-		color: var(--heading-color);
-		font-size: 1.8rem;
-		font-style: normal;
-		font-weight: 300;
-		line-height: 1;
-	}
-
-	.home-stream-card {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		min-height: 6.45rem;
-		margin-top: auto;
-		padding: 0.95rem 1.05rem;
-		border: 1px solid color-mix(in oklab, var(--accent-color) 16%, var(--paper-card-border-soft));
-		border-radius: var(--paper-card-radius);
-		background:
-			linear-gradient(135deg, color-mix(in oklab, var(--accent-soft-bg) 26%, var(--paper-card-bg)) 0%, var(--paper-card-bg) 72%),
-			var(--paper-card-bg);
-		color: var(--heading-color);
-		overflow: hidden;
-	}
-
-	.home-stream-card h2,
-	.home-stream-card p {
-		margin: 0;
-	}
-
-	.home-stream-card h2 {
-		font-size: clamp(1.08rem, 1.55vw, 1.2rem);
-		font-weight: var(--weight-semibold);
-		line-height: 1.2;
-	}
-
-	.home-stream-card p {
-		margin-top: 0.32rem;
-		color: var(--gray-color);
-		font-size: 0.82rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
-	}
-
-	.home-stream-links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.48rem;
-		margin-top: 0.62rem;
-		padding-right: 1.5rem;
-	}
-
-	.home-stream-links a {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.42rem;
-		min-height: 1.82rem;
-		padding: 0 0.72rem;
-		border: 1px solid color-mix(in oklab, var(--accent-color) 18%, var(--paper-card-border-soft));
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--paper-card-bg) 84%, var(--accent-soft-bg)) !important;
-		color: color-mix(in oklab, var(--accent-color) 58%, var(--heading-color));
-		font-size: 0.76rem;
-		font-weight: var(--weight-medium);
-		text-decoration: none;
-	}
-
-	.home-stream-links svg {
-		width: 1rem;
-		height: 1rem;
-	}
-
-	.home-stream-arrow {
-		position: absolute;
-		right: 0.88rem;
-		top: 50%;
-		transform: translateY(-50%);
-		color: color-mix(in oklab, var(--accent-color) 48%, var(--gray-color));
-		font-size: 2.7rem;
-		font-weight: 250;
-		line-height: 1;
-	}
-
-	@media (max-width: 1080px) {
-		.home-hero-grid,
-		.home-content-grid {
+	@media (max-width: 1100px) {
+		.home-overview-grid {
+			grid-template-areas:
+				"intro"
+				"latest"
+				"index";
 			grid-template-columns: 1fr;
-		}
-
-		.home-intro {
-			padding-top: 0;
+			row-gap: clamp(1.8rem, 5vw, 2.8rem);
 		}
 	}
 
-	@media (max-width: 760px) {
-		:global(.home-index-layout .magazine-shell) {
-			width: 100%;
-		}
-
-		.home-dashboard {
-			gap: 1.2rem;
-		}
-
-		.home-intro {
-			padding: 0 var(--page-inline);
-		}
-
+	@media (max-width: 640px) {
 		.home-intro h1 {
-			font-size: clamp(2.55rem, 12vw, 3.45rem);
+			font-size: clamp(2.7rem, 14vw, 3.8rem);
 		}
 
-		.home-stats,
-		.home-index-grid {
-			grid-template-columns: 1fr;
-		}
-
-		.home-profile-card,
-		.home-panel {
-			border-right: 0;
-			border-left: 0;
-			border-radius: 0;
-		}
-
-		.home-panel {
-			padding: 0 var(--page-inline);
-		}
-
-		.home-profile-main {
-			grid-template-columns: 1fr;
-			justify-items: start;
-		}
-
-		.home-profile-row {
-			grid-template-columns: 1.45rem minmax(0, 1fr);
-			gap: 0.45rem 0.75rem;
-		}
-
-		.home-profile-row span:last-child {
-			grid-column: 2;
-		}
-
+		.home-featured-row,
 		.home-latest-row {
-			grid-template-columns: 4.8rem minmax(0, 1fr);
-			gap: 0.95rem;
-			min-height: 0;
-			padding: 0.95rem;
-		}
-
-		.home-post-date {
-			grid-template-columns: 1fr;
-			gap: 0.24rem;
-			align-self: start;
+			grid-template-columns: 3.65rem minmax(0, 1fr);
 		}
 
 		.home-post-meta {
 			grid-column: 2;
 			justify-content: flex-start;
 			min-width: 0;
-		}
-
-		.home-stream-card {
-			border-radius: 0;
-		}
-	}
-
-	@media (max-width: 460px) {
-		.home-stats {
-			gap: 0.65rem;
-		}
-
-		.home-stat-card {
-			min-height: 4.25rem;
-			padding: 0.85rem 1rem;
-		}
-
-		.home-socials {
-			gap: 0.72rem;
-		}
-
-		.home-post-meta {
 			flex-wrap: wrap;
-			gap: 0.45rem;
 			white-space: normal;
-		}
-
-		.home-index-card {
-			grid-template-columns: 2.4rem minmax(0, 1fr) auto;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.home-socials a,
-		.home-index-card,
-		.home-latest-row {
-			transition: none;
 		}
 	}
 </style>

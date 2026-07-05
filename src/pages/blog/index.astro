@@ -50,7 +50,6 @@ function getPostHref(post: (typeof posts)[number]) {
 			<div>
 				<p class="magazine-section-label">Articles</p>
 				<h1 id="archive-title" class="sr-only">Archive</h1>
-				<p class="archive-board__intro">{posts.length} entries, filed by year. Tags stay secondary.</p>
 			</div>
 		</header>
 
@@ -377,6 +376,204 @@ function getPostHref(post: (typeof posts)[number]) {
 
 		.archive-entry__date {
 			text-align: left;
+		}
+	}
+</style>
+
+<style is:global>
+	.archive-layout .archive-rail-card {
+		gap: 1rem !important;
+	}
+
+	.archive-layout .archive-tag-cloud {
+		display: flex !important;
+		flex-direction: column !important;
+		gap: 0 !important;
+		padding-top: 0 !important;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.archive-layout .archive-tag-chip {
+		justify-content: flex-start !important;
+		min-height: 0 !important;
+		padding: 0.48rem 0 !important;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		color: var(--gray-color) !important;
+		font-size: 0.74rem !important;
+	}
+
+	.archive-layout .archive-tag-chip:hover {
+		color: var(--heading-color) !important;
+	}
+
+	.archive-layout .archive-summary {
+		grid-template-columns: 1fr !important;
+		gap: 0 !important;
+		border-top: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.archive-layout .archive-summary span {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding: 0.45rem 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.archive-layout .archive-summary strong {
+		color: var(--heading-color) !important;
+		font-size: 0.9rem !important;
+		font-weight: var(--weight-medium) !important;
+	}
+
+	.archive-layout .archive-year-index {
+		grid-template-columns: 1fr !important;
+		gap: 0 !important;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.archive-layout .archive-year-index a {
+		padding: 0.45rem 0;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+	}
+</style>
+
+<style>
+	:global(.archive-layout) {
+		--blog-context-width: 13.5rem;
+	}
+
+	.archive-board {
+		min-height: 0;
+	}
+
+	.archive-board__header {
+		margin-bottom: clamp(1rem, 3vw, 1.8rem);
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.archive-ledger {
+		gap: clamp(1.35rem, 3vw, 2.2rem);
+	}
+
+	.archive-year {
+		grid-template-columns: 4.75rem minmax(0, 1fr);
+		gap: clamp(1.2rem, 3vw, 2rem);
+	}
+
+	.archive-year + .archive-year {
+		margin-top: 0;
+	}
+
+	.archive-year__label {
+		top: 2rem;
+		color: var(--heading-color);
+		font-size: clamp(1.28rem, 2.3vw, 1.65rem);
+		font-weight: var(--weight-medium);
+	}
+
+	.archive-entry {
+		grid-template-columns: 3.35rem minmax(0, 1fr) minmax(4rem, auto);
+		gap: clamp(0.8rem, 2vw, 1.2rem);
+		padding: 0.64rem 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.archive-entry__date {
+		color: var(--gray-color);
+		font-size: 0.76rem;
+		font-weight: var(--weight-regular);
+	}
+
+	.archive-entry__title {
+		color: var(--heading-color);
+		font-size: clamp(0.96rem, 1.3vw, 1.08rem);
+		font-weight: var(--weight-regular);
+		line-height: 1.42;
+	}
+
+	.archive-entry__title:hover {
+		color: var(--accent-color);
+	}
+
+	.archive-entry__meta {
+		align-self: baseline;
+		padding-top: 0.15rem;
+	}
+
+	.archive-tag-chip {
+		min-height: 0;
+		padding: 0;
+		border-radius: 0;
+		background: transparent !important;
+		color: var(--gray-color);
+		font-size: 0.72rem;
+	}
+
+	.archive-tag-chip::before {
+		content: "#";
+		opacity: 0.55;
+	}
+
+	.archive-rail-card {
+		gap: 1rem;
+	}
+
+	.archive-tag-cloud {
+		gap: 0.45rem 0.75rem;
+		padding-top: 0;
+	}
+
+	.archive-summary {
+		grid-template-columns: 1fr;
+		gap: 0.45rem;
+		margin-top: 0.25rem;
+		padding-top: 1rem;
+		color: var(--gray-color);
+		font-size: 0.76rem;
+	}
+
+	.archive-summary strong {
+		color: var(--heading-color);
+		font-size: 0.92rem;
+		font-weight: var(--weight-medium);
+	}
+
+	.archive-summary span:last-child {
+		grid-column: auto;
+		font-size: 0.76rem;
+	}
+
+	.archive-year-index {
+		grid-template-columns: 1fr;
+		gap: 0.45rem;
+	}
+
+	.archive-year-index strong {
+		color: var(--heading-color);
+		font-size: 0.9rem;
+		font-weight: var(--weight-medium);
+	}
+
+	.archive-year-index span {
+		color: var(--gray-color);
+		font-size: 0.7rem;
+	}
+
+	@media (max-width: 760px) {
+		.archive-year {
+			grid-template-columns: 1fr;
+		}
+
+		.archive-year__label {
+			padding-bottom: 0.45rem;
+		}
+
+		.archive-entry {
+			grid-template-columns: 3.2rem minmax(0, 1fr);
 		}
 	}
 </style>
