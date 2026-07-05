@@ -23,11 +23,20 @@ const currentYear = today.getFullYear();
 	}
 
 	:global(body:has(.blog-surface-layout)) footer {
+		grid-template-columns: minmax(0, 1fr) auto;
+		width: 100%;
+		margin-right: 0;
+		margin-left: 0;
 		margin-top: 0;
+		text-align: left;
 	}
 
 	:global(body:has(.blog-surface-layout)) footer::before {
 		content: none !important;
+	}
+
+	:global(body:has(.blog-surface-layout) .ledger-main > footer > *) {
+		grid-column: auto !important;
 	}
 
 	/* Fix for full-width layout pages */
@@ -73,6 +82,10 @@ const currentYear = today.getFullYear();
 			grid-template-columns: 1fr;
 			align-items: start;
 			gap: 0.4rem;
+		}
+
+		:global(body:has(.blog-surface-layout)) footer {
+			grid-template-columns: 1fr;
 		}
 	}
 </style>

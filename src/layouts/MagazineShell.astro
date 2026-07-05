@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import { filterDrafts } from '../utils/drafts';
 
@@ -71,6 +72,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	description={description}
 	className={`blog-surface-layout ${className}`}
 	hideHeader={true}
+	hideFooter={true}
 >
 	<slot name="head" slot="head" />
 
@@ -129,6 +131,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 
 		<main class="ledger-main">
 			<slot />
+			<Footer />
 		</main>
 
 		{shouldRenderRail && (
