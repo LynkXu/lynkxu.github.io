@@ -143,11 +143,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			user-select: none;
 		}
 
-		.blog-post-layout {
-			--blog-shell-width: 1160px;
-			--blog-shell-sidebar-width: 21rem;
-		}
-
 		.blog-main-column {
 			display: flex;
 			flex-direction: column;
@@ -809,12 +804,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			})();
 		</script>
 	<style is:global>
-		.blog-post-layout {
-			--blog-shell-width: 1220px;
-			--blog-context-width: 15rem;
-		}
-
-		.blog-post-layout .blog-main-column {
+	.blog-post-layout .blog-main-column {
 			gap: clamp(1.2rem, 3vw, 2.2rem);
 		}
 
