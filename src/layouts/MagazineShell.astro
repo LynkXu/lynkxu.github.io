@@ -406,7 +406,14 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-main {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(1.8rem, 4vw, 3rem);
 		min-width: 0;
+	}
+
+	.ledger-main > footer {
+		margin-top: clamp(0.6rem, 2vw, 1.2rem);
 	}
 
 	.ledger-context {

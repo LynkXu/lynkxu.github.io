@@ -1298,3 +1298,150 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		}
 	}
 </style>
+
+<style is:global>
+	.memos-surface .memo-item {
+		display: grid !important;
+		grid-template-columns: 5.8rem 2rem minmax(0, 1fr) !important;
+		column-gap: clamp(0.7rem, 1.8vw, 1rem) !important;
+		row-gap: 0 !important;
+		align-items: start !important;
+		padding: clamp(0.82rem, 2vw, 1.08rem) 0 !important;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.memos-surface .memo-avatar-link {
+		display: block !important;
+		grid-column: 2 !important;
+		grid-row: 1 !important;
+		width: 2rem !important;
+		height: 2rem !important;
+		margin: 0 !important;
+		border: 0 !important;
+		line-height: 0 !important;
+	}
+
+	.memos-surface .memo-avatar {
+		display: block !important;
+		width: 2rem !important;
+		height: 2rem !important;
+		border-radius: 50% !important;
+		object-fit: cover !important;
+		filter: none !important;
+	}
+
+	.memos-surface .memo-body {
+		grid-column: 3 !important;
+		grid-row: 1 !important;
+		min-width: 0 !important;
+	}
+
+	.memos-surface .memo-header {
+		display: grid !important;
+		grid-template-columns: minmax(0, 1fr) auto !important;
+		column-gap: 0.8rem !important;
+		row-gap: 0.18rem !important;
+		align-items: start !important;
+		margin-bottom: 0.36rem !important;
+		line-height: 1.35 !important;
+	}
+
+	.memos-surface .memo-header-top {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: space-between !important;
+		gap: 0.65rem !important;
+		min-height: 2rem !important;
+		width: 100% !important;
+	}
+
+	.memos-surface .memo-author-line {
+		display: inline-flex !important;
+		align-items: center !important;
+		min-width: 0 !important;
+		gap: 0.36rem !important;
+	}
+
+	.memos-surface .memo-author {
+		color: var(--heading-color) !important;
+		font-size: 0.8rem !important;
+		font-weight: var(--weight-medium) !important;
+		line-height: 1.2 !important;
+	}
+
+	.memos-surface .memo-source {
+		display: inline-flex !important;
+		align-items: center !important;
+		min-height: 0 !important;
+		padding: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		color: var(--gray-color) !important;
+		font-size: 0.66rem !important;
+		line-height: 1.2 !important;
+	}
+
+	.memos-surface .memo-source::before {
+		content: "/" !important;
+		margin-right: 0.3rem !important;
+		color: var(--faint-color) !important;
+	}
+
+	.memos-surface .memo-actions {
+		align-self: center !important;
+		margin-top: 0 !important;
+		opacity: 0.68 !important;
+	}
+
+	.memos-surface .memo-meta-time {
+		grid-column: 1 !important;
+		grid-row: 1 !important;
+		width: 5.8rem !important;
+		margin: 0 !important;
+		padding-top: 0.36rem !important;
+		color: var(--gray-color) !important;
+		font-family: var(--ui-font) !important;
+		font-size: 0.7rem !important;
+		line-height: 1.35 !important;
+		font-variant-numeric: tabular-nums !important;
+	}
+
+	.memos-surface .memo-content {
+		color: var(--text-color) !important;
+		font-size: 0.92rem !important;
+		line-height: 1.72 !important;
+	}
+
+	@media (max-width: 720px) {
+		.memos-surface .memo-item {
+			grid-template-columns: 2rem minmax(0, 1fr) !important;
+			column-gap: 0.68rem !important;
+			padding: 0.86rem 0 !important;
+		}
+
+		.memos-surface .memo-avatar-link {
+			grid-column: 1 !important;
+			grid-row: 1 !important;
+		}
+
+		.memos-surface .memo-body {
+			grid-column: 2 !important;
+		}
+
+		.memos-surface .memo-header {
+			grid-template-columns: minmax(0, 1fr) !important;
+		}
+
+		.memos-surface .memo-meta-time {
+			grid-column: 1 !important;
+			grid-row: 2 !important;
+			width: auto !important;
+			padding-top: 0 !important;
+		}
+	}
+</style>
