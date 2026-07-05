@@ -2471,7 +2471,7 @@ ul.posts li a:visited {
   max-width: 72ch;
   margin-left: auto;
   margin-right: auto;
-  color: color-mix(in oklab, var(--text-color) 97%, var(--heading-color));
+  color: color-mix(in oklab, var(--text-color) 95%, var(--heading-color));
   /* Auto spacing between CJK and Latin/punctuation */
   text-autospace: ideograph-alpha ideograph-numeric;
 
