@@ -117,11 +117,14 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 				</div>
 
 				<nav class="ledger-social" aria-label="Social links">
-					{socialItems.map((item) => (
-						<a href={item.href} target="_blank" rel="noopener noreferrer">
-							{item.label}
-						</a>
-					))}
+					<span class="ledger-group-label">Social</span>
+					<div class="ledger-social__links">
+						{socialItems.map((item) => (
+							<a href={item.href} target="_blank" rel="noopener noreferrer">
+								{item.label}
+							</a>
+						))}
+					</div>
 				</nav>
 
 				<div class="ledger-sidebar__bottom">
@@ -293,7 +296,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		display: flex;
 		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
 		flex-direction: column;
-		gap: 1.5rem;
+		gap: 1.85rem;
 		padding: 0 clamp(1rem, 2vw, 1.35rem) 0 0;
 		border-right: 1px solid var(--paper-card-border-soft);
 	}
@@ -334,8 +337,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-nav-group--secondary {
-		padding-top: 1rem;
-		border-top: 1px solid var(--paper-card-border-soft);
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	.ledger-group-label {
@@ -413,8 +416,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		flex-direction: column;
 		gap: 0.95rem;
 		margin-top: auto;
-		padding-top: 1.05rem;
-		border-top: 1px solid var(--paper-card-border-soft);
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	.ledger-sidebar__meta-group {
@@ -482,10 +485,16 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 
 	.ledger-social {
 		display: flex;
+		flex-direction: column;
+		gap: 0.42rem;
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.ledger-social__links {
+		display: flex;
 		flex-wrap: wrap;
 		gap: 0.28rem 0.72rem;
-		padding-top: 0.55rem;
-		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 68%, transparent);
 	}
 
 	.ledger-social a {
