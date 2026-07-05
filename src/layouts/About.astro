@@ -7,11 +7,8 @@ const { title } = Astro.props;
 const blogHistory = [
 	{ date: '2026.01', text: '接入 Memos、NeoDB、Strava 等数据流'},
 	{ date: '2026.01', text: '购买 lynkxu.com，并开始自建博客主题'},
-	{ date: '2025.06', text: '使用 Astro + astro-blog theme'},
 	{ date: '2024.06', text: '使用 Astro + Astro Theme Pure'},
-	{ date: '2022.09', text: '使用 Gatsby + breeze theme' },
 	{ date: '2020.09', text: '使用 GitHub Pages + Hexo' },
-	{ date: '2018.07', text: '因为备案要求过多以及考研，博客几乎荒废' },
 	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
 ];
 
@@ -122,7 +119,6 @@ const contactLinks = [
 			"lead lead"
 			"note note"
 			"fragments fragments"
-			"rule rule"
 			"sections sections";
 		column-gap: clamp(1.4rem, 3vw, 2.4rem);
 		row-gap: clamp(0.92rem, 1.8vw, 1.24rem);
@@ -224,6 +220,7 @@ const contactLinks = [
 		grid-template-columns: minmax(14rem, 0.86fr) minmax(18rem, 1.14fr);
 		gap: clamp(1.2rem, 2.4vw, 1.7rem);
 		align-items: start;
+		margin-top: 1.2rem;
 	}
 
 	.about-module {
@@ -280,17 +277,20 @@ const contactLinks = [
 		grid-template-columns: 4.2rem minmax(0, 1fr);
 		gap: 0.85rem;
 		align-items: center;
-		min-height: 2.25rem;
-		padding: 0.55rem 0.72rem;
-		border: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 54%, transparent) !important;
+		min-height: 0;
+		padding: 0.55rem 0;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0;
+		background: transparent !important;
 		color: inherit;
 		font-family: var(--ui-font);
 		text-decoration: none;
-		transition:
-			border-color 0.18s ease,
-			background 0.18s ease;
+		transition: color 0.18s ease;
+	}
+
+	.about-module__links a:last-child {
+		border-bottom: 0 !important;
 	}
 
 	.about-module__links span {
@@ -316,26 +316,46 @@ const contactLinks = [
 	}
 
 	.about-module__links a:hover {
-		border-color: var(--paper-hover-border) !important;
-		background: var(--paper-hover-bg) !important;
+		background: transparent !important;
 	}
 
 	.about-module--support .sponsor-about {
 		margin: 0;
-		gap: 0.55rem;
+		gap: 0;
+		padding: 0;
+		border: 0;
+		background: transparent;
 	}
 
 	.about-module--support .sponsor-fold {
 		margin: 0;
-		background: color-mix(in oklab, var(--paper-field-bg) 54%, transparent);
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+		border-radius: 0;
+	}
+
+	.about-module--support .sponsor-fold:last-child {
+		border-bottom: 0;
+	}
+
+	.about-module--support .sponsor-fold:last-child {
+		border-bottom: 0;
 	}
 
 	.about-module--support .sponsor-fold summary {
 		display: flex;
 		align-items: center;
-		min-height: 2.25rem;
-		padding: 0.55rem 0.72rem;
-		font-weight: var(--weight-medium);
+		min-height: 0;
+		padding: 0.55rem 0;
+		color: var(--text-color);
+		font-weight: var(--weight-regular);
+		background: transparent;
+	}
+
+	.about-module--support .sponsor-fold summary:hover {
+		color: var(--heading-color);
+		background: transparent;
 	}
 
 	.about-module--support .sponsor-grid,
@@ -396,58 +416,65 @@ const contactLinks = [
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.18rem;
+		gap: 0;
 		margin: 0;
-		padding: 0;
+		padding: 0 0 0 1.15rem;
 		list-style: none;
 		font-family: var(--ui-font);
 	}
 
 	.about-history-list::before {
 		position: absolute;
-		top: 1.05rem;
-		bottom: 1.05rem;
-		left: 4.08rem;
+		top: 0.35rem;
+		bottom: 0.55rem;
+		left: 0.2rem;
 		width: 1px;
-		background: color-mix(in oklab, var(--accent-color) 36%, var(--paper-card-border-soft));
+		background: var(--paper-card-border-soft);
 		content: "";
 	}
 
 	.about-history-list li {
 		position: relative;
-		display: grid;
-		grid-template-columns: 3.35rem minmax(0, 1fr);
-		gap: 1.35rem;
-		align-items: start;
-		padding: 0.42rem 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding: 0.58rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-history-list li:first-child {
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	.about-history-list li::before {
 		position: absolute;
-		top: 0.9rem;
-		left: 3.88rem;
-		z-index: 1;
-		width: 0.42rem;
-		height: 0.42rem;
-		border: 1px solid color-mix(in oklab, var(--accent-color) 72%, var(--paper-card-bg));
+		top: 0.72rem;
+		left: -1.05rem;
+		width: 0.28rem;
+		height: 0.28rem;
 		border-radius: 999px;
-		background: var(--paper-card-bg);
+		background: color-mix(in oklab, var(--accent-color) 55%, var(--paper-card-border-soft));
 		content: "";
 	}
 
+	.about-history-list li:first-child::before {
+		top: 0.14rem;
+	}
+
 	.about-history-list time {
-		color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
-		font-size: 0.78rem;
+		color: var(--faint-color);
+		font-size: 0.68rem;
 		font-weight: var(--weight-medium);
-		line-height: 1.55;
-		white-space: nowrap;
+		line-height: 1;
+		letter-spacing: 0.02em;
 	}
 
 	.about-history-list span {
 		color: var(--text-color);
 		font-size: 0.8rem;
 		font-weight: var(--weight-regular);
-		line-height: 1.58;
+		line-height: 1.5;
 	}
 
 	.about-now-list {
@@ -777,30 +804,63 @@ const contactLinks = [
 	}
 
 	.about-history-list {
+		position: relative;
 		gap: 0;
+		padding-left: 1.15rem;
 	}
 
-	.about-history-list::before,
-	.about-history-list li::before {
-		content: none;
+	.about-history-list::before {
+		position: absolute;
+		top: 0.35rem;
+		bottom: 0.55rem;
+		left: 0.2rem;
+		width: 1px;
+		background: var(--paper-card-border-soft);
+		content: "";
 	}
 
 	.about-history-list li {
-		grid-template-columns: 4.2rem minmax(0, 1fr);
-		gap: 0.8rem;
-		padding: 0.45rem 0;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+		padding: 0.58rem 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
+	.about-history-list li:first-child {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.about-history-list li::before {
+		position: absolute;
+		top: 0.72rem;
+		left: -1.05rem;
+		width: 0.28rem;
+		height: 0.28rem;
+		border-radius: 999px;
+		background: color-mix(in oklab, var(--accent-color) 55%, var(--paper-card-border-soft));
+		content: "";
+	}
+
+	.about-history-list li:first-child::before {
+		top: 0.14rem;
+	}
+
 	.about-history-list time {
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-regular);
+		color: var(--faint-color);
+		font-size: 0.68rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		letter-spacing: 0.02em;
 	}
 
 	.about-history-list span {
 		color: var(--text-color);
-		font-size: 0.78rem;
+		font-size: 0.8rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.5;
 	}
 
 	@media (max-width: 760px) {
