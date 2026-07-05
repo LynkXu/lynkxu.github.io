@@ -382,7 +382,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memos-surface {
 		--blog-shell-width: 1160px;
 		--blog-shell-sidebar-width: 16.5rem;
-		--memos-section-gap: 0;
+		--memos-section-gap: clamp(0.54rem, 1.35vw, 0.82rem);
+		--memo-avatar-size: 1.75rem;
+		--memo-column-gap: clamp(0.58rem, 1.35vw, 0.78rem);
+		--memo-inline-pad: clamp(0.72rem, 1.65vw, 1rem);
+		--memo-block-pad: clamp(0.78rem, 1.75vw, 1rem);
+		--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
 	}
 
 	.memos-surface #shuoshuo {
@@ -425,29 +430,57 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-item {
 		position: relative;
 		display: grid;
-		grid-template-columns: 4.6rem 1.75rem minmax(0, 1fr);
-		column-gap: clamp(0.5rem, 1.2vw, 0.72rem);
+		grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
+		column-gap: var(--memo-column-gap);
 		row-gap: 0;
 		align-items: start;
-		padding: clamp(0.68rem, 1.5vw, 0.86rem) 0;
+		padding: var(--memo-block-pad) var(--memo-inline-pad);
 		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+		border-bottom: 0;
 		border-radius: 0;
 		background: transparent;
 		box-shadow: none;
 	}
 
+	.memo-item::before,
+	.memo-item::after {
+		content: "";
+		position: absolute;
+		pointer-events: none;
+	}
+
+	.memo-item::before {
+		inset: 0;
+		border-radius: 3px;
+		background: color-mix(in oklab, var(--paper-hover-bg) 58%, transparent);
+		opacity: 1;
+		transition: opacity 0.18s ease, background 0.18s ease;
+	}
+
+	.memo-item::after {
+		right: var(--memo-inline-pad);
+		bottom: 0;
+		left: var(--memo-rule-start);
+		height: 1px;
+		background: color-mix(in oklab, var(--paper-card-border-soft) 62%, transparent);
+	}
+
 	.memo-item:hover {
 		background: transparent;
-		border-color: var(--paper-card-border-soft);
+	}
+
+	.memo-item:hover::before {
+		background: var(--paper-hover-bg);
+		opacity: 1;
 	}
 
 	.memo-avatar-link {
+		position: relative;
 		display: block;
-		grid-column: 2;
+		grid-column: 1;
 		grid-row: 1;
-		width: 1.75rem;
-		height: 1.75rem;
+		width: var(--memo-avatar-size);
+		height: var(--memo-avatar-size);
 		margin: 0;
 		border: 0 !important;
 		background: none !important;
@@ -461,8 +494,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-avatar {
 		display: block;
-		width: 1.75rem;
-		height: 1.75rem;
+		width: var(--memo-avatar-size);
+		height: var(--memo-avatar-size);
 		border: 0;
 		border-radius: 50%;
 		background: var(--paper-field-bg);
@@ -471,7 +504,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-body {
-		grid-column: 3;
+		position: relative;
+		grid-column: 2;
 		grid-row: 1;
 		display: flex;
 		flex-direction: column;
@@ -482,15 +516,15 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: 0;
-		margin: 0 0 0.22rem;
+		gap: 0.12rem;
+		margin: 0 0 0.38rem;
 		padding: 0;
 		border: 0;
 		line-height: 1.35;
 	}
 
 	.memos-surface .memo-header {
-		margin: 0 0 0.22rem;
+		margin: 0 0 0.38rem;
 		padding: 0;
 		border: 0;
 	}
@@ -502,7 +536,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		gap: 0.65rem;
 		width: 100%;
 		min-width: 0;
-		min-height: 1.75rem;
+		min-height: 0;
 	}
 
 	.memo-author-line {
@@ -560,10 +594,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-meta-time {
-		position: absolute;
-		top: calc(clamp(0.68rem, 1.5vw, 0.86rem) + 0.22rem);
-		left: 0;
-		width: 4.6rem;
+		position: static;
+		width: auto;
 		margin: 0;
 		padding-top: 0;
 		color: var(--gray-color);
@@ -581,11 +613,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-content :global(p) {
-		margin: 0.22rem 0;
+		margin: 0.26rem 0;
 	}
 
 	.memos-surface .memo-content p {
-		margin: 0.18rem 0;
+		margin: 0.24rem 0;
 	}
 
 	.memo-content :global(p:first-child) {
@@ -778,10 +810,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	@media (max-width: 720px) {
+		.memos-surface {
+			--memo-avatar-size: 1.75rem;
+			--memo-column-gap: 0.6rem;
+			--memo-inline-pad: 0.68rem;
+			--memo-block-pad: 0.78rem;
+			--memo-rule-start: calc(var(--memo-inline-pad) + var(--memo-avatar-size) + var(--memo-column-gap));
+		}
+
 		.memo-item {
-			grid-template-columns: 1.75rem minmax(0, 1fr);
-			column-gap: 0.6rem;
-			padding: 0.78rem 0;
+			grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
+			column-gap: var(--memo-column-gap);
+			padding: var(--memo-block-pad) var(--memo-inline-pad);
 		}
 
 		.memo-avatar-link {
@@ -795,12 +835,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 		.memo-header {
 			display: flex;
-		}
-
-		.memo-meta-time {
-			position: static;
-			width: auto;
-			padding-top: 0;
 		}
 	}
 
