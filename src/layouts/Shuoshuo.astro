@@ -175,6 +175,179 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
     }
 </style>
 
+<style is:global>
+	.memos-surface {
+		--memos-section-gap: 0 !important;
+	}
+
+	.memos-surface #shuoshuo {
+		width: 100% !important;
+		margin: 0 !important;
+	}
+
+	.memos-surface .memos-panel {
+		min-height: 0 !important;
+	}
+
+	.memos-surface .memos-panel__header {
+		margin-bottom: clamp(1rem, 3vw, 1.6rem) !important;
+		padding-bottom: 0.65rem !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.memos-surface :where(.memos-feed, .memos-page, .memos-page-list) {
+		gap: 0 !important;
+		width: 100% !important;
+		margin: 0 !important;
+		align-self: stretch !important;
+	}
+
+	.memos-surface .memo-item {
+		display: grid !important;
+		grid-template-columns: 4.5rem 2rem minmax(0, 1fr) !important;
+		gap: clamp(0.55rem, 1.6vw, 0.9rem) !important;
+		padding: clamp(0.58rem, 1.5vw, 0.82rem) 0 !important;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.memos-surface .memo-item:hover {
+		background: transparent !important;
+		border-color: var(--paper-card-border-soft) !important;
+	}
+
+	.memos-surface .memo-avatar-link {
+		display: block !important;
+		grid-column: 2 !important;
+		grid-row: 1 !important;
+		width: 2rem !important;
+		height: 2rem !important;
+		margin-top: 0.22rem !important;
+	}
+
+	.memos-surface .memo-avatar {
+		width: 2rem !important;
+		height: 2rem !important;
+		filter: none !important;
+	}
+
+	.memos-surface .memo-header {
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		margin-bottom: 0.28rem !important;
+	}
+
+	.memos-surface .memo-body {
+		grid-column: 3 !important;
+		min-width: 0 !important;
+	}
+
+	.memos-surface .memo-header-top {
+		align-items: baseline !important;
+	}
+
+	.memos-surface .memo-author {
+		color: var(--gray-color) !important;
+		font-size: 0.74rem !important;
+		font-weight: var(--weight-regular) !important;
+	}
+
+	.memos-surface .memo-source {
+		min-height: 0 !important;
+		padding: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		color: var(--gray-color) !important;
+		font-size: 0.66rem !important;
+	}
+
+	.memos-surface .memo-meta-time {
+		grid-column: 1 !important;
+		grid-row: 1 !important;
+		width: 4.5rem !important;
+		margin-left: calc(-6.5rem - clamp(1.1rem, 3.2vw, 1.8rem)) !important;
+		color: var(--gray-color) !important;
+		font-family: var(--ui-font) !important;
+		font-size: 0.66rem !important;
+	}
+
+	.memos-surface .memo-content {
+		color: var(--text-color) !important;
+		font-size: 0.86rem !important;
+		line-height: 1.58 !important;
+	}
+
+	.memos-surface .pagination {
+		justify-content: flex-start !important;
+		margin-top: 1.2rem !important;
+	}
+
+	.memos-surface .pagination-pages {
+		padding: 0 !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		gap: 0.45rem !important;
+	}
+
+	.memos-surface .pagination .page-link {
+		border: 0 !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+	}
+
+	.memos-surface .memos-summary-list,
+	.memos-surface .memos-source-list {
+		grid-template-columns: 1fr !important;
+		gap: 0 !important;
+	}
+
+	.memos-surface .memos-stat-row,
+	.memos-surface .memos-source-row {
+		display: grid !important;
+		grid-template-columns: minmax(0, 1fr) auto !important;
+		padding: 0.45rem 0 !important;
+		border-top: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.memos-surface .memos-month-meter {
+		height: 1px !important;
+		border-radius: 0 !important;
+		background: var(--paper-card-border-soft) !important;
+	}
+
+	.memos-surface .memos-month-meter::before {
+		border-radius: 0 !important;
+		background: var(--accent-color) !important;
+	}
+
+	@media (max-width: 720px) {
+		.memos-surface .memo-item {
+			grid-template-columns: 2rem minmax(0, 1fr) !important;
+			gap: 0.62rem !important;
+		}
+
+		.memos-surface .memo-avatar-link {
+			grid-column: 1 !important;
+			margin-top: 0.1rem !important;
+		}
+
+		.memos-surface .memo-body {
+			grid-column: 2 !important;
+		}
+
+		.memos-surface .memo-meta-time {
+			grid-row: auto !important;
+			width: auto !important;
+			margin-left: 0 !important;
+		}
+	}
+</style>
+
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
 	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
@@ -922,6 +1095,206 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	@media (prefers-reduced-motion: reduce) {
 		.memos-feed {
 			animation: none;
+		}
+	}
+</style>
+
+<style>
+	:global(.memos-surface) {
+		--memos-section-gap: 0;
+	}
+
+	.memos-panel {
+		min-height: 0;
+	}
+
+	.memos-panel__header {
+		margin-bottom: clamp(1rem, 3vw, 1.6rem);
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.memos-feed,
+	.memos-page,
+	.memos-page-list {
+		gap: 0;
+	}
+
+	.memo-item {
+		grid-template-columns: 5.8rem minmax(0, 1fr);
+		gap: clamp(1rem, 3vw, 1.7rem);
+		padding: clamp(1rem, 2.6vw, 1.45rem) 0;
+		border: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	.memo-item:hover {
+		background: transparent;
+		border-color: var(--paper-card-border-soft);
+	}
+
+	.memo-avatar-link {
+		display: none;
+	}
+
+	.memo-header {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-bottom: 0.55rem;
+	}
+
+	.memo-header-top {
+		align-items: baseline;
+	}
+
+	.memo-author {
+		color: var(--gray-color);
+		font-size: 0.74rem;
+		font-weight: var(--weight-regular);
+	}
+
+	.memo-source {
+		min-height: 0;
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		color: var(--gray-color);
+		font-size: 0.66rem;
+	}
+
+	.memo-source::before {
+		content: "/";
+		margin-right: 0.3rem;
+		color: var(--faint-color);
+	}
+
+	.memo-meta-time {
+		grid-column: 1;
+		grid-row: 1;
+		width: 5.8rem;
+		margin-left: calc(-5.8rem - clamp(1rem, 3vw, 1.7rem));
+		color: var(--gray-color);
+		font-size: 0.72rem;
+		font-family: var(--ui-font);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.memo-content {
+		color: var(--text-color);
+		font-size: 0.96rem;
+		line-height: 1.78;
+	}
+
+	.memo-content :global(p) {
+		margin: 0.35rem 0;
+	}
+
+	.memo-actions {
+		opacity: 0.58;
+	}
+
+	.media-grid {
+		margin-top: 0.75rem;
+	}
+
+	.media-item {
+		border-color: var(--paper-card-border-soft);
+	}
+
+	.pagination {
+		justify-content: flex-start;
+		margin-top: 1.2rem;
+	}
+
+	.pagination-pages {
+		padding: 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		gap: 0.45rem;
+	}
+
+	.pagination .page-link {
+		min-width: 1.4rem;
+		height: 1.4rem;
+		border: 0;
+		border-radius: 0;
+		color: var(--gray-color);
+	}
+
+	.pagination .page-link.active {
+		background: transparent;
+		color: var(--heading-color);
+		text-decoration: underline;
+		text-underline-offset: 0.22em;
+	}
+
+	.memos-rail-card {
+		gap: 1rem;
+	}
+
+	.memos-summary-list,
+	.memos-source-list {
+		grid-template-columns: 1fr;
+		gap: 0;
+	}
+
+	.memos-stat-row,
+	.memos-source-row {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		padding: 0.45rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.memos-stat-row dt,
+	.memos-source-row dt {
+		color: var(--gray-color);
+		font-size: 0.74rem;
+	}
+
+	.memos-stat-row dd,
+	.memos-source-row dd {
+		color: var(--heading-color);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+	}
+
+	.memos-month-row {
+		grid-template-columns: 4.4rem minmax(0, 1fr) auto;
+	}
+
+	.memos-month-row strong,
+	.memos-month-row em {
+		color: var(--gray-color);
+		font-weight: var(--weight-regular);
+	}
+
+	.memos-month-meter {
+		height: 1px;
+		border-radius: 0;
+		background: var(--paper-card-border-soft);
+	}
+
+	.memos-month-meter::before {
+		border-radius: 0;
+		background: var(--accent-color);
+	}
+
+	@media (max-width: 720px) {
+		.memo-item {
+			grid-template-columns: 1fr;
+			gap: 0.4rem;
+		}
+
+		.memo-meta-time {
+			grid-row: auto;
+			width: auto;
+			margin-left: 0;
 		}
 	}
 </style>

@@ -25,7 +25,7 @@ const contactLinks = [
 <MagazineShell title={title} description={title} showProfileCard={false}>
 	<section class="about-profile magazine-panel" aria-labelledby="about-title">
 		<p class="magazine-section-label">Profile</p>
-		<h1 id="about-title">👋 Hi, I am Lynk</h1>
+		<h1 id="about-title">Hi, I am Lynk</h1>
 		<div class="about-profile__lead">
 			<p>
 				<span>一个偏乐观的悲观主义者。</span>
@@ -532,6 +532,285 @@ const contactLinks = [
 	@media (max-width: 680px) {
 		.about-profile__lead span {
 			display: inline;
+		}
+	}
+</style>
+
+<style is:global>
+	.blog-surface-layout .about-profile {
+		display: block !important;
+		padding: 0 !important;
+	}
+
+	.blog-surface-layout .about-profile h1 {
+		margin: 0 0 1.2rem !important;
+		font-size: clamp(2rem, 5vw, 3.4rem) !important;
+		font-weight: var(--weight-semibold) !important;
+		line-height: 1.08 !important;
+	}
+
+	.blog-surface-layout .about-profile__lead {
+		max-width: 42rem !important;
+		font-weight: var(--weight-regular) !important;
+		line-height: 1.85 !important;
+	}
+
+	.blog-surface-layout .about-profile__note {
+		max-width: 42rem !important;
+		margin-top: 1.2rem !important;
+		font-size: 0.96rem !important;
+		line-height: 1.82 !important;
+	}
+
+	.blog-surface-layout .about-profile__fragments {
+		display: grid !important;
+		grid-template-columns: 1fr !important;
+		gap: 0 !important;
+		max-width: 42rem !important;
+		margin-top: clamp(1.4rem, 3vw, 2.2rem) !important;
+		border-top: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.blog-surface-layout .about-profile__fragments div {
+		display: grid !important;
+		grid-template-columns: 5.5rem minmax(0, 1fr) !important;
+		gap: 1rem !important;
+		padding: 0.72rem 0 !important;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.blog-surface-layout .about-profile__fragments span,
+	.blog-surface-layout .about-profile__fragments strong {
+		font-weight: var(--weight-regular) !important;
+	}
+
+	.blog-surface-layout .about-profile__fragments span {
+		text-transform: none !important;
+	}
+
+	.blog-surface-layout .about-profile__sections {
+		display: grid !important;
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) !important;
+		gap: clamp(1.6rem, 4vw, 3rem) !important;
+		max-width: 46rem !important;
+		margin-top: clamp(1.8rem, 4vw, 3rem) !important;
+		padding-top: clamp(1rem, 3vw, 1.6rem) !important;
+		border-top: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.blog-surface-layout .about-module__links a,
+	.blog-surface-layout .about-module--support .sponsor-fold,
+	.blog-surface-layout .about-module--support .sponsor-fold summary {
+		border-radius: 0 !important;
+		background: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.blog-surface-layout .about-module__links a {
+		min-height: 0 !important;
+		padding: 0.5rem 0 !important;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+	}
+
+	.blog-surface-layout .about-module--support .sponsor-fold summary {
+		min-height: 0 !important;
+		padding: 0.5rem 0 !important;
+	}
+
+	@media (max-width: 760px) {
+		.blog-surface-layout .about-profile__sections,
+		.blog-surface-layout .about-profile__fragments div {
+			grid-template-columns: 1fr !important;
+		}
+	}
+</style>
+
+<style is:global>
+	.about-profile {
+		display: block;
+		padding: 0;
+	}
+
+	.about-profile > .magazine-section-label {
+		margin-bottom: 0.9rem;
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-profile h1 {
+		margin: 0 0 1.2rem;
+		color: var(--heading-color);
+		font-size: clamp(2rem, 5vw, 3.4rem);
+		font-weight: var(--weight-semibold);
+		line-height: 1.08;
+	}
+
+	.about-profile__lead {
+		max-width: 42rem;
+		color: var(--text-color);
+		font-size: clamp(1rem, 1.45vw, 1.08rem);
+		font-weight: var(--weight-regular);
+		line-height: 1.85;
+	}
+
+	.about-profile__note {
+		max-width: 42rem;
+		margin-top: 1.2rem;
+		color: var(--gray-color);
+		font-size: 0.96rem;
+		line-height: 1.82;
+	}
+
+	.about-profile__fragments {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		max-width: 42rem;
+		margin-top: clamp(1.4rem, 3vw, 2.2rem);
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-profile__fragments div {
+		display: grid;
+		grid-template-columns: 5.5rem minmax(0, 1fr);
+		gap: 1rem;
+		padding: 0.72rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.about-profile__fragments span {
+		color: var(--gray-color);
+		font-size: 0.72rem;
+		font-weight: var(--weight-regular);
+		text-transform: none;
+	}
+
+	.about-profile__fragments strong {
+		color: var(--text-color);
+		font-size: 0.9rem;
+		font-weight: var(--weight-regular);
+		line-height: 1.55;
+	}
+
+	.about-profile__rule {
+		display: none;
+	}
+
+	.about-profile__sections {
+		display: grid;
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+		gap: clamp(1.6rem, 4vw, 3rem);
+		max-width: 46rem;
+		margin-top: clamp(1.8rem, 4vw, 3rem);
+		padding-top: clamp(1rem, 3vw, 1.6rem);
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-module__header span {
+		color: var(--gray-color);
+		font-size: 0.72rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.04em;
+	}
+
+	.about-module__header h2 {
+		font-size: 1rem;
+		font-weight: var(--weight-medium);
+	}
+
+	.about-module__links a {
+		min-height: 0;
+		padding: 0.5rem 0;
+		border: 0 !important;
+		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-radius: 0;
+		background: transparent !important;
+	}
+
+	.about-module__links span,
+	.about-module__links strong {
+		font-weight: var(--weight-regular);
+	}
+
+	.about-module__links strong {
+		color: var(--heading-color);
+	}
+
+	.about-module--support .sponsor-fold {
+		border-radius: 0;
+		background: transparent;
+	}
+
+	.about-module--support .sponsor-fold summary {
+		min-height: 0;
+		padding: 0.5rem 0;
+		font-weight: var(--weight-regular);
+	}
+
+	.about-rail {
+		gap: 1.5rem;
+	}
+
+	.about-now,
+	.about-history-card {
+		gap: 0.85rem;
+	}
+
+	.about-now-list div {
+		grid-template-columns: 4.4rem minmax(0, 1fr);
+		padding: 0.55rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-now-list dt,
+	.about-now-list dd {
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+	}
+
+	.about-history-list {
+		gap: 0;
+	}
+
+	.about-history-list::before,
+	.about-history-list li::before {
+		content: none;
+	}
+
+	.about-history-list li {
+		grid-template-columns: 4.2rem minmax(0, 1fr);
+		gap: 0.8rem;
+		padding: 0.45rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
+	}
+
+	.about-history-list time {
+		color: var(--gray-color);
+		font-size: 0.72rem;
+		font-weight: var(--weight-regular);
+	}
+
+	.about-history-list span {
+		color: var(--text-color);
+		font-size: 0.78rem;
+	}
+
+	@media (max-width: 760px) {
+		.about-profile__sections {
+			grid-template-columns: 1fr;
+		}
+
+		.about-profile__fragments div {
+			grid-template-columns: 1fr;
+			gap: 0.25rem;
 		}
 	}
 </style>
