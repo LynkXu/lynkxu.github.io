@@ -1467,7 +1467,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .toc-link {
-  border-left-color: color-mix(in oklab, var(--rule-color) 30%, transparent);
+  border-left-color: transparent;
 }
 
 .blog-surface-layout .toc-link.active {
@@ -2471,7 +2471,7 @@ ul.posts li a:visited {
   max-width: 72ch;
   margin-left: auto;
   margin-right: auto;
-  color: color-mix(in oklab, var(--text-color) 97%, var(--heading-color));
+  color: color-mix(in oklab, var(--text-color) 95%, var(--heading-color));
   /* Auto spacing between CJK and Latin/punctuation */
   text-autospace: ideograph-alpha ideograph-numeric;
 
@@ -3067,8 +3067,8 @@ ul.posts li a:visited {
 }
 
 .toc-list .toc-list {
-  padding-left: 1rem;
-  margin-top: 0.25rem;
+  padding-left: 0.85rem;
+  margin-top: 0.12rem;
 }
 
 

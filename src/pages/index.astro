@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import MagazineShell from '../layouts/MagazineShell.astro';
-import stravaData from '../data/strava/activities.min.json';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 
@@ -9,58 +8,9 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 5);
+const latestPosts = posts.slice(0, 10);
 const featuredPost = latestPosts[0];
 const recentPosts = latestPosts.slice(1);
-const photographyImages = import.meta.glob('../content/photography/*.{jpg,jpeg,png,webp,gif,heic,HEIC}');
-const stravaActivities = Array.isArray(stravaData) ? stravaData : [];
-
-const tagsMap = new Map<string, number>();
-posts.forEach((post) => {
-	(post.data.tags || []).forEach((tag) => {
-		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
-	});
-});
-
-const sinceYear = posts.length > 0 ? posts[posts.length - 1].data.pubDate.getFullYear() : new Date().getFullYear();
-
-const indexLinks = [
-	{
-		href: '/photography',
-		icon: 'camera',
-		label: 'Photography',
-		title: '光影瞬间',
-		meta: `${Object.keys(photographyImages).length} images`,
-	},
-	{
-		href: '/media',
-		icon: 'book',
-		label: 'Media',
-		title: '书影音',
-		meta: 'books / movies / music',
-	},
-	{
-		href: '/travel',
-		icon: 'pin',
-		label: 'Travel',
-		title: '旅行足迹',
-		meta: 'places / map pins',
-	},
-	{
-		href: '/sports',
-		icon: 'activity',
-		label: 'Sports',
-		title: '运动记录',
-		meta: `${stravaActivities.length} activities`,
-	},
-];
-
-const iconPaths: Record<string, string> = {
-	camera: '<path d="M6 8h2l1.4-2h5.2L16 8h2a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"></path><circle cx="12" cy="13" r="3"></circle>',
-	book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H7a3 3 0 0 0-3 3Z"></path><path d="M4 5.5v16"></path><path d="M20 3v16"></path>',
-	pin: '<path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.7"></circle>',
-	activity: '<path d="M5 17h14"></path><path d="m5 17 4-9 3 6 2-4 5 7"></path>',
-};
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -100,26 +50,8 @@ function getMonth(date: Date) {
 	className="home-index-layout"
 	showProfileCard={false}
 >
-	<section class="home-dashboard" aria-labelledby="home-title">
+	<section class="home-dashboard" aria-labelledby="home-latest-title">
 		<div class="home-overview-grid">
-			<header class="home-intro">
-				<h1 id="home-title">LynkXu</h1>
-				<div class="home-stats" aria-label="Site summary">
-					<div class="home-stat">
-						<strong>{posts.length}</strong>
-						<span>entries</span>
-					</div>
-					<div class="home-stat">
-						<strong>{tagsMap.size}</strong>
-						<span>topics</span>
-					</div>
-					<div class="home-stat">
-						<strong>{sinceYear}</strong>
-						<span>since</span>
-					</div>
-				</div>
-			</header>
-
 			<section class="home-panel home-latest-panel" aria-labelledby="home-latest-title">
 				<header class="home-panel-head">
 					<p id="home-latest-title" class="magazine-section-label">Latest entry</p>
@@ -161,27 +93,6 @@ function getMonth(date: Date) {
 					})}
 				</div>
 			</section>
-
-			<section class="home-panel home-index-panel" aria-labelledby="home-index-title">
-				<header class="home-panel-head">
-					<p id="home-index-title" class="magazine-section-label">Index</p>
-				</header>
-
-				<div class="home-index-grid">
-					{indexLinks.map((item) => (
-						<a href={item.href} class="home-index-card">
-							<span class="home-index-icon" aria-hidden="true">
-								<svg viewBox="0 0 24 24" set:html={iconPaths[item.icon]}></svg>
-							</span>
-							<span class="home-index-copy">
-								<strong>{item.label}</strong>
-								<em>{item.title}</em>
-								<small>{item.meta}</small>
-							</span>
-						</a>
-					))}
-				</div>
-			</section>
 		</div>
 	</section>
 </MagazineShell>
@@ -219,68 +130,9 @@ function getMonth(date: Date) {
 
 	.home-overview-grid {
 		display: grid;
-		grid-template-areas:
-			"intro latest"
-			"index latest";
-		grid-template-columns: minmax(14rem, 17rem) minmax(0, 1fr);
-		grid-template-rows: auto 1fr;
-		column-gap: clamp(2.4rem, 5vw, 4.4rem);
-		row-gap: clamp(1.45rem, 3vw, 2.1rem);
+		grid-template-areas: "latest";
+		grid-template-columns: 1fr;
 		align-items: start;
-	}
-
-	.home-intro {
-		grid-area: intro;
-		display: flex;
-		flex-direction: column;
-		gap: clamp(1.1rem, 2.4vw, 1.55rem);
-		padding-top: clamp(0.2rem, 0.8vw, 0.45rem);
-	}
-
-	.home-intro h1 {
-		margin: 0;
-		color: var(--heading-color);
-		font-size: clamp(2.65rem, 5.8vw, 4.85rem);
-		font-weight: var(--weight-semibold);
-		letter-spacing: 0;
-		line-height: 0.94;
-	}
-
-	.home-stats {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		border-top: 1px solid var(--paper-card-border-soft);
-		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.home-stat {
-		min-width: 0;
-		padding: 0.62rem 0.52rem 0.62rem 0;
-	}
-
-	.home-stat + .home-stat {
-		padding-left: 0.65rem;
-		border-left: 1px solid var(--paper-card-border-soft);
-	}
-
-	.home-stat strong,
-	.home-stat span {
-		display: block;
-		min-width: 0;
-	}
-
-	.home-stat strong {
-		color: var(--heading-color);
-		font-size: 0.98rem;
-		font-weight: var(--weight-medium);
-		line-height: 1;
-	}
-
-	.home-stat span {
-		margin-top: 0.24rem;
-		color: var(--gray-color);
-		font-size: 0.68rem;
-		line-height: 1.2;
 	}
 
 	.home-panel {
@@ -289,10 +141,6 @@ function getMonth(date: Date) {
 
 	.home-latest-panel {
 		grid-area: latest;
-	}
-
-	.home-index-panel {
-		grid-area: index;
 	}
 
 	.home-panel-head {
@@ -314,9 +162,10 @@ function getMonth(date: Date) {
 	}
 
 	.home-all-link {
+		grid-column: 3;
 		border: 0 !important;
-		color: var(--gray-color);
-		font-size: 0.74rem;
+		color: var(--faint-color);
+		font-size: 0.68rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.15;
 		text-decoration: none;
@@ -324,7 +173,7 @@ function getMonth(date: Date) {
 	}
 
 	.home-all-link:hover {
-		color: var(--heading-color);
+		color: var(--gray-color);
 	}
 
 	.home-featured-row {
@@ -332,7 +181,7 @@ function getMonth(date: Date) {
 		grid-template-columns: 5rem minmax(0, 1fr);
 		gap: clamp(1rem, 2vw, 1.4rem);
 		align-items: start;
-		padding: clamp(1.05rem, 2.4vw, 1.45rem) 0;
+		padding: clamp(1.35rem, 3vw, 1.85rem) 0;
 		border: 0 !important;
 		border-bottom: 1px solid var(--paper-card-border-soft) !important;
 		background: transparent !important;
@@ -340,17 +189,19 @@ function getMonth(date: Date) {
 		text-decoration: none;
 	}
 
-	.home-latest-list,
-	.home-index-grid {
+	.home-latest-list {
 		display: flex;
 		flex-direction: column;
 		gap: 0;
 	}
 
-	.home-latest-row,
-	.home-index-card {
+	.home-latest-row {
 		display: grid;
+		grid-template-columns: 4.1rem minmax(0, 1fr) auto;
+		gap: clamp(0.8rem, 1.8vw, 1.2rem);
+		align-items: baseline;
 		min-height: 0;
+		padding: 1.05rem 0;
 		border: 0 !important;
 		border-bottom: 1px solid var(--paper-card-border-soft) !important;
 		border-radius: 0;
@@ -361,16 +212,8 @@ function getMonth(date: Date) {
 		transition: color 0.18s ease;
 	}
 
-	.home-latest-row {
-		grid-template-columns: 4.1rem minmax(0, 1fr) auto;
-		gap: clamp(0.8rem, 1.8vw, 1.2rem);
-		align-items: baseline;
-		padding: 0.82rem 0;
-	}
-
 	.home-featured-row:hover,
-	.home-latest-row:hover,
-	.home-index-card:hover {
+	.home-latest-row:hover {
 		color: var(--heading-color);
 		transform: none;
 	}
@@ -423,14 +266,10 @@ function getMonth(date: Date) {
 		line-height: 0.92;
 	}
 
-	.home-post-copy,
-	.home-index-copy {
+	.home-post-copy {
 		display: flex;
 		flex-direction: column;
 		min-width: 0;
-	}
-
-	.home-post-copy {
 		gap: 0.24rem;
 	}
 
@@ -444,7 +283,7 @@ function getMonth(date: Date) {
 	.home-post-copy span {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 1;
+		-webkit-line-clamp: 2;
 		overflow: hidden;
 		color: var(--gray-color);
 		font-size: 0.8rem;
@@ -488,80 +327,7 @@ function getMonth(date: Date) {
 		opacity: 0.55;
 	}
 
-	.home-index-card {
-		grid-template-columns: 1.35rem minmax(0, 1fr);
-		gap: 0.72rem;
-		align-items: start;
-		padding: 0.78rem 0;
-	}
-
-	.home-index-icon {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		padding-top: 0.08rem;
-		color: var(--heading-color);
-	}
-
-	.home-index-icon svg {
-		width: 0.95rem;
-		height: 0.95rem;
-		fill: none;
-		stroke: currentColor;
-		stroke-width: 1.65;
-		stroke-linecap: round;
-		stroke-linejoin: round;
-	}
-
-	.home-index-card strong,
-	.home-index-card em,
-	.home-index-card small {
-		display: block;
-		min-width: 0;
-		font-style: normal;
-		overflow-wrap: anywhere;
-	}
-
-	.home-index-card strong {
-		color: var(--heading-color);
-		font-size: 0.9rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.25;
-	}
-
-	.home-index-card em,
-	.home-index-card small {
-		color: var(--gray-color);
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.35;
-	}
-
-	.home-index-card em {
-		margin-top: 0.14rem;
-	}
-
-	.home-index-card small {
-		margin-top: 0.18rem;
-		color: var(--faint-color);
-	}
-
-	@media (max-width: 1100px) {
-		.home-overview-grid {
-			grid-template-areas:
-				"intro"
-				"latest"
-				"index";
-			grid-template-columns: 1fr;
-			row-gap: clamp(1.8rem, 5vw, 2.8rem);
-		}
-	}
-
 	@media (max-width: 640px) {
-		.home-intro h1 {
-			font-size: clamp(2.7rem, 14vw, 3.8rem);
-		}
-
 		.home-featured-row,
 		.home-latest-row {
 			grid-template-columns: 3.65rem minmax(0, 1fr);
