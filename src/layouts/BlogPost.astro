@@ -874,15 +874,41 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			line-height: 1.86;
 		}
 
-		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4) {
-			margin-top: 2.4em;
+		.blog-post-layout .blog-main-column .post-content > h2 {
+			margin-top: 2.5em;
+			margin-bottom: 0.72em;
 			color: var(--heading-color);
+			font-size: clamp(1.32rem, 2vw, 1.5rem);
+			font-weight: var(--weight-semibold);
+		}
+
+		.blog-post-layout .blog-main-column .post-content > h3 {
+			margin-top: 2.05em;
+			margin-bottom: 0.58em;
+			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
+			font-size: clamp(1.08rem, 1.45vw, 1.18rem);
 			font-weight: var(--weight-medium);
 		}
 
-		.blog-post-layout .blog-main-column .post-content > :where(p, ul, ol) {
-			margin-top: 1.05em;
-			margin-bottom: 1.05em;
+		.blog-post-layout .blog-main-column .post-content > h4 {
+			margin-top: 1.85em;
+			margin-bottom: 0.5em;
+			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
+			font-weight: var(--weight-medium);
+		}
+
+		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4):first-child {
+			margin-top: clamp(1.1rem, 2.4vw, 1.45rem);
+		}
+
+		.blog-post-layout .blog-main-column .post-content > p {
+			margin-top: 0.82em;
+			margin-bottom: 0.82em;
+		}
+
+		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
+			margin-top: 0.9em;
+			margin-bottom: 0.9em;
 		}
 
 		.blog-post-layout .post-tail {
@@ -925,18 +951,27 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			content: none;
 		}
 
+		.blog-post-layout .sidebar-toc-card .toc-list .toc-list {
+			border-left-color: color-mix(in oklab, var(--paper-card-border-soft) 54%, transparent);
+		}
+
 		.blog-post-layout .sidebar-toc-card .toc-link {
 			padding: 0.16rem 0;
 			border-radius: 0;
-			color: var(--gray-color);
+			color: color-mix(in oklab, var(--faint-color) 72%, var(--gray-color));
 			font-size: 0.78rem;
 			font-weight: var(--weight-regular);
 		}
 
-		.blog-post-layout .sidebar-toc-card .toc-link:hover,
+		.blog-post-layout .sidebar-toc-card .toc-link:hover {
+			background: transparent;
+			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
+			font-weight: var(--weight-regular);
+		}
+
 		.blog-post-layout .sidebar-toc-card .toc-link.active {
 			background: transparent;
-			color: var(--heading-color);
+			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
 			font-weight: var(--weight-regular);
 		}
 
