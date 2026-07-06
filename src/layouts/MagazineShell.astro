@@ -514,11 +514,12 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		display: flex;
 		flex-direction: column;
 		gap: clamp(1.8rem, 4vw, 3rem);
+		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
 		min-width: 0;
 	}
 
-	.ledger-main > footer {
-		margin-top: clamp(0.6rem, 2vw, 1.2rem);
+	.blog-surface-layout .ledger-main > footer {
+		margin-top: auto;
 	}
 
 	.ledger-context {
@@ -696,6 +697,14 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		.ledger-social {
 			gap: 0.32rem 0.9rem;
 			padding-top: 0;
+		}
+
+		.ledger-main {
+			min-height: 0;
+		}
+
+		.blog-surface-layout .ledger-main > footer {
+			margin-top: clamp(0.6rem, 2vw, 1.2rem);
 		}
 
 		.ledger-context {
