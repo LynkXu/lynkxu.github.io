@@ -389,12 +389,12 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		font-size: 0.8rem;
 	}
 
-	.ledger-nav__link:hover,
-	.ledger-nav__link.active {
+	.ledger-nav__link:hover {
 		color: var(--heading-color);
 	}
 
 	.ledger-nav__link.active {
+		color: color-mix(in oklab, var(--accent-color) 36%, var(--heading-color));
 		font-weight: var(--weight-medium);
 	}
 
