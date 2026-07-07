@@ -146,7 +146,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.blog-main-column {
 			display: flex;
 			flex-direction: column;
-			gap: clamp(1.2rem, 3vw, 2.2rem);
+			gap: clamp(1.35rem, 3.2vw, 2.25rem);
 			min-width: 0;
 		}
 
@@ -157,10 +157,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 72ch;
+			--measure-readable: 62ch;
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
-			--post-rail-width: calc(var(--measure-readable) + var(--post-inline-padding) + var(--post-inline-padding));
-			--post-content-width: var(--post-rail-width);
+			--post-content-width: var(--measure-readable);
 			display: flex;
 			flex-direction: column;
 			border: 0;
@@ -173,8 +172,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-header-card {
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
-			--post-rail-width: calc(72ch + var(--post-inline-padding) + var(--post-inline-padding));
-			padding: 0 0 clamp(1.2rem, 3vw, 2rem);
+			--post-rail-width: 68ch;
+			padding: 0 0 clamp(1.45rem, 3.4vw, 2.35rem);
 			border: 0;
 			border-radius: 0;
 			border-bottom: 1px solid var(--paper-card-border-soft);
@@ -214,9 +213,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			align-items: center;
 			gap: 0.28rem;
 			font-family: var(--field-font);
-			font-size: 0.76rem;
+			font-size: 0.72rem;
 			font-weight: var(--weight-regular);
-			color: var(--gray-color);
+			color: color-mix(in oklab, var(--faint-color) 86%, var(--gray-color));
 			letter-spacing: 0.01em;
 		}
 
@@ -233,7 +232,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			border-radius: 0;
 			font-size: inherit;
 			font-weight: var(--weight-regular);
-			color: var(--gray-color);
+			color: inherit;
 			letter-spacing: 0.01em;
 			line-height: 1.3;
 		}
@@ -241,9 +240,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-header .post-title {
 			margin: 0;
 			font-family: var(--display-font);
-			font-size: clamp(2rem, 5vw, 3.65rem);
+			font-size: clamp(1.86rem, 4.1vw, 3rem);
 			font-weight: var(--weight-semibold);
-			line-height: 1.08;
+			line-height: 1.1;
 			letter-spacing: 0;
 			color: var(--heading-color);
 		}
@@ -251,7 +250,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-description {
 			margin: 0;
 			max-width: 58ch;
-			color: var(--gray-color);
+			color: color-mix(in oklab, var(--gray-color) 72%, var(--faint-color));
 			font-family: var(--ui-font);
 			font-size: clamp(0.98rem, 1.45vw, 1.08rem);
 			font-weight: var(--weight-regular);
@@ -295,21 +294,44 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
-			padding: 1.8rem var(--space-md) var(--space-sm) var(--space-md) !important;
+			padding: 1.65rem var(--space-md) var(--space-sm) var(--space-md) !important;
 			background: transparent !important;
+			font-size: 0.78rem;
+			line-height: 1.56;
 			overflow-x: auto;
 		}
 
-		.blog-main-column .post-content {
+		.code-wrapper pre code {
+			font-size: inherit;
+			line-height: inherit;
+		}
+
+		.blog-post-layout .blog-main-column .post-content {
+			--reader-inline-pad: clamp(0.6rem, 1.8vw, 0.95rem);
 			width: 100%;
-			max-width: min(100%, 68ch);
+			max-width: min(100%, calc(var(--post-content-width, 62ch) + var(--reader-inline-pad) * 2));
+			box-sizing: border-box;
 			margin-left: 0;
 			margin-right: auto;
-			padding: 0 0 clamp(1rem, 3vw, 1.8rem);
-			color: var(--text-color);
-			font-size: 1.03rem;
-			line-height: 1.86;
+			padding:
+				clamp(0.72rem, 2vw, 1rem)
+				var(--reader-inline-pad)
+				clamp(0.95rem, 2.4vw, 1.45rem);
+			border: 0;
+			background: transparent;
+			color: color-mix(in oklab, var(--heading-color) 76%, var(--text-color));
+			font-family: var(--reading-font);
+			font-size: 1rem;
+			font-weight: var(--weight-regular);
+			line-height: 1.68;
+			letter-spacing: 0;
 			overflow-wrap: anywhere;
+			text-wrap: pretty;
+		}
+
+		:root[data-theme="dark"] .blog-post-layout .blog-main-column .post-content {
+			background: transparent;
+			color: color-mix(in oklab, var(--heading-color) 82%, var(--text-color));
 		}
 
 		.blog-main-column .post-content > :first-child {
@@ -320,46 +342,58 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			margin-bottom: 0;
 		}
 
-		.blog-main-column .post-content > h2 {
-			margin-top: 2.5em;
-			margin-bottom: 0.72em;
-			color: var(--heading-color);
-			font-size: clamp(1.32rem, 2vw, 1.5rem);
-			font-weight: var(--weight-semibold);
-		}
-
-		.blog-main-column .post-content > h3 {
-			margin-top: 2.05em;
+		.blog-post-layout .blog-main-column .post-content > h2 {
+			margin-top: 2.25em;
 			margin-bottom: 0.58em;
+			color: var(--heading-color);
+			font-family: var(--display-font);
+			font-size: clamp(1.28rem, 1.85vw, 1.44rem);
+			font-weight: var(--weight-bold);
+			line-height: 1.24;
+		}
+
+		.blog-post-layout .blog-main-column .post-content > h3 {
+			margin-top: 1.72em;
+			margin-bottom: 0.48em;
 			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
-			font-size: clamp(1.08rem, 1.45vw, 1.18rem);
-			font-weight: var(--weight-medium);
+			font-family: var(--display-font);
+			font-size: clamp(1.06rem, 1.35vw, 1.14rem);
+			font-weight: var(--weight-semibold);
+			line-height: 1.32;
 		}
 
-		.blog-main-column .post-content > h4 {
-			margin-top: 1.85em;
-			margin-bottom: 0.5em;
+		.blog-post-layout .blog-main-column .post-content > h4 {
+			margin-top: 1.5em;
+			margin-bottom: 0.42em;
 			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
+			font-family: var(--display-font);
 			font-weight: var(--weight-medium);
+			line-height: 1.36;
 		}
 
-		.blog-main-column .post-content > :where(h2, h3, h4):first-child {
+		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4):first-child {
 			margin-top: clamp(1.1rem, 2.4vw, 1.45rem);
 		}
 
-		.blog-main-column .post-content > p {
-			margin-top: 0.82em;
-			margin-bottom: 0.82em;
+		.blog-post-layout .blog-main-column .post-content > p {
+			margin-top: 0;
+			margin-bottom: 0.58em;
+			font-weight: var(--weight-regular);
 		}
 
-		.blog-main-column .post-content > :where(ul, ol) {
-			margin-top: 0.9em;
-			margin-bottom: 0.9em;
+		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
+			margin-top: 0.58em;
+			margin-bottom: 0.66em;
+			font-weight: var(--weight-regular);
+		}
+
+		.blog-post-layout .blog-main-column .post-content li + li {
+			margin-top: 0.18em;
 		}
 
 		.post-tail {
 			position: relative;
-			padding: clamp(1.45rem, 3.4vw, 2.1rem) 0 0;
+			padding: clamp(2.15rem, 5vw, 3.2rem) 0 0;
 			background: transparent;
 		}
 
@@ -408,7 +442,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.sidebar-toc-card .toc-header {
 			margin: 0 0 0.8rem;
-			color: var(--gray-color);
+			color: color-mix(in oklab, var(--gray-color) 62%, var(--faint-color));
 			font-family: var(--ui-font);
 			font-size: 0.72rem;
 			font-weight: var(--weight-medium);
@@ -442,10 +476,10 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			display: block;
 			padding: 0.16rem 0;
 			font-family: var(--ui-font);
-			font-size: 0.78rem;
+			font-size: 0.76rem;
 			font-weight: var(--weight-regular);
 			line-height: 1.45;
-			color: color-mix(in oklab, var(--faint-color) 72%, var(--gray-color));
+			color: color-mix(in oklab, var(--faint-color) 90%, var(--gray-color));
 			text-decoration: none;
 			border-radius: 0;
 			transition: color 0.15s ease, background 0.15s ease;
@@ -453,15 +487,19 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.sidebar-toc-card .toc-link:hover {
-			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
+			color: color-mix(in oklab, var(--heading-color) 62%, var(--gray-color));
 			background: transparent;
 			font-weight: var(--weight-regular);
 		}
 
 		.sidebar-toc-card .toc-link.active {
-			color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
+			color: color-mix(in oklab, var(--accent-color) 18%, var(--heading-color));
 			font-weight: var(--weight-regular);
 			background: transparent;
+		}
+
+		:root[data-theme="dark"] .sidebar-toc-card .toc-link.active {
+			color: color-mix(in oklab, var(--gray-color) 74%, var(--faint-color));
 		}
 
 		.code-wrapper {
@@ -492,6 +530,21 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 			.post-header .post-title {
 				max-width: var(--post-content-width);
+			}
+
+			.blog-main-column {
+				gap: clamp(1.1rem, 5vw, 1.55rem);
+			}
+
+			.blog-post-layout .blog-main-column .post-content {
+				max-width: 100%;
+				padding-inline: 0.66rem;
+				font-size: 1rem;
+				line-height: 1.66;
+			}
+
+			.blog-post-layout .blog-main-column .post-content > h2 {
+				margin-top: 2.05em;
 			}
 		}
 	</style>
