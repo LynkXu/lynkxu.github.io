@@ -31,7 +31,6 @@ const contactLinks = [
 				<span>一个想法很多，但却不善表达的人。</span>
 			</p>
 		</div>
-		<div class="about-profile__rule" aria-hidden="true"></div>
 		<p class="about-profile__note">
 			很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
 		</p>
@@ -96,8 +95,6 @@ const contactLinks = [
 
 		<section class="magazine-rail-card about-history-card" aria-labelledby="about-history-title">
 			<p id="about-history-title" class="magazine-section-label">Blog History</p>
-			<!-- <h2>博客历史</h2> -->
-			<!-- <p>从零散记录到个人内容中枢，这个站点也在跟着我的生活方式一起变化。</p> -->
 			<ol class="about-history-list">
 				{blogHistory.map((item) => (
 					<li>
@@ -160,13 +157,6 @@ const contactLinks = [
 
 	.about-profile__lead span {
 		display: block;
-	}
-
-	.about-profile__rule {
-		grid-area: rule;
-		height: 1px;
-		margin: 0.18rem 0 0;
-		background: var(--paper-card-border-soft);
 	}
 
 	.about-profile__note {
@@ -334,10 +324,6 @@ const contactLinks = [
 		border: 0;
 		border-bottom: 1px solid var(--paper-card-border-soft);
 		border-radius: 0;
-	}
-
-	.about-module--support .sponsor-fold:last-child {
-		border-bottom: 0;
 	}
 
 	.about-module--support .sponsor-fold:last-child {
@@ -565,100 +551,6 @@ const contactLinks = [
 </style>
 
 <style is:global>
-	.blog-surface-layout .about-profile {
-		display: block !important;
-		padding: 0 !important;
-	}
-
-	.blog-surface-layout .about-profile h1 {
-		margin: 0 0 1.2rem !important;
-		font-size: clamp(2rem, 5vw, 3.4rem) !important;
-		font-weight: var(--weight-semibold) !important;
-		line-height: 1.08 !important;
-	}
-
-	.blog-surface-layout .about-profile__lead {
-		max-width: 42rem !important;
-		font-weight: var(--weight-regular) !important;
-		line-height: 1.85 !important;
-	}
-
-	.blog-surface-layout .about-profile__note {
-		max-width: 42rem !important;
-		margin-top: 1.2rem !important;
-		font-size: 0.96rem !important;
-		line-height: 1.82 !important;
-	}
-
-	.blog-surface-layout .about-profile__fragments {
-		display: grid !important;
-		grid-template-columns: 1fr !important;
-		gap: 0 !important;
-		max-width: 42rem !important;
-		margin-top: clamp(1.4rem, 3vw, 2.2rem) !important;
-		border-top: 1px solid var(--paper-card-border-soft) !important;
-	}
-
-	.blog-surface-layout .about-profile__fragments div {
-		display: grid !important;
-		grid-template-columns: 5.5rem minmax(0, 1fr) !important;
-		gap: 1rem !important;
-		padding: 0.72rem 0 !important;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0 !important;
-		background: transparent !important;
-		box-shadow: none !important;
-	}
-
-	.blog-surface-layout .about-profile__fragments span,
-	.blog-surface-layout .about-profile__fragments strong {
-		font-weight: var(--weight-regular) !important;
-	}
-
-	.blog-surface-layout .about-profile__fragments span {
-		text-transform: none !important;
-	}
-
-	.blog-surface-layout .about-profile__sections {
-		display: grid !important;
-		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) !important;
-		gap: clamp(1.6rem, 4vw, 3rem) !important;
-		max-width: 46rem !important;
-		margin-top: clamp(1.8rem, 4vw, 3rem) !important;
-		padding-top: clamp(1rem, 3vw, 1.6rem) !important;
-		border-top: 1px solid var(--paper-card-border-soft) !important;
-	}
-
-	.blog-surface-layout .about-module__links a,
-	.blog-surface-layout .about-module--support .sponsor-fold,
-	.blog-surface-layout .about-module--support .sponsor-fold summary {
-		border-radius: 0 !important;
-		background: transparent !important;
-		box-shadow: none !important;
-	}
-
-	.blog-surface-layout .about-module__links a {
-		min-height: 0 !important;
-		padding: 0.5rem 0 !important;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-	}
-
-	.blog-surface-layout .about-module--support .sponsor-fold summary {
-		min-height: 0 !important;
-		padding: 0.5rem 0 !important;
-	}
-
-	@media (max-width: 760px) {
-		.blog-surface-layout .about-profile__sections,
-		.blog-surface-layout .about-profile__fragments div {
-			grid-template-columns: 1fr !important;
-		}
-	}
-</style>
-
-<style is:global>
 	.about-profile {
 		display: block;
 		padding: 0;
@@ -726,10 +618,6 @@ const contactLinks = [
 		font-size: 0.9rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.55;
-	}
-
-	.about-profile__rule {
-		display: none;
 	}
 
 	.about-profile__sections {
