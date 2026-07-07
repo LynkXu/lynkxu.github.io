@@ -157,7 +157,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 62ch;
+			--measure-readable: 65ch;
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
 			--post-content-width: var(--measure-readable);
 			display: flex;
@@ -195,7 +195,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-flow {
 			width: 100%;
 			max-width: min(100%, 68ch);
-			margin-left: 0;
+			margin-left: auto;
 			margin-right: auto;
 			padding-left: 0;
 			padding-right: 0;
@@ -309,9 +309,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.blog-post-layout .blog-main-column .post-content {
 			--reader-inline-pad: clamp(0.6rem, 1.8vw, 0.95rem);
 			width: 100%;
-			max-width: min(100%, calc(var(--post-content-width, 62ch) + var(--reader-inline-pad) * 2));
+			max-width: min(100%, calc(var(--post-content-width, 65ch) + var(--reader-inline-pad) * 2));
 			box-sizing: border-box;
-			margin-left: 0;
+			margin-left: auto;
 			margin-right: auto;
 			padding:
 				clamp(0.72rem, 2vw, 1rem)
