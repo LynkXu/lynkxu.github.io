@@ -24,17 +24,17 @@
 
 **Interfaces:**
 - Consumes: the source text of `src/layouts/MagazineShell.astro`
-- Produces: a deterministic contract for numbered links, active topic disclosure, sidebar order, active marker, and mobile target size
+- Produces: a deterministic contract for numbered links, sidebar order, inline search, active marker, mobile target sizes, and unchanged main/context layout declarations
 
 - [ ] **Step 1: Write the failing test**
 
-Create Node tests that assert `01`–`05` index values, `secondaryActiveItem`, an `open` binding on `.ledger-collections`, search markup before topics, `.ledger-nav__index`, absence of `.ledger-nav__link.active::after`, and a `2.75rem` narrow-screen target.
+Create Node tests that assert `01`–`05` index values, search markup before topics, inline-command search styling, `.ledger-nav__index`, absence of `.ledger-nav__link.active::after`, responsive marker visibility, `2.75rem` narrow-screen targets, and the existing shell/main/context declarations.
 
 - [ ] **Step 2: Run test to verify it fails**
 
 Run: `node --test tests/left-nav-structure.test.mjs`
 
-Expected: FAIL because the current navigation has no indices or secondary-active disclosure and still uses the detached dot.
+Expected: FAIL because the current navigation has no indices, still uses the detached dot, pins search to the bottom, and shrinks narrow-screen targets.
 
 ### Task 2: Implement the editorial navigation
 
@@ -44,11 +44,11 @@ Expected: FAIL because the current navigation has no indices or secondary-active
 
 **Interfaces:**
 - Consumes: existing `isActive(href)` route matching and current theme tokens
-- Produces: numbered primary links, automatically expanded active topics, content-height sticky rail, compact responsive masthead
+- Produces: numbered desktop primary links, content-height sticky rail, compact responsive masthead, and complete mobile touch targets
 
 - [ ] **Step 1: Add minimal markup and data**
 
-Add index strings to `navItems`, derive `secondaryActiveItem`, render index/label spans, move search immediately after the primary nav, bind topic openness to active state, and place RSS with social links.
+Add index strings to `navItems`, render index/label spans, move search immediately after the primary nav, and place RSS with social links.
 
 - [ ] **Step 2: Replace only left-sidebar styles**
 
