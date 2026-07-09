@@ -45,6 +45,14 @@ test('search follows primary navigation instead of being pinned to the viewport 
   assert.doesNotMatch(source, /\.ledger-sidebar__bottom\s*\{/);
 });
 
+test('search reads as an inline command instead of a full-width field', () => {
+  const desktopRule = source.match(/\n\t\.ledger-search \{([\s\S]*?)\n\t\}/)?.[1] ?? '';
+
+  assert.match(desktopRule, /display:\s*inline-flex/);
+  assert.match(desktopRule, /width:\s*fit-content/);
+  assert.doesNotMatch(desktopRule, /border-bottom/);
+});
+
 test('current and hover states do not move layout or use a detached dot', () => {
   assert.doesNotMatch(source, /\.ledger-nav__link\.active::after/);
   assert.doesNotMatch(source, /transition:[^;]*padding-left/);

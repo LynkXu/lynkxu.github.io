@@ -454,22 +454,21 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-search {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
+		display: inline-flex;
 		align-items: center;
 		gap: 0.5rem;
-		width: 100%;
-		min-height: 2.25rem;
+		width: fit-content;
+		min-height: 2.05rem;
 		padding: 0;
 		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
 		background: transparent;
 		color: var(--gray-color);
 		font: inherit;
 		font-size: 0.76rem;
 		text-align: left;
+		white-space: nowrap;
 		cursor: pointer;
-		transition: border-color 0.16s ease, color 0.16s ease;
+		transition: color 0.16s ease;
 	}
 
 	.ledger-search kbd {
@@ -480,7 +479,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 	.ledger-search:hover,
 	.ledger-search:focus-visible {
-		border-color: var(--paper-hover-border);
 		color: var(--heading-color);
 	}
 
@@ -722,7 +720,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-search {
 			grid-area: search;
-			min-width: 6.25rem;
+			justify-self: end;
+			min-width: 0;
 			min-height: 2.5rem;
 		}
 
@@ -790,8 +789,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		}
 
 		.ledger-search {
-			width: 6.25rem;
-			min-width: 0;
+			width: fit-content;
 			min-height: 2.75rem;
 		}
 
