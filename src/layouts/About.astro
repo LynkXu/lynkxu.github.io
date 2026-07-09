@@ -121,7 +121,7 @@ const contactLinks = [
 		column-gap: clamp(1.4rem, 3vw, 2.4rem);
 		row-gap: clamp(0.92rem, 1.8vw, 1.24rem);
 		min-height: 0;
-		padding: clamp(1.2rem, 2.35vw, 1.62rem);
+		padding: 0;
 	}
 
 	.about-profile > .magazine-section-label {
@@ -142,7 +142,7 @@ const contactLinks = [
 	.about-profile__lead {
 		grid-area: lead;
 		margin-top: 0;
-		max-width: 48rem;
+		max-width: none;
 		color: var(--text-color);
 		font-family: var(--ui-font);
 		font-size: clamp(0.98rem, 1.35vw, 1.08rem);
@@ -161,7 +161,7 @@ const contactLinks = [
 
 	.about-profile__note {
 		grid-area: note;
-		max-width: 47rem;
+		max-width: none;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.9rem;
@@ -570,7 +570,7 @@ const contactLinks = [
 	}
 
 	.about-profile__lead {
-		max-width: 42rem;
+		max-width: none;
 		color: var(--text-color);
 		font-size: clamp(1rem, 1.45vw, 1.08rem);
 		font-weight: var(--weight-regular);
@@ -578,7 +578,7 @@ const contactLinks = [
 	}
 
 	.about-profile__note {
-		max-width: 42rem;
+		max-width: none;
 		margin-top: 1.2rem;
 		color: var(--gray-color);
 		font-size: 0.96rem;
@@ -589,7 +589,7 @@ const contactLinks = [
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 0;
-		max-width: 42rem;
+		max-width: none;
 		margin-top: clamp(1.4rem, 3vw, 2.2rem);
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
@@ -623,7 +623,7 @@ const contactLinks = [
 		display: grid;
 		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
 		gap: clamp(1.6rem, 4vw, 3rem);
-		max-width: 46rem;
+		max-width: none;
 		margin-top: clamp(1.8rem, 4vw, 3rem);
 		padding-top: clamp(1rem, 3vw, 1.6rem);
 		border-top: 1px solid var(--paper-card-border-soft);
