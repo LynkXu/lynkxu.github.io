@@ -3,7 +3,7 @@
   --content-width: 820px;
   --blog-shell-width: 1180px;
   --blog-content-width: 920px;
-  --blog-readable-width: 760px;
+  --blog-readable-width: 780px;
   --blog-toc-width: 260px;
   --blog-sidebar-gap: clamp(var(--space-2xl), 6vw, var(--space-3xl));
   --blog-article-width: calc(var(--blog-readable-width) + var(--blog-sidebar-gap) + var(--blog-toc-width));
@@ -24,7 +24,7 @@
   --display-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --ui-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --reading-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --serif-font: "Songti SC", "Noto Serif SC", "Source Han Serif CN", "SimSun", serif;
+  --serif-font: "Songti SC", "Source Han Serif CN", "Noto Serif SC", "SimSun", serif;
   --code-font: "Lilex", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
   --meta-font: var(--ui-font);
   --text-xs: 0.75rem;
@@ -230,7 +230,7 @@
 // }
 
 body {
-  font-family: var(--reading-font);
+  font-family: var(--ui-font);
   font-weight: var(--weight-regular);
   font-size: var(--text-md);
   margin: 0;
@@ -2467,8 +2467,8 @@ ul.posts li a:visited {
   font-family: var(--reading-font);
   font-size: 1rem;
   font-weight: var(--weight-regular);
-  line-height: 1.62;
-  max-width: 72ch;
+  line-height: var(--lh-body);
+  max-width: 70ch;
   margin-left: auto;
   margin-right: auto;
   color: color-mix(in oklab, var(--text-color) 95%, var(--heading-color));

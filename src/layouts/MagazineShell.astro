@@ -33,19 +33,19 @@ allPosts.forEach((post) => {
 });
 
 const navItems = [
-	{ href: '/', label: 'Home' },
-	{ href: '/blog', label: 'Archive' },
-	{ href: '/shuoshuo', label: 'Memos' },
-	{ href: '/message', label: 'Leaves' },
-	{ href: '/about', label: 'About' },
+	{ href: '/', label: '首页' },
+	{ href: '/blog', label: '归档' },
+	{ href: '/shuoshuo', label: '碎语' },
+	{ href: '/message', label: '留言' },
+	{ href: '/about', label: '关于' },
 ];
 
 const secondaryNavItems = [
-	{ href: '/photography', label: 'Photography' },
-	{ href: '/media', label: 'Media' },
-	{ href: '/travel', label: 'Travel' },
-	{ href: '/sports', label: 'Sports' },
-	{ href: '/tools', label: 'Tools' },
+	{ href: '/photography', label: '摄影' },
+	{ href: '/media', label: '书影音' },
+	{ href: '/travel', label: '旅行' },
+	{ href: '/sports', label: '运动' },
+	{ href: '/tools', label: '工具' },
 ];
 
 const socialItems = [
@@ -80,15 +80,15 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	<slot name="head" slot="head" />
 
 	<div class:list={['ledger-shell', { 'ledger-shell--no-context': !shouldRenderRail }]}>
-		<aside class="ledger-sidebar" aria-label="Site navigation">
+		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
-				<a href="/" class="ledger-brand" aria-label="LynkXu home">
+				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
 					<img src="/ava4.png" alt="" class="ledger-brand__avatar" width="40" height="40" loading="eager" />
 					<span class="ledger-brand__name">LynkXu</span>
 				</a>
 
 				<div class="ledger-nav-group ledger-nav-group--primary">
-					<nav class="ledger-nav ledger-nav--primary" aria-label="Primary navigation">
+					<nav class="ledger-nav ledger-nav--primary" aria-label="主导航">
 						{navItems.map((item) => (
 							<a
 								href={item.href}
@@ -101,9 +101,9 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 					</nav>
 				</div>
 
-				<div class="ledger-nav-group ledger-nav-group--secondary">
-					<span class="ledger-group-label">Collections</span>
-					<nav class="ledger-nav ledger-nav--secondary" aria-label="Second level pages">
+				<details class="ledger-collections">
+					<summary class="ledger-group-label ledger-collections__summary">专题</summary>
+					<nav class="ledger-nav ledger-nav--secondary" aria-label="专题页面">
 						{secondaryNavItems.map((item) => (
 							<a
 								href={item.href}
@@ -114,10 +114,10 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 							</a>
 						))}
 					</nav>
-				</div>
+				</details>
 
-				<nav class="ledger-social" aria-label="Social links">
-					<span class="ledger-group-label">Social</span>
+				<nav class="ledger-social" aria-label="社交链接">
+					<span class="ledger-group-label">社交</span>
 					<div class="ledger-social__links">
 						{socialItems.map((item) => (
 							<a href={item.href} target="_blank" rel="noopener noreferrer">
@@ -129,11 +129,11 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 
 				<div class="ledger-sidebar__bottom">
 					<!-- <div class="ledger-sidebar__meta-group">
-						<span class="ledger-group-label">Stats</span>
-						<div class="ledger-sidebar__meta" aria-label="Blog statistics">
-							<span>{allPosts.length} entries</span>
-							<span>{tagsMap.size} topics</span>
-							<span>since {sinceYear}</span>
+						<span class="ledger-group-label">统计</span>
+						<div class="ledger-sidebar__meta" aria-label="博客统计">
+							<span>{allPosts.length} 篇</span>
+							<span>{tagsMap.size} 个话题</span>
+							<span>始于 {sinceYear}</span>
 						</div>
 					</div> -->
 
@@ -141,10 +141,10 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 						<button
 							class="ledger-search"
 							type="button"
-							aria-label="Search articles"
+							aria-label="搜索文章"
 							onclick="window.openSearchModal && window.openSearchModal()"
 						>
-							<span>Search</span>
+							<span>搜索</span>
 							<kbd>⌘K</kbd>
 						</button>
 						<a href="/index.xml" class="ledger-rss">RSS</a>
@@ -167,7 +167,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 						</a>
 						<div class="profile-info">
 							<h2 class="profile-name">LynkXu</h2>
-							<p class="profile-bio">Personal notes and long-form writing.</p>
+							<p class="profile-bio">个人笔记与长文。</p>
 						</div>
 					</section>
 				)}
@@ -185,8 +185,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		--heading-color: #242321;
 		--panel-title-color: #302f2b;
 		--text-color: #36342f;
-		--gray-color: #706d66;
-		--faint-color: #9b978d;
+		--gray-color: #5f5c55;
+		--faint-color: #8a867c;
 		--accent-color: #3f6f5a;
 		--link-color: #315f4d;
 		--rule-color: rgba(36, 35, 33, 0.16);
@@ -199,7 +199,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		--paper-field-bg: rgba(36, 35, 33, 0.035);
 		--paper-hover-bg: rgba(63, 111, 90, 0.055);
 		--paper-hover-border: rgba(63, 111, 90, 0.28);
-		--blog-shell-width: 1220px;
+		--blog-shell-width: 1280px;
 		--blog-sidebar-width: 12.5rem;
 		--blog-context-width: 14rem;
 		--blog-shell-gap: clamp(2rem, 3.5vw, 2.8rem);
@@ -215,8 +215,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 			--heading-color: #f1eee6;
 			--panel-title-color: #e8e4da;
 			--text-color: #d8d3c8;
-			--gray-color: #a6a096;
-			--faint-color: #777168;
+			--gray-color: #b4aea2;
+			--faint-color: #8a847a;
 			--accent-color: #82a890;
 			--link-color: #9ab9a4;
 			--rule-color: rgba(241, 238, 230, 0.16);
@@ -235,8 +235,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		--heading-color: #f1eee6;
 		--panel-title-color: #e8e4da;
 		--text-color: #d8d3c8;
-		--gray-color: #a6a096;
-		--faint-color: #777168;
+		--gray-color: #b4aea2;
+		--faint-color: #8a847a;
 		--accent-color: #82a890;
 		--link-color: #9ab9a4;
 		--rule-color: rgba(241, 238, 230, 0.16);
@@ -341,16 +341,52 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		border-top: 0;
 	}
 
+	.ledger-collections {
+		display: flex;
+		flex-direction: column;
+		gap: 0.56rem;
+		padding-top: clamp(0.18rem, 0.8vh, 0.5rem);
+	}
+
+	.ledger-collections__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.ledger-collections__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.ledger-collections__summary::after {
+		content: "+";
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.72rem;
+		line-height: 1;
+	}
+
+	.ledger-collections[open] .ledger-collections__summary::after {
+		content: "−";
+	}
+
+	.ledger-collections__summary:hover {
+		color: var(--gray-color);
+	}
+
 	.ledger-group-label {
 		display: block;
 		width: fit-content;
 		color: var(--faint-color);
 		font-family: var(--field-font);
-		font-size: 0.62rem;
+		font-size: 0.68rem;
 		font-weight: var(--weight-regular);
-		letter-spacing: 0.055em;
+		letter-spacing: 0.02em;
 		line-height: 1;
-		text-transform: uppercase;
 	}
 
 	.ledger-nav {
@@ -555,9 +591,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		color: var(--gray-color);
 		font-size: 0.72rem;
 		font-weight: var(--weight-medium);
-		letter-spacing: 0.04em;
+		letter-spacing: 0.02em;
 		line-height: 1.2;
-		text-transform: uppercase;
 	}
 
 	.magazine-section-label::after {
@@ -675,6 +710,14 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 
 		.ledger-nav-group--secondary {
 			padding-top: 0.78rem;
+		}
+
+		.ledger-collections {
+			padding-top: 0.78rem;
+		}
+
+		.ledger-collections .ledger-nav {
+			padding-top: 0.35rem;
 		}
 
 		.ledger-sidebar__meta {

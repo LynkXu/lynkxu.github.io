@@ -22,7 +22,7 @@ const contactLinks = [
 
 <MagazineShell title={title} description={title} showProfileCard={false}>
 	<section class="about-profile magazine-panel" aria-labelledby="about-title">
-		<p class="magazine-section-label">Profile</p>
+		<p class="magazine-section-label">简介</p>
 		<h1 id="about-title">Hi, I am Lynk</h1>
 		<div class="about-profile__lead">
 			<p>
@@ -34,24 +34,24 @@ const contactLinks = [
 		<p class="about-profile__note">
 			很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
 		</p>
-		<div class="about-profile__fragments" aria-label="Personal fragments">
+		<div class="about-profile__fragments" aria-label="个人片段">
 			<div>
-				<span>Input</span>
+				<span>输入</span>
 				<strong>Web3 爱好 / APP 体验家 / AI 依赖</strong>
 			</div>
 			<div>
-				<span>Pace</span>
+				<span>节奏</span>
 				<strong>力量训练 / 马拉松 / 骑行 / 散步</strong>
 			</div>
 			<div>
-				<span>Temper</span>
+				<span>性情</span>
 				<strong>长期主义 / 混沌中立 / 生人勿近</strong>
 			</div>
 		</div>
-		<div class="about-profile__sections" aria-label="About LynkXu's Blog">
+		<div class="about-profile__sections" aria-label="关于 LynkXu's Blog">
 			<section class="about-module about-module--contact">
 				<div class="about-module__header">
-					<span>Contact</span>
+					<span>联系</span>
 					<h2>联系我</h2>
 				</div>
 				<div class="about-module__links">
@@ -70,8 +70,8 @@ const contactLinks = [
 
 			<section class="about-module about-module--support">
 				<div class="about-module__header">
-					<span>Support</span>
-					<h2>Sponsor</h2>
+					<span>支持</span>
+					<h2>赞助</h2>
 				</div>
 				<SponsorAbout />
 			</section>
@@ -80,21 +80,21 @@ const contactLinks = [
 
 	<div slot="sidebar-extra" class="about-rail">
 		<section class="magazine-rail-card about-now" aria-labelledby="about-now-title">
-			<p id="about-now-title" class="magazine-section-label">Now</p>
+			<p id="about-now-title" class="magazine-section-label">此刻</p>
 			<dl class="about-now-list">
 				<div>
-					<dt>Base</dt>
-					<dd>Shanghai</dd>
+					<dt>所在</dt>
+					<dd>上海</dd>
 				</div>
 				<div>
-					<dt>Work</dt>
-					<dd>Fullstack Engineer</dd>
+					<dt>工作</dt>
+					<dd>全栈工程师</dd>
 				</div>
 			</dl>
 		</section>
 
 		<section class="magazine-rail-card about-history-card" aria-labelledby="about-history-title">
-			<p id="about-history-title" class="magazine-section-label">Blog History</p>
+			<p id="about-history-title" class="magazine-section-label">博客历程</p>
 			<ol class="about-history-list">
 				{blogHistory.map((item) => (
 					<li>
@@ -195,7 +195,6 @@ const contactLinks = [
 		font-size: 0.63rem;
 		font-weight: var(--weight-medium);
 		line-height: 1;
-		text-transform: uppercase;
 	}
 
 	.about-profile__fragments strong {
@@ -235,7 +234,6 @@ const contactLinks = [
 		font-size: 0.64rem;
 		font-weight: var(--weight-medium);
 		line-height: 1;
-		text-transform: uppercase;
 	}
 
 	.about-module__header h2 {

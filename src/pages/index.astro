@@ -58,8 +58,8 @@ function getDayNumber(date: Date) {
 		<div class="home-overview-grid">
 			<section class="home-panel home-latest-panel" aria-labelledby="home-latest-title">
 				<header class="home-panel-head">
-					<p id="home-latest-title" class="magazine-section-label">Latest entry</p>
-					<a href="/blog" class="home-all-link">Archive <span aria-hidden="true">→</span></a>
+					<p id="home-latest-title" class="magazine-section-label">最新文章</p>
+					<a href="/blog" class="home-all-link">归档 <span aria-hidden="true">→</span></a>
 				</header>
 
 				{featuredPost && (
@@ -75,7 +75,7 @@ function getDayNumber(date: Date) {
 					</a>
 				)}
 
-				<div class="home-latest-list" role="list" aria-label="Recent entries">
+				<div class="home-latest-list" role="list" aria-label="近期文章">
 					{recentPosts.map((post) => {
 						const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
 						return (
@@ -88,7 +88,7 @@ function getDayNumber(date: Date) {
 									<strong>{post.data.title}</strong>
 									<small class="home-post-meta">
 										{primaryTag && <span class="home-tag">{primaryTag}</span>}
-										<span>{getReadingMinutes(post)} min read</span>
+										<span>{getReadingMinutes(post)} 分钟</span>
 									</small>
 									<span>{getPostSummary(post)}</span>
 								</span>

@@ -44,12 +44,12 @@ function getPostHref(post: (typeof posts)[number]) {
 
 ---
 
-<MagazineShell title='Archive' description={SITE_DESCRIPTION} className="archive-layout" showProfileCard={false}>
+<MagazineShell title='归档' description={SITE_DESCRIPTION} className="archive-layout" showProfileCard={false}>
 	<section class="archive-board magazine-panel" aria-labelledby="archive-title">
 		<header class="archive-board__header">
 			<div>
-				<p class="magazine-section-label">Articles</p>
-				<h1 id="archive-title" class="sr-only">Archive</h1>
+				<p class="magazine-section-label">文章</p>
+				<h1 id="archive-title" class="sr-only">归档</h1>
 			</div>
 		</header>
 
@@ -77,7 +77,7 @@ function getPostHref(post: (typeof posts)[number]) {
 									<div class="archive-entry__meta">
 										{primaryTag && <a class="magazine-chip" href={`/tags/${primaryTag}/`}>{primaryTag}</a>}
 										{INCLUDE_DRAFTS && post.data.draft && (
-											<span class="draft-badge" aria-label="Draft">Draft</span>
+											<span class="draft-badge" aria-label="草稿">草稿</span>
 										)}
 									</div>
 								</li>
@@ -91,7 +91,7 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	<div slot="sidebar-extra" class="archive-rail">
 		<section class="magazine-rail-card archive-rail-card" aria-labelledby="archive-tags-title">
-			<p id="archive-tags-title" class="magazine-section-label">Tags</p>
+			<p id="archive-tags-title" class="magazine-section-label">标签</p>
 			<div class="archive-tag-cloud">
 				{tags.slice(0, 10).map((tag) => (
 					<a href={tag.href} class="archive-tag-chip">
@@ -99,17 +99,17 @@ function getPostHref(post: (typeof posts)[number]) {
 					</a>
 				))}
 			</div>
-			<div class="archive-summary" aria-label="Archive summary">
-				<span><strong>{posts.length}</strong> entries</span>
-				<span><strong>{tags.length}</strong> topics</span>
-				<span>since {years[years.length - 1]}</span>
+			<div class="archive-summary" aria-label="归档概览">
+				<span><strong>{posts.length}</strong> 篇</span>
+				<span><strong>{tags.length}</strong> 个话题</span>
+				<span>始于 {years[years.length - 1]}</span>
 			</div>
-			<p id="archive-index-title" class="magazine-section-label archive-index-label">Years</p>
-			<nav class="archive-year-index" aria-label="Archive years">
+			<p id="archive-index-title" class="magazine-section-label archive-index-label">年份</p>
+			<nav class="archive-year-index" aria-label="按年份跳转">
 				{years.map((year) => (
 					<a href={`#archive-year-${year}`}>
 						<strong>{year}</strong>
-						<span>{postsByYear[year].length} {postsByYear[year].length === 1 ? 'entry' : 'entries'}</span>
+						<span>{postsByYear[year].length} 篇</span>
 					</a>
 				))}
 			</nav>

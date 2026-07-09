@@ -86,13 +86,13 @@ const thisYearMemoCount = memoItems.filter((item) => item.year === currentYear).
 const latestMemo = memoItems[0];
 const earliestMemo = memoItems.length > 0 ? memoItems[memoItems.length - 1] : undefined;
 const memoStats = [
-	{ label: 'Memos', value: gossips.length },
-	{ label: 'This year', value: thisYearMemoCount },
-	{ label: 'Months', value: activeMonthCount },
-	{ label: 'Media', value: mediaMemoCount },
+	{ label: '碎语', value: gossips.length },
+	{ label: '今年', value: thisYearMemoCount },
+	{ label: '月份', value: activeMonthCount },
+	{ label: '媒体', value: mediaMemoCount },
 ];
 const sourceStats = [
-	{ label: 'Local', value: fileGossips.length },
+	{ label: '本地', value: fileGossips.length },
 	{ label: 'Mastodon', value: mastodonGossips.length },
 ];
 const monthStats = Array.from(
@@ -179,8 +179,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
 	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
-			<p class="magazine-section-label">Timeline</p>
-			<h1 id="memos-title" class="sr-only">Memos</h1>
+			<p class="magazine-section-label">时间线</p>
+			<h1 id="memos-title" class="sr-only">碎语</h1>
 			<!-- <p>Short notes gathered by time, with source and month context kept aside.</p> -->
 		</header>
 
@@ -189,7 +189,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			<div id='shuoshuo' class="memos-feed">
 				{
 					gossips.length === 0 ? (
-						<div class='empty-state'>No memos yet.</div>
+						<div class='empty-state'>还没有碎语。</div>
 					) : (
 						pagedMemoPages.map(({ page, items }) => (
 							<div class="memos-page" data-page={page}>
@@ -260,7 +260,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	<div slot="sidebar-extra" class="memos-rail">
 		<section class="magazine-rail-card memos-rail-card" aria-labelledby="memos-snapshot-title">
-			<p id="memos-snapshot-title" class="magazine-section-label">Snapshot</p>
+			<p id="memos-snapshot-title" class="magazine-section-label">概览</p>
 			<dl class="memos-summary-list">
 				{memoStats.map((item) => (
 					<div class="memos-stat-row">
@@ -269,7 +269,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 					</div>
 				))}
 			</dl>
-			<p id="memos-month-title" class="magazine-section-label memos-subsection-label">Months</p>
+			<p id="memos-month-title" class="magazine-section-label memos-subsection-label">月份</p>
 			<div class="memos-month-list">
 				{monthStats.map((month) => (
 					<div class="memos-month-row">
@@ -279,7 +279,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 					</div>
 				))}
 			</div>
-			<p id="memos-source-title" class="magazine-section-label memos-subsection-label">Sources</p>
+			<p id="memos-source-title" class="magazine-section-label memos-subsection-label">来源</p>
 			<dl class="memos-source-list">
 				{sourceStats.map((item) => (
 					<div class="memos-source-row">
