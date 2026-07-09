@@ -13,8 +13,8 @@ const { title } = Astro.props;
 <MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
 	<section class="message-panel" aria-labelledby="message-title">
 		<header class="message-panel__header">
-			<p class="magazine-section-label">Messages</p>
-			<h1 id="message-title" class="sr-only">Leaves</h1>
+			<p class="magazine-section-label">留言</p>
+			<h1 id="message-title" class="sr-only">留言</h1>
 		</header>
 
 		<div class="message-comments">
@@ -24,10 +24,10 @@ const { title } = Astro.props;
 
 	<div slot="sidebar-extra" class="message-rail">
 		<section class="magazine-rail-card message-contact-card" aria-labelledby="message-contact-title">
-			<p id="message-contact-title" class="magazine-section-label">Contact</p>
+			<p id="message-contact-title" class="magazine-section-label">联系</p>
 			<p class="message-contact-intro">公开留言适合文章反馈、问题和随手想到的想法；如果不想公开，可以换到下面的平台。</p>
-			<div class="message-action-list" aria-label="Contact actions">
-				<a href="#twikoo-lazygate">Write here</a>
+			<div class="message-action-list" aria-label="联系方式">
+				<a href="#twikoo-lazygate">在此留言</a>
 				<a href="https://mastodon.social/@lynkxu" target="_blank" rel="noopener noreferrer">Mastodon</a>
 				<a href="https://github.com/LynkXu" target="_blank" rel="noopener noreferrer">GitHub</a>
 			</div>

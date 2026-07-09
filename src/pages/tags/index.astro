@@ -38,11 +38,11 @@ function getTopicTier(count: number) {
 }
 ---
 
-<MagazineShell title='Topics' description='Browse all topics'>
+<MagazineShell title='话题' description='浏览全部话题'>
 	<section class="topics-wall" aria-labelledby="topics-title">
-		<h1 id="topics-title" class="sr-only">Topics</h1>
+		<h1 id="topics-title" class="sr-only">话题</h1>
 
-		<div class="topic-cloud" aria-label="Topic index">
+		<div class="topic-cloud" aria-label="话题索引">
 			{topics.map((topic, index) => (
 				<a
 					href={topic.href}

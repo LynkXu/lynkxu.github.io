@@ -74,8 +74,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			color: var(--faint-color);
 			font-family: var(--meta-font);
 			font-size: 0.75rem;
-			letter-spacing: 0.06em;
-			text-transform: uppercase;
+			letter-spacing: 0.02em;
 			white-space: nowrap;
 		}
 
@@ -157,7 +156,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 66ch;
+			--measure-readable: 70ch;
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
 			--post-content-width: var(--measure-readable);
 			display: flex;
@@ -172,7 +171,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-header-card {
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
-			--post-rail-width: 68ch;
+			--post-rail-width: 72ch;
 			padding: 0 0 clamp(1.45rem, 3.4vw, 2.35rem);
 			border: 0;
 			border-radius: 0;
@@ -194,7 +193,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-flow {
 			width: 100%;
-			max-width: min(100%, 68ch);
+			max-width: min(100%, 72ch);
 			margin-left: auto;
 			margin-right: auto;
 			padding-left: 0;
@@ -215,7 +214,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			font-family: var(--field-font);
 			font-size: 0.72rem;
 			font-weight: var(--weight-regular);
-			color: color-mix(in oklab, var(--faint-color) 86%, var(--gray-color));
+			color: color-mix(in oklab, var(--faint-color) 42%, var(--gray-color));
 			letter-spacing: 0.01em;
 		}
 
@@ -250,7 +249,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-description {
 			margin: 0;
 			max-width: 58ch;
-			color: color-mix(in oklab, var(--gray-color) 72%, var(--faint-color));
+			color: color-mix(in oklab, var(--gray-color) 88%, var(--faint-color));
 			font-family: var(--ui-font);
 			font-size: clamp(0.98rem, 1.45vw, 1.08rem);
 			font-weight: var(--weight-regular);
@@ -309,7 +308,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.blog-post-layout .blog-main-column .post-content {
 			--reader-inline-pad: clamp(0.6rem, 1.8vw, 0.95rem);
 			width: 100%;
-			max-width: min(100%, calc(var(--post-content-width, 66ch) + var(--reader-inline-pad) * 2));
+			max-width: min(100%, calc(var(--post-content-width, 70ch) + var(--reader-inline-pad) * 2));
 			box-sizing: border-box;
 			margin-left: auto;
 			margin-right: auto;
@@ -319,11 +318,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				clamp(0.95rem, 2.4vw, 1.45rem);
 			border: 0;
 			background: transparent;
-			color: color-mix(in oklab, var(--heading-color) 76%, var(--text-color));
+			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
 			font-family: var(--reading-font);
-			font-size: 1rem;
+			font-size: 1.02rem;
 			font-weight: var(--weight-regular);
-			line-height: 1.68;
+			line-height: var(--lh-body);
 			letter-spacing: 0;
 			overflow-wrap: anywhere;
 			text-wrap: pretty;
@@ -446,9 +445,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			font-family: var(--ui-font);
 			font-size: 0.72rem;
 			font-weight: var(--weight-medium);
-			letter-spacing: 0.04em;
+			letter-spacing: 0.02em;
 			line-height: 1.1;
-			text-transform: uppercase;
 		}
 
 		.sidebar-toc-card .toc-header::after {
@@ -540,7 +538,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				max-width: 100%;
 				padding-inline: 0.66rem;
 				font-size: 1rem;
-				line-height: 1.66;
+				line-height: var(--lh-body);
 			}
 
 			.blog-post-layout .blog-main-column .post-content > h2 {
@@ -552,7 +550,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<div slot="sidebar-extra" class="post-sidebar-stack">
 		{showTOC && (
 			<div class="magazine-rail-card sidebar-toc-card">
-				<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='On this page' />
+				<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='本页目录' />
 			</div>
 		)}
 	</div>
@@ -568,16 +566,16 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 						{readingTime && (
 							<>
 								<span class='post-meta-sep'>·</span>
-								<span>{readingTime} min read</span>
+								<span>{readingTime} 分钟</span>
 							</>
 						)}
 						{hasPostMeta && (
 							<>
 								<span class='post-meta-sep'>·</span>
 								{updatedDate && (
-									<span>Updated <FormattedDate date={updatedDate} /></span>
+									<span>更新于 <FormattedDate date={updatedDate} /></span>
 								)}
-								{isDev && draft && <span class="draft-badge" aria-label="Draft">Draft</span>}
+								{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
 							</>
 						)}
 					</div>
@@ -600,7 +598,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					<!-- 文章结束标识和点赞 -->
 					<div class='post-end' aria-hidden="true">
 						<div class="post-end-mark">
-							<span class="post-end-text">End of entry</span>
+							<span class="post-end-text">全文完</span>
 						</div>
 						<LikeButton id={postId || Astro.url.pathname} type="post" />
 					</div>

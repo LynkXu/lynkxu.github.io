@@ -47,7 +47,7 @@ const tagItems = Array.from(tagsMap.entries())
 	}));
 ---
 
-<MagazineShell title={`Tag: ${tag}`} description={`All posts with tag "${tag}"`}>
+<MagazineShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
 	<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
 
 	<div class="tag-entries">
@@ -68,7 +68,7 @@ const tagItems = Array.from(tagsMap.entries())
 								{post.data.title}
 							</a>
 							{INCLUDE_DRAFTS && post.data.draft && (
-								<span class="draft-badge" aria-label="Draft">Draft</span>
+								<span class="draft-badge" aria-label="草稿">草稿</span>
 							)}
 						</li>
 					))
