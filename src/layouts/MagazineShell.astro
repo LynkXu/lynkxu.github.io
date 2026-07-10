@@ -1,8 +1,6 @@
 ---
 import Base from './Base.astro';
 import Footer from '../components/Footer.astro';
-import { getCollection } from 'astro:content';
-import { filterDrafts } from '../utils/drafts';
 
 interface Props {
 	title: string;
@@ -19,25 +17,13 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
-const allPosts = filterDrafts(await getCollection('blog')).filter((post) => !post.id.startsWith('en/'));
-const oldestPost = allPosts.reduce<Date | undefined>((oldest, post) => {
-	if (!oldest || post.data.pubDate < oldest) return post.data.pubDate;
-	return oldest;
-}, undefined);
-
-const tagsMap = new Map<string, number>();
-allPosts.forEach((post) => {
-	(post.data.tags || []).forEach((tag) => {
-		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
-	});
-});
 
 const navItems = [
-	{ href: '/', label: '首页' },
-	{ href: '/blog', label: '归档' },
-	{ href: '/shuoshuo', label: '碎语' },
-	{ href: '/message', label: '留言' },
-	{ href: '/about', label: '关于' },
+	{ href: '/', label: '首页', index: '01' },
+	{ href: '/blog', label: '归档', index: '02' },
+	{ href: '/shuoshuo', label: '碎语', index: '03' },
+	{ href: '/message', label: '留言', index: '04' },
+	{ href: '/about', label: '关于', index: '05' },
 ];
 
 const secondaryNavItems = [
@@ -67,7 +53,6 @@ function isActive(href: string) {
 
 const hasSidebarExtra = Astro.slots.has('sidebar-extra');
 const shouldRenderRail = showProfileCard || hasSidebarExtra;
-const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 ---
 
 <Base
@@ -83,7 +68,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-					<img src="/ava4.png" alt="" class="ledger-brand__avatar" width="40" height="40" loading="eager" />
+					<img src="/ava4.png" alt="" class="ledger-brand__avatar" width="36" height="36" loading="eager" />
 					<span class="ledger-brand__name">LynkXu</span>
 				</a>
 
@@ -95,14 +80,32 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 								class:list={['ledger-nav__link', { active: isActive(item.href) }]}
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
-								{item.label}
+								<span class="ledger-nav__index" aria-hidden="true">{item.index}</span>
+								<span class="ledger-nav__text">{item.label}</span>
+								<span class="ledger-nav__marker" aria-hidden="true"></span>
 							</a>
 						))}
 					</nav>
 				</div>
 
+				<button
+					class="ledger-search"
+					type="button"
+					aria-label="搜索文章"
+					aria-keyshortcuts="Meta+K Control+K"
+					onclick="window.openSearchModal && window.openSearchModal()"
+				>
+					<span>搜索</span>
+					<kbd>⌘K</kbd>
+				</button>
+
 				<details class="ledger-collections">
-					<summary class="ledger-group-label ledger-collections__summary">专题</summary>
+					<summary class="ledger-group-label ledger-collections__summary">
+						<span>专题</span>
+						<span class="ledger-collections__context">
+							{String(secondaryNavItems.length).padStart(2, '0')}
+						</span>
+					</summary>
 					<nav class="ledger-nav ledger-nav--secondary" aria-label="专题页面">
 						{secondaryNavItems.map((item) => (
 							<a
@@ -110,13 +113,14 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 								class:list={['ledger-nav__link', { active: isActive(item.href) }]}
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
-								{item.label}
+								<span class="ledger-nav__text">{item.label}</span>
+								<span class="ledger-nav__marker" aria-hidden="true"></span>
 							</a>
 						))}
 					</nav>
 				</details>
 
-				<nav class="ledger-social" aria-label="社交链接">
+				<nav class="ledger-social" aria-label="社交与订阅链接">
 					<span class="ledger-group-label">社交</span>
 					<div class="ledger-social__links">
 						{socialItems.map((item) => (
@@ -124,32 +128,9 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 								{item.label}
 							</a>
 						))}
-					</div>
-				</nav>
-
-				<div class="ledger-sidebar__bottom">
-					<!-- <div class="ledger-sidebar__meta-group">
-						<span class="ledger-group-label">统计</span>
-						<div class="ledger-sidebar__meta" aria-label="博客统计">
-							<span>{allPosts.length} 篇</span>
-							<span>{tagsMap.size} 个话题</span>
-							<span>始于 {sinceYear}</span>
-						</div>
-					</div> -->
-
-					<div class="ledger-sidebar__actions">
-						<button
-							class="ledger-search"
-							type="button"
-							aria-label="搜索文章"
-							onclick="window.openSearchModal && window.openSearchModal()"
-						>
-							<span>搜索</span>
-							<kbd>⌘K</kbd>
-						</button>
 						<a href="/index.xml" class="ledger-rss">RSS</a>
 					</div>
-				</div>
+				</nav>
 			</div>
 		</aside>
 
@@ -294,10 +275,10 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		position: sticky;
 		top: clamp(1.25rem, 3vw, 2rem);
 		display: flex;
-		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
+		align-self: start;
 		flex-direction: column;
-		gap: clamp(1.15rem, 2.3vh, 1.55rem);
-		padding: 0 clamp(1rem, 2vw, 1.35rem) 0 0;
+		gap: clamp(0.8rem, 1.7vh, 1.05rem);
+		padding: 0 clamp(1rem, 2vw, 1.35rem) 0.35rem 0;
 		border-right: 1px solid var(--paper-card-border-soft);
 	}
 
@@ -305,10 +286,10 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		display: flex;
 		flex-direction: row;
 		align-items: center;
-		gap: 0.75rem;
+		gap: 0.65rem;
 		width: 100%;
-		margin-bottom: clamp(0.05rem, 0.6vh, 0.35rem);
-		padding-bottom: clamp(1rem, 1.6vh, 1.2rem);
+		margin-bottom: 0.15rem;
+		padding-bottom: clamp(0.85rem, 1.4vh, 1rem);
 		border: 0;
 		border-bottom: 1px solid var(--paper-card-border-soft) !important;
 		background: none !important;
@@ -317,15 +298,15 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-brand__avatar {
-		width: 44px;
-		height: 44px;
+		width: 36px;
+		height: 36px;
 		border-radius: 50%;
 		object-fit: cover;
 	}
 
 	.ledger-brand__name {
-		font-size: 1.3rem;
-		font-weight: var(--weight-semibold);
+		font-size: 1.05rem;
+		font-weight: var(--weight-medium);
 		line-height: 1;
 		letter-spacing: 0;
 	}
@@ -333,26 +314,22 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	.ledger-nav-group {
 		display: flex;
 		flex-direction: column;
-		gap: 0.56rem;
-	}
-
-	.ledger-nav-group--secondary {
-		padding-top: clamp(0.18rem, 0.8vh, 0.5rem);
-		border-top: 0;
+		gap: 0;
 	}
 
 	.ledger-collections {
 		display: flex;
 		flex-direction: column;
-		gap: 0.56rem;
-		padding-top: clamp(0.18rem, 0.8vh, 0.5rem);
+		gap: 0.35rem;
+		padding-top: 0.15rem;
 	}
 
 	.ledger-collections__summary {
-		display: flex;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
 		align-items: center;
-		justify-content: space-between;
 		width: 100%;
+		min-height: 2.25rem;
 		cursor: pointer;
 		list-style: none;
 		user-select: none;
@@ -363,15 +340,17 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-collections__summary::after {
-		content: "+";
-		color: var(--faint-color);
+		content: "↘";
+		color: var(--gray-color);
 		font-family: var(--field-font);
-		font-size: 0.72rem;
+		font-size: 0.68rem;
 		line-height: 1;
+		transform: rotate(0deg);
+		transition: transform 0.18s ease;
 	}
 
 	.ledger-collections[open] .ledger-collections__summary::after {
-		content: "−";
+		transform: rotate(90deg);
 	}
 
 	.ledger-collections__summary:hover {
@@ -379,14 +358,20 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-group-label {
-		display: block;
-		width: fit-content;
-		color: var(--faint-color);
+		color: color-mix(in oklab, var(--gray-color) 84%, var(--heading-color));
 		font-family: var(--field-font);
-		font-size: 0.68rem;
+		font-size: 0.74rem;
 		font-weight: var(--weight-regular);
 		letter-spacing: 0.02em;
 		line-height: 1;
+	}
+
+	.ledger-collections__context {
+		justify-self: end;
+		padding-right: 0.55rem;
+		color: var(--gray-color);
+		font-size: 0.68rem;
+		font-variant-numeric: tabular-nums;
 	}
 
 	.ledger-nav {
@@ -400,10 +385,10 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-nav__link {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		min-height: 1.82rem;
+		display: grid;
+		grid-template-columns: 1.75rem auto minmax(0, 1fr);
+		align-items: center;
+		min-height: 2.05rem;
 		border: 0 !important;
 		background: none !important;
 		color: var(--gray-color);
@@ -411,7 +396,7 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		font-weight: var(--weight-regular);
 		line-height: 1.2;
 		text-decoration: none;
-		transition: color 0.16s ease, padding-left 0.16s ease;
+		transition: color 0.16s ease;
 	}
 
 	.ledger-nav--primary .ledger-nav__link {
@@ -420,9 +405,33 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	}
 
 	.ledger-nav--secondary .ledger-nav__link {
-		min-height: 1.64rem;
+		grid-template-columns: auto minmax(0, 1fr);
+		min-height: 1.9rem;
 		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.8rem;
+		font-size: 0.81rem;
+	}
+
+	.ledger-nav__index {
+		color: color-mix(in oklab, var(--gray-color) 72%, var(--faint-color));
+		font-size: 0.67rem;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.01em;
+	}
+
+	.ledger-nav__text {
+		min-width: 0;
+	}
+
+	.ledger-nav__marker {
+		width: 1.05rem;
+		height: 1px;
+		justify-self: start;
+		margin-left: 0.55rem;
+		background: var(--accent-color);
+		opacity: 0;
+		transform: scaleX(0);
+		transform-origin: right center;
+		transition: opacity 0.16s ease, transform 0.16s ease;
 	}
 
 	.ledger-nav__link:hover {
@@ -434,96 +443,49 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		font-weight: var(--weight-medium);
 	}
 
-	.ledger-nav__link:hover {
-		padding-left: 0.18rem;
+	.ledger-nav__link.active .ledger-nav__index {
+		color: var(--accent-color);
 	}
 
-	.ledger-nav__link.active::after {
-		content: "";
-		width: 0.26rem;
-		height: 0.26rem;
-		margin-left: 0.75rem;
-		border-radius: 50%;
-		background: var(--accent-color);
-	}
-
-	.ledger-sidebar__bottom {
-		display: flex;
-		flex-direction: column;
-		gap: clamp(0.82rem, 1.5vh, 1rem);
-		margin-top: auto;
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	.ledger-sidebar__meta-group {
-		display: flex;
-		flex-direction: column;
-		gap: 0.42rem;
-	}
-
-	.ledger-sidebar__meta {
-		display: flex;
-		flex-direction: column;
-		gap: 0.18rem;
-		color: var(--faint-color);
-		font-size: 0.68rem;
-		line-height: 1.45;
-		font-variant-numeric: tabular-nums;
-	}
-
-	.ledger-sidebar__actions {
-		display: grid;
-		grid-template-columns: 1fr auto;
-		gap: 0.45rem;
-		align-items: center;
-		padding-top: 0.12rem;
-	}
-
-	.ledger-search,
-	.ledger-rss {
-		display: inline-flex;
-		align-items: center;
-		min-height: 2rem;
-		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-		background: transparent;
-		color: var(--gray-color);
-		font: inherit;
-		font-size: 0.72rem;
-		text-decoration: none;
+	.ledger-nav__link.active .ledger-nav__marker {
+		opacity: 1;
+		transform: scaleX(1);
 	}
 
 	.ledger-search {
-		justify-content: space-between;
+		display: inline-flex;
+		align-items: center;
 		gap: 0.5rem;
-		width: 100%;
-		padding: 0 0.45rem 0 0;
+		width: fit-content;
+		min-height: 2.05rem;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		color: var(--gray-color);
+		font: inherit;
+		font-size: 0.76rem;
+		text-align: left;
+		white-space: nowrap;
 		cursor: pointer;
+		transition: color 0.16s ease;
 	}
 
 	.ledger-search kbd {
-		color: var(--faint-color);
+		color: var(--gray-color);
 		font: inherit;
-		font-size: 0.68rem;
-	}
-
-	.ledger-rss {
-		justify-content: center;
-		padding: 0 0 0 0.45rem;
+		font-size: 0.7rem;
 	}
 
 	.ledger-search:hover,
-	.ledger-rss:hover {
-		border-color: var(--paper-hover-border);
+	.ledger-search:focus-visible {
 		color: var(--heading-color);
 	}
 
 	.ledger-social {
 		display: flex;
 		flex-direction: column;
-		gap: 0.46rem;
-		padding-top: clamp(0.15rem, 0.7vh, 0.45rem);
+		gap: 0.42rem;
+		padding-top: 0.2rem;
 		border-top: 0;
 	}
 
@@ -536,8 +498,8 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 	.ledger-social a {
 		border: 0 !important;
 		background: none !important;
-		color: var(--faint-color);
-		font-size: 0.65rem;
+		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
+		font-size: 0.72rem;
 		line-height: 1.3;
 		text-decoration: none;
 	}
@@ -682,64 +644,97 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 
 		.ledger-sidebar__inner {
 			position: static;
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			grid-template-areas:
+				"brand nav search"
+				"collections collections social";
 			min-height: 0;
-			gap: 0.9rem;
-			padding-right: 0;
-			padding-bottom: 1rem;
+			align-items: center;
+			gap: 0.45rem 1rem;
+			padding: 0 0 0.8rem;
 			border-right: 0;
 			border-bottom: 1px solid var(--paper-card-border-soft);
 		}
 
 		.ledger-brand {
-			flex-direction: row;
-			align-items: center;
+			grid-area: brand;
 			gap: 0.65rem;
+			width: auto;
 			margin-bottom: 0;
-			padding-bottom: 0.95rem;
+			padding-bottom: 0;
+			border-bottom: 0 !important;
 		}
 
-		.ledger-nav {
+		.ledger-brand__avatar {
+			width: 32px;
+			height: 32px;
+		}
+
+		.ledger-nav-group--primary {
+			grid-area: nav;
+		}
+
+		.ledger-nav--primary {
 			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 0.35rem 0.9rem;
+			flex-wrap: nowrap;
+			gap: 0.7rem;
 		}
 
-		.ledger-nav-group {
-			gap: 0.42rem;
+		.ledger-nav--primary .ledger-nav__link {
+			display: flex;
+			min-height: 2.5rem;
 		}
 
-		.ledger-nav-group--secondary {
-			padding-top: 0.78rem;
+		.ledger-nav--primary .ledger-nav__index {
+			display: none;
+		}
+
+		.ledger-nav__marker {
+			width: 0.55rem;
+			margin-left: 0.3rem;
+			flex: 0 0 auto;
 		}
 
 		.ledger-collections {
-			padding-top: 0.78rem;
+			grid-area: collections;
+			padding-top: 0;
 		}
 
-		.ledger-collections .ledger-nav {
+		.ledger-collections__summary {
+			width: fit-content;
+			min-height: 2.5rem;
+			gap: 0.55rem;
+		}
+
+		.ledger-collections .ledger-nav--secondary {
+			flex-direction: row;
+			flex-wrap: wrap;
+			gap: 0.25rem 0.9rem;
 			padding-top: 0.35rem;
 		}
 
-		.ledger-sidebar__meta {
-			flex-direction: row;
-			flex-wrap: wrap;
-			gap: 0.4rem 0.9rem;
+		.ledger-nav--secondary .ledger-nav__link {
+			display: flex;
+			min-height: 2rem;
 		}
 
-		.ledger-sidebar__bottom {
-			gap: 0.72rem;
-			margin-top: 0;
-			padding-top: 0.82rem;
-		}
-
-		.ledger-sidebar__actions {
-			grid-template-columns: minmax(8rem, 13rem) auto;
-			justify-content: start;
+		.ledger-search {
+			grid-area: search;
+			justify-self: end;
+			min-width: 0;
+			min-height: 2.5rem;
 		}
 
 		.ledger-social {
-			gap: 0.32rem 0.9rem;
+			grid-area: social;
+			align-items: flex-end;
+			gap: 0.25rem;
 			padding-top: 0;
+		}
+
+		.ledger-social .ledger-group-label {
+			display: none;
 		}
 
 		.ledger-main {
@@ -768,21 +763,72 @@ const sinceYear = oldestPost?.getFullYear() ?? new Date().getFullYear();
 		}
 
 		.ledger-brand__name {
-			font-size: 1.22rem;
+			font-size: 1rem;
 		}
 
-		.ledger-nav__link {
-			min-height: 1.45rem;
+		.ledger-brand {
+			min-height: 2.75rem;
+		}
+
+		.ledger-sidebar__inner {
+			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-areas:
+				"brand search"
+				"nav nav"
+				"collections collections"
+				"social social";
+			gap: 0.25rem 0.75rem;
+			padding-bottom: 0.65rem;
+		}
+
+		.ledger-nav--primary {
+			display: grid;
+			grid-template-columns: repeat(5, minmax(0, 1fr));
+			gap: 0;
+		}
+
+		.ledger-nav--primary .ledger-nav__link {
+			justify-content: center;
+			min-height: 2.75rem;
 			font-size: 0.78rem;
 		}
 
-		.ledger-nav--primary .ledger-nav__link,
+		.ledger-search {
+			width: fit-content;
+			min-height: 2.75rem;
+		}
+
+		.ledger-collections {
+			border-top: 1px solid var(--paper-card-border-soft);
+		}
+
+		.ledger-collections__summary {
+			width: 100%;
+			min-height: 2.75rem;
+		}
+
 		.ledger-nav--secondary .ledger-nav__link {
+			min-width: 2.75rem;
+			min-height: 2.75rem;
+			padding-inline: 0.4rem;
 			font-size: 0.78rem;
 		}
 
-		.ledger-sidebar__actions {
-			grid-template-columns: 1fr auto;
+		.ledger-social {
+			align-items: flex-start;
+			border-top: 1px solid var(--paper-card-border-soft);
+		}
+
+		.ledger-social__links {
+			gap: 0 0.9rem;
+		}
+
+		.ledger-social a {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			min-width: 2.75rem;
+			min-height: 2.75rem;
 		}
 	}
 </style>
