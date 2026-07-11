@@ -1,4 +1,4 @@
-export type SponsorItem = {
+type SponsorItem = {
 	id: string;
 	name: string;
 	image: string;
@@ -7,7 +7,7 @@ export type SponsorItem = {
 	address?: string;
 };
 
-export type SponsorGroup = {
+type SponsorGroup = {
 	name: 'CNY' | 'Crypto';
 	items: SponsorItem[];
 };
@@ -58,6 +58,3 @@ export const SPONSOR_GROUPS: SponsorGroup[] = [
 		],
 	},
 ];
-
-export const ALL_SPONSOR_ITEMS: SponsorItem[] = SPONSOR_GROUPS.flatMap((g) => g.items);
-

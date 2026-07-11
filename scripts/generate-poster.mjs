@@ -100,9 +100,6 @@ async function main() {
     dailyTypes.set(dateStr, types);
   }
 
-  // 计算总距离
-  const totalKm = rideKm + runKm;
-
   // 生成日期网格 (只包含当前年份)
   const startDate = new Date(year, 0, 1);
   const endDate = new Date(year, 11, 31);
@@ -160,7 +157,7 @@ async function main() {
   const height = padding.top + monthLabelHeight + gridHeight + padding.bottom;
 
   // 生成 SVG
-  const svg = generateSVG(cells, monthLabels, { rideKm, runKm }, year, width, height, padding.top + monthLabelHeight - 1);
+  const svg = generateSVG(cells, monthLabels, width, height, padding.top + monthLabelHeight - 1);
 
   await fs.writeFile(OUTPUT_PATH, svg, 'utf8');
   console.log(`Generated poster for ${year}: ${OUTPUT_PATH}`);
@@ -169,8 +166,8 @@ async function main() {
   console.log(`SVG size: ${width.toFixed(0)}x${height.toFixed(0)}`);
 }
 
-function generateSVG(cells, monthLabels, stats, year, width, height, monthLabelY) {
-  const { cellSize, colors, padding } = CONFIG;
+function generateSVG(cells, monthLabels, width, height, monthLabelY) {
+  const { cellSize, colors } = CONFIG;
 
   let svg = `<?xml version="1.0" encoding="utf-8"?>
 <svg viewBox="0 0 ${width.toFixed(1)} ${height.toFixed(1)}" xmlns="http://www.w3.org/2000/svg">

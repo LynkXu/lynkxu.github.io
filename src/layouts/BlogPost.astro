@@ -826,12 +826,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 						if (!res.ok) return null;
 						const json = await res.json();
 						if (!json.data) return null;
-						const { title, description, image, logo } = json.data;
+						const { title, description, image } = json.data;
 						const result = {
 							title: title || '',
 							description: description || '',
 							image: image?.url || '',
-							logo: logo?.url || '',
 						};
 						setCache(url, result);
 						return result;

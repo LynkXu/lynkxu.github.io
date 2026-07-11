@@ -69,22 +69,10 @@ const memoItems = gossips.map((gossip: any, index) => {
 	};
 });
 
-function formatMemoDate(date?: Date) {
-	if (!date) return '—';
-	return new Intl.DateTimeFormat('zh-CN', {
-		timeZone: 'Asia/Shanghai',
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	}).format(date).replace(/\//g, '.');
-}
-
 const currentYear = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', year: 'numeric' }).format(new Date());
 const activeMonthCount = new Set(memoItems.map((item) => item.monthLabel)).size;
 const mediaMemoCount = memoItems.filter((item) => item.attachments.length > 0).length;
 const thisYearMemoCount = memoItems.filter((item) => item.year === currentYear).length;
-const latestMemo = memoItems[0];
-const earliestMemo = memoItems.length > 0 ? memoItems[memoItems.length - 1] : undefined;
 const memoStats = [
 	{ label: '碎语', value: gossips.length },
 	{ label: '今年', value: thisYearMemoCount },
@@ -106,8 +94,6 @@ const monthStats = Array.from(
 	.values()
 ).slice(0, 4);
 const maxMonthCount = Math.max(1, ...monthStats.map((item) => item.count));
-const latestMemoLabel = formatMemoDate(latestMemo?.gossip.data.pubDate);
-const earliestMemoYear = earliestMemo?.year || '—';
 
 const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;

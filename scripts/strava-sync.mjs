@@ -45,10 +45,6 @@ function isRide(a) {
   return t === 'Ride' || t === 'VirtualRide' || t === 'EBikeRide' || t === 'GravelRide';
 }
 
-function clamp(n, min, max) {
-  return Math.max(min, Math.min(max, n));
-}
-
 function pad2(n) {
   return n < 10 ? `0${n}` : `${n}`;
 }
@@ -77,46 +73,6 @@ function isOnOrAfterMonth(activity, startMonth) {
   if (!startMonth) return true;
   const month = formatMonthKey(activity.start_date_local || activity.start_date);
   return month ? month >= startMonth : false;
-}
-
-function formatPaceSecPerKm(secPerKm) {
-  if (!Number.isFinite(secPerKm) || secPerKm <= 0) return null;
-  const total = Math.round(secPerKm);
-  const m = Math.floor(total / 60);
-  const s = total % 60;
-  return `${m}'${pad2(s)}''/km`;
-}
-
-function formatTimeMinTextFromSec(sec) {
-  if (!Number.isFinite(sec) || sec <= 0) return null;
-  const total = Math.round(sec);
-  const m = Math.floor(total / 60);
-  const s = total % 60;
-  return `${m}:${pad2(s)}`;
-}
-
-function parseBaselineTimeToSec(timeText) {
-  if (!timeText) return null;
-  const t = `${timeText}`.trim();
-  if (!t) return null;
-
-  // "59:01"
-  if (t.includes(':')) {
-    const [mm, ss] = t.split(':').map((x) => parseInt(x, 10));
-    if (Number.isFinite(mm) && Number.isFinite(ss)) return mm * 60 + ss;
-    return null;
-  }
-
-  // "27.31" (你的页面当前写法，按 27分31秒 解析)
-  if (t.includes('.')) {
-    const [mm, ss] = t.split('.').map((x) => parseInt(x, 10));
-    if (Number.isFinite(mm) && Number.isFinite(ss)) return mm * 60 + ss;
-    return null;
-  }
-
-  // fallback: treat as minutes
-  const mm = parseInt(t, 10);
-  return Number.isFinite(mm) ? mm * 60 : null;
 }
 
 function toFixedTrim(n, digits) {
@@ -302,13 +258,6 @@ function computeSportsStats({ baseline, activities, athleteStats }) {
     statsAllRide?.moving_time != null ? Number(statsAllRide.moving_time) / 3600 : sum(rides, (a) => a.moving_time_s) / 3600;
   const rideCount = statsAllRide?.count != null ? Number(statsAllRide.count) : rides.length;
 
-  // 热量：athlete stats 里没有 calories；尽可能从 Strava 活动数据获得（calories 优先，其次用 kJ 换算）
-  const rideCalories = sum(rides, (a) => {
-    if (a.calories_kcal != null) return a.calories_kcal;
-    if (a.kilojoules_kj != null) return Number(a.kilojoules_kj) * 0.239006;
-    return 0;
-  });
-
   // --- cycling PR: farthest ride (from activities; stats API doesn't provide this)
   const bestRide = rides.reduce(
     (best, a) => {
@@ -329,73 +278,6 @@ function computeSportsStats({ baseline, activities, athleteStats }) {
       ? `~${toFixedTrim(bestRideAvgKmh, 1)} km/h @${bestRideDate}`
       : `@${bestRideDate}`
     : null;
-
-  // --- running PR: farthest (baseline vs strava)
-  const baselineFarthest = baseline.running?.best?.farthest;
-  const baselineFarthestKm = Number(baselineFarthest?.distanceKm || 0);
-  const bestRun = runs.reduce(
-    (best, a) => {
-      const km = (Number(a.distance_m) || 0) / 1000;
-      return km > (best?.km ?? 0) ? { a, km } : best;
-    },
-    null,
-  );
-  const bestRunKm = bestRun?.km ?? 0;
-
-  let farthestValue = `${toFixedTrim(baselineFarthestKm, 1)}`;
-  let farthestSubtext = baselineFarthest
-    ? `${baselineFarthest.paceText} @${baselineFarthest.dateText}`
-    : null;
-
-  if (bestRun && bestRunKm > baselineFarthestKm) {
-    const a = bestRun.a;
-    const km = bestRunKm;
-    const secPerKm = (Number(a.moving_time_s) || 0) / clamp(km, 0.001, 1e9);
-    const pace = formatPaceSecPerKm(secPerKm);
-    const date = formatDateYmdDot(a.start_date_local || a.start_date);
-    farthestValue = `${toFixedTrim(km, km >= 10 ? 1 : 2)}`;
-    farthestSubtext = pace ? `${pace} @${date}` : `@${date}`;
-  }
-
-  // --- 5K/10K: only compare if we can parse baseline and we find near-exact activities
-  const baseline5k = baseline.running?.best?.best5k;
-  const baseline10k = baseline.running?.best?.best10k;
-  const baseline5kSec = parseBaselineTimeToSec(baseline5k?.timeText);
-  const baseline10kSec = parseBaselineTimeToSec(baseline10k?.timeText);
-
-  const findBestForDistance = (targetKm, toleranceKm) => {
-    let best = null;
-    for (const a of runs) {
-      const km = (Number(a.distance_m) || 0) / 1000;
-      if (Math.abs(km - targetKm) > toleranceKm) continue;
-      const t = Number(a.moving_time_s) || 0;
-      if (t <= 0) continue;
-      if (!best || t < best.timeSec) {
-        best = { a, km, timeSec: t, paceSecPerKm: t / clamp(km, 0.001, 1e9) };
-      }
-    }
-    return best;
-  };
-
-  const best5k = findBestForDistance(5, 0.08);
-  const best10k = findBestForDistance(10, 0.12);
-
-  const best5kChosen =
-    best5k && baseline5kSec != null ? (best5k.timeSec < baseline5kSec ? best5k : null) : null;
-  const best10kChosen =
-    best10k && baseline10kSec != null ? (best10k.timeSec < baseline10kSec ? best10k : null) : null;
-
-  const best5kValue = best5kChosen ? formatTimeMinTextFromSec(best5kChosen.timeSec) : baseline5k?.timeText ?? '';
-  const best5kUnit = baseline5k?.unit ?? 'min';
-  const best5kSub = best5kChosen
-    ? `${formatPaceSecPerKm(best5kChosen.paceSecPerKm)} @${formatDateYmdDot(best5kChosen.a.start_date_local || best5kChosen.a.start_date)}`
-    : baseline5k?.paceText ?? '';
-
-  const best10kValue = best10kChosen ? formatTimeMinTextFromSec(best10kChosen.timeSec) : baseline10k?.timeText ?? '';
-  const best10kUnit = baseline10k?.unit ?? 'min';
-  const best10kSub = best10kChosen
-    ? `${formatPaceSecPerKm(best10kChosen.paceSecPerKm)} @${formatDateYmdDot(best10kChosen.a.start_date_local || best10kChosen.a.start_date)}`
-    : baseline10k?.paceText ?? '';
 
   const cyclingAvgKmPerRide = rideCount > 0 ? rideDistanceKm / rideCount : 0;
 
@@ -663,5 +545,3 @@ main().catch((e) => {
   console.error(e);
   process.exit(1);
 });
-
-

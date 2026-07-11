@@ -32,3 +32,17 @@ test('retired modules and maintenance artifacts stay removed', () => {
   ];
   assert.deepEqual(retired.filter((item) => existsSync(new URL(`../${item}`, import.meta.url))), []);
 });
+
+test('known unused symbols and redundant type stubs stay removed', () => {
+  const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+  const source = [
+    'src/utils/drafts.ts',
+    'src/layouts/Shuoshuo.astro',
+    'scripts/generate-poster.mjs',
+    'scripts/strava-sync.mjs',
+  ].map((file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')).join('\n');
+  assert.equal(packageJson.devDependencies?.['@types/marked'], undefined);
+  for (const symbol of ['isDraft', 'formatMemoDate', 'latestMemo', 'earliestMemo', 'rideCalories', 'farthestValue', 'formatTimeMinTextFromSec', 'parseBaselineTimeToSec', 'formatPaceSecPerKm']) {
+    assert.doesNotMatch(source, new RegExp(`\\b${symbol}\\b`));
+  }
+});

@@ -14,8 +14,3 @@ export function filterDrafts<T extends Draftable>(items: T[]): T[] {
 	return INCLUDE_DRAFTS ? items : items.filter((item) => !item.data?.draft);
 }
 
-export function isDraft(item: Draftable): boolean {
-	return Boolean(item.data?.draft);
-}
-
-
