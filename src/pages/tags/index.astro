@@ -43,11 +43,10 @@ function getTopicTier(count: number) {
 		<h1 id="topics-title" class="sr-only">话题</h1>
 
 		<div class="topic-cloud" aria-label="话题索引">
-			{topics.map((topic, index) => (
+			{topics.map((topic) => (
 				<a
 					href={topic.href}
 					class={`topic-token topic-token--${getTopicTier(topic.count)}`}
-					style={`--topic-index: ${index};`}
 				>
 					<span class="topic-token__head">
 						<strong>{topic.name}</strong>

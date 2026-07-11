@@ -271,26 +271,6 @@ const description = "定格时间，留住感动";
         }
     }
 
-    .gallery-header {
-        text-align: center;
-        margin: 0 auto 3rem;
-        padding-top: 1rem;
-    }
-    
-    .gallery-header h1 {
-        font-family: var(--serif-font);
-        font-size: 2rem;
-        font-weight: normal;
-        margin-bottom: 0.5rem;
-        color: var(--heading-color);
-    }
-    
-    .gallery-header p {
-        font-size: 0.95rem;
-        color: var(--gray-color);
-        letter-spacing: 0.1em;
-    }
-
     .content {
         width: 100%;
         max-width: 100%;
@@ -437,10 +417,6 @@ const description = "定格时间，留住感动";
     }
 
     /* Dark Mode Adjustments */
-    :global([data-theme="dark"]) .page-header {
-        border-bottom-color: rgba(255,255,255,0.05);
-    }
-    
     :global([data-theme="dark"]) .image-wrapper {
         background: rgba(255,255,255,0.05);
     }
@@ -461,17 +437,6 @@ const description = "定格时间，留住感动";
     @media (max-width: 600px) {
         .content {
             padding: 0 var(--space-md);
-        }
-
-        .page-header {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            text-align: center;
-        }
-        
-        .header-left, .header-right {
-            justify-self: center;
         }
 
         .gallery-masonry {

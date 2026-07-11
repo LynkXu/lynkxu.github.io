@@ -46,3 +46,15 @@ test('known unused symbols and redundant type stubs stay removed', () => {
     assert.doesNotMatch(source, new RegExp(`\\b${symbol}\\b`));
   }
 });
+
+test('retired global selector families stay removed', () => {
+  const style = readFileSync(new URL('../src/styles/style.scss', import.meta.url), 'utf8');
+  const retired = [
+    'about-index', 'about-sheet', 'about-panel', 'about-blog', 'about-changelog',
+    'list-surface', 'page-rail', 'list-stack', 'archive-stack', 'year-posts',
+    'paper-ledger', 'feed-item', 'stream-card', 'blog-layout', 'article-page-shell',
+    'post-kicker', 'post-meta__category', 'taxonomy-shell', 'categories-grid',
+    'categories-item', 'header-wrapper-card', 'toc-empty',
+  ];
+  for (const selector of retired) assert.doesNotMatch(style, new RegExp(`\\.${selector}(?![\\w-])`));
+});
