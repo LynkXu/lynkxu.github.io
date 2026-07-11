@@ -302,7 +302,7 @@ async function imageData(file) {
 }
 
 async function homePage() {
-  const avatar = await imageData('public/ava3.png');
+  const avatar = await imageData('public/avatar-224.webp');
   const latestRows = [
     ['MAY', '31', '让 Agent 教我写 Agent', '关于 Agent 设计与实践的一些思考与记录。', 'AI', '8 min read'],
     ['FEB', '10', '过年碎碎念', '一些琐事，感受与新年的小目标。', '生活', '6 min read'],

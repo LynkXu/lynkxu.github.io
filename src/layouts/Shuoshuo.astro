@@ -7,6 +7,7 @@ import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
 import fs from 'fs';
 import path from 'path';
 import LikeButton from '../components/LikeButton.astro';
+import { AVATAR_IMAGE } from '../consts';
 
 type Props = CollectionEntry<'page'>['data'] & {
 	content?: string;
@@ -185,7 +186,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 										return (
 											<article class='memo-item' data-index={index} role="listitem">
 												<a href="/" class="memo-avatar-link" aria-label="LynkXu">
-													<img src="/ava4.png" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
+													<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="40px" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
 												</a>
 												<div class='memo-body'>
 													<header class="memo-header">

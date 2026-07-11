@@ -4,3 +4,8 @@
 export const SITE_TITLE = "LynkXu's Blog";
 export const SITE_DESCRIPTION = 'Stay hungry, stay foolish';
 export const SITE_AUTHOR = 'LynkXu';
+
+export const AVATAR_IMAGE = {
+	src: 'https://images.lynkxu.com/avatar-112.webp',
+	srcset: 'https://images.lynkxu.com/avatar-112.webp 112w, https://images.lynkxu.com/avatar-224.webp 224w',
+} as const;

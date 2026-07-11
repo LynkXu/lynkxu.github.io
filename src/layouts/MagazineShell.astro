@@ -1,6 +1,7 @@
 ---
 import Base from './Base.astro';
 import Footer from '../components/Footer.astro';
+import { AVATAR_IMAGE } from '../consts';
 
 interface Props {
 	title: string;
@@ -68,7 +69,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-					<img src="/ava4.png" alt="" class="ledger-brand__avatar" width="36" height="36" loading="eager" />
+					<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="36px" alt="" class="ledger-brand__avatar" width="36" height="36" loading="eager" />
 					<span class="ledger-brand__name">LynkXu</span>
 				</a>
 
@@ -144,7 +145,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 				{showProfileCard && (
 					<section class="ledger-context-card profile-card">
 						<a href="/" class="profile-avatar-link" aria-label="回到首页">
-							<img src="/ava4.png" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
+							<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="56px" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
 						</a>
 						<div class="profile-info">
 							<h2 class="profile-name">LynkXu</h2>
