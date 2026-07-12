@@ -438,18 +438,87 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 0 !important;
 		}
 
-		.sidebar-toc-card .toc-header {
+		/* 目录标题栏本身就是折叠开关：默认收起，只留一句"瞥一眼"的章节数提示 */
+		.sidebar-toc-card .toc-toggle {
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			width: 100%;
 			margin: 0 0 0.8rem;
+			padding: 0;
+			border: 0;
+			background: transparent;
 			color: color-mix(in oklab, var(--gray-color) 62%, var(--faint-color));
 			font-family: var(--ui-font);
 			font-size: 0.72rem;
 			font-weight: var(--weight-medium);
 			letter-spacing: 0.02em;
 			line-height: 1.1;
+			text-align: left;
+			cursor: pointer;
+			transition: color 0.15s ease;
 		}
 
-		.sidebar-toc-card .toc-header::after {
-			content: none;
+		.sidebar-toc-card .toc-toggle:hover,
+		.sidebar-toc-card .toc-toggle:focus-visible {
+			color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
+		}
+
+		.sidebar-toc-card .toc-toggle__count {
+			flex: 1 1 auto;
+			min-width: 0;
+			color: var(--faint-color);
+			font-weight: var(--weight-regular);
+			font-variant-numeric: tabular-nums;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.sidebar-toc-card .toc-toggle__chevron {
+			flex: 0 0 auto;
+			display: inline-block;
+			opacity: 0.65;
+			transition: transform 0.2s ease;
+		}
+
+		.sidebar-toc-card .toc-toggle__chevron::before {
+			content: "⌄";
+		}
+
+		.sidebar-toc-card .toc-container:hover .toc-toggle__chevron,
+		.sidebar-toc-card .toc-container:focus-within .toc-toggle__chevron,
+		.sidebar-toc-card .toc-container[data-expanded="true"] .toc-toggle__chevron {
+			transform: rotate(180deg);
+		}
+
+		/* 折叠态：目录正文完全收起，只是鼠标悬停/键盘聚焦时可以先"瞥一眼"，
+		   点击标题栏才会真正展开并保持 */
+		.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc {
+			max-height: 0;
+			opacity: 0;
+			overflow: hidden;
+			pointer-events: none;
+			transition: max-height 0.28s ease, opacity 0.2s ease;
+		}
+
+		.sidebar-toc-card .toc-container:hover .toc,
+		.sidebar-toc-card .toc-container:focus-within .toc,
+		.sidebar-toc-card .toc-container[data-expanded="true"] .toc {
+			max-height: 60vh;
+			opacity: 1;
+			overflow-y: auto;
+			pointer-events: auto;
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc,
+			.sidebar-toc-card .toc-container:hover .toc,
+			.sidebar-toc-card .toc-container:focus-within .toc,
+			.sidebar-toc-card .toc-container[data-expanded="true"] .toc,
+			.sidebar-toc-card .toc-toggle__chevron {
+				transition: none;
+			}
 		}
 
 		.sidebar-toc-card .toc-list {
