@@ -24,23 +24,24 @@ function extractBlock(text, selector) {
   return '';
 }
 
-test('primary navigation exposes a five-item editorial index', () => {
+test('primary navigation lists five labels without editorial index numbers', () => {
   const expectedItems = [
-    ["'/'", "'首页'", "'01'"],
-    ["'/blog'", "'归档'", "'02'"],
-    ["'/shuoshuo'", "'碎语'", "'03'"],
-    ["'/message'", "'留言'", "'04'"],
-    ["'/about'", "'关于'", "'05'"],
+    ["'/'", "'首页'"],
+    ["'/blog'", "'归档'"],
+    ["'/shuoshuo'", "'碎语'"],
+    ["'/message'", "'留言'"],
+    ["'/about'", "'关于'"],
   ];
 
-  for (const [href, label, index] of expectedItems) {
+  for (const [href, label] of expectedItems) {
     assert.match(
       source,
-      new RegExp(`\\{ href: ${href}, label: ${label}, index: ${index} \\}`),
+      new RegExp(`\\{ href: ${href}, label: ${label} \\}`),
     );
   }
 
-  assert.match(source, /class="ledger-nav__index"/);
+  assert.doesNotMatch(source, /ledger-nav__index/);
+  assert.doesNotMatch(source, /index: '0[1-5]'/);
   assert.match(source, /class="ledger-nav__text"/);
 });
 

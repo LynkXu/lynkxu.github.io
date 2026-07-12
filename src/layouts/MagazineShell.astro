@@ -20,11 +20,11 @@ const {
 const currentPath = Astro.url.pathname;
 
 const navItems = [
-	{ href: '/', label: '首页', index: '01' },
-	{ href: '/blog', label: '归档', index: '02' },
-	{ href: '/shuoshuo', label: '碎语', index: '03' },
-	{ href: '/message', label: '留言', index: '04' },
-	{ href: '/about', label: '关于', index: '05' },
+	{ href: '/', label: '首页' },
+	{ href: '/blog', label: '归档' },
+	{ href: '/shuoshuo', label: '碎语' },
+	{ href: '/message', label: '留言' },
+	{ href: '/about', label: '关于' },
 ];
 
 const secondaryNavItems = [
@@ -81,7 +81,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 								class:list={['ledger-nav__link', { active: isActive(item.href) }]}
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
-								<span class="ledger-nav__index" aria-hidden="true">{item.index}</span>
 								<span class="ledger-nav__text">{item.label}</span>
 								<span class="ledger-nav__marker" aria-hidden="true"></span>
 							</a>
@@ -103,9 +102,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 				<details class="ledger-collections">
 					<summary class="ledger-group-label ledger-collections__summary">
 						<span>专题</span>
-						<span class="ledger-collections__context">
-							{String(secondaryNavItems.length).padStart(2, '0')}
-						</span>
 					</summary>
 					<nav class="ledger-nav ledger-nav--secondary" aria-label="专题页面">
 						{secondaryNavItems.map((item) => (
@@ -326,9 +322,11 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 	.ledger-collections__summary {
 		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-columns: auto auto;
+		justify-content: start;
 		align-items: center;
-		width: 100%;
+		gap: 0.55rem;
+		width: fit-content;
 		min-height: 2.25rem;
 		cursor: pointer;
 		list-style: none;
@@ -366,14 +364,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		line-height: 1;
 	}
 
-	.ledger-collections__context {
-		justify-self: end;
-		padding-right: 0.55rem;
-		color: var(--gray-color);
-		font-size: 0.68rem;
-		font-variant-numeric: tabular-nums;
-	}
-
 	.ledger-nav {
 		display: flex;
 		flex-direction: column;
@@ -386,7 +376,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 	.ledger-nav__link {
 		display: grid;
-		grid-template-columns: 1.75rem auto minmax(0, 1fr);
+		grid-template-columns: auto minmax(0, 1fr);
 		align-items: center;
 		min-height: 2.05rem;
 		border: 0 !important;
@@ -405,17 +395,9 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-nav--secondary .ledger-nav__link {
-		grid-template-columns: auto minmax(0, 1fr);
 		min-height: 1.9rem;
 		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
 		font-size: 0.81rem;
-	}
-
-	.ledger-nav__index {
-		color: color-mix(in oklab, var(--gray-color) 72%, var(--faint-color));
-		font-size: 0.67rem;
-		font-variant-numeric: tabular-nums;
-		letter-spacing: 0.01em;
 	}
 
 	.ledger-nav__text {
@@ -441,10 +423,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	.ledger-nav__link.active {
 		color: color-mix(in oklab, var(--accent-color) 36%, var(--heading-color));
 		font-weight: var(--weight-medium);
-	}
-
-	.ledger-nav__link.active .ledger-nav__index {
-		color: var(--accent-color);
 	}
 
 	.ledger-nav__link.active .ledger-nav__marker {
@@ -684,10 +662,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		.ledger-nav--primary .ledger-nav__link {
 			display: flex;
 			min-height: 2.5rem;
-		}
-
-		.ledger-nav--primary .ledger-nav__index {
-			display: none;
 		}
 
 		.ledger-nav__marker {

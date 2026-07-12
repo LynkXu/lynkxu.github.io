@@ -41,6 +41,40 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
 
 	<style is:global>
+		/* 文章页：左侧退成边框，把视线框进中间栏。
+		   不改分栏结构，只降权 + 强化分割线作为阅读边界。 */
+		@media (min-width: 1101px) {
+			.blog-post-layout .ledger-sidebar__inner {
+				opacity: 0.58;
+				border-right-color: color-mix(in oklab, var(--rule-color) 72%, var(--paper-card-border-soft));
+				transition: opacity 0.2s ease, border-right-color 0.2s ease;
+			}
+
+			.blog-post-layout .ledger-sidebar__inner:hover,
+			.blog-post-layout .ledger-sidebar__inner:focus-within {
+				opacity: 1;
+				border-right-color: var(--paper-card-border);
+			}
+
+			.blog-post-layout .ledger-collections,
+			.blog-post-layout .ledger-social {
+				opacity: 0.72;
+			}
+
+			.blog-post-layout .ledger-sidebar__inner:hover .ledger-collections,
+			.blog-post-layout .ledger-sidebar__inner:hover .ledger-social,
+			.blog-post-layout .ledger-sidebar__inner:focus-within .ledger-collections,
+			.blog-post-layout .ledger-sidebar__inner:focus-within .ledger-social {
+				opacity: 1;
+			}
+		}
+
+		@media (prefers-reduced-motion: reduce) {
+			.blog-post-layout .ledger-sidebar__inner {
+				transition: none;
+			}
+		}
+
 		/* 文章结束标识 */
 		.post-tail {
 			display: flex;
