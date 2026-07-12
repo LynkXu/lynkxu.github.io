@@ -179,7 +179,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.blog-main-column {
 			display: flex;
 			flex-direction: column;
-			gap: clamp(1.35rem, 3.2vw, 2.25rem);
+			/* 标题到正文的主间距：无分割线时由单一 gap 承担，避免多层叠加发空 */
+			gap: clamp(1.2rem, 2.7vw, 1.85rem);
 			min-width: 0;
 		}
 
@@ -205,10 +206,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-header-card {
 			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
-			padding: 0 0 clamp(1.45rem, 3.4vw, 2.35rem);
+			padding: 0;
 			border: 0;
 			border-radius: 0;
-			border-bottom: 1px solid var(--paper-card-border-soft);
 			background: transparent;
 			box-shadow: none;
 			overflow: visible;
@@ -236,7 +236,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-header-inner {
 			display: flex;
 			flex-direction: column;
-			gap: 0.85rem;
+			/* 标题 → 元信息：稍紧，让元信息成为标题下的注解 */
+			gap: 0.68rem;
 		}
 
 		.post-meta-bar {
@@ -346,7 +347,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			margin-left: auto;
 			margin-right: auto;
 			padding:
-				clamp(0.72rem, 2vw, 1rem)
+				0
 				var(--reader-inline-pad)
 				clamp(0.95rem, 2.4vw, 1.45rem);
 			border: 0;
@@ -633,7 +634,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			}
 
 			.blog-main-column {
-				gap: clamp(1.1rem, 5vw, 1.55rem);
+				gap: clamp(1.05rem, 4.2vw, 1.45rem);
 			}
 
 			.blog-post-layout .blog-main-column .post-content {
@@ -661,6 +662,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		<article class="post-header-card magazine-panel">
 			<header class='post-header'>
 				<div class="post-flow post-header-inner">
+					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+
 					<div class='post-meta-bar'>
 						<span class='post-kind'>{primaryKind}</span>
 						<span class='post-meta-sep'>·</span>
@@ -681,8 +684,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 							</>
 						)}
 					</div>
-
-					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
 					{description && <p class='post-description'>{description}</p>}
 				</div>
