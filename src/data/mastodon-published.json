@@ -1,5 +1,16 @@
 [
   {
+    "url": "https://lynkxu.com/blog/2026-07-08-cursor-subscription.html/",
+    "postId": "2026-07-08-cursor-subscription",
+    "title": "Cursor 订阅踩坑",
+    "sourcePath": "src/content/blog/2026-07-08-cursor-subscription/cursor-subscript.md",
+    "tootId": "116907319684530589",
+    "tootUrl": "https://mastodon.social/@lynkxu/116907319684530589",
+    "visibility": "public",
+    "commit": "b53638a60ab1674e9b6518e6aeceab39560580db",
+    "publishedAt": "2026-07-12T13:48:51.176Z"
+  },
+  {
     "url": "https://lynkxu.com/blog/linkcard-demo.html/",
     "postId": "linkcard-demo",
     "title": "LinkCard 样式预览",
