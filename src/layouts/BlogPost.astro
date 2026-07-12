@@ -32,7 +32,12 @@ const {
 } = Astro.props;
 
 const isDev = import.meta.env.DEV;
-const primaryKind = categories?.[0] ?? tags?.[0] ?? 'essay';
+const topicLabels = tags?.length
+	? tags
+	: categories?.length
+		? categories
+		: ['essay'];
+const topicLinksEnabled = Boolean(tags?.length);
 const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 ---
 
@@ -256,6 +261,19 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			color: var(--faint-color);
 		}
 
+		.post-kind-group {
+			display: inline-flex;
+			flex-wrap: wrap;
+			align-items: center;
+			column-gap: 0.28rem;
+			row-gap: 0.12rem;
+		}
+
+		.post-kind-sep {
+			color: color-mix(in oklab, var(--faint-color) 78%, transparent);
+			font-weight: var(--weight-regular);
+		}
+
 		.post-kind {
 			display: inline-flex;
 			align-items: center;
@@ -263,11 +281,24 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			background: transparent;
 			border: 0;
 			border-radius: 0;
+			border-bottom: none;
 			font-size: inherit;
 			font-weight: var(--weight-regular);
 			color: inherit;
 			letter-spacing: 0.01em;
 			line-height: 1.3;
+			text-decoration: none;
+		}
+
+		a.post-kind {
+			color: inherit;
+			transition: color 0.2s ease;
+		}
+
+		a.post-kind:hover,
+		a.post-kind:focus-visible {
+			color: var(--heading-color);
+			border-bottom-color: transparent;
 		}
 
 		.post-header .post-title {
@@ -665,7 +696,18 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
 					<div class='post-meta-bar'>
-						<span class='post-kind'>{primaryKind}</span>
+						<span class='post-kind-group'>
+							{topicLabels.map((label, index) => (
+								<>
+									{index > 0 && <span class='post-kind-sep' aria-hidden='true'>/</span>}
+									{topicLinksEnabled ? (
+										<a class='post-kind' href={`/tags/${label}/`}>{label}</a>
+									) : (
+										<span class='post-kind'>{label}</span>
+									)}
+								</>
+							))}
+						</span>
 						<span class='post-meta-sep'>·</span>
 						<FormattedDate date={pubDate} />
 						{readingTime && (
