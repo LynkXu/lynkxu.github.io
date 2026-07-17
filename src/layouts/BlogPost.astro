@@ -367,7 +367,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
 			font-family: var(--reading-font);
 			font-size: 1.02rem;
-			font-weight: var(--weight-regular);
+			font-weight: var(--weight-reading, var(--weight-regular));
 			line-height: var(--lh-body);
 			letter-spacing: 0;
 			overflow-wrap: break-word;
@@ -425,13 +425,13 @@ const topicLinksEnabled = Boolean(tags?.length);
 		.blog-post-layout .blog-main-column .post-content > p {
 			margin: 0 0 1.05em;
 			padding: 0;
-			font-weight: var(--weight-regular);
+			font-weight: var(--weight-reading, var(--weight-regular));
 			line-height: var(--lh-body);
 		}
 
 		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
 			margin: 0.35em 0 1.05em;
-			font-weight: var(--weight-regular);
+			font-weight: var(--weight-reading, var(--weight-regular));
 			line-height: var(--lh-body);
 		}
 
