@@ -277,13 +277,15 @@ const topicLinksEnabled = Boolean(tags?.length);
 
 		a.post-kind {
 			color: inherit;
+			/* Override global a:hover border so hover doesn't add 1px and jitter. */
+			border-bottom: none;
 			transition: color 0.2s ease;
 		}
 
 		a.post-kind:hover,
 		a.post-kind:focus-visible {
 			color: var(--heading-color);
-			border-bottom-color: transparent;
+			border-bottom: none;
 		}
 
 		.post-header .post-title {
