@@ -316,20 +316,32 @@ const contactLinks = [
 	}
 
 	.about-history-list {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		gap: 0;
 		margin: 0;
-		padding: 0;
+		padding: 0 0 0 1.05rem;
 		list-style: none;
 		font-family: var(--ui-font);
 	}
 
+	.about-history-list::before {
+		position: absolute;
+		top: 0.3rem;
+		bottom: 0.45rem;
+		left: 0.18rem;
+		width: 1px;
+		background: var(--paper-card-border-soft);
+		content: "";
+	}
+
 	.about-history-list li {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.22rem;
-		padding: 0.55rem 0;
+		gap: 0.2rem;
+		padding: 0.5rem 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
@@ -338,15 +350,34 @@ const contactLinks = [
 		border-top: 0;
 	}
 
+	.about-history-list li::before {
+		position: absolute;
+		top: 0.68rem;
+		left: -0.96rem;
+		width: 0.22rem;
+		height: 0.22rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--accent-color) 45%, var(--paper-card-border-soft));
+		content: "";
+	}
+
+	.about-history-list li:first-child::before {
+		top: 0.12rem;
+	}
+
 	.about-history-list time {
-		font-family: var(--field-font);
-		font-size: 0.68rem;
 		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.66rem;
+		font-weight: var(--weight-medium);
+		line-height: 1;
+		letter-spacing: 0.02em;
 	}
 
 	.about-history-list span {
 		color: var(--text-color);
-		font-size: 0.76rem;
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
 		line-height: 1.5;
 	}
 
