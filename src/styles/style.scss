@@ -321,16 +321,26 @@ body:has(.blog-surface-layout) {
 
 .blog-surface-layout {
   /* Dispatch / Postcard type stack — scoped so feature pages keep Matter */
-  --display-font: "Petrona", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
-  --reading-font: "Literata", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  /* CJK: Noto Serif SC ahead of system Songti — clearer strokes on screen */
+  --display-font: "Petrona", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --reading-font: "Literata", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
   --ui-font: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
   --serif-font: var(--reading-font);
   --meta-font: var(--ui-font);
   --field-font: var(--ui-font);
+  /* Regular: Noto Serif SC is already denser than Songti; Medium felt a touch heavy */
+  --weight-reading: 400;
+  --lh-body: 1.72;
   --blog-rail-col: minmax(9.5rem, 11.25rem);
   --blog-meta-col: 7.25rem;
   --blog-card-gap: clamp(0.75rem, 1.6vw, 0.95rem);
   --measure-readable: 64ch;
+}
+
+@media (max-width: 640px) {
+  .blog-surface-layout {
+    --lh-body: 1.68;
+  }
 }
 
 .blog-surface-layout::before {
@@ -583,7 +593,7 @@ body:has(.blog-surface-layout) {
 
 .blog-post-layout .blog-main-column .post-content > :where(p, ul, ol) {
   margin-top: 0;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.88rem;
 }
 
 .blog-post-layout .blog-main-column .post-content > blockquote {
@@ -1771,12 +1781,13 @@ ul.posts li a:visited {
 .post-content {
   font-family: var(--reading-font);
   font-size: 1rem;
-  font-weight: var(--weight-regular);
+  font-weight: var(--weight-reading, var(--weight-regular));
   line-height: var(--lh-body);
   max-width: 70ch;
   margin-left: auto;
   margin-right: auto;
-  color: color-mix(in oklab, var(--text-color) 95%, var(--heading-color));
+  /* Slightly more ink than UI chrome — Song strokes read less washed-out */
+  color: color-mix(in oklab, var(--text-color) 72%, var(--heading-color));
   /* Auto spacing between CJK and Latin/punctuation */
   text-autospace: ideograph-alpha ideograph-numeric;
 
