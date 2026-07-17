@@ -188,10 +188,11 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--paper-hover-border: oklch(0.4 0.045 205 / 0.32);
 		--blog-shell-width: 1280px;
 		--blog-sidebar-width: 13rem;
-		--blog-content-max: 42rem;
+		/* 全站中间栏（两栏时的主内容栏）统一宽度 */
+		--blog-content-max: 44rem;
 		--blog-context-width: 10rem;
 		--blog-shell-gap: clamp(1.85rem, 3.2vw, 2.75rem);
-		--measure-readable: 38rem;
+		--measure-readable: var(--blog-content-max);
 		font-family: var(--ui-font);
 		color: var(--text-color);
 	}
@@ -536,8 +537,17 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		display: flex;
 		flex-direction: column;
 		gap: clamp(1.8rem, 4vw, 3rem);
+		width: 100%;
 		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
 		min-width: 0;
+	}
+
+	/* 主内容纸页默认吃满中间栏，避免各页再写不同 max-width */
+	.ledger-main > .postcard-sheet,
+	.ledger-main > section {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
 
 	.blog-surface-layout .ledger-main > footer {
@@ -734,7 +744,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		.ledger-shell {
 			grid-template-columns: 1fr;
 			gap: clamp(1.5rem, 4vw, 2.4rem);
-			width: min(44rem, calc(100% - 2rem));
+			width: min(var(--blog-content-max), calc(100% - 2rem));
 			padding-top: 1.2rem;
 		}
 

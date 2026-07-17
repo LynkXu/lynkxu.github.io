@@ -53,7 +53,7 @@ const rights = [
 	.copyright-page {
 		--copyright-line: color-mix(in oklab, var(--accent-color) 25%, var(--paper-card-border-soft));
 		position: relative;
-		max-width: 42rem;
+		max-width: var(--blog-content-max, 44rem);
 		padding: clamp(1.35rem, 3vw, 1.9rem);
 		background: var(--sheet-bg);
 		border: 1px solid var(--sheet-edge);
