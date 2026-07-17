@@ -8,8 +8,8 @@ interface Props {
 const { minLevel = 2, maxLevel = 3, title = 'TOC' } = Astro.props;
 ---
 
-<aside class='toc-container' data-has-content='false' data-expanded='false'>
-	<button type='button' class='toc-toggle' aria-expanded='false' aria-controls='toc-nav'>
+<aside class='toc-container' data-has-content='false' data-expanded='true'>
+	<button type='button' class='toc-toggle' aria-expanded='true' aria-controls='toc-nav'>
 		<span class='toc-toggle__label'>{title}</span>
 		<span class='toc-toggle__count' aria-hidden='true'></span>
 		<span class='toc-toggle__chevron' aria-hidden='true'></span>
@@ -63,11 +63,11 @@ const { minLevel = 2, maxLevel = 3, title = 'TOC' } = Astro.props;
 			countEl.textContent = `${topLevelCount} 个章节`;
 		}
 
-		// 目录默认折叠，点击标题栏展开/收起，鼠标悬停时可以先"瞥一眼"（见样式）
+		// 目录默认展开，点击标题栏可收起/展开
 		const toggleButton = document.querySelector('.toc-toggle') as HTMLButtonElement | null;
 		if (toggleButton && containerElement) {
-			toggleButton.setAttribute('aria-expanded', 'false');
-			containerElement.setAttribute('data-expanded', 'false');
+			toggleButton.setAttribute('aria-expanded', 'true');
+			containerElement.setAttribute('data-expanded', 'true');
 			toggleButton.onclick = () => {
 				const expanded = containerElement.getAttribute('data-expanded') === 'true';
 				containerElement.setAttribute('data-expanded', expanded ? 'false' : 'true');

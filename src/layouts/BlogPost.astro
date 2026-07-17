@@ -504,7 +504,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 			padding: 0 !important;
 		}
 
-		/* 目录标题栏本身就是折叠开关：默认收起，只留一句"瞥一眼"的章节数提示 */
+		/* 目录默认展开；标题栏仍可点击收起 */
 		.sidebar-toc-card .toc-toggle {
 			display: flex;
 			align-items: center;
@@ -552,36 +552,27 @@ const topicLinksEnabled = Boolean(tags?.length);
 			content: "⌄";
 		}
 
-		.sidebar-toc-card .toc-container:hover .toc-toggle__chevron,
-		.sidebar-toc-card .toc-container:focus-within .toc-toggle__chevron,
 		.sidebar-toc-card .toc-container[data-expanded="true"] .toc-toggle__chevron {
 			transform: rotate(180deg);
 		}
 
-		/* 折叠态：目录正文完全收起，只是鼠标悬停/键盘聚焦时可以先"瞥一眼"，
-		   点击标题栏才会真正展开并保持 */
+		.sidebar-toc-card .toc {
+			max-height: 60vh;
+			opacity: 1;
+			overflow-y: auto;
+			pointer-events: auto;
+			transition: max-height 0.28s ease, opacity 0.2s ease;
+		}
+
 		.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc {
 			max-height: 0;
 			opacity: 0;
 			overflow: hidden;
 			pointer-events: none;
-			transition: max-height 0.28s ease, opacity 0.2s ease;
-		}
-
-		.sidebar-toc-card .toc-container:hover .toc,
-		.sidebar-toc-card .toc-container:focus-within .toc,
-		.sidebar-toc-card .toc-container[data-expanded="true"] .toc {
-			max-height: 60vh;
-			opacity: 1;
-			overflow-y: auto;
-			pointer-events: auto;
 		}
 
 		@media (prefers-reduced-motion: reduce) {
-			.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc,
-			.sidebar-toc-card .toc-container:hover .toc,
-			.sidebar-toc-card .toc-container:focus-within .toc,
-			.sidebar-toc-card .toc-container[data-expanded="true"] .toc,
+			.sidebar-toc-card .toc,
 			.sidebar-toc-card .toc-toggle__chevron {
 				transition: none;
 			}
