@@ -1,6 +1,7 @@
 ---
 import MagazineShell from './MagazineShell.astro';
 import SponsorAbout from '../components/SponsorAbout.astro';
+import { AVATAR_IMAGE } from '../consts';
 
 const { title } = Astro.props;
 
@@ -22,8 +23,21 @@ const contactLinks = [
 <MagazineShell title={title} description={title} showProfileCard={false}>
 	<section class="about-profile postcard-sheet" aria-labelledby="about-title">
 		<header class="about-profile__head">
-			<p class="magazine-section-label">Profile</p>
-			<h1 id="about-title">Hi, I am Lynk</h1>
+			<img
+				src={AVATAR_IMAGE.src}
+				srcset={AVATAR_IMAGE.srcset}
+				sizes="52px"
+				alt=""
+				class="about-profile__avatar"
+				width="52"
+				height="52"
+				loading="eager"
+				decoding="async"
+			/>
+			<div class="about-profile__identity">
+				<p class="magazine-section-label">Profile</p>
+				<h1 id="about-title">Hi, I am Lynk</h1>
+			</div>
 		</header>
 		<div class="about-profile__lead">
 			<p>
@@ -116,11 +130,31 @@ const contactLinks = [
 
 	.about-profile__head {
 		display: flex;
-		flex-direction: column;
-		gap: 0.55rem;
+		flex-direction: row;
+		align-items: center;
+		gap: 0.95rem;
 		margin-bottom: 1.15rem;
-		padding-bottom: 0.9rem;
+		/* Override global `header` padding / column layout */
+		padding: 0 0 0.9rem;
 		border-bottom: 1px solid var(--sheet-edge);
+	}
+
+	.about-profile__avatar {
+		display: block;
+		width: 3.25rem;
+		height: 3.25rem;
+		flex-shrink: 0;
+		border: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
+		border-radius: 50%;
+		object-fit: cover;
+		background: var(--paper-field-bg);
+	}
+
+	.about-profile__identity {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		min-width: 0;
 	}
 
 	.about-profile__head .magazine-section-label {
@@ -422,6 +456,15 @@ const contactLinks = [
 	}
 
 	@media (max-width: 680px) {
+		.about-profile__head {
+			gap: 0.8rem;
+		}
+
+		.about-profile__avatar {
+			width: 2.85rem;
+			height: 2.85rem;
+		}
+
 		.about-profile__lead span {
 			display: inline;
 		}
