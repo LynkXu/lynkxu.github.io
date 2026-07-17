@@ -38,7 +38,6 @@ const topicLabels = tags?.length
 		? categories
 		: ['essay'];
 const topicLinksEnabled = Boolean(tags?.length);
-const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 ---
 
 <MagazineShell title={title} description={description || ''} className="blog-post-layout" showProfileCard={false}>
@@ -110,10 +109,10 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-end-text {
 			flex-shrink: 0;
-			color: var(--faint-color);
-			font-family: var(--meta-font);
-			font-size: 0.75rem;
-			letter-spacing: 0.02em;
+			color: color-mix(in oklab, var(--accent-color) 35%, var(--faint-color));
+			font-family: var(--display-font);
+			font-size: 1rem;
+			letter-spacing: 0.08em;
 			white-space: nowrap;
 		}
 
@@ -157,36 +156,34 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.mac-buttons {
-			display: flex;
-			gap: 6px;
+			display: none;
 		}
 
 		.mac-button {
-			width: 8px;
-			height: 8px;
-			border-radius: 0;
-			background-color: var(--faint-color);
-			opacity: 0.5;
+			display: none;
 		}
 
 		.code-lang {
-			font-size: 0.75rem;
+			font-size: 0.72rem;
 			color: var(--faint-color);
 			font-family: var(--code-font);
 			text-transform: none;
 			font-weight: var(--weight-medium);
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
+			position: static;
+			transform: none;
 			user-select: none;
 		}
 
 		.blog-main-column {
 			display: flex;
 			flex-direction: column;
-			/* 标题到正文的主间距：无分割线时由单一 gap 承担，避免多层叠加发空 */
-			gap: clamp(1.2rem, 2.7vw, 1.85rem);
+			gap: 0;
 			min-width: 0;
+		}
+
+		.blog-main-column > .nav-buttons-group,
+		.blog-main-column > :where(.nav-button, [class*="nav-"]) {
+			margin-top: clamp(1.2rem, 2.7vw, 1.85rem);
 		}
 
 		.post-sidebar-stack {
@@ -196,27 +193,44 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 70ch;
-			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
+			--measure-readable: var(--blog-content-max, 38rem);
+			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
 			--post-content-width: var(--measure-readable);
 			display: flex;
 			flex-direction: column;
-			border: 0;
-			border-radius: 0;
-			background: transparent;
-			box-shadow: none;
-			overflow: visible;
 			margin-bottom: 0;
+			padding: clamp(1.25rem, 3vw, 1.85rem) var(--post-inline-padding) clamp(1.4rem, 3.2vw, 2rem);
+			border: 1px solid var(--sheet-edge);
+			border-radius: var(--paper-card-radius);
+			background: var(--sheet-bg);
+			box-shadow: var(--sheet-shadow);
+			overflow: visible;
 		}
 
 		.post-header-card {
-			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
-			padding: 0;
-			border: 0;
-			border-radius: 0;
-			background: transparent;
-			box-shadow: none;
+			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
+			padding: clamp(1.15rem, 2.6vw, 1.55rem) var(--post-inline-padding) clamp(1rem, 2.2vw, 1.35rem);
+			margin-bottom: 0;
+			border: 1px solid var(--sheet-edge);
+			border-bottom: 0;
+			border-radius: var(--paper-card-radius) var(--paper-card-radius) 0 0;
+			background: var(--sheet-bg);
+			box-shadow: var(--sheet-shadow);
 			overflow: visible;
+		}
+
+		.blog-main-column .entry-sheet {
+			border-radius: 0 0 var(--paper-card-radius) var(--paper-card-radius);
+			box-shadow:
+				0 10px 28px oklch(0.32 0.02 95 / 0.07);
+		}
+
+		.blog-main-column:has(.post-header-card) .entry-sheet {
+			border-top-color: color-mix(in oklab, var(--sheet-edge) 55%, transparent);
+		}
+
+		.blog-main-column:has(.post-header-card) .post-header-card {
+			box-shadow: none;
 		}
 
 		.post-header {
@@ -231,9 +245,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-flow {
 			width: 100%;
-			max-width: min(100%, 72ch);
-			margin-left: auto;
-			margin-right: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
@@ -241,24 +255,38 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-header-inner {
 			display: flex;
 			flex-direction: column;
-			/* 标题 → 元信息：稍紧，让元信息成为标题下的注解 */
-			gap: 0.68rem;
+			gap: 0.85rem;
 		}
 
 		.post-meta-bar {
 			display: flex;
 			flex-wrap: wrap;
-			align-items: center;
+			align-items: flex-end;
+			gap: 0.55rem 1.35rem;
+			padding: 0.15rem 0 0.2rem;
+		}
+
+		.post-meta-bar .dispatch-field {
+			flex-direction: column;
+			align-items: flex-start;
 			gap: 0.28rem;
-			font-family: var(--field-font);
-			font-size: 0.72rem;
-			font-weight: var(--weight-regular);
-			color: color-mix(in oklab, var(--faint-color) 42%, var(--gray-color));
-			letter-spacing: 0.01em;
+			min-width: 4.5rem;
+			padding-bottom: 0.35rem;
+			border-bottom: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
+		}
+
+		.post-meta-bar .dispatch-field__label {
+			letter-spacing: 0.1em;
+		}
+
+		.post-meta-bar .dispatch-field__value {
+			font-size: 0.78rem;
+			color: color-mix(in oklab, var(--heading-color) 78%, var(--gray-color));
+			white-space: nowrap;
 		}
 
 		.post-meta-sep {
-			color: var(--faint-color);
+			display: none;
 		}
 
 		.post-kind-group {
@@ -304,21 +332,21 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		.post-header .post-title {
 			margin: 0;
 			font-family: var(--display-font);
-			font-size: clamp(1.86rem, 4.1vw, 3rem);
+			font-size: clamp(1.72rem, 3.6vw, 2.55rem);
 			font-weight: var(--weight-semibold);
-			line-height: 1.1;
+			line-height: 1.15;
 			letter-spacing: var(--tracking-tighter);
 			color: var(--heading-color);
 		}
 
 		.post-description {
 			margin: 0;
-			max-width: 58ch;
+			max-width: 54ch;
 			color: color-mix(in oklab, var(--gray-color) 88%, var(--faint-color));
-			font-family: var(--ui-font);
-			font-size: clamp(0.98rem, 1.45vw, 1.08rem);
+			font-family: var(--reading-font);
+			font-size: clamp(0.95rem, 1.35vw, 1.05rem);
 			font-weight: var(--weight-regular);
-			line-height: 1.72;
+			line-height: 1.7;
 		}
 
 		/* Copy Button */
@@ -371,18 +399,18 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.blog-post-layout .blog-main-column .post-content {
-			--reader-inline-pad: clamp(0.6rem, 1.8vw, 0.95rem);
+			--reader-inline-pad: 0;
+			position: relative;
+			isolation: isolate;
 			width: 100%;
-			max-width: min(100%, calc(var(--post-content-width, 70ch) + var(--reader-inline-pad) * 2));
+			max-width: none;
 			box-sizing: border-box;
 			margin-left: auto;
 			margin-right: auto;
-			padding:
-				0
-				var(--reader-inline-pad)
-				clamp(0.95rem, 2.4vw, 1.45rem);
+			padding: clamp(0.55rem, 1.4vw, 0.8rem) 0.15rem clamp(0.95rem, 2.4vw, 1.45rem);
 			border: 0;
-			background: transparent;
+			/* paper only — content paints above */
+			background-color: transparent;
 			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
 			font-family: var(--reading-font);
 			font-size: 1.02rem;
@@ -393,8 +421,31 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			text-wrap: pretty;
 		}
 
+		.blog-post-layout .blog-main-column .post-content::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: -1;
+			pointer-events: none;
+			opacity: 1;
+			background-image:
+				radial-gradient(circle, var(--paper-dot) 0.55px, transparent 0.65px),
+				repeating-linear-gradient(
+					transparent,
+					transparent calc(1.82em - 1px),
+					var(--paper-rule) calc(1.82em - 1px),
+					var(--paper-rule) 1.82em
+				);
+			background-size: 12px 12px, 100% 1.82em;
+			background-position: 0 0, 0 0.2em;
+		}
+
+		.blog-post-layout .blog-main-column .post-content > :where(pre, .code-wrapper, table, .img-grid, figure, img) {
+			position: relative;
+			z-index: 1;
+		}
+
 		:root[data-theme="dark"] .blog-post-layout .blog-main-column .post-content {
-			background: transparent;
 			color: color-mix(in oklab, var(--heading-color) 82%, var(--text-color));
 		}
 
@@ -484,9 +535,11 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-end-text {
-			color: color-mix(in oklab, var(--faint-color) 82%, transparent);
-			font-size: 0.66rem;
-			letter-spacing: 0.055em;
+			color: color-mix(in oklab, var(--faint-color) 88%, transparent);
+			font-family: var(--display-font);
+			font-size: 0.95rem;
+			letter-spacing: 0.08em;
+			line-height: 1;
 		}
 
 		/* Sidebar cards */
@@ -665,12 +718,12 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			}
 
 			.blog-main-column {
-				gap: clamp(1.05rem, 4.2vw, 1.45rem);
+				gap: clamp(0, 0vw, 0);
 			}
 
 			.blog-post-layout .blog-main-column .post-content {
 				max-width: 100%;
-				padding-inline: 0.66rem;
+				padding-inline: 0;
 				font-size: 1rem;
 				line-height: var(--lh-body);
 			}
@@ -695,35 +748,43 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 				<div class="post-flow post-header-inner">
 					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
-					<div class='post-meta-bar'>
-						<span class='post-kind-group'>
-							{topicLabels.map((label, index) => (
-								<>
-									{index > 0 && <span class='post-kind-sep' aria-hidden='true'>/</span>}
-									{topicLinksEnabled ? (
-										<a class='post-kind' href={`/tags/${label}/`}>{label}</a>
-									) : (
-										<span class='post-kind'>{label}</span>
-									)}
-								</>
-							))}
+					<div class='post-meta-bar dispatch-fields'>
+						<span class="dispatch-field">
+							<span class="dispatch-field__label">Date</span>
+							<span class="dispatch-field__value"><FormattedDate date={pubDate} /></span>
 						</span>
-						<span class='post-meta-sep'>·</span>
-						<FormattedDate date={pubDate} />
+						<span class="dispatch-field">
+							<span class="dispatch-field__label">Tag</span>
+							<span class="dispatch-field__value post-kind-group">
+								{topicLabels.map((label, index) => (
+									<>
+										{index > 0 && <span class='post-kind-sep' aria-hidden='true'>/</span>}
+										{topicLinksEnabled ? (
+											<a class='post-kind' href={`/tags/${label}/`}>{label}</a>
+										) : (
+											<span class='post-kind'>{label}</span>
+										)}
+									</>
+								))}
+							</span>
+						</span>
 						{readingTime && (
-							<>
-								<span class='post-meta-sep'>·</span>
-								<span>{readingTime} 分钟</span>
-							</>
+							<span class="dispatch-field">
+								<span class="dispatch-field__label">Read</span>
+								<span class="dispatch-field__value">{readingTime} min</span>
+							</span>
 						)}
-						{hasPostMeta && (
-							<>
-								<span class='post-meta-sep'>·</span>
-								{updatedDate && (
-									<span>更新于 <FormattedDate date={updatedDate} /></span>
-								)}
-								{isDev && draft && <span class="draft-badge" aria-label="草稿">草稿</span>}
-							</>
+						{updatedDate && (
+							<span class="dispatch-field">
+								<span class="dispatch-field__label">Updated</span>
+								<span class="dispatch-field__value"><FormattedDate date={updatedDate} /></span>
+							</span>
+						)}
+						{isDev && draft && (
+							<span class="dispatch-field">
+								<span class="dispatch-field__label">Status</span>
+								<span class="dispatch-field__value draft-badge" aria-label="草稿">草稿</span>
+							</span>
 						)}
 					</div>
 
@@ -741,9 +802,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			<div class="post-tail">
 				<div class="post-flow post-tail-inner">
 					<!-- 文章结束标识和点赞 -->
-					<div class='post-end' aria-hidden="true">
-						<div class="post-end-mark">
-							<span class="post-end-text">全文完</span>
+					<div class='post-end'>
+						<div class="post-end-mark" aria-hidden="true">
+							<span class="post-end-text">◊</span>
 						</div>
 						<LikeButton id={postId || Astro.url.pathname} type="post" />
 					</div>
@@ -847,13 +908,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					}
 					const header = document.createElement('div');
 					header.className = 'code-header';
-					const macButtons = document.createElement('div');
-					macButtons.className = 'mac-buttons';
-					['close', 'minimize', 'maximize'].forEach(type => {
-						const btn = document.createElement('div');
-						btn.className = `mac-button ${type}`;
-						macButtons.appendChild(btn);
-					});
 					const code = block.querySelector('code');
 					let lang = '';
 					if (block.dataset.language) {
@@ -886,7 +940,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 							console.error('Copy failed:', err);
 						}
 					});
-					header.appendChild(macButtons);
 					header.appendChild(langLabel);
 					header.appendChild(copyBtn);
 					wrapper.insertBefore(header, block);

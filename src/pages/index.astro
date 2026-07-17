@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import MagazineShell from '../layouts/MagazineShell.astro';
+import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 
@@ -8,9 +9,7 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 10);
-const featuredPost = latestPosts[0];
-const recentPosts = latestPosts.slice(1);
+const latestPosts = posts.slice(0, 12);
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -39,12 +38,8 @@ function getReadingMinutes(post: (typeof posts)[number]) {
 	return Math.max(1, Math.ceil(plainText.length / 520));
 }
 
-function getMonthNumber(date: Date) {
-	return String(date.getMonth() + 1).padStart(2, '0');
-}
-
-function getDayNumber(date: Date) {
-	return String(date.getDate()).padStart(2, '0');
+function padIndex(n: number) {
+	return String(n).padStart(2, '0');
 }
 ---
 
@@ -54,50 +49,59 @@ function getDayNumber(date: Date) {
 	className="home-index-layout"
 	showProfileCard={false}
 >
-	<section class="home-dashboard" aria-labelledby="home-latest-title">
-		<div class="home-overview-grid">
-			<section class="home-panel home-latest-panel" aria-labelledby="home-latest-title">
-				<header class="home-panel-head">
-					<p id="home-latest-title" class="magazine-section-label">最新文章</p>
-					<a href="/blog" class="home-all-link">归档 <span aria-hidden="true">→</span></a>
-				</header>
+	<section class="dispatch-index postcard-sheet" aria-labelledby="dispatch-title">
+		<header class="dispatch-index__head">
+			<div class="dispatch-index__identity">
+				<p id="dispatch-title" class="dispatch-index__kicker">Recent dispatches</p>
+				<p class="dispatch-index__sub">纸面上的近作 · {latestPosts.length} 封</p>
+			</div>
+			<a href="/blog" class="dispatch-index__archive">
+				<span class="dispatch-field__label">Archive</span>
+				<span aria-hidden="true">→</span>
+			</a>
+		</header>
 
-				{featuredPost && (
-					<a href={getPostHref(featuredPost)} class="home-featured-row">
-						<time class="home-post-date home-post-date--featured" datetime={featuredPost.data.pubDate.toISOString()}>
-							<span>{getMonthNumber(featuredPost.data.pubDate)} /</span>
-							<strong>{getDayNumber(featuredPost.data.pubDate)}</strong>
-						</time>
-						<span class="home-post-copy home-post-copy--featured">
-							<strong>{featuredPost.data.title}</strong>
-							<span>{getPostSummary(featuredPost)}</span>
-						</span>
-					</a>
-				)}
-
-				<div class="home-latest-list" role="list" aria-label="近期文章">
-					{recentPosts.map((post) => {
-						const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
-						return (
-							<a href={getPostHref(post)} class="home-latest-row" role="listitem">
-								<time class="home-post-date" datetime={post.data.pubDate.toISOString()}>
-									<span>{getMonthNumber(post.data.pubDate)}.</span>
-									<strong>{getDayNumber(post.data.pubDate)}</strong>
-								</time>
-								<span class="home-post-copy">
-									<strong>{post.data.title}</strong>
-									<small class="home-post-meta">
-										{primaryTag && <span class="home-tag">{primaryTag}</span>}
-										<span>{getReadingMinutes(post)} 分钟</span>
-									</small>
-									<span>{getPostSummary(post)}</span>
-								</span>
-							</a>
-						);
-					})}
-				</div>
-			</section>
+		<div class="dispatch-index__legend" aria-hidden="true">
+			<span class="dispatch-index__col dispatch-index__col--no">No.</span>
+			<span class="dispatch-index__col dispatch-index__col--date">Date</span>
+			<span class="dispatch-index__col dispatch-index__col--title">Title</span>
+			<span class="dispatch-index__col dispatch-index__col--meta">Tag / Read</span>
 		</div>
+
+		<ol class="dispatch-list">
+			{latestPosts.map((post, i) => {
+				const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
+				return (
+					<li class="dispatch-list__item">
+						<a href={getPostHref(post)} class="dispatch-card">
+							<span class="dispatch-card__no" aria-hidden="true">{padIndex(i + 1)}</span>
+							<span class="dispatch-field dispatch-card__date">
+								<span class="dispatch-field__label">Date</span>
+								<time class="dispatch-field__value" datetime={post.data.pubDate.toISOString()}>
+									<FormattedDate date={post.data.pubDate} />
+								</time>
+							</span>
+							<span class="dispatch-card__body">
+								<span class="dispatch-field dispatch-card__title-field">
+									<span class="dispatch-field__label">Title</span>
+									<strong class="dispatch-card__title">{post.data.title}</strong>
+								</span>
+								<span class="dispatch-card__summary">{getPostSummary(post)}</span>
+							</span>
+							<span class="dispatch-card__aside">
+								{primaryTag && <span class="dispatch-card__tag">{primaryTag}</span>}
+								<span class="dispatch-card__read">{getReadingMinutes(post)} min</span>
+							</span>
+						</a>
+					</li>
+				);
+			})}
+		</ol>
+
+		<footer class="dispatch-index__foot">
+			<span class="dispatch-index__end" aria-hidden="true">◊</span>
+			<a href="/blog">查看全部归档</a>
+		</footer>
 	</section>
 </MagazineShell>
 
@@ -123,215 +127,316 @@ function getDayNumber(date: Date) {
 		transform: translateX(-50%);
 	}
 
-	.home-dashboard {
+	.dispatch-index {
 		width: 100%;
-		max-width: min(100%, 820px);
+		max-width: 100%;
+		padding: clamp(1.15rem, 2.6vw, 1.65rem) clamp(1.05rem, 2.4vw, 1.55rem) clamp(1.2rem, 2.5vw, 1.55rem);
 		font-family: var(--ui-font);
 	}
 
-	.home-overview-grid {
-		display: grid;
-		grid-template-areas: "latest";
-		grid-template-columns: 1fr;
-		align-items: start;
+	.dispatch-index__head {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		margin: 0 0 clamp(1rem, 2.2vw, 1.3rem);
+		padding-bottom: 0.85rem;
+		border-bottom: 1px solid var(--sheet-edge);
 	}
 
-	.home-panel {
+	.dispatch-index__identity {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
 		min-width: 0;
 	}
 
-	.home-latest-panel {
-		grid-area: latest;
+	.dispatch-index__kicker {
+		margin: 0;
+		font-family: var(--display-font);
+		font-size: clamp(1.35rem, 2.4vw, 1.65rem);
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		line-height: 1.1;
+		color: var(--heading-color);
 	}
 
-	.home-panel-head {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto;
-		align-items: baseline;
-		gap: 1rem;
+	.dispatch-index__sub {
 		margin: 0;
-		padding-bottom: 0.65rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.home-panel-head .magazine-section-label {
-		margin: 0;
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-medium);
+		font-family: var(--field-font);
+		font-size: 0.68rem;
 		letter-spacing: 0.04em;
+		color: var(--faint-color);
 	}
 
-	.home-all-link {
-		grid-column: 3;
+	.dispatch-index__archive {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
 		border: 0 !important;
 		color: var(--faint-color);
 		font-size: 0.68rem;
-		font-weight: var(--weight-regular);
 		line-height: 1.15;
 		text-decoration: none;
 		white-space: nowrap;
-	}
-
-	.home-all-link:hover {
-		color: var(--gray-color);
-	}
-
-	.home-featured-row {
-		display: grid;
-		grid-template-columns: 5rem minmax(0, 1fr);
-		gap: clamp(1.25rem, 2.4vw, 1.8rem);
-		align-items: start;
-		padding: clamp(1.35rem, 3vw, 1.85rem) 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		background: transparent !important;
-		color: var(--heading-color);
-		text-decoration: none;
-	}
-
-	.home-latest-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	.home-latest-list .home-latest-row:last-child {
-		border-bottom: 0 !important;
-	}
-
-	.home-latest-row {
-		display: grid;
-		grid-template-columns: 4.2rem minmax(0, 1fr);
-		gap: clamp(1rem, 2.2vw, 1.55rem);
-		align-items: baseline;
-		min-height: 0;
-		padding: clamp(1.12rem, 2.1vw, 1.32rem) 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: var(--heading-color);
-		box-shadow: none;
-		text-decoration: none;
 		transition: color 0.18s ease;
 	}
 
-	.home-featured-row:hover,
-	.home-latest-row:hover {
+	.dispatch-index__archive .dispatch-field__label {
+		letter-spacing: 0.1em;
+	}
+
+	.dispatch-index__archive:hover {
 		color: var(--heading-color);
-		transform: none;
 	}
 
-	.home-post-date {
-		display: inline-flex;
-		gap: 0;
-		min-height: 0;
-		border-radius: 0;
-		background: transparent;
-		color: var(--gray-color);
-		font-variant-numeric: tabular-nums;
-		line-height: 1.35;
-		text-align: left;
-	}
-
-	.home-post-date span,
-	.home-post-date strong {
-		color: inherit;
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.35;
-	}
-
-	.home-post-date--featured {
+	.dispatch-index__legend {
 		display: grid;
-		gap: 0.18rem;
-		align-self: start;
-		line-height: 1;
-	}
-
-	.home-post-date--featured span {
-		font-size: 0.72rem;
-		line-height: 1;
+		grid-template-columns: 1.75rem 5.75rem minmax(0, 1fr) 3.6rem;
+		gap: 0.65rem 0.85rem;
+		padding: 0.35rem 0.15rem 0.55rem;
+		border-bottom: 1px dashed color-mix(in oklab, var(--sheet-edge) 80%, transparent);
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.58rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 	}
 
-	.home-post-date--featured strong {
-		color: color-mix(in oklab, var(--accent-color) 58%, var(--heading-color));
-		font-size: clamp(1.8rem, 4vw, 2.65rem);
-		font-weight: var(--weight-semibold);
-		line-height: 0.92;
+	.dispatch-index__col--meta {
+		text-align: right;
 	}
 
-	.home-post-copy {
+	.dispatch-list {
 		display: flex;
 		flex-direction: column;
-		min-width: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.dispatch-list__item + .dispatch-list__item {
+		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 85%, transparent);
+	}
+
+	.dispatch-card {
+		display: grid;
+		grid-template-columns: 1.75rem 5.75rem minmax(0, 1fr) 3.6rem;
+		gap: 0.5rem 0.85rem;
+		align-items: start;
+		padding: clamp(0.72rem, 1.5vw, 0.9rem) 0.15rem;
+		border: 0 !important;
+		background: transparent !important;
+		color: inherit;
+		text-decoration: none;
+		transition: background 0.18s ease;
+	}
+
+	.dispatch-card:hover {
+		background: var(--paper-hover-bg) !important;
+	}
+
+	.dispatch-card:hover .dispatch-card__title {
+		color: color-mix(in oklab, var(--accent-color) 32%, var(--heading-color));
+	}
+
+	.dispatch-card__no {
+		padding-top: 0.2rem;
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.68rem;
+		font-variant-numeric: tabular-nums;
+		letter-spacing: 0.04em;
+		line-height: 1.2;
+	}
+
+	.dispatch-card__date {
+		flex-direction: column;
+		align-items: flex-start;
 		gap: 0.28rem;
-		overflow-wrap: anywhere;
+		padding-top: 0.1rem;
 	}
 
-	.home-post-copy strong {
+	.dispatch-card__date .dispatch-field__label {
+		display: none;
+	}
+
+	.dispatch-card__date .dispatch-field__value {
+		font-family: var(--field-font);
+		font-size: 0.78rem;
+		color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+
+	.dispatch-card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.28rem;
+		min-width: 0;
+	}
+
+	.dispatch-card__title-field {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.22rem;
+		width: 100%;
+	}
+
+	.dispatch-card__title-field .dispatch-field__label {
+		display: none;
+	}
+
+	.dispatch-card__title {
 		color: var(--heading-color);
-		font-size: 1rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.34;
+		font-family: var(--display-font);
+		font-size: clamp(1.02rem, 1.7vw, 1.18rem);
+		font-weight: 600;
+		line-height: 1.32;
+		letter-spacing: -0.015em;
+		overflow-wrap: anywhere;
+		transition: color 0.18s ease;
 	}
 
-	.home-post-copy span {
+	.dispatch-card__summary {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
 		-webkit-line-clamp: 2;
 		overflow: hidden;
-		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
-		font-size: 0.8rem;
+		max-width: none;
+		color: color-mix(in oklab, var(--gray-color) 90%, var(--heading-color));
+		font-family: var(--reading-font);
+		font-size: 0.82rem;
 		line-height: 1.5;
 	}
 
-	.home-post-meta {
+	.dispatch-card__aside {
 		display: flex;
-		align-items: center;
-		gap: 0.5rem;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 0.2rem;
+		padding-top: 0.15rem;
 		min-width: 0;
+		text-align: right;
+	}
+
+	.dispatch-card__tag {
+		color: color-mix(in oklab, var(--heading-color) 62%, var(--gray-color));
+		font-family: var(--ui-font);
+		font-size: 0.72rem;
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+	}
+
+	.dispatch-card__read {
 		color: var(--faint-color);
+		font-family: var(--field-font);
 		font-size: 0.68rem;
-		font-weight: var(--weight-regular);
+		font-variant-numeric: tabular-nums;
 		line-height: 1.2;
 		white-space: nowrap;
 	}
 
-	.home-post-meta span {
-		display: inline;
-		-webkit-line-clamp: unset;
-		overflow: visible;
-		color: inherit;
-		font-size: inherit;
-		line-height: inherit;
+	.dispatch-index__foot {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 0.35rem;
+		padding-top: 0.95rem;
+		border-top: 1px solid var(--sheet-edge);
 	}
 
-	.home-tag::before {
-		content: "#";
-		opacity: 0.55;
+	.dispatch-index__end {
+		color: var(--faint-color);
+		font-family: var(--display-font);
+		font-size: 0.85rem;
+		line-height: 1;
 	}
 
-	.home-post-copy--featured strong {
-		font-size: clamp(1.34rem, 3.1vw, 2.15rem);
-		line-height: 1.22;
-		text-wrap: balance;
+	.dispatch-index__foot a {
+		border: 0 !important;
+		color: var(--gray-color);
+		font-family: var(--field-font);
+		font-size: 0.72rem;
+		letter-spacing: 0.02em;
+		text-decoration: none;
 	}
 
-	.home-post-copy--featured span {
-		display: block;
-		-webkit-line-clamp: unset;
-		margin-top: 0.34rem;
-		font-size: 0.9rem;
-		line-height: 1.62;
+	.dispatch-index__foot a:hover {
+		color: var(--heading-color);
+	}
+
+	@media (max-width: 720px) {
+		.dispatch-index__legend {
+			display: none;
+		}
+
+		.dispatch-card {
+			grid-template-columns: 1.6rem minmax(0, 1fr);
+			grid-template-areas:
+				"no date"
+				"no body"
+				"no aside";
+			gap: 0.35rem 0.75rem;
+			padding: 0.95rem 0.1rem;
+		}
+
+		.dispatch-card__no {
+			grid-area: no;
+			padding-top: 0.15rem;
+		}
+
+		.dispatch-card__date {
+			grid-area: date;
+			flex-direction: row;
+			align-items: baseline;
+			gap: 0.4rem;
+		}
+
+		.dispatch-card__date .dispatch-field__label {
+			display: inline;
+		}
+
+		.dispatch-card__body {
+			grid-area: body;
+		}
+
+		.dispatch-card__title-field .dispatch-field__label {
+			display: inline;
+		}
+
+		.dispatch-card__aside {
+			grid-area: aside;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: baseline;
+			justify-content: flex-start;
+			gap: 0.45rem 0.85rem;
+			text-align: left;
+		}
 	}
 
 	@media (max-width: 640px) {
-		.home-featured-row,
-		.home-latest-row {
-			grid-template-columns: 3.65rem minmax(0, 1fr);
+		.dispatch-index {
+			max-width: 100%;
+			padding-inline: clamp(0.9rem, 3vw, 1.15rem);
+		}
+
+		.dispatch-card__title {
+			font-size: 1.05rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.dispatch-index__archive,
+		.dispatch-card,
+		.dispatch-card__title {
+			transition: none;
 		}
 	}
 </style>

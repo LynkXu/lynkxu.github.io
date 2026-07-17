@@ -320,10 +320,17 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout {
+  /* Dispatch / Postcard type stack — scoped so feature pages keep Matter */
+  --display-font: "Petrona", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --reading-font: "Literata", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --ui-font: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif-font: var(--reading-font);
+  --meta-font: var(--ui-font);
   --field-font: var(--ui-font);
   --blog-rail-col: minmax(9.5rem, 11.25rem);
   --blog-meta-col: 7.25rem;
   --blog-card-gap: clamp(0.75rem, 1.6vw, 0.95rem);
+  --measure-readable: 64ch;
 }
 
 .blog-surface-layout::before {

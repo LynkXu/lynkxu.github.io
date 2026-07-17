@@ -11,9 +11,10 @@ const { title } = Astro.props;
 ---
 
 <MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
-	<section class="message-panel" aria-labelledby="message-title">
+	<section class="message-panel postcard-sheet" aria-labelledby="message-title">
 		<header class="message-panel__header">
-			<p class="magazine-section-label">留言</p>
+			<p class="magazine-section-label">Guestbook</p>
+			<p class="message-panel__sub">公开留言 · 纸笺</p>
 			<h1 id="message-title" class="sr-only">留言</h1>
 		</header>
 
@@ -38,12 +39,34 @@ const { title } = Astro.props;
 <style is:global>
 	.message-panel {
 		min-height: 0;
+		max-width: var(--blog-content-max, 42rem);
+		padding: clamp(1.15rem, 2.6vw, 1.55rem);
 	}
 
 	.message-panel__header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
 		margin-bottom: clamp(1rem, 3vw, 1.6rem);
-		padding-bottom: 0.65rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--sheet-edge);
+	}
+
+	.message-panel__header .magazine-section-label {
+		font-family: var(--field-font);
+		font-size: 0.62rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--faint-color);
+	}
+
+	.message-panel__sub {
+		margin: 0;
+		font-family: var(--display-font);
+		font-size: 1.15rem;
+		font-weight: 600;
+		letter-spacing: -0.015em;
+		color: var(--heading-color);
 	}
 
 	.message-comments {
