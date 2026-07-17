@@ -186,13 +186,17 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--paper-field-bg: oklch(0.32 0.02 95 / 0.03);
 		--paper-hover-bg: oklch(0.4 0.045 205 / 0.045);
 		--paper-hover-border: oklch(0.4 0.045 205 / 0.32);
-		--blog-shell-width: 1310px;
-		/* 左栏再收、右栏再放，减轻「导航贴左、目录偏窄」的失衡 */
+		/* === Blog shell layout tokens (single source of truth) ===
+		   Change widths here only. Consumers should use var(--blog-*) without local fallbacks. */
 		--blog-sidebar-width: 10.75rem;
-		/* 全站中间栏（两栏时的主内容栏）统一宽度 */
 		--blog-content-max: 46rem;
 		--blog-context-width: 12.75rem;
 		--blog-shell-gap: clamp(1.6rem, 2.8vw, 2.35rem);
+		/* Shell tracks the three columns + gaps, with a little breathing room */
+		--blog-shell-width: calc(
+			var(--blog-sidebar-width) + var(--blog-content-max) + var(--blog-context-width)
+			+ 2 * 2.35rem + 2rem
+		);
 		--measure-readable: var(--blog-content-max);
 		font-family: var(--ui-font);
 		color: var(--text-color);
@@ -277,7 +281,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		width: 100%;
 	}
 
-	/* 三栏始终同宽同起点；中间列封顶，与关于/留言等纸页一致，避免首页/归档被 1fr 拉宽 */
+	/* 三栏始终同宽同起点；中间列封顶。justify center 避免外壳余量堆在右侧造成整页偏左 */
 	.ledger-shell {
 		display: grid;
 		grid-template-columns:
@@ -289,7 +293,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		width: min(var(--blog-shell-width), calc(100% - clamp(2rem, 5vw, 4.5rem)));
 		margin: 0 auto;
 		padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 8vw, 6rem);
-		justify-content: start;
+		justify-content: center;
 	}
 
 	.ledger-sidebar,
