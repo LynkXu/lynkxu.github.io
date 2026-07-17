@@ -69,11 +69,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-				<span class="ledger-brand__masthead">
 					<span class="ledger-brand__wordmark">LynkXu</span>
-					<span class="ledger-brand__mark" aria-hidden="true">Dispatch</span>
-				</span>
-			</a>
+				</a>
 
 				<div class="ledger-nav-group ledger-nav-group--primary">
 					<nav class="ledger-nav ledger-nav--primary" aria-label="主导航">
@@ -192,6 +189,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--blog-content-max: 48rem;
 		--blog-context-width: 12.75rem;
 		--blog-shell-gap: clamp(1.6rem, 2.8vw, 2.35rem);
+		/* 左右栏首行与中间纸页首行对齐：1px 边框 + 常见 sheet 上内边距 */
+		--ledger-rail-inset-top: calc(1px + clamp(1.1rem, 2.4vw, 1.45rem));
 		/* Shell tracks the three columns + gaps, with a little breathing room */
 		--blog-shell-width: calc(
 			var(--blog-sidebar-width) + var(--blog-content-max) + var(--blog-context-width)
@@ -308,8 +307,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		align-self: start;
 		flex-direction: column;
 		gap: clamp(1.15rem, 2.4vh, 1.55rem);
-		/* 略增左侧内边距，让导航视觉中心向内容栏靠拢 */
-		padding: 0.15rem 0.2rem 0.5rem 0.7rem;
+		padding: var(--ledger-rail-inset-top) 0.2rem 0.5rem 0.7rem;
 		border-right: 0;
 		background: transparent;
 	}
@@ -326,13 +324,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		text-decoration: none;
 	}
 
-	.ledger-brand__masthead {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.28rem;
-	}
-
 	.ledger-brand__wordmark {
 		font-family: var(--display-font);
 		font-size: 1.42rem;
@@ -340,16 +331,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		line-height: 1;
 		letter-spacing: -0.02em;
 		color: var(--heading-color);
-	}
-
-	.ledger-brand__mark {
-		font-family: var(--field-font);
-		font-size: 0.58rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.14em;
-		line-height: 1;
-		text-transform: uppercase;
-		color: var(--faint-color);
 	}
 
 	.ledger-brand__avatar,
@@ -567,6 +548,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		gap: 1.6rem;
 		align-self: start;
 		min-height: 0;
+		padding-top: var(--ledger-rail-inset-top);
 		padding-left: clamp(0.75rem, 1.6vw, 1.1rem);
 		border-left: 0;
 		font-size: 0.78rem;
@@ -782,10 +764,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-brand__wordmark {
 			font-size: 1.2rem;
-		}
-
-		.ledger-brand__mark {
-			display: none;
 		}
 
 		.ledger-nav-group--primary {
