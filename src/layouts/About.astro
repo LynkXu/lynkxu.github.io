@@ -16,14 +16,15 @@ const blogHistory = [
 const contactLinks = [
 	{ href: 'mailto:xulinxiao@live.com', label: 'Email', value: 'xulinxiao#live.com' },
 	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
-	// { href: 'https://x.com/lynkxu', label: 'X', value: '@lynkxu', external: true },
 ];
 ---
 
 <MagazineShell title={title} description={title} showProfileCard={false}>
-	<section class="about-profile magazine-panel" aria-labelledby="about-title">
-		<p class="magazine-section-label">简介</p>
-		<h1 id="about-title">Hi, I am Lynk</h1>
+	<section class="about-profile postcard-sheet" aria-labelledby="about-title">
+		<header class="about-profile__head">
+			<p class="magazine-section-label">Profile</p>
+			<h1 id="about-title">Hi, I am Lynk</h1>
+		</header>
 		<div class="about-profile__lead">
 			<p>
 				<span>一个偏乐观的悲观主义者。</span>
@@ -36,22 +37,22 @@ const contactLinks = [
 		</p>
 		<div class="about-profile__fragments" aria-label="个人片段">
 			<div>
-				<span>输入</span>
+				<span class="dispatch-field__label">Input</span>
 				<strong>Web3 爱好 / APP 体验家 / AI 依赖</strong>
 			</div>
 			<div>
-				<span>节奏</span>
+				<span class="dispatch-field__label">Pace</span>
 				<strong>力量训练 / 马拉松 / 骑行 / 散步</strong>
 			</div>
 			<div>
-				<span>性情</span>
+				<span class="dispatch-field__label">Temper</span>
 				<strong>长期主义 / 混沌中立 / 生人勿近</strong>
 			</div>
 		</div>
 		<div class="about-profile__sections" aria-label="关于 LynkXu's Blog">
 			<section class="about-module about-module--contact">
 				<div class="about-module__header">
-					<span>联系</span>
+					<span class="dispatch-field__label">Contact</span>
 					<h2>联系我</h2>
 				</div>
 				<div class="about-module__links">
@@ -61,7 +62,7 @@ const contactLinks = [
 							target={link.external ? '_blank' : undefined}
 							rel={link.external ? 'noopener noreferrer' : undefined}
 						>
-							<span>{link.label}</span>
+							<span class="dispatch-field__label">{link.label}</span>
 							<strong>{link.value}</strong>
 						</a>
 					))}
@@ -70,7 +71,7 @@ const contactLinks = [
 
 			<section class="about-module about-module--support">
 				<div class="about-module__header">
-					<span>支持</span>
+					<span class="dispatch-field__label">Support</span>
 					<h2>赞助</h2>
 				</div>
 				<SponsorAbout />
@@ -80,25 +81,25 @@ const contactLinks = [
 
 	<div slot="sidebar-extra" class="about-rail">
 		<section class="magazine-rail-card about-now" aria-labelledby="about-now-title">
-			<p id="about-now-title" class="magazine-section-label">此刻</p>
+			<p id="about-now-title" class="magazine-section-label">Now</p>
 			<dl class="about-now-list">
 				<div>
-					<dt>所在</dt>
+					<dt class="dispatch-field__label">Place</dt>
 					<dd>上海</dd>
 				</div>
 				<div>
-					<dt>工作</dt>
+					<dt class="dispatch-field__label">Work</dt>
 					<dd>全栈工程师</dd>
 				</div>
 			</dl>
 		</section>
 
 		<section class="magazine-rail-card about-history-card" aria-labelledby="about-history-title">
-			<p id="about-history-title" class="magazine-section-label">博客历程</p>
+			<p id="about-history-title" class="magazine-section-label">History</p>
 			<ol class="about-history-list">
 				{blogHistory.map((item) => (
 					<li>
-						<time>{item.date}</time>
+						<time class="dispatch-field__value">{item.date}</time>
 						<span>{item.text}</span>
 					</li>
 				))}
@@ -109,45 +110,44 @@ const contactLinks = [
 
 <style is:global>
 	.about-profile {
-		display: grid;
-		grid-template-columns: minmax(0, 0.82fr) minmax(18rem, 1fr);
-		grid-template-areas:
-			"label label"
-			"title title"
-			"lead lead"
-			"note note"
-			"fragments fragments"
-			"sections sections";
-		column-gap: clamp(1.4rem, 3vw, 2.4rem);
-		row-gap: clamp(0.92rem, 1.8vw, 1.24rem);
-		min-height: 0;
-		padding: clamp(1.2rem, 2.35vw, 1.62rem);
+		max-width: var(--blog-content-max, 44rem);
+		padding: clamp(1.25rem, 2.8vw, 1.85rem);
 	}
 
-	.about-profile > .magazine-section-label {
-		grid-area: label;
+	.about-profile__head {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin-bottom: 1.15rem;
+		padding-bottom: 0.9rem;
+		border-bottom: 1px solid var(--sheet-edge);
+	}
+
+	.about-profile__head .magazine-section-label {
+		font-family: var(--field-font);
+		font-size: 0.62rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--faint-color);
 	}
 
 	.about-profile h1 {
-		grid-area: title;
 		margin: 0;
 		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: clamp(1.78rem, 3.4vw, 2.35rem);
-		font-weight: var(--weight-bold);
-		line-height: 1.15;
-		letter-spacing: 0;
+		font-family: var(--display-font);
+		font-size: clamp(1.85rem, 3.6vw, 2.45rem);
+		font-weight: 600;
+		line-height: 1.12;
+		letter-spacing: -0.02em;
 	}
 
 	.about-profile__lead {
-		grid-area: lead;
-		margin-top: 0;
-		max-width: 48rem;
+		max-width: 100%;
 		color: var(--text-color);
-		font-family: var(--ui-font);
+		font-family: var(--reading-font);
 		font-size: clamp(0.98rem, 1.35vw, 1.08rem);
-		font-weight: var(--weight-medium);
-		line-height: 1.65;
+		font-weight: var(--weight-regular);
+		line-height: 1.75;
 	}
 
 	.about-profile__lead p,
@@ -160,41 +160,32 @@ const contactLinks = [
 	}
 
 	.about-profile__note {
-		grid-area: note;
-		max-width: 47rem;
+		max-width: 100%;
+		margin-top: 0.95rem;
 		color: var(--gray-color);
 		font-family: var(--ui-font);
 		font-size: 0.9rem;
-		font-weight: var(--weight-regular);
 		line-height: 1.72;
 	}
 
 	.about-profile__fragments {
-		grid-area: fragments;
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: clamp(0.58rem, 1.35vw, 0.82rem);
-		margin-top: 0.04rem;
-		border-top: 0;
+		gap: 0.65rem;
+		margin-top: clamp(1.25rem, 2.8vw, 1.7rem);
+		padding-top: clamp(1rem, 2.2vw, 1.3rem);
+		border-top: 1px dashed color-mix(in oklab, var(--sheet-edge) 75%, transparent);
 	}
 
 	.about-profile__fragments div {
 		display: flex;
 		min-width: 0;
 		flex-direction: column;
-		gap: 0.3rem;
-		padding: 0.68rem 0.72rem;
-		border: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 68%, transparent);
+		gap: 0.35rem;
+		padding: 0.65rem 0.7rem;
+		border: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
 		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 44%, transparent);
-	}
-
-	.about-profile__fragments span {
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.63rem;
-		font-weight: var(--weight-medium);
-		line-height: 1;
+		background: var(--paper-field-bg);
 	}
 
 	.about-profile__fragments strong {
@@ -206,12 +197,13 @@ const contactLinks = [
 	}
 
 	.about-profile__sections {
-		grid-area: sections;
 		display: grid;
 		grid-template-columns: minmax(14rem, 0.86fr) minmax(18rem, 1.14fr);
 		gap: clamp(1.2rem, 2.4vw, 1.7rem);
 		align-items: start;
-		margin-top: 1.2rem;
+		margin-top: 1.35rem;
+		padding-top: 1.15rem;
+		border-top: 1px solid var(--sheet-edge);
 	}
 
 	.about-module {
@@ -228,37 +220,20 @@ const contactLinks = [
 		gap: 0.34rem;
 	}
 
-	.about-module__header span {
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.64rem;
-		font-weight: var(--weight-medium);
-		line-height: 1;
-	}
-
 	.about-module__header h2 {
 		margin: 0;
 		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 1rem;
-		font-weight: var(--weight-medium);
+		font-family: var(--display-font);
+		font-size: 1.05rem;
+		font-weight: 500;
 		line-height: 1.35;
-		letter-spacing: 0;
-	}
-
-	.about-module p {
-		margin: 0;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.84rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.65;
+		letter-spacing: -0.01em;
 	}
 
 	.about-module__links {
 		display: flex;
 		flex-direction: column;
-		gap: 0.55rem;
+		gap: 0;
 		margin-top: 0.05rem;
 	}
 
@@ -266,7 +241,7 @@ const contactLinks = [
 		display: grid;
 		grid-template-columns: 4.2rem minmax(0, 1fr);
 		gap: 0.85rem;
-		align-items: center;
+		align-items: baseline;
 		min-height: 0;
 		padding: 0.55rem 0;
 		border: 0 !important;
@@ -276,24 +251,16 @@ const contactLinks = [
 		color: inherit;
 		font-family: var(--ui-font);
 		text-decoration: none;
-		transition: color 0.18s ease;
 	}
 
 	.about-module__links a:last-child {
 		border-bottom: 0 !important;
 	}
 
-	.about-module__links span {
-		color: var(--gray-color);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
-	}
-
 	.about-module__links strong {
 		min-width: 0;
 		overflow: hidden;
-		color: color-mix(in oklab, var(--accent-color) 78%, var(--heading-color));
+		color: color-mix(in oklab, var(--heading-color) 88%, var(--accent-color));
 		font-size: 0.84rem;
 		font-weight: var(--weight-medium);
 		line-height: 1.45;
@@ -303,10 +270,6 @@ const contactLinks = [
 
 	.about-module__links a:hover strong {
 		color: var(--heading-color);
-	}
-
-	.about-module__links a:hover {
-		background: transparent !important;
 	}
 
 	.about-module--support .sponsor-about {
@@ -339,62 +302,17 @@ const contactLinks = [
 		background: transparent;
 	}
 
-	.about-module--support .sponsor-fold summary:hover {
-		color: var(--heading-color);
-		background: transparent;
-	}
-
-	.about-module--support .sponsor-grid,
-	.about-module--support .crypto-list {
-		animation: aboutSponsorReveal 0.18s ease-out;
-	}
-
-	@keyframes aboutSponsorReveal {
-		from {
-			opacity: 0;
-			transform: translateY(-0.25rem);
-		}
-
-		to {
-			opacity: 1;
-			transform: translateY(0);
-		}
-	}
-
 	.about-rail {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1.1rem, 2vw, 1.35rem);
+		gap: clamp(1.35rem, 2.4vw, 1.75rem);
 	}
 
 	.about-now,
 	.about-history-card {
 		display: flex;
 		flex-direction: column;
-		gap: 0.92rem;
-	}
-
-	.about-history-card h2 {
-		margin: 0;
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 1.16rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.15;
-		letter-spacing: 0;
-	}
-
-	.about-history-card h2 {
-		font-size: 1rem;
-	}
-
-	.about-history-card p {
-		margin: 0;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.8rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.62;
+		gap: 0.85rem;
 	}
 
 	.about-history-list {
@@ -403,16 +321,16 @@ const contactLinks = [
 		flex-direction: column;
 		gap: 0;
 		margin: 0;
-		padding: 0 0 0 1.15rem;
+		padding: 0 0 0 1.05rem;
 		list-style: none;
 		font-family: var(--ui-font);
 	}
 
 	.about-history-list::before {
 		position: absolute;
-		top: 0.35rem;
-		bottom: 0.55rem;
-		left: 0.2rem;
+		top: 0.3rem;
+		bottom: 0.45rem;
+		left: 0.18rem;
 		width: 1px;
 		background: var(--paper-card-border-soft);
 		content: "";
@@ -422,8 +340,8 @@ const contactLinks = [
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.25rem;
-		padding: 0.58rem 0;
+		gap: 0.2rem;
+		padding: 0.5rem 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
@@ -434,22 +352,23 @@ const contactLinks = [
 
 	.about-history-list li::before {
 		position: absolute;
-		top: 0.72rem;
-		left: -1.05rem;
-		width: 0.28rem;
-		height: 0.28rem;
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--accent-color) 55%, var(--paper-card-border-soft));
+		top: 0.68rem;
+		left: -0.96rem;
+		width: 0.22rem;
+		height: 0.22rem;
+		border-radius: 50%;
+		background: color-mix(in oklab, var(--accent-color) 45%, var(--paper-card-border-soft));
 		content: "";
 	}
 
 	.about-history-list li:first-child::before {
-		top: 0.14rem;
+		top: 0.12rem;
 	}
 
 	.about-history-list time {
 		color: var(--faint-color);
-		font-size: 0.68rem;
+		font-family: var(--field-font);
+		font-size: 0.66rem;
 		font-weight: var(--weight-medium);
 		line-height: 1;
 		letter-spacing: 0.02em;
@@ -457,7 +376,7 @@ const contactLinks = [
 
 	.about-history-list span {
 		color: var(--text-color);
-		font-size: 0.8rem;
+		font-size: 0.78rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.5;
 	}
@@ -472,10 +391,11 @@ const contactLinks = [
 
 	.about-now-list div {
 		display: grid;
-		grid-template-columns: 4.5rem minmax(0, 1fr);
-		gap: 0.85rem;
-		padding: 0.64rem 0;
-		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 72%, transparent);
+		grid-template-columns: 4.2rem minmax(0, 1fr);
+		gap: 0.75rem;
+		align-items: baseline;
+		padding: 0.55rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
 	.about-now-list div:first-child {
@@ -483,38 +403,15 @@ const contactLinks = [
 		border-top: 0;
 	}
 
-	.about-now-list dt {
-		color: var(--gray-color);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
-	}
-
 	.about-now-list dd {
 		margin: 0;
 		color: var(--heading-color);
-		font-size: 0.86rem;
+		font-size: 0.82rem;
 		font-weight: var(--weight-medium);
 		line-height: 1.45;
 	}
 
 	@media (max-width: 860px) {
-		.about-profile {
-			grid-template-columns: 1fr;
-			grid-template-areas:
-				"label"
-				"title"
-				"lead"
-				"note"
-				"fragments"
-				"rule"
-				"sections";
-		}
-
-		.about-profile__note {
-			max-width: none;
-		}
-
 		.about-profile__fragments {
 			grid-template-columns: 1fr;
 		}
@@ -527,220 +424,6 @@ const contactLinks = [
 	@media (max-width: 680px) {
 		.about-profile__lead span {
 			display: inline;
-		}
-	}
-</style>
-
-<style is:global>
-	.about-profile {
-		display: block;
-		padding: 0;
-	}
-
-	.about-profile > .magazine-section-label {
-		margin-bottom: 0.9rem;
-		padding-bottom: 0.65rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-profile h1 {
-		margin: 0 0 1.2rem;
-		color: var(--heading-color);
-		font-size: clamp(2rem, 5vw, 3.4rem);
-		font-weight: var(--weight-semibold);
-		line-height: 1.08;
-	}
-
-	.about-profile__lead {
-		max-width: 42rem;
-		color: var(--text-color);
-		font-size: clamp(1rem, 1.45vw, 1.08rem);
-		font-weight: var(--weight-regular);
-		line-height: 1.85;
-	}
-
-	.about-profile__note {
-		max-width: 42rem;
-		margin-top: 1.2rem;
-		color: var(--gray-color);
-		font-size: 0.96rem;
-		line-height: 1.82;
-	}
-
-	.about-profile__fragments {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0;
-		max-width: 42rem;
-		margin-top: clamp(1.4rem, 3vw, 2.2rem);
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-profile__fragments div {
-		display: grid;
-		grid-template-columns: 5.5rem minmax(0, 1fr);
-		gap: 1rem;
-		padding: 0.72rem 0;
-		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-		border-radius: 0;
-		background: transparent;
-	}
-
-	.about-profile__fragments span {
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-regular);
-		text-transform: none;
-	}
-
-	.about-profile__fragments strong {
-		color: var(--text-color);
-		font-size: 0.9rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.55;
-	}
-
-	.about-profile__sections {
-		display: grid;
-		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-		gap: clamp(1.6rem, 4vw, 3rem);
-		max-width: 46rem;
-		margin-top: clamp(1.8rem, 4vw, 3rem);
-		padding-top: clamp(1rem, 3vw, 1.6rem);
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-module__header span {
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.04em;
-	}
-
-	.about-module__header h2 {
-		font-size: 1rem;
-		font-weight: var(--weight-medium);
-	}
-
-	.about-module__links a {
-		min-height: 0;
-		padding: 0.5rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-	}
-
-	.about-module__links span,
-	.about-module__links strong {
-		font-weight: var(--weight-regular);
-	}
-
-	.about-module__links strong {
-		color: var(--heading-color);
-	}
-
-	.about-module--support .sponsor-fold {
-		border-radius: 0;
-		background: transparent;
-	}
-
-	.about-module--support .sponsor-fold summary {
-		min-height: 0;
-		padding: 0.5rem 0;
-		font-weight: var(--weight-regular);
-	}
-
-	.about-rail {
-		gap: 1.5rem;
-	}
-
-	.about-now,
-	.about-history-card {
-		gap: 0.85rem;
-	}
-
-	.about-now-list div {
-		grid-template-columns: 4.4rem minmax(0, 1fr);
-		padding: 0.55rem 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-now-list dt,
-	.about-now-list dd {
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-	}
-
-	.about-history-list {
-		position: relative;
-		gap: 0;
-		padding-left: 1.15rem;
-	}
-
-	.about-history-list::before {
-		position: absolute;
-		top: 0.35rem;
-		bottom: 0.55rem;
-		left: 0.2rem;
-		width: 1px;
-		background: var(--paper-card-border-soft);
-		content: "";
-	}
-
-	.about-history-list li {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		padding: 0.58rem 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.about-history-list li:first-child {
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	.about-history-list li::before {
-		position: absolute;
-		top: 0.72rem;
-		left: -1.05rem;
-		width: 0.28rem;
-		height: 0.28rem;
-		border-radius: 999px;
-		background: color-mix(in oklab, var(--accent-color) 55%, var(--paper-card-border-soft));
-		content: "";
-	}
-
-	.about-history-list li:first-child::before {
-		top: 0.14rem;
-	}
-
-	.about-history-list time {
-		color: var(--faint-color);
-		font-size: 0.68rem;
-		font-weight: var(--weight-medium);
-		line-height: 1;
-		letter-spacing: 0.02em;
-	}
-
-	.about-history-list span {
-		color: var(--text-color);
-		font-size: 0.8rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.5;
-	}
-
-	@media (max-width: 760px) {
-		.about-profile__sections {
-			grid-template-columns: 1fr;
-		}
-
-		.about-profile__fragments div {
-			grid-template-columns: 1fr;
-			gap: 0.25rem;
 		}
 	}
 </style>

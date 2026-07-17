@@ -320,10 +320,17 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout {
+  /* Dispatch / Postcard type stack — scoped so feature pages keep Matter */
+  --display-font: "Petrona", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --reading-font: "Literata", "Songti SC", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --ui-font: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif-font: var(--reading-font);
+  --meta-font: var(--ui-font);
   --field-font: var(--ui-font);
   --blog-rail-col: minmax(9.5rem, 11.25rem);
   --blog-meta-col: 7.25rem;
   --blog-card-gap: clamp(0.75rem, 1.6vw, 0.95rem);
+  --measure-readable: 64ch;
 }
 
 .blog-surface-layout::before {
@@ -802,10 +809,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .code-wrapper {
-  background:
-    linear-gradient(color-mix(in oklab, var(--rule-color) 8%, transparent) 1px, transparent 1px),
-    color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
-  background-size: 100% 1.65rem, auto;
+  background: color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
   border-color: var(--paper-card-border);
   border-radius: var(--paper-card-radius);
   box-shadow: var(--paper-card-shadow);

@@ -53,19 +53,16 @@ const rights = [
 	.copyright-page {
 		--copyright-line: color-mix(in oklab, var(--accent-color) 25%, var(--paper-card-border-soft));
 		position: relative;
-		padding: clamp(1.5rem, 3.2vw, 2.2rem) 0 clamp(1.5rem, 3.2vw, 2.2rem) clamp(1.1rem, 2.6vw, 1.6rem);
+		max-width: var(--blog-content-max, 44rem);
+		padding: clamp(1.35rem, 3vw, 1.9rem);
+		background: var(--sheet-bg);
+		border: 1px solid var(--sheet-edge);
+		border-radius: var(--paper-card-radius);
 		animation: fade-up 0.5s ease-out both;
 	}
 
 	.copyright-page::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: clamp(1.5rem, 3.2vw, 2.2rem);
-		bottom: clamp(1.5rem, 3.2vw, 2.2rem);
-		width: 3px;
-		border-radius: 999px;
-		background: var(--copyright-line);
+		content: none;
 	}
 
 	.copyright-page__header {

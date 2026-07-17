@@ -164,11 +164,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
-	<section class="memos-panel" aria-labelledby="memos-title">
+	<section class="memos-panel postcard-sheet" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
-			<p class="magazine-section-label">时间线</p>
+			<p class="magazine-section-label">Notes</p>
+			<p class="memos-panel__sub">碎语 · 短笺</p>
 			<h1 id="memos-title" class="sr-only">碎语</h1>
-			<!-- <p>Short notes gathered by time, with source and month context kept aside.</p> -->
 		</header>
 
 		<div class="memos-layout">
@@ -381,12 +381,44 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memos-panel {
 		min-height: 0;
+		max-width: var(--blog-content-max, 44rem);
+		padding: clamp(1.1rem, 2.5vw, 1.55rem);
 	}
 
 	.memos-panel__header {
-		margin-bottom: clamp(1rem, 3vw, 1.6rem);
-		padding-bottom: 0.65rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		margin-bottom: clamp(1rem, 2.6vw, 1.4rem);
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--sheet-edge);
+	}
+
+	.memos-panel__header .magazine-section-label {
+		font-family: var(--field-font);
+		font-size: 0.62rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--faint-color);
+	}
+
+	.memos-panel__sub {
+		margin: 0;
+		font-family: var(--display-font);
+		font-size: 1.2rem;
+		font-weight: 600;
+		letter-spacing: -0.015em;
+		color: var(--heading-color);
+	}
+
+	.memo-meta-time {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
+		font-family: var(--field-font);
+		font-size: 0.68rem;
+		color: var(--gray-color);
+		font-variant-numeric: tabular-nums;
 	}
 
 	.memos-layout,
@@ -419,34 +451,19 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		row-gap: 0;
 		align-items: start;
 		padding: var(--memo-block-pad) var(--memo-inline-pad);
-		border: 0;
-		border-bottom: 0;
-		border-radius: 0;
-		background: transparent;
+		border: 1px solid color-mix(in oklab, var(--sheet-edge) 55%, transparent);
+		border-radius: var(--paper-card-radius);
+		background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
 		box-shadow: none;
 	}
 
 	.memo-item::before {
-		content: "";
-		position: absolute;
-		pointer-events: none;
-	}
-
-	.memo-item::before {
-		inset: 0;
-		border-radius: 3px;
-		background: color-mix(in oklab, var(--paper-hover-bg) 58%, transparent);
-		opacity: 1;
-		transition: opacity 0.18s ease, background 0.18s ease;
+		content: none;
 	}
 
 	.memo-item:hover {
-		background: transparent;
-	}
-
-	.memo-item:hover::before {
 		background: var(--paper-hover-bg);
-		opacity: 1;
+		border-color: var(--paper-hover-border);
 	}
 
 	.memo-avatar-link {

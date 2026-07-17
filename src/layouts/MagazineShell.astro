@@ -65,13 +65,15 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 >
 	<slot name="head" slot="head" />
 
-	<div class:list={['ledger-shell', { 'ledger-shell--no-context': !shouldRenderRail }]}>
+	<div class="ledger-shell">
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-					<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="36px" alt="" class="ledger-brand__avatar" width="36" height="36" loading="eager" />
-					<span class="ledger-brand__name">LynkXu</span>
-				</a>
+				<span class="ledger-brand__masthead">
+					<span class="ledger-brand__wordmark">LynkXu</span>
+					<span class="ledger-brand__mark" aria-hidden="true">Dispatch</span>
+				</span>
+			</a>
 
 				<div class="ledger-nav-group ledger-nav-group--primary">
 					<nav class="ledger-nav ledger-nav--primary" aria-label="主导航">
@@ -136,92 +138,118 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			<Footer />
 		</main>
 
-		{shouldRenderRail && (
-			<aside class="ledger-context" aria-label="Page context">
-				{showProfileCard && (
-					<section class="ledger-context-card profile-card">
-						<a href="/" class="profile-avatar-link" aria-label="回到首页">
-							<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="56px" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
-						</a>
-						<div class="profile-info">
-							<h2 class="profile-name">LynkXu</h2>
-							<p class="profile-bio">个人笔记与长文。</p>
-						</div>
-					</section>
-				)}
-				<slot name="sidebar-extra" />
-			</aside>
-		)}
+		{/* 始终保留右栏占位，避免首页无侧栏时主栏被拉宽、切换页面时左右跳动 */}
+		<aside class="ledger-context" aria-label="Page context" data-empty={!shouldRenderRail || undefined}>
+			{showProfileCard && (
+				<section class="ledger-context-card profile-card">
+					<a href="/" class="profile-avatar-link" aria-label="回到首页">
+						<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="56px" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
+					</a>
+					<div class="profile-info">
+						<h2 class="profile-name">LynkXu</h2>
+						<p class="profile-bio">个人笔记与长文。</p>
+					</div>
+				</section>
+			)}
+			<slot name="sidebar-extra" />
+		</aside>
 	</div>
 </Base>
 
 <style is:global>
+	/* Dispatch / Postcard — stone canvas + lifted paper sheet */
 	.blog-surface-layout {
-		--page-bg: #fbfaf9;
-		--background-color: #fbfaf9;
-		--content-bg: #fbfaf9;
-		--heading-color: #242321;
-		--panel-title-color: #302f2b;
-		--text-color: #36342f;
-		--gray-color: #5f5c55;
-		--faint-color: #8a867c;
-		--accent-color: #3f6f5a;
-		--link-color: #315f4d;
-		--rule-color: rgba(36, 35, 33, 0.16);
-		--paper-card-bg: transparent;
-		--paper-card-bg-soft: transparent;
-		--paper-card-border: rgba(36, 35, 33, 0.18);
-		--paper-card-border-soft: rgba(36, 35, 33, 0.13);
-		--paper-card-shadow: none;
-		--paper-card-radius: 0;
-		--paper-field-bg: rgba(36, 35, 33, 0.035);
-		--paper-hover-bg: rgba(63, 111, 90, 0.055);
-		--paper-hover-border: rgba(63, 111, 90, 0.28);
+		--page-bg: oklch(0.935 0.012 100);
+		--background-color: oklch(0.935 0.012 100);
+		--content-bg: oklch(0.992 0.004 95);
+		--sheet-bg: oklch(0.992 0.004 95);
+		--sheet-edge: oklch(0.32 0.022 95 / 0.22);
+		--sheet-shadow:
+			0 1px 0 oklch(0.32 0.02 95 / 0.04),
+			0 10px 28px oklch(0.32 0.02 95 / 0.07);
+		--heading-color: oklch(0.22 0.02 95);
+		--panel-title-color: oklch(0.28 0.016 95);
+		--text-color: oklch(0.32 0.015 95);
+		--gray-color: oklch(0.46 0.012 95);
+		--faint-color: oklch(0.58 0.01 95);
+		--accent-color: oklch(0.4 0.045 205);
+		--link-color: oklch(0.36 0.05 205);
+		--rule-color: oklch(0.32 0.02 95 / 0.16);
+		--paper-dot: oklch(0.32 0.02 95 / 0.055);
+		--paper-rule: oklch(0.4 0.045 205 / 0.07);
+		--paper-card-bg: var(--sheet-bg);
+		--paper-card-bg-soft: color-mix(in oklab, var(--sheet-bg) 88%, var(--page-bg));
+		--paper-card-border: var(--sheet-edge);
+		--paper-card-border-soft: oklch(0.32 0.02 95 / 0.12);
+		--paper-card-shadow: var(--sheet-shadow);
+		--paper-card-radius: 2px;
+		--paper-field-bg: oklch(0.32 0.02 95 / 0.03);
+		--paper-hover-bg: oklch(0.4 0.045 205 / 0.045);
+		--paper-hover-border: oklch(0.4 0.045 205 / 0.32);
 		--blog-shell-width: 1280px;
-		--blog-sidebar-width: 12.5rem;
-		--blog-context-width: 14rem;
-		--blog-shell-gap: clamp(2rem, 3.5vw, 2.8rem);
+		/* 左栏再收、右栏再放，减轻「导航贴左、目录偏窄」的失衡 */
+		--blog-sidebar-width: 10.75rem;
+		/* 全站中间栏（两栏时的主内容栏）统一宽度 */
+		--blog-content-max: 44rem;
+		--blog-context-width: 12.75rem;
+		--blog-shell-gap: clamp(1.6rem, 2.8vw, 2.35rem);
+		--measure-readable: var(--blog-content-max);
 		font-family: var(--ui-font);
+		color: var(--text-color);
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:root:not([data-theme]) .blog-surface-layout {
-			--page-bg: #151514;
-			--background-color: #151514;
-			--content-bg: #151514;
-			--heading-color: #f1eee6;
-			--panel-title-color: #e8e4da;
-			--text-color: #d8d3c8;
-			--gray-color: #b4aea2;
-			--faint-color: #8a847a;
-			--accent-color: #82a890;
-			--link-color: #9ab9a4;
-			--rule-color: rgba(241, 238, 230, 0.16);
-			--paper-card-border: rgba(241, 238, 230, 0.17);
-			--paper-card-border-soft: rgba(241, 238, 230, 0.12);
-			--paper-field-bg: rgba(241, 238, 230, 0.045);
-			--paper-hover-bg: rgba(130, 168, 144, 0.08);
-			--paper-hover-border: rgba(130, 168, 144, 0.3);
+			--page-bg: oklch(0.155 0.02 150);
+			--background-color: oklch(0.155 0.02 150);
+			--content-bg: oklch(0.205 0.016 148);
+			--sheet-bg: oklch(0.215 0.014 145);
+			--sheet-edge: oklch(0.9 0.012 95 / 0.16);
+			--sheet-shadow:
+				0 1px 0 oklch(0 0 0 / 0.2),
+				0 14px 36px oklch(0 0 0 / 0.28);
+			--heading-color: oklch(0.94 0.01 95);
+			--panel-title-color: oklch(0.88 0.012 95);
+			--text-color: oklch(0.85 0.012 95);
+			--gray-color: oklch(0.66 0.014 145);
+			--faint-color: oklch(0.52 0.014 145);
+			--accent-color: oklch(0.74 0.042 165);
+			--link-color: oklch(0.8 0.044 165);
+			--rule-color: oklch(0.9 0.012 95 / 0.14);
+			--paper-dot: oklch(0.9 0.012 95 / 0.06);
+			--paper-rule: oklch(0.74 0.042 165 / 0.1);
+			--paper-card-border: var(--sheet-edge);
+			--paper-card-border-soft: oklch(0.9 0.012 95 / 0.1);
+			--paper-field-bg: oklch(0.9 0.012 95 / 0.035);
+			--paper-hover-bg: oklch(0.74 0.042 165 / 0.08);
+			--paper-hover-border: oklch(0.74 0.042 165 / 0.3);
 		}
 	}
 
 	:root[data-theme="dark"] .blog-surface-layout {
-		--page-bg: #151514;
-		--background-color: #151514;
-		--content-bg: #151514;
-		--heading-color: #f1eee6;
-		--panel-title-color: #e8e4da;
-		--text-color: #d8d3c8;
-		--gray-color: #b4aea2;
-		--faint-color: #8a847a;
-		--accent-color: #82a890;
-		--link-color: #9ab9a4;
-		--rule-color: rgba(241, 238, 230, 0.16);
-		--paper-card-border: rgba(241, 238, 230, 0.17);
-		--paper-card-border-soft: rgba(241, 238, 230, 0.12);
-		--paper-field-bg: rgba(241, 238, 230, 0.045);
-		--paper-hover-bg: rgba(130, 168, 144, 0.08);
-		--paper-hover-border: rgba(130, 168, 144, 0.3);
+		--page-bg: oklch(0.155 0.02 150);
+		--background-color: oklch(0.155 0.02 150);
+		--content-bg: oklch(0.205 0.016 148);
+		--sheet-bg: oklch(0.215 0.014 145);
+		--sheet-edge: oklch(0.9 0.012 95 / 0.16);
+		--sheet-shadow:
+			0 1px 0 oklch(0 0 0 / 0.2),
+			0 14px 36px oklch(0 0 0 / 0.28);
+		--heading-color: oklch(0.94 0.01 95);
+		--panel-title-color: oklch(0.88 0.012 95);
+		--text-color: oklch(0.85 0.012 95);
+		--gray-color: oklch(0.66 0.014 145);
+		--faint-color: oklch(0.52 0.014 145);
+		--accent-color: oklch(0.74 0.042 165);
+		--link-color: oklch(0.8 0.044 165);
+		--rule-color: oklch(0.9 0.012 95 / 0.14);
+		--paper-dot: oklch(0.9 0.012 95 / 0.06);
+		--paper-rule: oklch(0.74 0.042 165 / 0.1);
+		--paper-card-border: var(--sheet-edge);
+		--paper-card-border-soft: oklch(0.9 0.012 95 / 0.1);
+		--paper-field-bg: oklch(0.9 0.012 95 / 0.035);
+		--paper-hover-bg: oklch(0.74 0.042 165 / 0.08);
+		--paper-hover-border: oklch(0.74 0.042 165 / 0.3);
 	}
 
 	.blog-surface-layout.global-layout-card {
@@ -249,17 +277,19 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		width: 100%;
 	}
 
+	/* 三栏始终同宽同起点；中间列封顶，与关于/留言等纸页一致，避免首页/归档被 1fr 拉宽 */
 	.ledger-shell {
 		display: grid;
-		grid-template-columns: var(--blog-sidebar-width) minmax(0, 1fr) var(--blog-context-width);
-		gap: var(--blog-shell-gap);
-		width: min(var(--blog-shell-width), calc(100% - clamp(2rem, 6vw, 5.5rem)));
+		grid-template-columns:
+			var(--blog-sidebar-width)
+			minmax(0, var(--blog-content-max))
+			var(--blog-context-width);
+		column-gap: var(--blog-shell-gap);
+		row-gap: var(--blog-shell-gap);
+		width: min(var(--blog-shell-width), calc(100% - clamp(2rem, 5vw, 4.5rem)));
 		margin: 0 auto;
 		padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 8vw, 6rem);
-	}
-
-	.ledger-shell--no-context {
-		grid-template-columns: var(--blog-sidebar-width) minmax(0, 1fr);
+		justify-content: start;
 	}
 
 	.ledger-sidebar,
@@ -273,38 +303,54 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		display: flex;
 		align-self: start;
 		flex-direction: column;
-		gap: clamp(0.8rem, 1.7vh, 1.05rem);
-		padding: 0 clamp(1rem, 2vw, 1.35rem) 0.35rem 0;
-		border-right: 1px solid var(--paper-card-border-soft);
+		gap: clamp(1.15rem, 2.4vh, 1.55rem);
+		/* 略增左侧内边距，让导航视觉中心向内容栏靠拢 */
+		padding: 0.15rem 0.2rem 0.5rem 0.7rem;
+		border-right: 0;
+		background: transparent;
 	}
 
 	.ledger-brand {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.65rem;
+		display: block;
 		width: 100%;
-		margin-bottom: 0.15rem;
-		padding-bottom: clamp(0.85rem, 1.4vh, 1rem);
+		margin-bottom: 0.1rem;
+		padding: 0 0 clamp(0.95rem, 1.8vh, 1.2rem);
 		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-bottom: 1px solid color-mix(in oklab, var(--rule-color) 55%, transparent) !important;
 		background: none !important;
 		color: var(--heading-color);
 		text-decoration: none;
 	}
 
-	.ledger-brand__avatar {
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		object-fit: cover;
+	.ledger-brand__masthead {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.28rem;
 	}
 
-	.ledger-brand__name {
-		font-size: 1.05rem;
-		font-weight: var(--weight-medium);
+	.ledger-brand__wordmark {
+		font-family: var(--display-font);
+		font-size: 1.42rem;
+		font-weight: 600;
 		line-height: 1;
-		letter-spacing: 0;
+		letter-spacing: -0.02em;
+		color: var(--heading-color);
+	}
+
+	.ledger-brand__mark {
+		font-family: var(--field-font);
+		font-size: 0.58rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.14em;
+		line-height: 1;
+		text-transform: uppercase;
+		color: var(--faint-color);
+	}
+
+	.ledger-brand__avatar,
+	.ledger-brand__name {
+		display: none;
 	}
 
 	.ledger-nav-group {
@@ -356,33 +402,34 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-group-label {
-		color: color-mix(in oklab, var(--gray-color) 84%, var(--heading-color));
+		color: var(--faint-color);
 		font-family: var(--field-font);
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		letter-spacing: 0.02em;
+		font-size: 0.62rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
 		line-height: 1;
 	}
 
 	.ledger-nav {
 		display: flex;
 		flex-direction: column;
-		gap: 0.08rem;
+		gap: 0.2rem;
 	}
 
 	.ledger-nav--secondary {
-		gap: 0.06rem;
+		gap: 0.12rem;
 	}
 
 	.ledger-nav__link {
 		display: grid;
 		grid-template-columns: auto minmax(0, 1fr);
 		align-items: center;
-		min-height: 2.05rem;
+		min-height: 1.7rem;
 		border: 0 !important;
 		background: none !important;
 		color: var(--gray-color);
-		font-size: 0.84rem;
+		font-size: 0.78rem;
 		font-weight: var(--weight-regular);
 		line-height: 1.2;
 		text-decoration: none;
@@ -390,14 +437,14 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-nav--primary .ledger-nav__link {
-		color: color-mix(in oklab, var(--gray-color) 72%, var(--heading-color));
-		font-size: 0.86rem;
+		color: color-mix(in oklab, var(--gray-color) 70%, var(--heading-color));
+		font-size: 0.8rem;
 	}
 
 	.ledger-nav--secondary .ledger-nav__link {
-		min-height: 1.9rem;
-		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.81rem;
+		min-height: 1.55rem;
+		color: color-mix(in oklab, var(--gray-color) 90%, var(--heading-color));
+		font-size: 0.74rem;
 	}
 
 	.ledger-nav__text {
@@ -433,15 +480,15 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	.ledger-search {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: 0.45rem;
 		width: fit-content;
-		min-height: 2.05rem;
+		min-height: 1.7rem;
 		padding: 0;
 		border: 0;
 		background: transparent;
-		color: var(--gray-color);
+		color: var(--faint-color);
 		font: inherit;
-		font-size: 0.76rem;
+		font-size: 0.7rem;
 		text-align: left;
 		white-space: nowrap;
 		cursor: pointer;
@@ -449,9 +496,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-search kbd {
-		color: var(--gray-color);
-		font: inherit;
-		font-size: 0.7rem;
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.62rem;
+		letter-spacing: 0.04em;
 	}
 
 	.ledger-search:hover,
@@ -477,7 +525,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		border: 0 !important;
 		background: none !important;
 		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.72rem;
+		font-size: 0.68rem;
 		line-height: 1.3;
 		text-decoration: none;
 	}
@@ -490,8 +538,17 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		display: flex;
 		flex-direction: column;
 		gap: clamp(1.8rem, 4vw, 3rem);
+		width: 100%;
 		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
 		min-width: 0;
+	}
+
+	/* 主内容纸页默认吃满中间栏，避免各页再写不同 max-width */
+	.ledger-main > .postcard-sheet,
+	.ledger-main > section {
+		width: 100%;
+		max-width: 100%;
+		box-sizing: border-box;
 	}
 
 	.blog-surface-layout .ledger-main > footer {
@@ -503,10 +560,26 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		top: clamp(1.25rem, 3vw, 2rem);
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1.6rem;
 		align-self: start;
-		padding-left: clamp(1rem, 2vw, 1.35rem);
-		border-left: 1px solid var(--paper-card-border-soft);
+		min-height: 0;
+		padding-left: clamp(0.75rem, 1.6vw, 1.1rem);
+		border-left: 0;
+		font-size: 0.78rem;
+	}
+
+	.ledger-context[data-empty] {
+		/* 占位保列宽，不渲染可见内容 */
+		visibility: hidden;
+		pointer-events: none;
+	}
+
+	.ledger-context .magazine-section-label {
+		font-family: var(--field-font);
+		font-size: 0.6rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--faint-color);
 	}
 
 	.magazine-panel,
@@ -563,6 +636,63 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: var(--accent-color);
 	}
 
+	/* Form-field metadata (dispatch / postcard signature) */
+	.dispatch-field {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		min-width: 0;
+		font-family: var(--field-font);
+		font-size: 0.7rem;
+		line-height: 1.3;
+		color: var(--gray-color);
+	}
+
+	.dispatch-field__label {
+		flex: 0 0 auto;
+		color: var(--faint-color);
+		font-size: 0.62rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.dispatch-field__value {
+		min-width: 0;
+		color: color-mix(in oklab, var(--heading-color) 72%, var(--gray-color));
+		font-variant-numeric: tabular-nums;
+	}
+
+	.dispatch-fields {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.35rem 1.1rem;
+	}
+
+	.postcard-sheet {
+		position: relative;
+		background: var(--sheet-bg);
+		border: 1px solid var(--sheet-edge);
+		border-radius: var(--paper-card-radius);
+		box-shadow: var(--sheet-shadow);
+	}
+
+	.postcard-sheet::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		border-radius: inherit;
+		box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.35);
+		opacity: 0.55;
+	}
+
+	:root[data-theme="dark"] .postcard-sheet::before {
+		box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.04);
+		opacity: 1;
+	}
+
 	.profile-card {
 		display: grid;
 		grid-template-columns: 3.5rem minmax(0, 1fr);
@@ -612,12 +742,15 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	@media (max-width: 1100px) {
-		.ledger-shell,
-		.ledger-shell--no-context {
+		.ledger-shell {
 			grid-template-columns: 1fr;
 			gap: clamp(1.5rem, 4vw, 2.4rem);
-			width: min(44rem, calc(100% - 2rem));
+			width: min(var(--blog-content-max), calc(100% - 2rem));
 			padding-top: 1.2rem;
+		}
+
+		.ledger-context[data-empty] {
+			display: none;
 		}
 
 		.ledger-sidebar__inner {
@@ -637,16 +770,18 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-brand {
 			grid-area: brand;
-			gap: 0.65rem;
 			width: auto;
 			margin-bottom: 0;
 			padding-bottom: 0;
 			border-bottom: 0 !important;
 		}
 
-		.ledger-brand__avatar {
-			width: 32px;
-			height: 32px;
+		.ledger-brand__wordmark {
+			font-size: 1.2rem;
+		}
+
+		.ledger-brand__mark {
+			display: none;
 		}
 
 		.ledger-nav-group--primary {
@@ -729,19 +864,18 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	@media (max-width: 640px) {
-		.ledger-shell,
-		.ledger-shell--no-context {
+		.ledger-shell {
 			width: min(100% - 1.1rem, 40rem);
 			padding-top: 0.9rem;
 			padding-bottom: 3rem;
 		}
 
-		.ledger-brand__name {
-			font-size: 1rem;
-		}
-
 		.ledger-brand {
 			min-height: 2.75rem;
+		}
+
+		.ledger-brand__wordmark {
+			font-size: 1.15rem;
 		}
 
 		.ledger-sidebar__inner {
