@@ -46,40 +46,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
 
 	<style is:global>
-		/* 文章页：左侧退成边框，把视线框进中间栏。
-		   不改分栏结构，只降权 + 强化分割线作为阅读边界。 */
-		@media (min-width: 1101px) {
-			.blog-post-layout .ledger-sidebar__inner {
-				opacity: 0.58;
-				border-right-color: color-mix(in oklab, var(--rule-color) 72%, var(--paper-card-border-soft));
-				transition: opacity 0.2s ease, border-right-color 0.2s ease;
-			}
-
-			.blog-post-layout .ledger-sidebar__inner:hover,
-			.blog-post-layout .ledger-sidebar__inner:focus-within {
-				opacity: 1;
-				border-right-color: var(--paper-card-border);
-			}
-
-			.blog-post-layout .ledger-collections,
-			.blog-post-layout .ledger-social {
-				opacity: 0.72;
-			}
-
-			.blog-post-layout .ledger-sidebar__inner:hover .ledger-collections,
-			.blog-post-layout .ledger-sidebar__inner:hover .ledger-social,
-			.blog-post-layout .ledger-sidebar__inner:focus-within .ledger-collections,
-			.blog-post-layout .ledger-sidebar__inner:focus-within .ledger-social {
-				opacity: 1;
-			}
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			.blog-post-layout .ledger-sidebar__inner {
-				transition: none;
-			}
-		}
-
 		/* 文章结束标识 */
 		.post-tail {
 			display: flex;
@@ -117,67 +83,40 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			white-space: nowrap;
 		}
 
-		/* Code Block Wrapper */
+		/* Code Block: quiet inset panel */
 		.code-wrapper {
 			position: relative;
 			margin: var(--space-md) 0;
-			border-radius: var(--paper-card-radius);
-			background:
-				linear-gradient(color-mix(in oklab, var(--rule-color) 9%, transparent) 1px, transparent 1px),
-				color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
-			background-size: 100% 1.65rem, auto;
-			box-shadow: var(--paper-card-shadow);
-			border: 1px solid var(--paper-card-border);
+			border-radius: calc(var(--paper-card-radius) - 4px);
+			background: color-mix(in oklab, var(--code-background-color) 92%, var(--content-bg));
+			border: 1px solid var(--paper-card-border-soft);
+			box-shadow: inset 0 1px 0 color-mix(in oklab, var(--paper-card-border-soft) 55%, transparent);
 			overflow: hidden;
 		}
 
 		:root[data-theme="dark"] .code-wrapper {
-			background: color-mix(in oklab, var(--code-background-color) 68%, var(--content-bg));
-			border-color: color-mix(in oklab, var(--rule-color) 52%, transparent);
+			background: color-mix(in oklab, var(--code-background-color) 78%, var(--content-bg));
+			border-color: color-mix(in oklab, var(--rule-color) 48%, transparent);
 		}
 
-		/* Header - Immersive Style */
 		.code-header {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 1.8rem;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 0 var(--space-md);
-			background: transparent;
-			z-index: 10;
-			pointer-events: none;
-		}
-
-		.code-header > * {
-			pointer-events: auto;
-		}
-
-		.mac-buttons {
-			display: flex;
-			gap: 6px;
-		}
-
-		.mac-button {
-			width: 8px;
-			height: 8px;
-			border-radius: 0;
-			background-color: var(--faint-color);
-			opacity: 0.5;
+			gap: 0.75rem;
+			min-height: 1.75rem;
+			padding: 0.35rem var(--space-md);
+			border-bottom: 1px solid var(--paper-card-border-soft);
+			background: color-mix(in oklab, var(--paper-field-bg) 55%, transparent);
 		}
 
 		.code-lang {
-			font-size: 0.75rem;
+			font-size: 0.72rem;
 			color: var(--faint-color);
 			font-family: var(--code-font);
-			text-transform: none;
 			font-weight: var(--weight-medium);
-			position: absolute;
-			left: 50%;
-			transform: translateX(-50%);
+			letter-spacing: 0;
+			text-transform: none;
 			user-select: none;
 		}
 
@@ -196,11 +135,13 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.entry-sheet {
-			--measure-readable: 70ch;
-			--post-inline-padding: clamp(var(--space-md), 2vw, var(--space-lg));
+			/* 与墨轨读区同宽，避免 70ch + 主栏 1fr 双重收窄 */
+			--measure-readable: var(--blog-content-max, 44rem);
+			--post-inline-padding: 0;
 			--post-content-width: var(--measure-readable);
 			display: flex;
 			flex-direction: column;
+			width: 100%;
 			border: 0;
 			border-radius: 0;
 			background: transparent;
@@ -231,9 +172,9 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.post-flow {
 			width: 100%;
-			max-width: min(100%, 72ch);
-			margin-left: auto;
-			margin-right: auto;
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
 			padding-left: 0;
 			padding-right: 0;
 		}
@@ -249,12 +190,12 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
-			gap: 0.28rem;
-			font-family: var(--field-font);
-			font-size: 0.72rem;
-			font-weight: var(--weight-regular);
-			color: color-mix(in oklab, var(--faint-color) 42%, var(--gray-color));
-			letter-spacing: 0.01em;
+			gap: 0.35rem;
+			font-family: var(--ui-font);
+			font-size: 0.74rem;
+			font-weight: 500;
+			color: var(--gray-color);
+			letter-spacing: 0;
 		}
 
 		.post-meta-sep {
@@ -270,95 +211,85 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.post-kind-sep {
-			color: color-mix(in oklab, var(--faint-color) 78%, transparent);
+			color: var(--faint-color);
 			font-weight: var(--weight-regular);
 		}
 
 		.post-kind {
-			display: inline-flex;
-			align-items: center;
+			display: inline;
 			padding: 0;
-			background: transparent;
+			background: none;
 			border: 0;
 			border-radius: 0;
-			border-bottom: none;
 			font-size: inherit;
-			font-weight: var(--weight-regular);
-			color: inherit;
-			letter-spacing: 0.01em;
+			font-weight: 500;
+			color: var(--gray-color);
+			letter-spacing: 0;
 			line-height: 1.3;
 			text-decoration: none;
 		}
 
 		a.post-kind {
-			color: inherit;
+			color: var(--gray-color);
 			transition: color 0.2s ease;
 		}
 
 		a.post-kind:hover,
 		a.post-kind:focus-visible {
-			color: var(--heading-color);
+			color: var(--accent-color);
 			border-bottom-color: transparent;
 		}
 
 		.post-header .post-title {
 			margin: 0;
 			font-family: var(--display-font);
-			font-size: clamp(1.86rem, 4.1vw, 3rem);
-			font-weight: var(--weight-semibold);
-			line-height: 1.1;
-			letter-spacing: var(--tracking-tighter);
+			font-size: clamp(1.75rem, 3.4vw, 2.35rem);
+			font-weight: 500;
+			line-height: 1.18;
+			letter-spacing: -0.02em;
 			color: var(--heading-color);
+			text-wrap: balance;
 		}
 
 		.post-description {
 			margin: 0;
 			max-width: 58ch;
-			color: color-mix(in oklab, var(--gray-color) 88%, var(--faint-color));
-			font-family: var(--ui-font);
-			font-size: clamp(0.98rem, 1.45vw, 1.08rem);
-			font-weight: var(--weight-regular);
-			line-height: 1.72;
+			color: color-mix(in oklab, var(--gray-color) 78%, var(--faint-color));
+			font-family: var(--reading-font);
+			font-size: 0.95rem;
+			font-weight: 400;
+			line-height: 1.7;
+			letter-spacing: 0.01em;
 		}
 
-		/* Copy Button */
 		.copy-btn {
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
 			background: transparent;
 			border: none;
-			color: var(--gray-color);
+			color: var(--faint-color);
 			cursor: pointer;
-			padding: 4px;
+			padding: 2px;
 			border-radius: 0;
-			transition: all 0.2s;
-			opacity: 0.0;
-		}
-
-		.code-wrapper:hover .copy-btn {
-			opacity: 0.7;
+			opacity: 0.65;
+			transition: color 0.2s ease, opacity 0.2s ease;
 		}
 
 		.copy-btn:hover {
-			background: rgba(0, 0, 0, 0.05);
 			color: var(--text-color);
-			opacity: 1 !important;
+			opacity: 1;
 		}
 
 		.copy-btn.copied {
-			color: #4caf50;
-			opacity: 1 !important;
-		}
-
-		:root[data-theme="dark"] .copy-btn:hover {
-			background: rgba(255, 255, 255, 0.1);
+			color: var(--accent-color);
+			opacity: 1;
 		}
 
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
-			padding: 1.65rem var(--space-md) var(--space-sm) var(--space-md) !important;
+			padding: var(--space-sm) var(--space-md) !important;
 			background: transparent !important;
 			font-size: 0.78rem;
 			line-height: 1.56;
@@ -371,31 +302,28 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 		}
 
 		.blog-post-layout .blog-main-column .post-content {
-			--reader-inline-pad: clamp(0.6rem, 1.8vw, 0.95rem);
+			--reader-inline-pad: 0;
 			width: 100%;
-			max-width: min(100%, calc(var(--post-content-width, 70ch) + var(--reader-inline-pad) * 2));
+			max-width: none;
 			box-sizing: border-box;
-			margin-left: auto;
-			margin-right: auto;
-			padding:
-				0
-				var(--reader-inline-pad)
-				clamp(0.95rem, 2.4vw, 1.45rem);
+			margin-left: 0;
+			margin-right: 0;
+			padding: 0 0 clamp(0.95rem, 2.4vw, 1.45rem);
 			border: 0;
 			background: transparent;
-			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
+			color: var(--text-color);
 			font-family: var(--reading-font);
-			font-size: 1.02rem;
-			font-weight: var(--weight-regular);
-			line-height: var(--lh-body);
-			letter-spacing: 0;
-			overflow-wrap: anywhere;
+			font-size: 0.98rem;
+			font-weight: 400;
+			line-height: 1.78;
+			letter-spacing: 0.01em;
+			overflow-wrap: break-word;
 			text-wrap: pretty;
 		}
 
 		:root[data-theme="dark"] .blog-post-layout .blog-main-column .post-content {
 			background: transparent;
-			color: color-mix(in oklab, var(--heading-color) 82%, var(--text-color));
+			color: color-mix(in oklab, var(--text-color) 92%, var(--heading-color));
 		}
 
 		.blog-main-column .post-content > :first-child {
@@ -406,48 +334,51 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			margin-bottom: 0;
 		}
 
-		.blog-post-layout .blog-main-column .post-content > h2 {
-			margin-top: 2.25em;
-			margin-bottom: 0.58em;
-			color: var(--heading-color);
+		/* 覆盖 style.scss 中同选择器的间距，只在此处定义一次 */
+		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4) {
+			margin-top: 1.75em;
+			margin-bottom: 0.55em;
 			font-family: var(--display-font);
-			font-size: clamp(1.28rem, 1.85vw, 1.44rem);
-			font-weight: var(--weight-bold);
-			line-height: 1.24;
+			font-weight: 500;
+			letter-spacing: -0.01em;
+			color: var(--heading-color);
+		}
+
+		.blog-post-layout .blog-main-column .post-content > h2 {
+			font-size: clamp(1.2rem, 1.7vw, 1.34rem);
+			line-height: 1.28;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > h3 {
-			margin-top: 1.72em;
-			margin-bottom: 0.48em;
-			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
-			font-family: var(--display-font);
-			font-size: clamp(1.06rem, 1.35vw, 1.14rem);
-			font-weight: var(--weight-semibold);
+			margin-top: 1.45em;
+			font-size: clamp(1.06rem, 1.35vw, 1.16rem);
 			line-height: 1.32;
+			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
 		}
 
 		.blog-post-layout .blog-main-column .post-content > h4 {
-			margin-top: 1.5em;
-			margin-bottom: 0.42em;
+			margin-top: 1.25em;
+			font-family: var(--ui-font);
+			font-size: 0.95rem;
+			font-weight: 500;
+			line-height: 1.4;
 			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
-			font-family: var(--display-font);
-			font-weight: var(--weight-medium);
-			line-height: 1.36;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4):first-child {
-			margin-top: clamp(1.1rem, 2.4vw, 1.45rem);
+			margin-top: 0;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > p {
 			margin-top: 0;
-			margin-bottom: 0.58em;
+			margin-bottom: 0.7em;
 			font-weight: var(--weight-regular);
+			letter-spacing: 0;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
-			margin-top: 0.58em;
-			margin-bottom: 0.66em;
+			margin-top: 0.5em;
+			margin-bottom: 0.7em;
 			font-weight: var(--weight-regular);
 		}
 
@@ -504,7 +435,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 0 !important;
 		}
 
-		/* 目录标题栏本身就是折叠开关：默认收起，只留一句"瞥一眼"的章节数提示 */
 		.sidebar-toc-card .toc-toggle {
 			display: flex;
 			align-items: center;
@@ -514,12 +444,13 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			padding: 0;
 			border: 0;
 			background: transparent;
-			color: color-mix(in oklab, var(--gray-color) 62%, var(--faint-color));
+			color: var(--gray-color);
 			font-family: var(--ui-font);
-			font-size: 0.72rem;
-			font-weight: var(--weight-medium);
-			letter-spacing: 0.02em;
-			line-height: 1.1;
+			font-size: 0.78rem;
+			font-weight: 520;
+			letter-spacing: 0;
+			line-height: 1.3;
+			text-transform: none;
 			text-align: left;
 			cursor: pointer;
 			transition: color 0.15s ease;
@@ -527,7 +458,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.sidebar-toc-card .toc-toggle:hover,
 		.sidebar-toc-card .toc-toggle:focus-visible {
-			color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
+			color: var(--heading-color);
 		}
 
 		.sidebar-toc-card .toc-toggle__count {
@@ -552,36 +483,28 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			content: "⌄";
 		}
 
-		.sidebar-toc-card .toc-container:hover .toc-toggle__chevron,
-		.sidebar-toc-card .toc-container:focus-within .toc-toggle__chevron,
 		.sidebar-toc-card .toc-container[data-expanded="true"] .toc-toggle__chevron {
 			transform: rotate(180deg);
 		}
 
-		/* 折叠态：目录正文完全收起，只是鼠标悬停/键盘聚焦时可以先"瞥一眼"，
-		   点击标题栏才会真正展开并保持 */
+		/* 目录默认展开；标题栏仍可点击收起 */
+		.sidebar-toc-card .toc {
+			max-height: 60vh;
+			opacity: 1;
+			overflow-y: auto;
+			pointer-events: auto;
+			transition: max-height 0.28s ease, opacity 0.2s ease;
+		}
+
 		.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc {
 			max-height: 0;
 			opacity: 0;
 			overflow: hidden;
 			pointer-events: none;
-			transition: max-height 0.28s ease, opacity 0.2s ease;
-		}
-
-		.sidebar-toc-card .toc-container:hover .toc,
-		.sidebar-toc-card .toc-container:focus-within .toc,
-		.sidebar-toc-card .toc-container[data-expanded="true"] .toc {
-			max-height: 60vh;
-			opacity: 1;
-			overflow-y: auto;
-			pointer-events: auto;
 		}
 
 		@media (prefers-reduced-motion: reduce) {
-			.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc,
-			.sidebar-toc-card .toc-container:hover .toc,
-			.sidebar-toc-card .toc-container:focus-within .toc,
-			.sidebar-toc-card .toc-container[data-expanded="true"] .toc,
+			.sidebar-toc-card .toc,
 			.sidebar-toc-card .toc-toggle__chevron {
 				transition: none;
 			}
@@ -606,37 +529,34 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 
 		.sidebar-toc-card .toc-link {
 			display: block;
-			padding: 0.16rem 0;
+			padding: 0.28rem 0;
 			font-family: var(--ui-font);
 			font-size: 0.76rem;
-			font-weight: var(--weight-regular);
+			font-weight: 500;
 			line-height: 1.45;
-			color: color-mix(in oklab, var(--faint-color) 90%, var(--gray-color));
+			color: var(--gray-color);
 			text-decoration: none;
 			border-radius: 0;
-			transition: color 0.15s ease, background 0.15s ease;
+			border-left: 2px solid transparent;
+			padding-left: 0.55rem;
+			transition: color 0.15s ease, border-color 0.15s ease;
 			word-break: break-word;
 		}
 
 		.sidebar-toc-card .toc-link:hover {
-			color: color-mix(in oklab, var(--heading-color) 62%, var(--gray-color));
+			color: var(--heading-color);
 			background: transparent;
-			font-weight: var(--weight-regular);
 		}
 
 		.sidebar-toc-card .toc-link.active {
-			color: color-mix(in oklab, var(--accent-color) 18%, var(--heading-color));
-			font-weight: var(--weight-regular);
+			color: var(--heading-color);
+			font-weight: 520;
 			background: transparent;
+			border-left-color: color-mix(in oklab, var(--accent-color) 55%, var(--paper-card-border));
 		}
 
 		:root[data-theme="dark"] .sidebar-toc-card .toc-link.active {
-			color: color-mix(in oklab, var(--gray-color) 74%, var(--faint-color));
-		}
-
-		.code-wrapper {
-			border-radius: 0;
-			box-shadow: none;
+			color: var(--heading-color);
 		}
 
 			@media (max-width: 1023px) {
@@ -671,12 +591,8 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 			.blog-post-layout .blog-main-column .post-content {
 				max-width: 100%;
 				padding-inline: 0.66rem;
-				font-size: 1rem;
+				font-size: var(--text-md);
 				line-height: var(--lh-body);
-			}
-
-			.blog-post-layout .blog-main-column .post-content > h2 {
-				margin-top: 2.05em;
 			}
 		}
 	</style>
@@ -847,13 +763,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					}
 					const header = document.createElement('div');
 					header.className = 'code-header';
-					const macButtons = document.createElement('div');
-					macButtons.className = 'mac-buttons';
-					['close', 'minimize', 'maximize'].forEach(type => {
-						const btn = document.createElement('div');
-						btn.className = `mac-button ${type}`;
-						macButtons.appendChild(btn);
-					});
 					const code = block.querySelector('code');
 					let lang = '';
 					if (block.dataset.language) {
@@ -865,7 +774,7 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 					}
 					const langLabel = document.createElement('span');
 					langLabel.className = 'code-lang';
-					langLabel.textContent = lang;
+					langLabel.textContent = lang || 'code';
 					const copyBtn = document.createElement('button');
 					copyBtn.className = 'copy-btn';
 					copyBtn.setAttribute('aria-label', 'Copy');
@@ -886,7 +795,6 @@ const hasPostMeta = Boolean(updatedDate || (isDev && draft));
 							console.error('Copy failed:', err);
 						}
 					});
-					header.appendChild(macButtons);
 					header.appendChild(langLabel);
 					header.appendChild(copyBtn);
 					wrapper.insertBefore(header, block);

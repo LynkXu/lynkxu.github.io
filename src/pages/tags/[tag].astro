@@ -48,11 +48,15 @@ const tagItems = Array.from(tagsMap.entries())
 ---
 
 <MagazineShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
+	<header class="tag-page-header">
+		<p class="magazine-section-label">标签</p>
+		<h1 id="tag-page-title">{tag}</h1>
+	</header>
+
 	<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
 
 	<div class="tag-entries">
-		<section class="tag-section" aria-labelledby={`tag-heading-${tag}`}>
-			<h2 class="tag-label" id={`tag-heading-${tag}`}>{tag}</h2>
+		<section class="tag-section" aria-labelledby="tag-page-title">
 			<ul class="tag-list">
 				{
 					posts.map((post) => (
@@ -79,18 +83,38 @@ const tagItems = Array.from(tagsMap.entries())
 </MagazineShell>
 
 <style>
+	.tag-page-header {
+		margin-bottom: clamp(0.9rem, 2.4vw, 1.35rem);
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.tag-page-header .magazine-section-label {
+		margin-bottom: 0.55rem;
+	}
+
+	.tag-page-header h1 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--display-font);
+		font-size: clamp(1.55rem, 3.2vw, 2rem);
+		font-weight: var(--weight-semibold, 600);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+	}
+
 	:global(.category-filter) {
-		margin: 0 0 clamp(1.2rem, 3vw, 2rem);
-		padding-bottom: 1rem;
+		margin: 0 0 clamp(1rem, 2.6vw, 1.5rem);
+		padding-bottom: 0.85rem;
 		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
 	:global(.category-filter .filter-label) {
 		color: var(--gray-color);
+		font-family: var(--ui-font);
 		font-size: 0.72rem;
 		font-weight: var(--weight-medium);
 		letter-spacing: 0.04em;
-		text-transform: uppercase;
 	}
 
 	:global(.category-filter .filter-list) {
@@ -112,6 +136,7 @@ const tagItems = Array.from(tagsMap.entries())
 		border-radius: 0;
 		background: transparent;
 		color: var(--gray-color);
+		font-family: var(--ui-font);
 		font-size: 0.74rem;
 	}
 
@@ -127,31 +152,16 @@ const tagItems = Array.from(tagsMap.entries())
 	}
 
 	.tag-section {
-		display: grid;
-		grid-template-columns: 5.2rem minmax(0, 1fr);
-		gap: clamp(1.2rem, 3vw, 2rem);
 		padding: 0;
 		border: 0;
-		border-radius: 0;
 		background: transparent;
 		box-shadow: none;
-		animation: none;
-	}
-
-	.tag-section:hover {
-		background: transparent;
-		border-color: transparent;
-	}
-
-	.tag-label {
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-		font-weight: var(--weight-medium);
-		letter-spacing: 0;
 	}
 
 	.tag-list {
+		margin: 0;
+		padding: 0;
+		list-style: none;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
@@ -159,12 +169,9 @@ const tagItems = Array.from(tagsMap.entries())
 		display: grid;
 		grid-template-columns: 6rem minmax(0, 1fr) auto;
 		gap: clamp(0.8rem, 2vw, 1.2rem);
+		align-items: baseline;
 		padding: 0.64rem 0;
 		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.tag-item:hover {
-		background: transparent;
 	}
 
 	.tag-date {
@@ -173,14 +180,17 @@ const tagItems = Array.from(tagsMap.entries())
 		font-variant-numeric: tabular-nums;
 		font-size: 0.76rem;
 		font-weight: var(--weight-regular);
-		min-width: 0;
+		min-width: 5.5rem;
+		white-space: nowrap;
 	}
 
 	.tag-link {
 		color: var(--heading-color);
+		font-family: var(--display-font);
 		font-size: clamp(0.96rem, 1.3vw, 1.08rem);
 		font-weight: var(--weight-regular);
 		line-height: 1.42;
+		text-decoration: none;
 	}
 
 	.tag-link:hover {
@@ -190,14 +200,6 @@ const tagItems = Array.from(tagsMap.entries())
 	@media (max-width: 720px) {
 		:global(.category-filter .filter-list) {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		.tag-section {
-			grid-template-columns: 1fr;
-		}
-
-		.tag-label {
-			padding-bottom: 0.45rem;
 		}
 
 		.tag-item {

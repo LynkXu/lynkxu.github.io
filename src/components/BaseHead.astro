@@ -28,6 +28,14 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <!-- Preload critical local font to reduce FOUT -->
 <link rel='preload' href='/fonts/Lilex.woff2' as='font' type='font/woff2' crossorigin />
 
+<!-- Ink Rail typography (blog-surface only via CSS tokens) -->
+<link rel='preconnect' href='https://fonts.googleapis.com' />
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+<link
+	href='https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap'
+	rel='stylesheet'
+/>
+
 <!-- Theme (avoid flash by setting early) -->
 <script is:inline>
 	(function () {

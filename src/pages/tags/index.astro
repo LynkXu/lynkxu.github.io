@@ -30,30 +30,22 @@ const topics = Array.from(postsByTopic.entries())
 		};
 	})
 	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-
-function getTopicTier(count: number) {
-	if (count >= 8) return 'large';
-	if (count >= 4) return 'medium';
-	return 'small';
-}
 ---
 
 <MagazineShell title='话题' description='浏览全部话题'>
-	<section class="topics-wall" aria-labelledby="topics-title">
-		<h1 id="topics-title" class="sr-only">话题</h1>
+	<section class="topics-wall magazine-panel" aria-labelledby="topics-title">
+		<header class="topics-wall__header">
+			<p class="magazine-section-label">索引</p>
+			<h1 id="topics-title">话题</h1>
+		</header>
 
-		<div class="topic-cloud" aria-label="话题索引">
+		<div class="topic-list" aria-label="话题索引">
 			{topics.map((topic) => (
-				<a
-					href={topic.href}
-					class={`topic-token topic-token--${getTopicTier(topic.count)}`}
-				>
-					<span class="topic-token__head">
-						<strong>{topic.name}</strong>
-						<small>{topic.count}</small>
-					</span>
+				<a href={topic.href} class="topic-row">
+					<span class="topic-row__name">{topic.name}</span>
+					<span class="topic-row__count">{topic.count}</span>
 					{topic.latest && (
-						<span class="topic-token__latest">
+						<span class="topic-row__latest">
 							<span>{topic.latest.data.title}</span>
 							<time datetime={topic.latest.data.pubDate.toISOString()}>
 								<FormattedDate date={topic.latest.data.pubDate} />
@@ -67,101 +59,101 @@ function getTopicTier(count: number) {
 </MagazineShell>
 
 <style>
-	.sr-only {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
-	}
-
 	.topics-wall {
-		gap: 1rem;
 		padding: 0;
-		animation: none;
 	}
 
-	.topic-cloud {
+	.topics-wall__header {
+		margin-bottom: clamp(0.9rem, 2.4vw, 1.35rem);
+		padding-bottom: 0.65rem;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.topics-wall__header .magazine-section-label {
+		margin-bottom: 0.55rem;
+	}
+
+	.topics-wall__header h1 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--display-font);
+		font-size: clamp(1.55rem, 3.2vw, 2rem);
+		font-weight: var(--weight-semibold, 600);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+	}
+
+	.topic-list {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
 		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
-	.topic-token,
-	.topic-token--large,
-	.topic-token--medium,
-	.topic-token--small {
+	.topic-row {
 		display: grid;
-		grid-template-columns: minmax(8rem, 0.4fr) minmax(0, 1fr);
-		gap: clamp(1rem, 3vw, 2rem);
-		min-height: 0;
-		padding: 0.86rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		grid-template-columns: minmax(7rem, 0.32fr) 2.4rem minmax(0, 1fr);
+		gap: clamp(0.8rem, 2.4vw, 1.6rem);
+		align-items: baseline;
+		padding: 0.72rem 0;
+		border: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 		border-radius: 0;
-		background: transparent !important;
-		box-shadow: none;
-		animation: none;
+		background: transparent;
+		color: inherit;
+		text-decoration: none;
 	}
 
-	.topic-token:hover {
-		transform: none;
-		border-color: var(--paper-card-border-soft) !important;
-		background: transparent !important;
+	.topic-row:hover .topic-row__name {
+		color: var(--accent-color);
 	}
 
-	.topic-token__head {
-		justify-content: flex-start;
-		gap: 0.7rem;
-	}
-
-	.topic-token__head strong,
-	.topic-token--large .topic-token__head strong {
+	.topic-row__name {
 		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: clamp(1rem, 1.8vw, 1.18rem);
+		font-family: var(--display-font);
+		font-size: clamp(0.98rem, 1.5vw, 1.12rem);
 		font-weight: var(--weight-medium);
 		line-height: 1.35;
 	}
 
-	.topic-token:hover .topic-token__head strong {
-		color: var(--accent-color);
-	}
-
-	.topic-token__head small {
+	.topic-row__count {
 		color: var(--gray-color);
+		font-family: var(--ui-font);
 		font-size: 0.72rem;
+		font-variant-numeric: tabular-nums;
+		line-height: 1.35;
 	}
 
-	.topic-token__latest {
-		align-content: center;
-		max-width: none;
+	.topic-row__latest {
+		display: grid;
+		gap: 0.15rem;
+		min-width: 0;
 	}
 
-	.topic-token__latest span {
+	.topic-row__latest span {
+		overflow: hidden;
 		color: var(--text-color);
+		font-family: var(--ui-font);
 		font-size: 0.86rem;
 		line-height: 1.45;
-		white-space: normal;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
-	.topic-token__latest time {
+	.topic-row__latest time {
 		color: var(--gray-color);
+		font-family: var(--ui-font);
 		font-size: 0.72rem;
+		line-height: 1.3;
 	}
 
 	@media (max-width: 640px) {
-		.topic-token,
-		.topic-token--large,
-		.topic-token--medium,
-		.topic-token--small {
-			grid-template-columns: 1fr;
-			gap: 0.38rem;
+		.topic-row {
+			grid-template-columns: minmax(0, 1fr) auto;
+			gap: 0.35rem 0.8rem;
+		}
+
+		.topic-row__latest {
+			grid-column: 1 / -1;
 		}
 	}
 </style>

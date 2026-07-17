@@ -86,15 +86,13 @@ const sourceStats = [
 ];
 const monthStats = Array.from(
 	memoItems.reduce((map, item) => {
-		const entry = map.get(item.monthLabel) || { label: item.monthLabel, count: 0, media: 0 };
+		const entry = map.get(item.monthLabel) || { label: item.monthLabel, count: 0 };
 		entry.count += 1;
-		if (item.attachments.length > 0) entry.media += 1;
 		map.set(item.monthLabel, entry);
 		return map;
-	}, new Map<string, { label: string; count: number; media: number }>())
+	}, new Map<string, { label: string; count: number }>())
 	.values()
 ).slice(0, 4);
-const maxMonthCount = Math.max(1, ...monthStats.map((item) => item.count));
 
 const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;
@@ -167,8 +165,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
 			<p class="magazine-section-label">时间线</p>
-			<h1 id="memos-title" class="sr-only">碎语</h1>
-			<!-- <p>Short notes gathered by time, with source and month context kept aside.</p> -->
+			<h1 id="memos-title">碎语</h1>
 		</header>
 
 		<div class="memos-layout">
@@ -257,15 +254,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 				))}
 			</dl>
 			<p id="memos-month-title" class="magazine-section-label memos-subsection-label">月份</p>
-			<div class="memos-month-list">
+			<dl class="memos-month-list">
 				{monthStats.map((month) => (
 					<div class="memos-month-row">
-						<strong>{month.label}</strong>
-						<span class="memos-month-meter" style={`--month-size: ${(month.count / maxMonthCount) * 100}%`} aria-hidden="true"></span>
-						<em>{month.count}</em>
+						<dt>{month.label}</dt>
+						<dd>{month.count}</dd>
 					</div>
 				))}
-			</div>
+			</dl>
 			<p id="memos-source-title" class="magazine-section-label memos-subsection-label">来源</p>
 			<dl class="memos-source-list">
 				{sourceStats.map((item) => (
@@ -367,10 +363,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style is:global>
 	.memos-surface {
-		--memos-section-gap: clamp(0.54rem, 1.35vw, 0.82rem);
+		--memos-section-gap: 0;
 		--memo-avatar-size: 1.75rem;
 		--memo-column-gap: clamp(0.58rem, 1.35vw, 0.78rem);
-		--memo-inline-pad: clamp(0.72rem, 1.65vw, 1rem);
+		--memo-inline-pad: 0;
 		--memo-block-pad: clamp(0.78rem, 1.75vw, 1rem);
 	}
 
@@ -384,9 +380,23 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memos-panel__header {
-		margin-bottom: clamp(1rem, 3vw, 1.6rem);
+		margin-bottom: clamp(0.9rem, 2.4vw, 1.35rem);
 		padding-bottom: 0.65rem;
 		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.memos-panel__header .magazine-section-label {
+		margin-bottom: 0.55rem;
+	}
+
+	.memos-panel__header h1 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--display-font);
+		font-size: clamp(1.55rem, 3.2vw, 2rem);
+		font-weight: var(--weight-semibold, 600);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
 	}
 
 	.memos-layout,
@@ -418,35 +428,20 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		column-gap: var(--memo-column-gap);
 		row-gap: 0;
 		align-items: start;
-		padding: var(--memo-block-pad) var(--memo-inline-pad);
+		padding: var(--memo-block-pad) 0;
 		border: 0;
-		border-bottom: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
 		border-radius: 0;
 		background: transparent;
 		box-shadow: none;
 	}
 
-	.memo-item::before {
-		content: "";
-		position: absolute;
-		pointer-events: none;
-	}
-
-	.memo-item::before {
-		inset: 0;
-		border-radius: 3px;
-		background: color-mix(in oklab, var(--paper-hover-bg) 58%, transparent);
-		opacity: 1;
-		transition: opacity 0.18s ease, background 0.18s ease;
+	.memo-item:last-child {
+		border-bottom: 0;
 	}
 
 	.memo-item:hover {
 		background: transparent;
-	}
-
-	.memo-item:hover::before {
-		background: var(--paper-hover-bg);
-		opacity: 1;
 	}
 
 	.memo-avatar-link {
@@ -583,6 +578,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-content {
 		color: var(--text-color);
+		font-family: var(--reading-font, var(--serif-font));
 		font-size: 0.92rem;
 		line-height: 1.64;
 		letter-spacing: 0;
@@ -747,56 +743,50 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memos-month-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.54rem;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0;
+		margin: 0;
 	}
 
 	.memos-month-row {
 		display: grid;
-		grid-template-columns: 4.4rem minmax(0, 1fr) auto;
-		gap: 0.58rem;
-		align-items: center;
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		line-height: 1.2;
+		grid-template-columns: minmax(0, 1fr) auto;
+		gap: 0.7rem;
+		align-items: baseline;
+		padding: 0.45rem 0;
+		border-top: 1px solid var(--paper-card-border-soft);
 	}
 
-	.memos-month-row strong,
-	.memos-month-row em {
+	.memos-month-row dt {
 		color: var(--gray-color);
-		font-style: normal;
+		font-family: var(--ui-font);
+		font-size: 0.74rem;
 		font-weight: var(--weight-regular);
+		line-height: 1.35;
 	}
 
-	.memos-month-meter {
-		position: relative;
-		display: block;
-		height: 1px;
-		background: var(--paper-card-border-soft);
-		overflow: hidden;
-	}
-
-	.memos-month-meter::before {
-		content: "";
-		position: absolute;
-		inset: 0 auto 0 0;
-		width: var(--month-size, 0%);
-		background: var(--accent-color);
+	.memos-month-row dd {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		font-weight: var(--weight-regular);
+		font-variant-numeric: tabular-nums;
 	}
 
 	@media (max-width: 720px) {
 		.memos-surface {
 			--memo-avatar-size: 1.75rem;
 			--memo-column-gap: 0.6rem;
-			--memo-inline-pad: 0.68rem;
+			--memo-inline-pad: 0;
 			--memo-block-pad: 0.78rem;
 		}
 
 		.memo-item {
 			grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
 			column-gap: var(--memo-column-gap);
-			padding: var(--memo-block-pad) var(--memo-inline-pad);
+			padding: var(--memo-block-pad) 0;
 		}
 
 		.memo-avatar-link {

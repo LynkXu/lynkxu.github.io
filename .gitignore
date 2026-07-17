@@ -28,3 +28,6 @@ yarn.lock
 
 # codebuddy setting folder
 .codebuddy
+
+# Local git worktrees
+.worktrees/

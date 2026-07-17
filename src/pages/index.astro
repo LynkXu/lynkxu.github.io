@@ -8,30 +8,10 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 10);
-const featuredPost = latestPosts[0];
-const recentPosts = latestPosts.slice(1);
+const latestPosts = posts.slice(0, 14);
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
-}
-
-function getPostSummary(post: (typeof posts)[number]) {
-	const rawSummary = post.data.description || post.body || '';
-	const plainSummary = rawSummary
-		.replace(/```[\s\S]*?```/g, ' ')
-		.replace(/!\[[^\]]*]\([^)]+\)/g, ' ')
-		.replace(/\[([^\]]+)]\([^)]+\)/g, '$1')
-		.replace(/<[^>]+>/g, ' ')
-		.replace(/[#>*_`~-]/g, ' ')
-		.replace(/\s+/g, ' ')
-		.trim();
-
-	if (plainSummary) {
-		return plainSummary.length > 108 ? `${plainSummary.slice(0, 108).trim()}...` : plainSummary;
-	}
-
-	return post.data.tags?.slice(0, 2).join(' / ') || '';
 }
 
 function getReadingMinutes(post: (typeof posts)[number]) {
@@ -39,12 +19,11 @@ function getReadingMinutes(post: (typeof posts)[number]) {
 	return Math.max(1, Math.ceil(plainText.length / 520));
 }
 
-function getMonthNumber(date: Date) {
-	return String(date.getMonth() + 1).padStart(2, '0');
-}
-
-function getDayNumber(date: Date) {
-	return String(date.getDate()).padStart(2, '0');
+function formatIndexDate(date: Date) {
+	const y = date.getFullYear();
+	const m = String(date.getMonth() + 1).padStart(2, '0');
+	const d = String(date.getDate()).padStart(2, '0');
+	return `${y}.${m}.${d}`;
 }
 ---
 
@@ -54,284 +33,184 @@ function getDayNumber(date: Date) {
 	className="home-index-layout"
 	showProfileCard={false}
 >
-	<section class="home-dashboard" aria-labelledby="home-latest-title">
-		<div class="home-overview-grid">
-			<section class="home-panel home-latest-panel" aria-labelledby="home-latest-title">
-				<header class="home-panel-head">
-					<p id="home-latest-title" class="magazine-section-label">最新文章</p>
-					<a href="/blog" class="home-all-link">归档 <span aria-hidden="true">→</span></a>
-				</header>
+	<section class="home-index" aria-labelledby="home-latest-title">
+		<header class="home-index__head">
+			<div>
+				<p class="home-index__eyebrow">Index</p>
+				<h1 id="home-latest-title" class="home-index__title">最新文章</h1>
+			</div>
+			<a href="/blog" class="home-index__all">全部归档</a>
+		</header>
 
-				{featuredPost && (
-					<a href={getPostHref(featuredPost)} class="home-featured-row">
-						<time class="home-post-date home-post-date--featured" datetime={featuredPost.data.pubDate.toISOString()}>
-							<span>{getMonthNumber(featuredPost.data.pubDate)} /</span>
-							<strong>{getDayNumber(featuredPost.data.pubDate)}</strong>
-						</time>
-						<span class="home-post-copy home-post-copy--featured">
-							<strong>{featuredPost.data.title}</strong>
-							<span>{getPostSummary(featuredPost)}</span>
-						</span>
-					</a>
-				)}
-
-				<div class="home-latest-list" role="list" aria-label="近期文章">
-					{recentPosts.map((post) => {
-						const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
-						return (
-							<a href={getPostHref(post)} class="home-latest-row" role="listitem">
-								<time class="home-post-date" datetime={post.data.pubDate.toISOString()}>
-									<span>{getMonthNumber(post.data.pubDate)}.</span>
-									<strong>{getDayNumber(post.data.pubDate)}</strong>
-								</time>
-								<span class="home-post-copy">
-									<strong>{post.data.title}</strong>
-									<small class="home-post-meta">
-										{primaryTag && <span class="home-tag">{primaryTag}</span>}
-										<span>{getReadingMinutes(post)} 分钟</span>
-									</small>
-									<span>{getPostSummary(post)}</span>
-								</span>
-							</a>
-						);
-					})}
-				</div>
-			</section>
-		</div>
+		<ol class="home-index__list">
+			{latestPosts.map((post) => {
+				const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
+				return (
+					<li class="home-index__item">
+						<a href={getPostHref(post)} class="home-index__link">
+							<time class="home-index__date" datetime={post.data.pubDate.toISOString()}>
+								{formatIndexDate(post.data.pubDate)}
+							</time>
+							<span class="home-index__post-title">{post.data.title}</span>
+							<span class="home-index__aside">
+								{primaryTag && <span class="home-index__tag">{primaryTag}</span>}
+								<span class="home-index__read">{getReadingMinutes(post)} min</span>
+							</span>
+						</a>
+					</li>
+				);
+			})}
+		</ol>
 	</section>
 </MagazineShell>
 
 <style>
 	:global(.home-index-layout .ledger-main) {
-		display: flex;
-		flex-direction: column;
-		min-height: calc(100vh - clamp(5.5rem, 10vw, 8rem));
+		min-height: 0;
 	}
 
 	:global(.home-index-layout .ledger-main > footer) {
-		margin-top: clamp(2rem, 5vw, 3.5rem);
+		margin-top: clamp(1.8rem, 4vw, 2.8rem);
 	}
 
-	:global(.home-index-layout footer) {
-		grid-template-columns: minmax(0, 1fr);
-		max-width: var(--blog-shell-width);
-		text-align: center;
-	}
-
-	:global(.home-index-layout footer::before) {
-		left: 50%;
-		transform: translateX(-50%);
-	}
-
-	.home-dashboard {
-		width: 100%;
-		max-width: min(100%, 820px);
+	.home-index {
+		width: min(100%, var(--blog-content-max, 44rem));
 		font-family: var(--ui-font);
 	}
 
-	.home-overview-grid {
-		display: grid;
-		grid-template-areas: "latest";
-		grid-template-columns: 1fr;
-		align-items: start;
-	}
-
-	.home-panel {
-		min-width: 0;
-	}
-
-	.home-latest-panel {
-		grid-area: latest;
-	}
-
-	.home-panel-head {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto;
-		align-items: baseline;
+	.home-index__head {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
 		gap: 1rem;
-		margin: 0;
-		padding-bottom: 0.65rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+		margin-bottom: clamp(0.85rem, 2vw, 1.15rem);
+		padding-bottom: 0.7rem;
+		border-bottom: 2px solid var(--heading-color);
 	}
 
-	.home-panel-head .magazine-section-label {
-		margin: 0;
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.04em;
-	}
-
-	.home-all-link {
-		grid-column: 3;
-		border: 0 !important;
+	.home-index__eyebrow {
+		margin: 0 0 0.2rem;
 		color: var(--faint-color);
 		font-size: 0.68rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.15;
-		text-decoration: none;
-		white-space: nowrap;
-	}
-
-	.home-all-link:hover {
-		color: var(--gray-color);
-	}
-
-	.home-featured-row {
-		display: grid;
-		grid-template-columns: 5rem minmax(0, 1fr);
-		gap: clamp(1.25rem, 2.4vw, 1.8rem);
-		align-items: start;
-		padding: clamp(1.35rem, 3vw, 1.85rem) 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		background: transparent !important;
-		color: var(--heading-color);
-		text-decoration: none;
-	}
-
-	.home-latest-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	.home-latest-list .home-latest-row:last-child {
-		border-bottom: 0 !important;
-	}
-
-	.home-latest-row {
-		display: grid;
-		grid-template-columns: 4.2rem minmax(0, 1fr);
-		gap: clamp(1rem, 2.2vw, 1.55rem);
-		align-items: baseline;
-		min-height: 0;
-		padding: clamp(1.12rem, 2.1vw, 1.32rem) 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: var(--heading-color);
-		box-shadow: none;
-		text-decoration: none;
-		transition: color 0.18s ease;
-	}
-
-	.home-featured-row:hover,
-	.home-latest-row:hover {
-		color: var(--heading-color);
-		transform: none;
-	}
-
-	.home-post-date {
-		display: inline-flex;
-		gap: 0;
-		min-height: 0;
-		border-radius: 0;
-		background: transparent;
-		color: var(--gray-color);
-		font-variant-numeric: tabular-nums;
-		line-height: 1.35;
-		text-align: left;
-	}
-
-	.home-post-date span,
-	.home-post-date strong {
-		color: inherit;
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.35;
-	}
-
-	.home-post-date--featured {
-		display: grid;
-		gap: 0.18rem;
-		align-self: start;
-		line-height: 1;
-	}
-
-	.home-post-date--featured span {
-		font-size: 0.72rem;
-		line-height: 1;
+		font-weight: 500;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 	}
 
-	.home-post-date--featured strong {
-		color: color-mix(in oklab, var(--accent-color) 58%, var(--heading-color));
-		font-size: clamp(1.8rem, 4vw, 2.65rem);
-		font-weight: var(--weight-semibold);
-		line-height: 0.92;
-	}
-
-	.home-post-copy {
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-		gap: 0.28rem;
-		overflow-wrap: anywhere;
-	}
-
-	.home-post-copy strong {
+	.home-index__title {
+		margin: 0;
 		color: var(--heading-color);
-		font-size: 1rem;
-		font-weight: var(--weight-semibold);
-		line-height: 1.34;
+		font-family: var(--display-font);
+		font-size: clamp(1.45rem, 2.6vw, 1.75rem);
+		font-weight: 500;
+		letter-spacing: -0.02em;
+		line-height: 1.15;
 	}
 
-	.home-post-copy span {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-		color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
-		font-size: 0.8rem;
-		line-height: 1.5;
-	}
-
-	.home-post-meta {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		min-width: 0;
-		color: var(--faint-color);
-		font-size: 0.68rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.2;
+	.home-index__all {
+		border: 0 !important;
+		color: var(--gray-color);
+		font-size: 0.74rem;
+		font-weight: 500;
+		text-decoration: none;
 		white-space: nowrap;
 	}
 
-	.home-post-meta span {
-		display: inline;
-		-webkit-line-clamp: unset;
-		overflow: visible;
+	.home-index__all:hover {
+		color: var(--accent-color);
+	}
+
+	.home-index__list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.home-index__item {
+		margin: 0;
+		padding: 0;
+		border-bottom: 1px solid var(--paper-card-border-soft);
+	}
+
+	.home-index__item:last-child {
+		border-bottom: 0;
+	}
+
+	.home-index__link {
+		display: grid;
+		grid-template-columns: 5.6rem minmax(0, 1fr) auto;
+		gap: 0.55rem 1rem;
+		align-items: baseline;
+		padding: 0.52rem 0;
+		border: 0 !important;
+		background: transparent !important;
 		color: inherit;
-		font-size: inherit;
-		line-height: inherit;
+		text-decoration: none;
 	}
 
-	.home-tag::before {
-		content: "#";
-		opacity: 0.55;
+	.home-index__date {
+		color: var(--faint-color);
+		font-family: var(--code-font);
+		font-size: 0.7rem;
+		font-variant-numeric: tabular-nums;
+		line-height: 1.35;
+		white-space: nowrap;
 	}
 
-	.home-post-copy--featured strong {
-		font-size: clamp(1.34rem, 3.1vw, 2.15rem);
-		line-height: 1.22;
-		text-wrap: balance;
+	.home-index__post-title {
+		min-width: 0;
+		color: var(--heading-color);
+		font-family: var(--ui-font);
+		font-size: 0.94rem;
+		font-weight: 400;
+		line-height: 1.35;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		transition: color 0.18s ease;
 	}
 
-	.home-post-copy--featured span {
-		display: block;
-		-webkit-line-clamp: unset;
-		margin-top: 0.34rem;
-		font-size: 0.9rem;
-		line-height: 1.62;
+	.home-index__aside {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		color: var(--faint-color);
+		font-size: 0.68rem;
+		font-variant-numeric: tabular-nums;
+		line-height: 1.3;
+		white-space: nowrap;
 	}
 
-	@media (max-width: 640px) {
-		.home-featured-row,
-		.home-latest-row {
-			grid-template-columns: 3.65rem minmax(0, 1fr);
+	.home-index__tag {
+		color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
+	}
+
+	.home-index__link:hover .home-index__post-title {
+		color: var(--accent-color);
+	}
+
+	@media (max-width: 720px) {
+		.home-index__link {
+			grid-template-columns: 5.2rem minmax(0, 1fr);
+			gap: 0.2rem 0.75rem;
+			padding: 0.62rem 0;
+		}
+
+		.home-index__post-title {
+			white-space: normal;
+		}
+
+		.home-index__aside {
+			grid-column: 2;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.home-index__post-title {
+			transition: none;
 		}
 	}
 </style>

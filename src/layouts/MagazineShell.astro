@@ -65,12 +65,15 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 >
 	<slot name="head" slot="head" />
 
-	<div class:list={['ledger-shell', { 'ledger-shell--no-context': !shouldRenderRail }]}>
+	<div class="ledger-shell">
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-					<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="36px" alt="" class="ledger-brand__avatar" width="36" height="36" loading="eager" />
-					<span class="ledger-brand__name">LynkXu</span>
+					<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="44px" alt="" class="ledger-brand__avatar" width="44" height="44" loading="eager" />
+					<span class="ledger-brand__stack">
+						<span class="ledger-brand__kicker">Personal notes</span>
+						<span class="ledger-brand__name">LynkXu</span>
+					</span>
 				</a>
 
 				<div class="ledger-nav-group ledger-nav-group--primary">
@@ -82,7 +85,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
 								<span class="ledger-nav__text">{item.label}</span>
-								<span class="ledger-nav__marker" aria-hidden="true"></span>
 							</a>
 						))}
 					</nav>
@@ -111,14 +113,13 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
 								<span class="ledger-nav__text">{item.label}</span>
-								<span class="ledger-nav__marker" aria-hidden="true"></span>
 							</a>
 						))}
 					</nav>
 				</details>
 
 				<nav class="ledger-social" aria-label="社交与订阅链接">
-					<span class="ledger-group-label">社交</span>
+					<span class="ledger-group-label">别处</span>
 					<div class="ledger-social__links">
 						{socialItems.map((item) => (
 							<a href={item.href} target="_blank" rel="noopener noreferrer">
@@ -136,92 +137,179 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			<Footer />
 		</main>
 
-		{shouldRenderRail && (
-			<aside class="ledger-context" aria-label="Page context">
-				{showProfileCard && (
-					<section class="ledger-context-card profile-card">
-						<a href="/" class="profile-avatar-link" aria-label="回到首页">
-							<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="56px" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
-						</a>
-						<div class="profile-info">
-							<h2 class="profile-name">LynkXu</h2>
-							<p class="profile-bio">个人笔记与长文。</p>
-						</div>
-					</section>
-				)}
-				<slot name="sidebar-extra" />
-			</aside>
-		)}
+		{/* 始终保留右栏占位，避免首页无侧栏时主栏被拉宽、切换页面时跳动 */}
+		<aside class="ledger-context" aria-label="Page context" data-empty={!shouldRenderRail || undefined}>
+			{showProfileCard && (
+				<section class="ledger-context-card profile-card">
+					<a href="/" class="profile-avatar-link" aria-label="回到首页">
+						<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="56px" alt="" class="profile-avatar" loading="eager" width="56" height="56" />
+					</a>
+					<div class="profile-info">
+						<h2 class="profile-name">LynkXu</h2>
+						<p class="profile-bio">个人笔记与长文。</p>
+					</div>
+				</section>
+			)}
+			<slot name="sidebar-extra" />
+		</aside>
 	</div>
 </Base>
 
 <style is:global>
+	/*
+	 * 方案 B′ · 墨轨 Ink Rail
+	 * 保留两/三栏网格，但用「全高色墨侧轨 + 浅纸阅读席」彻底换气质。
+	 * 刻意避开：灰阶 Notion、玻璃胶囊、铜光晕、奶油+陶土默认。
+	 */
+	html:has(.blog-surface-layout),
 	.blog-surface-layout {
-		--page-bg: #fbfaf9;
-		--background-color: #fbfaf9;
-		--content-bg: #fbfaf9;
-		--heading-color: #242321;
-		--panel-title-color: #302f2b;
-		--text-color: #36342f;
-		--gray-color: #5f5c55;
-		--faint-color: #8a867c;
-		--accent-color: #3f6f5a;
-		--link-color: #315f4d;
-		--rule-color: rgba(36, 35, 33, 0.16);
-		--paper-card-bg: transparent;
-		--paper-card-bg-soft: transparent;
-		--paper-card-border: rgba(36, 35, 33, 0.18);
-		--paper-card-border-soft: rgba(36, 35, 33, 0.13);
+		/* Spectral 只扛大标题；正文用系统黑体，避免衬线在屏幕上发虚 */
+		--display-font: "Spectral", "Songti SC", "Source Han Serif CN", "Noto Serif SC", "SimSun", serif;
+		--serif-font: var(--display-font);
+		--ui-font: "Sora", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+		--reading-font: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Sora", sans-serif;
+		--meta-font: var(--ui-font);
+		--field-font: var(--ui-font);
+
+		/* 阅读席：冷雾纸，不是纯白 */
+		--page-bg: oklch(0.955 0.014 230);
+		--background-color: var(--page-bg);
+		--content-bg: oklch(0.982 0.006 230);
+		--desk-bg: var(--content-bg);
+
+		/* 墨轨：深青墨，与主栏强对比 */
+		--rail-bg: oklch(0.26 0.045 245);
+		--rail-ink: oklch(0.93 0.012 230);
+		--rail-muted: oklch(0.72 0.02 230);
+		--rail-faint: oklch(0.58 0.018 230);
+		--rail-line: oklch(0.93 0.012 230 / 0.14);
+		--rail-active: oklch(0.82 0.09 175);
+
+		--heading-color: oklch(0.21 0.026 245);
+		--panel-title-color: oklch(0.27 0.022 245);
+		--text-color: oklch(0.3 0.018 245);
+		--gray-color: oklch(0.45 0.016 245);
+		--faint-color: oklch(0.56 0.012 245);
+
+		/* 强调：青绿铜锈，只用于链接与激活 */
+		--accent-color: oklch(0.48 0.09 175);
+		--link-color: oklch(0.42 0.085 175);
+		--ink-accent: var(--accent-color);
+		--ink-line: color-mix(in oklab, var(--accent-color) 30%, transparent);
+		--ink-wash: color-mix(in oklab, var(--accent-color) 6%, var(--content-bg));
+		--accent-soft-bg: color-mix(in oklab, var(--accent-color) 8%, var(--content-bg));
+		--accent-soft-border: color-mix(in oklab, var(--accent-color) 24%, transparent);
+
+		--rule-color: oklch(0.3 0.03 245 / 0.14);
+		--paper-card-bg: var(--content-bg);
+		--paper-card-bg-soft: color-mix(in oklab, var(--content-bg) 90%, var(--page-bg));
+		--paper-card-border: oklch(0.3 0.03 245 / 0.12);
+		--paper-card-border-soft: oklch(0.3 0.03 245 / 0.08);
 		--paper-card-shadow: none;
-		--paper-card-radius: 0;
-		--paper-field-bg: rgba(36, 35, 33, 0.035);
-		--paper-hover-bg: rgba(63, 111, 90, 0.055);
-		--paper-hover-border: rgba(63, 111, 90, 0.28);
+		--paper-card-radius: 2px;
+		--paper-field-bg: oklch(0.35 0.025 245 / 0.04);
+		--paper-hover-bg: color-mix(in oklab, var(--accent-color) 7%, var(--content-bg));
+		--paper-hover-border: color-mix(in oklab, var(--accent-color) 28%, transparent);
+		--paper-accent-mark: var(--accent-color);
+		--code-background-color: oklch(0.935 0.012 230);
+		--selection-bg: color-mix(in oklab, var(--accent-color) 24%, white);
+		--selection-color: oklch(0.2 0.03 245);
+
 		--blog-shell-width: 1280px;
-		--blog-sidebar-width: 12.5rem;
-		--blog-context-width: 14rem;
-		--blog-shell-gap: clamp(2rem, 3.5vw, 2.8rem);
+		/* 全屏墨轨：左轨作建筑立面，读区+右栏成组贴轨，右侧自然页边 */
+		--blog-sidebar-width: 16rem;
+		--blog-content-max: 44rem;
+		--blog-context-width: 12.75rem;
+		--blog-shell-gap: clamp(1.1rem, 1.8vw, 1.65rem);
+		--measure-readable: var(--blog-content-max);
+	}
+
+	.blog-surface-layout {
 		font-family: var(--ui-font);
+		isolation: isolate;
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+	}
+
+	/* 浅底正文用亚像素抗锯齿更利；墨轨深底保持灰度抗锯齿 */
+	.blog-surface-layout .ledger-main {
+		-webkit-font-smoothing: auto;
+		-moz-osx-font-smoothing: auto;
+	}
+
+	.blog-surface-layout .ledger-sidebar {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 
 	@media (prefers-color-scheme: dark) {
+		:root:not([data-theme]):has(.blog-surface-layout),
 		:root:not([data-theme]) .blog-surface-layout {
-			--page-bg: #151514;
-			--background-color: #151514;
-			--content-bg: #151514;
-			--heading-color: #f1eee6;
-			--panel-title-color: #e8e4da;
-			--text-color: #d8d3c8;
-			--gray-color: #b4aea2;
-			--faint-color: #8a847a;
-			--accent-color: #82a890;
-			--link-color: #9ab9a4;
-			--rule-color: rgba(241, 238, 230, 0.16);
-			--paper-card-border: rgba(241, 238, 230, 0.17);
-			--paper-card-border-soft: rgba(241, 238, 230, 0.12);
-			--paper-field-bg: rgba(241, 238, 230, 0.045);
-			--paper-hover-bg: rgba(130, 168, 144, 0.08);
-			--paper-hover-border: rgba(130, 168, 144, 0.3);
+			--page-bg: oklch(0.16 0.02 245);
+			--background-color: var(--page-bg);
+			--content-bg: oklch(0.19 0.018 245);
+			--desk-bg: var(--content-bg);
+			--rail-bg: oklch(0.12 0.03 245);
+			--rail-ink: oklch(0.92 0.014 90);
+			--rail-muted: oklch(0.68 0.02 90);
+			--rail-faint: oklch(0.52 0.016 90);
+			--rail-line: oklch(0.92 0.014 90 / 0.12);
+			--rail-active: oklch(0.78 0.1 175);
+			--heading-color: oklch(0.94 0.014 90);
+			--panel-title-color: oklch(0.88 0.012 90);
+			--text-color: oklch(0.84 0.012 90);
+			--gray-color: oklch(0.68 0.012 90);
+			--faint-color: oklch(0.55 0.01 90);
+			--accent-color: oklch(0.76 0.09 175);
+			--link-color: oklch(0.8 0.08 175);
+			--ink-accent: var(--accent-color);
+			--ink-line: color-mix(in oklab, var(--accent-color) 34%, transparent);
+			--ink-wash: color-mix(in oklab, var(--accent-color) 10%, var(--content-bg));
+			--accent-soft-bg: color-mix(in oklab, var(--accent-color) 12%, var(--content-bg));
+			--accent-soft-border: color-mix(in oklab, var(--accent-color) 28%, transparent);
+			--rule-color: oklch(0.92 0.014 90 / 0.12);
+			--paper-card-border: oklch(0.92 0.014 90 / 0.1);
+			--paper-card-border-soft: oklch(0.92 0.014 90 / 0.07);
+			--paper-field-bg: oklch(0.92 0.014 90 / 0.04);
+			--paper-hover-bg: color-mix(in oklab, var(--accent-color) 10%, var(--content-bg));
+			--code-background-color: oklch(0.15 0.018 245);
+			--selection-bg: color-mix(in oklab, var(--accent-color) 30%, black);
+			--selection-color: oklch(0.96 0.012 90);
 		}
 	}
 
+	:root[data-theme="dark"]:has(.blog-surface-layout),
 	:root[data-theme="dark"] .blog-surface-layout {
-		--page-bg: #151514;
-		--background-color: #151514;
-		--content-bg: #151514;
-		--heading-color: #f1eee6;
-		--panel-title-color: #e8e4da;
-		--text-color: #d8d3c8;
-		--gray-color: #b4aea2;
-		--faint-color: #8a847a;
-		--accent-color: #82a890;
-		--link-color: #9ab9a4;
-		--rule-color: rgba(241, 238, 230, 0.16);
-		--paper-card-border: rgba(241, 238, 230, 0.17);
-		--paper-card-border-soft: rgba(241, 238, 230, 0.12);
-		--paper-field-bg: rgba(241, 238, 230, 0.045);
-		--paper-hover-bg: rgba(130, 168, 144, 0.08);
-		--paper-hover-border: rgba(130, 168, 144, 0.3);
+		--page-bg: oklch(0.16 0.02 245);
+		--background-color: var(--page-bg);
+		--content-bg: oklch(0.19 0.018 245);
+		--desk-bg: var(--content-bg);
+		--rail-bg: oklch(0.12 0.03 245);
+		--rail-ink: oklch(0.92 0.014 90);
+		--rail-muted: oklch(0.68 0.02 90);
+		--rail-faint: oklch(0.52 0.016 90);
+		--rail-line: oklch(0.92 0.014 90 / 0.12);
+		--rail-active: oklch(0.78 0.1 175);
+		--heading-color: oklch(0.94 0.014 90);
+		--panel-title-color: oklch(0.88 0.012 90);
+		--text-color: oklch(0.84 0.012 90);
+		--gray-color: oklch(0.68 0.012 90);
+		--faint-color: oklch(0.55 0.01 90);
+		--accent-color: oklch(0.76 0.09 175);
+		--link-color: oklch(0.8 0.08 175);
+		--ink-accent: var(--accent-color);
+		--ink-line: color-mix(in oklab, var(--accent-color) 34%, transparent);
+		--ink-wash: color-mix(in oklab, var(--accent-color) 10%, var(--content-bg));
+		--accent-soft-bg: color-mix(in oklab, var(--accent-color) 12%, var(--content-bg));
+		--accent-soft-border: color-mix(in oklab, var(--accent-color) 28%, transparent);
+		--rule-color: oklch(0.92 0.014 90 / 0.12);
+		--paper-card-border: oklch(0.92 0.014 90 / 0.1);
+		--paper-card-border-soft: oklch(0.92 0.014 90 / 0.07);
+		--paper-field-bg: oklch(0.92 0.014 90 / 0.04);
+		--paper-hover-bg: color-mix(in oklab, var(--accent-color) 10%, var(--content-bg));
+		--code-background-color: oklch(0.15 0.018 245);
+		--selection-bg: color-mix(in oklab, var(--accent-color) 30%, black);
+		--selection-color: oklch(0.96 0.012 90);
 	}
 
 	.blog-surface-layout.global-layout-card {
@@ -232,13 +320,18 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		padding: 0;
 		border: 0;
 		border-radius: 0;
-		background: var(--page-bg);
+		background: transparent;
 		box-shadow: none;
 	}
 
 	body:has(.blog-surface-layout) {
 		background: var(--page-bg);
 		overflow-x: clip;
+	}
+
+	body:has(.blog-surface-layout)::before,
+	body:has(.blog-surface-layout)::after {
+		content: none;
 	}
 
 	body:has(.blog-surface-layout) #background-canvas {
@@ -249,17 +342,22 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		width: 100%;
 	}
 
+	/* 桌面：墨轨 | 读区 | 右栏
+	   不定居中、不拉 1fr 空列；右栏恒占位，余下视口即页边 */
 	.ledger-shell {
 		display: grid;
-		grid-template-columns: var(--blog-sidebar-width) minmax(0, 1fr) var(--blog-context-width);
-		gap: var(--blog-shell-gap);
-		width: min(var(--blog-shell-width), calc(100% - clamp(2rem, 6vw, 5.5rem)));
-		margin: 0 auto;
-		padding: clamp(2rem, 5vw, 4rem) 0 clamp(3rem, 8vw, 6rem);
-	}
-
-	.ledger-shell--no-context {
-		grid-template-columns: var(--blog-sidebar-width) minmax(0, 1fr);
+		grid-template-columns:
+			var(--blog-sidebar-width)
+			minmax(0, var(--blog-content-max))
+			var(--blog-context-width);
+		column-gap: var(--blog-shell-gap);
+		row-gap: 0;
+		width: 100%;
+		max-width: none;
+		margin: 0;
+		padding: 0 clamp(1.25rem, 3vw, 2.5rem) 0 0;
+		justify-content: start;
+		min-height: 100vh;
 	}
 
 	.ledger-sidebar,
@@ -267,57 +365,88 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		min-width: 0;
 	}
 
+	.ledger-sidebar {
+		display: flex;
+		flex-direction: column;
+		align-self: stretch;
+		background:
+			linear-gradient(165deg, color-mix(in oklab, var(--rail-active) 14%, var(--rail-bg)), var(--rail-bg) 46%);
+		color: var(--rail-ink);
+	}
+
 	.ledger-sidebar__inner {
 		position: sticky;
-		top: clamp(1.25rem, 3vw, 2rem);
+		top: 0;
 		display: flex;
 		align-self: start;
 		flex-direction: column;
-		gap: clamp(0.8rem, 1.7vh, 1.05rem);
-		padding: 0 clamp(1rem, 2vw, 1.35rem) 0.35rem 0;
-		border-right: 1px solid var(--paper-card-border-soft);
+		gap: 1.35rem;
+		width: 100%;
+		min-height: 100vh;
+		padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1.1rem, 2vw, 1.45rem) 2rem;
+		border: 0;
+		background: transparent;
+		color: var(--rail-ink);
+		box-sizing: border-box;
 	}
 
 	.ledger-brand {
 		display: flex;
-		flex-direction: row;
-		align-items: center;
-		gap: 0.65rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.85rem;
 		width: 100%;
-		margin-bottom: 0.15rem;
-		padding-bottom: clamp(0.85rem, 1.4vh, 1rem);
+		margin: 0;
+		padding: 0 0 1.15rem;
 		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
+		border-bottom: 1px solid var(--rail-line) !important;
 		background: none !important;
-		color: var(--heading-color);
+		color: var(--rail-ink);
 		text-decoration: none;
 	}
 
 	.ledger-brand__avatar {
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
+		width: 44px;
+		height: 44px;
+		border-radius: 4px;
 		object-fit: cover;
+		filter: saturate(0.92);
+	}
+
+	.ledger-brand__stack {
+		display: flex;
+		flex-direction: column;
+		gap: 0.28rem;
+	}
+
+	.ledger-brand__kicker {
+		color: var(--rail-faint);
+		font-family: var(--ui-font);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.08em;
+		line-height: 1;
+		text-transform: uppercase;
 	}
 
 	.ledger-brand__name {
-		font-size: 1.05rem;
-		font-weight: var(--weight-medium);
+		font-family: var(--display-font);
+		font-size: 1.55rem;
+		font-weight: 500;
 		line-height: 1;
-		letter-spacing: 0;
+		letter-spacing: -0.02em;
 	}
 
 	.ledger-nav-group {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
+		gap: 0.2rem;
 	}
 
 	.ledger-collections {
 		display: flex;
 		flex-direction: column;
-		gap: 0.35rem;
-		padding-top: 0.15rem;
+		gap: 0.4rem;
 	}
 
 	.ledger-collections__summary {
@@ -325,9 +454,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		grid-template-columns: auto auto;
 		justify-content: start;
 		align-items: center;
-		gap: 0.55rem;
+		gap: 0.45rem;
 		width: fit-content;
-		min-height: 2.25rem;
+		min-height: 1.8rem;
+		color: var(--rail-faint);
 		cursor: pointer;
 		list-style: none;
 		user-select: none;
@@ -338,175 +468,178 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-collections__summary::after {
-		content: "↘";
-		color: var(--gray-color);
-		font-family: var(--field-font);
-		font-size: 0.68rem;
+		content: "+";
+		color: var(--rail-faint);
+		font-family: var(--ui-font);
+		font-size: 0.75rem;
 		line-height: 1;
-		transform: rotate(0deg);
-		transition: transform 0.18s ease;
 	}
 
 	.ledger-collections[open] .ledger-collections__summary::after {
-		transform: rotate(90deg);
+		content: "–";
 	}
 
 	.ledger-collections__summary:hover {
-		color: var(--gray-color);
+		color: var(--rail-ink);
 	}
 
 	.ledger-group-label {
-		color: color-mix(in oklab, var(--gray-color) 84%, var(--heading-color));
-		font-family: var(--field-font);
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		letter-spacing: 0.02em;
-		line-height: 1;
+		color: var(--rail-faint);
+		font-family: var(--ui-font);
+		font-size: 0.68rem;
+		font-weight: 500;
+		letter-spacing: 0.06em;
+		line-height: 1.2;
+		text-transform: uppercase;
 	}
 
 	.ledger-nav {
 		display: flex;
 		flex-direction: column;
-		gap: 0.08rem;
-	}
-
-	.ledger-nav--secondary {
-		gap: 0.06rem;
+		gap: 0.1rem;
 	}
 
 	.ledger-nav__link {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
-		align-items: center;
-		min-height: 2.05rem;
+		display: flex;
+		align-items: baseline;
+		gap: 0.55rem;
+		min-height: 2rem;
+		padding: 0.2rem 0;
 		border: 0 !important;
+		border-radius: 0;
 		background: none !important;
-		color: var(--gray-color);
-		font-size: 0.84rem;
-		font-weight: var(--weight-regular);
+		color: var(--rail-muted);
+		font-size: 0.95rem;
+		font-weight: 400;
 		line-height: 1.2;
 		text-decoration: none;
-		transition: color 0.16s ease;
-	}
-
-	.ledger-nav--primary .ledger-nav__link {
-		color: color-mix(in oklab, var(--gray-color) 72%, var(--heading-color));
-		font-size: 0.86rem;
+		transition: color 0.18s ease;
 	}
 
 	.ledger-nav--secondary .ledger-nav__link {
-		min-height: 1.9rem;
-		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.81rem;
+		min-height: 1.75rem;
+		color: var(--rail-faint);
+		font-size: 0.84rem;
 	}
 
 	.ledger-nav__text {
 		min-width: 0;
 	}
 
-	.ledger-nav__marker {
-		width: 1.05rem;
-		height: 1px;
-		justify-self: start;
-		margin-left: 0.55rem;
-		background: var(--accent-color);
-		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: right center;
-		transition: opacity 0.16s ease, transform 0.16s ease;
+	.ledger-nav__link.active {
+		color: var(--rail-ink);
+		font-weight: 500;
+	}
+
+	.ledger-nav__link.active .ledger-nav__text::before {
+		content: "";
+		display: inline-block;
+		width: 0.45rem;
+		height: 0.45rem;
+		margin-right: 0.55rem;
+		border-radius: 1px;
+		background: var(--rail-active);
+		transform: translateY(-0.05em);
 	}
 
 	.ledger-nav__link:hover {
-		color: var(--heading-color);
-	}
-
-	.ledger-nav__link.active {
-		color: color-mix(in oklab, var(--accent-color) 36%, var(--heading-color));
-		font-weight: var(--weight-medium);
-	}
-
-	.ledger-nav__link.active .ledger-nav__marker {
-		opacity: 1;
-		transform: scaleX(1);
+		color: var(--rail-ink);
 	}
 
 	.ledger-search {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.5rem;
-		width: fit-content;
-		min-height: 2.05rem;
-		padding: 0;
-		border: 0;
-		background: transparent;
-		color: var(--gray-color);
+		justify-content: space-between;
+		gap: 0.65rem;
+		width: 100%;
+		min-height: 2.25rem;
+		padding: 0 0.7rem;
+		border: 1px solid var(--rail-line);
+		border-radius: 2px;
+		background: color-mix(in oklab, black 18%, transparent);
+		color: var(--rail-muted);
 		font: inherit;
-		font-size: 0.76rem;
+		font-size: 0.78rem;
+		font-weight: 400;
 		text-align: left;
-		white-space: nowrap;
 		cursor: pointer;
-		transition: color 0.16s ease;
+		transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
 	}
 
 	.ledger-search kbd {
-		color: var(--gray-color);
-		font: inherit;
-		font-size: 0.7rem;
+		color: var(--rail-faint);
+		font-family: var(--code-font);
+		font-size: 0.66rem;
 	}
 
 	.ledger-search:hover,
 	.ledger-search:focus-visible {
-		color: var(--heading-color);
+		color: var(--rail-ink);
+		border-color: color-mix(in oklab, var(--rail-active) 45%, var(--rail-line));
+		background: color-mix(in oklab, var(--rail-active) 12%, transparent);
 	}
 
 	.ledger-social {
 		display: flex;
 		flex-direction: column;
-		gap: 0.42rem;
-		padding-top: 0.2rem;
-		border-top: 0;
+		gap: 0.55rem;
+		margin-top: 0.35rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--rail-line);
 	}
 
 	.ledger-social__links {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.28rem 0.72rem;
+		gap: 0.35rem 0.85rem;
 	}
 
 	.ledger-social a {
 		border: 0 !important;
 		background: none !important;
-		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.72rem;
+		color: var(--rail-faint);
+		font-size: 0.74rem;
+		font-weight: 400;
 		line-height: 1.3;
 		text-decoration: none;
 	}
 
 	.ledger-social a:hover {
-		color: var(--heading-color);
+		color: var(--rail-active);
 	}
 
 	.ledger-main {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1.8rem, 4vw, 3rem);
-		min-height: calc(100vh - clamp(3.5rem, 7vw, 5rem));
+		gap: clamp(1.6rem, 3.5vw, 2.4rem);
+		min-height: 0;
 		min-width: 0;
+		width: 100%;
+		max-width: none;
+		padding: clamp(2.2rem, 4.5vw, 3.2rem) 0 clamp(2.5rem, 5vw, 3.5rem);
+		background: transparent;
 	}
 
 	.blog-surface-layout .ledger-main > footer {
-		margin-top: auto;
+		margin-top: clamp(2rem, 4vw, 3rem);
 	}
 
 	.ledger-context {
 		position: sticky;
-		top: clamp(1.25rem, 3vw, 2rem);
+		top: clamp(2.2rem, 5vw, 3.4rem);
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: 1.1rem;
 		align-self: start;
-		padding-left: clamp(1rem, 2vw, 1.35rem);
-		border-left: 1px solid var(--paper-card-border-soft);
+		min-width: 0;
+		padding: clamp(2.2rem, 5vw, 3.4rem) 0 0;
+		border-left: 0;
+		color: var(--gray-color);
+	}
+
+	.ledger-context[data-empty] {
+		visibility: hidden;
+		pointer-events: none;
 	}
 
 	.magazine-panel,
@@ -519,54 +652,41 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		box-shadow: none;
 	}
 
-	.magazine-panel,
-	.magazine-rail-card {
-		padding: 0;
-	}
-
 	.magazine-section-label {
 		display: block;
 		width: fit-content;
 		margin: 0;
-		color: var(--gray-color);
+		color: var(--faint-color);
+		font-family: var(--ui-font);
 		font-size: 0.72rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.02em;
+		font-weight: 500;
+		letter-spacing: 0.04em;
 		line-height: 1.2;
 	}
 
-	.magazine-section-label::after {
-		content: none;
-	}
-
 	.magazine-chip {
-		display: inline-flex;
-		align-items: center;
-		min-height: 1.35rem;
+		display: inline;
 		padding: 0;
 		border: 0 !important;
 		border-radius: 0;
 		background: transparent !important;
 		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-regular);
-		line-height: 1;
+		font-size: 0.74rem;
 		text-decoration: none;
 	}
 
 	.magazine-chip::before {
-		content: "#";
-		opacity: 0.55;
+		content: none;
 	}
 
 	.magazine-chip:hover {
-		color: var(--accent-color);
+		color: var(--link-color);
 	}
 
 	.profile-card {
 		display: grid;
-		grid-template-columns: 3.5rem minmax(0, 1fr);
-		gap: 0.8rem;
+		grid-template-columns: 3.25rem minmax(0, 1fr);
+		gap: 0.75rem;
 		align-items: center;
 	}
 
@@ -578,25 +698,40 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.profile-avatar {
-		width: 56px;
-		height: 56px;
-		border-radius: 50%;
+		width: 52px;
+		height: 52px;
+		border-radius: 4px;
 		object-fit: cover;
 	}
 
 	.profile-name {
 		margin: 0;
 		color: var(--heading-color);
-		font-size: 0.96rem;
-		font-weight: var(--weight-medium);
+		font-family: var(--display-font);
+		font-size: 1.1rem;
+		font-weight: 500;
 		line-height: 1.2;
 	}
 
 	.profile-bio {
-		margin: 0.24rem 0 0;
+		margin: 0.2rem 0 0;
 		color: var(--gray-color);
 		font-size: 0.76rem;
 		line-height: 1.5;
+	}
+
+	body:has(.blog-surface-layout) .theme-toggle-fab {
+		border-radius: 2px;
+		background: var(--content-bg);
+		border-color: var(--paper-card-border);
+		box-shadow: none;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ledger-nav__link,
+		.ledger-search {
+			transition: none;
+		}
 	}
 
 	.sr-only {
@@ -612,12 +747,21 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	@media (max-width: 1100px) {
-		.ledger-shell,
-		.ledger-shell--no-context {
+		.ledger-shell {
 			grid-template-columns: 1fr;
-			gap: clamp(1.5rem, 4vw, 2.4rem);
-			width: min(44rem, calc(100% - 2rem));
-			padding-top: 1.2rem;
+			gap: 0;
+			width: 100%;
+			min-height: 0;
+			padding: 0;
+		}
+
+		.ledger-context[data-empty] {
+			display: none;
+		}
+
+		.ledger-sidebar {
+			background:
+				linear-gradient(165deg, color-mix(in oklab, var(--rail-active) 14%, var(--rail-bg)), var(--rail-bg) 60%);
 		}
 
 		.ledger-sidebar__inner {
@@ -627,26 +771,44 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			grid-template-areas:
 				"brand nav search"
 				"collections collections social";
+			gap: 0.55rem 1rem;
 			min-height: 0;
-			align-items: center;
-			gap: 0.45rem 1rem;
-			padding: 0 0 0.8rem;
-			border-right: 0;
-			border-bottom: 1px solid var(--paper-card-border-soft);
+			padding: 1rem clamp(1rem, 4vw, 1.4rem) 1.1rem;
+			border-bottom: 1px solid var(--rail-line);
+		}
+
+		.ledger-main {
+			width: min(42rem, calc(100% - 2rem));
+			margin: 0 auto;
+			padding: 1.4rem 0 2.5rem;
+		}
+
+		.ledger-context {
+			width: min(42rem, calc(100% - 2rem));
+			margin: 0 auto;
+			padding: 0 0 2rem;
 		}
 
 		.ledger-brand {
 			grid-area: brand;
-			gap: 0.65rem;
-			width: auto;
-			margin-bottom: 0;
+			flex-direction: row;
+			align-items: center;
+			gap: 0.7rem;
 			padding-bottom: 0;
 			border-bottom: 0 !important;
 		}
 
 		.ledger-brand__avatar {
-			width: 32px;
-			height: 32px;
+			width: 36px;
+			height: 36px;
+		}
+
+		.ledger-brand__name {
+			font-size: 1.2rem;
+		}
+
+		.ledger-brand__kicker {
+			display: none;
 		}
 
 		.ledger-nav-group--primary {
@@ -655,93 +817,60 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-nav--primary {
 			flex-direction: row;
-			flex-wrap: nowrap;
-			gap: 0.7rem;
+			flex-wrap: wrap;
+			gap: 0.15rem 0.85rem;
 		}
 
 		.ledger-nav--primary .ledger-nav__link {
-			display: flex;
-			min-height: 2.5rem;
+			min-height: 2.4rem;
 		}
 
-		.ledger-nav__marker {
-			width: 0.55rem;
-			margin-left: 0.3rem;
-			flex: 0 0 auto;
+		.ledger-nav__link.active .ledger-nav__text::before {
+			display: none;
+		}
+
+		.ledger-nav__link.active {
+			color: var(--rail-active);
 		}
 
 		.ledger-collections {
 			grid-area: collections;
-			padding-top: 0;
-		}
-
-		.ledger-collections__summary {
-			width: fit-content;
-			min-height: 2.5rem;
-			gap: 0.55rem;
 		}
 
 		.ledger-collections .ledger-nav--secondary {
 			flex-direction: row;
 			flex-wrap: wrap;
-			gap: 0.25rem 0.9rem;
-			padding-top: 0.35rem;
-		}
-
-		.ledger-nav--secondary .ledger-nav__link {
-			display: flex;
-			min-height: 2rem;
+			gap: 0.2rem 0.85rem;
 		}
 
 		.ledger-search {
 			grid-area: search;
-			justify-self: end;
-			min-width: 0;
-			min-height: 2.5rem;
+			width: auto;
+			min-width: 6.5rem;
 		}
 
 		.ledger-social {
 			grid-area: social;
-			align-items: flex-end;
-			gap: 0.25rem;
+			margin-top: 0;
 			padding-top: 0;
+			border-top: 0;
+			align-items: flex-end;
 		}
 
 		.ledger-social .ledger-group-label {
 			display: none;
 		}
 
-		.ledger-main {
-			min-height: 0;
-		}
-
-		.blog-surface-layout .ledger-main > footer {
-			margin-top: clamp(0.6rem, 2vw, 1.2rem);
-		}
-
 		.ledger-context {
 			position: static;
-			padding-left: 0;
-			border-left: 0;
-			padding-top: 1.2rem;
-			border-top: 1px solid var(--paper-card-border-soft);
+			padding-top: 0.5rem;
+			border-top: 1px solid var(--rule-color);
 		}
 	}
 
 	@media (max-width: 640px) {
-		.ledger-shell,
-		.ledger-shell--no-context {
-			width: min(100% - 1.1rem, 40rem);
-			padding-top: 0.9rem;
-			padding-bottom: 3rem;
-		}
-
-		.ledger-brand__name {
-			font-size: 1rem;
-		}
-
-		.ledger-brand {
-			min-height: 2.75rem;
+		.ledger-shell {
+			width: min(100% - 1rem, 40rem);
 		}
 
 		.ledger-sidebar__inner {
@@ -751,8 +880,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 				"nav nav"
 				"collections collections"
 				"social social";
-			gap: 0.25rem 0.75rem;
-			padding-bottom: 0.65rem;
 		}
 
 		.ledger-nav--primary {
@@ -763,46 +890,13 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-nav--primary .ledger-nav__link {
 			justify-content: center;
-			min-height: 2.75rem;
-			font-size: 0.78rem;
-		}
-
-		.ledger-search {
-			width: fit-content;
-			min-height: 2.75rem;
-		}
-
-		.ledger-collections {
-			border-top: 1px solid var(--paper-card-border-soft);
-		}
-
-		.ledger-collections__summary {
-			width: 100%;
-			min-height: 2.75rem;
-		}
-
-		.ledger-nav--secondary .ledger-nav__link {
-			min-width: 2.75rem;
-			min-height: 2.75rem;
-			padding-inline: 0.4rem;
-			font-size: 0.78rem;
+			font-size: 0.8rem;
 		}
 
 		.ledger-social {
 			align-items: flex-start;
-			border-top: 1px solid var(--paper-card-border-soft);
-		}
-
-		.ledger-social__links {
-			gap: 0 0.9rem;
-		}
-
-		.ledger-social a {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			min-width: 2.75rem;
-			min-height: 2.75rem;
+			padding-top: 0.55rem;
+			border-top: 1px solid var(--rail-line);
 		}
 	}
 </style>

@@ -13,8 +13,8 @@ const { title } = Astro.props;
 <MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
 	<section class="message-panel" aria-labelledby="message-title">
 		<header class="message-panel__header">
-			<p class="magazine-section-label">留言</p>
-			<h1 id="message-title" class="sr-only">留言</h1>
+			<p class="magazine-section-label">留言板</p>
+			<h1 id="message-title">留言</h1>
 		</header>
 
 		<div class="message-comments">
@@ -41,28 +41,38 @@ const { title } = Astro.props;
 	}
 
 	.message-panel__header {
-		margin-bottom: clamp(1rem, 3vw, 1.6rem);
+		margin-bottom: clamp(0.75rem, 2vw, 1.1rem);
 		padding-bottom: 0.65rem;
 		border-bottom: 1px solid var(--paper-card-border-soft);
 	}
 
+	.message-panel__header .magazine-section-label {
+		margin-bottom: 0.55rem;
+	}
+
+	.message-panel__header h1 {
+		margin: 0;
+		color: var(--heading-color);
+		font-family: var(--display-font);
+		font-size: clamp(1.55rem, 3.2vw, 2rem);
+		font-weight: var(--weight-semibold, 600);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+	}
+
 	.message-comments {
-		border-radius: var(--paper-card-radius);
+		margin-top: 0.35rem;
+		background: transparent;
 	}
 
 	.message-comments .comments.single {
 		margin: 0;
 	}
 
-	.message-comments .twikoo-shell {
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		overflow: visible;
-	}
-
+	.message-comments .twikoo-shell,
 	.message-comments .twikoo-shell[data-load-state="loaded"] {
 		border: 0;
+		border-radius: 0;
 		background: transparent;
 		box-shadow: none;
 		overflow: visible;
@@ -73,8 +83,9 @@ const { title } = Astro.props;
 		align-items: center;
 		justify-content: space-between;
 		gap: var(--space-sm);
-		padding: 1rem 0;
+		padding: 0.85rem 0;
 		border-bottom: 1px solid var(--paper-card-border-soft);
+		background: transparent;
 	}
 
 	.message-comments .twikoo-lazygate__meta {
@@ -88,6 +99,7 @@ const { title } = Astro.props;
 
 	.message-comments .twikoo-load-button {
 		min-height: 2rem;
+		padding: 0.35rem 0.7rem;
 		border: 1px solid var(--paper-card-border-soft);
 		border-radius: 0;
 		background: transparent;
@@ -96,12 +108,15 @@ const { title } = Astro.props;
 		font-size: 0.76rem;
 		font-weight: var(--weight-regular);
 		cursor: pointer;
+		transform: none;
+		transition: color 0.18s ease, border-color 0.18s ease;
 	}
 
 	.message-comments .twikoo-load-button:hover:not(:disabled) {
 		border-color: var(--paper-hover-border);
 		background: transparent;
 		color: var(--heading-color);
+		transform: none;
 	}
 
 	.message-rail {
@@ -113,7 +128,7 @@ const { title } = Astro.props;
 	.message-contact-card {
 		display: flex;
 		flex-direction: column;
-		gap: 0.85rem;
+		gap: 0.75rem;
 	}
 
 	.message-contact-intro {
@@ -137,7 +152,7 @@ const { title } = Astro.props;
 		align-items: center;
 		justify-content: flex-start;
 		min-height: 0;
-		padding: 0.55rem 0;
+		padding: 0.5rem 0;
 		border: 0 !important;
 		border-bottom: 1px solid var(--paper-card-border-soft) !important;
 		border-radius: 0;
@@ -155,23 +170,7 @@ const { title } = Astro.props;
 		background: transparent !important;
 	}
 
-	.sr-only {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		white-space: nowrap;
-		border: 0;
-	}
-
 	@media (max-width: 640px) {
-		.message-panel {
-			padding-inline: 0;
-		}
-
 		.message-comments .twikoo-lazygate {
 			flex-direction: column;
 			align-items: stretch;
