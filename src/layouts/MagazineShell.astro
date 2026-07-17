@@ -187,11 +187,12 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--paper-hover-bg: oklch(0.4 0.045 205 / 0.045);
 		--paper-hover-border: oklch(0.4 0.045 205 / 0.32);
 		--blog-shell-width: 1280px;
-		--blog-sidebar-width: 13rem;
+		/* 左栏再收、右栏再放，减轻「导航贴左、目录偏窄」的失衡 */
+		--blog-sidebar-width: 10.75rem;
 		/* 全站中间栏（两栏时的主内容栏）统一宽度 */
 		--blog-content-max: 44rem;
-		--blog-context-width: 10rem;
-		--blog-shell-gap: clamp(1.85rem, 3.2vw, 2.75rem);
+		--blog-context-width: 12.75rem;
+		--blog-shell-gap: clamp(1.6rem, 2.8vw, 2.35rem);
 		--measure-readable: var(--blog-content-max);
 		font-family: var(--ui-font);
 		color: var(--text-color);
@@ -303,9 +304,9 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		align-self: start;
 		flex-direction: column;
 		gap: clamp(1.15rem, 2.4vh, 1.55rem);
-		padding: 0.15rem clamp(0.65rem, 1.4vw, 0.95rem) 0.5rem 0;
+		/* 略增左侧内边距，让导航视觉中心向内容栏靠拢 */
+		padding: 0.15rem 0.2rem 0.5rem 0.7rem;
 		border-right: 0;
-		/* tools sit on canvas — no second sheet */
 		background: transparent;
 	}
 

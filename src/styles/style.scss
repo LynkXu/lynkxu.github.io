@@ -809,10 +809,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .code-wrapper {
-  background:
-    linear-gradient(color-mix(in oklab, var(--rule-color) 8%, transparent) 1px, transparent 1px),
-    color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
-  background-size: 100% 1.65rem, auto;
+  background: color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
   border-color: var(--paper-card-border);
   border-radius: var(--paper-card-radius);
   box-shadow: var(--paper-card-shadow);

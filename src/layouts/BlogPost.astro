@@ -85,12 +85,9 @@ const topicLinksEnabled = Boolean(tags?.length);
 		/* Code Block Wrapper */
 		.code-wrapper {
 			position: relative;
-			margin: var(--space-md) 0;
+			margin: 1.25rem 0;
 			border-radius: var(--paper-card-radius);
-			background:
-				linear-gradient(color-mix(in oklab, var(--rule-color) 9%, transparent) 1px, transparent 1px),
-				color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
-			background-size: 100% 1.65rem, auto;
+			background: color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
 			box-shadow: var(--paper-card-shadow);
 			border: 1px solid var(--paper-card-border);
 			overflow: hidden;
@@ -158,36 +155,30 @@ const topicLinksEnabled = Boolean(tags?.length);
 			gap: clamp(var(--space-md), 2vw, var(--space-lg));
 		}
 
+		.post-header-card {
+			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
+			padding: clamp(1.15rem, 2.6vw, 1.55rem) var(--post-inline-padding) clamp(0.85rem, 1.8vw, 1.1rem);
+			margin: 0;
+			border: 1px solid var(--sheet-edge);
+			border-bottom: 0;
+			border-radius: var(--paper-card-radius) var(--paper-card-radius) 0 0;
+			background: var(--sheet-bg);
+			box-shadow: var(--sheet-shadow);
+		}
+
 		.entry-sheet {
 			--measure-readable: var(--blog-content-max, 44rem);
 			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
 			--post-content-width: var(--measure-readable);
 			display: flex;
 			flex-direction: column;
-			margin-bottom: 0;
-			padding: clamp(1.25rem, 3vw, 1.85rem) var(--post-inline-padding) clamp(1.4rem, 3.2vw, 2rem);
+			margin: 0;
+			padding: clamp(0.95rem, 2.1vw, 1.25rem) var(--post-inline-padding) clamp(1.35rem, 3vw, 1.85rem);
 			border: 1px solid var(--sheet-edge);
-			border-radius: var(--paper-card-radius);
-			background: var(--sheet-bg);
-			box-shadow: var(--sheet-shadow);
-			overflow: visible;
-		}
-
-		.post-header-card {
-			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
-			padding: clamp(1.15rem, 2.6vw, 1.55rem) var(--post-inline-padding) clamp(1rem, 2.2vw, 1.35rem);
-			margin-bottom: 0;
-			border: 1px solid var(--sheet-edge);
-			border-bottom: 0;
-			border-radius: var(--paper-card-radius) var(--paper-card-radius) 0 0;
-			background: var(--sheet-bg);
-			box-shadow: var(--sheet-shadow);
-			overflow: visible;
-		}
-
-		.blog-main-column .entry-sheet {
 			border-radius: 0 0 var(--paper-card-radius) var(--paper-card-radius);
+			background: var(--sheet-bg);
 			box-shadow:
+				var(--sheet-shadow),
 				0 10px 28px oklch(0.32 0.02 95 / 0.07);
 		}
 
@@ -221,7 +212,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 		.post-header-inner {
 			display: flex;
 			flex-direction: column;
-			gap: 0.85rem;
+			gap: 0.7rem;
 		}
 
 		.post-meta-bar {
@@ -229,7 +220,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 			flex-wrap: wrap;
 			align-items: flex-end;
 			gap: 0.55rem 1.35rem;
-			padding: 0.15rem 0 0.2rem;
+			padding: 0;
 		}
 
 		.post-meta-bar .dispatch-field {
@@ -298,9 +289,9 @@ const topicLinksEnabled = Boolean(tags?.length);
 		.post-header .post-title {
 			margin: 0;
 			font-family: var(--display-font);
-			font-size: clamp(1.72rem, 3.6vw, 2.55rem);
+			font-size: clamp(1.72rem, 3.6vw, 2.45rem);
 			font-weight: var(--weight-semibold);
-			line-height: 1.15;
+			line-height: 1.18;
 			letter-spacing: var(--tracking-tighter);
 			color: var(--heading-color);
 		}
@@ -352,7 +343,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 		.code-wrapper pre {
 			margin: 0 !important;
 			border-radius: 0 !important;
-			padding: 1.65rem var(--space-md) var(--space-sm) var(--space-md) !important;
+			padding: 1.65rem var(--space-md) var(--space-sm) !important;
 			background: transparent !important;
 			font-size: 0.78rem;
 			line-height: 1.56;
@@ -366,49 +357,21 @@ const topicLinksEnabled = Boolean(tags?.length);
 
 		.blog-post-layout .blog-main-column .post-content {
 			--reader-inline-pad: 0;
-			position: relative;
-			isolation: isolate;
 			width: 100%;
 			max-width: none;
 			box-sizing: border-box;
-			margin-left: auto;
-			margin-right: auto;
-			padding: clamp(0.55rem, 1.4vw, 0.8rem) 0.15rem clamp(0.95rem, 2.4vw, 1.45rem);
+			margin: 0;
+			padding: 0;
 			border: 0;
-			/* paper only — content paints above */
-			background-color: transparent;
+			background: transparent;
 			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
 			font-family: var(--reading-font);
 			font-size: 1.02rem;
 			font-weight: var(--weight-regular);
 			line-height: var(--lh-body);
 			letter-spacing: 0;
-			overflow-wrap: anywhere;
+			overflow-wrap: break-word;
 			text-wrap: pretty;
-		}
-
-		.blog-post-layout .blog-main-column .post-content::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			z-index: -1;
-			pointer-events: none;
-			opacity: 1;
-			background-image:
-				radial-gradient(circle, var(--paper-dot) 0.55px, transparent 0.65px),
-				repeating-linear-gradient(
-					transparent,
-					transparent calc(1.82em - 1px),
-					var(--paper-rule) calc(1.82em - 1px),
-					var(--paper-rule) 1.82em
-				);
-			background-size: 12px 12px, 100% 1.82em;
-			background-position: 0 0, 0 0.2em;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > :where(pre, .code-wrapper, table, .img-grid, figure, img) {
-			position: relative;
-			z-index: 1;
 		}
 
 		:root[data-theme="dark"] .blog-post-layout .blog-main-column .post-content {
@@ -424,28 +387,31 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		.blog-post-layout .blog-main-column .post-content > h2 {
-			margin-top: 2.25em;
-			margin-bottom: 0.58em;
+			margin-top: 2.1em;
+			margin-bottom: 0.65em;
+			padding: 0;
 			color: var(--heading-color);
 			font-family: var(--display-font);
-			font-size: clamp(1.28rem, 1.85vw, 1.44rem);
+			font-size: clamp(1.28rem, 1.85vw, 1.42rem);
 			font-weight: var(--weight-bold);
-			line-height: 1.24;
+			line-height: 1.28;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > h3 {
-			margin-top: 1.72em;
-			margin-bottom: 0.48em;
+			margin-top: 1.7em;
+			margin-bottom: 0.55em;
+			padding: 0;
 			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
 			font-family: var(--display-font);
-			font-size: clamp(1.06rem, 1.35vw, 1.14rem);
+			font-size: clamp(1.08rem, 1.4vw, 1.16rem);
 			font-weight: var(--weight-semibold);
 			line-height: 1.32;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > h4 {
-			margin-top: 1.5em;
-			margin-bottom: 0.42em;
+			margin-top: 1.4em;
+			margin-bottom: 0.45em;
+			padding: 0;
 			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
 			font-family: var(--display-font);
 			font-weight: var(--weight-medium);
@@ -453,28 +419,43 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4):first-child {
-			margin-top: clamp(1.1rem, 2.4vw, 1.45rem);
+			margin-top: 0;
 		}
 
 		.blog-post-layout .blog-main-column .post-content > p {
-			margin-top: 0;
-			margin-bottom: 0.58em;
+			margin: 0 0 1.05em;
+			padding: 0;
 			font-weight: var(--weight-regular);
+			line-height: var(--lh-body);
 		}
 
 		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
-			margin-top: 0.58em;
-			margin-bottom: 0.66em;
+			margin: 0.35em 0 1.05em;
 			font-weight: var(--weight-regular);
+			line-height: var(--lh-body);
 		}
 
 		.blog-post-layout .blog-main-column .post-content li + li {
-			margin-top: 0.18em;
+			margin-top: 0.28em;
+		}
+
+		.blog-post-layout .blog-main-column .post-content > blockquote {
+			margin: 1.15em 0;
+			padding: 0.85em 1em;
+			border-left: 2px solid color-mix(in oklab, var(--accent-color) 45%, var(--sheet-edge));
+			background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
+		}
+
+		.blog-post-layout .blog-main-column .post-content > .link-card,
+		.blog-post-layout .blog-main-column .post-content > .code-wrapper {
+			margin-block: 1.25em;
 		}
 
 		.post-tail {
 			position: relative;
-			padding: clamp(2.15rem, 5vw, 3.2rem) 0 0;
+			margin-top: 1.5rem;
+			padding: clamp(1.6rem, 3.5vw, 2.2rem) 0 0;
+			border-top: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
 			background: transparent;
 		}
 
@@ -665,37 +646,26 @@ const topicLinksEnabled = Boolean(tags?.length);
 			}
 
 		@media (max-width: 720px) {
-				.entry-sheet {
-					--post-inline-padding: var(--space-md);
-					border-radius: 0;
-					border-left: none;
-					border-right: none;
-				}
-
-				.post-header-card {
-					--post-inline-padding: var(--space-md);
-					border-right: 0;
-					border-left: 0;
-					border-radius: 0;
-				}
+			.post-header-card,
+			.entry-sheet {
+				--post-inline-padding: var(--space-md);
+				border-radius: 0;
+				border-left: none;
+				border-right: none;
+			}
 
 			.post-header .post-title {
 				max-width: var(--post-content-width);
 			}
 
 			.blog-main-column {
-				gap: clamp(0, 0vw, 0);
+				gap: 0;
 			}
 
 			.blog-post-layout .blog-main-column .post-content {
 				max-width: 100%;
-				padding-inline: 0;
 				font-size: 1rem;
 				line-height: var(--lh-body);
-			}
-
-			.blog-post-layout .blog-main-column .post-content > h2 {
-				margin-top: 2.05em;
 			}
 		}
 	</style>
@@ -709,12 +679,12 @@ const topicLinksEnabled = Boolean(tags?.length);
 	</div>
 
 	<div class="blog-main-column">
-		<article class="post-header-card magazine-panel">
-			<header class='post-header'>
+		<article class="post-header-card">
+			<header class="post-header">
 				<div class="post-flow post-header-inner">
-					<h1 class='post-title' transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+					<h1 class="post-title" transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
-					<div class='post-meta-bar dispatch-fields'>
+					<div class="post-meta-bar dispatch-fields">
 						<span class="dispatch-field">
 							<span class="dispatch-field__label">Date</span>
 							<span class="dispatch-field__value"><FormattedDate date={pubDate} /></span>
@@ -724,11 +694,11 @@ const topicLinksEnabled = Boolean(tags?.length);
 							<span class="dispatch-field__value post-kind-group">
 								{topicLabels.map((label, index) => (
 									<>
-										{index > 0 && <span class='post-kind-sep' aria-hidden='true'>/</span>}
+										{index > 0 && <span class="post-kind-sep" aria-hidden="true">/</span>}
 										{topicLinksEnabled ? (
-											<a class='post-kind' href={`/tags/${label}/`}>{label}</a>
+											<a class="post-kind" href={`/tags/${label}/`}>{label}</a>
 										) : (
-											<span class='post-kind'>{label}</span>
+											<span class="post-kind">{label}</span>
 										)}
 									</>
 								))}
@@ -754,21 +724,19 @@ const topicLinksEnabled = Boolean(tags?.length);
 						)}
 					</div>
 
-					{description && <p class='post-description'>{description}</p>}
+					{description && <p class="post-description">{description}</p>}
 				</div>
 			</header>
 		</article>
 
 		<article class="entry-sheet">
-			<!-- 主内容区 -->
-			<div class='post-content content' id='lightgallery'>
+			<div class="post-content content" id="lightgallery">
 				<slot />
 			</div>
 
 			<div class="post-tail">
 				<div class="post-flow post-tail-inner">
-					<!-- 文章结束标识和点赞 -->
-					<div class='post-end'>
+					<div class="post-end">
 						<div class="post-end-mark" aria-hidden="true">
 							<span class="post-end-text">◊</span>
 						</div>
@@ -782,7 +750,6 @@ const topicLinksEnabled = Boolean(tags?.length);
 			</div>
 		</article>
 
-		<!-- 导航按钮 -->
 		<NavButton showBackToTop={true} />
 	</div>
 
