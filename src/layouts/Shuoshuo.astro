@@ -1,13 +1,10 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
 import MagazineShell from './MagazineShell.astro';
 import { marked } from 'marked';
-import { INCLUDE_DRAFTS, filterDrafts } from '../utils/drafts';
-import fs from 'fs';
-import path from 'path';
 import LikeButton from '../components/LikeButton.astro';
 import { AVATAR_IMAGE } from '../consts';
+import { getAllGossips } from '../utils/gossips';
 
 type Props = CollectionEntry<'page'>['data'] & {
 	content?: string;
@@ -15,29 +12,9 @@ type Props = CollectionEntry<'page'>['data'] & {
 
 const { title } = Astro.props;
 
-const fileGossips = filterDrafts(await getCollection('gossips'));
-
-let mastodonGossips: any[] = [];
-try {
-	const mastodonDataPath = path.join(process.cwd(), 'src/data/mastodon.json');
-	if (fs.existsSync(mastodonDataPath)) {
-		const mastodonData = JSON.parse(fs.readFileSync(mastodonDataPath, 'utf-8'));
-		mastodonGossips = mastodonData.map((status: any) => ({
-			data: {
-				pubDate: new Date(status.created_at),
-				slug: `mastodon-${status.id}`,
-				draft: false,
-				tag: 'mastodon',
-			},
-			body: status.content_markdown,
-			_raw: status,
-		}));
-	}
-} catch (error) {
-	console.warn('Failed to load Mastodon data:', error);
-}
-
-const gossips = [...fileGossips, ...mastodonGossips].sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const gossips = await getAllGossips();
+const fileGossips = gossips.filter((item) => item.data.tag !== 'mastodon');
+const mastodonGossips = gossips.filter((item) => item.data.tag === 'mastodon');
 
 const pageSize = 10;
 const totalPages = gossips.length > 0 ? Math.ceil(gossips.length / pageSize) : 0;
