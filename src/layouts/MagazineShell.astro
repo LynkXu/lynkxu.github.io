@@ -220,7 +220,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--blog-sidebar-width: 16rem;
 		--blog-content-max: 44rem;
 		--blog-context-width: 12.75rem;
-		--blog-shell-gap: clamp(1.1rem, 1.8vw, 1.65rem);
+		/* 左轨↔读区、读区↔右栏共用同一 gutter，2/3 栏对称 */
+		--blog-shell-gap: clamp(var(--space-xl), 3vw, var(--space-2xl));
 		--measure-readable: var(--blog-content-max);
 	}
 
