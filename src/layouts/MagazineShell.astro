@@ -69,7 +69,8 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		<aside class="ledger-sidebar" aria-label="站点导航">
 			<div class="ledger-sidebar__inner">
 				<a href="/" class="ledger-brand" aria-label="LynkXu 首页">
-					<span class="ledger-brand__wordmark">LynkXu</span>
+					<span class="ledger-brand__wordmark">LynkXu's Blog</span>
+					<!-- <span class="ledger-brand__tag" aria-hidden="true">Est. 2020</span> -->
 				</a>
 
 				<div class="ledger-nav-group ledger-nav-group--primary">
@@ -80,25 +81,14 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 								class:list={['ledger-nav__link', { active: isActive(item.href) }]}
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
-								<span class="ledger-nav__text">{item.label}</span>
 								<span class="ledger-nav__marker" aria-hidden="true"></span>
+								<span class="ledger-nav__text">{item.label}</span>
 							</a>
 						))}
 					</nav>
 				</div>
 
-				<button
-					class="ledger-search"
-					type="button"
-					aria-label="搜索文章"
-					aria-keyshortcuts="Meta+K Control+K"
-					onclick="window.openSearchModal && window.openSearchModal()"
-				>
-					<span>搜索</span>
-					<kbd>⌘K</kbd>
-				</button>
-
-				<details class="ledger-collections">
+				<details class="ledger-collections" open>
 					<summary class="ledger-group-label ledger-collections__summary">
 						<span>专题</span>
 					</summary>
@@ -109,24 +99,40 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 								class:list={['ledger-nav__link', { active: isActive(item.href) }]}
 								aria-current={isActive(item.href) ? 'page' : undefined}
 							>
-								<span class="ledger-nav__text">{item.label}</span>
 								<span class="ledger-nav__marker" aria-hidden="true"></span>
+								<span class="ledger-nav__text">{item.label}</span>
 							</a>
 						))}
 					</nav>
 				</details>
 
-				<nav class="ledger-social" aria-label="社交与订阅链接">
-					<span class="ledger-group-label">社交</span>
-					<div class="ledger-social__links">
-						{socialItems.map((item) => (
-							<a href={item.href} target="_blank" rel="noopener noreferrer">
-								{item.label}
-							</a>
-						))}
-						<a href="/index.xml" class="ledger-rss">RSS</a>
-					</div>
-				</nav>
+				<div class="ledger-meta">
+					<button
+						class="ledger-search"
+						type="button"
+						aria-label="搜索文章"
+						aria-keyshortcuts="Meta+K Control+K"
+						onclick="window.openSearchModal && window.openSearchModal()"
+					>
+						<span class="ledger-meta__label">搜索</span>
+						<span class="ledger-meta__value"><kbd>⌘K</kbd></span>
+					</button>
+
+					<nav class="ledger-social" aria-label="社交与订阅链接">
+						<span class="ledger-meta__label">社交</span>
+						<span class="ledger-meta__value ledger-social__links">
+							{socialItems.map((item) => (
+								<a href={item.href} target="_blank" rel="noopener noreferrer">
+									{item.label}
+								</a>
+							))}
+						</span>
+						<span class="ledger-meta__label">订阅</span>
+						<span class="ledger-meta__value ledger-social__links">
+							<a href="/index.xml" class="ledger-rss">RSS</a>
+						</span>
+					</nav>
+				</div>
 			</div>
 		</aside>
 
@@ -313,7 +319,9 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-brand {
-		display: block;
+		display: flex;
+		flex-direction: column;
+		gap: 0.34rem;
 		width: 100%;
 		margin-bottom: 0.1rem;
 		padding: 0 0 clamp(0.95rem, 1.8vh, 1.2rem);
@@ -331,6 +339,15 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		line-height: 1;
 		letter-spacing: -0.02em;
 		color: var(--heading-color);
+	}
+
+	.ledger-brand__tag {
+		font-family: var(--field-font);
+		font-size: 0.58rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--faint-color);
 	}
 
 	.ledger-nav-group {
@@ -364,10 +381,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-collections__summary::after {
-		content: "↘";
-		color: var(--gray-color);
+		content: "›";
+		color: var(--faint-color);
 		font-family: var(--field-font);
-		font-size: 0.68rem;
+		font-size: 0.82rem;
 		line-height: 1;
 		transform: rotate(0deg);
 		transition: transform 0.18s ease;
@@ -391,21 +408,34 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		line-height: 1;
 	}
 
+	/* Spine index: a vertical ink rule the destinations hang off of. */
 	.ledger-nav {
+		position: relative;
 		display: flex;
 		flex-direction: column;
-		gap: 0.2rem;
+		gap: 0.04rem;
 	}
 
-	.ledger-nav--secondary {
-		gap: 0.12rem;
+	.ledger-nav::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0.22rem;
+		bottom: 0.22rem;
+		width: 1px;
+		background: var(--rule-color);
+	}
+
+	.ledger-nav--secondary::before {
+		background: color-mix(in oklab, var(--rule-color) 70%, transparent);
 	}
 
 	.ledger-nav__link {
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr);
+		position: relative;
+		display: flex;
 		align-items: center;
-		min-height: 1.7rem;
+		min-height: 1.95rem;
+		padding-left: 0.95rem;
 		border: 0 !important;
 		background: none !important;
 		color: var(--gray-color);
@@ -418,28 +448,30 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 	.ledger-nav--primary .ledger-nav__link {
 		color: color-mix(in oklab, var(--gray-color) 70%, var(--heading-color));
-		font-size: 0.8rem;
+		font-size: 0.82rem;
 	}
 
 	.ledger-nav--secondary .ledger-nav__link {
-		min-height: 1.55rem;
+		min-height: 1.7rem;
 		color: color-mix(in oklab, var(--gray-color) 90%, var(--heading-color));
-		font-size: 0.74rem;
+		font-size: 0.75rem;
 	}
 
 	.ledger-nav__text {
 		min-width: 0;
 	}
 
+	/* Tick sits on the spine and marks "you are here". Opacity/scale only — no reflow. */
 	.ledger-nav__marker {
-		width: 1.05rem;
-		height: 1px;
-		justify-self: start;
-		margin-left: 0.55rem;
+		position: absolute;
+		left: -0.5px;
+		top: 50%;
+		width: 2px;
+		height: 0.9rem;
 		background: var(--accent-color);
 		opacity: 0;
-		transform: scaleX(0);
-		transform-origin: right center;
+		transform: translateY(-50%) scaleY(0.35);
+		transform-origin: center;
 		transition: opacity 0.16s ease, transform 0.16s ease;
 	}
 
@@ -447,52 +479,93 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		color: var(--heading-color);
 	}
 
+	.ledger-nav__link:hover .ledger-nav__marker {
+		opacity: 0.45;
+		transform: translateY(-50%) scaleY(1);
+	}
+
 	.ledger-nav__link.active {
-		color: color-mix(in oklab, var(--accent-color) 36%, var(--heading-color));
+		color: color-mix(in oklab, var(--accent-color) 40%, var(--heading-color));
 		font-weight: var(--weight-medium);
 	}
 
 	.ledger-nav__link.active .ledger-nav__marker {
 		opacity: 1;
-		transform: scaleX(1);
+		transform: translateY(-50%) scaleY(1);
+	}
+
+	/* Meta footer: search / social / subscribe as one two-column ledger table. */
+	.ledger-meta {
+		display: flex;
+		flex-direction: column;
+		gap: 0.08rem;
+		margin-top: 0.15rem;
+		padding-top: clamp(0.85rem, 1.6vh, 1.1rem);
+		border-top: 1px dashed color-mix(in oklab, var(--rule-color) 75%, transparent);
+		--meta-label-col: 2.6rem;
+	}
+
+	.ledger-search,
+	.ledger-social {
+		display: grid;
+		grid-template-columns: var(--meta-label-col) minmax(0, 1fr);
+		column-gap: 0.7rem;
 	}
 
 	.ledger-search {
-		display: inline-flex;
 		align-items: center;
-		gap: 0.45rem;
-		width: fit-content;
-		min-height: 1.7rem;
+		min-height: 1.85rem;
 		padding: 0;
 		border: 0;
 		background: transparent;
-		color: var(--faint-color);
 		font: inherit;
-		font-size: 0.7rem;
 		text-align: left;
-		white-space: nowrap;
 		cursor: pointer;
-		transition: color 0.16s ease;
-	}
-
-	.ledger-search kbd {
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.62rem;
-		letter-spacing: 0.04em;
-	}
-
-	.ledger-search:hover,
-	.ledger-search:focus-visible {
-		color: var(--heading-color);
 	}
 
 	.ledger-social {
-		display: flex;
-		flex-direction: column;
-		gap: 0.42rem;
-		padding-top: 0.2rem;
-		border-top: 0;
+		row-gap: 0.5rem;
+		align-items: baseline;
+	}
+
+	.ledger-meta__label {
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.62rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.06em;
+		line-height: 1.2;
+		white-space: nowrap;
+		transition: color 0.16s ease;
+	}
+
+	.ledger-meta__value {
+		min-width: 0;
+	}
+
+	.ledger-search kbd {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.08rem 0.34rem;
+		border: 1px solid color-mix(in oklab, var(--rule-color) 85%, transparent);
+		border-radius: 3px;
+		color: var(--faint-color);
+		font-family: var(--field-font);
+		font-size: 0.6rem;
+		letter-spacing: 0.04em;
+		line-height: 1;
+		transition: border-color 0.16s ease, color 0.16s ease;
+	}
+
+	.ledger-search:hover .ledger-meta__label,
+	.ledger-search:focus-visible .ledger-meta__label {
+		color: var(--gray-color);
+	}
+
+	.ledger-search:hover kbd,
+	.ledger-search:focus-visible kbd {
+		border-color: color-mix(in oklab, var(--rule-color) 130%, var(--heading-color));
+		color: var(--gray-color);
 	}
 
 	.ledger-social__links {
@@ -505,9 +578,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		border: 0 !important;
 		background: none !important;
 		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-size: 0.68rem;
+		font-size: 0.7rem;
 		line-height: 1.3;
 		text-decoration: none;
+		transition: color 0.16s ease;
 	}
 
 	.ledger-social a:hover {
@@ -771,15 +845,39 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			gap: 0.7rem;
 		}
 
+		.ledger-nav {
+			gap: 0;
+		}
+
+		.ledger-nav::before {
+			content: none;
+		}
+
+		.ledger-nav__link {
+			padding-left: 0;
+		}
+
 		.ledger-nav--primary .ledger-nav__link {
 			display: flex;
 			min-height: 2.5rem;
 		}
 
+		/* Masthead: the spine tick becomes a short underline beneath the current row. */
 		.ledger-nav__marker {
-			width: 0.55rem;
-			margin-left: 0.3rem;
-			flex: 0 0 auto;
+			left: 0;
+			right: 0;
+			top: auto;
+			bottom: 0.32rem;
+			width: auto;
+			height: 2px;
+			transform: scaleX(0);
+			transform-origin: center;
+		}
+
+		.ledger-nav__link:hover .ledger-nav__marker,
+		.ledger-nav__link.active .ledger-nav__marker {
+			opacity: 1;
+			transform: scaleX(1);
 		}
 
 		.ledger-collections {
@@ -805,8 +903,16 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			min-height: 2rem;
 		}
 
+		/* Masthead: unwrap the meta block so search/social keep their grid areas. */
+		.ledger-meta {
+			display: contents;
+		}
+
 		.ledger-search {
 			grid-area: search;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
 			justify-self: end;
 			min-width: 0;
 			min-height: 2.5rem;
@@ -814,12 +920,16 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 
 		.ledger-social {
 			grid-area: social;
+			display: flex;
+			flex-direction: column;
 			align-items: flex-end;
 			gap: 0.25rem;
+			margin-top: 0;
 			padding-top: 0;
+			border-top: 0;
 		}
 
-		.ledger-social .ledger-group-label {
+		.ledger-social .ledger-meta__label {
 			display: none;
 		}
 

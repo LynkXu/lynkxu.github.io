@@ -45,22 +45,41 @@ test('primary navigation lists five labels without editorial index numbers', () 
   assert.match(source, /class="ledger-nav__text"/);
 });
 
-test('search follows primary navigation instead of being pinned to the viewport bottom', () => {
+test('search sits in the meta footer with the follow links, not pinned to the viewport bottom', () => {
   const searchPosition = source.indexOf('class="ledger-search"');
   const topicsPosition = source.indexOf('<details class="ledger-collections"');
+  const socialPosition = source.indexOf('class="ledger-social"');
 
   assert.notEqual(searchPosition, -1);
   assert.notEqual(topicsPosition, -1);
-  assert.ok(searchPosition < topicsPosition);
+  assert.notEqual(socialPosition, -1);
+  // Destinations (primary + topics) stay uninterrupted; search moves into the meta footer.
+  assert.ok(topicsPosition < searchPosition);
+  assert.ok(searchPosition < socialPosition);
+  // Not pinned to the viewport bottom via a dedicated absolute container.
   assert.doesNotMatch(source, /\.ledger-sidebar__bottom\s*\{/);
 });
 
-test('search reads as an inline command instead of a full-width field', () => {
-  const desktopRule = extractBlock(styleSource, '.ledger-search {');
+test('search reads as a quiet meta row, not a bordered field', () => {
+  const metaRule = extractBlock(styleSource, '.ledger-meta {');
+  const searchRule = extractBlock(styleSource, '.ledger-search {');
 
-  assert.match(desktopRule, /display:\s*inline-flex/);
-  assert.match(desktopRule, /width:\s*fit-content/);
-  assert.doesNotMatch(desktopRule, /border-bottom/);
+  // The meta footer is a two-column ledger table shared by search/social.
+  assert.match(metaRule, /--meta-label-col/);
+  assert.match(
+    styleSource,
+    /\.ledger-search,\s*\.ledger-social\s*\{[^}]*display:\s*grid/,
+  );
+
+  // Search stays an unadorned command: no field border on desktop.
+  assert.doesNotMatch(searchRule, /border-bottom/);
+  assert.doesNotMatch(searchRule, /display:\s*inline-flex/);
+
+  // Search is expressed with the shared meta label/value structure.
+  assert.match(
+    source,
+    /class="ledger-search"[\s\S]*ledger-meta__label[\s\S]*ledger-meta__value/,
+  );
 });
 
 test('current and hover states do not move layout or use a detached dot', () => {
@@ -95,12 +114,12 @@ test('left-nav changes preserve the main and context layout contract', () => {
 
   assert.match(
     shellRule,
-    /grid-template-columns:\s*var\(--blog-sidebar-width\) minmax\(0, 1fr\) var\(--blog-context-width\)/,
+    /grid-template-columns:\s*var\(--blog-sidebar-width\)\s*minmax\(0, var\(--blog-content-max\)\)\s*var\(--blog-context-width\)/,
   );
   assert.match(shellRule, /width:\s*min\(var\(--blog-shell-width\)/);
   assert.match(mainRule, /min-width:\s*0/);
   assert.match(contextRule, /position:\s*sticky/);
-  assert.match(contextRule, /padding-left:\s*clamp\(1rem, 2vw, 1\.35rem\)/);
+  assert.match(contextRule, /padding-left:\s*clamp\(0\.75rem, 1\.6vw, 1\.1rem\)/);
 });
 
 test('RSS is announced with the social and subscription links', () => {
