@@ -93,14 +93,17 @@ test('left-nav changes preserve the main and context layout contract', () => {
   const mainRule = extractBlock(layoutStyles, '.ledger-main {');
   const contextRule = extractBlock(layoutStyles, '.ledger-context {');
 
-  assert.match(
-    shellRule,
-    /grid-template-columns:\s*var\(--blog-sidebar-width\) minmax\(0, 1fr\) var\(--blog-context-width\)/,
-  );
-  assert.match(shellRule, /width:\s*min\(var\(--blog-shell-width\)/);
+  // 墨轨贴左；读区+右栏由双侧弹性列软居中，中间 gutter 固定为 --blog-shell-gap
+  assert.match(shellRule, /var\(--blog-sidebar-width\)/);
+  assert.match(shellRule, /minmax\(var\(--blog-shell-gap\), 1fr\)/);
+  assert.match(shellRule, /minmax\(0, var\(--blog-content-max\)\)/);
+  assert.match(shellRule, /var\(--blog-context-width\)/);
+  assert.match(shellRule, /minmax\(0, 1fr\)/);
+  assert.match(shellRule, /width:\s*100%/);
+  assert.match(mainRule, /grid-column:\s*3/);
   assert.match(mainRule, /min-width:\s*0/);
+  assert.match(contextRule, /grid-column:\s*5/);
   assert.match(contextRule, /position:\s*sticky/);
-  assert.match(contextRule, /padding-left:\s*clamp\(1rem, 2vw, 1\.35rem\)/);
 });
 
 test('RSS is announced with the social and subscription links', () => {

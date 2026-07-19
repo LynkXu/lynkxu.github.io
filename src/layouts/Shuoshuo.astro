@@ -164,7 +164,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
 	<section class="memos-panel" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
-			<p class="magazine-section-label">时间线</p>
 			<h1 id="memos-title">碎语</h1>
 		</header>
 
@@ -383,10 +382,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		margin-bottom: clamp(0.9rem, 2.4vw, 1.35rem);
 		padding-bottom: 0.65rem;
 		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.memos-panel__header .magazine-section-label {
-		margin-bottom: 0.55rem;
 	}
 
 	.memos-panel__header h1 {

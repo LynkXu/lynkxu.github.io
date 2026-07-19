@@ -13,7 +13,6 @@ const { title } = Astro.props;
 <MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
 	<section class="message-panel" aria-labelledby="message-title">
 		<header class="message-panel__header">
-			<p class="magazine-section-label">留言板</p>
 			<h1 id="message-title">留言</h1>
 		</header>
 
@@ -44,10 +43,6 @@ const { title } = Astro.props;
 		margin-bottom: clamp(0.75rem, 2vw, 1.1rem);
 		padding-bottom: 0.65rem;
 		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.message-panel__header .magazine-section-label {
-		margin-bottom: 0.55rem;
 	}
 
 	.message-panel__header h1 {

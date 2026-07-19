@@ -216,7 +216,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--selection-color: oklch(0.2 0.03 245);
 
 		--blog-shell-width: 1280px;
-		/* 全屏墨轨：左轨作建筑立面，读区+右栏成组贴轨，右侧自然页边 */
+		/* 全屏墨轨：左轨贴边作立面；读区+右栏成组，宽屏软居中 */
 		--blog-sidebar-width: 16rem;
 		--blog-content-max: 44rem;
 		--blog-context-width: 12.75rem;
@@ -343,15 +343,18 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		width: 100%;
 	}
 
-	/* 桌面：墨轨 | 读区 | 右栏
-	   不定居中、不拉 1fr 空列；右栏恒占位，余下视口即页边 */
+	/* 桌面：墨轨贴左 | 软边距 | 读区 | gutter | 右栏 | 软边距
+	   双侧 1fr 均分墨轨右侧余量；窄桌面时软边距塌到 min，观感仍贴轨 */
 	.ledger-shell {
 		display: grid;
 		grid-template-columns:
 			var(--blog-sidebar-width)
+			minmax(var(--blog-shell-gap), 1fr)
 			minmax(0, var(--blog-content-max))
-			var(--blog-context-width);
-		column-gap: var(--blog-shell-gap);
+			var(--blog-shell-gap)
+			var(--blog-context-width)
+			minmax(0, 1fr);
+		column-gap: 0;
 		row-gap: 0;
 		width: 100%;
 		max-width: none;
@@ -367,6 +370,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-sidebar {
+		grid-column: 1;
 		display: flex;
 		flex-direction: column;
 		align-self: stretch;
@@ -610,6 +614,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-main {
+		grid-column: 3;
 		display: flex;
 		flex-direction: column;
 		gap: clamp(1.6rem, 3.5vw, 2.4rem);
@@ -626,6 +631,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 	}
 
 	.ledger-context {
+		grid-column: 5;
 		position: sticky;
 		top: clamp(2.2rem, 5vw, 3.4rem);
 		display: flex;
@@ -754,6 +760,12 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			width: 100%;
 			min-height: 0;
 			padding: 0;
+		}
+
+		.ledger-sidebar,
+		.ledger-main,
+		.ledger-context {
+			grid-column: auto;
 		}
 
 		.ledger-context[data-empty] {
