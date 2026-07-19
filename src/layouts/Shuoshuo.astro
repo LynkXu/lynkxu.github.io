@@ -299,19 +299,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memos-panel {
 		min-height: 0;
 		max-width: var(--blog-content-max);
-		padding: clamp(1.1rem, 2.5vw, 1.55rem);
+		padding: clamp(1rem, 2.2vw, 1.35rem);
 	}
 
-	.memos-panel__header {
-		display: flex;
-		flex-direction: column;
-		gap: 0.3rem;
-		margin-bottom: clamp(1rem, 2.6vw, 1.4rem);
-		padding-bottom: 0.75rem;
+	.memos-panel > .memos-panel__header {
+		display: block;
+		margin-bottom: 0.7rem;
+		padding: 0 0 0.65rem;
 		border-bottom: 1px solid var(--sheet-edge);
 	}
 
 	.memos-panel__header .magazine-section-label {
+		margin: 0 0 0.3rem;
 		font-family: var(--field-font);
 		font-size: 0.62rem;
 		letter-spacing: 0.1em;
@@ -322,9 +321,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memos-panel__sub {
 		margin: 0;
 		font-family: var(--display-font);
-		font-size: 1.2rem;
+		font-size: clamp(1.25rem, 2.2vw, 1.45rem);
 		font-weight: 600;
 		letter-spacing: -0.015em;
+		line-height: 1.2;
 		color: var(--heading-color);
 	}
 
@@ -459,7 +459,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.memo-author {
 		color: var(--heading-color);
 		font-family: var(--ui-font);
-		font-size: 0.8rem;
+		font-size: 0.76rem;
 		font-weight: var(--weight-medium);
 		line-height: 1.2;
 	}
@@ -517,8 +517,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-content {
 		color: var(--text-color);
-		font-size: 0.92rem;
-		line-height: 1.64;
+		font-size: 0.86rem;
+		line-height: 1.62;
 		letter-spacing: 0;
 	}
 
@@ -568,7 +568,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		padding-left: 0.62rem;
 		border-left: 1px solid color-mix(in oklab, var(--gray-color) 38%, transparent);
 		color: var(--gray-color);
-		font-size: 0.82rem;
+		font-size: 0.78rem;
 		line-height: 1.48;
 	}
 
@@ -584,7 +584,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.empty-state {
 		padding: 3rem 1rem;
 		color: var(--gray-color);
-		font-size: 0.9rem;
+		font-size: 0.84rem;
 		text-align: center;
 	}
 
