@@ -45,22 +45,21 @@ test('primary navigation lists five labels without editorial index numbers', () 
   assert.match(source, /class="ledger-nav__text"/);
 });
 
-test('search follows primary navigation instead of being pinned to the viewport bottom', () => {
-  const searchPosition = source.indexOf('class="ledger-search"');
-  const topicsPosition = source.indexOf('<details class="ledger-collections"');
-
-  assert.notEqual(searchPosition, -1);
-  assert.notEqual(topicsPosition, -1);
-  assert.ok(searchPosition < topicsPosition);
+test('topics stay collapsed by default and search is removed from the left rail', () => {
+  assert.match(source, /<details class="ledger-collections">/);
+  assert.doesNotMatch(source, /<details class="ledger-collections"[^>]*\sopen/);
+  assert.doesNotMatch(source, /class="ledger-search"/);
   assert.doesNotMatch(source, /\.ledger-sidebar__bottom\s*\{/);
 });
 
-test('search reads as an inline command instead of a full-width field', () => {
-  const desktopRule = extractBlock(styleSource, '.ledger-search {');
+test('meta footer keeps social and subscribe as a two-column ledger table', () => {
+  const metaRule = extractBlock(styleSource, '.ledger-meta {');
+  const socialRule = extractBlock(styleSource, '.ledger-social {');
 
-  assert.match(desktopRule, /display:\s*inline-flex/);
-  assert.match(desktopRule, /width:\s*fit-content/);
-  assert.doesNotMatch(desktopRule, /border-bottom/);
+  assert.match(metaRule, /--meta-label-col/);
+  assert.match(socialRule, /display:\s*grid/);
+  assert.match(source, /ledger-meta__label/);
+  assert.match(source, /ledger-meta__value/);
 });
 
 test('current and hover states do not move layout or use a detached dot', () => {
@@ -95,12 +94,12 @@ test('left-nav changes preserve the main and context layout contract', () => {
 
   assert.match(
     shellRule,
-    /grid-template-columns:\s*var\(--blog-sidebar-width\) minmax\(0, 1fr\) var\(--blog-context-width\)/,
+    /grid-template-columns:\s*var\(--blog-sidebar-width\)\s*minmax\(0, var\(--blog-content-max\)\)\s*var\(--blog-context-width\)/,
   );
   assert.match(shellRule, /width:\s*min\(var\(--blog-shell-width\)/);
   assert.match(mainRule, /min-width:\s*0/);
   assert.match(contextRule, /position:\s*sticky/);
-  assert.match(contextRule, /padding-left:\s*clamp\(1rem, 2vw, 1\.35rem\)/);
+  assert.match(contextRule, /padding-left:\s*clamp\(0\.75rem, 1\.6vw, 1\.1rem\)/);
 });
 
 test('RSS is announced with the social and subscription links', () => {

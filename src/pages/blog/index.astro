@@ -21,17 +21,6 @@ const years = Object.keys(postsByYear)
 	.map(Number)
 	.sort((a, b) => b - a);
 
-const tagsMap = new Map<string, number>();
-posts.forEach((post) => {
-	(post.data.tags || []).forEach((tag) => {
-		tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
-	});
-});
-
-const tags = Array.from(tagsMap.entries())
-	.map(([name, count]) => ({ name, count, href: `/tags/${name}/` }))
-	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-
 function getArchiveDate(date: Date) {
 	const month = String(date.getMonth() + 1).padStart(2, '0');
 	const day = String(date.getDate()).padStart(2, '0');
@@ -95,34 +84,6 @@ function getPostHref(post: (typeof posts)[number]) {
 			))}
 		</div>
 	</section>
-
-	<div slot="sidebar-extra" class="archive-rail">
-		<section class="magazine-rail-card archive-rail-card" aria-labelledby="archive-tags-title">
-			<p id="archive-tags-title" class="magazine-section-label">标签</p>
-			<ul class="archive-tag-list">
-				{tags.slice(0, 6).map((tag) => (
-					<li>
-						<a href={tag.href} class="archive-tag-chip">
-							<span>{tag.name}</span>
-							<span class="archive-tag-chip__count">{tag.count}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-			{tags.length > 6 && (
-				<a class="archive-tags-more" href="/tags/">全部标签 →</a>
-			)}
-			<p id="archive-index-title" class="magazine-section-label archive-index-label">年份</p>
-			<nav class="archive-year-index" aria-label="按年份跳转">
-				{years.map((year) => (
-					<a href={`#archive-year-${year}`}>
-						<strong>{year}</strong>
-						<span>{postsByYear[year].length}</span>
-					</a>
-				))}
-			</nav>
-		</section>
-	</div>
 </MagazineShell>
 
 <style>
@@ -283,102 +244,6 @@ function getPostHref(post: (typeof posts)[number]) {
 		font-size: 0.68rem;
 		font-weight: 500;
 		color: color-mix(in oklab, var(--color-warning) 68%, var(--gray-color));
-		white-space: nowrap;
-	}
-
-	.archive-rail {
-		display: contents;
-	}
-
-	.archive-rail-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.55rem;
-	}
-
-	.archive-tag-list {
-		display: flex;
-		flex-direction: column;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.archive-tag-chip {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		align-items: baseline;
-		gap: 0.4rem;
-		padding: 0.32rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.72rem;
-		text-decoration: none;
-	}
-
-	.archive-tag-chip:hover {
-		color: var(--heading-color);
-	}
-
-	.archive-tag-chip__count {
-		color: var(--faint-color);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.archive-tags-more {
-		border: 0 !important;
-		background: none !important;
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.66rem;
-		letter-spacing: 0.02em;
-		text-decoration: none;
-	}
-
-	.archive-tags-more:hover {
-		color: var(--heading-color);
-	}
-
-	.archive-index-label {
-		margin: 0.55rem 0 0;
-	}
-
-	.archive-year-index {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.archive-year-index a {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.4rem;
-		padding: 0.32rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		background: none !important;
-		color: inherit;
-		font-family: var(--ui-font);
-		text-decoration: none;
-	}
-
-	.archive-year-index strong {
-		color: var(--heading-color);
-		font-size: 0.86rem;
-		font-weight: 500;
-	}
-
-	.archive-year-index span {
-		color: var(--faint-color);
-		font-size: 0.68rem;
-		font-variant-numeric: tabular-nums;
 		white-space: nowrap;
 	}
 
