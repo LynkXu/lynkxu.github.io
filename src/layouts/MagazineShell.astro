@@ -36,7 +36,6 @@ const secondaryNavItems = [
 ];
 
 const socialItems = [
-	{ href: 'https://github.com/LynkXu', label: 'GitHub' },
 	{ href: 'https://x.com/lynk_xv', label: 'X' },
 	{ href: 'https://www.instagram.com/link_xl', label: 'Instagram' },
 ];
@@ -88,7 +87,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 					</nav>
 				</div>
 
-				<details class="ledger-collections" open>
+				<details class="ledger-collections">
 					<summary class="ledger-group-label ledger-collections__summary">
 						<span>专题</span>
 					</summary>
@@ -107,17 +106,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 				</details>
 
 				<div class="ledger-meta">
-					<button
-						class="ledger-search"
-						type="button"
-						aria-label="搜索文章"
-						aria-keyshortcuts="Meta+K Control+K"
-						onclick="window.openSearchModal && window.openSearchModal()"
-					>
-						<span class="ledger-meta__label">搜索</span>
-						<span class="ledger-meta__value"><kbd>⌘K</kbd></span>
-					</button>
-
 					<nav class="ledger-social" aria-label="社交与订阅链接">
 						<span class="ledger-meta__label">社交</span>
 						<span class="ledger-meta__value ledger-social__links">
@@ -494,7 +482,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		transform: translateY(-50%) scaleY(1);
 	}
 
-	/* Meta footer: search / social / subscribe as one two-column ledger table. */
+	/* Meta footer: social / subscribe as one two-column ledger table. */
 	.ledger-meta {
 		display: flex;
 		flex-direction: column;
@@ -505,25 +493,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		--meta-label-col: 2.6rem;
 	}
 
-	.ledger-search,
 	.ledger-social {
 		display: grid;
 		grid-template-columns: var(--meta-label-col) minmax(0, 1fr);
 		column-gap: 0.7rem;
-	}
-
-	.ledger-search {
-		align-items: center;
-		min-height: 1.85rem;
-		padding: 0;
-		border: 0;
-		background: transparent;
-		font: inherit;
-		text-align: left;
-		cursor: pointer;
-	}
-
-	.ledger-social {
 		row-gap: 0.5rem;
 		align-items: baseline;
 	}
@@ -536,36 +509,10 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		letter-spacing: 0.06em;
 		line-height: 1.2;
 		white-space: nowrap;
-		transition: color 0.16s ease;
 	}
 
 	.ledger-meta__value {
 		min-width: 0;
-	}
-
-	.ledger-search kbd {
-		display: inline-flex;
-		align-items: center;
-		padding: 0.08rem 0.34rem;
-		border: 1px solid color-mix(in oklab, var(--rule-color) 85%, transparent);
-		border-radius: 3px;
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.6rem;
-		letter-spacing: 0.04em;
-		line-height: 1;
-		transition: border-color 0.16s ease, color 0.16s ease;
-	}
-
-	.ledger-search:hover .ledger-meta__label,
-	.ledger-search:focus-visible .ledger-meta__label {
-		color: var(--gray-color);
-	}
-
-	.ledger-search:hover kbd,
-	.ledger-search:focus-visible kbd {
-		border-color: color-mix(in oklab, var(--rule-color) 130%, var(--heading-color));
-		color: var(--gray-color);
 	}
 
 	.ledger-social__links {
@@ -813,7 +760,7 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			display: grid;
 			grid-template-columns: auto minmax(0, 1fr) auto;
 			grid-template-areas:
-				"brand nav search"
+				"brand nav nav"
 				"collections collections social";
 			min-height: 0;
 			align-items: center;
@@ -903,19 +850,9 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			min-height: 2rem;
 		}
 
-		/* Masthead: unwrap the meta block so search/social keep their grid areas. */
+		/* Masthead: unwrap the meta block so social keeps its grid area. */
 		.ledger-meta {
 			display: contents;
-		}
-
-		.ledger-search {
-			grid-area: search;
-			display: inline-flex;
-			align-items: center;
-			gap: 0.45rem;
-			justify-self: end;
-			min-width: 0;
-			min-height: 2.5rem;
 		}
 
 		.ledger-social {
@@ -966,12 +903,12 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 		}
 
 		.ledger-sidebar__inner {
-			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-columns: minmax(0, 1fr);
 			grid-template-areas:
-				"brand search"
-				"nav nav"
-				"collections collections"
-				"social social";
+				"brand"
+				"nav"
+				"collections"
+				"social";
 			gap: 0.25rem 0.75rem;
 			padding-bottom: 0.65rem;
 		}
@@ -986,11 +923,6 @@ const shouldRenderRail = showProfileCard || hasSidebarExtra;
 			justify-content: center;
 			min-height: 2.75rem;
 			font-size: 0.78rem;
-		}
-
-		.ledger-search {
-			width: fit-content;
-			min-height: 2.75rem;
 		}
 
 		.ledger-collections {

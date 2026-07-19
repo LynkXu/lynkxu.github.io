@@ -45,41 +45,21 @@ test('primary navigation lists five labels without editorial index numbers', () 
   assert.match(source, /class="ledger-nav__text"/);
 });
 
-test('search sits in the meta footer with the follow links, not pinned to the viewport bottom', () => {
-  const searchPosition = source.indexOf('class="ledger-search"');
-  const topicsPosition = source.indexOf('<details class="ledger-collections"');
-  const socialPosition = source.indexOf('class="ledger-social"');
-
-  assert.notEqual(searchPosition, -1);
-  assert.notEqual(topicsPosition, -1);
-  assert.notEqual(socialPosition, -1);
-  // Destinations (primary + topics) stay uninterrupted; search moves into the meta footer.
-  assert.ok(topicsPosition < searchPosition);
-  assert.ok(searchPosition < socialPosition);
-  // Not pinned to the viewport bottom via a dedicated absolute container.
+test('topics stay collapsed by default and search is removed from the left rail', () => {
+  assert.match(source, /<details class="ledger-collections">/);
+  assert.doesNotMatch(source, /<details class="ledger-collections"[^>]*\sopen/);
+  assert.doesNotMatch(source, /class="ledger-search"/);
   assert.doesNotMatch(source, /\.ledger-sidebar__bottom\s*\{/);
 });
 
-test('search reads as a quiet meta row, not a bordered field', () => {
+test('meta footer keeps social and subscribe as a two-column ledger table', () => {
   const metaRule = extractBlock(styleSource, '.ledger-meta {');
-  const searchRule = extractBlock(styleSource, '.ledger-search {');
+  const socialRule = extractBlock(styleSource, '.ledger-social {');
 
-  // The meta footer is a two-column ledger table shared by search/social.
   assert.match(metaRule, /--meta-label-col/);
-  assert.match(
-    styleSource,
-    /\.ledger-search,\s*\.ledger-social\s*\{[^}]*display:\s*grid/,
-  );
-
-  // Search stays an unadorned command: no field border on desktop.
-  assert.doesNotMatch(searchRule, /border-bottom/);
-  assert.doesNotMatch(searchRule, /display:\s*inline-flex/);
-
-  // Search is expressed with the shared meta label/value structure.
-  assert.match(
-    source,
-    /class="ledger-search"[\s\S]*ledger-meta__label[\s\S]*ledger-meta__value/,
-  );
+  assert.match(socialRule, /display:\s*grid/);
+  assert.match(source, /ledger-meta__label/);
+  assert.match(source, /ledger-meta__value/);
 });
 
 test('current and hover states do not move layout or use a detached dot', () => {
