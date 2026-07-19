@@ -22,18 +22,6 @@ const { title } = Astro.props;
 			<Comments showLinuxDo={false} manualTwikooLoad={true} />
 		</div>
 	</section>
-
-	<div slot="sidebar-extra" class="message-rail">
-		<section class="magazine-rail-card message-contact-card" aria-labelledby="message-contact-title">
-			<p id="message-contact-title" class="magazine-section-label">联系</p>
-			<p class="message-contact-intro">公开留言适合文章反馈、问题和随手想到的想法；如果不想公开，可以换到下面的平台。</p>
-			<div class="message-action-list" aria-label="联系方式">
-				<a href="#twikoo-lazygate">在此留言</a>
-				<a href="https://mastodon.social/@lynkxu" target="_blank" rel="noopener noreferrer">Mastodon</a>
-				<a href="https://github.com/LynkXu" target="_blank" rel="noopener noreferrer">GitHub</a>
-			</div>
-		</section>
-	</div>
 </MagazineShell>
 
 <style is:global>
@@ -125,57 +113,6 @@ const { title } = Astro.props;
 		border-color: var(--paper-hover-border);
 		background: transparent;
 		color: var(--heading-color);
-	}
-
-	.message-rail {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.message-contact-card {
-		display: flex;
-		flex-direction: column;
-		gap: 0.85rem;
-	}
-
-	.message-contact-intro {
-		margin: 0;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.65;
-	}
-
-	.message-action-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.message-action-list a {
-		display: inline-flex;
-		align-items: center;
-		justify-content: flex-start;
-		min-height: 0;
-		padding: 0.55rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.2;
-		text-decoration: none;
-	}
-
-	.message-action-list a:hover {
-		color: var(--heading-color);
-		background: transparent !important;
 	}
 
 	.sr-only {

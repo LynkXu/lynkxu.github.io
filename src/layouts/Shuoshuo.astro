@@ -14,8 +14,6 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 
 const gossips = await getAllGossips();
-const fileGossips = gossips.filter((item) => item.data.tag !== 'mastodon');
-const mastodonGossips = gossips.filter((item) => item.data.tag === 'mastodon');
 
 const pageSize = 10;
 const totalPages = gossips.length > 0 ? Math.ceil(gossips.length / pageSize) : 0;
@@ -47,32 +45,6 @@ const memoItems = gossips.map((gossip: any, index) => {
 		attachments: gossip._raw?.media_attachments || [],
 	};
 });
-
-const currentYear = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Shanghai', year: 'numeric' }).format(new Date());
-const activeMonthCount = new Set(memoItems.map((item) => item.monthLabel)).size;
-const mediaMemoCount = memoItems.filter((item) => item.attachments.length > 0).length;
-const thisYearMemoCount = memoItems.filter((item) => item.year === currentYear).length;
-const memoStats = [
-	{ label: '碎语', value: gossips.length },
-	{ label: '今年', value: thisYearMemoCount },
-	{ label: '月份', value: activeMonthCount },
-	{ label: '媒体', value: mediaMemoCount },
-];
-const sourceStats = [
-	{ label: '本地', value: fileGossips.length },
-	{ label: 'Mastodon', value: mastodonGossips.length },
-];
-const monthStats = Array.from(
-	memoItems.reduce((map, item) => {
-		const entry = map.get(item.monthLabel) || { label: item.monthLabel, count: 0, media: 0 };
-		entry.count += 1;
-		if (item.attachments.length > 0) entry.media += 1;
-		map.set(item.monthLabel, entry);
-		return map;
-	}, new Map<string, { label: string; count: number; media: number }>())
-	.values()
-).slice(0, 4);
-const maxMonthCount = Math.max(1, ...monthStats.map((item) => item.count));
 
 const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;
@@ -222,39 +194,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		</div>
 	</div>
 	</section>
-
-	<div slot="sidebar-extra" class="memos-rail">
-		<section class="magazine-rail-card memos-rail-card" aria-labelledby="memos-snapshot-title">
-			<p id="memos-snapshot-title" class="magazine-section-label">概览</p>
-			<dl class="memos-summary-list">
-				{memoStats.map((item) => (
-					<div class="memos-stat-row">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-			<p id="memos-month-title" class="magazine-section-label memos-subsection-label">月份</p>
-			<div class="memos-month-list">
-				{monthStats.map((month) => (
-					<div class="memos-month-row">
-						<strong>{month.label}</strong>
-						<span class="memos-month-meter" style={`--month-size: ${(month.count / maxMonthCount) * 100}%`} aria-hidden="true"></span>
-						<em>{month.count}</em>
-					</div>
-				))}
-			</div>
-			<p id="memos-source-title" class="magazine-section-label memos-subsection-label">来源</p>
-			<dl class="memos-source-list">
-				{sourceStats.map((item) => (
-					<div class="memos-source-row">
-						<dt>{item.label}</dt>
-						<dd>{item.value}</dd>
-					</div>
-				))}
-			</dl>
-		</section>
-	</div>
 </MagazineShell>
 
 <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
@@ -688,96 +627,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	.pagination .page-link:focus-visible {
 		outline: 2px solid var(--accent-color);
 		outline-offset: 2px;
-	}
-
-	.memos-rail {
-		display: flex;
-		flex-direction: column;
-		gap: 0.72rem;
-	}
-
-	.memos-rail-card {
-		display: flex;
-		flex-direction: column;
-		gap: 1rem;
-	}
-
-	.memos-summary-list,
-	.memos-source-list {
-		display: grid;
-		grid-template-columns: 1fr;
-		gap: 0;
-		margin: 0;
-	}
-
-	.memos-stat-row,
-	.memos-source-row {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: 0.7rem;
-		align-items: baseline;
-		padding: 0.45rem 0;
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.memos-stat-row dt,
-	.memos-source-row dt {
-		color: var(--gray-color);
-		font-size: 0.74rem;
-		line-height: 1.35;
-	}
-
-	.memos-stat-row dd,
-	.memos-source-row dd {
-		margin: 0;
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.memos-subsection-label {
-		margin-top: 0.3rem;
-	}
-
-	.memos-month-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.54rem;
-	}
-
-	.memos-month-row {
-		display: grid;
-		grid-template-columns: 4.4rem minmax(0, 1fr) auto;
-		gap: 0.58rem;
-		align-items: center;
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		line-height: 1.2;
-	}
-
-	.memos-month-row strong,
-	.memos-month-row em {
-		color: var(--gray-color);
-		font-style: normal;
-		font-weight: var(--weight-regular);
-	}
-
-	.memos-month-meter {
-		position: relative;
-		display: block;
-		height: 1px;
-		background: var(--paper-card-border-soft);
-		overflow: hidden;
-	}
-
-	.memos-month-meter::before {
-		content: "";
-		position: absolute;
-		inset: 0 auto 0 0;
-		width: var(--month-size, 0%);
-		background: var(--accent-color);
 	}
 
 	@media (max-width: 720px) {
