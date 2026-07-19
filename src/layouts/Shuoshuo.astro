@@ -4,6 +4,7 @@ import MagazineShell from './MagazineShell.astro';
 import { marked } from 'marked';
 import LikeButton from '../components/LikeButton.astro';
 import { AVATAR_IMAGE } from '../consts';
+import { INCLUDE_DRAFTS } from '../utils/drafts';
 import { getAllGossips } from '../utils/gossips';
 
 type Props = CollectionEntry<'page'>['data'] & {
