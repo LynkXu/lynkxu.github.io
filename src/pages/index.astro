@@ -60,7 +60,7 @@ function formatTraceDate(date: Date) {
 
 		<section class="hub-block hub-block--notes" aria-labelledby="hub-notes-title">
 			<header class="hub-block__head">
-				<h2 id="hub-notes-title" class="hub-block__title hub-block__title--quiet">碎语</h2>
+				<h2 id="hub-notes-title" class="hub-block__title">碎语</h2>
 				<a href="/shuoshuo" class="hub-block__more">全部 →</a>
 			</header>
 
@@ -90,7 +90,7 @@ function formatTraceDate(date: Date) {
 		{recentTraces.length > 0 && (
 			<section class="hub-block hub-block--traces" aria-labelledby="hub-traces-title">
 				<header class="hub-block__head">
-					<h2 id="hub-traces-title" class="hub-block__title hub-block__title--quiet">最近痕迹</h2>
+					<h2 id="hub-traces-title" class="hub-block__title">最近痕迹</h2>
 				</header>
 
 				<ul class="traces-list">
@@ -142,25 +142,19 @@ function formatTraceDate(date: Date) {
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 0.75rem;
-		margin: 0 0 0.55rem;
-		padding-bottom: 0.45rem;
+		margin: 0 0 0.85rem;
+		padding-bottom: 0.65rem;
 		border-bottom: 1px solid color-mix(in oklab, var(--sheet-edge) 88%, transparent);
 	}
 
 	.hub-block__title {
 		margin: 0;
 		font-family: var(--display-font);
-		font-size: clamp(1.05rem, 1.6vw, 1.18rem);
+		font-size: clamp(1.18rem, 2vw, 1.38rem);
 		font-weight: 600;
 		letter-spacing: -0.015em;
 		line-height: 1.2;
 		color: var(--heading-color);
-	}
-
-	.hub-block__title--quiet {
-		font-size: 0.95rem;
-		font-weight: 500;
-		color: color-mix(in oklab, var(--heading-color) 82%, var(--gray-color));
 	}
 
 	.hub-block__more {
