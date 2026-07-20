@@ -142,19 +142,20 @@ function formatTraceDate(date: Date) {
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 0.75rem;
-		margin: 0 0 0.85rem;
-		padding-bottom: 0.65rem;
+		margin: 0 0 0.35rem;
+		padding-bottom: 0.32rem;
 		border-bottom: 1px solid color-mix(in oklab, var(--sheet-edge) 88%, transparent);
 	}
 
+	/* 分区标签：低于列表标题，远低于归档/碎语页 H1 */
 	.hub-block__title {
 		margin: 0;
-		font-family: var(--display-font);
-		font-size: clamp(1.02rem, 1.5vw, 1.14rem);
-		font-weight: 600;
-		letter-spacing: -0.015em;
+		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.02em;
 		line-height: 1.2;
-		color: var(--heading-color);
+		color: color-mix(in oklab, var(--heading-color) 72%, var(--gray-color));
 	}
 
 	.hub-block__more {
@@ -163,7 +164,7 @@ function formatTraceDate(date: Date) {
 		border: 0 !important;
 		color: var(--faint-color);
 		font-family: var(--ui-font);
-		font-size: 0.72rem;
+		font-size: 0.7rem;
 		line-height: 1.15;
 		letter-spacing: 0.02em;
 		text-decoration: none;
@@ -178,13 +179,9 @@ function formatTraceDate(date: Date) {
 	.hub-block--notes,
 	.hub-block--traces {
 		min-width: 0;
-		margin-top: clamp(1.1rem, 2.2vw, 1.45rem);
-		padding-top: clamp(0.9rem, 1.8vw, 1.15rem);
-		border-top: 1px solid color-mix(in oklab, var(--sheet-edge) 85%, transparent);
-	}
-
-	.hub-block--traces {
-		border-top-style: dashed;
+		margin-top: clamp(1.15rem, 2.4vw, 1.5rem);
+		padding-top: 0;
+		border-top: 0;
 	}
 
 	.dispatch-list,
