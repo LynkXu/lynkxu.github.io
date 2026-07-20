@@ -15,13 +15,13 @@ const blogHistory = [
 ];
 
 const traits = [
-	{ label: 'Input', value: 'Web3 爱好 / APP 体验 / AI 依赖' },
-	{ label: 'Pace', value: '力量训练 / 马拉松 / 骑行 / 散步' },
-	{ label: 'Temper', value: '长期主义 / 混沌中立 / 生人勿近' },
+	{ label: '兴趣', value: 'Web3 / APP 体验 / AI' },
+	{ label: '运动', value: '力量训练 / 马拉松 / 骑行' },
+	{ label: '气质', value: '长期主义 / 混沌中立' },
 ];
 
 const contactLinks = [
-	{ href: 'mailto:xulinxiao@live.com', label: 'Email', value: 'xulinxiao#live.com' },
+	{ href: 'mailto:xulinxiao@live.com', label: '邮箱', value: 'xulinxiao#live.com' },
 	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
 ];
 ---
@@ -41,19 +41,8 @@ const contactLinks = [
 				decoding="async"
 			/>
 			<div class="about-profile__identity">
-				<p class="magazine-section-label">Profile</p>
 				<h1 id="about-title">Hi, I am Lynk</h1>
-				<p class="about-profile__now" aria-label="近况">
-					<span class="dispatch-field">
-						<span class="dispatch-field__label">Place</span>
-						<span class="dispatch-field__value">上海</span>
-					</span>
-					<span class="about-profile__now-sep" aria-hidden="true">·</span>
-					<span class="dispatch-field">
-						<span class="dispatch-field__label">Work</span>
-						<span class="dispatch-field__value">全栈工程师</span>
-					</span>
-				</p>
+				<p class="about-profile__now">上海 · 全栈工程师</p>
 			</div>
 		</header>
 
@@ -73,7 +62,7 @@ const contactLinks = [
 		<div class="about-profile__traits" aria-label="个人片段">
 			{traits.map((trait) => (
 				<div class="about-trait">
-					<span class="dispatch-field__label">{trait.label}</span>
+					<span class="about-trait__label">{trait.label}</span>
 					<strong>{trait.value}</strong>
 				</div>
 			))}
@@ -82,8 +71,7 @@ const contactLinks = [
 		<div class="about-profile__actions" aria-label="联系与赞助">
 			<section class="about-module about-module--contact">
 				<div class="about-module__header">
-					<span class="dispatch-field__label">Contact</span>
-					<h2>联系我</h2>
+					<h2>联系</h2>
 				</div>
 				<div class="about-module__links">
 					{contactLinks.map((link) => (
@@ -92,7 +80,7 @@ const contactLinks = [
 							target={link.external ? '_blank' : undefined}
 							rel={link.external ? 'noopener noreferrer' : undefined}
 						>
-							<span class="dispatch-field__label">{link.label}</span>
+							<span class="about-link__label">{link.label}</span>
 							<strong>{link.value}</strong>
 						</a>
 					))}
@@ -101,7 +89,6 @@ const contactLinks = [
 
 			<section class="about-module about-module--support">
 				<div class="about-module__header">
-					<span class="dispatch-field__label">Support</span>
 					<h2>赞助</h2>
 				</div>
 				<SponsorAbout />
@@ -110,7 +97,6 @@ const contactLinks = [
 
 		<details class="about-history">
 			<summary>
-				<span class="magazine-section-label">History</span>
 				<span class="about-history__hint">博客历程</span>
 			</summary>
 			<ol class="about-history-list">
@@ -159,17 +145,6 @@ const contactLinks = [
 		min-width: 0;
 	}
 
-	.about-profile .magazine-section-label,
-	.about-profile .dispatch-field__label {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.62rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--faint-color);
-	}
-
 	.about-profile h1 {
 		margin: 0;
 		color: var(--heading-color);
@@ -180,30 +155,23 @@ const contactLinks = [
 		letter-spacing: -0.02em;
 	}
 
-	/* Place / Work: quiet status under the name, not a section */
 	.about-profile__now {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 0.35rem 0.55rem;
-		margin: 0.15rem 0 0;
+		margin: 0.2rem 0 0;
+		color: color-mix(in oklab, var(--heading-color) 68%, var(--gray-color));
 		font-family: var(--ui-font);
+		font-size: 0.78rem;
+		line-height: 1.4;
 	}
 
-	.about-profile__now .dispatch-field {
-		gap: 0.35rem;
-		font-size: 0.72rem;
-	}
-
-	.about-profile__now .dispatch-field__value {
-		color: color-mix(in oklab, var(--heading-color) 72%, var(--gray-color));
-		font-size: 0.74rem;
-	}
-
-	.about-profile__now-sep {
+	.about-trait__label,
+	.about-link__label {
+		margin: 0;
 		color: var(--faint-color);
-		font-size: 0.7rem;
-		line-height: 1;
+		font-family: var(--ui-font);
+		font-size: 0.68rem;
+		font-weight: var(--weight-medium);
+		letter-spacing: 0.02em;
+		line-height: 1.2;
 	}
 
 	.about-profile__intro {
@@ -240,21 +208,21 @@ const contactLinks = [
 	.about-profile__traits {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0.65rem;
+		gap: 0.85rem 1.1rem;
 		margin-top: clamp(1.25rem, 2.8vw, 1.7rem);
 		padding-top: clamp(1rem, 2.2vw, 1.3rem);
-		border-top: 1px dashed color-mix(in oklab, var(--sheet-edge) 75%, transparent);
+		border-top: 1px solid color-mix(in oklab, var(--sheet-edge) 80%, transparent);
 	}
 
 	.about-trait {
 		display: flex;
 		min-width: 0;
 		flex-direction: column;
-		gap: 0.35rem;
-		padding: 0.65rem 0.7rem;
-		border: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-field-bg);
+		gap: 0.3rem;
+		padding: 0.15rem 0;
+		border: 0;
+		border-radius: 0;
+		background: transparent;
 	}
 
 	.about-trait strong {
@@ -378,7 +346,7 @@ const contactLinks = [
 	.about-history > summary {
 		display: flex;
 		align-items: baseline;
-		gap: 0.55rem;
+		gap: 0.4rem;
 		width: fit-content;
 		cursor: pointer;
 		list-style: none;
@@ -390,9 +358,9 @@ const contactLinks = [
 	}
 
 	.about-history__hint {
-		color: var(--faint-color);
+		color: var(--gray-color);
 		font-family: var(--ui-font);
-		font-size: 0.72rem;
+		font-size: 0.78rem;
 		line-height: 1.2;
 	}
 

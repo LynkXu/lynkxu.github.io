@@ -3,7 +3,6 @@ import type { CollectionEntry } from 'astro:content';
 import MagazineShell from './MagazineShell.astro';
 import { marked } from 'marked';
 import LikeButton from '../components/LikeButton.astro';
-import { AVATAR_IMAGE } from '../consts';
 import { INCLUDE_DRAFTS } from '../utils/drafts';
 import { getAllGossips } from '../utils/gossips';
 
@@ -116,9 +115,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 <MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
 	<section class="memos-panel postcard-sheet" aria-labelledby="memos-title">
 		<header class="memos-panel__header">
-			<p class="magazine-section-label">Notes</p>
-			<p class="memos-panel__sub">碎语 · 短笺</p>
-			<h1 id="memos-title" class="sr-only">碎语</h1>
+			<h1 id="memos-title" class="memos-panel__title">碎语</h1>
 		</header>
 
 		<div class="memos-layout">
@@ -135,38 +132,32 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 										const { gossip, attachments, dateLabel, time, index } = item;
 										return (
 											<article class='memo-item' data-index={index} role="listitem">
-												<a href="/" class="memo-avatar-link" aria-label="LynkXu">
-													<img src={AVATAR_IMAGE.src} srcset={AVATAR_IMAGE.srcset} sizes="40px" alt="" class="memo-avatar" loading={index === 0 ? 'eager' : 'lazy'} width="40" height="40" />
-												</a>
-												<div class='memo-body'>
-													<header class="memo-header">
-														<div class="memo-header-top">
-															<div class="memo-author-line">
-																<span class="memo-author">LynkXu</span>
-																{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
-															</div>
-															<div class="memo-actions">
-																{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
-																<LikeButton id={gossip.data.slug} type="gossip" />
-															</div>
+												<header class="memo-header">
+													<div class="memo-header-top">
+														<div class="memo-meta-line">
+															<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
+																{dateLabel} · {time}
+															</time>
+															{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
+															{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
 														</div>
-														<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
-															{dateLabel} · {time}
-														</time>
-													</header>
-
-													<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
-
-													{attachments.length > 0 && (
-														<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-															{attachments.slice(0, 4).map((media: any) => (
-																<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
-																	<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
-																</a>
-															))}
+														<div class="memo-actions">
+															<LikeButton id={gossip.data.slug} type="gossip" />
 														</div>
-													)}
-												</div>
+													</div>
+												</header>
+
+												<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
+
+												{attachments.length > 0 && (
+													<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+														{attachments.slice(0, 4).map((media: any) => (
+															<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
+																<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
+															</a>
+														))}
+													</div>
+												)}
 											</article>
 										)
 									})}
@@ -284,11 +275,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style is:global>
 	.memos-surface {
-		--memos-section-gap: clamp(0.54rem, 1.35vw, 0.82rem);
-		--memo-avatar-size: 1.75rem;
-		--memo-column-gap: clamp(0.58rem, 1.35vw, 0.78rem);
-		--memo-inline-pad: clamp(0.72rem, 1.65vw, 1rem);
-		--memo-block-pad: clamp(0.78rem, 1.75vw, 1rem);
+		--memos-section-gap: 0;
+		--memo-inline-pad: 0.1rem;
+		--memo-block-pad: clamp(0.85rem, 1.8vw, 1.05rem);
 	}
 
 	.memos-surface #shuoshuo {
@@ -304,21 +293,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memos-panel > .memos-panel__header {
 		display: block;
-		margin-bottom: 0.7rem;
+		margin-bottom: 0.85rem;
 		padding: 0 0 0.65rem;
 		border-bottom: 1px solid var(--sheet-edge);
 	}
 
-	.memos-panel__header .magazine-section-label {
-		margin: 0 0 0.3rem;
-		font-family: var(--field-font);
-		font-size: 0.62rem;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--faint-color);
-	}
-
-	.memos-panel__sub {
+	.memos-panel__title {
 		margin: 0;
 		font-family: var(--display-font);
 		font-size: clamp(1.25rem, 2.2vw, 1.45rem);
@@ -326,16 +306,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		letter-spacing: -0.015em;
 		line-height: 1.2;
 		color: var(--heading-color);
-	}
-
-	.memo-meta-time {
-		display: inline-flex;
-		align-items: baseline;
-		gap: 0.35rem;
-		font-family: var(--field-font);
-		font-size: 0.68rem;
-		color: var(--gray-color);
-		font-variant-numeric: tabular-nums;
 	}
 
 	.memos-layout,
@@ -362,78 +332,37 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	.memo-item {
 		position: relative;
-		display: grid;
-		grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
-		column-gap: var(--memo-column-gap);
-		row-gap: 0;
-		align-items: start;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
 		padding: var(--memo-block-pad) var(--memo-inline-pad);
-		border: 1px solid color-mix(in oklab, var(--sheet-edge) 55%, transparent);
-		border-radius: var(--paper-card-radius);
-		background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
+		border: 0;
+		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 85%, transparent);
+		border-radius: 0;
+		background: transparent;
 		box-shadow: none;
+	}
+
+	.memo-item:last-child {
+		border-bottom: 0;
 	}
 
 	.memo-item::before {
 		content: none;
 	}
 
-	.memo-item:hover {
-		background: var(--paper-hover-bg);
-		border-color: var(--paper-hover-border);
-	}
-
-	.memo-avatar-link {
-		position: relative;
-		display: block;
-		grid-column: 1;
-		grid-row: 1;
-		width: var(--memo-avatar-size);
-		height: var(--memo-avatar-size);
-		margin: 0;
-		border: 0 !important;
-		background: none !important;
-		line-height: 0;
-		border-radius: 50%;
-	}
-
-	.memo-avatar-link:hover {
-		transform: none;
-	}
-
-	.memo-avatar {
-		display: block;
-		width: var(--memo-avatar-size);
-		height: var(--memo-avatar-size);
-		border: 0;
-		border-radius: 50%;
-		background: var(--paper-field-bg);
-		object-fit: cover;
-		filter: none;
-	}
-
-	.memo-body {
-		position: relative;
-		grid-column: 2;
-		grid-row: 1;
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-	}
-
 	.memo-header {
 		display: flex;
 		flex-direction: column;
 		align-items: stretch;
-		gap: 0.12rem;
-		margin: 0 0 0.38rem;
+		margin: 0 0 0.35rem;
 		padding: 0;
 		border: 0;
 		line-height: 1.35;
 	}
 
 	.memos-surface .memo-header {
-		margin: 0 0 0.38rem;
+		margin: 0 0 0.35rem;
 		padding: 0;
 		border: 0;
 	}
@@ -445,43 +374,26 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		gap: 0.65rem;
 		width: 100%;
 		min-width: 0;
-		min-height: 0;
 	}
 
-	.memo-author-line {
+	.memo-meta-line {
 		display: inline-flex;
-		align-items: center;
+		align-items: baseline;
 		flex-wrap: wrap;
-		gap: 0.36rem;
+		gap: 0.35rem 0.5rem;
 		min-width: 0;
 	}
 
-	.memo-author {
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 0.76rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.2;
-	}
-
 	.memo-source {
-		display: inline-flex;
-		align-items: center;
-		min-height: 0;
-		padding: 0;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		color: var(--gray-color);
-		font-family: var(--field-font);
-		font-size: 0.66rem;
+		color: var(--faint-color);
+		font-family: var(--ui-font);
+		font-size: 0.68rem;
 		line-height: 1.2;
-		letter-spacing: 0.02em;
 	}
 
 	.memo-source::before {
-		content: "/";
-		margin-right: 0.3rem;
+		content: "·";
+		margin-right: 0.35rem;
 		color: var(--faint-color);
 	}
 
@@ -489,11 +401,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: inline-flex;
 		align-items: center;
 		justify-content: flex-end;
-		gap: 0.4rem;
-		align-self: center;
 		flex-shrink: 0;
-		margin-top: 0;
-		opacity: 0.68;
+		opacity: 0.45;
 		transition: opacity 0.2s ease;
 	}
 
@@ -503,14 +412,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	.memo-meta-time {
-		position: static;
-		width: auto;
 		margin: 0;
-		padding-top: 0;
 		color: var(--gray-color);
 		font-family: var(--code-font);
-		font-variant-numeric: tabular-nums;
-		font-size: 0.7rem;
+		font-size: 0.72rem;
 		line-height: 1.28;
 		font-variant-numeric: tabular-nums;
 	}
@@ -631,29 +536,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	@media (max-width: 720px) {
 		.memos-surface {
-			--memo-avatar-size: 1.75rem;
-			--memo-column-gap: 0.6rem;
-			--memo-inline-pad: 0.68rem;
-			--memo-block-pad: 0.78rem;
+			--memo-inline-pad: 0.05rem;
+			--memo-block-pad: 0.8rem;
 		}
 
-		.memo-item {
-			grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
-			column-gap: var(--memo-column-gap);
-			padding: var(--memo-block-pad) var(--memo-inline-pad);
-		}
-
-		.memo-avatar-link {
-			grid-column: 1;
-			grid-row: 1;
-		}
-
-		.memo-body {
-			grid-column: 2;
-		}
-
-		.memo-header {
-			display: flex;
+		.memo-actions {
+			opacity: 0.72;
 		}
 	}
 

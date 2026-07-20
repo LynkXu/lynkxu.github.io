@@ -218,32 +218,29 @@ const topicLinksEnabled = Boolean(tags?.length);
 		.post-meta-bar {
 			display: flex;
 			flex-wrap: wrap;
-			align-items: flex-end;
-			gap: 0.55rem 1.35rem;
+			align-items: baseline;
+			gap: 0.35rem 0.55rem;
 			padding: 0;
-		}
-
-		.post-meta-bar .dispatch-field {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.28rem;
-			min-width: 4.5rem;
-			padding-bottom: 0.35rem;
-			border-bottom: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
-		}
-
-		.post-meta-bar .dispatch-field__label {
-			letter-spacing: 0.1em;
-		}
-
-		.post-meta-bar .dispatch-field__value {
+			color: color-mix(in oklab, var(--heading-color) 58%, var(--gray-color));
+			font-family: var(--ui-font);
 			font-size: 0.78rem;
-			color: color-mix(in oklab, var(--heading-color) 78%, var(--gray-color));
+			line-height: 1.45;
+		}
+
+		.post-meta-bar > * {
+			min-width: 0;
+		}
+
+		.post-meta-date,
+		.post-meta-read,
+		.post-meta-updated {
+			font-variant-numeric: tabular-nums;
 			white-space: nowrap;
 		}
 
 		.post-meta-sep {
-			display: none;
+			color: var(--faint-color);
+			user-select: none;
 		}
 
 		.post-kind-group {
@@ -677,43 +674,42 @@ const topicLinksEnabled = Boolean(tags?.length);
 				<div class="post-flow post-header-inner">
 					<h1 class="post-title" transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
-					<div class="post-meta-bar dispatch-fields">
-						<span class="dispatch-field">
-							<span class="dispatch-field__label">Date</span>
-							<span class="dispatch-field__value"><FormattedDate date={pubDate} /></span>
-						</span>
-						<span class="dispatch-field">
-							<span class="dispatch-field__label">Tag</span>
-							<span class="dispatch-field__value post-kind-group">
-								{topicLabels.map((label, index) => (
-									<>
-										{index > 0 && <span class="post-kind-sep" aria-hidden="true">/</span>}
-										{topicLinksEnabled ? (
-											<a class="post-kind" href={`/tags/${label}/`}>{label}</a>
-										) : (
-											<span class="post-kind">{label}</span>
-										)}
-									</>
-								))}
-							</span>
-						</span>
+					<div class="post-meta-bar">
+						<span class="post-meta-date"><FormattedDate date={pubDate} /></span>
+						{topicLabels.length > 0 && (
+							<>
+								<span class="post-meta-sep" aria-hidden="true">·</span>
+								<span class="post-kind-group">
+									{topicLabels.map((label, index) => (
+										<>
+											{index > 0 && <span class="post-kind-sep" aria-hidden="true">/</span>}
+											{topicLinksEnabled ? (
+												<a class="post-kind" href={`/tags/${label}/`}>{label}</a>
+											) : (
+												<span class="post-kind">{label}</span>
+											)}
+										</>
+									))}
+								</span>
+							</>
+						)}
 						{readingTime && (
-							<span class="dispatch-field">
-								<span class="dispatch-field__label">Read</span>
-								<span class="dispatch-field__value">{readingTime} min</span>
-							</span>
+							<>
+								<span class="post-meta-sep" aria-hidden="true">·</span>
+								<span class="post-meta-read">{readingTime} min</span>
+							</>
 						)}
 						{updatedDate && (
-							<span class="dispatch-field">
-								<span class="dispatch-field__label">Updated</span>
-								<span class="dispatch-field__value"><FormattedDate date={updatedDate} /></span>
-							</span>
+							<>
+								<span class="post-meta-sep" aria-hidden="true">·</span>
+								<span class="post-meta-updated">更新于 <FormattedDate date={updatedDate} /></span>
+							</>
 						)}
 						{isDev && draft && (
-							<span class="dispatch-field">
-								<span class="dispatch-field__label">Status</span>
-								<span class="dispatch-field__value draft-badge" aria-label="草稿">草稿</span>
-							</span>
+							<>
+								<span class="post-meta-sep" aria-hidden="true">·</span>
+								<span class="draft-badge" aria-label="草稿">草稿</span>
+							</>
 						)}
 					</div>
 
