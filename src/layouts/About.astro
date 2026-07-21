@@ -1,14 +1,14 @@
 ---
-import MagazineShell from './MagazineShell.astro';
+import ReadingShell from './ReadingShell.astro';
 import SponsorAbout from '../components/SponsorAbout.astro';
 import { AVATAR_IMAGE } from '../consts';
 
 const { title } = Astro.props;
 
 const blogHistory = [
-	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流'},
-	{ date: '2025.06', text: '使用 Astro + Astro Theme Pure'},
-	{ date: '2023.06', text: '使用 Gatsby + Breeze Theme'},
+	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
+	{ date: '2025.06', text: '使用 Astro + Astro Theme Pure' },
+	{ date: '2023.06', text: '使用 Gatsby + Breeze Theme' },
 	{ date: '2020.09', text: '使用 GitHub Pages + Hexo' },
 	{ date: '2018.09', text: '因域名备案问题博客暂停' },
 	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
@@ -26,80 +26,69 @@ const contactLinks = [
 ];
 ---
 
-<MagazineShell title={title} description={title} showProfileCard={false}>
-	<section class="about-profile postcard-sheet" aria-labelledby="about-title">
-		<header class="about-profile__head">
+<ReadingShell title={title} description={title}>
+	<section class="r-about" aria-labelledby="about-title">
+		<header class="r-about__head">
 			<img
 				src={AVATAR_IMAGE.src}
 				srcset={AVATAR_IMAGE.srcset}
-				sizes="52px"
+				sizes="48px"
 				alt=""
-				class="about-profile__avatar"
-				width="52"
-				height="52"
+				class="r-about__avatar"
+				width="48"
+				height="48"
 				loading="eager"
 				decoding="async"
 			/>
-			<div class="about-profile__identity">
-				<h1 id="about-title">Hi, I am Lynk</h1>
-				<p class="about-profile__now">上海 · 全栈工程师</p>
+			<div>
+				<h1 id="about-title" class="r-page-title">Hi, I am Lynk</h1>
+				<p class="r-about__now">上海 · 全栈工程师</p>
 			</div>
 		</header>
 
-		<div class="about-profile__intro">
-			<div class="about-profile__lead">
-				<p>
-					<span>一个偏乐观的悲观主义者。</span>
-					<span>一个偏现实的理想主义者。</span>
-					<span>一个想法很多，但却不善表达的人。</span>
-				</p>
-			</div>
-			<p class="about-profile__note">
-				很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。
+		<div class="r-prose r-about__intro">
+			<p>
+				一个偏乐观的悲观主义者。一个偏现实的理想主义者。一个想法很多，但却不善表达的人。
 			</p>
+			<p>很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
 		</div>
 
-		<div class="about-profile__traits" aria-label="个人片段">
+		<dl class="r-about__traits">
 			{traits.map((trait) => (
-				<div class="about-trait">
-					<span class="about-trait__label">{trait.label}</span>
-					<strong>{trait.value}</strong>
+				<div>
+					<dt>{trait.label}</dt>
+					<dd>{trait.value}</dd>
 				</div>
 			))}
-		</div>
+		</dl>
 
-		<div class="about-profile__actions" aria-label="联系与赞助">
-			<section class="about-module about-module--contact">
-				<div class="about-module__header">
-					<h2>联系</h2>
-				</div>
-				<div class="about-module__links">
-					{contactLinks.map((link) => (
+		<section class="r-section" aria-labelledby="about-contact">
+			<h2 id="about-contact" class="r-section__title">联系</h2>
+			<ul class="r-about__links">
+				{contactLinks.map((link) => (
+					<li>
 						<a
 							href={link.href}
 							target={link.external ? '_blank' : undefined}
 							rel={link.external ? 'noopener noreferrer' : undefined}
 						>
-							<span class="about-link__label">{link.label}</span>
-							<strong>{link.value}</strong>
+							{link.label} · {link.value}
 						</a>
-					))}
-				</div>
-			</section>
+					</li>
+				))}
+			</ul>
+		</section>
 
-			<section class="about-module about-module--support">
-				<div class="about-module__header">
-					<h2>赞助</h2>
-				</div>
+		<section class="r-section" aria-labelledby="about-sponsor">
+			<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+			<div class="r-about__sponsor">
 				<SponsorAbout />
-			</section>
-		</div>
+			</div>
+		</section>
 
-		<details class="about-history">
-			<summary>
-				<span class="about-history__hint">博客历程</span>
-			</summary>
-			<ol class="about-history-list">
+		<details class="r-about__history">
+			<summary>博客历程</summary>
+			<ol>
 				{blogHistory.map((item) => (
 					<li>
 						<time>{item.date}</time>
@@ -109,347 +98,112 @@ const contactLinks = [
 			</ol>
 		</details>
 	</section>
-</MagazineShell>
+</ReadingShell>
 
-<style is:global>
-	.about-profile {
-		max-width: var(--blog-content-max);
-		padding: clamp(1.25rem, 2.8vw, 1.85rem);
-	}
-
-	.about-profile__head {
+<style>
+	.r-about__head {
 		display: flex;
-		flex-direction: row;
 		align-items: center;
-		gap: 0.95rem;
-		margin: 0 0 1.15rem;
-		padding: 0 0 0.95rem;
-		border-bottom: 1px solid var(--sheet-edge);
+		gap: 1rem;
+		margin-bottom: var(--r-space-lg);
 	}
 
-	.about-profile__avatar {
-		display: block;
-		width: 3.25rem;
-		height: 3.25rem;
-		flex-shrink: 0;
-		border: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
+	.r-about__avatar {
+		width: 48px;
+		height: 48px;
 		border-radius: 50%;
 		object-fit: cover;
-		background: var(--paper-field-bg);
+		flex-shrink: 0;
 	}
 
-	.about-profile__identity {
-		display: flex;
-		flex-direction: column;
-		gap: 0.38rem;
-		min-width: 0;
-	}
-
-	.about-profile h1 {
-		margin: 0;
-		color: var(--heading-color);
-		font-family: var(--display-font);
-		font-size: clamp(1.85rem, 3.6vw, 2.45rem);
-		font-weight: 600;
-		line-height: 1.12;
-		letter-spacing: -0.02em;
-	}
-
-	.about-profile__now {
-		margin: 0.2rem 0 0;
-		color: color-mix(in oklab, var(--heading-color) 68%, var(--gray-color));
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		line-height: 1.4;
-	}
-
-	.about-trait__label,
-	.about-link__label {
-		margin: 0;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.02em;
-		line-height: 1.2;
-	}
-
-	.about-profile__intro {
-		display: flex;
-		flex-direction: column;
-		gap: 0.9rem;
-	}
-
-	.about-profile__lead {
-		color: var(--text-color);
-		font-family: var(--reading-font);
-		font-size: clamp(0.98rem, 1.35vw, 1.08rem);
-		font-weight: var(--weight-regular);
-		line-height: 1.75;
-	}
-
-	.about-profile__lead p,
-	.about-profile__note {
+	.r-about__head .r-page-title {
 		margin: 0;
 	}
 
-	.about-profile__lead span {
-		display: block;
+	.r-about__now {
+		margin: 0.25rem 0 0;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
 	}
 
-	.about-profile__note {
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.9rem;
-		line-height: 1.72;
+	.r-about__intro {
+		margin-bottom: var(--r-space-xl);
 	}
 
-	/* Middle beat: three equal trait cards — same as the old harmonious center */
-	.about-profile__traits {
+	.r-about__traits {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0.85rem 1.1rem;
-		margin-top: clamp(1.25rem, 2.8vw, 1.7rem);
-		padding-top: clamp(1rem, 2.2vw, 1.3rem);
-		border-top: 1px solid color-mix(in oklab, var(--sheet-edge) 80%, transparent);
+		gap: 0.65rem;
+		margin: 0 0 var(--r-space-xl);
+		padding: 0;
 	}
 
-	.about-trait {
-		display: flex;
-		min-width: 0;
-		flex-direction: column;
-		gap: 0.3rem;
-		padding: 0.15rem 0;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-	}
-
-	.about-trait strong {
-		color: color-mix(in oklab, var(--heading-color) 88%, var(--gray-color));
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.48;
-	}
-
-	.about-profile__actions {
-		display: grid;
-		grid-template-columns: minmax(14rem, 0.86fr) minmax(18rem, 1.14fr);
-		gap: clamp(1.2rem, 2.4vw, 1.7rem);
-		align-items: start;
-		margin-top: 1.35rem;
-		padding-top: 1.15rem;
-		border-top: 1px solid var(--sheet-edge);
-	}
-
-	.about-module {
-		display: flex;
-		min-width: 0;
-		flex-direction: column;
-		gap: 0.72rem;
-	}
-
-	.about-module__header {
-		display: flex;
-		flex-direction: column;
-		gap: 0.34rem;
-	}
-
-	.about-module__header h2 {
+	.r-about__traits dt {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
 		margin: 0;
-		color: var(--heading-color);
-		font-family: var(--display-font);
-		font-size: 1.05rem;
-		font-weight: 500;
-		line-height: 1.35;
-		letter-spacing: -0.01em;
 	}
 
-	.about-module__links {
+	.r-about__traits dd {
+		margin: 0.15rem 0 0;
+		color: var(--r-ink);
+	}
+
+	.r-about__links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0;
+		gap: 0.45rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
 	}
 
-	.about-module__links a {
-		display: grid;
-		grid-template-columns: 4.2rem minmax(0, 1fr);
-		gap: 0.85rem;
-		align-items: baseline;
-		padding: 0.55rem 0;
-		border: 0 !important;
-		border-bottom: 1px solid var(--paper-card-border-soft) !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: inherit;
-		font-family: var(--ui-font);
+	.r-about__links a {
+		color: var(--r-ink-soft);
 		text-decoration: none;
 	}
 
-	.about-module__links a:last-child {
-		border-bottom: 0 !important;
+	.r-about__links a:hover {
+		color: var(--r-link);
 	}
 
-	.about-module__links strong {
-		min-width: 0;
-		overflow: hidden;
-		color: color-mix(in oklab, var(--heading-color) 88%, var(--accent-color));
-		font-size: 0.84rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.45;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+	.r-about__sponsor :global(*) {
+		max-width: 100%;
 	}
 
-	.about-module__links a:hover strong {
-		color: var(--heading-color);
+	.r-about__history {
+		margin-top: var(--r-space-xl);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
 	}
 
-	.about-module--support .sponsor-about {
-		margin: 0;
-		gap: 0;
-		padding: 0;
-		border: 0;
-		background: transparent;
-	}
-
-	.about-module--support .sponsor-fold {
-		margin: 0;
-		background: transparent;
-		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-		border-radius: 0;
-	}
-
-	.about-module--support .sponsor-fold:last-child {
-		border-bottom: 0;
-	}
-
-	.about-module--support .sponsor-fold summary {
-		display: flex;
-		align-items: center;
-		min-height: 0;
-		padding: 0.55rem 0;
-		color: var(--text-color);
-		font-weight: var(--weight-regular);
-		background: transparent;
-	}
-
-	/* History: collapsed appendix — keeps the paper short like the old center card */
-	.about-history {
-		margin-top: clamp(1.15rem, 2.4vw, 1.45rem);
-		padding-top: clamp(0.85rem, 1.8vw, 1.05rem);
-		border-top: 1px dashed color-mix(in oklab, var(--sheet-edge) 70%, transparent);
-	}
-
-	.about-history > summary {
-		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
-		width: fit-content;
+	.r-about__history summary {
 		cursor: pointer;
+		color: var(--r-ink-faint);
+	}
+
+	.r-about__history ol {
 		list-style: none;
-		user-select: none;
-	}
-
-	.about-history > summary::-webkit-details-marker {
-		display: none;
-	}
-
-	.about-history__hint {
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		line-height: 1.2;
-	}
-
-	.about-history > summary::after {
-		content: "›";
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.78rem;
-		line-height: 1;
-		transform: rotate(0deg);
-		transition: transform 0.18s ease;
-	}
-
-	.about-history[open] > summary::after {
-		transform: rotate(90deg);
-	}
-
-	.about-history > summary:hover .about-history__hint,
-	.about-history > summary:hover::after {
-		color: var(--gray-color);
-	}
-
-	.about-history-list {
+		margin: 0.85rem 0 0;
+		padding: 0;
 		display: flex;
 		flex-direction: column;
-		gap: 0.38rem;
-		margin: 0.7rem 0 0;
-		padding: 0;
-		list-style: none;
-		font-family: var(--ui-font);
+		gap: 0.55rem;
 	}
 
-	.about-history-list li {
+	.r-about__history li {
 		display: grid;
-		grid-template-columns: 3.6rem minmax(0, 1fr);
-		gap: 0.65rem;
-		align-items: baseline;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: 0.75rem;
 	}
 
-	.about-history-list time {
-		color: var(--faint-color);
-		font-family: var(--field-font);
-		font-size: 0.64rem;
-		font-weight: var(--weight-medium);
-		line-height: 1.4;
-		letter-spacing: 0.02em;
+	.r-about__history time {
 		font-variant-numeric: tabular-nums;
-	}
-
-	.about-history-list span {
-		color: color-mix(in oklab, var(--gray-color) 94%, var(--heading-color));
-		font-size: 0.74rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.45;
-	}
-
-	@media (max-width: 860px) {
-		.about-profile__traits {
-			grid-template-columns: 1fr;
-		}
-
-		.about-profile__actions {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	@media (max-width: 680px) {
-		.about-profile__head {
-			gap: 0.8rem;
-		}
-
-		.about-profile__avatar {
-			width: 2.85rem;
-			height: 2.85rem;
-		}
-
-		.about-profile__lead span {
-			display: inline;
-		}
-
-		.about-module__links a {
-			grid-template-columns: 3.8rem minmax(0, 1fr);
-			gap: 0.65rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.about-history > summary::after {
-			transition: none;
-		}
+		color: var(--r-ink-faint);
+		font-size: var(--r-text-xs);
 	}
 </style>
