@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import MagazineShell from '../../layouts/MagazineShell.astro';
+import ReadingShell from '../../layouts/ReadingShell.astro';
 import { SITE_DESCRIPTION } from '../../consts';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
@@ -32,199 +32,36 @@ function getPostHref(post: (typeof posts)[number]) {
 }
 ---
 
-<MagazineShell title='归档' description={SITE_DESCRIPTION} className="archive-layout" showProfileCard={false}>
-	<section class="archive-board postcard-sheet" aria-labelledby="archive-title">
-		<header class="archive-board__header">
-			<h1 id="archive-title" class="archive-board__title">全部文章</h1>
-		</header>
+<ReadingShell title="归档" description={SITE_DESCRIPTION}>
+	<h1 class="r-page-title">全部文章</h1>
 
-		<div class="archive-ledger" role="list">
-			{years.map((year) => (
-				<section class="archive-year" aria-labelledby={`archive-year-${year}`} role="listitem">
-					<h2 id={`archive-year-${year}`} class="archive-year__label">{year}</h2>
-					<ul class="archive-year__posts">
-						{postsByYear[year].map((post) => {
-							const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
-							return (
-								<li class="archive-entry">
-									<time class="archive-entry__date" datetime={post.data.pubDate.toISOString()}>
-										{getArchiveDate(post.data.pubDate)}
-									</time>
-									<div class="archive-entry__main">
-										<a
-											href={getPostHref(post)}
-											class="archive-entry__title"
-											transition:name={`post-title-${post.id}`}
-										>
-											{post.data.title}
-										</a>
-									</div>
-									<div class="archive-entry__meta">
-										{primaryTag && (
-											<a class="archive-entry__tag" href={`/tags/${primaryTag}/`}>{primaryTag}</a>
-										)}
-										{INCLUDE_DRAFTS && post.data.draft && (
-											<span class="draft-badge" aria-label="草稿">草稿</span>
-										)}
-									</div>
-								</li>
-							);
-						})}
-					</ul>
-				</section>
-			))}
-		</div>
-	</section>
-</MagazineShell>
+	{years.map((year) => (
+		<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
+			<h2 id={`archive-year-${year}`} class="r-year-block__label">{year}</h2>
+			<ol class="r-post-list">
+				{postsByYear[year].map((post) => (
+					<li class="r-post-list__item">
+						<span class="r-post-list__date">
+							<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
+						</span>
+						<div>
+							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+							{INCLUDE_DRAFTS && post.data.draft && (
+								<span class="r-draft">草稿</span>
+							)}
+						</div>
+					</li>
+				))}
+			</ol>
+		</section>
+	))}
+</ReadingShell>
 
 <style>
-	.archive-board {
-		min-height: 0;
-		width: 100%;
-		max-width: 100%;
-		padding: clamp(1rem, 2.2vw, 1.35rem);
-	}
-
-	.archive-board__header {
-		display: block;
-		margin-bottom: 0.85rem;
-		padding: 0 0 0.65rem;
-		border-bottom: 1px solid var(--sheet-edge);
-	}
-
-	.archive-board__title {
-		margin: 0;
-		font-family: var(--display-font);
-		font-size: clamp(1.25rem, 2.2vw, 1.45rem);
-		font-weight: 600;
-		letter-spacing: -0.015em;
-		line-height: 1.2;
-		color: var(--heading-color);
-	}
-
-	.archive-ledger {
-		display: flex;
-		flex-direction: column;
-		gap: clamp(0.85rem, 2vw, 1.25rem);
-	}
-
-	.archive-year {
-		display: flex;
-		flex-direction: column;
-		gap: 0.15rem;
-		min-width: 0;
-	}
-
-	.archive-year__label {
-		margin: 0;
-		padding: 0.55rem 0 0.2rem;
-		color: color-mix(in oklab, var(--accent-color) 35%, var(--heading-color));
-		font-family: var(--display-font);
-		font-size: clamp(1.05rem, 1.7vw, 1.2rem);
-		font-weight: 600;
-		letter-spacing: -0.02em;
-		line-height: 1.1;
-	}
-
-	.archive-year__posts {
-		display: flex;
-		flex-direction: column;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.archive-entry {
-		display: grid;
-		grid-template-columns: 3.6rem minmax(0, 1fr) 3.6rem;
-		align-items: baseline;
-		gap: 0.55rem 0.85rem;
-		min-width: 0;
-		padding: 0.38rem 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 70%, transparent);
-	}
-
-	.archive-entry__date {
-		display: block;
-		min-width: 0;
-		color: var(--gray-color);
-		font-family: var(--code-font);
-		font-size: 0.74rem;
-		font-weight: 500;
-		font-variant-numeric: tabular-nums;
-		line-height: 1.25;
-		letter-spacing: 0.02em;
-		white-space: nowrap;
-	}
-
-	.archive-entry__main {
-		min-width: 0;
-	}
-
-	.archive-entry__title {
-		display: inline;
-		border: 0 !important;
-		background: none !important;
-		color: var(--heading-color);
-		font-family: var(--display-font);
-		font-size: clamp(0.9rem, 1.05vw, 0.98rem);
-		font-weight: 500;
-		line-height: 1.3;
-		text-decoration: none;
-		overflow-wrap: break-word;
-		transition: color 0.18s ease;
-	}
-
-	.archive-entry__title:hover {
-		color: var(--link-color);
-	}
-
-	.archive-entry__meta {
-		display: flex;
-		align-items: baseline;
-		justify-content: flex-end;
-		gap: 0.4rem;
-		min-width: 0;
-	}
-
-	.archive-entry__tag {
-		border: 0 !important;
-		background: none !important;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		line-height: 1.25;
-		text-align: right;
-		text-decoration: none;
-		white-space: nowrap;
-	}
-
-	.archive-entry__tag:hover {
-		color: var(--gray-color);
-	}
-
-	.draft-badge {
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		font-weight: 500;
-		color: color-mix(in oklab, var(--color-warning) 68%, var(--gray-color));
-		white-space: nowrap;
-	}
-
-	@media (max-width: 720px) {
-		.archive-entry {
-			grid-template-columns: 3.2rem minmax(0, 1fr);
-			gap: 0.4rem 0.7rem;
-			padding: 0.34rem 0;
-		}
-
-		.archive-entry__meta {
-			grid-column: 2;
-			justify-content: flex-start;
-		}
-
-		.archive-entry__date {
-			min-width: 0;
-		}
+	.r-draft {
+		margin-left: 0.5rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
 	}
 </style>
