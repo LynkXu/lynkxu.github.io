@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import MagazineShell from './MagazineShell.astro';
+import ReadingShell from './ReadingShell.astro';
 import Comments from '../components/Comments.astro';
 
 type Props = CollectionEntry<'page'>['data'] & {
@@ -10,112 +10,54 @@ type Props = CollectionEntry<'page'>['data'] & {
 const { title } = Astro.props;
 ---
 
-<MagazineShell title={title} description={title} className="message-surface" showProfileCard={false}>
-	<section class="message-panel postcard-sheet" aria-labelledby="message-title">
-		<header class="message-panel__header">
-			<h1 id="message-title" class="message-panel__title">留言</h1>
-		</header>
-
-		<div class="message-comments">
+<ReadingShell title={title} description={title}>
+	<section class="r-message" aria-labelledby="message-title">
+		<h1 id="message-title" class="r-page-title">留言</h1>
+		<div class="r-message__comments">
 			<Comments showLinuxDo={false} manualTwikooLoad={true} />
 		</div>
 	</section>
-</MagazineShell>
+</ReadingShell>
 
 <style is:global>
-	.message-panel {
-		min-height: 0;
-		max-width: var(--blog-content-max);
-		padding: clamp(1rem, 2.2vw, 1.35rem);
-	}
-
-	.message-panel > .message-panel__header {
-		display: block;
-		margin-bottom: 0.85rem;
-		padding: 0 0 0.65rem;
-		border-bottom: 1px solid var(--sheet-edge);
-	}
-
-	.message-panel__title {
-		margin: 0;
-		font-family: var(--display-font);
-		font-size: clamp(1.25rem, 2.2vw, 1.45rem);
-		font-weight: 600;
-		letter-spacing: -0.015em;
-		line-height: 1.2;
-		color: var(--heading-color);
-	}
-
-	.message-comments {
-		border-radius: var(--paper-card-radius);
-	}
-
-	.message-comments .comments.single {
+	body.reading-surface .r-message__comments .comments.single {
 		margin: 0;
 	}
 
-	.message-comments .twikoo-shell {
+	body.reading-surface .r-message__comments .twikoo-shell {
 		border: 0;
 		border-radius: 0;
-		background: transparent;
-		overflow: visible;
-	}
-
-	.message-comments .twikoo-shell[data-load-state="loaded"] {
-		border: 0;
 		background: transparent;
 		box-shadow: none;
 		overflow: visible;
 	}
 
-	.message-comments .twikoo-lazygate {
+	body.reading-surface .r-message__comments .twikoo-lazygate {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		gap: var(--space-sm);
-		padding: 1rem 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+		gap: 0.75rem;
+		padding: 0.85rem 0;
+		border-bottom: 1px solid var(--r-rule);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
 	}
 
-	.message-comments .twikoo-lazygate__meta {
-		margin: 0;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-regular);
-		line-height: 1.5;
-	}
-
-	.message-comments .twikoo-load-button {
-		min-height: 2rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: 0;
+	body.reading-surface .r-message__comments .twikoo-lazygate button,
+	body.reading-surface .r-message__comments button {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink);
 		background: transparent;
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: 0.76rem;
-		font-weight: var(--weight-regular);
+		border: 1px solid var(--r-rule);
+		border-radius: 3px;
+		padding: 0.35rem 0.7rem;
 		cursor: pointer;
 	}
 
-	.message-comments .twikoo-load-button:hover:not(:disabled) {
-		border-color: var(--paper-hover-border);
-		background: transparent;
-		color: var(--heading-color);
-	}
-
-	@media (max-width: 640px) {
-		.message-panel {
-			padding-inline: 0;
-		}
-
-		.message-comments .twikoo-lazygate {
-			flex-direction: column;
-			align-items: stretch;
-		}
-
-		.message-comments .twikoo-load-button {
-			width: 100%;
-		}
+	body.reading-surface .r-message__comments .twikoo-lazygate button:hover,
+	body.reading-surface .r-message__comments button:hover {
+		border-color: var(--r-ink-soft);
 	}
 </style>
