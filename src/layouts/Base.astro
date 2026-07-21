@@ -143,6 +143,7 @@ const showUtilities = !hideUtilities && !readingSurface;
 
 				function setTheme(nextTheme) {
 					document.documentElement.setAttribute('data-theme', nextTheme);
+					document.documentElement.style.colorScheme = nextTheme;
 					try {
 						localStorage.setItem('theme', nextTheme);
 					} catch (e) {

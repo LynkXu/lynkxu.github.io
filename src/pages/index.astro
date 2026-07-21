@@ -11,7 +11,7 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 10);
+const latestPosts = posts.slice(0, 12);
 const latestGossips = (await getAllGossips()).slice(0, 3);
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -27,20 +27,14 @@ function getPostHref(post: (typeof posts)[number]) {
 		</header>
 
 		<ol class="r-post-list">
-			{latestPosts.map((post) => {
-				const excerpt = post.data.description || toPlainExcerpt(post.body || '', 90);
-				return (
-					<li class="r-post-list__item">
-						<span class="r-post-list__date">
-							<FormattedDate date={post.data.pubDate} />
-						</span>
-						<div>
-							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
-							{excerpt && <p class="r-post-list__excerpt">{excerpt}</p>}
-						</div>
-					</li>
-				);
-			})}
+			{latestPosts.map((post) => (
+				<li class="r-post-list__item">
+					<span class="r-post-list__date">
+						<FormattedDate date={post.data.pubDate} />
+					</span>
+					<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+				</li>
+			))}
 		</ol>
 	</section>
 
@@ -53,7 +47,7 @@ function getPostHref(post: (typeof posts)[number]) {
 
 			<ul class="r-note-list">
 				{latestGossips.map((gossip) => {
-					const excerpt = toPlainExcerpt(gossip.body || '', 120);
+					const excerpt = toPlainExcerpt(gossip.body || '', 80);
 					return (
 						<li class="r-note-list__item">
 							<a href="/shuoshuo">
