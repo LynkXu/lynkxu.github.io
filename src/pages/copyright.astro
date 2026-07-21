@@ -1,274 +1,86 @@
 ---
-import MagazineShell from '../layouts/MagazineShell.astro';
+import ReadingShell from '../layouts/ReadingShell.astro';
 
 const rights = [
-	{ icon: '✓', label: '共享', desc: '你可以自由复制、分享本站内容' },
-	{ icon: '✎', label: '改编', desc: '你可以基于本站内容进行二次创作' },
-	{ icon: '✑', label: '署名', desc: '转载或改编时必须注明作者及来源' },
-	{ icon: '✕', label: '非商业', desc: '不得将内容用于商业用途' },
+	{ label: '共享', desc: '你可以自由复制、分享本站内容' },
+	{ label: '改编', desc: '你可以基于本站内容进行二次创作' },
+	{ label: '署名', desc: '转载或改编时必须注明作者及来源' },
+	{ label: '非商业', desc: '不得将内容用于商业用途' },
 ];
 ---
 
-<MagazineShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
-	<article class="copyright-page">
-		<header class="copyright-page__header">
-			<p class="copyright-page__kicker">Copyright</p>
-			<h1 class="copyright-page__title">
-				<span class="copyright-page__mark">CC</span>
-				<span class="copyright-page__license">BY-NC 4.0</span>
-			</h1>
-			<p class="copyright-page__lead">
-				本站内容采用
-				<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
-					知识共享署名-非商业性使用 4.0 国际许可协议
-				</a>
-				进行许可。
-			</p>
-		</header>
+<ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
+	<article class="r-copyright">
+		<h1 class="r-page-title">CC BY-NC 4.0</h1>
+		<p class="r-prose">
+			本站内容采用
+			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+				知识共享署名-非商业性使用 4.0 国际许可协议
+			</a>
+			进行许可。
+		</p>
 
-		<section class="copyright-page__body" aria-labelledby="rights-title">
-			<h2 id="rights-title" class="copyright-page__section-title">你可以做什么</h2>
-			<ul class="copyright-page__rights">
+		<section class="r-section" aria-labelledby="rights-title">
+			<h2 id="rights-title" class="r-section__title">你可以做什么</h2>
+			<ul class="r-copyright__list">
 				{rights.map((item) => (
-					<li class="copyright-page__right">
-						<span class="copyright-page__right-icon" aria-hidden="true">{item.icon}</span>
-						<span class="copyright-page__right-label">{item.label}</span>
-						<span class="copyright-page__right-desc">{item.desc}</span>
+					<li>
+						<strong>{item.label}</strong>
+						<span>{item.desc}</span>
 					</li>
 				))}
 			</ul>
 		</section>
 
-		<footer class="copyright-page__footer">
-			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer" class="copyright-page__cta">
+		<p class="r-copyright__note">
+			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
 				查看完整协议
-				<span aria-hidden="true">→</span>
 			</a>
-			<p class="copyright-page__note">© 2020 – {new Date().getFullYear()} LynkXu. All rights reserved.</p>
-		</footer>
+			<br />
+			© 2020 – {new Date().getFullYear()} LynkXu. All rights reserved.
+		</p>
 	</article>
-</MagazineShell>
+</ReadingShell>
 
 <style>
-	.copyright-page {
-		--copyright-line: color-mix(in oklab, var(--accent-color) 25%, var(--paper-card-border-soft));
-		position: relative;
-		max-width: var(--blog-content-max);
-		padding: clamp(1.35rem, 3vw, 1.9rem);
-		background: var(--sheet-bg);
-		border: 1px solid var(--sheet-edge);
-		border-radius: var(--paper-card-radius);
-		animation: fade-up 0.5s ease-out both;
-	}
-
-	.copyright-page::before {
-		content: none;
-	}
-
-	.copyright-page__header {
-		margin-bottom: clamp(1.5rem, 3.2vw, 2.2rem);
-	}
-
-	.copyright-page__kicker {
-		margin: 0 0 0.4rem;
-		font-family: var(--field-font);
-		font-size: 0.68rem;
-		font-weight: 500;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: var(--gray-color);
-	}
-
-	.copyright-page__title {
-		display: flex;
-		align-items: baseline;
-		gap: 0.5rem;
-		margin: 0 0 clamp(0.8rem, 1.8vw, 1rem);
-		font-family: var(--field-font);
-		font-weight: 500;
-		line-height: 1;
-		color: var(--heading-color);
-	}
-
-	.copyright-page__mark {
-		padding: 0.35rem 0.55rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: 4px;
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-		font-weight: 600;
-		letter-spacing: -0.02em;
-		color: var(--heading-color);
-	}
-
-	.copyright-page__license {
-		font-size: clamp(1.5rem, 2.8vw, 2.1rem);
-		font-weight: 500;
-		letter-spacing: -0.02em;
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-	}
-
-	.copyright-page__lead {
-		max-width: 58ch;
-		margin: 0;
-		font-size: clamp(0.9rem, 1.2vw, 0.96rem);
-		line-height: 1.7;
-		color: color-mix(in oklab, var(--text-color) 80%, var(--gray-color));
-	}
-
-	.copyright-page__lead a {
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		text-decoration: none;
-		border-bottom: 1px solid color-mix(in oklab, var(--accent-color) 30%, transparent);
-		transition: color 0.2s ease, border-color 0.2s ease;
-	}
-
-	.copyright-page__lead a:hover {
-		color: var(--accent-color);
-		border-color: var(--accent-color);
-	}
-
-	.copyright-page__body {
-		margin-bottom: clamp(1.5rem, 3.2vw, 2.2rem);
-	}
-
-	.copyright-page__section-title {
-		margin: 0 0 0.75rem;
-		font-family: var(--field-font);
-		font-size: 0.72rem;
-		font-weight: 500;
-		letter-spacing: 0.06em;
-		text-transform: uppercase;
-		color: var(--gray-color);
-	}
-
-	.copyright-page__rights {
+	.r-copyright__list {
 		list-style: none;
 		margin: 0;
 		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
-		gap: 0.45rem;
-	}
-
-	.copyright-page__right {
-		display: grid;
-		grid-template-columns: auto 1fr;
-		align-items: baseline;
-		gap: 0.15rem 0.55rem;
-		padding: 0.6rem 0.75rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-	}
-
-	.copyright-page__right-icon {
-		grid-row: span 2;
-		align-self: center;
-		width: 1.6rem;
-		height: 1.6rem;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 50%;
-		background: color-mix(in oklab, var(--accent-soft-bg) 60%, transparent);
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		font-size: 0.78rem;
-		font-family: var(--ui-font);
-		line-height: 1;
+		flex-direction: column;
+		gap: 0.75rem;
 	}
 
-	.copyright-page__right-label {
-		font-family: var(--field-font);
-		font-size: 0.84rem;
-		font-weight: 500;
-		color: var(--heading-color);
+	.r-copyright__list li {
+		display: grid;
+		gap: 0.2rem;
 	}
 
-	.copyright-page__right-desc {
-		font-size: 0.72rem;
-		color: color-mix(in oklab, var(--text-color) 70%, var(--gray-color));
-		line-height: 1.45;
+	.r-copyright__list strong {
+		font-weight: 600;
+		color: var(--r-ink);
 	}
 
-	.copyright-page__footer {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
-		flex-wrap: wrap;
-		padding-top: clamp(1rem, 2.2vw, 1.3rem);
-		border-top: 1px solid var(--paper-card-border-soft);
+	.r-copyright__list span {
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
 	}
 
-	.copyright-page__cta {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.35rem;
-		padding: 0.55rem 0.95rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		box-shadow: var(--paper-card-shadow);
-		color: var(--heading-color);
-		font-family: var(--field-font);
-		font-size: 0.74rem;
-		font-weight: 500;
-		letter-spacing: 0.02em;
-		line-height: 1;
+	.r-copyright__note {
+		margin-top: var(--r-space-xl);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+		line-height: 1.7;
+	}
+
+	.r-copyright__note a {
+		color: var(--r-ink-soft);
 		text-decoration: none;
-		transition:
-			border-color 0.2s ease,
-			background 0.2s ease,
-			color 0.2s ease,
-			transform 0.2s ease;
 	}
 
-	.copyright-page__cta:hover {
-		border-color: var(--paper-hover-border);
-		background: color-mix(in oklab, var(--accent-soft-bg) 36%, var(--paper-card-bg));
-		color: color-mix(in oklab, var(--accent-color) 42%, var(--heading-color));
-		transform: translateY(-1px);
-	}
-
-	.copyright-page__cta span {
-		transition: transform 0.2s ease;
-	}
-
-	.copyright-page__cta:hover span {
-		transform: translateX(2px);
-	}
-
-	.copyright-page__note {
-		margin: 0;
-		font-family: var(--field-font);
-		font-size: 0.72rem;
-		color: var(--gray-color);
-		letter-spacing: 0.01em;
-	}
-
-	@media (max-width: 640px) {
-		.copyright-page__rights {
-			grid-template-columns: 1fr;
-		}
-
-		.copyright-page__footer {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: 0.75rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.copyright-page {
-			animation: none;
-		}
-
-		.copyright-page__cta,
-		.copyright-page__cta span {
-			transition: none;
-		}
+	.r-copyright__note a:hover {
+		color: var(--r-link);
 	}
 </style>
