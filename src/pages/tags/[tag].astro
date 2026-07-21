@@ -1,13 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import MagazineShell from '../../layouts/MagazineShell.astro';
+import ReadingShell from '../../layouts/ReadingShell.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import CategoryFilter from '../../components/CategoryFilter.astro';
 import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
 
 export async function getStaticPaths() {
 	const allPosts = filterDrafts(await getCollection('blog'));
-	const tags = new Set();
+	const tags = new Set<string>();
 
 	allPosts.forEach((post) => {
 		if (post.data.tags) {
@@ -16,19 +15,19 @@ export async function getStaticPaths() {
 	});
 
 	return Array.from(tags).map((tag) => {
-		const tagString = String(tag);
 		const filteredPosts = allPosts
-			.filter((post) => post.data.tags && post.data.tags.includes(tagString))
+			.filter((post) => post.data.tags && post.data.tags.includes(tag))
 			.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 		return {
-			params: { tag: tagString },
-			props: { posts: filteredPosts, tag: tagString },
+			params: { tag },
+			props: { posts: filteredPosts, tag },
 		};
 	});
 }
 
 const { posts, tag } = Astro.props;
+
 const allPosts = filterDrafts(await getCollection('blog'));
 const tagsMap = new Map<string, number>();
 
@@ -38,172 +37,71 @@ allPosts.forEach((post) => {
 	});
 });
 
-const tagItems = Array.from(tagsMap.entries())
+const otherTags = Array.from(tagsMap.entries())
 	.sort((a, b) => b[1] - a[1])
-	.map(([name, count]) => ({
-		name,
-		count,
-		href: `/tags/${name}/`,
-	}));
+	.map(([name]) => name)
+	.filter((name) => name !== tag)
+	.slice(0, 12);
 ---
 
-<MagazineShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
-	<CategoryFilter categories={tagItems} activeCategory={tag} label='切换标签' />
+<ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
+	<h1 class="r-page-title">{tag}</h1>
 
-	<div class="tag-entries">
-		<section class="tag-section" aria-labelledby={`tag-heading-${tag}`}>
-			<h2 class="tag-label" id={`tag-heading-${tag}`}>{tag}</h2>
-			<ul class="tag-list">
-				{
-					posts.map((post) => (
-						<li class="tag-item">
-							<time class="tag-date" datetime={post.data.pubDate.toISOString()}>
-								<FormattedDate date={post.data.pubDate} />
-							</time>
-							<a
-								href={`/blog/${post.data.slug ?? post.id}.html`}
-								class="tag-link"
-								transition:name={`post-title-${post.id}`}
-							>
-								{post.data.title}
-							</a>
-							{INCLUDE_DRAFTS && post.data.draft && (
-								<span class="draft-badge" aria-label="草稿">草稿</span>
-							)}
-						</li>
-					))
-				}
-			</ul>
-		</section>
-	</div>
-</MagazineShell>
+	{otherTags.length > 0 && (
+		<p class="r-tag-switch">
+			<a href="/tags">全部标签</a>
+			{otherTags.map((name) => (
+				<>
+					{' · '}
+					<a href={`/tags/${name}/`}>{name}</a>
+				</>
+			))}
+		</p>
+	)}
+
+	<ol class="r-post-list">
+		{posts.map((post) => (
+			<li class="r-post-list__item">
+				<span class="r-post-list__date">
+					<FormattedDate date={post.data.pubDate} />
+				</span>
+				<div>
+					<a
+						href={`/blog/${post.data.slug ?? post.id}.html`}
+						class="r-post-list__title"
+						transition:name={`post-title-${post.id}`}
+					>
+						{post.data.title}
+					</a>
+					{INCLUDE_DRAFTS && post.data.draft && <span class="r-draft">草稿</span>}
+				</div>
+			</li>
+		))}
+	</ol>
+</ReadingShell>
 
 <style>
-	:global(.category-filter) {
-		margin: 0 0 clamp(1.2rem, 3vw, 2rem);
-		padding-bottom: 1rem;
-		border-bottom: 1px solid var(--paper-card-border-soft);
+	.r-tag-switch {
+		margin: -0.5rem 0 var(--r-space-lg);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+		line-height: 1.7;
 	}
 
-	:global(.category-filter .filter-label) {
-		color: var(--gray-color);
-		font-size: 0.72rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
+	.r-tag-switch a {
+		color: var(--r-ink-soft);
+		text-decoration: none;
 	}
 
-	:global(.category-filter .filter-list) {
-		display: grid;
-		grid-template-columns: repeat(4, minmax(0, 1fr));
-		column-gap: clamp(0.9rem, 2vw, 1.4rem);
-		row-gap: 0;
-		border-top: 1px solid var(--paper-card-border-soft);
+	.r-tag-switch a:hover {
+		color: var(--r-link);
 	}
 
-	:global(.category-filter .filter-chip) {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: 0.32rem;
-		min-height: 0;
-		padding: 0.48rem 0;
-		border: 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-		border-radius: 0;
-		background: transparent;
-		color: var(--gray-color);
-		font-size: 0.74rem;
-	}
-
-	:global(.category-filter .filter-chip:hover),
-	:global(.category-filter .filter-chip.active) {
-		color: var(--heading-color);
-		background: transparent;
-		border-color: transparent;
-	}
-
-	.tag-entries {
-		gap: 0;
-	}
-
-	.tag-section {
-		display: grid;
-		grid-template-columns: 5.2rem minmax(0, 1fr);
-		gap: clamp(1.2rem, 3vw, 2rem);
-		padding: 0;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-		animation: none;
-	}
-
-	.tag-section:hover {
-		background: transparent;
-		border-color: transparent;
-	}
-
-	.tag-label {
-		color: var(--heading-color);
-		font-family: var(--ui-font);
-		font-size: clamp(1.25rem, 2.4vw, 1.6rem);
-		font-weight: var(--weight-medium);
-		letter-spacing: 0;
-	}
-
-	.tag-list {
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.tag-item {
-		display: grid;
-		grid-template-columns: 6rem minmax(0, 1fr) auto;
-		gap: clamp(0.8rem, 2vw, 1.2rem);
-		padding: 0.64rem 0;
-		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	.tag-item:hover {
-		background: transparent;
-	}
-
-	.tag-date {
-		color: var(--gray-color);
-		font-family: var(--code-font);
-		font-variant-numeric: tabular-nums;
-		font-size: 0.76rem;
-		font-weight: var(--weight-regular);
-		min-width: 5.5rem;
-		white-space: nowrap;
-	}
-
-	.tag-link {
-		color: var(--heading-color);
-		font-size: clamp(0.96rem, 1.3vw, 1.08rem);
-		font-weight: var(--weight-regular);
-		line-height: 1.42;
-	}
-
-	.tag-link:hover {
-		color: var(--accent-color);
-	}
-
-	@media (max-width: 720px) {
-		:global(.category-filter .filter-list) {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-
-		.tag-section {
-			grid-template-columns: 1fr;
-		}
-
-		.tag-label {
-			padding-bottom: 0.45rem;
-		}
-
-		.tag-item {
-			grid-template-columns: 1fr;
-			gap: 0.2rem;
-		}
+	.r-draft {
+		margin-left: 0.5rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
 	}
 </style>
