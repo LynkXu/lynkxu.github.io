@@ -496,6 +496,26 @@ body.reading-surface .background-ornament {
   }
 }
 
+/* Quiet search modal on reading surface */
+body.reading-surface .search-modal-content {
+  border-radius: 4px;
+  border: 1px solid var(--r-rule);
+  box-shadow: none;
+  background: var(--r-bg);
+  font-family: var(--r-font-ui);
+}
+
+body.reading-surface .search-modal input {
+  font-family: var(--r-font-ui);
+  color: var(--r-ink);
+  background: transparent;
+}
+
+body.reading-surface .search-results a {
+  color: var(--r-ink);
+  text-decoration: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   body.reading-surface * {
     transition: none !important;
