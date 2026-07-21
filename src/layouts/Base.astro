@@ -15,9 +15,32 @@ interface Props {
     hideFooter?: boolean;
     useCard?: boolean; // 新增：是否使用卡片布局
     className?: string; // 新增：传递给卡片的 class
+	readingSurface?: boolean;
+	hideUtilities?: boolean;
+	hideBackground?: boolean;
 }
 
-const { title, description, image, fullWidth = false, hideHeader = false, hideFooter = false, useCard = true, className = '' } = Astro.props;
+const {
+	title,
+	description,
+	image,
+	fullWidth = false,
+	hideHeader = false,
+	hideFooter = false,
+	useCard = true,
+	className = '',
+	readingSurface = false,
+	hideUtilities = false,
+	hideBackground = false,
+} = Astro.props;
+
+const bodyClass = [
+	fullWidth ? 'full-width' : '',
+	readingSurface ? 'reading-surface' : '',
+].filter(Boolean).join(' ');
+
+const showBackground = !hideBackground && !readingSurface;
+const showUtilities = !hideUtilities && !readingSurface;
 
 ---
 
@@ -27,8 +50,8 @@ const { title, description, image, fullWidth = false, hideHeader = false, hideFo
 		<BaseHead title={title} description={description} image={image} />
 		<slot name='head' />
 	</head>
-	<body class={fullWidth ? 'full-width' : ''}>
-		<Background />
+	<body class={bodyClass}>
+		{showBackground && <Background />}
         
         {
             useCard ? (
@@ -38,6 +61,10 @@ const { title, description, image, fullWidth = false, hideHeader = false, hideFo
                         <slot />
                     </main>
                     {!hideFooter && <Footer />}
+                </div>
+            ) : readingSurface ? (
+                <div class={className}>
+                    <slot />
                 </div>
             ) : (
                 <div class={`global-layout-transparent ${className}`}>
@@ -52,7 +79,7 @@ const { title, description, image, fullWidth = false, hideHeader = false, hideFo
 		
 		<SearchModal />
 
-		<div class="utility-fab-cluster" role="group" aria-label="站点工具">
+		{showUtilities && <div class="utility-fab-cluster" role="group" aria-label="站点工具">
 			<button
 				id="search-fab"
 				class="utility-fab search-fab"
@@ -84,7 +111,7 @@ const { title, description, image, fullWidth = false, hideHeader = false, hideFo
 					</svg>
 				</span>
 			</button>
-		</div>
+		</div>}
 
 		<script is:inline>
 			(function () {
