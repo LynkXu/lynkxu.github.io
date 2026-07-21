@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import MagazineShell from './MagazineShell.astro';
+import ReadingShell from './ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Toc from '../components/Toc.astro';
 import NavButton from '../components/NavButton.astro';
@@ -9,10 +9,10 @@ import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
 	postId?: string;
-	showTOC?: boolean; // 是否显示目录，默认 true
-	tocMinLevel?: number; // 目录最小层级，默认 2 (h2)
-	tocMaxLevel?: number; // 目录最大层级，默认 3 (h3)
-	readingTime?: number; // 阅读时间（分钟）
+	showTOC?: boolean;
+	tocMinLevel?: number;
+	tocMaxLevel?: number;
+	readingTime?: number;
 };
 
 const {
@@ -36,718 +36,239 @@ const topicLabels = tags?.length
 	? tags
 	: categories?.length
 		? categories
-		: ['essay'];
+		: [];
 const topicLinksEnabled = Boolean(tags?.length);
 ---
 
-<MagazineShell title={title} description={description || ''} className="blog-post-layout" showProfileCard={false}>
-	<!-- LightGallery CSS (本地) -->
-	<link rel='stylesheet' href='/lightgallery/css/lightgallery.min.css' slot='head' />
+<ReadingShell title={title} description={description || ''}>
+	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
+
+	<article class="r-article">
+		<header class="r-article__header">
+			<h1 class="r-page-title" transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+
+			<div class="r-meta">
+				<span><FormattedDate date={pubDate} /></span>
+				{topicLabels.map((label) => (
+					topicLinksEnabled ? (
+						<a href={`/tags/${label}/`}>{label}</a>
+					) : (
+						<span>{label}</span>
+					)
+				))}
+				{readingTime && <span>{readingTime} min</span>}
+				{updatedDate && (
+					<span>更新于 <FormattedDate date={updatedDate} /></span>
+				)}
+				{isDev && draft && <span>草稿</span>}
+			</div>
+
+			{description && <p class="r-article__desc">{description}</p>}
+		</header>
+
+		{showTOC && (
+			<details class="r-toc">
+				<summary>目录</summary>
+				<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title="本页目录" />
+			</details>
+		)}
+
+		<div class="r-prose post-content content" id="lightgallery">
+			<slot />
+		</div>
+
+		<footer class="r-article__tail">
+			<div class="r-article__end" aria-hidden="true">·</div>
+			<LikeButton id={postId || Astro.url.pathname} type="post" />
+			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
+		</footer>
+
+		<NavButton showBackToTop={true} />
+	</article>
 
 	<style is:global>
-		/* 文章结束标识 */
-		.post-tail {
-			display: flex;
-			flex-direction: column;
-			gap: clamp(1.25rem, 3vw, 1.5rem);
-			margin: auto 0 clamp(0.5rem, 1.5vw, 0.75rem);
-			padding-top: clamp(2rem, 4.5vw, 2.5rem);
+		body.reading-surface .r-article__desc {
+			margin: 0 0 var(--r-space-lg);
+			color: var(--r-ink-soft);
+			font-size: var(--r-text-sm);
+			line-height: 1.65;
 		}
 
-		.post-end {
+		body.reading-surface .r-toc {
+			margin: 0 0 var(--r-space-lg);
+			font-family: var(--r-font-ui);
+			font-size: var(--r-text-xs);
+			color: var(--r-ink-soft);
+		}
+
+		body.reading-surface .r-toc summary {
+			cursor: pointer;
+			color: var(--r-ink-faint);
+			list-style: none;
+		}
+
+		body.reading-surface .r-toc summary::-webkit-details-marker {
+			display: none;
+		}
+
+		body.reading-surface .r-toc .toc-container {
+			margin-top: 0.65rem;
+			border: 0;
+			background: transparent;
+			box-shadow: none;
+			padding: 0;
+		}
+
+		body.reading-surface .r-toc .toc-toggle {
+			display: none;
+		}
+
+		body.reading-surface .r-toc .toc {
+			display: block !important;
+		}
+
+		body.reading-surface .r-toc .toc a {
+			color: var(--r-ink-soft);
+			text-decoration: none;
+			font-size: var(--r-text-xs);
+			line-height: 1.55;
+		}
+
+		body.reading-surface .r-toc .toc a:hover {
+			color: var(--r-ink);
+		}
+
+		body.reading-surface .r-article__tail {
+			margin-top: var(--r-space-xl);
+			padding-top: var(--r-space-lg);
+			border-top: 1px solid var(--r-rule);
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			gap: 1rem;
-			margin: 0;
-			padding: 0.15rem 0 0;
+			gap: var(--r-space-md);
 		}
 
-		.post-tail .changelog {
-			margin: 0 !important;
+		body.reading-surface .r-article__end {
+			color: var(--r-ink-faint);
+			letter-spacing: 0.2em;
 		}
 
-		.post-end-mark {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-
-		.post-end-text {
-			flex-shrink: 0;
-			color: color-mix(in oklab, var(--accent-color) 35%, var(--faint-color));
-			font-family: var(--display-font);
-			font-size: 1rem;
-			letter-spacing: 0.08em;
-			white-space: nowrap;
-		}
-
-		/* Code Block Wrapper */
-		.code-wrapper {
+		body.reading-surface .code-wrapper {
 			position: relative;
 			margin: 1.25rem 0;
-			border-radius: var(--paper-card-radius);
-			background: color-mix(in oklab, var(--code-background-color) 54%, var(--paper-card-bg));
-			box-shadow: var(--paper-card-shadow);
-			border: 1px solid var(--paper-card-border);
+			border-radius: 4px;
+			background: var(--r-code-bg);
 			overflow: hidden;
 		}
 
-		:root[data-theme="dark"] .code-wrapper {
-			background: color-mix(in oklab, var(--code-background-color) 68%, var(--content-bg));
-			border-color: color-mix(in oklab, var(--rule-color) 52%, transparent);
-		}
-
-		/* Header - Immersive Style */
-		.code-header {
+		body.reading-surface .code-header {
 			position: absolute;
 			top: 0;
-			left: 0;
-			width: 100%;
-			height: 1.8rem;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			padding: 0 var(--space-md);
-			background: transparent;
-			z-index: 10;
-			pointer-events: none;
-		}
-
-		.code-header > * {
-			pointer-events: auto;
-		}
-
-		.mac-buttons {
-			display: none;
-		}
-
-		.mac-button {
-			display: none;
-		}
-
-		.code-lang {
-			font-size: 0.72rem;
-			color: var(--faint-color);
-			font-family: var(--code-font);
-			text-transform: none;
-			font-weight: var(--weight-medium);
-			position: static;
-			transform: none;
-			user-select: none;
-		}
-
-		.blog-main-column {
-			display: flex;
-			flex-direction: column;
-			gap: 0;
-			min-width: 0;
-		}
-
-		.blog-main-column > .nav-buttons-group,
-		.blog-main-column > :where(.nav-button, [class*="nav-"]) {
-			margin-top: clamp(1.2rem, 2.7vw, 1.85rem);
-		}
-
-		.post-sidebar-stack {
-			display: flex;
-			flex-direction: column;
-			gap: clamp(var(--space-md), 2vw, var(--space-lg));
-		}
-
-		.post-header-card {
-			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
-			padding: clamp(1.15rem, 2.6vw, 1.55rem) var(--post-inline-padding) clamp(0.85rem, 1.8vw, 1.1rem);
-			margin: 0;
-			border: 1px solid var(--sheet-edge);
-			border-bottom: 0;
-			border-radius: var(--paper-card-radius) var(--paper-card-radius) 0 0;
-			background: var(--sheet-bg);
-			box-shadow: var(--sheet-shadow);
-		}
-
-		.entry-sheet {
-			--measure-readable: var(--blog-content-max);
-			--post-inline-padding: clamp(1.15rem, 2.8vw, 1.85rem);
-			--post-content-width: var(--measure-readable);
-			display: flex;
-			flex-direction: column;
-			margin: 0;
-			padding: clamp(0.95rem, 2.1vw, 1.25rem) var(--post-inline-padding) clamp(1.35rem, 3vw, 1.85rem);
-			border: 1px solid var(--sheet-edge);
-			border-radius: 0 0 var(--paper-card-radius) var(--paper-card-radius);
-			background: var(--sheet-bg);
-			box-shadow:
-				var(--sheet-shadow),
-				0 10px 28px oklch(0.32 0.02 95 / 0.07);
-		}
-
-		.blog-main-column:has(.post-header-card) .entry-sheet {
-			border-top-color: color-mix(in oklab, var(--sheet-edge) 55%, transparent);
-		}
-
-		.blog-main-column:has(.post-header-card) .post-header-card {
-			box-shadow: none;
-		}
-
-		.post-header {
-			display: flex;
-			flex-direction: column;
-			margin: 0;
-			padding: 0;
-			border: none;
-			border-radius: 0;
-			background: transparent;
-		}
-
-		.post-flow {
-			width: 100%;
-			max-width: none;
-			margin-left: 0;
-			margin-right: 0;
-			padding-left: 0;
-			padding-right: 0;
-		}
-
-		.post-header-inner {
-			display: flex;
-			flex-direction: column;
-			gap: 0.7rem;
-		}
-
-		.post-meta-bar {
-			display: flex;
-			flex-wrap: wrap;
-			align-items: baseline;
-			gap: 0.35rem 0.55rem;
-			padding: 0;
-			color: color-mix(in oklab, var(--heading-color) 58%, var(--gray-color));
-			font-family: var(--ui-font);
-			font-size: 0.78rem;
-			line-height: 1.45;
-		}
-
-		.post-meta-bar > * {
-			min-width: 0;
-		}
-
-		.post-meta-date,
-		.post-meta-read,
-		.post-meta-updated {
-			font-variant-numeric: tabular-nums;
-			white-space: nowrap;
-		}
-
-		.post-meta-sep {
-			color: var(--faint-color);
-			user-select: none;
-		}
-
-		.post-kind-group {
-			display: inline-flex;
-			flex-wrap: wrap;
-			align-items: center;
-			column-gap: 0.28rem;
-			row-gap: 0.12rem;
-		}
-
-		.post-kind-sep {
-			color: color-mix(in oklab, var(--faint-color) 78%, transparent);
-			font-weight: var(--weight-regular);
-		}
-
-		.post-kind {
-			display: inline-flex;
-			align-items: center;
-			padding: 0;
-			background: transparent;
-			border: 0;
-			border-radius: 0;
-			border-bottom: none;
-			font-size: inherit;
-			font-weight: var(--weight-regular);
-			color: inherit;
-			letter-spacing: 0.01em;
-			line-height: 1.3;
-			text-decoration: none;
-		}
-
-		a.post-kind {
-			color: inherit;
-			/* Override global a:hover border so hover doesn't add 1px and jitter. */
-			border-bottom: none;
-			transition: color 0.2s ease;
-		}
-
-		a.post-kind:hover,
-		a.post-kind:focus-visible {
-			color: var(--heading-color);
-			border-bottom: none;
-		}
-
-		.post-header .post-title {
-			margin: 0;
-			font-family: var(--display-font);
-			font-size: clamp(1.72rem, 3.6vw, 2.45rem);
-			font-weight: var(--weight-semibold);
-			line-height: 1.18;
-			letter-spacing: var(--tracking-tighter);
-			color: var(--heading-color);
-		}
-
-		.post-description {
-			margin: 0;
-			max-width: 54ch;
-			color: color-mix(in oklab, var(--gray-color) 88%, var(--faint-color));
-			font-family: var(--reading-font);
-			font-size: clamp(0.95rem, 1.35vw, 1.05rem);
-			font-weight: var(--weight-regular);
-			line-height: 1.7;
-		}
-
-		/* Copy Button */
-		.copy-btn {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			background: transparent;
-			border: none;
-			color: var(--gray-color);
-			cursor: pointer;
-			padding: 4px;
-			border-radius: 0;
-			transition: all 0.2s;
-			opacity: 0.0;
-		}
-
-		.code-wrapper:hover .copy-btn {
-			opacity: 0.7;
-		}
-
-		.copy-btn:hover {
-			background: rgba(0, 0, 0, 0.05);
-			color: var(--text-color);
-			opacity: 1 !important;
-		}
-
-		.copy-btn.copied {
-			color: #4caf50;
-			opacity: 1 !important;
-		}
-
-		:root[data-theme="dark"] .copy-btn:hover {
-			background: rgba(255, 255, 255, 0.1);
-		}
-
-		.code-wrapper pre {
-			margin: 0 !important;
-			border-radius: 0 !important;
-			padding: 1.65rem var(--space-md) var(--space-sm) !important;
-			background: transparent !important;
-			font-size: 0.78rem;
-			line-height: 1.56;
-			overflow-x: auto;
-		}
-
-		.code-wrapper pre code {
-			font-size: inherit;
-			line-height: inherit;
-		}
-
-		.blog-post-layout .blog-main-column .post-content {
-			--reader-inline-pad: 0;
-			width: 100%;
-			max-width: none;
-			box-sizing: border-box;
-			margin: 0;
-			padding: 0;
-			border: 0;
-			background: transparent;
-			color: color-mix(in oklab, var(--heading-color) 68%, var(--text-color));
-			font-family: var(--reading-font);
-			font-size: 1.02rem;
-			font-weight: var(--weight-reading, var(--weight-regular));
-			line-height: var(--lh-body);
-			letter-spacing: 0;
-			overflow-wrap: break-word;
-			text-wrap: pretty;
-		}
-
-		:root[data-theme="dark"] .blog-post-layout .blog-main-column .post-content {
-			color: color-mix(in oklab, var(--heading-color) 82%, var(--text-color));
-		}
-
-		.blog-main-column .post-content > :first-child {
-			margin-top: 0;
-		}
-
-		.blog-main-column .post-content > :last-child {
-			margin-bottom: 0;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > h2 {
-			margin-top: 2.1em;
-			margin-bottom: 0.65em;
-			padding: 0;
-			color: var(--heading-color);
-			font-family: var(--display-font);
-			font-size: clamp(1.28rem, 1.85vw, 1.42rem);
-			font-weight: var(--weight-bold);
-			line-height: 1.28;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > h3 {
-			margin-top: 1.7em;
-			margin-bottom: 0.55em;
-			padding: 0;
-			color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
-			font-family: var(--display-font);
-			font-size: clamp(1.08rem, 1.4vw, 1.16rem);
-			font-weight: var(--weight-semibold);
-			line-height: 1.32;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > h4 {
-			margin-top: 1.4em;
-			margin-bottom: 0.45em;
-			padding: 0;
-			color: color-mix(in oklab, var(--heading-color) 86%, var(--gray-color));
-			font-family: var(--display-font);
-			font-weight: var(--weight-medium);
-			line-height: 1.36;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4):first-child {
-			margin-top: 0;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > p {
-			margin: 0 0 1.05em;
-			padding: 0;
-			font-weight: var(--weight-reading, var(--weight-regular));
-			line-height: var(--lh-body);
-		}
-
-		.blog-post-layout .blog-main-column .post-content > :where(ul, ol) {
-			margin: 0.35em 0 1.05em;
-			font-weight: var(--weight-reading, var(--weight-regular));
-			line-height: var(--lh-body);
-		}
-
-		.blog-post-layout .blog-main-column .post-content li + li {
-			margin-top: 0.28em;
-		}
-
-		.blog-post-layout .blog-main-column .post-content > blockquote {
-			margin: 1.15em 0;
-			padding: 0.85em 1em;
-			border-left: 2px solid color-mix(in oklab, var(--accent-color) 45%, var(--sheet-edge));
-			background: color-mix(in oklab, var(--paper-field-bg) 70%, transparent);
-		}
-
-		.blog-post-layout .blog-main-column .post-content > .link-card,
-		.blog-post-layout .blog-main-column .post-content > .code-wrapper {
-			margin-block: 1.25em;
-		}
-
-		.post-tail {
-			position: relative;
-			margin-top: 1.5rem;
-			padding: clamp(1.6rem, 3.5vw, 2.2rem) 0 0;
-			border-top: 1px solid color-mix(in oklab, var(--sheet-edge) 70%, transparent);
-			background: transparent;
-		}
-
-		.post-tail::before {
-			content: none;
-		}
-
-		.post-tail-inner {
-			display: flex;
-			flex-direction: column;
-			gap: clamp(1.35rem, 3.2vw, 1.75rem);
-		}
-
-		.post-tail-inner > .history-fold.changelog {
-			margin-left: auto !important;
-			margin-right: auto !important;
-			width: min(100%, 28rem);
-			box-shadow: none;
-			background: color-mix(in oklab, var(--paper-card-bg) 94%, var(--paper-field-bg));
-		}
-
-		.post-end {
-			align-items: flex-start;
-		}
-
-		.post-end-text {
-			color: color-mix(in oklab, var(--faint-color) 88%, transparent);
-			font-family: var(--display-font);
-			font-size: 0.95rem;
-			letter-spacing: 0.08em;
-			line-height: 1;
-		}
-
-		/* Sidebar cards */
-		.sidebar-toc-card {
-			max-height: calc(100vh - 4rem);
-			overflow-y: auto;
-		}
-
-		/* 去掉 Toc 组件自带的卡片层，只保留 sidebar-toc-card 一层 */
-		.sidebar-toc-card .toc-container {
-			background: none !important;
-			border: none !important;
-			box-shadow: none !important;
-			border-radius: 0 !important;
-			padding: 0 !important;
-		}
-
-		/* 目录默认展开；标题栏仍可点击收起 */
-		.sidebar-toc-card .toc-toggle {
+			right: 0;
 			display: flex;
 			align-items: center;
 			gap: 0.5rem;
-			width: 100%;
-			margin: 0 0 0.8rem;
-			padding: 0;
+			padding: 0.35rem 0.55rem;
+			z-index: 2;
+		}
+
+		body.reading-surface .code-lang {
+			font-family: var(--r-font-code);
+			font-size: 0.7rem;
+			color: var(--r-ink-faint);
+		}
+
+		body.reading-surface .copy-btn {
+			background: transparent;
 			border: 0;
-			background: transparent;
-			color: color-mix(in oklab, var(--gray-color) 62%, var(--faint-color));
-			font-family: var(--ui-font);
-			font-size: 0.72rem;
-			font-weight: var(--weight-medium);
-			letter-spacing: 0.02em;
-			line-height: 1.1;
-			text-align: left;
+			color: var(--r-ink-faint);
 			cursor: pointer;
-			transition: color 0.15s ease;
+			padding: 2px;
+			opacity: 0.55;
 		}
 
-		.sidebar-toc-card .toc-toggle:hover,
-		.sidebar-toc-card .toc-toggle:focus-visible {
-			color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
-		}
-
-		.sidebar-toc-card .toc-toggle__count {
-			flex: 1 1 auto;
-			min-width: 0;
-			color: var(--faint-color);
-			font-weight: var(--weight-regular);
-			font-variant-numeric: tabular-nums;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-
-		.sidebar-toc-card .toc-toggle__chevron {
-			flex: 0 0 auto;
-			display: inline-block;
-			opacity: 0.65;
-			transition: transform 0.2s ease;
-		}
-
-		.sidebar-toc-card .toc-toggle__chevron::before {
-			content: "⌄";
-		}
-
-		.sidebar-toc-card .toc-container[data-expanded="true"] .toc-toggle__chevron {
-			transform: rotate(180deg);
-		}
-
-		.sidebar-toc-card .toc {
-			max-height: 60vh;
+		body.reading-surface .code-wrapper:hover .copy-btn,
+		body.reading-surface .copy-btn:focus-visible {
 			opacity: 1;
-			overflow-y: auto;
-			pointer-events: auto;
-			transition: max-height 0.28s ease, opacity 0.2s ease;
 		}
 
-		.sidebar-toc-card .toc-container:not([data-expanded="true"]) .toc {
-			max-height: 0;
-			opacity: 0;
-			overflow: hidden;
-			pointer-events: none;
+		body.reading-surface .code-wrapper pre {
+			margin: 0 !important;
+			padding: 1.5rem 1rem 1rem !important;
+			background: transparent !important;
+			border-radius: 0 !important;
 		}
 
-		@media (prefers-reduced-motion: reduce) {
-			.sidebar-toc-card .toc,
-			.sidebar-toc-card .toc-toggle__chevron {
-				transition: none;
-			}
+		body.reading-surface .nav-buttons-group {
+			position: fixed;
+			right: 1rem;
+			bottom: 1.25rem;
+			z-index: 20;
 		}
 
-		.sidebar-toc-card .toc-list {
-			list-style: none;
-			margin: 0;
-			padding: 0;
-			display: flex;
-			flex-direction: column;
-			gap: 0.15rem;
-		}
-
-		.sidebar-toc-card .toc-list .toc-list {
-			margin-left: 0.6rem;
-			padding-left: 0.4rem;
-			border-left: 1px solid var(--paper-card-border-soft);
-			margin-top: 0.15rem;
-			gap: 0.1rem;
-		}
-
-		.sidebar-toc-card .toc-link {
-			display: block;
-			padding: 0.16rem 0;
-			font-family: var(--ui-font);
-			font-size: 0.76rem;
-			font-weight: var(--weight-regular);
-			line-height: 1.45;
-			color: color-mix(in oklab, var(--faint-color) 90%, var(--gray-color));
-			text-decoration: none;
-			border-radius: 0;
-			transition: color 0.15s ease, background 0.15s ease;
-			word-break: break-word;
-		}
-
-		.sidebar-toc-card .toc-link:hover {
-			color: color-mix(in oklab, var(--heading-color) 62%, var(--gray-color));
-			background: transparent;
-			font-weight: var(--weight-regular);
-		}
-
-		.sidebar-toc-card .toc-link.active {
-			color: color-mix(in oklab, var(--accent-color) 18%, var(--heading-color));
-			font-weight: var(--weight-regular);
-			background: transparent;
-		}
-
-		:root[data-theme="dark"] .sidebar-toc-card .toc-link.active {
-			color: color-mix(in oklab, var(--gray-color) 74%, var(--faint-color));
-		}
-
-		.code-wrapper {
-			border-radius: 0;
+		body.reading-surface .nav-button {
+			width: 2.25rem;
+			height: 2.25rem;
+			border-radius: 999px;
+			border: 1px solid var(--r-rule);
+			background: var(--r-bg);
+			color: var(--r-ink-soft);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
 			box-shadow: none;
 		}
 
-			@media (max-width: 1023px) {
-				.sidebar-toc-card {
-					display: none;
-				}
-			}
+		body.reading-surface .nav-button:hover {
+			color: var(--r-ink);
+		}
 
-		@media (max-width: 720px) {
-			.post-header-card,
-			.entry-sheet {
-				--post-inline-padding: var(--space-md);
-				border-radius: 0;
-				border-left: none;
-				border-right: none;
-			}
+		body.reading-surface .link-card {
+			margin: 1.25rem 0;
+			border: 1px solid var(--r-rule);
+			border-radius: 4px;
+			overflow: hidden;
+		}
 
-			.post-header .post-title {
-				max-width: var(--post-content-width);
-			}
+		body.reading-surface .link-card a {
+			text-decoration: none;
+			color: inherit;
+		}
 
-			.blog-main-column {
-				gap: 0;
-			}
+		body.reading-surface .link-card__body {
+			padding: 0.85rem 1rem;
+		}
 
-			.blog-post-layout .blog-main-column .post-content {
-				max-width: 100%;
-				font-size: 1rem;
-				line-height: var(--lh-body);
-			}
+		body.reading-surface .link-card__body h3 {
+			margin: 0 0 0.35rem;
+			font-size: 1rem;
+		}
+
+		body.reading-surface .link-card__body p {
+			margin: 0 0 0.35rem;
+			font-size: var(--r-text-sm);
+			color: var(--r-ink-soft);
+		}
+
+		body.reading-surface .link-card__host {
+			font-family: var(--r-font-ui);
+			font-size: var(--r-text-xs);
+			color: var(--r-ink-faint);
+		}
+
+		body.reading-surface .changelog {
+			width: 100%;
+			font-family: var(--r-font-ui);
+			font-size: var(--r-text-xs);
+			color: var(--r-ink-soft);
 		}
 	</style>
 
-	<div slot="sidebar-extra" class="post-sidebar-stack">
-		{showTOC && (
-			<div class="magazine-rail-card sidebar-toc-card">
-				<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title='本页目录' />
-			</div>
-		)}
-	</div>
+	<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
 
-	<div class="blog-main-column">
-		<article class="post-header-card">
-			<header class="post-header">
-				<div class="post-flow post-header-inner">
-					<h1 class="post-title" transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
-
-					<div class="post-meta-bar">
-						<span class="post-meta-date"><FormattedDate date={pubDate} /></span>
-						{topicLabels.length > 0 && (
-							<>
-								<span class="post-meta-sep" aria-hidden="true">·</span>
-								<span class="post-kind-group">
-									{topicLabels.map((label, index) => (
-										<>
-											{index > 0 && <span class="post-kind-sep" aria-hidden="true">/</span>}
-											{topicLinksEnabled ? (
-												<a class="post-kind" href={`/tags/${label}/`}>{label}</a>
-											) : (
-												<span class="post-kind">{label}</span>
-											)}
-										</>
-									))}
-								</span>
-							</>
-						)}
-						{readingTime && (
-							<>
-								<span class="post-meta-sep" aria-hidden="true">·</span>
-								<span class="post-meta-read">{readingTime} min</span>
-							</>
-						)}
-						{updatedDate && (
-							<>
-								<span class="post-meta-sep" aria-hidden="true">·</span>
-								<span class="post-meta-updated">更新于 <FormattedDate date={updatedDate} /></span>
-							</>
-						)}
-						{isDev && draft && (
-							<>
-								<span class="post-meta-sep" aria-hidden="true">·</span>
-								<span class="draft-badge" aria-label="草稿">草稿</span>
-							</>
-						)}
-					</div>
-
-					{description && <p class="post-description">{description}</p>}
-				</div>
-			</header>
-		</article>
-
-		<article class="entry-sheet">
-			<div class="post-content content" id="lightgallery">
-				<slot />
-			</div>
-
-			<div class="post-tail">
-				<div class="post-flow post-tail-inner">
-					<div class="post-end">
-						<div class="post-end-mark" aria-hidden="true">
-							<span class="post-end-text">◊</span>
-						</div>
-						<LikeButton id={postId || Astro.url.pathname} type="post" />
-					</div>
-
-					{changelog && changelog.length > 0 && (
-						<Changelog entries={changelog} />
-					)}
-				</div>
-			</div>
-		</article>
-
-		<NavButton showBackToTop={true} />
-	</div>
-
-	<!-- LightGallery JS (本地) -->
-	<script is:inline src='/lightgallery/js/lightgallery.min.js' defer></script>
-
-	<!-- 初始化 LightGallery -->
 	<script is:inline>
-		(function() {
+		(function () {
 			let lgInstance = null;
 			let lgInitialized = false;
 
@@ -795,7 +316,6 @@ const topicLinksEnabled = Boolean(tags?.length);
 				if (typeof window.lightGallery === 'function') {
 					initLightGallery();
 				} else {
-					// LightGallery not loaded yet, wait briefly
 					setTimeout(onReady, 100);
 				}
 			}
@@ -817,7 +337,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 	</script>
 
 	<script is:inline>
-		(function() {
+		(function () {
 			function addCopyButtons() {
 				const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
 				codeBlocks.forEach((block) => {
@@ -836,7 +356,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 						lang = block.dataset.language;
 					} else if (code) {
 						const classList = code.className.split(' ');
-						const langClass = classList.find(c => c.startsWith('language-'));
+						const langClass = classList.find((c) => c.startsWith('language-'));
 						if (langClass) lang = langClass.replace('language-', '');
 					}
 					const langLabel = document.createElement('span');
@@ -876,147 +396,143 @@ const topicLinksEnabled = Boolean(tags?.length);
 		})();
 	</script>
 
-		<script is:inline>
-			(function () {
-				// Skip if no link-card placeholders exist
-				if (!document.querySelector('.post-content')) return;
+	<script is:inline>
+		(function () {
+			if (!document.querySelector('.post-content')) return;
 
-				const LS_KEY = 'linkcard:cache';
-				const REQUESTS_KEY = 'linkcard:requests';
-				const RATE_WINDOW = 60000;
-				const RATE_MAX = 10;
-				const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+			const LS_KEY = 'linkcard:cache';
+			const REQUESTS_KEY = 'linkcard:requests';
+			const RATE_WINDOW = 60000;
+			const RATE_MAX = 10;
+			const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
 
-				function getRequests() {
-					try {
-						const raw = localStorage.getItem(REQUESTS_KEY);
-						if (!raw) return [];
-						const data = JSON.parse(raw);
-						if (!Array.isArray(data)) return [];
-						const now = Date.now();
-						return data.filter(ts => now - ts < RATE_WINDOW);
-					} catch (e) { return []; }
+			function getRequests() {
+				try {
+					const raw = localStorage.getItem(REQUESTS_KEY);
+					if (!raw) return [];
+					const data = JSON.parse(raw);
+					if (!Array.isArray(data)) return [];
+					const now = Date.now();
+					return data.filter((ts) => now - ts < RATE_WINDOW);
+				} catch (e) { return []; }
+			}
+
+			function pushRequest() {
+				const reqs = getRequests();
+				reqs.push(Date.now());
+				try { localStorage.setItem(REQUESTS_KEY, JSON.stringify(reqs)); } catch (e) {}
+				return reqs;
+			}
+
+			function canRequest() { return getRequests().length < RATE_MAX; }
+
+			function getCache(url) {
+				try {
+					const raw = localStorage.getItem(LS_KEY);
+					if (!raw) return null;
+					const cache = JSON.parse(raw);
+					if (!cache || typeof cache !== 'object') return null;
+					const entry = cache[url];
+					if (!entry) return null;
+					if (Date.now() - (entry._ts || 0) > CACHE_TTL) return null;
+					return entry;
+				} catch (e) { return null; }
+			}
+
+			function setCache(url, data) {
+				try {
+					const raw = localStorage.getItem(LS_KEY);
+					const cache = raw ? JSON.parse(raw) : {};
+					cache[url] = { ...data, _ts: Date.now() };
+					localStorage.setItem(LS_KEY, JSON.stringify(cache));
+				} catch (e) {}
+			}
+
+			async function fetchMeta(url) {
+				const cached = getCache(url);
+				if (cached) return cached;
+				if (!canRequest()) return null;
+				pushRequest();
+
+				try {
+					const controller = new AbortController();
+					const timeout = setTimeout(() => controller.abort(), 5000);
+					const res = await fetch(
+						`https://api.microlink.io/?url=${encodeURIComponent(url)}`,
+						{ signal: controller.signal }
+					);
+					clearTimeout(timeout);
+					if (!res.ok) return null;
+					const json = await res.json();
+					if (!json.data) return null;
+					const { title, description, image } = json.data;
+					const result = {
+						title: title || '',
+						description: description || '',
+						image: image?.url || '',
+					};
+					setCache(url, result);
+					return result;
+				} catch (e) { return null; }
+			}
+
+			function renderCard(el, url, meta) {
+				const style = el.dataset.style || 'default';
+				const hostname = (() => { try { return new URL(url).hostname; } catch (e) { return url; } })();
+				if (!meta || !meta.title) return;
+
+				let html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">`;
+				if (style === 'cover' && meta.image) {
+					html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
+				} else if (style !== 'minimal' && meta.image) {
+					html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
 				}
-
-				function pushRequest() {
-					const reqs = getRequests();
-					reqs.push(Date.now());
-					try { localStorage.setItem(REQUESTS_KEY, JSON.stringify(reqs)); } catch (e) {}
-					return reqs;
+				html += `<div class="link-card__body"><h3>${meta.title}</h3>`;
+				if (meta.description && style !== 'minimal') {
+					html += `<p>${meta.description}</p>`;
 				}
+				html += `<span class="link-card__host">${hostname}</span></div></a>`;
+				el.innerHTML = html;
+				el.classList.add('link-card--ready');
+			}
 
-				function canRequest() { return getRequests().length < RATE_MAX; }
+			function scanAndConvert() {
+				const contentEl = document.querySelector('.post-content');
+				if (!contentEl) return;
+				const paragraphs = contentEl.querySelectorAll('p');
+				paragraphs.forEach((p) => {
+					const text = p.textContent.trim();
+					const match = text.match(/^::link-card\{url="([^"]+)"(?:\s*,\s*style="([^"]+)")?\}$/);
+					if (match) {
+						const url = match[1];
+						const style = match[2] || '';
+						const styleClass = style ? `link-card--${style}` : '';
+						p.outerHTML = '<div class="link-card ' + styleClass + '" data-url="' + url + '"' + (style ? ' data-style="' + style + '"' : '') + '><a href="' + url + '" target="_blank" rel="noopener noreferrer" class="link-card__fallback">' + url + '</a></div>';
+					}
+				});
+			}
 
-				function getCache(url) {
-					try {
-						const raw = localStorage.getItem(LS_KEY);
-						if (!raw) return null;
-						const cache = JSON.parse(raw);
-						if (!cache || typeof cache !== 'object') return null;
-						const entry = cache[url];
-						if (!entry) return null;
-						if (Date.now() - (entry._ts || 0) > CACHE_TTL) return null;
-						return entry;
-					} catch (e) { return null; }
-				}
-
-				function setCache(url, data) {
-					try {
-						const raw = localStorage.getItem(LS_KEY);
-						const cache = raw ? JSON.parse(raw) : {};
-						cache[url] = { ...data, _ts: Date.now() };
-						localStorage.setItem(LS_KEY, JSON.stringify(cache));
-					} catch (e) {}
-				}
-
-				async function fetchMeta(url) {
+			async function initCards() {
+				scanAndConvert();
+				const cards = document.querySelectorAll('.link-card[data-url]');
+				if (cards.length === 0) return;
+				for (const el of cards) {
+					const url = el.getAttribute('data-url');
+					if (!url) continue;
 					const cached = getCache(url);
-					if (cached) return cached;
-					if (!canRequest()) return null;
-					pushRequest();
-
-					try {
-						const controller = new AbortController();
-						const timeout = setTimeout(() => controller.abort(), 5000);
-						const res = await fetch(
-							`https://api.microlink.io/?url=${encodeURIComponent(url)}`,
-							{ signal: controller.signal }
-						);
-						clearTimeout(timeout);
-						if (!res.ok) return null;
-						const json = await res.json();
-						if (!json.data) return null;
-						const { title, description, image } = json.data;
-						const result = {
-							title: title || '',
-							description: description || '',
-							image: image?.url || '',
-						};
-						setCache(url, result);
-						return result;
-					} catch (e) { return null; }
-				}
-
-				function renderCard(el, url, meta) {
-					const style = el.dataset.style || 'default';
-					const hostname = (() => { try { return new URL(url).hostname; } catch (e) { return url; } })();
-
-					if (!meta || !meta.title) return;
-
-					let html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">`;
-
-					if (style === 'cover' && meta.image) {
-						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
-					} else if (style !== 'minimal' && meta.image) {
-						html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
+					if (cached && cached.title) {
+						renderCard(el, url, cached);
+						continue;
 					}
-
-					html += `<div class="link-card__body"><h3>${meta.title}</h3>`;
-					if (meta.description && style !== 'minimal') {
-						html += `<p>${meta.description}</p>`;
-					}
-					html += `<span class="link-card__host">${hostname}</span></div></a>`;
-					el.innerHTML = html;
-					el.classList.add('link-card--ready');
+					const meta = await fetchMeta(url);
+					if (meta) renderCard(el, url, meta);
 				}
+			}
 
-				function scanAndConvert() {
-					const contentEl = document.querySelector('.post-content');
-					if (!contentEl) return;
-					const paragraphs = contentEl.querySelectorAll('p');
-					paragraphs.forEach(p => {
-						const text = p.textContent.trim();
-						const match = text.match(/^::link-card\{url="([^"]+)"(?:\s*,\s*style="([^"]+)")?\}$/);
-						if (match) {
-							const url = match[1];
-							const style = match[2] || '';
-							const styleClass = style ? `link-card--${style}` : '';
-							p.outerHTML = '<div class="link-card ' + styleClass + '" data-url="' + url + '"' + (style ? ' data-style="' + style + '"' : '') + '><a href="' + url + '" target="_blank" rel="noopener noreferrer" class="link-card__fallback">' + url + '</a></div>';
-						}
-					});
-				}
-
-				async function initCards() {
-					scanAndConvert();
-					const cards = document.querySelectorAll('.link-card[data-url]');
-					if (cards.length === 0) return;
-					for (const el of cards) {
-						const url = el.getAttribute('data-url');
-						if (!url) continue;
-						const cached = getCache(url);
-						if (cached && cached.title) {
-							renderCard(el, url, cached);
-							continue;
-						}
-						const meta = await fetchMeta(url);
-						if (meta) renderCard(el, url, meta);
-					}
-				}
-
-				if (document.readyState === 'loading') {
-					document.addEventListener('DOMContentLoaded', initCards);
-				} else { initCards(); }
-				document.addEventListener('astro:page-load', initCards);
-			})();
-		</script>
-</MagazineShell>
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initCards);
+			} else { initCards(); }
+			document.addEventListener('astro:page-load', initCards);
+		})();
+	</script>
+</ReadingShell>
