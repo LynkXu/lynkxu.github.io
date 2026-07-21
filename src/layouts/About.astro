@@ -32,11 +32,11 @@ const contactLinks = [
 			<img
 				src={AVATAR_IMAGE.src}
 				srcset={AVATAR_IMAGE.srcset}
-				sizes="48px"
+				sizes="56px"
 				alt=""
 				class="r-about__avatar"
-				width="48"
-				height="48"
+				width="56"
+				height="56"
 				loading="eager"
 				decoding="async"
 			/>
@@ -55,14 +55,14 @@ const contactLinks = [
 
 		<dl class="r-about__traits">
 			{traits.map((trait) => (
-				<div>
+				<div class="r-about__trait">
 					<dt>{trait.label}</dt>
 					<dd>{trait.value}</dd>
 				</div>
 			))}
 		</dl>
 
-		<section class="r-section" aria-labelledby="about-contact">
+		<section class="r-about__block" aria-labelledby="about-contact">
 			<h2 id="about-contact" class="r-section__title">联系</h2>
 			<ul class="r-about__links">
 				{contactLinks.map((link) => (
@@ -72,14 +72,15 @@ const contactLinks = [
 							target={link.external ? '_blank' : undefined}
 							rel={link.external ? 'noopener noreferrer' : undefined}
 						>
-							{link.label} · {link.value}
+							<span>{link.label}</span>
+							<span>{link.value}</span>
 						</a>
 					</li>
 				))}
 			</ul>
 		</section>
 
-		<section class="r-section" aria-labelledby="about-sponsor">
+		<section class="r-about__block" aria-labelledby="about-sponsor">
 			<h2 id="about-sponsor" class="r-section__title">赞助</h2>
 			<div class="r-about__sponsor">
 				<SponsorAbout />
@@ -100,57 +101,82 @@ const contactLinks = [
 	</section>
 </ReadingShell>
 
-<style>
-	.r-about__head {
+<style is:global>
+	body.reading-surface .r-about__head {
 		display: flex;
 		align-items: center;
-		gap: 1rem;
-		margin-bottom: var(--r-space-lg);
+		gap: 1.1rem;
+		margin-bottom: 1.5rem;
 	}
 
-	.r-about__avatar {
-		width: 48px;
-		height: 48px;
+	body.reading-surface .r-about__avatar {
+		width: 56px;
+		height: 56px;
 		border-radius: 50%;
 		object-fit: cover;
 		flex-shrink: 0;
 	}
 
-	.r-about__head .r-page-title {
+	body.reading-surface .r-about__head .r-page-title {
 		margin: 0;
+		font-size: clamp(1.55rem, 3vw, 1.85rem);
 	}
 
-	.r-about__now {
-		margin: 0.25rem 0 0;
+	body.reading-surface .r-about__now {
+		margin: 0.3rem 0 0;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
 		color: var(--r-ink-soft);
 	}
 
-	.r-about__intro {
-		margin-bottom: var(--r-space-xl);
+	body.reading-surface .r-about__intro {
+		margin-bottom: 1.85rem;
 	}
 
-	.r-about__traits {
+	body.reading-surface .r-about__intro p {
+		margin-bottom: 0.85em !important;
+	}
+
+	body.reading-surface .r-about__traits {
+		display: flex;
+		flex-direction: column;
+		gap: 0.7rem;
+		margin: 0 0 2rem;
+		padding: 0.95rem 0;
+		border-top: 1px solid var(--r-rule);
+		border-bottom: 1px solid var(--r-rule);
+	}
+
+	body.reading-surface .r-about__trait {
 		display: grid;
-		gap: 0.65rem;
-		margin: 0 0 var(--r-space-xl);
-		padding: 0;
+		grid-template-columns: 3rem minmax(0, 1fr);
+		gap: 0.85rem;
+		align-items: baseline;
 	}
 
-	.r-about__traits dt {
+	body.reading-surface .r-about__traits dt {
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
 		color: var(--r-ink-faint);
 		margin: 0;
 	}
 
-	.r-about__traits dd {
-		margin: 0.15rem 0 0;
+	body.reading-surface .r-about__traits dd {
+		margin: 0;
+		font-size: 0.98rem;
 		color: var(--r-ink);
+		line-height: 1.5;
 	}
 
-	.r-about__links {
+	body.reading-surface .r-about__block {
+		margin-bottom: 1.75rem;
+	}
+
+	body.reading-surface .r-about__block .r-section__title {
+		margin-bottom: 0.7rem;
+	}
+
+	body.reading-surface .r-about__links {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -161,32 +187,79 @@ const contactLinks = [
 		font-size: var(--r-text-sm);
 	}
 
-	.r-about__links a {
+	body.reading-surface .r-about__links a {
+		display: flex;
+		justify-content: space-between;
+		gap: 1rem;
 		color: var(--r-ink-soft);
 		text-decoration: none;
 	}
 
-	.r-about__links a:hover {
-		color: var(--r-link);
+	body.reading-surface .r-about__links a:hover {
+		color: var(--r-ink);
 	}
 
-	.r-about__sponsor :global(*) {
-		max-width: 100%;
+	/* Flatten sponsor chrome into reading surface */
+	body.reading-surface .r-about__sponsor .sponsor-about {
+		margin: 0;
+		gap: 0.35rem;
 	}
 
-	.r-about__history {
-		margin-top: var(--r-space-xl);
+	body.reading-surface .r-about__sponsor .sponsor-fold {
+		background: transparent !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		margin: 0 !important;
+		overflow: visible;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary {
+		padding: 0.35rem 0 !important;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		font-weight: 400;
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary:hover,
+	body.reading-surface .r-about__sponsor .sponsor-fold[open] summary {
+		background: transparent !important;
+		border-bottom: 0 !important;
+		color: var(--r-ink);
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary::before {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-about__history {
+		margin-top: 0.5rem;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
 		color: var(--r-ink-soft);
 	}
 
-	.r-about__history summary {
+	body.reading-surface .r-about__history summary {
 		cursor: pointer;
+		color: var(--r-ink-faint);
+		list-style: none;
+	}
+
+	body.reading-surface .r-about__history summary::-webkit-details-marker {
+		display: none;
+	}
+
+	body.reading-surface .r-about__history summary::before {
+		content: "▸ ";
+		font-size: 0.75em;
 		color: var(--r-ink-faint);
 	}
 
-	.r-about__history ol {
+	body.reading-surface .r-about__history[open] summary::before {
+		content: "▾ ";
+	}
+
+	body.reading-surface .r-about__history ol {
 		list-style: none;
 		margin: 0.85rem 0 0;
 		padding: 0;
@@ -195,13 +268,13 @@ const contactLinks = [
 		gap: 0.55rem;
 	}
 
-	.r-about__history li {
+	body.reading-surface .r-about__history li {
 		display: grid;
 		grid-template-columns: 4.5rem minmax(0, 1fr);
 		gap: 0.75rem;
 	}
 
-	.r-about__history time {
+	body.reading-surface .r-about__history time {
 		font-variant-numeric: tabular-nums;
 		color: var(--r-ink-faint);
 		font-size: var(--r-text-xs);

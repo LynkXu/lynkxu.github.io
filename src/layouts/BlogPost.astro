@@ -87,11 +87,20 @@ const topicLinksEnabled = Boolean(tags?.length);
 	</article>
 
 	<style is:global>
+		body.reading-surface .r-article__header {
+			margin-bottom: 0.35rem;
+		}
+
 		body.reading-surface .r-article__desc {
-			margin: 0 0 var(--r-space-lg);
+			margin: 0.15rem 0 1.35rem;
 			color: var(--r-ink-soft);
-			font-size: var(--r-text-sm);
-			line-height: 1.65;
+			font-family: var(--r-font-body);
+			font-size: 1rem;
+			line-height: 1.7;
+		}
+
+		body.reading-surface .r-article .r-meta {
+			margin-bottom: 1rem;
 		}
 
 		body.reading-surface .r-toc {
