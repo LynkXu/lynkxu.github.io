@@ -1,417 +1,71 @@
 ---
 import { getCollection } from 'astro:content';
-import MagazineShell from '../layouts/MagazineShell.astro';
+import ReadingShell from '../layouts/ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 import { getAllGossips } from '../utils/gossips';
-import { getRecentHomeTraces } from '../utils/home-traces';
 import { toPlainExcerpt } from '../utils/plain-text';
 
 const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 8);
+const latestPosts = posts.slice(0, 10);
 const latestGossips = (await getAllGossips()).slice(0, 3);
-const recentTraces = getRecentHomeTraces(4);
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
 }
-
-function formatTraceDate(date: Date) {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, '0');
-	return `${year}.${month}`;
-}
 ---
 
-<MagazineShell
-	title={SITE_TITLE}
-	description={SITE_DESCRIPTION}
-	className="home-index-layout"
-	showProfileCard={false}
->
-	<section class="home-hub postcard-sheet" aria-label="站点近况">
-		<section class="hub-block hub-block--writing" aria-labelledby="hub-writing-title">
-			<header class="hub-block__head">
-				<h2 id="hub-writing-title" class="hub-block__title">最近文章</h2>
-				<a href="/blog" class="hub-block__more">全部 →</a>
+<ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="r-section" aria-labelledby="home-writing-title">
+		<header class="r-section__head">
+			<h1 id="home-writing-title" class="r-section__title">最近文章</h1>
+			<a href="/blog" class="r-section__more">全部</a>
+		</header>
+
+		<ol class="r-post-list">
+			{latestPosts.map((post) => {
+				const excerpt = post.data.description || toPlainExcerpt(post.body || '', 90);
+				return (
+					<li class="r-post-list__item">
+						<span class="r-post-list__date">
+							<FormattedDate date={post.data.pubDate} />
+						</span>
+						<div>
+							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+							{excerpt && <p class="r-post-list__excerpt">{excerpt}</p>}
+						</div>
+					</li>
+				);
+			})}
+		</ol>
+	</section>
+
+	{latestGossips.length > 0 && (
+		<section class="r-section" aria-labelledby="home-notes-title">
+			<header class="r-section__head">
+				<h2 id="home-notes-title" class="r-section__title">碎语</h2>
+				<a href="/shuoshuo" class="r-section__more">全部</a>
 			</header>
 
-			<ol class="dispatch-list">
-				{latestPosts.map((post) => {
-					const primaryTag = post.data.tags?.[0] || post.data.categories?.[0];
+			<ul class="r-note-list">
+				{latestGossips.map((gossip) => {
+					const excerpt = toPlainExcerpt(gossip.body || '', 120);
 					return (
-						<li class="dispatch-list__item">
-							<a href={getPostHref(post)} class="dispatch-card">
-								<span class="dispatch-card__date">
-									<FormattedDate date={post.data.pubDate} />
+						<li class="r-note-list__item">
+							<a href="/shuoshuo">
+								<span class="r-note-list__date">
+									<FormattedDate date={gossip.data.pubDate} />
 								</span>
-								<strong class="dispatch-card__title">{post.data.title}</strong>
-								{primaryTag && <span class="dispatch-card__tag">{primaryTag}</span>}
+								{excerpt || '（无文字）'}
 							</a>
 						</li>
 					);
 				})}
-			</ol>
+			</ul>
 		</section>
-
-		<section class="hub-block hub-block--notes" aria-labelledby="hub-notes-title">
-			<header class="hub-block__head">
-				<h2 id="hub-notes-title" class="hub-block__title">碎语</h2>
-				<a href="/shuoshuo" class="hub-block__more">全部 →</a>
-			</header>
-
-			{latestGossips.length > 0 ? (
-				<ul class="notes-list">
-					{latestGossips.map((gossip) => {
-						const excerpt = toPlainExcerpt(gossip.body || '', 120);
-						return (
-							<li class="notes-list__item">
-								<a href="/shuoshuo" class="notes-card">
-									<span class="notes-card__date">
-										<FormattedDate date={gossip.data.pubDate} />
-									</span>
-									<span class="notes-card__body">
-										{excerpt || '（无文字）'}
-									</span>
-								</a>
-							</li>
-						);
-					})}
-				</ul>
-			) : (
-				<p class="hub-empty">还没有碎语。</p>
-			)}
-		</section>
-
-		{recentTraces.length > 0 && (
-			<section class="hub-block hub-block--traces" aria-labelledby="hub-traces-title">
-				<header class="hub-block__head">
-					<h2 id="hub-traces-title" class="hub-block__title">最近痕迹</h2>
-				</header>
-
-				<ul class="traces-list">
-					{recentTraces.map((trace) => (
-						<li class="traces-list__item">
-							<a href={trace.href} class="traces-card">
-								<span class="traces-card__label">{trace.label}</span>
-								<span class="traces-card__summary">{trace.summary}</span>
-								<span class="traces-card__date">{formatTraceDate(trace.date)}</span>
-							</a>
-						</li>
-					))}
-				</ul>
-			</section>
-		)}
-	</section>
-</MagazineShell>
-
-<style>
-	:global(.home-index-layout .ledger-main) {
-		display: flex;
-		flex-direction: column;
-		min-height: calc(100vh - clamp(5.5rem, 10vw, 8rem));
-	}
-
-	:global(.home-index-layout .ledger-main > footer) {
-		margin-top: clamp(1.5rem, 4vw, 2.75rem);
-		grid-template-columns: minmax(0, 1fr);
-		max-width: var(--blog-shell-width);
-		text-align: center;
-	}
-
-	:global(.home-index-layout .ledger-main > footer::before) {
-		left: 50%;
-		transform: translateX(-50%);
-	}
-
-	.home-hub {
-		display: flex;
-		flex-direction: column;
-		width: 100%;
-		max-width: 100%;
-		padding: clamp(0.95rem, 2vw, 1.25rem) clamp(1.05rem, 2.4vw, 1.5rem) clamp(0.9rem, 1.8vw, 1.15rem);
-		font-family: var(--ui-font);
-	}
-
-	.hub-block__head {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 0.75rem;
-		margin: 0 0 0.35rem;
-		padding-bottom: 0.32rem;
-		border-bottom: 1px solid color-mix(in oklab, var(--sheet-edge) 88%, transparent);
-	}
-
-	/* 分区标签：低于列表标题，远低于归档/碎语页 H1 */
-	.hub-block__title {
-		margin: 0;
-		font-family: var(--ui-font);
-		font-size: 0.78rem;
-		font-weight: var(--weight-medium);
-		letter-spacing: 0.02em;
-		line-height: 1.2;
-		color: color-mix(in oklab, var(--heading-color) 72%, var(--gray-color));
-	}
-
-	.hub-block__more {
-		display: inline-flex;
-		align-items: center;
-		border: 0 !important;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.7rem;
-		line-height: 1.15;
-		letter-spacing: 0.02em;
-		text-decoration: none;
-		white-space: nowrap;
-		transition: color 0.18s ease;
-	}
-
-	.hub-block__more:hover {
-		color: var(--heading-color);
-	}
-
-	.hub-block--notes,
-	.hub-block--traces {
-		min-width: 0;
-		margin-top: clamp(1.15rem, 2.4vw, 1.5rem);
-		padding-top: 0;
-		border-top: 0;
-	}
-
-	.dispatch-list,
-	.notes-list,
-	.traces-list {
-		display: flex;
-		flex-direction: column;
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.dispatch-list__item + .dispatch-list__item,
-	.notes-list__item + .notes-list__item,
-	.traces-list__item + .traces-list__item {
-		border-top: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 80%, transparent);
-	}
-
-	.dispatch-card {
-		display: grid;
-		grid-template-columns: 5.5rem minmax(0, 1fr) auto;
-		gap: 0.35rem 0.85rem;
-		align-items: baseline;
-		padding: 0.58rem 0.05rem;
-		border: 0 !important;
-		background: transparent !important;
-		color: inherit;
-		text-decoration: none;
-		transition: background 0.18s ease;
-	}
-
-	.dispatch-card:hover,
-	.notes-card:hover,
-	.traces-card:hover {
-		background: var(--paper-hover-bg) !important;
-	}
-
-	.dispatch-card:hover .dispatch-card__title {
-		color: color-mix(in oklab, var(--accent-color) 28%, var(--heading-color));
-	}
-
-	.dispatch-card__date {
-		display: block;
-		font-family: var(--field-font);
-		font-size: 0.74rem;
-		line-height: 1.35;
-		color: color-mix(in oklab, var(--heading-color) 48%, var(--gray-color));
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-	}
-
-	.dispatch-card__date :global(time) {
-		font: inherit;
-		color: inherit;
-		white-space: inherit;
-	}
-
-	.dispatch-card__title {
-		min-width: 0;
-		color: var(--heading-color);
-		font-family: var(--display-font);
-		font-size: clamp(0.96rem, 1.45vw, 1.06rem);
-		font-weight: 600;
-		line-height: 1.35;
-		letter-spacing: -0.015em;
-		overflow-wrap: anywhere;
-		transition: color 0.18s ease;
-	}
-
-	.dispatch-card__tag {
-		justify-self: end;
-		max-width: 7rem;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		line-height: 1.2;
-		white-space: nowrap;
-	}
-
-	.notes-card {
-		display: grid;
-		grid-template-columns: 5.5rem minmax(0, 1fr);
-		gap: 0.3rem 0.85rem;
-		align-items: start;
-		padding: 0.55rem 0.05rem;
-		border: 0 !important;
-		background: transparent !important;
-		color: inherit;
-		text-decoration: none;
-		transition: background 0.18s ease;
-	}
-
-	.notes-card__date {
-		padding-top: 0.12rem;
-		font-family: var(--field-font);
-		font-size: 0.74rem;
-		color: color-mix(in oklab, var(--heading-color) 48%, var(--gray-color));
-		font-variant-numeric: tabular-nums;
-		white-space: nowrap;
-	}
-
-	.notes-card__body {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-		overflow: hidden;
-		color: color-mix(in oklab, var(--gray-color) 88%, var(--heading-color));
-		font-family: var(--reading-font);
-		font-size: 0.84rem;
-		line-height: 1.55;
-	}
-
-	.traces-card {
-		display: grid;
-		grid-template-columns: 3.2rem minmax(0, 1fr) 3.4rem;
-		gap: 0.3rem 0.65rem;
-		align-items: baseline;
-		padding: 0.4rem 0.05rem;
-		border: 0 !important;
-		background: transparent !important;
-		color: inherit;
-		text-decoration: none;
-		transition: background 0.18s ease;
-	}
-
-	.traces-card__label {
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		color: color-mix(in oklab, var(--heading-color) 55%, var(--gray-color));
-	}
-
-	.traces-card__summary {
-		min-width: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		color: color-mix(in oklab, var(--gray-color) 92%, var(--heading-color));
-		font-family: var(--ui-font);
-		font-size: 0.74rem;
-		line-height: 1.35;
-	}
-
-	.traces-card__date {
-		text-align: right;
-		font-family: var(--field-font);
-		font-size: 0.62rem;
-		font-variant-numeric: tabular-nums;
-		color: var(--faint-color);
-		white-space: nowrap;
-	}
-
-	.hub-empty {
-		margin: 0.3rem 0.05rem 0.15rem;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.74rem;
-	}
-
-	@media (max-width: 720px) {
-		.dispatch-card {
-			grid-template-columns: minmax(0, 1fr) auto;
-			grid-template-areas:
-				'date tag'
-				'title title';
-			gap: 0.18rem 0.55rem;
-			padding: 0.68rem 0.05rem;
-		}
-
-		.dispatch-card__date {
-			grid-area: date;
-		}
-
-		.dispatch-card__title {
-			grid-area: title;
-		}
-
-		.dispatch-card__tag {
-			grid-area: tag;
-			justify-self: end;
-			max-width: 40vw;
-		}
-
-		.notes-card {
-			grid-template-columns: minmax(0, 1fr);
-			gap: 0.18rem;
-			padding: 0.62rem 0.05rem;
-		}
-
-		.traces-card {
-			grid-template-columns: auto minmax(0, 1fr);
-			grid-template-areas:
-				'label date'
-				'summary summary';
-			gap: 0.16rem 0.5rem;
-			padding: 0.48rem 0.05rem;
-		}
-
-		.traces-card__label {
-			grid-area: label;
-		}
-
-		.traces-card__date {
-			grid-area: date;
-		}
-
-		.traces-card__summary {
-			grid-area: summary;
-			white-space: normal;
-		}
-	}
-
-	@media (max-width: 640px) {
-		.home-hub {
-			padding-inline: clamp(0.85rem, 3vw, 1.1rem);
-		}
-
-		.dispatch-card__title {
-			font-size: 1rem;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.hub-block__more,
-		.dispatch-card,
-		.dispatch-card__title,
-		.notes-card,
-		.traces-card {
-			transition: none;
-		}
-	}
-</style>
+	)}
+</ReadingShell>
