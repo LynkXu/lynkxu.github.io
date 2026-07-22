@@ -281,15 +281,13 @@ const topicLinksEnabled = Boolean(tags?.length);
 		body.reading-surface .nav-button {
 			width: auto;
 			height: auto;
-			min-width: 0;
-			min-height: 0;
-			padding: 0;
+			min-width: 36px;
+			min-height: 36px;
+			padding: var(--space-2xs);
 			border-radius: 0;
 			border: 0;
 			background: transparent;
-			color: var(--r-ink-faint);
-			font-family: var(--r-font-ui);
-			font-size: var(--r-text-xs);
+			color: var(--r-ink-soft);
 			display: inline-flex;
 			align-items: center;
 			justify-content: center;
@@ -306,11 +304,9 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		body.reading-surface .nav-button svg {
-			display: none;
-		}
-
-		body.reading-surface .nav-button::after {
-			content: "回顶";
+			display: block;
+			width: 18px;
+			height: 18px;
 		}
 
 		body.reading-surface .link-card {
