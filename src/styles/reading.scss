@@ -515,7 +515,8 @@ body.reading-surface .reading-shell__brand:active {
   justify-self: start;
   width: fit-content;
   max-width: 100%;
-  font-size: var(--r-text);
+  /* Browse lists sit below long-form body (1rem), not at reading-surface base */
+  font-size: 0.95rem;
   font-weight: 400;
   color: var(--r-ink) !important;
   line-height: 1.5;
