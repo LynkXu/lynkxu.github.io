@@ -38,21 +38,43 @@ function getDateParts(date: Date) {
 
 const memoItems = gossips.map((gossip: any, index) => {
 	const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
+	const dayKey = `${year}-${monthNum}-${day}`;
 	return {
 		gossip,
 		index,
 		page: Math.floor(index / pageSize) + 1,
+		dayKey,
 		dateLabel: `${year}.${monthNum}.${day}`,
 		time,
 		attachments: gossip._raw?.media_attachments || [],
 	};
 });
 
+type MemoItem = (typeof memoItems)[number];
+
+function groupItemsByDay(items: MemoItem[]) {
+	const groups: { dayKey: string; dateLabel: string; items: MemoItem[] }[] = [];
+	const indexByKey = new Map<string, number>();
+
+	for (const item of items) {
+		const existing = indexByKey.get(item.dayKey);
+		if (existing === undefined) {
+			indexByKey.set(item.dayKey, groups.length);
+			groups.push({ dayKey: item.dayKey, dateLabel: item.dateLabel, items: [item] });
+		} else {
+			groups[existing].items.push(item);
+		}
+	}
+
+	return groups;
+}
+
 const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;
+	const items = memoItems.filter((item) => item.page === page);
 	return {
 		page,
-		items: memoItems.filter((item) => item.page === page),
+		dayGroups: groupItemsByDay(items),
 	};
 });
 ---
@@ -69,53 +91,60 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			{gossips.length === 0 ? (
 				<p class="r-memos__empty">还没有碎语。</p>
 			) : (
-				pagedMemoPages.map(({ page, items }) => (
+				pagedMemoPages.map(({ page, dayGroups }) => (
 					<div class="memos-page" data-page={page}>
-						<div class="r-memos__list" role="list">
-							{items.map((item) => {
-								const { gossip, attachments, dateLabel, time, index } = item;
-								return (
-									<article class="r-memo" data-index={index} role="listitem">
-										<header class="r-memo__meta">
-											<time datetime={gossip.data.pubDate.toISOString()}>
-												<span class="r-memo__date">{dateLabel}</span>
-												<span class="r-memo__sep" aria-hidden="true">·</span>
-												<span class="r-memo__time">{time}</span>
-											</time>
-											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-												<span class="r-memo__tag">{gossip.data.tag}</span>
-											)}
-											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
-											<span class="r-memo__like">
-												<LikeButton id={gossip.data.slug} type="gossip" />
-											</span>
-										</header>
+						<div class="r-memos__stream">
+							{dayGroups.map((group) => (
+								<section class="r-memo-day" aria-labelledby={`memo-day-${page}-${group.dayKey}`}>
+									<h2 class="r-memo-day__label" id={`memo-day-${page}-${group.dayKey}`}>
+										{group.dateLabel}
+									</h2>
+									<div class="r-memos__list" role="list">
+										{group.items.map((item) => {
+											const { gossip, attachments, time, index } = item;
+											return (
+												<article class="r-memo" data-index={index} role="listitem">
+													<header class="r-memo__meta">
+														<time datetime={gossip.data.pubDate.toISOString()}>
+															<span class="r-memo__time">{time}</span>
+														</time>
+														{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+															<span class="r-memo__tag">{gossip.data.tag}</span>
+														)}
+														{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
+														<span class="r-memo__like">
+															<LikeButton id={gossip.data.slug} type="gossip" />
+														</span>
+													</header>
 
-										<div class="r-memo__content">
-											<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
+													<div class="r-memo__content">
+														<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
-											{attachments.length > 0 && (
-												<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-													{attachments.slice(0, 4).map((media: any) => (
-														<a
-															href={media.url}
-															class="media-item"
-															data-src={media.url}
-															data-sub-html={media.description}
-														>
-															<img
-																src={media.preview_url || media.url}
-																alt={media.description || ''}
-																loading="lazy"
-															/>
-														</a>
-													))}
-												</div>
-											)}
-										</div>
-									</article>
-								);
-							})}
+														{attachments.length > 0 && (
+															<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+																{attachments.slice(0, 4).map((media: any) => (
+																	<a
+																		href={media.url}
+																		class="media-item"
+																		data-src={media.url}
+																		data-sub-html={media.description}
+																	>
+																		<img
+																			src={media.preview_url || media.url}
+																			alt={media.description || ''}
+																			loading="lazy"
+																		/>
+																	</a>
+																))}
+															</div>
+														)}
+													</div>
+												</article>
+											);
+										})}
+									</div>
+								</section>
+							))}
 						</div>
 					</div>
 				))
@@ -223,6 +252,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 </script>
 
 <style is:global>
+	/* Diary stream: day headers + continuous entries (no left date column) */
 	body.reading-surface .r-memos__head {
 		margin-bottom: var(--r-space-xs);
 		padding-bottom: 0;
@@ -230,13 +260,36 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memos__title {
-		margin: 0 0 var(--r-space-md);
+		margin: 0 0 var(--r-space-lg);
 	}
 
 	body.reading-surface .r-memos__empty {
 		color: var(--r-ink-faint);
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
+	}
+
+	body.reading-surface .r-memos__stream {
+		display: flex;
+		flex-direction: column;
+		gap: var(--r-space-lg);
+		max-width: 36rem;
+	}
+
+	body.reading-surface .r-memo-day__label {
+		display: flex;
+		align-items: baseline;
+		gap: var(--r-space-sm);
+		margin: 0 0 var(--r-space-sm);
+		padding-bottom: var(--r-space-xs);
+		border-bottom: 1px solid var(--r-rule-soft);
+		font-family: var(--r-font-ui);
+		font-size: 0.82rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		line-height: 1.35;
+		color: var(--r-ink-soft);
+		font-variant-numeric: tabular-nums;
 	}
 
 	body.reading-surface .r-memos__list {
@@ -246,16 +299,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo {
-		display: grid;
-		grid-template-columns: minmax(6.75rem, 8rem) minmax(0, 1fr);
-		column-gap: var(--r-space-lg);
-		align-items: start;
-		padding: var(--r-space-md) 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+		padding: var(--r-space-sm) 0;
 		border-bottom: 1px solid var(--r-rule-soft);
-	}
-
-	body.reading-surface .r-memo:first-child {
-		padding-top: 0;
 	}
 
 	body.reading-surface .r-memo:last-child {
@@ -263,36 +311,25 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		padding-bottom: 0;
 	}
 
+	body.reading-surface .r-memo:first-child {
+		padding-top: 0;
+	}
+
 	body.reading-surface .r-memo__meta {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.28rem;
-		margin: 0.15rem 0 0;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem 0.55rem;
+		margin: 0;
 		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
+		font-size: 0.72rem;
 		line-height: 1.35;
 		color: var(--r-ink-faint);
 		letter-spacing: 0.01em;
 		font-variant-numeric: tabular-nums;
 	}
 
-	body.reading-surface .r-memo__meta time {
-		display: flex;
-		flex-direction: column;
-		gap: 0.1rem;
-	}
-
-	body.reading-surface .r-memo__date {
-		color: var(--r-ink-soft);
-	}
-
-	body.reading-surface .r-memo__sep {
-		display: none;
-	}
-
 	body.reading-surface .r-memo__time {
-		font-size: 0.72rem;
 		color: var(--r-ink-faint);
 	}
 
@@ -302,21 +339,21 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	body.reading-surface .r-memo__content {
 		min-width: 0;
-		max-width: 36rem;
+		max-width: none;
 	}
 
 	body.reading-surface .r-memo__like {
-		opacity: 0.55;
+		margin-left: auto;
+		opacity: 0.5;
 	}
 
 	body.reading-surface .r-memo__like:hover {
 		opacity: 1;
 	}
 
-	/* Short notes should read lighter than long-form posts */
 	body.reading-surface .r-memo__body {
-		font-size: 0.95rem !important;
-		line-height: 1.66 !important;
+		font-size: 0.94rem !important;
+		line-height: 1.64 !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
@@ -328,18 +365,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body p {
-		margin-bottom: 0.42em !important;
+		margin-bottom: 0.4em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote {
-		margin: 0.45em 0 !important;
-		padding: 0.05em 0 0.05em 0.9em !important;
+		margin: 0.4em 0 !important;
+		padding: 0.05em 0 0.05em 0.85em !important;
 		border-left-color: var(--r-rule) !important;
 		color: var(--r-ink-soft) !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote p {
-		margin: 0 0 0.35em !important;
+		margin: 0 0 0.3em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote p:last-child {
@@ -349,7 +386,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .media-grid {
 		display: grid;
 		gap: 4px;
-		margin-top: 0.75rem;
+		margin-top: 0.65rem;
 		width: min(100%, 520px);
 	}
 
@@ -412,49 +449,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			margin-bottom: var(--r-space-md);
 		}
 
-		body.reading-surface .r-memo {
-			display: block;
-			padding: var(--r-space-md) 0;
-		}
-
-		body.reading-surface .r-memo:first-child {
-			padding-top: 0;
-		}
-
-		body.reading-surface .r-memo__meta {
-			flex-direction: row;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: var(--r-space-xs) var(--r-space-sm);
-			margin: 0 0 0.45rem;
-		}
-
-		body.reading-surface .r-memo__meta time {
-			flex-direction: row;
-			align-items: baseline;
-			gap: 0.45rem;
-		}
-
-		body.reading-surface .r-memo__sep {
-			display: inline;
-			color: var(--r-ink-faint);
-		}
-
-		body.reading-surface .r-memo__time {
-			font-size: var(--r-text-xs);
-		}
-
-		body.reading-surface .r-memo__content {
+		body.reading-surface .r-memos__stream {
+			gap: var(--r-space-md);
 			max-width: none;
+		}
+
+		body.reading-surface .r-memo-day__label {
+			font-size: 0.78rem;
 		}
 
 		body.reading-surface .r-memo__body {
 			font-size: 0.92rem !important;
-			line-height: 1.66 !important;
-		}
-
-		body.reading-surface .r-memo__like {
-			margin-left: auto;
+			line-height: 1.64 !important;
 		}
 	}
 </style>
