@@ -556,6 +556,10 @@ body.reading-surface .reading-shell__brand:active {
 }
 
 .r-note-list a {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   color: var(--r-ink) !important;
   opacity: 1;
 }
