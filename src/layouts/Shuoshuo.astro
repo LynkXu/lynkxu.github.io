@@ -223,6 +223,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 </script>
 
 <style is:global>
+	/* Hybrid short-feed + light note: single-column stream, quiet paper panels */
 	body.reading-surface .r-memos__head {
 		margin-bottom: var(--r-space-xs);
 		padding-bottom: 0;
@@ -230,7 +231,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memos__title {
-		margin: 0 0 var(--r-space-md);
+		margin: 0 0 var(--r-space-lg);
 	}
 
 	body.reading-surface .r-memos__empty {
@@ -242,35 +243,27 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .r-memos__list {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
+		gap: var(--r-space-sm);
 	}
 
 	body.reading-surface .r-memo {
-		display: grid;
-		grid-template-columns: minmax(6.75rem, 8rem) minmax(0, 1fr);
-		column-gap: var(--r-space-lg);
-		align-items: start;
-		padding: var(--r-space-md) 0;
-		border-bottom: 1px solid var(--r-rule-soft);
-	}
-
-	body.reading-surface .r-memo:first-child {
-		padding-top: 0;
-	}
-
-	body.reading-surface .r-memo:last-child {
-		border-bottom: 0;
-		padding-bottom: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--r-space-xs);
+		padding: var(--r-space-sm) var(--r-space-md);
+		background: color-mix(in oklab, var(--r-ink) 2.2%, var(--r-bg));
+		border: 1px solid color-mix(in oklab, var(--r-rule-soft) 55%, transparent);
+		border-radius: 3px;
 	}
 
 	body.reading-surface .r-memo__meta {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 0.28rem;
-		margin: 0.15rem 0 0;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem 0.55rem;
+		margin: 0;
 		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
+		font-size: 0.72rem;
 		line-height: 1.35;
 		color: var(--r-ink-faint);
 		letter-spacing: 0.01em;
@@ -278,9 +271,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__meta time {
-		display: flex;
-		flex-direction: column;
-		gap: 0.1rem;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
 	}
 
 	body.reading-surface .r-memo__date {
@@ -288,7 +281,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__sep {
-		display: none;
+		color: var(--r-ink-faint);
 	}
 
 	body.reading-surface .r-memo__time {
@@ -302,21 +295,21 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	body.reading-surface .r-memo__content {
 		min-width: 0;
-		max-width: 36rem;
+		max-width: none;
 	}
 
 	body.reading-surface .r-memo__like {
-		opacity: 0.55;
+		margin-left: auto;
+		opacity: 0.5;
 	}
 
 	body.reading-surface .r-memo__like:hover {
 		opacity: 1;
 	}
 
-	/* Short notes should read lighter than long-form posts */
 	body.reading-surface .r-memo__body {
-		font-size: 0.95rem !important;
-		line-height: 1.66 !important;
+		font-size: 0.94rem !important;
+		line-height: 1.64 !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
@@ -328,18 +321,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body p {
-		margin-bottom: 0.42em !important;
+		margin-bottom: 0.4em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote {
-		margin: 0.45em 0 !important;
-		padding: 0.05em 0 0.05em 0.9em !important;
+		margin: 0.4em 0 !important;
+		padding: 0.05em 0 0.05em 0.85em !important;
 		border-left-color: var(--r-rule) !important;
 		color: var(--r-ink-soft) !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote p {
-		margin: 0 0 0.35em !important;
+		margin: 0 0 0.3em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote p:last-child {
@@ -349,7 +342,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .media-grid {
 		display: grid;
 		gap: 4px;
-		margin-top: 0.75rem;
+		margin-top: 0.65rem;
 		width: min(100%, 520px);
 	}
 
@@ -412,49 +405,17 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			margin-bottom: var(--r-space-md);
 		}
 
+		body.reading-surface .r-memos__list {
+			gap: var(--r-space-xs);
+		}
+
 		body.reading-surface .r-memo {
-			display: block;
-			padding: var(--r-space-md) 0;
-		}
-
-		body.reading-surface .r-memo:first-child {
-			padding-top: 0;
-		}
-
-		body.reading-surface .r-memo__meta {
-			flex-direction: row;
-			flex-wrap: wrap;
-			align-items: center;
-			gap: var(--r-space-xs) var(--r-space-sm);
-			margin: 0 0 0.45rem;
-		}
-
-		body.reading-surface .r-memo__meta time {
-			flex-direction: row;
-			align-items: baseline;
-			gap: 0.45rem;
-		}
-
-		body.reading-surface .r-memo__sep {
-			display: inline;
-			color: var(--r-ink-faint);
-		}
-
-		body.reading-surface .r-memo__time {
-			font-size: var(--r-text-xs);
-		}
-
-		body.reading-surface .r-memo__content {
-			max-width: none;
+			padding: var(--r-space-sm) 0.85rem;
 		}
 
 		body.reading-surface .r-memo__body {
 			font-size: 0.92rem !important;
-			line-height: 1.66 !important;
-		}
-
-		body.reading-surface .r-memo__like {
-			margin-left: auto;
+			line-height: 1.64 !important;
 		}
 	}
 </style>
