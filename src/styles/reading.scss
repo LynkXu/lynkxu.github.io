@@ -393,20 +393,14 @@ body.reading-surface .link-card__fallback:hover {
   margin-bottom: 0;
 }
 
-/* Between content sections only — avoids stacking under every section title
-   right beneath the header chrome rule. */
-.r-section + .r-section {
-  margin-top: var(--r-space-lg);
-  padding-top: var(--r-space-lg);
-  border-top: 1px solid var(--r-rule);
-}
-
 .r-section__head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--r-space-md);
   margin-bottom: var(--r-space-sm);
+  padding-bottom: var(--r-space-xs);
+  border-bottom: 1px solid var(--r-rule-soft);
 }
 
 .r-section__title {
