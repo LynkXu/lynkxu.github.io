@@ -230,9 +230,9 @@ body.reading-surface .link-card__fallback:hover {
   margin-right: clamp(1.15rem, 2.8vw, 1.65rem);
 }
 
-.reading-shell__brand:hover {
-  color: var(--r-ink);
-  opacity: 0.82;
+body.reading-surface .reading-shell__brand:hover {
+  color: var(--r-ink) !important;
+  opacity: 1;
 }
 
 .reading-shell__nav {
@@ -468,7 +468,7 @@ body.reading-surface .link-card__fallback:hover {
 }
 
 .r-post-list__title:hover {
-  color: var(--r-link) !important;
+  color: var(--r-ink) !important;
 }
 
 .r-post-list__excerpt {
@@ -502,12 +502,24 @@ body.reading-surface .link-card__fallback:hover {
 }
 
 .r-note-list a {
-  color: inherit;
+  color: var(--r-ink) !important;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  opacity: 1;
+}
+
+body.reading-surface .r-note-list a:hover {
+  color: var(--r-ink) !important;
+  border-bottom-color: currentColor !important;
+  border-bottom-style: solid !important;
+  border-bottom-width: 1px !important;
+  opacity: 1 !important;
+  transform: none;
   text-decoration: none;
 }
 
-.r-note-list a:hover {
-  color: var(--r-ink);
+body.reading-surface .r-note-list a:hover .r-note-list__date {
+  color: var(--r-ink-faint);
 }
 
 .r-year-block {
