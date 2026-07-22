@@ -238,11 +238,16 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .r-memos__list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--r-space-xl);
+		gap: var(--r-space-md);
 	}
 
 	body.reading-surface .r-memo {
-		padding: 0;
+		padding: 0 0 var(--r-space-md);
+		border-bottom: 1px solid var(--r-rule);
+	}
+
+	body.reading-surface .r-memo:last-child {
+		padding-bottom: 0;
 		border-bottom: 0;
 	}
 
@@ -251,7 +256,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		flex-wrap: wrap;
 		align-items: center;
 		gap: var(--r-space-xs) var(--r-space-sm);
-		margin-bottom: var(--r-space-sm);
+		margin-bottom: 0.35rem;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
 		color: var(--r-ink-faint);
@@ -266,9 +271,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		opacity: 1;
 	}
 
+	/* Short notes should read lighter than long-form posts */
 	body.reading-surface .r-memo__body {
-		font-size: var(--r-text) !important;
-		line-height: var(--r-lh-body) !important;
+		font-size: 0.95rem !important;
+		line-height: 1.7 !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
@@ -280,11 +286,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body p {
-		margin-bottom: 0.8em !important;
+		margin-bottom: 0.45em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote {
-		margin: 0.85em 0 !important;
+		margin: 0.65em 0 !important;
 	}
 
 	body.reading-surface .media-grid {
