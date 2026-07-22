@@ -19,6 +19,8 @@ body.reading-surface {
   --r-ink-soft: oklch(0.46 0.008 255);
   --r-ink-faint: oklch(0.62 0.006 255);
   --r-link: oklch(0.45 0.07 250);
+  --r-link-underline-color: color-mix(in oklab, var(--r-ink) 55%, transparent);
+  --r-link-underline-offset: 0.22em;
   --r-rule: oklch(0.28 0.01 255 / 0.14);
   --r-rule-soft: oklch(0.28 0.01 255 / 0.12);
   --r-code-bg: oklch(0.966 0.002 255);
@@ -123,10 +125,12 @@ body.reading-surface .background-ornament {
 /* Isolate from global style.scss (Matter titles, green links, magazine nav) */
 body.reading-surface a {
   color: var(--r-ink);
+  border-bottom: 0;
 }
 
 body.reading-surface a:hover {
   color: var(--r-link);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 body.reading-surface strong,
@@ -259,9 +263,13 @@ body.reading-surface .reading-shell__brand:active {
 
 .reading-shell__nav a {
   color: var(--r-ink-soft);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
   padding: 0;
   line-height: inherit;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .reading-shell__ctrl {
@@ -339,9 +347,7 @@ body.reading-surface .reading-shell__brand:active {
 }
 
 .reading-shell__nav a.active {
-  text-decoration: underline;
-  text-underline-offset: 0.28em;
-  text-decoration-thickness: 1px;
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 .reading-shell__tools {
@@ -377,11 +383,16 @@ body.reading-surface .reading-shell__brand:active {
 
 .reading-shell__footer a {
   color: var(--r-ink-soft);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .reading-shell__footer a:hover {
   color: var(--r-ink);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 .reading-shell__copy {
@@ -430,11 +441,16 @@ body.reading-surface .reading-shell__brand:active {
   font-family: var(--r-font-ui);
   font-size: var(--r-text-xs);
   color: var(--r-ink-soft);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .r-section__more:hover {
   color: var(--r-ink);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 .r-post-list {
@@ -478,7 +494,7 @@ body.reading-surface .reading-shell__brand:active {
   text-decoration-line: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 1px;
-  text-underline-offset: 0.22em;
+  text-underline-offset: var(--r-link-underline-offset);
   line-height: 1.5;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
@@ -486,7 +502,7 @@ body.reading-surface .reading-shell__brand:active {
 .r-post-list__title:hover {
   color: var(--r-ink) !important;
   border-bottom: 0 !important;
-  text-decoration-color: color-mix(in oklab, var(--r-ink) 55%, transparent);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 .r-post-list__excerpt {
@@ -521,19 +537,21 @@ body.reading-surface .reading-shell__brand:active {
 
 .r-note-list a {
   color: var(--r-ink) !important;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 0 !important;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
   opacity: 1;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 body.reading-surface .r-note-list a:hover {
   color: var(--r-ink) !important;
-  border-bottom-color: currentColor !important;
-  border-bottom-style: solid !important;
-  border-bottom-width: 1px !important;
+  border-bottom: 0 !important;
   opacity: 1 !important;
   transform: none;
-  text-decoration: none;
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 body.reading-surface .r-note-list a:hover .r-note-list__date {
@@ -585,11 +603,16 @@ body.reading-surface .r-note-list a:hover .r-note-list__date {
   align-items: baseline;
   gap: 0.3rem;
   color: var(--r-ink);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .r-tag-cloud a:hover {
   color: var(--r-link);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 .r-tag-cloud__count {
@@ -685,13 +708,19 @@ body.reading-surface .post-content > ol {
 .r-prose a,
 body.reading-surface .post-content a {
   color: var(--r-link) !important;
-  text-underline-offset: 0.18em;
+  border-bottom: 0 !important;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease, background-color 0.2s ease;
 }
 
 .r-prose a:hover,
 body.reading-surface .post-content a:hover {
   color: var(--r-ink) !important;
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--r-link-underline-color);
+  text-decoration-thickness: 1px;
 }
 
 .r-prose blockquote,
@@ -778,11 +807,16 @@ body.reading-surface .post-content blockquote p:last-child {
 
 .r-meta a {
   color: var(--r-ink-soft);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .r-meta a:hover {
   color: var(--r-link);
+  text-decoration-color: var(--r-link-underline-color);
 }
 
 @media (max-width: 640px) {
@@ -839,7 +873,10 @@ body.reading-surface .search-modal input {
 
 body.reading-surface .search-results a {
   color: var(--r-ink);
-  text-decoration: none;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--r-link-underline-offset);
 }
 
 body.reading-surface .search-modal,

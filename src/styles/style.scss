@@ -57,6 +57,8 @@
   --faint-color: oklch(0.58 0.006 244);
   --accent-color: oklch(0.46 0.045 150);
   --link-color: oklch(0.36 0.05 150);
+  --link-underline-color: color-mix(in oklab, var(--link-color) 55%, transparent);
+  --link-underline-offset: 0.22em;
   --ink-accent: oklch(0.5 0.04 150);
   --ink-wash: color-mix(in oklab, var(--ink-accent) 4%, var(--content-bg));
   --ink-line: color-mix(in oklab, var(--ink-accent) 28%, var(--paper-card-border));
@@ -520,6 +522,11 @@ body:has(.blog-surface-layout) {
   position: relative;
   display: inline-flex;
   align-items: center;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-underline-offset);
+  transition: text-decoration-color 0.2s ease;
 }
 
 .blog-surface-layout > header nav.section-nav a + a {
@@ -544,21 +551,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout > header nav.section-nav .nav-link-text::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -0.16rem;
-  height: 1px;
-  border-radius: 999px;
-  background: color-mix(in oklab, var(--accent-color) 18%, var(--heading-color));
-  opacity: 0;
-  transform: scaleX(0.56);
-  transform-origin: left center;
-  transition:
-    opacity 0.22s ease,
-    transform 0.22s ease,
-    background-color 0.22s ease;
+  content: none;
 }
 
 .blog-surface-layout > header nav.section-nav a:hover,
@@ -574,8 +567,7 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout > header nav.section-nav a:hover .nav-link-text::after {
-  opacity: 0.42;
-  transform: scaleX(1);
+  content: none;
 }
 
 .blog-surface-layout > header nav.section-nav a.active {
@@ -583,9 +575,12 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout > header nav.section-nav a.active .nav-link-text::after {
-  opacity: 0.82;
-  transform: scaleX(1);
-  background: color-mix(in oklab, var(--accent-color) 22%, var(--heading-color));
+  content: none;
+}
+
+.blog-surface-layout > header nav.section-nav a:hover .nav-link-text,
+.blog-surface-layout > header nav.section-nav a.active .nav-link-text {
+  text-decoration-color: color-mix(in oklab, var(--heading-color) 55%, transparent);
 }
 
 .blog-post-layout .blog-main-column .post-content > :where(h2, h3, h4) {
@@ -1458,13 +1453,18 @@ h6 {
 a {
   color: var(--link-color);
   cursor: pointer;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 0;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-underline-offset);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 a:hover,
 a[aria-current*="page"] {
-  border-bottom: 1px solid
+  border-bottom: 0;
+  text-decoration-color: var(--link-underline-color);
 }
 
 header nav {
@@ -1930,14 +1930,19 @@ ul.posts li a:visited {
 }
 
 .post-content a {
-  border-bottom: 1px solid;
-  transition: background-color 0.1s linear, color 0.1s linear;
+  border-bottom: 0;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-underline-offset);
+  transition: background-color 0.1s linear, color 0.2s ease, text-decoration-color 0.2s ease;
   color: var(--link-color);
 }
 
 .post-content a:hover {
   color: var(--link-color);
   background: color-mix(in oklab, var(--link-color) 7%, transparent);
+  text-decoration-color: var(--link-underline-color);
 }
 
 .author {
@@ -2237,8 +2242,11 @@ ul.posts li a:visited {
   display: block;
   padding: 0.22rem 0 0.22rem 0.7rem;
   color: color-mix(in oklab, var(--gray-color) 92%, var(--text-color));
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 0;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-underline-offset);
   font-size: 0.9rem;
   line-height: 1.5;
 }
@@ -2246,12 +2254,13 @@ ul.posts li a:visited {
 .toc-link:hover {
   color: var(--heading-color);
   background: transparent;
+  text-decoration-color: color-mix(in oklab, var(--heading-color) 55%, transparent);
 }
 
 .toc-link.active {
   color: color-mix(in oklab, var(--heading-color) 92%, var(--gray-color));
   font-weight: 500;
-  border-bottom-color: color-mix(in oklab, var(--accent-color) 58%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--heading-color) 55%, transparent);
   background: transparent;
 }
 
