@@ -119,7 +119,6 @@ const contactLinks = [
 
 	body.reading-surface .r-about__head .r-page-title {
 		margin: 0;
-		font-size: clamp(1.55rem, 3vw, 1.85rem);
 	}
 
 	body.reading-surface .r-about__now {
@@ -163,7 +162,7 @@ const contactLinks = [
 
 	body.reading-surface .r-about__traits dd {
 		margin: 0;
-		font-size: 0.98rem;
+		font-size: var(--r-text-sm);
 		color: var(--r-ink);
 		line-height: 1.5;
 	}
@@ -230,6 +229,33 @@ const contactLinks = [
 
 	body.reading-surface .r-about__sponsor .sponsor-fold summary::before {
 		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-panel,
+	body.reading-surface .r-about__sponsor .sponsor-card,
+	body.reading-surface .r-about__sponsor .sponsor-card__qr,
+	body.reading-surface .r-about__sponsor .crypto-item__qr {
+		background: var(--r-code-bg) !important;
+		border-color: var(--r-rule) !important;
+		box-shadow: none !important;
+		border-radius: 4px !important;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-card__name,
+	body.reading-surface .r-about__sponsor .crypto-item__heading h3,
+	body.reading-surface .r-about__sponsor h3 {
+		color: var(--r-ink) !important;
+		font-family: var(--r-font-ui);
+	}
+
+	body.reading-surface .r-about__sponsor,
+	body.reading-surface .r-about__sponsor * {
+		--accent-color: var(--r-link);
+		--heading-color: var(--r-ink);
+		--paper-card-bg: var(--r-code-bg);
+		--paper-card-border: var(--r-rule);
+		--paper-card-border-soft: var(--r-rule);
+		--paper-card-shadow: none;
 	}
 
 	body.reading-surface .r-about__history {

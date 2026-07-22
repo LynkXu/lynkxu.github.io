@@ -60,4 +60,28 @@ const { title } = Astro.props;
 	body.reading-surface .r-message__comments button:hover {
 		border-color: var(--r-ink-soft);
 	}
+
+	body.reading-surface .r-message__comments,
+	body.reading-surface .r-message__comments * {
+		--accent-color: var(--r-link);
+		--link-color: var(--r-link);
+		--heading-color: var(--r-ink);
+		--paper-card-bg: transparent;
+		--paper-card-border: var(--r-rule);
+		--paper-card-border-soft: var(--r-rule);
+		--paper-card-shadow: none;
+		--paper-hover-bg: transparent;
+		--field-font: var(--r-font-ui);
+	}
+
+	body.reading-surface .r-message__comments .tk-comments-container,
+	body.reading-surface .r-message__comments .tk-submit,
+	body.reading-surface .r-message__comments textarea,
+	body.reading-surface .r-message__comments input {
+		background: transparent !important;
+		border-color: var(--r-rule) !important;
+		box-shadow: none !important;
+		color: var(--r-ink) !important;
+		font-family: var(--r-font-ui);
+	}
 </style>

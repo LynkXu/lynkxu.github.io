@@ -62,7 +62,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	<section class="r-memos" aria-labelledby="memos-title">
 		<header class="r-memos__head">
-			<h1 id="memos-title" class="r-memos__title">碎语</h1>
+			<h1 id="memos-title" class="r-page-title r-memos__title">碎语</h1>
 		</header>
 
 		<div id="shuoshuo">
@@ -218,18 +218,13 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 <style is:global>
 	body.reading-surface .r-memos__head {
-		margin-bottom: 0.35rem;
-		padding-bottom: 0.85rem;
-		border-bottom: 1px solid var(--r-rule);
+		margin-bottom: var(--r-space-xs);
+		padding-bottom: 0;
+		border-bottom: 0;
 	}
 
 	body.reading-surface .r-memos__title {
-		margin: 0;
-		font-family: var(--r-font-body);
-		font-size: 1.2rem;
-		font-weight: 600;
-		letter-spacing: -0.015em;
-		color: var(--r-ink);
+		margin: 0 0 var(--r-space-md);
 	}
 
 	body.reading-surface .r-memos__empty {
@@ -241,15 +236,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .r-memos__list {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
+		gap: var(--r-space-xl);
 	}
 
 	body.reading-surface .r-memo {
-		padding: 1.45rem 0;
-		border-bottom: 1px solid var(--r-rule);
-	}
-
-	body.reading-surface .r-memo:last-child {
+		padding: 0;
 		border-bottom: 0;
 	}
 
@@ -257,10 +248,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.4rem 0.65rem;
-		margin-bottom: 0.65rem;
+		gap: var(--r-space-xs) var(--r-space-sm);
+		margin-bottom: var(--r-space-sm);
 		font-family: var(--r-font-ui);
-		font-size: 0.74rem;
+		font-size: var(--r-text-xs);
 		color: var(--r-ink-faint);
 	}
 
@@ -274,8 +265,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body {
-		font-size: 1.05rem !important;
-		line-height: 1.85 !important;
+		font-size: var(--r-text) !important;
+		line-height: var(--r-lh-body) !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
