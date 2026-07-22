@@ -20,6 +20,7 @@ body.reading-surface {
   --r-ink-faint: oklch(0.62 0.006 255);
   --r-link: oklch(0.45 0.07 250);
   --r-rule: oklch(0.28 0.01 255 / 0.14);
+  --r-rule-soft: oklch(0.28 0.01 255 / 0.12);
   --r-code-bg: oklch(0.966 0.002 255);
   --r-code-ink: oklch(0.32 0.01 255);
   --r-selection-bg: oklch(0.9 0.03 250);
@@ -68,6 +69,7 @@ body.reading-surface ::selection {
   --r-ink-faint: oklch(0.58 0.01 250);
   --r-link: oklch(0.78 0.06 250);
   --r-rule: oklch(0.93 0.01 250 / 0.14);
+  --r-rule-soft: oklch(0.93 0.01 250 / 0.12);
   --r-code-bg: oklch(0.22 0.014 255);
   --r-code-ink: oklch(0.9 0.01 250);
   --r-selection-bg: oklch(0.35 0.03 250);
@@ -82,6 +84,7 @@ body.reading-surface ::selection {
     --r-ink-faint: oklch(0.58 0.01 250);
     --r-link: oklch(0.78 0.06 250);
     --r-rule: oklch(0.93 0.01 250 / 0.14);
+    --r-rule-soft: oklch(0.93 0.01 250 / 0.12);
     --r-code-bg: oklch(0.22 0.014 255);
     --r-code-ink: oklch(0.9 0.01 250);
     --r-selection-bg: oklch(0.35 0.03 250);
@@ -100,6 +103,7 @@ body.reading-surface ::selection {
   --r-ink-faint: oklch(0.62 0.006 255);
   --r-link: oklch(0.45 0.07 250);
   --r-rule: oklch(0.28 0.01 255 / 0.14);
+  --r-rule-soft: oklch(0.28 0.01 255 / 0.12);
   --r-code-bg: oklch(0.966 0.002 255);
   --r-code-ink: oklch(0.32 0.01 255);
   --r-selection-bg: oklch(0.9 0.03 250);
@@ -389,14 +393,20 @@ body.reading-surface .link-card__fallback:hover {
   margin-bottom: 0;
 }
 
+/* Between content sections only — avoids stacking under every section title
+   right beneath the header chrome rule. */
+.r-section + .r-section {
+  margin-top: var(--r-space-lg);
+  padding-top: var(--r-space-lg);
+  border-top: 1px solid var(--r-rule);
+}
+
 .r-section__head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--r-space-md);
-  margin-bottom: var(--r-space-md);
-  padding-bottom: var(--r-space-xs);
-  border-bottom: 1px solid var(--r-rule);
+  margin-bottom: var(--r-space-sm);
 }
 
 .r-section__title {
@@ -508,9 +518,9 @@ body.reading-surface .link-card__fallback:hover {
   display: flex;
   align-items: baseline;
   gap: var(--r-space-sm);
-  margin: 0 0 var(--r-space-md);
+  margin: 0 0 var(--r-space-sm);
   padding-bottom: var(--r-space-xs);
-  border-bottom: 1px solid var(--r-rule);
+  border-bottom: 1px solid var(--r-rule-soft);
   font-family: var(--r-font-ui);
   font-size: 0.95rem;
   font-weight: 600;
