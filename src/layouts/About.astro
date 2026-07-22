@@ -63,7 +63,9 @@ const contactLinks = [
 		</dl>
 
 		<section class="r-about__block" aria-labelledby="about-contact">
-			<h2 id="about-contact" class="r-section__title">联系</h2>
+			<header class="r-section__head">
+				<h2 id="about-contact" class="r-section__title">联系</h2>
+			</header>
 			<ul class="r-about__links">
 				{contactLinks.map((link) => (
 					<li>
@@ -72,8 +74,8 @@ const contactLinks = [
 							target={link.external ? '_blank' : undefined}
 							rel={link.external ? 'noopener noreferrer' : undefined}
 						>
-							<span>{link.label}</span>
-							<span>{link.value}</span>
+							<span class="r-about__link-label">{link.label}</span>
+							<span class="r-about__link-value">{link.value}</span>
 						</a>
 					</li>
 				))}
@@ -81,23 +83,30 @@ const contactLinks = [
 		</section>
 
 		<section class="r-about__block" aria-labelledby="about-sponsor">
-			<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+			<header class="r-section__head">
+				<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+			</header>
 			<div class="r-about__sponsor">
 				<SponsorAbout />
 			</div>
 		</section>
 
-		<details class="r-about__history">
-			<summary>博客历程</summary>
-			<ol>
-				{blogHistory.map((item) => (
-					<li>
-						<time>{item.date}</time>
-						<span>{item.text}</span>
-					</li>
-				))}
-			</ol>
-		</details>
+		<section class="r-about__block" aria-labelledby="about-history">
+			<header class="r-section__head">
+				<h2 id="about-history" class="r-section__title">博客历程</h2>
+			</header>
+			<details class="r-about__history">
+				<summary>展开时间线</summary>
+				<ol>
+					{blogHistory.map((item) => (
+						<li>
+							<time>{item.date}</time>
+							<span>{item.text}</span>
+						</li>
+					))}
+				</ol>
+			</details>
+		</section>
 	</section>
 </ReadingShell>
 
@@ -105,8 +114,8 @@ const contactLinks = [
 	body.reading-surface .r-about__head {
 		display: flex;
 		align-items: center;
-		gap: 1.1rem;
-		margin-bottom: 1.5rem;
+		gap: var(--r-space-md);
+		margin-bottom: var(--r-space-lg);
 	}
 
 	body.reading-surface .r-about__avatar {
@@ -129,27 +138,33 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__intro {
-		margin-bottom: 1.85rem;
+		margin-bottom: var(--r-space-lg);
+		font-size: 1rem !important;
+		line-height: 1.75 !important;
 	}
 
 	body.reading-surface .r-about__intro p {
-		margin-bottom: 0.85em !important;
+		margin-bottom: 0.75em !important;
 	}
 
+	body.reading-surface .r-about__intro p:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	/* Quiet fact sheet — no boxed double rules */
 	body.reading-surface .r-about__traits {
 		display: flex;
 		flex-direction: column;
-		gap: 0.7rem;
-		margin: 0 0 2rem;
-		padding: 0.95rem 0;
-		border-top: 1px solid var(--r-rule);
-		border-bottom: 1px solid var(--r-rule);
+		gap: 0.55rem;
+		margin: 0 0 var(--r-space-xl);
+		padding: 0;
+		border: 0;
 	}
 
 	body.reading-surface .r-about__trait {
 		display: grid;
-		grid-template-columns: 3rem minmax(0, 1fr);
-		gap: 0.85rem;
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		gap: var(--r-space-md);
 		align-items: baseline;
 	}
 
@@ -162,19 +177,25 @@ const contactLinks = [
 
 	body.reading-surface .r-about__traits dd {
 		margin: 0;
+		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
-		color: var(--r-ink);
+		color: var(--r-ink-soft);
 		line-height: 1.5;
 	}
 
 	body.reading-surface .r-about__block {
-		margin-bottom: 1.75rem;
+		margin-bottom: var(--r-space-xl);
 	}
 
-	body.reading-surface .r-about__block .r-section__title {
-		margin-bottom: 0.7rem;
+	body.reading-surface .r-about__block:last-child {
+		margin-bottom: 0;
 	}
 
+	body.reading-surface .r-about__block .r-section__head {
+		margin-bottom: var(--r-space-sm);
+	}
+
+	/* Compact label → value, not full-bleed justify */
 	body.reading-surface .r-about__links {
 		list-style: none;
 		margin: 0;
@@ -187,21 +208,33 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__links a {
-		display: flex;
-		justify-content: space-between;
-		gap: 1rem;
+		display: grid;
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		gap: var(--r-space-md);
+		align-items: baseline;
 		color: var(--r-ink-soft);
 		text-decoration: none;
 	}
 
-	body.reading-surface .r-about__links a:hover {
+	body.reading-surface .r-about__link-label {
+		color: var(--r-ink-faint);
+		font-size: var(--r-text-xs);
+	}
+
+	body.reading-surface .r-about__link-value {
+		color: var(--r-ink-soft);
+		overflow-wrap: break-word;
+	}
+
+	body.reading-surface .r-about__links a:hover,
+	body.reading-surface .r-about__links a:hover .r-about__link-value {
 		color: var(--r-ink);
 	}
 
 	/* Flatten sponsor chrome into reading surface */
 	body.reading-surface .r-about__sponsor .sponsor-about {
 		margin: 0;
-		gap: 0.35rem;
+		gap: 0.15rem;
 	}
 
 	body.reading-surface .r-about__sponsor .sponsor-fold {
@@ -213,7 +246,7 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__sponsor .sponsor-fold summary {
-		padding: 0.35rem 0 !important;
+		padding: 0.3rem 0 !important;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
 		font-weight: 400;
@@ -259,7 +292,6 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__history {
-		margin-top: 0.5rem;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
 		color: var(--r-ink-soft);
@@ -267,8 +299,13 @@ const contactLinks = [
 
 	body.reading-surface .r-about__history summary {
 		cursor: pointer;
-		color: var(--r-ink-faint);
+		color: var(--r-ink-soft);
 		list-style: none;
+		padding: 0.15rem 0;
+	}
+
+	body.reading-surface .r-about__history summary:hover {
+		color: var(--r-ink);
 	}
 
 	body.reading-surface .r-about__history summary::-webkit-details-marker {
@@ -287,7 +324,7 @@ const contactLinks = [
 
 	body.reading-surface .r-about__history ol {
 		list-style: none;
-		margin: 0.85rem 0 0;
+		margin: var(--r-space-sm) 0 0;
 		padding: 0;
 		display: flex;
 		flex-direction: column;
@@ -297,12 +334,18 @@ const contactLinks = [
 	body.reading-surface .r-about__history li {
 		display: grid;
 		grid-template-columns: 4.5rem minmax(0, 1fr);
-		gap: 0.75rem;
+		gap: var(--r-space-md);
+		align-items: baseline;
 	}
 
 	body.reading-surface .r-about__history time {
 		font-variant-numeric: tabular-nums;
 		color: var(--r-ink-faint);
 		font-size: var(--r-text-xs);
+	}
+
+	body.reading-surface .r-about__history li span {
+		color: var(--r-ink-soft);
+		line-height: 1.55;
 	}
 </style>
