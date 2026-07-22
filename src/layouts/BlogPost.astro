@@ -104,28 +104,52 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		body.reading-surface .r-toc {
-			margin: 0 0 var(--r-space-lg);
+			margin: 0.25rem 0 var(--r-space-lg);
+			padding: 0.55rem 0 0.6rem;
+			border-top: 1px solid var(--r-rule-soft);
+			border-bottom: 1px solid var(--r-rule-soft);
 			font-family: var(--r-font-ui);
-			font-size: var(--r-text-xs);
+			font-size: var(--r-text-sm);
 			color: var(--r-ink-soft);
 		}
 
 		body.reading-surface .r-toc summary {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.45rem;
 			cursor: pointer;
-			color: var(--r-ink-faint);
+			color: var(--r-ink-soft);
 			list-style: none;
+			font-weight: 500;
+			line-height: 1.35;
 		}
 
 		body.reading-surface .r-toc summary::-webkit-details-marker {
 			display: none;
 		}
 
+		body.reading-surface .r-toc summary::before {
+			content: "▸";
+			color: var(--r-ink-faint);
+			font-size: 0.72rem;
+			transform: translateY(-0.02em);
+		}
+
+		body.reading-surface .r-toc[open] summary::before {
+			content: "▾";
+		}
+
+		body.reading-surface .r-toc summary:hover {
+			color: var(--r-ink);
+		}
+
 		body.reading-surface .r-toc .toc-container {
-			margin-top: 0.65rem;
+			margin-top: 0.7rem;
+			padding-left: 0.85rem;
 			border: 0;
+			border-left: 1px solid var(--r-rule-soft);
 			background: transparent;
 			box-shadow: none;
-			padding: 0;
 		}
 
 		body.reading-surface .r-toc .toc-toggle {
@@ -136,6 +160,21 @@ const topicLinksEnabled = Boolean(tags?.length);
 			display: block !important;
 		}
 
+		body.reading-surface .r-toc .toc-list {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+		body.reading-surface .r-toc .toc-list .toc-list {
+			margin-top: 0.2rem;
+			padding-left: 0.85rem;
+		}
+
+		body.reading-surface .r-toc .toc-item {
+			margin: 0.22rem 0;
+		}
+
 		body.reading-surface .r-toc .toc a {
 			color: var(--r-ink-soft);
 			text-decoration: none;
@@ -143,8 +182,15 @@ const topicLinksEnabled = Boolean(tags?.length);
 			line-height: 1.55;
 		}
 
-		body.reading-surface .r-toc .toc a:hover {
+		body.reading-surface .r-toc .toc a:hover,
+		body.reading-surface .r-toc .toc a.active {
 			color: var(--r-ink);
+		}
+
+		body.reading-surface .r-toc .toc a.active {
+			text-decoration: underline;
+			text-decoration-thickness: 1px;
+			text-underline-offset: 0.22em;
 		}
 
 		body.reading-surface .r-article__tail {
