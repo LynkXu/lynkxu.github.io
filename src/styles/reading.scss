@@ -399,14 +399,22 @@ body.reading-surface .reading-shell__brand:active {
   font-size: var(--r-text-xs);
   color: var(--r-ink-faint);
   display: flex;
-  flex-direction: column;
-  gap: var(--r-space-sm);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--r-space-md);
 }
 
 .reading-shell__footer-links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--r-space-xs) var(--r-space-md);
+  flex: 1 1 auto;
+  gap: 0.35rem 0.9rem;
+}
+
+.reading-shell__footer .reading-shell__footer-links a {
+  font-size: var(--r-text-xs);
+  font-weight: 400;
+  color: var(--r-ink);
 }
 
 .reading-shell__footer a {
@@ -418,7 +426,11 @@ body.reading-surface .reading-shell__brand:active {
 }
 
 .reading-shell__copy {
+  flex: 0 0 auto;
   margin: 0;
+  font-size: 0.72rem;
+  text-align: right;
+  color: var(--r-ink-faint);
 }
 
 /* Shared reading patterns */
@@ -826,6 +838,16 @@ body.reading-surface .post-content blockquote p:last-child {
     grid-area: nav;
     flex: none;
     width: 100%;
+  }
+
+  .reading-shell__footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--r-space-sm);
+  }
+
+  .reading-shell__copy {
+    text-align: left;
   }
 }
 

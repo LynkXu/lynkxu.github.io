@@ -26,7 +26,6 @@ const featureLinks = [
 	{ href: '/sports', label: '运动' },
 	{ href: '/tools', label: '工具' },
 	{ href: '/index.xml', label: 'RSS' },
-	{ href: '/copyright', label: '版权' },
 ];
 
 function normalizePath(path: string) {
@@ -117,7 +116,9 @@ function isActive(href: string) {
 					<a href={item.href}>{item.label}</a>
 				))}
 			</div>
-			<p class="reading-shell__copy">© {new Date().getFullYear()} LynkXu</p>
+			<p class="reading-shell__copy">
+				© {new Date().getFullYear()} LynkXu · Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>, Design by Lynk
+			</p>
 		</footer>
 	</div>
 </Base>
