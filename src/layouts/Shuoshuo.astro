@@ -78,37 +78,41 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 									<article class="r-memo" data-index={index} role="listitem">
 										<header class="r-memo__meta">
 											<time datetime={gossip.data.pubDate.toISOString()}>
-												{dateLabel} · {time}
+												<span class="r-memo__date">{dateLabel}</span>
+												<span class="r-memo__sep" aria-hidden="true">·</span>
+												<span class="r-memo__time">{time}</span>
 											</time>
 											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-												<span>{gossip.data.tag}</span>
+												<span class="r-memo__tag">{gossip.data.tag}</span>
 											)}
-											{INCLUDE_DRAFTS && gossip.data.draft && <span>draft</span>}
+											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
 											<span class="r-memo__like">
 												<LikeButton id={gossip.data.slug} type="gossip" />
 											</span>
 										</header>
 
-										<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
+										<div class="r-memo__content">
+											<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
-										{attachments.length > 0 && (
-											<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-												{attachments.slice(0, 4).map((media: any) => (
-													<a
-														href={media.url}
-														class="media-item"
-														data-src={media.url}
-														data-sub-html={media.description}
-													>
-														<img
-															src={media.preview_url || media.url}
-															alt={media.description || ''}
-															loading="lazy"
-														/>
-													</a>
-												))}
-											</div>
-										)}
+											{attachments.length > 0 && (
+												<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+													{attachments.slice(0, 4).map((media: any) => (
+														<a
+															href={media.url}
+															class="media-item"
+															data-src={media.url}
+															data-sub-html={media.description}
+														>
+															<img
+																src={media.preview_url || media.url}
+																alt={media.description || ''}
+																loading="lazy"
+															/>
+														</a>
+													))}
+												</div>
+											)}
+										</div>
 									</article>
 								);
 							})}
@@ -242,6 +246,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo {
+		display: grid;
+		grid-template-columns: minmax(6.75rem, 8rem) minmax(0, 1fr);
+		column-gap: var(--r-space-lg);
+		align-items: start;
 		padding: var(--r-space-md) 0;
 		border-bottom: 1px solid var(--r-rule-soft);
 	}
@@ -257,18 +265,47 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	body.reading-surface .r-memo__meta {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: var(--r-space-xs) var(--r-space-sm);
-		margin-bottom: 0.5rem;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.28rem;
+		margin: 0.15rem 0 0;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
-		color: var(--r-ink-soft);
+		line-height: 1.35;
+		color: var(--r-ink-faint);
 		letter-spacing: 0.01em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	body.reading-surface .r-memo__meta time {
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+	}
+
+	body.reading-surface .r-memo__date {
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-memo__sep {
+		display: none;
+	}
+
+	body.reading-surface .r-memo__time {
+		font-size: 0.72rem;
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__tag {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__content {
+		min-width: 0;
+		max-width: 36rem;
 	}
 
 	body.reading-surface .r-memo__like {
-		margin-left: auto;
 		opacity: 0.55;
 	}
 
@@ -278,8 +315,8 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	/* Short notes should read lighter than long-form posts */
 	body.reading-surface .r-memo__body {
-		font-size: 0.95rem !important;
-		line-height: 1.65 !important;
+		font-size: 1rem !important;
+		line-height: 1.66 !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
@@ -291,12 +328,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body p {
-		margin-bottom: 0.45em !important;
+		margin-bottom: 0.42em !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote {
-		margin: 0.55em 0 !important;
-		padding: 0.05em 0 0.05em 0.85em !important;
+		margin: 0.45em 0 !important;
+		padding: 0.05em 0 0.05em 0.9em !important;
+		border-left-color: var(--r-rule) !important;
+		color: var(--r-ink-soft) !important;
 	}
 
 	body.reading-surface .r-memo__body blockquote p {
@@ -311,7 +350,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		display: grid;
 		gap: 4px;
 		margin-top: 0.75rem;
-		width: min(100%, 430px);
+		width: min(100%, 520px);
 	}
 
 	body.reading-surface .media-item {
@@ -335,14 +374,14 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	body.reading-surface .grid-1 .media-item {
 		aspect-ratio: 16 / 10;
-		max-height: 220px;
+		max-height: 280px;
 	}
 
 	body.reading-surface .grid-2 .media-item,
 	body.reading-surface .grid-3 .media-item,
 	body.reading-surface .grid-4 .media-item {
 		aspect-ratio: 4 / 3;
-		max-height: 140px;
+		max-height: 165px;
 	}
 
 	body.reading-surface .r-memos__pagination {
@@ -366,5 +405,56 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		color: var(--r-ink);
 		text-decoration: underline;
 		text-underline-offset: 0.2em;
+	}
+
+	@media (max-width: 680px) {
+		body.reading-surface .r-memos__title {
+			margin-bottom: var(--r-space-md);
+		}
+
+		body.reading-surface .r-memo {
+			display: block;
+			padding: var(--r-space-md) 0;
+		}
+
+		body.reading-surface .r-memo:first-child {
+			padding-top: 0;
+		}
+
+		body.reading-surface .r-memo__meta {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--r-space-xs) var(--r-space-sm);
+			margin: 0 0 0.45rem;
+		}
+
+		body.reading-surface .r-memo__meta time {
+			flex-direction: row;
+			align-items: baseline;
+			gap: 0.45rem;
+		}
+
+		body.reading-surface .r-memo__sep {
+			display: inline;
+			color: var(--r-ink-faint);
+		}
+
+		body.reading-surface .r-memo__time {
+			font-size: var(--r-text-xs);
+		}
+
+		body.reading-surface .r-memo__content {
+			max-width: none;
+		}
+
+		body.reading-surface .r-memo__body {
+			font-size: 0.98rem !important;
+			line-height: 1.66 !important;
+		}
+
+		body.reading-surface .r-memo__like {
+			margin-left: auto;
+		}
 	}
 </style>

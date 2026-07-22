@@ -49,11 +49,12 @@ body.reading-surface {
   background: var(--r-bg) !important;
   color: var(--r-ink) !important;
   font-family: var(--r-font-body) !important;
+  font-weight: 400;
   font-size: var(--r-text);
   line-height: var(--r-lh-body);
   font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
   color-scheme: light;
   display: block;
 }
@@ -572,7 +573,7 @@ body.reading-surface .post-content {
   color: var(--r-ink) !important;
   font-family: var(--r-font-body) !important;
   font-size: var(--r-text) !important;
-  font-weight: 400 !important;
+  font-weight: 450 !important;
   line-height: var(--r-lh-body) !important;
   max-width: none !important;
   margin-left: 0 !important;
