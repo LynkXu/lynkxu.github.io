@@ -209,7 +209,7 @@ body.reading-surface .link-card__fallback:hover {
 .reading-shell__header {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   gap: 0;
   row-gap: var(--r-space-sm);
   padding-bottom: var(--r-space-md);
@@ -237,7 +237,7 @@ body.reading-surface .link-card__fallback:hover {
 .reading-shell__nav {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
+  align-items: center;
   column-gap: var(--r-space-md);
   row-gap: var(--r-space-xs);
   flex: 1 1 auto;
@@ -340,7 +340,6 @@ body.reading-surface .link-card__fallback:hover {
   align-items: center;
   gap: var(--r-space-xs);
   flex-shrink: 0;
-  align-self: center;
   margin-left: auto;
 }
 
