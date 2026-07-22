@@ -505,18 +505,22 @@ body.reading-surface .link-card__fallback:hover {
 }
 
 .r-year-block {
-  margin-bottom: var(--r-space-xl);
+  margin-bottom: var(--r-space-lg);
+}
+
+.r-year-block .r-post-list {
+  gap: var(--r-space-sm);
 }
 
 .r-year-block__label {
   display: flex;
   align-items: baseline;
   gap: var(--r-space-sm);
-  margin: 0 0 var(--r-space-sm);
+  margin: 0 0 var(--r-space-xs);
   padding-bottom: var(--r-space-xs);
   border-bottom: 1px solid var(--r-rule-soft);
   font-family: var(--r-font-ui);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--r-ink-soft);

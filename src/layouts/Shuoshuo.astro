@@ -238,17 +238,21 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .r-memos__list {
 		display: flex;
 		flex-direction: column;
-		gap: var(--r-space-md);
+		gap: 0;
 	}
 
 	body.reading-surface .r-memo {
-		padding: 0 0 var(--r-space-md);
-		border-bottom: 1px solid var(--r-rule);
+		padding: var(--r-space-md) 0;
+		border-bottom: 1px solid var(--r-rule-soft);
+	}
+
+	body.reading-surface .r-memo:first-child {
+		padding-top: 0;
 	}
 
 	body.reading-surface .r-memo:last-child {
-		padding-bottom: 0;
 		border-bottom: 0;
+		padding-bottom: 0;
 	}
 
 	body.reading-surface .r-memo__meta {
@@ -256,10 +260,11 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		flex-wrap: wrap;
 		align-items: center;
 		gap: var(--r-space-xs) var(--r-space-sm);
-		margin-bottom: 0.35rem;
+		margin-bottom: 0.5rem;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
+		color: var(--r-ink-soft);
+		letter-spacing: 0.01em;
 	}
 
 	body.reading-surface .r-memo__like {
@@ -274,7 +279,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	/* Short notes should read lighter than long-form posts */
 	body.reading-surface .r-memo__body {
 		font-size: 0.95rem !important;
-		line-height: 1.7 !important;
+		line-height: 1.65 !important;
 	}
 
 	body.reading-surface .r-memo__body > :first-child {
