@@ -15,9 +15,9 @@ const blogHistory = [
 ];
 
 const traits = [
-	{ label: '兴趣', value: 'Web3 / APP 体验 / AI' },
-	{ label: '运动', value: '力量训练 / 马拉松 / 骑行' },
-	{ label: '气质', value: '长期主义 / 混沌中立' },
+	{ label: '日常', value: 'Web3 爱好者 · APP 体验家 · AI 依赖' },
+	{ label: '运动', value: '力量训练 · 马拉松 · 骑行 · 散步' },
+	{ label: '标签', value: '长期主义 · 混沌中立 · 生人勿近' },
 ];
 
 const contactLinks = [
@@ -28,116 +28,99 @@ const contactLinks = [
 
 <ReadingShell title={title} description={title}>
 	<section class="r-about" aria-labelledby="about-title">
-		<div class="r-about__lead">
-			<header class="r-about__head">
-				<img
-					src={AVATAR_IMAGE.src}
-					srcset={AVATAR_IMAGE.srcset}
-					sizes="72px"
-					alt=""
-					class="r-about__avatar"
-					width="72"
-					height="72"
-					loading="eager"
-					decoding="async"
-				/>
-				<div>
-					<h1 id="about-title" class="r-page-title">Hi, I am Lynk</h1>
-					<p class="r-about__now">上海 · 全栈工程师</p>
-				</div>
-			</header>
-
-			<div class="r-about__body">
-				<div class="r-prose r-about__intro">
-					<p>
-						一个偏乐观的悲观主义者。一个偏现实的理想主义者。一个想法很多，但却不善表达的人。
-					</p>
-					<p>很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
-				</div>
-
-				<dl class="r-about__traits">
-					{traits.map((trait) => (
-						<div class="r-about__trait">
-							<dt>{trait.label}</dt>
-							<dd>{trait.value}</dd>
-						</div>
-					))}
-				</dl>
+		<header class="r-about__head">
+			<img
+				src={AVATAR_IMAGE.src}
+				srcset={AVATAR_IMAGE.srcset}
+				sizes="64px"
+				alt=""
+				class="r-about__avatar"
+				width="64"
+				height="64"
+				loading="eager"
+				decoding="async"
+			/>
+			<div>
+				<h1 id="about-title" class="r-page-title">Hi, I am Lynk</h1>
+				<p class="r-about__now">上海 · 全栈工程师</p>
 			</div>
+		</header>
+
+		<div class="r-prose r-about__intro">
+			<p>
+				一个偏乐观的悲观主义者。一个偏现实的理想主义者。一个想法很多，但却不善表达的人。
+			</p>
+			<p>很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
 		</div>
 
-		<div class="r-about__sections">
-			<section class="r-about__block r-about__block--contact" aria-labelledby="about-contact">
-				<header class="r-section__head">
-					<h2 id="about-contact" class="r-section__title">联系</h2>
-				</header>
-				<ul class="r-about__links">
-					{contactLinks.map((link) => (
+		<dl class="r-about__traits">
+			{traits.map((trait) => (
+				<div class="r-about__trait">
+					<dt>{trait.label}</dt>
+					<dd>{trait.value}</dd>
+				</div>
+			))}
+		</dl>
+
+		<section class="r-about__block" aria-labelledby="about-contact">
+			<header class="r-section__head">
+				<h2 id="about-contact" class="r-section__title">联系</h2>
+			</header>
+			<ul class="r-about__links">
+				{contactLinks.map((link) => (
+					<li>
+						<a
+							href={link.href}
+							target={link.external ? '_blank' : undefined}
+							rel={link.external ? 'noopener noreferrer' : undefined}
+						>
+							<span class="r-about__link-label">{link.label}</span>
+							<span class="r-about__link-value">{link.value}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="r-about__block" aria-labelledby="about-sponsor">
+			<header class="r-section__head">
+				<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+			</header>
+			<div class="r-about__sponsor">
+				<SponsorAbout />
+			</div>
+		</section>
+
+		<section class="r-about__block" aria-labelledby="about-history">
+			<header class="r-section__head">
+				<h2 id="about-history" class="r-section__title">博客历程</h2>
+			</header>
+			<details class="r-about__history">
+				<summary>展开时间线</summary>
+				<ol>
+					{blogHistory.map((item) => (
 						<li>
-							<a
-								href={link.href}
-								target={link.external ? '_blank' : undefined}
-								rel={link.external ? 'noopener noreferrer' : undefined}
-							>
-								<span class="r-about__link-label">{link.label}</span>
-								<span class="r-about__link-value">{link.value}</span>
-							</a>
+							<time>{item.date}</time>
+							<span>{item.text}</span>
 						</li>
 					))}
-				</ul>
-			</section>
-
-			<section class="r-about__block r-about__block--sponsor" aria-labelledby="about-sponsor">
-				<header class="r-section__head">
-					<h2 id="about-sponsor" class="r-section__title">赞助</h2>
-				</header>
-				<div class="r-about__sponsor">
-					<SponsorAbout />
-				</div>
-			</section>
-
-			<section class="r-about__block r-about__block--history" aria-labelledby="about-history">
-				<header class="r-section__head">
-					<h2 id="about-history" class="r-section__title">博客历程</h2>
-				</header>
-				<details class="r-about__history">
-					<summary>展开时间线</summary>
-					<ol>
-						{blogHistory.map((item) => (
-							<li>
-								<time>{item.date}</time>
-								<span>{item.text}</span>
-							</li>
-						))}
-					</ol>
-				</details>
-			</section>
-		</div>
+				</ol>
+			</details>
+		</section>
 	</section>
 </ReadingShell>
 
 <style is:global>
-	body.reading-surface .r-about__lead {
-		display: grid;
-		grid-template-columns: minmax(9.5rem, 0.65fr) minmax(0, 1.35fr);
-		gap: var(--r-space-lg);
-		align-items: start;
-		margin-bottom: var(--r-space-xl);
-		padding-bottom: var(--r-space-lg);
-		border-bottom: 1px solid var(--r-rule);
-	}
-
 	body.reading-surface .r-about__head {
 		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
+		align-items: center;
 		gap: var(--r-space-md);
-		margin-bottom: 0;
+		margin-bottom: var(--r-space-lg);
 	}
 
 	body.reading-surface .r-about__avatar {
-		width: 72px;
-		height: 72px;
+		width: 64px;
+		height: 64px;
 		border-radius: 50%;
 		object-fit: cover;
 		flex-shrink: 0;
@@ -155,7 +138,7 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__intro {
-		margin-bottom: var(--r-space-md);
+		margin-bottom: var(--r-space-lg);
 		font-size: 1rem !important;
 		line-height: 1.75 !important;
 	}
@@ -173,38 +156,16 @@ const contactLinks = [
 		display: flex;
 		flex-direction: column;
 		gap: 0.55rem;
-		margin: 0;
+		margin: 0 0 var(--r-space-xl);
 		padding: 0;
 		border: 0;
 	}
 
 	body.reading-surface .r-about__trait {
 		display: grid;
-		grid-template-columns: 3.15rem minmax(0, 1fr);
+		grid-template-columns: 2.75rem minmax(0, 1fr);
 		gap: var(--r-space-md);
 		align-items: baseline;
-	}
-
-	body.reading-surface .r-about__sections {
-		display: grid;
-		grid-template-columns: minmax(9.5rem, 0.65fr) minmax(0, 1.35fr);
-		gap: var(--r-space-lg);
-		align-items: start;
-	}
-
-	body.reading-surface .r-about__block--contact {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	body.reading-surface .r-about__block--history {
-		grid-column: 1;
-		grid-row: 2;
-	}
-
-	body.reading-surface .r-about__block--sponsor {
-		grid-column: 2;
-		grid-row: 1 / span 2;
 	}
 
 	body.reading-surface .r-about__traits dt {
@@ -223,7 +184,7 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__block {
-		margin-bottom: 0;
+		margin-bottom: var(--r-space-xl);
 	}
 
 	body.reading-surface .r-about__block:last-child {
@@ -248,7 +209,7 @@ const contactLinks = [
 
 	body.reading-surface .r-about__links a {
 		display: grid;
-		grid-template-columns: 3.15rem minmax(0, 1fr);
+		grid-template-columns: 2.75rem minmax(0, 1fr);
 		gap: var(--r-space-md);
 		align-items: baseline;
 		color: var(--r-ink-soft);
@@ -372,8 +333,8 @@ const contactLinks = [
 
 	body.reading-surface .r-about__history li {
 		display: grid;
-		grid-template-columns: minmax(3.75rem, auto) minmax(0, 1fr);
-		gap: var(--r-space-sm);
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: var(--r-space-md);
 		align-items: baseline;
 	}
 
@@ -389,20 +350,8 @@ const contactLinks = [
 	}
 
 	@media (max-width: 720px) {
-		body.reading-surface .r-about__lead,
-		body.reading-surface .r-about__sections {
-			display: block;
-		}
-
-		body.reading-surface .r-about__lead {
-			margin-bottom: var(--r-space-lg);
-			padding-bottom: var(--r-space-lg);
-		}
-
 		body.reading-surface .r-about__head {
-			flex-direction: row;
 			align-items: center;
-			margin-bottom: var(--r-space-lg);
 		}
 
 		body.reading-surface .r-about__avatar {

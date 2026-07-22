@@ -573,7 +573,7 @@ body.reading-surface .post-content {
   color: var(--r-ink) !important;
   font-family: var(--r-font-body) !important;
   font-size: var(--r-text) !important;
-  font-weight: 450 !important;
+  font-weight: 400 !important;
   line-height: var(--r-lh-body) !important;
   max-width: none !important;
   margin-left: 0 !important;
@@ -591,6 +591,10 @@ body.reading-surface .post-content a,
 .r-post-list__title {
   overflow-wrap: break-word;
   word-break: break-word;
+}
+
+body.reading-surface .r-article .post-content {
+  font-size: 1rem !important;
 }
 
 body.reading-surface .r-article .r-page-title {
