@@ -27,45 +27,20 @@ export async function getStaticPaths() {
 }
 
 const { posts, tag } = Astro.props;
-
-const allPosts = filterDrafts(await getCollection('blog'));
-const tagsMap = new Map<string, number>();
-
-allPosts.forEach((post) => {
-	(post.data.tags || []).forEach((item) => {
-		tagsMap.set(item, (tagsMap.get(item) || 0) + 1);
-	});
-});
-
-const otherTags = Array.from(tagsMap.entries())
-	.sort((a, b) => b[1] - a[1])
-	.map(([name]) => name)
-	.filter((name) => name !== tag)
-	.slice(0, 12);
 ---
 
 <ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
 	<h1 class="r-page-title">{tag}</h1>
 
-	{otherTags.length > 0 && (
-		<p class="r-tag-switch">
-			<a href="/tags">全部标签</a>
-			{otherTags.map((name) => (
-				<>
-					{' · '}
-					<a href={`/tags/${name}/`}>{name}</a>
-				</>
-			))}
-		</p>
-	)}
+	<p class="r-tag-meta">
+		<span>{posts.length} 篇文章</span>
+		<a href="/tags">← 全部标签</a>
+	</p>
 
 	<ol class="r-post-list">
 		{posts.map((post) => (
 			<li class="r-post-list__item">
-				<span class="r-post-list__date">
-					<FormattedDate date={post.data.pubDate} />
-				</span>
-				<div>
+				<div class="r-post-list__main">
 					<a
 						href={`/blog/${post.data.slug ?? post.id}.html`}
 						class="r-post-list__title"
@@ -75,26 +50,31 @@ const otherTags = Array.from(tagsMap.entries())
 					</a>
 					{INCLUDE_DRAFTS && post.data.draft && <span class="r-draft">草稿</span>}
 				</div>
+				<span class="r-post-list__date">
+					<FormattedDate date={post.data.pubDate} />
+				</span>
 			</li>
 		))}
 	</ol>
 </ReadingShell>
 
 <style>
-	.r-tag-switch {
-		margin: -0.5rem 0 var(--r-space-lg);
+	.r-tag-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+		margin: -0.75rem 0 var(--r-space-lg);
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
 		color: var(--r-ink-faint);
-		line-height: 1.7;
 	}
 
-	.r-tag-switch a {
+	.r-tag-meta a {
 		color: var(--r-ink-soft);
 		text-decoration: none;
 	}
 
-	.r-tag-switch a:hover {
+	.r-tag-meta a:hover {
 		color: var(--r-link);
 	}
 

@@ -80,7 +80,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 											<time datetime={gossip.data.pubDate.toISOString()}>
 												{dateLabel} · {time}
 											</time>
-											{gossip.data.tag && <span>{gossip.data.tag}</span>}
+											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+												<span>{gossip.data.tag}</span>
+											)}
 											{INCLUDE_DRAFTS && gossip.data.draft && <span>draft</span>}
 											<span class="r-memo__like">
 												<LikeButton id={gossip.data.slug} type="gossip" />
@@ -326,10 +328,12 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	body.reading-surface .r-memos__pagination {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.65rem;
-		margin-top: var(--r-space-lg);
+		gap: 0.9rem;
+		margin-top: var(--r-space-xl);
+		padding-top: var(--r-space-md);
+		border-top: 1px solid var(--r-rule);
 		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
+		font-size: var(--r-text-sm);
 	}
 
 	body.reading-surface .r-memos__pagination a {

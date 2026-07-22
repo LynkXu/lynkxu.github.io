@@ -29,10 +29,10 @@ function getPostHref(post: (typeof posts)[number]) {
 		<ol class="r-post-list">
 			{latestPosts.map((post) => (
 				<li class="r-post-list__item">
+					<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
 					<span class="r-post-list__date">
 						<FormattedDate date={post.data.pubDate} />
 					</span>
-					<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
 				</li>
 			))}
 		</ol>

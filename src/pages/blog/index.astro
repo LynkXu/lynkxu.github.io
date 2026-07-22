@@ -37,19 +37,22 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	{years.map((year) => (
 		<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
-			<h2 id={`archive-year-${year}`} class="r-year-block__label">{year}</h2>
+			<h2 id={`archive-year-${year}`} class="r-year-block__label">
+				{year}
+				<span class="r-year-block__count">{postsByYear[year].length}</span>
+			</h2>
 			<ol class="r-post-list">
 				{postsByYear[year].map((post) => (
 					<li class="r-post-list__item">
-						<span class="r-post-list__date">
-							<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
-						</span>
-						<div>
+						<div class="r-post-list__main">
 							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
 							{INCLUDE_DRAFTS && post.data.draft && (
 								<span class="r-draft">草稿</span>
 							)}
 						</div>
+						<span class="r-post-list__date">
+							<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
+						</span>
 					</li>
 				))}
 			</ol>
