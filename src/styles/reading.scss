@@ -167,7 +167,8 @@ body.reading-surface .reading-shell__header nav a {
   transform: none !important;
   border-bottom: 0 !important;
   min-height: auto;
-  padding: 0.1rem 0;
+  padding: 0;
+  line-height: inherit;
 }
 
 body.reading-surface .reading-shell__header nav a::before,
@@ -202,14 +203,14 @@ body.reading-surface .link-card__fallback:hover {
   flex-direction: column;
   width: min(100% - var(--r-page-inline) * 2, var(--r-measure));
   margin-inline: auto;
-  padding-block: var(--r-space-md) var(--r-space-2xl);
+  padding-block: var(--r-space-lg) var(--r-space-2xl);
 }
 
 .reading-shell__header {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  column-gap: var(--r-space-md);
+  align-items: baseline;
+  gap: 0;
   row-gap: var(--r-space-sm);
   padding-bottom: var(--r-space-md);
   margin-bottom: var(--r-space-xl);
@@ -223,8 +224,9 @@ body.reading-surface .link-card__fallback:hover {
   color: var(--r-ink);
   text-decoration: none;
   letter-spacing: -0.03em;
-  line-height: 1.15;
+  line-height: 1.1;
   flex-shrink: 0;
+  margin-right: clamp(1.15rem, 2.8vw, 1.65rem);
 }
 
 .reading-shell__brand:hover {
@@ -235,20 +237,22 @@ body.reading-surface .link-card__fallback:hover {
 .reading-shell__nav {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   column-gap: var(--r-space-md);
   row-gap: var(--r-space-xs);
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--r-font-ui);
   font-size: var(--r-text-sm);
+  line-height: 1.2;
   letter-spacing: 0.01em;
 }
 
 .reading-shell__nav a {
   color: var(--r-ink-soft);
   text-decoration: none;
-  padding: 0.1rem 0;
+  padding: 0;
+  line-height: inherit;
 }
 
 .reading-shell__ctrl {
@@ -336,6 +340,7 @@ body.reading-surface .link-card__fallback:hover {
   align-items: center;
   gap: var(--r-space-xs);
   flex-shrink: 0;
+  align-self: center;
   margin-left: auto;
 }
 
@@ -378,8 +383,6 @@ body.reading-surface .link-card__fallback:hover {
 /* Shared reading patterns */
 .r-page-title {
   margin: 0 0 var(--r-space-lg);
-  padding-bottom: var(--r-space-xs);
-  border-bottom: 1px solid var(--r-rule-soft);
   font-family: var(--r-font-body) !important;
   font-size: var(--r-text-page);
   font-weight: 600;
@@ -596,8 +599,6 @@ body.reading-surface .r-article .r-page-title {
   letter-spacing: -0.025em;
   line-height: 1.22;
   margin-bottom: var(--r-space-sm);
-  padding-bottom: 0;
-  border-bottom: 0;
 }
 
 body.reading-surface .post-content h1,
@@ -765,6 +766,7 @@ body.reading-surface .post-content blockquote p:last-child {
   .reading-shell__brand {
     grid-area: brand;
     font-size: 1.4rem;
+    margin-right: 0;
   }
 
   .reading-shell__tools {
