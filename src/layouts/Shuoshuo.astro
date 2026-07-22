@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import MagazineShell from './MagazineShell.astro';
+import ReadingShell from './ReadingShell.astro';
 import { marked } from 'marked';
 import LikeButton from '../components/LikeButton.astro';
 import { INCLUDE_DRAFTS } from '../utils/drafts';
@@ -27,7 +27,12 @@ function getDateParts(date: Date) {
 	const day = new Intl.DateTimeFormat('en-US', { ...options, day: '2-digit' }).format(date);
 	const monthNum = new Intl.DateTimeFormat('en-US', { ...options, month: '2-digit' }).format(date);
 	const year = new Intl.DateTimeFormat('en-US', { ...options, year: 'numeric' }).format(date);
-	const time = new Intl.DateTimeFormat('en-US', { ...options, hour: '2-digit', minute: '2-digit', hour12: false }).format(date);
+	const time = new Intl.DateTimeFormat('en-US', {
+		...options,
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false,
+	}).format(date);
 	return { day, monthNum, year, time };
 }
 
@@ -38,8 +43,6 @@ const memoItems = gossips.map((gossip: any, index) => {
 		index,
 		page: Math.floor(index / pageSize) + 1,
 		dateLabel: `${year}.${monthNum}.${day}`,
-		monthLabel: `${year}.${monthNum}`,
-		year,
 		time,
 		attachments: gossip._raw?.media_attachments || [],
 	};
@@ -52,168 +55,115 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		items: memoItems.filter((item) => item.page === page),
 	};
 });
-
 ---
 
-<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
-<style is:global slot="head">
-    .media-grid {
-        display: grid;
-        gap: 4px;
-        margin-top: 8px;
-        width: min(100%, 430px);
-    }
-    .media-item {
-        display: block;
-        border: 1px solid color-mix(in oklab, var(--gray-color) 14%, transparent);
-        overflow: hidden;
-        background: var(--code-background-color);
-        cursor: zoom-in;
-    }
-    .media-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
+<ReadingShell title={title} description={title}>
+	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
-    .grid-1 { grid-template-columns: 1fr; }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-    .grid-1 .media-item {
-        aspect-ratio: 16 / 10;
-        max-height: 220px;
-    }
-
-    .grid-2 .media-item,
-    .grid-3 .media-item,
-    .grid-4 .media-item {
-        aspect-ratio: 4 / 3;
-        max-height: 140px;
-    }
-
-    @media (max-width: 600px) {
-        .media-grid {
-            gap: 3px;
-            width: 100%;
-        }
-        .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .grid-1 .media-item {
-            max-height: 190px;
-        }
-        .grid-2 .media-item,
-        .grid-3 .media-item,
-        .grid-4 .media-item {
-            max-height: 120px;
-        }
-    }
-</style>
-
-
-<MagazineShell title={title} description={title} className="memos-surface" showProfileCard={false}>
-	<section class="memos-panel postcard-sheet" aria-labelledby="memos-title">
-		<header class="memos-panel__header">
-			<h1 id="memos-title" class="memos-panel__title">碎语</h1>
+	<section class="r-memos" aria-labelledby="memos-title">
+		<header class="r-memos__head">
+			<h1 id="memos-title" class="r-page-title r-memos__title">碎语</h1>
 		</header>
 
-		<div class="memos-layout">
-			<div class="memos-feed-column">
-			<div id='shuoshuo' class="memos-feed">
-				{
-					gossips.length === 0 ? (
-						<div class='empty-state'>还没有碎语。</div>
-					) : (
-						pagedMemoPages.map(({ page, items }) => (
-							<div class="memos-page" data-page={page}>
-								<div class="memos-page-list" role="list">
-									{items.map((item) => {
-										const { gossip, attachments, dateLabel, time, index } = item;
-										return (
-											<article class='memo-item' data-index={index} role="listitem">
-												<header class="memo-header">
-													<div class="memo-header-top">
-														<div class="memo-meta-line">
-															<time class="memo-meta-time" datetime={gossip.data.pubDate.toISOString()}>
-																{dateLabel} · {time}
-															</time>
-															{gossip.data.tag && <span class="memo-source">{gossip.data.tag}</span>}
-															{INCLUDE_DRAFTS && gossip.data.draft && <span class="draft-indicator">draft</span>}
-														</div>
-														<div class="memo-actions">
-															<LikeButton id={gossip.data.slug} type="gossip" />
-														</div>
-													</div>
-												</header>
+		<div id="shuoshuo">
+			{gossips.length === 0 ? (
+				<p class="r-memos__empty">还没有碎语。</p>
+			) : (
+				pagedMemoPages.map(({ page, items }) => (
+					<div class="memos-page" data-page={page}>
+						<div class="r-memos__list" role="list">
+							{items.map((item) => {
+								const { gossip, attachments, dateLabel, time, index } = item;
+								return (
+									<article class="r-memo" data-index={index} role="listitem">
+										<header class="r-memo__meta">
+											<time datetime={gossip.data.pubDate.toISOString()}>
+												<span class="r-memo__date">{dateLabel}</span>
+												<span class="r-memo__sep" aria-hidden="true">·</span>
+												<span class="r-memo__time">{time}</span>
+											</time>
+											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+												<span class="r-memo__tag">{gossip.data.tag}</span>
+											)}
+											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
+											<span class="r-memo__like">
+												<LikeButton id={gossip.data.slug} type="gossip" />
+											</span>
+										</header>
 
-												<div class='memo-content markdown-body' set:html={marked.parse(gossip.body || '')} />
+										<div class="r-memo__content">
+											<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
-												{attachments.length > 0 && (
-													<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-														{attachments.slice(0, 4).map((media: any) => (
-															<a href={media.url} class="media-item" data-src={media.url}  data-sub-html={media.description}>
-																<img src={media.preview_url || media.url} alt={media.description || ""} loading="lazy" />
-															</a>
-														))}
-													</div>
-												)}
-											</article>
-										)
-									})}
-								</div>
-							</div>
-						))
-					)
-				}
-			</div>
-
-			{totalPages > 1 && (
-				<nav class='pagination' id='shuoshuo-pagination' aria-label='Pagination'>
-					<div class='pagination-pages'>
-						{Array.from({ length: totalPages }, (_, index) => {
-							const pageNumber = index + 1;
-							return (
-								<a class='page-link' href={`?page=${pageNumber}`} data-page={pageNumber}>
-									{pageNumber}
-								</a>
-							);
-						})}
+											{attachments.length > 0 && (
+												<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+													{attachments.slice(0, 4).map((media: any) => (
+														<a
+															href={media.url}
+															class="media-item"
+															data-src={media.url}
+															data-sub-html={media.description}
+														>
+															<img
+																src={media.preview_url || media.url}
+																alt={media.description || ''}
+																loading="lazy"
+															/>
+														</a>
+													))}
+												</div>
+											)}
+										</div>
+									</article>
+								);
+							})}
+						</div>
 					</div>
-				</nav>
+				))
 			)}
 		</div>
-	</div>
+
+		{totalPages > 1 && (
+			<nav class="r-memos__pagination" id="shuoshuo-pagination" aria-label="Pagination">
+				{Array.from({ length: totalPages }, (_, index) => {
+					const pageNumber = index + 1;
+					return (
+						<a class="page-link" href={`?page=${pageNumber}`} data-page={pageNumber}>
+							{pageNumber}
+						</a>
+					);
+				})}
+			</nav>
+		)}
 	</section>
-</MagazineShell>
+</ReadingShell>
 
 <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
 <script is:inline>
-    function initGallery() {
-        if (!window.lightGallery) return;
-        const grids = document.querySelectorAll('.media-grid');
-        grids.forEach(grid => {
-            window.lightGallery(grid, {
-                selector: '.media-item',
-                speed: 500,
-                download: false
-            });
-        });
-    }
+	function initGallery() {
+		if (!window.lightGallery) return;
+		const grids = document.querySelectorAll('.media-grid');
+		grids.forEach((grid) => {
+			window.lightGallery(grid, {
+				selector: '.media-item',
+				speed: 500,
+				download: false,
+			});
+		});
+	}
 
-    function onReady() {
-        if (window.lightGallery) {
-            initGallery();
-        } else {
-            setTimeout(onReady, 100);
-        }
-    }
+	function onReady() {
+		if (window.lightGallery) {
+			initGallery();
+		} else {
+			setTimeout(onReady, 100);
+		}
+	}
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', onReady);
-    } else {
-        onReady();
-    }
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', onReady);
+	} else {
+		onReady();
+	}
 </script>
 
 <script is:inline define:vars={{ totalPages }}>
@@ -253,10 +203,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			params.set('page', String(currentPage));
 			const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
 			window.history.replaceState({}, '', nextUrl);
-            
-            if (window.scrollY > 100) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
+
+			if (window.scrollY > 100) {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}
 		}
 
 		renderPage(initialPage);
@@ -272,282 +222,239 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	})();
 </script>
 
-
 <style is:global>
-	.memos-surface {
-		--memos-section-gap: 0;
-		--memo-inline-pad: 0.1rem;
-		--memo-block-pad: clamp(0.85rem, 1.8vw, 1.05rem);
-	}
-
-	.memos-surface #shuoshuo {
-		width: 100%;
-		margin: 0;
-	}
-
-	.memos-panel {
-		min-height: 0;
-		max-width: var(--blog-content-max);
-		padding: clamp(1rem, 2.2vw, 1.35rem);
-	}
-
-	.memos-panel > .memos-panel__header {
-		display: block;
-		margin-bottom: 0.85rem;
-		padding: 0 0 0.65rem;
-		border-bottom: 1px solid var(--sheet-edge);
-	}
-
-	.memos-panel__title {
-		margin: 0;
-		font-family: var(--display-font);
-		font-size: clamp(1.25rem, 2.2vw, 1.45rem);
-		font-weight: 600;
-		letter-spacing: -0.015em;
-		line-height: 1.2;
-		color: var(--heading-color);
-	}
-
-	.memos-layout,
-	.memos-feed-column,
-	.memos-feed,
-	.memos-page,
-	.memos-page-list {
-		width: 100%;
-		min-width: 0;
-	}
-
-	.memos-feed-column,
-	.memos-feed,
-	.memos-page,
-	.memos-page-list {
-		display: flex;
-		flex-direction: column;
-		gap: var(--memos-section-gap);
-	}
-
-	.memos-page[hidden] {
-		display: none;
-	}
-
-	.memo-item {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		min-width: 0;
-		padding: var(--memo-block-pad) var(--memo-inline-pad);
-		border: 0;
-		border-bottom: 1px solid color-mix(in oklab, var(--paper-card-border-soft) 85%, transparent);
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-	}
-
-	.memo-item:last-child {
+	body.reading-surface .r-memos__head {
+		margin-bottom: var(--r-space-xs);
+		padding-bottom: 0;
 		border-bottom: 0;
 	}
 
-	.memo-item::before {
-		content: none;
+	body.reading-surface .r-memos__title {
+		margin: 0 0 var(--r-space-md);
 	}
 
-	.memo-header {
+	body.reading-surface .r-memos__empty {
+		color: var(--r-ink-faint);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+	}
+
+	body.reading-surface .r-memos__list {
 		display: flex;
 		flex-direction: column;
-		align-items: stretch;
-		margin: 0 0 0.35rem;
-		padding: 0;
-		border: 0;
-		line-height: 1.35;
+		gap: 0;
 	}
 
-	.memos-surface .memo-header {
-		margin: 0 0 0.35rem;
-		padding: 0;
-		border: 0;
+	body.reading-surface .r-memo {
+		display: grid;
+		grid-template-columns: minmax(6.75rem, 8rem) minmax(0, 1fr);
+		column-gap: var(--r-space-lg);
+		align-items: start;
+		padding: var(--r-space-md) 0;
+		border-bottom: 1px solid var(--r-rule-soft);
 	}
 
-	.memo-header-top {
+	body.reading-surface .r-memo:first-child {
+		padding-top: 0;
+	}
+
+	body.reading-surface .r-memo:last-child {
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+
+	body.reading-surface .r-memo__meta {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.65rem;
-		width: 100%;
-		min-width: 0;
-	}
-
-	.memo-meta-line {
-		display: inline-flex;
-		align-items: baseline;
-		flex-wrap: wrap;
-		gap: 0.35rem 0.5rem;
-		min-width: 0;
-	}
-
-	.memo-source {
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		line-height: 1.2;
-	}
-
-	.memo-source::before {
-		content: "·";
-		margin-right: 0.35rem;
-		color: var(--faint-color);
-	}
-
-	.memo-actions {
-		display: inline-flex;
-		align-items: center;
-		justify-content: flex-end;
-		flex-shrink: 0;
-		opacity: 0.45;
-		transition: opacity 0.2s ease;
-	}
-
-	.memo-item:hover .memo-actions,
-	.memo-item:focus-within .memo-actions {
-		opacity: 1;
-	}
-
-	.memo-meta-time {
-		margin: 0;
-		color: var(--gray-color);
-		font-family: var(--code-font);
-		font-size: 0.72rem;
-		line-height: 1.28;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.28rem;
+		margin: 0.15rem 0 0;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		line-height: 1.35;
+		color: var(--r-ink-faint);
+		letter-spacing: 0.01em;
 		font-variant-numeric: tabular-nums;
 	}
 
-	.memo-content {
-		color: var(--text-color);
-		font-size: 0.86rem;
-		line-height: 1.62;
-		letter-spacing: 0;
+	body.reading-surface .r-memo__meta time {
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
 	}
 
-	.memo-content :global(p) {
-		margin: 0.26rem 0;
+	body.reading-surface .r-memo__date {
+		color: var(--r-ink-soft);
 	}
 
-	.memos-surface .memo-content p {
-		margin: 0.24rem 0;
+	body.reading-surface .r-memo__sep {
+		display: none;
 	}
 
-	.memo-content :global(p:first-child) {
+	body.reading-surface .r-memo__time {
+		font-size: 0.72rem;
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__tag {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__content {
+		min-width: 0;
+		max-width: 36rem;
+	}
+
+	body.reading-surface .r-memo__like {
+		opacity: 0.55;
+	}
+
+	body.reading-surface .r-memo__like:hover {
+		opacity: 1;
+	}
+
+	/* Short notes should read lighter than long-form posts */
+	body.reading-surface .r-memo__body {
+		font-size: 1rem !important;
+		line-height: 1.66 !important;
+	}
+
+	body.reading-surface .r-memo__body > :first-child {
 		margin-top: 0;
 	}
 
-	.memos-surface .memo-content p:first-child {
-		margin-top: 0;
-	}
-
-	.memo-content :global(p:last-child) {
+	body.reading-surface .r-memo__body > :last-child {
 		margin-bottom: 0;
 	}
 
-	.memos-surface .memo-content p:last-child {
-		margin-bottom: 0;
+	body.reading-surface .r-memo__body p {
+		margin-bottom: 0.42em !important;
 	}
 
-	.memo-content :global(strong) {
-		color: var(--heading-color);
-		font-weight: var(--weight-medium);
+	body.reading-surface .r-memo__body blockquote {
+		margin: 0.45em 0 !important;
+		padding: 0.05em 0 0.05em 0.9em !important;
+		border-left-color: var(--r-rule) !important;
+		color: var(--r-ink-soft) !important;
 	}
 
-	.memo-content :global(a) {
-		text-underline-offset: 0.14em;
-		text-decoration-thickness: 0.05em;
+	body.reading-surface .r-memo__body blockquote p {
+		margin: 0 0 0.35em !important;
 	}
 
-	.memo-content :global(img) {
-		max-width: 100%;
-		margin-top: 6px;
-		border-radius: 3px;
-		opacity: 0.92;
+	body.reading-surface .r-memo__body blockquote p:last-child {
+		margin-bottom: 0 !important;
 	}
 
-	.memo-content :global(blockquote) {
-		margin: 0.28rem 0;
-		padding-left: 0.62rem;
-		border-left: 1px solid color-mix(in oklab, var(--gray-color) 38%, transparent);
-		color: var(--gray-color);
-		font-size: 0.78rem;
-		line-height: 1.48;
+	body.reading-surface .media-grid {
+		display: grid;
+		gap: 4px;
+		margin-top: 0.75rem;
+		width: min(100%, 520px);
 	}
 
-	.draft-indicator {
-		color: color-mix(in oklab, var(--color-warning) 74%, var(--text-color));
-		font-family: var(--field-font);
-		font-size: 0.65rem;
-		line-height: 1.35;
-		letter-spacing: 0.035em;
-		text-transform: lowercase;
+	body.reading-surface .media-item {
+		display: block;
+		overflow: hidden;
+		background: var(--r-code-bg);
+		cursor: zoom-in;
 	}
 
-	.empty-state {
-		padding: 3rem 1rem;
-		color: var(--gray-color);
-		font-size: 0.84rem;
-		text-align: center;
+	body.reading-surface .media-item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
 	}
 
-	.pagination {
+	body.reading-surface .grid-1 { grid-template-columns: 1fr; }
+	body.reading-surface .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	body.reading-surface .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	body.reading-surface .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+	body.reading-surface .grid-1 .media-item {
+		aspect-ratio: 16 / 10;
+		max-height: 280px;
+	}
+
+	body.reading-surface .grid-2 .media-item,
+	body.reading-surface .grid-3 .media-item,
+	body.reading-surface .grid-4 .media-item {
+		aspect-ratio: 4 / 3;
+		max-height: 165px;
+	}
+
+	body.reading-surface .r-memos__pagination {
 		display: flex;
-		justify-content: flex-start;
-		margin-top: 1.2rem;
+		flex-wrap: wrap;
+		gap: 0.9rem;
+		margin-top: var(--r-space-xl);
+		padding-top: var(--r-space-md);
+		border-top: 1px solid var(--r-rule);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
 	}
 
-	.pagination-pages {
-		display: flex;
-		gap: 0.45rem;
-		padding: 0;
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-	}
-
-	.pagination .page-link {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-width: 1.4rem;
-		height: 1.4rem;
-		border: 0 !important;
-		border-radius: 0;
-		background: transparent !important;
-		color: var(--gray-color);
-		font-family: var(--ui-font);
-		font-size: 0.76rem;
+	body.reading-surface .r-memos__pagination a {
+		color: var(--r-ink-soft);
 		text-decoration: none;
 	}
 
-	.pagination .page-link.active {
-		color: var(--heading-color);
+	body.reading-surface .r-memos__pagination a:hover,
+	body.reading-surface .r-memos__pagination a.active {
+		color: var(--r-ink);
 		text-decoration: underline;
-		text-underline-offset: 0.22em;
+		text-underline-offset: 0.2em;
 	}
 
-	.pagination .page-link:focus-visible {
-		outline: 2px solid var(--accent-color);
-		outline-offset: 2px;
-	}
-
-	@media (max-width: 720px) {
-		.memos-surface {
-			--memo-inline-pad: 0.05rem;
-			--memo-block-pad: 0.8rem;
+	@media (max-width: 680px) {
+		body.reading-surface .r-memos__title {
+			margin-bottom: var(--r-space-md);
 		}
 
-		.memo-actions {
-			opacity: 0.72;
+		body.reading-surface .r-memo {
+			display: block;
+			padding: var(--r-space-md) 0;
 		}
-	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.memo-actions {
-			transition: none;
+		body.reading-surface .r-memo:first-child {
+			padding-top: 0;
+		}
+
+		body.reading-surface .r-memo__meta {
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: var(--r-space-xs) var(--r-space-sm);
+			margin: 0 0 0.45rem;
+		}
+
+		body.reading-surface .r-memo__meta time {
+			flex-direction: row;
+			align-items: baseline;
+			gap: 0.45rem;
+		}
+
+		body.reading-surface .r-memo__sep {
+			display: inline;
+			color: var(--r-ink-faint);
+		}
+
+		body.reading-surface .r-memo__time {
+			font-size: var(--r-text-xs);
+		}
+
+		body.reading-surface .r-memo__content {
+			max-width: none;
+		}
+
+		body.reading-surface .r-memo__body {
+			font-size: 0.98rem !important;
+			line-height: 1.66 !important;
+		}
+
+		body.reading-surface .r-memo__like {
+			margin-left: auto;
 		}
 	}
 </style>
