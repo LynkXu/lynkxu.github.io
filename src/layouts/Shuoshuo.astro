@@ -290,7 +290,16 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	}
 
 	body.reading-surface .r-memo__body blockquote {
-		margin: 0.65em 0 !important;
+		margin: 0.55em 0 !important;
+		padding: 0.05em 0 0.05em 0.85em !important;
+	}
+
+	body.reading-surface .r-memo__body blockquote p {
+		margin: 0 0 0.35em !important;
+	}
+
+	body.reading-surface .r-memo__body blockquote p:last-child {
+		margin-bottom: 0 !important;
 	}
 
 	body.reading-surface .media-grid {

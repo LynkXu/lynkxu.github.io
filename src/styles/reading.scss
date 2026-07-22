@@ -24,7 +24,7 @@ body.reading-surface {
   --r-code-bg: oklch(0.966 0.002 255);
   --r-code-ink: oklch(0.32 0.01 255);
   --r-selection-bg: oklch(0.9 0.03 250);
-  --r-measure: 66ch;
+  --r-measure: 70ch;
   --r-page-inline: clamp(1.25rem, 4vw, 2rem);
   --r-space-xs: 0.35rem;
   --r-space-sm: 0.65rem;
@@ -612,7 +612,7 @@ body.reading-surface .post-content h6,
   color: var(--r-ink) !important;
   letter-spacing: -0.01em !important;
   line-height: var(--r-lh-tight);
-  margin: 1.85em 0 0.7em;
+  margin: 1.55em 0 0.55em;
 }
 
 body.reading-surface .post-content h2,
@@ -641,7 +641,7 @@ body.reading-surface .post-content > :last-child {
 body.reading-surface .post-content > p,
 body.reading-surface .post-content > ul,
 body.reading-surface .post-content > ol {
-  margin: 0 0 1.25em !important;
+  margin: 0 0 1.1em !important;
 }
 
 .r-prose a,
@@ -657,12 +657,34 @@ body.reading-surface .post-content a:hover {
 }
 
 .r-prose blockquote,
-body.reading-surface .post-content > blockquote {
-  margin: 1.35em 0 !important;
-  padding: 0.15em 0 0.15em 1em !important;
+body.reading-surface .post-content blockquote {
+  margin: 1.05em 0 !important;
+  padding: 0.1em 0 0.1em 0.9em !important;
   border-left: 2px solid var(--r-rule) !important;
   color: var(--r-ink-soft) !important;
   background: transparent !important;
+  font-style: normal !important;
+}
+
+/* Quote paragraphs must not inherit body paragraph margins */
+.r-prose blockquote > :first-child,
+body.reading-surface .post-content blockquote > :first-child {
+  margin-top: 0 !important;
+}
+
+.r-prose blockquote > :last-child,
+body.reading-surface .post-content blockquote > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.r-prose blockquote p,
+body.reading-surface .post-content blockquote p {
+  margin: 0 0 0.45em !important;
+}
+
+.r-prose blockquote p:last-child,
+body.reading-surface .post-content blockquote p:last-child {
+  margin-bottom: 0 !important;
 }
 
 .r-prose code {
