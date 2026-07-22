@@ -232,8 +232,15 @@ body.reading-surface .link-card__fallback:hover {
 }
 
 body.reading-surface .reading-shell__brand:hover {
+  border-bottom: 0 !important;
   color: var(--r-ink) !important;
   opacity: 1;
+}
+
+body.reading-surface .reading-shell__brand,
+body.reading-surface .reading-shell__brand:focus-visible,
+body.reading-surface .reading-shell__brand:active {
+  border-bottom: 0 !important;
 }
 
 .reading-shell__nav {

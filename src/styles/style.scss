@@ -1619,6 +1619,12 @@ footer {
   border-bottom: none;
 }
 
+.site-home:hover,
+.site-home:focus-visible,
+.site-home:active {
+  border-bottom: none !important;
+}
+
 .site-wordmark {
   display: inline-flex;
   align-items: baseline;

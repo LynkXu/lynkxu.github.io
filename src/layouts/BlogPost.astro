@@ -104,10 +104,8 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		body.reading-surface .r-toc {
-			margin: 0.25rem 0 var(--r-space-lg);
-			padding: 0.55rem 0 0.6rem;
-			border-top: 1px solid var(--r-rule-soft);
-			border-bottom: 1px solid var(--r-rule-soft);
+			margin: 0.35rem 0 var(--r-space-lg);
+			padding: 0.1rem 0 0;
 			font-family: var(--r-font-ui);
 			font-size: var(--r-text-sm);
 			color: var(--r-ink-soft);
@@ -117,10 +115,13 @@ const topicLinksEnabled = Boolean(tags?.length);
 			display: inline-flex;
 			align-items: center;
 			gap: 0.45rem;
+			padding: 0.28rem 0.58rem 0.3rem 0.52rem;
+			border-left: 2px solid color-mix(in oklab, var(--r-link) 42%, var(--r-rule));
+			background: color-mix(in oklab, var(--r-rule-soft) 36%, transparent);
 			cursor: pointer;
-			color: var(--r-ink-soft);
+			color: var(--r-ink);
 			list-style: none;
-			font-weight: 500;
+			font-weight: 600;
 			line-height: 1.35;
 		}
 
@@ -130,7 +131,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 
 		body.reading-surface .r-toc summary::before {
 			content: "▸";
-			color: var(--r-ink-faint);
+			color: var(--r-link);
 			font-size: 0.72rem;
 			transform: translateY(-0.02em);
 		}
@@ -141,10 +142,12 @@ const topicLinksEnabled = Boolean(tags?.length);
 
 		body.reading-surface .r-toc summary:hover {
 			color: var(--r-ink);
+			background: color-mix(in oklab, var(--r-rule-soft) 58%, transparent);
 		}
 
 		body.reading-surface .r-toc .toc-container {
 			margin-top: 0.7rem;
+			margin-left: 0.52rem;
 			padding-left: 0.85rem;
 			border: 0;
 			border-left: 1px solid var(--r-rule-soft);
@@ -178,7 +181,9 @@ const topicLinksEnabled = Boolean(tags?.length);
 		body.reading-surface .r-toc .toc a {
 			color: var(--r-ink-soft);
 			text-decoration: none;
+			border-bottom: 0 !important;
 			font-size: var(--r-text-xs);
+			font-weight: 400;
 			line-height: 1.55;
 		}
 
@@ -188,9 +193,8 @@ const topicLinksEnabled = Boolean(tags?.length);
 		}
 
 		body.reading-surface .r-toc .toc a.active {
-			text-decoration: underline;
-			text-decoration-thickness: 1px;
-			text-underline-offset: 0.22em;
+			font-weight: 500;
+			text-decoration: none;
 		}
 
 		body.reading-surface .r-article__tail {
