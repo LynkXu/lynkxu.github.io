@@ -468,15 +468,25 @@ body.reading-surface .reading-shell__brand:active {
 }
 
 .r-post-list__title {
+  justify-self: start;
+  width: fit-content;
+  max-width: 100%;
   font-size: var(--r-text);
   font-weight: 400;
   color: var(--r-ink) !important;
-  text-decoration: none;
+  border-bottom: 0 !important;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
   line-height: 1.5;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .r-post-list__title:hover {
   color: var(--r-ink) !important;
+  border-bottom: 0 !important;
+  text-decoration-color: color-mix(in oklab, var(--r-ink) 55%, transparent);
 }
 
 .r-post-list__excerpt {
