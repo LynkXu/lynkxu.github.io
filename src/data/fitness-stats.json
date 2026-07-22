@@ -1,0 +1,254 @@
+{
+  "generatedAt": "2026-07-23T08:00:00.000Z",
+  "source": "mock-hevy",
+  "strength": {
+    "cards": {
+      "totalWorkouts": {
+        "label": "训练次数",
+        "value": "118",
+        "unit": "次",
+        "subtext": "Hevy mock 记录"
+      },
+      "totalTime": {
+        "label": "总时长",
+        "value": "143.5",
+        "unit": "h",
+        "subtext": "在健身房的时间"
+      },
+      "totalVolume": {
+        "label": "总训练量",
+        "value": "462",
+        "unit": "t",
+        "subtext": "仅统计负重动作"
+      },
+      "activeWeeks": {
+        "label": "活跃周数",
+        "value": "34",
+        "unit": "周",
+        "subtext": "最近一年有训练记录"
+      }
+    },
+    "monthly": [
+      {
+        "month": "2026-07",
+        "workouts": 11,
+        "sets": 214,
+        "volumeKg": 52460,
+        "durationMin": 695
+      },
+      {
+        "month": "2026-06",
+        "workouts": 14,
+        "sets": 278,
+        "volumeKg": 68180,
+        "durationMin": 862
+      },
+      {
+        "month": "2026-05",
+        "workouts": 10,
+        "sets": 196,
+        "volumeKg": 47220,
+        "durationMin": 612
+      },
+      {
+        "month": "2026-04",
+        "workouts": 12,
+        "sets": 231,
+        "volumeKg": 55840,
+        "durationMin": 740
+      },
+      {
+        "month": "2026-03",
+        "workouts": 9,
+        "sets": 174,
+        "volumeKg": 39750,
+        "durationMin": 528
+      },
+      {
+        "month": "2026-02",
+        "workouts": 8,
+        "sets": 152,
+        "volumeKg": 34280,
+        "durationMin": 486
+      },
+      {
+        "month": "2026-01",
+        "workouts": 13,
+        "sets": 248,
+        "volumeKg": 60240,
+        "durationMin": 791
+      },
+      {
+        "month": "2025-12",
+        "workouts": 12,
+        "sets": 226,
+        "volumeKg": 54360,
+        "durationMin": 708
+      }
+    ],
+    "muscles": [
+      {
+        "label": "背",
+        "sets": 408,
+        "volumeKg": 118200
+      },
+      {
+        "label": "腿",
+        "sets": 336,
+        "volumeKg": 132600
+      },
+      {
+        "label": "胸",
+        "sets": 294,
+        "volumeKg": 84200
+      },
+      {
+        "label": "肩",
+        "sets": 214,
+        "volumeKg": 40200
+      },
+      {
+        "label": "手臂",
+        "sets": 268,
+        "volumeKg": 31500
+      },
+      {
+        "label": "核心",
+        "sets": 126,
+        "volumeKg": 0
+      }
+    ],
+    "lifts": [
+      {
+        "id": "bench-press",
+        "name": "卧推",
+        "bestSet": "82.5kg x 5",
+        "subtext": "上肢推力",
+        "history": [
+          {
+            "date": "2026-03-04",
+            "estimated1rmKg": 88,
+            "volumeKg": 4200
+          },
+          {
+            "date": "2026-05-16",
+            "estimated1rmKg": 92.5,
+            "volumeKg": 4680
+          },
+          {
+            "date": "2026-07-12",
+            "estimated1rmKg": 96.3,
+            "volumeKg": 5120
+          }
+        ]
+      },
+      {
+        "id": "squat",
+        "name": "深蹲",
+        "bestSet": "120kg x 4",
+        "subtext": "下肢主项",
+        "history": [
+          {
+            "date": "2026-02-21",
+            "estimated1rmKg": 128,
+            "volumeKg": 6100
+          },
+          {
+            "date": "2026-04-28",
+            "estimated1rmKg": 134,
+            "volumeKg": 6840
+          },
+          {
+            "date": "2026-06-30",
+            "estimated1rmKg": 139,
+            "volumeKg": 7260
+          }
+        ]
+      },
+      {
+        "id": "deadlift",
+        "name": "硬拉",
+        "bestSet": "145kg x 3",
+        "subtext": "后链力量",
+        "history": [
+          {
+            "date": "2026-01-18",
+            "estimated1rmKg": 153,
+            "volumeKg": 5200
+          },
+          {
+            "date": "2026-04-10",
+            "estimated1rmKg": 158,
+            "volumeKg": 5840
+          },
+          {
+            "date": "2026-07-05",
+            "estimated1rmKg": 162,
+            "volumeKg": 6320
+          }
+        ]
+      },
+      {
+        "id": "overhead-press",
+        "name": "肩推",
+        "bestSet": "52.5kg x 5",
+        "subtext": "垂直推力",
+        "history": [
+          {
+            "date": "2026-02-08",
+            "estimated1rmKg": 58,
+            "volumeKg": 2100
+          },
+          {
+            "date": "2026-05-02",
+            "estimated1rmKg": 61,
+            "volumeKg": 2380
+          },
+          {
+            "date": "2026-07-18",
+            "estimated1rmKg": 64,
+            "volumeKg": 2640
+          }
+        ]
+      }
+    ],
+    "recentWorkouts": [
+      {
+        "date": "2026-07-21",
+        "title": "Pull Day",
+        "focus": "背 / 二头",
+        "exerciseCount": 7,
+        "setCount": 24,
+        "volumeKg": 10680,
+        "durationMin": 78
+      },
+      {
+        "date": "2026-07-19",
+        "title": "Leg Day",
+        "focus": "腿 / 核心",
+        "exerciseCount": 6,
+        "setCount": 22,
+        "volumeKg": 12420,
+        "durationMin": 82
+      },
+      {
+        "date": "2026-07-16",
+        "title": "Push Day",
+        "focus": "胸 / 肩 / 三头",
+        "exerciseCount": 6,
+        "setCount": 21,
+        "volumeKg": 8720,
+        "durationMin": 74
+      },
+      {
+        "date": "2026-07-13",
+        "title": "Upper Hypertrophy",
+        "focus": "上肢容量",
+        "exerciseCount": 8,
+        "setCount": 27,
+        "volumeKg": 11460,
+        "durationMin": 86
+      }
+    ]
+  }
+}

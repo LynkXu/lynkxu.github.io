@@ -8,9 +8,11 @@ import TabItem from '../../components/TabItem.astro';
 import StatGrid from '../../components/StatGrid.astro';
 import StatCard from '../../components/StatCard.astro';
 import YearlyStatGrid from '../../components/YearlyStatGrid.astro';
+import StrengthDashboard from '../../components/StrengthDashboard.astro';
 import SportsStyles from '../../components/SportsStyles.astro';
 import StravaBadge from '../../components/StravaBadge.astro';
 import sportsStats from '../../data/sports-stats.json';
+import fitnessStats from '../../data/fitness-stats.json';
 import racesData from '../../data/races.json';
 
 <SportsStyles />
@@ -30,6 +32,12 @@ import racesData from '../../data/races.json';
     {/* ### 总计 */}
     
     <YearlyStatGrid type="cycling" stats={sportsStats.cycling} />
+
+  </TabItem>
+
+  <TabItem label="力量">
+
+    <StrengthDashboard stats={fitnessStats.strength} />
 
   </TabItem>
 </Tabs>
