@@ -1,3 +1,5 @@
+@use "./link-underline";
+
 :root {
   --width: 780px;
   --content-width: 820px;
@@ -259,9 +261,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* 噪点纹理背景，增加纸质感 */
-  /* background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E"); */
-  
   position: relative;
   z-index: 1;
 
@@ -522,11 +521,7 @@ body:has(.blog-surface-layout) {
   position: relative;
   display: inline-flex;
   align-items: center;
-  text-decoration-line: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 1px;
-  text-underline-offset: var(--link-underline-offset);
-  transition: text-decoration-color 0.2s ease;
+  @include link-underline.text-link-underline;
 }
 
 .blog-surface-layout > header nav.section-nav a + a {
@@ -1453,12 +1448,7 @@ h6 {
 a {
   color: var(--link-color);
   cursor: pointer;
-  border-bottom: 0;
-  text-decoration-line: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 1px;
-  text-underline-offset: var(--link-underline-offset);
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  @include link-underline.text-link-underline;
 }
 
 a:hover,
@@ -1930,11 +1920,7 @@ ul.posts li a:visited {
 }
 
 .post-content a {
-  border-bottom: 0;
-  text-decoration-line: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 1px;
-  text-underline-offset: var(--link-underline-offset);
+  @include link-underline.text-link-underline;
   transition: background-color 0.1s linear, color 0.2s ease, text-decoration-color 0.2s ease;
   color: var(--link-color);
 }
@@ -2242,11 +2228,7 @@ ul.posts li a:visited {
   display: block;
   padding: 0.22rem 0 0.22rem 0.7rem;
   color: color-mix(in oklab, var(--gray-color) 92%, var(--text-color));
-  border-bottom: 0;
-  text-decoration-line: underline;
-  text-decoration-color: transparent;
-  text-decoration-thickness: 1px;
-  text-underline-offset: var(--link-underline-offset);
+  @include link-underline.text-link-underline;
   font-size: 0.9rem;
   line-height: 1.5;
 }
