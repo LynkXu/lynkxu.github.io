@@ -25,6 +25,7 @@
   --ui-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --reading-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --serif-font: "Songti SC", "Source Han Serif CN", "Noto Serif SC", "SimSun", serif;
+  --brand-font: "Petrona", "Noto Serif SC", "Songti SC", serif;
   --code-font: "Lilex", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei", monospace;
   --meta-font: var(--ui-font);
   --text-xs: 0.75rem;
@@ -445,10 +446,11 @@ body:has(.blog-surface-layout) {
 }
 
 .blog-surface-layout .site-name {
+  font-family: var(--brand-font);
   font-size: clamp(1.42rem, 3vw, 2rem);
   font-weight: 600;
-  line-height: 0.98;
-  letter-spacing: 0;
+  line-height: 0.94;
+  letter-spacing: -0.005em;
 }
 
 .blog-surface-layout .site-separator {
@@ -1626,11 +1628,11 @@ footer {
 }
 
 .site-name {
-  font-family: var(--serif-font);
-  font-size: clamp(1.02rem, 1.8vw, 1.18rem);
+  font-family: var(--brand-font);
+  font-size: clamp(1.12rem, 2vw, 1.32rem);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
+  line-height: 0.94;
+  letter-spacing: -0.005em;
   white-space: nowrap;
 }
 

@@ -34,6 +34,7 @@ body.reading-surface {
   --r-space-2xl: 4rem;
   /* CJK-first reading stack: Noto for Chinese, Source Serif for Latin */
   --r-font-body: "Noto Serif SC", "Source Serif 4", "Songti SC", "Source Han Serif CN", serif;
+  --r-font-brand: "Source Serif 4", "Noto Serif SC", "Songti SC", serif;
   --r-font-ui: "IBM Plex Sans", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --r-font-code: "Lilex", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --r-text: 1.125rem;
@@ -219,13 +220,13 @@ body.reading-surface .link-card__fallback:hover {
 }
 
 .reading-shell__brand {
-  font-family: var(--r-font-body);
-  font-size: clamp(1.35rem, 2.6vw, 1.65rem);
-  font-weight: 700;
+  font-family: var(--r-font-brand);
+  font-size: clamp(1.42rem, 2.7vw, 1.72rem);
+  font-weight: 600;
   color: var(--r-ink);
   text-decoration: none;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.015em;
+  line-height: 1;
   flex-shrink: 0;
   margin-right: clamp(1.15rem, 2.8vw, 1.65rem);
 }
