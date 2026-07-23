@@ -14,12 +14,6 @@ const blogHistory = [
 	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
 ];
 
-const traits = [
-	{ label: '日常', value: 'Web3 爱好者 / APP 体验家 / AI 依赖' },
-	{ label: '运动', value: '力量训练 / 马拉松 / 骑行 / 散步' },
-	{ label: '标签', value: '长期主义 / 混沌中立 / 生人勿近' },
-];
-
 const contactLinks = [
 	{ href: 'mailto:xulinxiao@live.com', label: '邮箱', value: 'xulinxiao#live.com' },
 	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
@@ -53,14 +47,11 @@ const contactLinks = [
 			<p>很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
 		</div>
 
-		<dl class="r-about__traits">
-			{traits.map((trait) => (
-				<div class="r-about__trait">
-					<dt>{trait.label}</dt>
-					<dd>{trait.value}</dd>
-				</div>
-			))}
-		</dl>
+		<div class="r-prose r-about__traits">
+			<p>日常：Web3 爱好者 / APP 体验家 / AI 依赖。</p>
+			<p>运动：力量训练 / 马拉松 / 骑行 / 散步。</p>
+			<p>标签：长期主义 / 混沌中立 / 生人勿近。</p>
+		</div>
 
 		<section class="r-about__block" aria-labelledby="about-contact">
 			<header class="r-section__head">
@@ -151,36 +142,18 @@ const contactLinks = [
 		margin-bottom: 0 !important;
 	}
 
-	/* Quiet fact sheet — no boxed double rules */
 	body.reading-surface .r-about__traits {
-		display: flex;
-		flex-direction: column;
-		gap: 0.55rem;
 		margin: 0 0 var(--r-space-xl);
-		padding: 0;
-		border: 0;
+		font-size: 1rem !important;
+		line-height: 1.75 !important;
 	}
 
-	body.reading-surface .r-about__trait {
-		display: grid;
-		grid-template-columns: 2.75rem minmax(0, 1fr);
-		gap: var(--r-space-md);
-		align-items: baseline;
+	body.reading-surface .r-about__traits p {
+		margin-bottom: 0.75em !important;
 	}
 
-	body.reading-surface .r-about__traits dt {
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-		margin: 0;
-	}
-
-	body.reading-surface .r-about__traits dd {
-		margin: 0;
-		font-family: var(--r-font-body);
-		font-size: var(--r-text-sm);
-		color: var(--r-ink-soft);
-		line-height: 1.5;
+	body.reading-surface .r-about__traits p:last-child {
+		margin-bottom: 0 !important;
 	}
 
 	body.reading-surface .r-about__block {
