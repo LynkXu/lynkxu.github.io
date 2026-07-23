@@ -15,9 +15,9 @@ const blogHistory = [
 ];
 
 const traits = [
-	{ label: '日常', value: 'Web3 爱好者 · APP 体验家 · AI 依赖' },
-	{ label: '运动', value: '力量训练 · 马拉松 · 骑行 · 散步' },
-	{ label: '标签', value: '长期主义 · 混沌中立 · 生人勿近' },
+	{ label: '日常', value: 'Web3 爱好者 / APP 体验家 / AI 依赖' },
+	{ label: '运动', value: '力量训练 / 马拉松 / 骑行 / 散步' },
+	{ label: '标签', value: '长期主义 / 混沌中立 / 生人勿近' },
 ];
 
 const contactLinks = [
@@ -177,7 +177,7 @@ const contactLinks = [
 
 	body.reading-surface .r-about__traits dd {
 		margin: 0;
-		font-family: var(--r-font-ui);
+		font-family: var(--r-font-body);
 		font-size: var(--r-text-sm);
 		color: var(--r-ink-soft);
 		line-height: 1.5;
@@ -249,8 +249,8 @@ const contactLinks = [
 		padding: 0.3rem 0 !important;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
-		font-weight: 400;
-		color: var(--r-ink-soft);
+		font-weight: 400 !important;
+		color: var(--r-ink-soft) !important;
 	}
 
 	body.reading-surface .r-about__sponsor .sponsor-fold summary:hover,
@@ -279,6 +279,12 @@ const contactLinks = [
 	body.reading-surface .r-about__sponsor h3 {
 		color: var(--r-ink) !important;
 		font-family: var(--r-font-ui);
+		font-weight: 500 !important;
+	}
+
+	body.reading-surface .r-about__sponsor .crypto-address__label,
+	body.reading-surface .r-about__sponsor .addr-copy {
+		font-weight: 500 !important;
 	}
 
 	body.reading-surface .r-about__sponsor,
@@ -300,6 +306,7 @@ const contactLinks = [
 	body.reading-surface .r-about__history summary {
 		cursor: pointer;
 		color: var(--r-ink-soft);
+		font-weight: 400;
 		list-style: none;
 		padding: 0.15rem 0;
 	}
@@ -345,6 +352,7 @@ const contactLinks = [
 	}
 
 	body.reading-surface .r-about__history li span {
+		font-family: var(--r-font-body);
 		color: var(--r-ink-soft);
 		line-height: 1.55;
 	}
