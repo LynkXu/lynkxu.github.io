@@ -1,11 +1,12 @@
 @use "./link-underline";
 
 :root {
-  --width: 780px;
-  --content-width: 820px;
+  --site-reading-width: 66ch;
+  --width: var(--site-reading-width);
+  --content-width: var(--site-reading-width);
   --blog-shell-width: 1180px;
-  --blog-content-width: 920px;
-  --blog-readable-width: 780px;
+  --blog-content-width: var(--site-reading-width);
+  --blog-readable-width: var(--site-reading-width);
   --blog-toc-width: 260px;
   --blog-sidebar-gap: clamp(var(--space-2xl), 6vw, var(--space-3xl));
   --blog-article-width: calc(var(--blog-readable-width) + var(--blog-sidebar-gap) + var(--blog-toc-width));
@@ -46,7 +47,7 @@
   --weight-semibold: 500;
   --weight-bold: 560;
   --weight-display: 640;
-  --measure-readable: 70ch;
+  --measure-readable: var(--site-reading-width);
   --z-fab: 30;
   --z-modal: 80;
   --background-color: oklch(0.986 0 0);
@@ -336,7 +337,7 @@ body:has(.blog-surface-layout) {
   --blog-rail-col: minmax(9.5rem, 11.25rem);
   --blog-meta-col: 7.25rem;
   --blog-card-gap: clamp(0.75rem, 1.6vw, 0.95rem);
-  --measure-readable: 64ch;
+  --measure-readable: var(--site-reading-width);
 }
 
 @media (max-width: 640px) {
