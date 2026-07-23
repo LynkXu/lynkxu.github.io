@@ -28,7 +28,7 @@ body.reading-surface {
   --r-code-bg: oklch(0.966 0.002 255);
   --r-code-ink: oklch(0.32 0.01 255);
   --r-selection-bg: oklch(0.9 0.03 250);
-  --r-measure: var(--site-reading-width, 66ch);
+  --r-measure: var(--site-reading-width, 64ch);
   --r-page-inline: clamp(1.25rem, 4vw, 2rem);
   --r-space-xs: 0.35rem;
   --r-space-sm: 0.65rem;
