@@ -249,8 +249,8 @@ const contactLinks = [
 		padding: 0.3rem 0 !important;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
-		font-weight: 400;
-		color: var(--r-ink-soft);
+		font-weight: 400 !important;
+		color: var(--r-ink-soft) !important;
 	}
 
 	body.reading-surface .r-about__sponsor .sponsor-fold summary:hover,
@@ -279,6 +279,12 @@ const contactLinks = [
 	body.reading-surface .r-about__sponsor h3 {
 		color: var(--r-ink) !important;
 		font-family: var(--r-font-ui);
+		font-weight: 500 !important;
+	}
+
+	body.reading-surface .r-about__sponsor .crypto-address__label,
+	body.reading-surface .r-about__sponsor .addr-copy {
+		font-weight: 500 !important;
 	}
 
 	body.reading-surface .r-about__sponsor,
@@ -300,6 +306,7 @@ const contactLinks = [
 	body.reading-surface .r-about__history summary {
 		cursor: pointer;
 		color: var(--r-ink-soft);
+		font-weight: 400;
 		list-style: none;
 		padding: 0.15rem 0;
 	}
