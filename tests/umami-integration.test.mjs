@@ -4,6 +4,7 @@ import test from 'node:test';
 
 const head = readFileSync(new URL('../src/components/BaseHead.astro', import.meta.url), 'utf8');
 const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
+const deployWorkflow = readFileSync(new URL('../.github/workflows/astro.yml', import.meta.url), 'utf8');
 
 test('BaseHead loads Umami through public environment configuration only', () => {
 	assert.match(head, /PUBLIC_UMAMI_WEBSITE_ID/);
@@ -23,4 +24,8 @@ test('Google Analytics is not loaded alongside Umami', () => {
 test('README documents the Umami deployment environment variables', () => {
 	assert.match(readme, /PUBLIC_UMAMI_WEBSITE_ID/);
 	assert.match(readme, /PUBLIC_UMAMI_SCRIPT_URL/);
+});
+
+test('GitHub Pages build passes the Umami secret to Astro', () => {
+	assert.match(deployWorkflow, /PUBLIC_UMAMI_WEBSITE_ID:\s*\$\{\{\s*secrets\.PUBLIC_UMAMI_WEBSITE_ID\s*\}\}/);
 });
