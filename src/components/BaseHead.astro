@@ -15,6 +15,9 @@ const { title: rawTitle, description, image } = Astro.props;
 
 // 格式化标题：如果不是首页且标题不包含博客名称，则添加 " - 博客名称"
 const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`;
+
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScriptSrc = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL ?? 'https://cloud.umami.is/script.js';
 ---
 
 <!-- Global Metadata -->
@@ -22,8 +25,6 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <meta name='viewport' content='width=device-width,initial-scale=1' />
 
 <!-- DNS Prefetch & Preconnect for critical third-party domains -->
-<link rel='dns-prefetch' href='https://www.googletagmanager.com' />
-<link rel='preconnect' href='https://www.googletagmanager.com' crossorigin />
 <link rel='preconnect' href='https://fonts.googleapis.com' />
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
 
@@ -59,15 +60,8 @@ const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`
 <!-- Canonical URL -->
 <link rel='canonical' href={canonicalURL} />
 
-<!-- Google Analytics -->
-<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-LS37X5G84N"></script>
-<script is:inline>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-LS37X5G84N');
-</script>
+<!-- Analytics -->
+{umamiWebsiteId && <script is:inline defer src={umamiScriptSrc} data-website-id={umamiWebsiteId}></script>}
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
