@@ -24,6 +24,12 @@
 | `npm run preview` | 预览构建产物 |
 | `npm run copy-lightgallery` | 复制 LightGallery 静态资源 |
 
+### Umami
+
+站点统计使用 Umami。部署环境中设置 `PUBLIC_UMAMI_WEBSITE_ID` 后，页面会加载 Umami tracking script；脚本地址默认使用 `https://cloud.umami.is/script.js`。
+
+如需使用自托管 Umami，可额外设置 `PUBLIC_UMAMI_SCRIPT_URL`。
+
 ## 目录
 
 | Path | 说明 |
