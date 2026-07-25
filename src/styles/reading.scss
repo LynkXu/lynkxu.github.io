@@ -140,6 +140,7 @@ body.reading-surface :where(
   .reading-shell__footer a,
   .r-section__more,
   .r-post-list__title,
+  .r-work-list__title,
   .r-note-list a,
   .r-tag-cloud a,
   .r-prose a,
@@ -158,6 +159,7 @@ body.reading-surface :where(
   .reading-shell__footer a:hover,
   .r-section__more:hover,
   .r-post-list__title:hover,
+  .r-work-list__title:hover,
   .r-note-list a:hover,
   .r-tag-cloud a:hover,
   .r-prose a:hover,
@@ -442,6 +444,57 @@ body.reading-surface .reading-shell__brand:active {
   line-height: var(--r-lh-tight);
   letter-spacing: -0.018em;
   color: var(--r-ink) !important;
+}
+
+.r-home-intro {
+  margin: 0 0 var(--r-space-xl);
+}
+
+.r-home-intro__text {
+  margin: 0;
+  font-family: var(--r-font-body);
+  font-size: var(--r-text-lg);
+  font-weight: 500;
+  line-height: var(--r-lh-tight);
+  letter-spacing: -0.01em;
+  color: var(--r-ink);
+}
+
+.r-work-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--r-space-md);
+}
+
+.r-work-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.r-work-list__title {
+  width: fit-content;
+  max-width: 100%;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--r-ink) !important;
+}
+
+.r-work-list__title:hover {
+  color: var(--r-ink) !important;
+}
+
+.r-work-list__desc {
+  margin: 0;
+  font-family: var(--r-font-ui);
+  font-size: var(--r-text-sm);
+  line-height: 1.55;
+  color: var(--r-ink-soft);
 }
 
 .r-section {
