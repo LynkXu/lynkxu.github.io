@@ -400,6 +400,11 @@ body.reading-surface .r-toc .toc-link {
   text-decoration: none !important;
 }
 
+body.reading-surface .r-toc .toc-container {
+  margin-top: 0.5rem !important;
+  padding-left: 1.05rem !important;
+}
+
 body.reading-surface .r-toc .toc-link:hover,
 body.reading-surface .r-toc .toc-link.active {
   color: var(--r-ink-soft) !important;

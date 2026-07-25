@@ -204,13 +204,13 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
   assert.match(blogPost, /r-toc__summary/);
   assert.match(blogPost, /const tocClass = \[/);
   assert.match(blogPost, /r-toc group mt-\[0\.2rem\] mb-\[var\(--r-space-md\)\]/);
-  assert.match(blogPost, /\[&_\.toc-container\]:mt-\[0\.45rem\]/);
-  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center px-0 py-\[0\.12rem\] font-normal/);
+  assert.match(blogPost, /\[&_\.toc-container\]:mt-\[0\.5rem\]/);
+  assert.match(blogPost, /\[&_\.toc-container\]:pl-\[1\.05rem\]/);
+  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center border-l border-l-\[var\(--r-rule\)\] bg-\[color-mix\(in_oklab,var\(--r-rule-soft\)_34%,transparent\)\]/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-container\s*\{[\s\S]*padding-left:\s*1\.05rem\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link:hover,[\s\S]*body\.reading-surface \.r-toc \.toc-link\.active\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
-  assert.doesNotMatch(blogPost, /tocSummaryClass = '[^']*bg-\[/);
-  assert.doesNotMatch(blogPost, /tocSummaryClass = '[^']*border-l-/);
   assert.match(blogPost, /\[&_\.link-card__image-wrapper\]:flex-\[0_0_140px\]/);
   assert.match(blogPost, /\[&_\.link-card__image-wrapper_img\]:object-cover/);
   assert.match(blogPost, /max-\[640px\]:\[&_\.link-card__content\]:flex-col/);
