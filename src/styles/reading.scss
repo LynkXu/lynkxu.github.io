@@ -142,7 +142,6 @@ body.reading-surface :where(
   .r-note-list a,
   .r-prose a,
   .post-content a,
-  .r-meta a,
   .search-results a
 ) {
   @include link-underline.text-link-underline(var(--r-link-underline-offset));
@@ -155,7 +154,6 @@ body.reading-surface :where(
   .r-note-list a:hover,
   .r-prose a:hover,
   .post-content a:hover,
-  .r-meta a:hover,
   .search-results a:hover
 ) {
   text-decoration-color: var(--r-link-underline-color);
@@ -386,24 +384,6 @@ body.reading-surface .post-content blockquote p:last-child {
   margin: 2em 0;
 }
 
-.r-meta {
-  font-family: var(--r-font-ui);
-  font-size: var(--r-text-xs);
-  color: var(--r-ink-faint);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 0.85rem;
-  margin-bottom: var(--r-space-lg);
-}
-
-.r-meta a {
-  color: var(--r-ink-soft);
-}
-
-.r-meta a:hover {
-  color: var(--r-link);
-}
-
 @media (max-width: 640px) {
 }
 
@@ -451,7 +431,6 @@ body.reading-surface .search-modal kbd {
 /* Reveal the quiet (empty) like control on hover of its container,
    remapped to the reading-surface wrappers */
 @media (hover: hover) {
-  body.reading-surface .r-article__tail:hover .like-btn.post.is-empty,
   body.reading-surface .r-memo:hover .like-btn.gossip.is-empty {
     opacity: 0.55;
     pointer-events: auto;

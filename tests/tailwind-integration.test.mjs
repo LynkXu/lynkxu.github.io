@@ -168,3 +168,14 @@ test('message page chrome is Tailwind-composed', () => {
   assert.match(message, /\[&_textarea\]:!bg-transparent/);
   assert.doesNotMatch(message, /<style/);
 });
+
+test('blog post header and toc chrome are Tailwind-composed', () => {
+  const blogPost = read('src/layouts/BlogPost.astro');
+  const reading = read('src/styles/reading.scss');
+
+  for (const token of ['articleHeaderClass', 'metaClass', 'metaLinkClass', 'tocClass', 'tocSummaryClass', 'articleTailClass']) {
+    assert.match(blogPost, new RegExp(`const ${token} =`));
+  }
+  assert.doesNotMatch(reading, /^\.r-meta\s*\{/m);
+  assert.doesNotMatch(reading, /r-meta a/);
+});
