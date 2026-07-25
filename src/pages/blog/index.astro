@@ -30,16 +30,16 @@ function getArchiveDate(date: Date) {
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
 }
+const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 ---
 
 <ReadingShell title="归档" description={SITE_DESCRIPTION}>
-	<h1 class="r-page-title">全部文章</h1>
+	<h1 class={pageTitleClass}>全部文章</h1>
 
 	{years.map((year) => (
 		<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
 			<h2 id={`archive-year-${year}`} class="r-year-block__label">
 				{year}
-				<span class="r-year-block__count">{postsByYear[year].length}</span>
 			</h2>
 			<ol class="r-post-list">
 				{postsByYear[year].map((post) => (
@@ -59,12 +59,3 @@ function getPostHref(post: (typeof posts)[number]) {
 		</section>
 	))}
 </ReadingShell>
-
-<style>
-	.r-draft {
-		margin-left: 0.5rem;
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-	}
-</style>

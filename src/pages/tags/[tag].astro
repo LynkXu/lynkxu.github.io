@@ -27,14 +27,17 @@ export async function getStaticPaths() {
 }
 
 const { posts, tag } = Astro.props;
+const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const tagMetaClass = 'r-tag-meta mt-[-0.75rem] mb-[var(--r-space-lg)] flex flex-wrap gap-x-[1rem] gap-y-[0.5rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]';
+const tagMetaLinkClass = 'border-b-0 text-[var(--r-ink-soft)] underline decoration-transparent decoration-1 underline-offset-[var(--r-link-underline-offset)] transition-[color,text-decoration-color] duration-200 hover:text-[var(--r-link)] hover:decoration-[var(--r-link-underline-color)]';
 ---
 
 <ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
-	<h1 class="r-page-title">{tag}</h1>
+	<h1 class={pageTitleClass}>{tag}</h1>
 
-	<p class="r-tag-meta">
+	<p class={tagMetaClass}>
 		<span>{posts.length} 篇文章</span>
-		<a href="/tags">← 全部标签</a>
+		<a href="/tags" class={tagMetaLinkClass}>← 全部标签</a>
 	</p>
 
 	<ol class="r-post-list">
@@ -57,30 +60,3 @@ const { posts, tag } = Astro.props;
 		))}
 	</ol>
 </ReadingShell>
-
-<style>
-	.r-tag-meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 1rem;
-		margin: -0.75rem 0 var(--r-space-lg);
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-	}
-
-	.r-tag-meta a {
-		color: var(--r-ink-soft);
-	}
-
-	.r-tag-meta a:hover {
-		color: var(--r-link);
-	}
-
-	.r-draft {
-		margin-left: 0.5rem;
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-	}
-</style>

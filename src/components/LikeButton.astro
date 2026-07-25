@@ -5,139 +5,23 @@ interface Props {
 }
 
 const { id, type = 'gossip' } = Astro.props;
+const baseClass = [
+	'like-btn pending inline-flex cursor-pointer items-center gap-[0.3em] border-0 bg-transparent p-0 text-[var(--gray-color)] transition-[color,opacity,background] duration-200',
+	'before:mr-[0.3em] before:opacity-30 before:transition-opacity before:content-[\'[\'] after:ml-[0.3em] after:opacity-30 after:transition-opacity after:content-[\']\']',
+	'hover:text-[var(--heading-color)] hover:opacity-100 hover:before:opacity-60 hover:after:opacity-60 active:[&_.like-icon]:scale-[0.7] disabled:cursor-not-allowed',
+	'[&.liked]:text-[#e06c75] [&.liked]:opacity-100 [&.liked]:before:text-[var(--gray-color)] [&.liked]:before:opacity-50 [&.liked]:after:text-[var(--gray-color)] [&.liked]:after:opacity-50',
+	'[&.pending]:pointer-events-none [&.pending]:opacity-0 [@media(hover:hover)]:[&.is-empty]:pointer-events-none [@media(hover:hover)]:[&.is-empty]:opacity-0 [@media(hover:hover)]:[&.is-empty_.like-count]:hidden',
+].join(' ');
+const typeClass = type === 'gossip'
+	? 'gossip min-h-[1.4rem] rounded-full px-[0.34rem] [font-family:var(--field-font)] [font-size:0.66rem] leading-none opacity-68 before:content-none after:content-none hover:bg-[color-mix(in_oklab,var(--paper-hover-bg)_76%,transparent)] [&.liked]:bg-[color-mix(in_oklab,#e06c75_7%,transparent)] [&.liked_.like-icon]:text-[#e06c75]'
+	: 'post [font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation_Mono",monospace] [font-size:0.8rem] opacity-50';
+const iconClass = 'like-icon text-[0.9em] leading-none transition-transform duration-[180ms] group-[.gossip]:text-[color-mix(in_oklab,var(--gray-color)_86%,var(--heading-color))] group-[.gossip]:[font-size:0.78rem]';
 ---
 
-<button class={`like-btn ${type} pending`} data-id={id} aria-label="Like this post">
-	<span class="like-icon">♥</span>
+<button class={`${baseClass} ${typeClass} group`} data-id={id} aria-label="Like this post">
+	<span class={iconClass}>♥</span>
 	<span class="like-count">...</span>
 </button>
-
-<style>
-	.like-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.3em;
-		background: transparent;
-		border: none;
-		color: var(--gray-color);
-		cursor: pointer;
-		transition: color 0.2s ease, opacity 0.2s ease, background 0.2s ease;
-		padding: 0;
-	}
-
-	.like-btn::before {
-		content: "[";
-		opacity: 0.3;
-		margin-right: 0.3em;
-		transition: opacity 0.2s;
-	}
-
-	.like-btn::after {
-		content: "]";
-		opacity: 0.3;
-		margin-left: 0.3em;
-		transition: opacity 0.2s;
-	}
-
-	/* 说说页面的样式 */
-	.like-btn.gossip {
-		min-height: 1.4rem;
-		padding: 0 0.34rem;
-		border-radius: 999px;
-		font-family: var(--field-font);
-		font-size: 0.66rem;
-		line-height: 1;
-		opacity: 0.68;
-	}
-
-	/* 文章详情页的样式 */
-	.like-btn.post {
-		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-		font-size: 0.8rem;
-		opacity: 0.5;
-	}
-
-	.like-icon {
-		font-size: 0.9em;
-		line-height: 1;
-		transition: transform 0.18s ease;
-	}
-
-	.like-btn.gossip::before,
-	.like-btn.gossip::after {
-		content: none;
-	}
-
-	.like-btn.gossip .like-icon {
-		color: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
-		font-size: 0.78rem;
-	}
-
-	.like-btn.gossip:hover {
-		background: color-mix(in oklab, var(--paper-hover-bg) 76%, transparent);
-	}
-
-	.like-btn:hover {
-		color: var(--heading-color);
-		opacity: 1;
-	}
-
-	.like-btn:hover::before,
-	.like-btn:hover::after {
-		opacity: 0.6;
-	}
-
-	.like-btn.liked {
-		color: #e06c75;
-		opacity: 1;
-	}
-
-	.like-btn.gossip.liked {
-		background: color-mix(in oklab, #e06c75 7%, transparent);
-	}
-
-	.like-btn.gossip.liked .like-icon {
-		color: #e06c75;
-	}
-
-	.like-btn.liked::before,
-	.like-btn.liked::after {
-		opacity: 0.5;
-		color: var(--gray-color);
-	}
-
-	.like-btn:disabled {
-		cursor: not-allowed;
-	}
-
-	.like-btn:active .like-icon {
-		transform: scale(0.7);
-	}
-
-	/* 等待点赞数加载时先隐藏，避免 0 赞时先闪出再消失 */
-	.like-btn.pending {
-		opacity: 0;
-		pointer-events: none;
-	}
-
-	/* 无点赞时隐藏图标，hover 父级时淡入展示（仅限支持 hover 的设备） */
-	@media (hover: hover) {
-		.like-btn.is-empty {
-			opacity: 0;
-			pointer-events: none;
-		}
-
-		.like-btn.is-empty .like-count {
-			display: none;
-		}
-
-		:global(.memo-item:hover) .like-btn.gossip.is-empty,
-		:global(.post-end:hover) .like-btn.post.is-empty {
-			opacity: 0.55;
-			pointer-events: auto;
-		}
-	}
-</style>
 
 <script>
 	// 这里填入你部署好的 Cloudflare Worker 地址

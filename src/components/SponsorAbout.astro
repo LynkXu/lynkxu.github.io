@@ -1,41 +1,62 @@
 ---
 import { SPONSOR_GROUPS } from './sponsorConfig';
+
+const sponsorRootClass = 'sponsor-about m-0 flex flex-col gap-[0.15rem] [container-type:inline-size]';
+const foldClass = 'sponsor-fold group m-0 overflow-visible rounded-none border-0 bg-transparent';
+const summaryClass = 'sponsor-fold__summary cursor-pointer list-none px-0 py-[0.3rem] [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:var(--r-text-sm,0.8rem)] font-normal text-[var(--r-ink-soft,var(--text-color))] transition-colors hover:bg-transparent hover:text-[var(--r-ink,var(--heading-color))] [&::-webkit-details-marker]:hidden group-open:border-b-0 group-open:text-[var(--r-ink,var(--heading-color))]';
+const sponsorGridClass = 'sponsor-grid grid grid-cols-2 gap-[0.6rem] p-[0.75rem] max-[400px]:grid-cols-1';
+const sponsorCardClass = 'sponsor-card rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,var(--paper-card-bg))] p-[0.55rem] shadow-none';
+const sponsorCardNameClass = 'sponsor-card__name mb-[0.35rem] [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.82rem] font-medium text-[var(--r-ink,var(--heading-color))]';
+const qrBoxClass = 'sponsor-card__qr flex items-center justify-center rounded-[4px] border-0 bg-[var(--r-code-bg,oklch(0.99_0.003_80))] p-1';
+const qrImageClass = 'm-0 block h-[100px] w-[100px] rounded-[2px] object-contain';
+const cryptoListClass = 'crypto-list flex flex-col gap-0 px-[0.75rem] py-0';
+const cryptoItemClass = 'crypto-item grid grid-cols-[112px_minmax(0,1fr)] items-start gap-[1rem] border-t border-[var(--r-rule,var(--paper-card-border-soft))] py-[1rem] first:border-t-0 max-[430px]:grid-cols-[88px_minmax(0,1fr)] max-[430px]:gap-[0.75rem] max-[300px]:grid-cols-1';
+const cryptoQrClass = 'crypto-item__qr grid aspect-square w-[112px] place-items-center rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,oklch(0.99_0.003_80))] p-[0.35rem] shadow-none max-[430px]:w-[88px] max-[300px]:w-[min(132px,100%)]';
+const cryptoQrImageClass = 'm-0 block h-full w-full rounded-[2px] object-contain';
+const cryptoContentClass = 'crypto-item__content flex min-w-0 flex-col gap-[0.75rem] max-[430px]:contents';
+const cryptoHeadingClass = 'crypto-item__heading flex flex-col gap-[0.25rem] max-[430px]:self-center';
+const cryptoTitleClass = 'm-0 [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.9rem] font-medium leading-[1.3] text-[var(--r-ink,var(--heading-color))]';
+const cryptoDescClass = 'm-0 max-w-[42ch] [font-size:0.72rem] leading-[1.5] text-[color-mix(in_oklab,var(--r-ink-soft,var(--text-color))_64%,var(--r-ink-faint,var(--gray-color)))]';
+const cryptoAddressClass = 'crypto-address grid grid-cols-[minmax(0,1fr)_auto] items-end gap-x-[0.6rem] gap-y-[0.45rem] max-[430px]:col-span-full max-[430px]:items-center max-[300px]:col-auto';
+const cryptoLabelClass = 'crypto-address__label col-span-full [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.65rem] font-medium uppercase leading-none tracking-[0.05em] text-[var(--r-ink-faint,var(--gray-color))] max-[430px]:col-auto';
+const cryptoCodeClass = 'min-w-0 break-all rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,var(--paper-field-bg))] px-[0.65rem] py-[0.55rem] [font-size:0.69rem] leading-[1.45] text-[var(--r-ink,var(--text-color))] max-[430px]:col-span-full max-[430px]:row-start-2';
+const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer items-center justify-center gap-[0.35rem] whitespace-nowrap rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,var(--paper-card-bg))] px-[0.65rem] py-[0.45rem] [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.7rem] font-medium text-[var(--r-ink-soft,var(--text-color))] transition-[border-color,background,color] duration-150 hover:border-[color-mix(in_oklab,var(--r-link,var(--accent-color))_38%,var(--r-rule,var(--paper-card-border-soft)))] hover:bg-[color-mix(in_oklab,var(--r-selection-bg,var(--accent-soft-bg))_40%,var(--r-code-bg,var(--paper-card-bg)))] hover:text-[var(--r-ink,var(--heading-color))] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color-mix(in_oklab,var(--r-link,var(--accent-color))_58%,transparent)] max-[430px]:col-start-2 max-[430px]:row-start-1 max-[430px]:min-h-[1.85rem] max-[430px]:py-[0.3rem] max-[300px]:min-h-[2.2rem] [&.is-copied]:border-[color-mix(in_oklab,var(--r-link,var(--accent-color))_46%,var(--r-rule,var(--paper-card-border-soft)))] [&.is-copied]:bg-[var(--r-selection-bg,var(--accent-soft-bg))] [&.is-copied]:text-[var(--r-ink,var(--heading-color))] [&_svg]:block [&_svg]:shrink-0';
 ---
 
-<div class="sponsor-about">
-	<details class="sponsor-fold">
-		<summary>WeChat / Alipay</summary>
-		<div class="sponsor-grid sponsor-grid--2">
+<div class={sponsorRootClass}>
+	<details class={foldClass}>
+		<summary class={summaryClass}>WeChat / Alipay</summary>
+		<div class={sponsorGridClass}>
 			{SPONSOR_GROUPS.find((g) => g.name === 'CNY')?.items.map((item) => (
-				<div class="sponsor-card">
-					<div class="sponsor-card__name">{item.name}</div>
-					<div class="sponsor-card__qr">
-						<img src={item.image} alt={`${item.name} QR Code`} loading="lazy" />
+				<div class={sponsorCardClass}>
+					<div class={sponsorCardNameClass}>{item.name}</div>
+					<div class={qrBoxClass}>
+						<img class={qrImageClass} src={item.image} alt={`${item.name} QR Code`} loading="lazy" />
 					</div>
 				</div>
 			))}
 		</div>
 	</details>
 
-	<details class="sponsor-fold">
-		<summary>Crypto</summary>
-		<div class="crypto-list">
+	<details class={foldClass}>
+		<summary class={summaryClass}>Crypto</summary>
+		<div class={cryptoListClass}>
 			{SPONSOR_GROUPS.find((g) => g.name === 'Crypto')?.items.map((item) => (
-				<article class="crypto-item">
-					<div class="crypto-item__qr">
-						<img src={item.image} alt={`${item.name} QR`} loading="lazy" />
+				<article class={cryptoItemClass}>
+					<div class={cryptoQrClass}>
+						<img class={cryptoQrImageClass} src={item.image} alt={`${item.name} QR`} loading="lazy" />
 					</div>
-					<div class="crypto-item__content">
-						<div class="crypto-item__heading">
-							<h3>{item.name}</h3>
-							{item.desc && <p>{item.desc}</p>}
+					<div class={cryptoContentClass}>
+						<div class={cryptoHeadingClass}>
+							<h3 class={cryptoTitleClass}>{item.name}</h3>
+							{item.desc && <p class={cryptoDescClass}>{item.desc}</p>}
 						</div>
 						{item.address && (
-							<div class="crypto-address">
-								<span class="crypto-address__label">Wallet address</span>
-								<code>{item.address}</code>
+							<div class={cryptoAddressClass}>
+								<span class={cryptoLabelClass}>Wallet address</span>
+								<code class={cryptoCodeClass}>{item.address}</code>
 								<button
-									class="addr-copy"
+									class={copyButtonClass}
 									type="button"
 									data-clipboard-text={item.address}
 									aria-label={`Copy ${item.name} wallet address`}
@@ -51,333 +72,6 @@ import { SPONSOR_GROUPS } from './sponsorConfig';
 		</div>
 	</details>
 </div>
-
-<style>
-	.sponsor-about {
-		margin: 0.5rem 0 1rem;
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		container-type: inline-size;
-	}
-
-	/* Fold */
-	.sponsor-fold {
-		background: var(--paper-field-bg);
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		overflow: hidden;
-		margin-bottom: 0.4rem;
-	}
-
-	:global([data-theme='dark']) .sponsor-fold {
-		background: var(--paper-field-bg);
-		border-color: var(--paper-card-border-soft);
-	}
-
-	.sponsor-fold summary {
-		padding: 0.5rem 0.75rem;
-		cursor: pointer;
-		font-size: 0.8rem;
-		font-weight: 500;
-		color: var(--text-color);
-		list-style: none;
-		transition: background 0.15s;
-	}
-
-	.sponsor-fold summary::-webkit-details-marker {
-		display: none;
-	}
-
-	.sponsor-fold summary::before {
-		content: '▸ ';
-		font-size: 0.75em;
-		color: var(--gray-color);
-		margin-right: 0.25rem;
-	}
-
-	.sponsor-fold[open] summary::before {
-		content: '▾ ';
-	}
-
-	.sponsor-fold summary:hover {
-		background: color-mix(in oklab, var(--accent-soft-bg) 40%, transparent);
-	}
-
-	:global([data-theme='dark']) .sponsor-fold summary:hover {
-		background: color-mix(in oklab, var(--accent-soft-bg) 25%, transparent);
-	}
-
-	.sponsor-fold[open] summary {
-		border-bottom: 1px solid var(--paper-card-border-soft);
-	}
-
-	:global([data-theme='dark']) .sponsor-fold[open] summary {
-		border-bottom-color: var(--paper-card-border-soft);
-	}
-
-	/* Grid */
-	.sponsor-grid {
-		display: grid;
-		gap: 0.6rem;
-		padding: 0.75rem;
-	}
-
-	.sponsor-grid--2 {
-		grid-template-columns: repeat(2, 1fr);
-	}
-
-	@media (max-width: 400px) {
-		.sponsor-grid--2 {
-			grid-template-columns: 1fr;
-		}
-	}
-
-	/* Card */
-	.sponsor-card {
-		background: var(--paper-card-bg);
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		padding: 0.55rem;
-	}
-
-	:global([data-theme='dark']) .sponsor-card {
-		background: var(--paper-card-bg);
-		border-color: var(--paper-card-border-soft);
-	}
-
-	.sponsor-card__name {
-		font-weight: 500;
-		font-size: 0.82rem;
-		color: var(--heading-color);
-		margin-bottom: 0.35rem;
-	}
-
-	.sponsor-card__qr {
-		background: oklch(0.99 0.003 80);
-		border-radius: var(--paper-card-radius);
-		padding: 0.25rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.sponsor-card__qr img {
-		width: 100px;
-		height: 100px;
-		object-fit: contain;
-		margin: 0;
-		display: block;
-		border-radius: calc(var(--paper-card-radius) - 2px);
-	}
-
-	/* Crypto */
-	.crypto-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		padding: 0 0.75rem;
-	}
-
-	.crypto-item {
-		display: grid;
-		grid-template-columns: 112px minmax(0, 1fr);
-		gap: 1rem;
-		align-items: start;
-		padding: 1rem 0;
-	}
-
-	.crypto-item + .crypto-item {
-		border-top: 1px solid var(--paper-card-border-soft);
-	}
-
-	.crypto-item__qr {
-		display: grid;
-		place-items: center;
-		width: 112px;
-		aspect-ratio: 1;
-		padding: 0.35rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: oklch(0.99 0.003 80);
-	}
-
-	.crypto-item__qr img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		margin: 0;
-		border-radius: calc(var(--paper-card-radius) - 2px);
-		object-fit: contain;
-	}
-
-	.crypto-item__content {
-		display: flex;
-		min-width: 0;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-
-	.crypto-item__heading {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	.crypto-item__heading h3,
-	.crypto-item__heading p {
-		margin: 0;
-	}
-
-	.crypto-item__heading h3 {
-		font-family: var(--field-font);
-		font-size: 0.9rem;
-		font-weight: 650;
-		line-height: 1.3;
-		color: var(--heading-color);
-	}
-
-	.crypto-item__heading p {
-		max-width: 42ch;
-		font-size: 0.72rem;
-		line-height: 1.5;
-		color: color-mix(in oklab, var(--text-color) 64%, var(--gray-color));
-	}
-
-	.crypto-address {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		gap: 0.45rem 0.6rem;
-		align-items: end;
-	}
-
-	.crypto-address__label {
-		grid-column: 1 / -1;
-		font-family: var(--field-font);
-		font-size: 0.65rem;
-		font-weight: 600;
-		letter-spacing: 0.05em;
-		line-height: 1;
-		text-transform: uppercase;
-		color: var(--gray-color);
-	}
-
-	.crypto-address code {
-		min-width: 0;
-		padding: 0.55rem 0.65rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-field-bg);
-		font-size: 0.69rem;
-		color: var(--text-color);
-		word-break: break-all;
-		line-height: 1.45;
-	}
-
-	.addr-copy {
-		display: inline-flex;
-		min-height: 2.35rem;
-		align-items: center;
-		justify-content: center;
-		gap: 0.35rem;
-		padding: 0.45rem 0.65rem;
-		border: 1px solid var(--paper-card-border-soft);
-		border-radius: var(--paper-card-radius);
-		background: var(--paper-card-bg);
-		color: color-mix(in oklab, var(--text-color) 78%, var(--gray-color));
-		cursor: pointer;
-		font-family: var(--field-font);
-		font-size: 0.7rem;
-		font-weight: 600;
-		white-space: nowrap;
-		transition:
-			border-color 0.15s ease,
-			background 0.15s ease,
-			color 0.15s ease;
-	}
-
-	.addr-copy:hover {
-		border-color: color-mix(in oklab, var(--accent-color) 38%, var(--paper-card-border-soft));
-		background: color-mix(in oklab, var(--accent-soft-bg) 40%, var(--paper-card-bg));
-		color: var(--heading-color);
-	}
-
-	.addr-copy:focus-visible {
-		outline: 2px solid color-mix(in oklab, var(--accent-color) 58%, transparent);
-		outline-offset: 2px;
-	}
-
-	.addr-copy.is-copied {
-		border-color: color-mix(in oklab, var(--accent-color) 46%, var(--paper-card-border-soft));
-		background: var(--accent-soft-bg);
-		color: var(--heading-color);
-	}
-
-	.addr-copy svg {
-		display: block;
-		flex-shrink: 0;
-	}
-
-	@container (max-width: 430px) {
-		.crypto-item {
-			grid-template-columns: 88px minmax(0, 1fr);
-			gap: 0.75rem;
-		}
-
-		.crypto-item__qr {
-			width: 88px;
-		}
-
-		.crypto-item__content {
-			display: contents;
-		}
-
-		.crypto-item__heading {
-			align-self: center;
-		}
-
-		.crypto-address {
-			grid-column: 1 / -1;
-			grid-template-columns: minmax(0, 1fr) auto;
-			align-items: center;
-		}
-
-		.crypto-address__label {
-			grid-column: auto;
-		}
-
-		.crypto-address code {
-			grid-column: 1 / -1;
-			grid-row: 2;
-		}
-
-		.addr-copy {
-			grid-column: 2;
-			grid-row: 1;
-			min-height: 1.85rem;
-			padding-block: 0.3rem;
-		}
-	}
-
-	@container (max-width: 300px) {
-		.crypto-item {
-			grid-template-columns: 1fr;
-		}
-
-		.crypto-item__qr {
-			width: min(132px, 100%);
-		}
-
-		.crypto-item__heading,
-		.crypto-address {
-			grid-column: auto;
-		}
-
-		.addr-copy {
-			min-height: 2.2rem;
-		}
-	}
-</style>
 
 <script>
 	function initSponsorCopy() {
