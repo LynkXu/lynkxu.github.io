@@ -7,27 +7,6 @@ import { filterDrafts } from '../utils/drafts';
 import { getAllGossips } from '../utils/gossips';
 import { toPlainExcerpt } from '../utils/plain-text';
 
-/** Flip to true to show the optional works block on the homepage. */
-const SHOW_HOME_WORKS = false;
-
-const homeWorks = [
-	{
-		title: '示例作品甲',
-		description: '一句话说明。',
-		href: '/about',
-	},
-	{
-		title: '示例作品乙',
-		description: '一句话说明。',
-		href: '/tools',
-	},
-	{
-		title: '示例作品丙',
-		description: '一句话说明。',
-		href: '/about',
-	},
-] as const;
-
 const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -44,23 +23,6 @@ function getPostHref(post: (typeof posts)[number]) {
 	<section class="r-home-intro" aria-label="简介">
 		<p class="r-home-intro__text">你好，我是 Lynk。</p>
 	</section>
-
-	{SHOW_HOME_WORKS && (
-		<section class="r-section" aria-labelledby="home-works-title">
-			<header class="r-section__head">
-				<h2 id="home-works-title" class="r-section__title">作品</h2>
-			</header>
-
-			<ul class="r-work-list">
-				{homeWorks.map((work) => (
-					<li class="r-work-list__item">
-						<a href={work.href} class="r-work-list__title">{work.title}</a>
-						<p class="r-work-list__desc">{work.description}</p>
-					</li>
-				))}
-			</ul>
-		</section>
-	)}
 
 	<section class="r-section" aria-labelledby="home-writing-title">
 		<header class="r-section__head">
