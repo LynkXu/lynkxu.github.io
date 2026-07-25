@@ -180,6 +180,7 @@ body.reading-surface {
   --r-link: oklch(0.45 0.07 250);
   --r-link-underline-color: color-mix(in oklab, var(--r-ink) 55%, transparent);
   --r-link-underline-offset: 0.22em;
+  --r-divider: rgba(0, 0, 0, 0.05);
   --r-rule: oklch(0.28 0.01 255 / 0.14);
   --r-rule-soft: oklch(0.28 0.01 255 / 0.12);
   --r-code-bg: oklch(0.966 0.002 255);
@@ -233,6 +234,7 @@ body.reading-surface ::selection {
   --r-ink-soft: oklch(0.75 0.012 250);
   --r-ink-faint: oklch(0.58 0.01 250);
   --r-link: oklch(0.78 0.06 250);
+  --r-divider: rgba(255, 255, 255, 0.08);
   --r-rule: oklch(0.93 0.01 250 / 0.14);
   --r-rule-soft: oklch(0.93 0.01 250 / 0.12);
   --r-code-bg: oklch(0.22 0.014 255);
@@ -248,6 +250,7 @@ body.reading-surface ::selection {
     --r-ink-soft: oklch(0.75 0.012 250);
     --r-ink-faint: oklch(0.58 0.01 250);
     --r-link: oklch(0.78 0.06 250);
+    --r-divider: rgba(255, 255, 255, 0.08);
     --r-rule: oklch(0.93 0.01 250 / 0.14);
     --r-rule-soft: oklch(0.93 0.01 250 / 0.12);
     --r-code-bg: oklch(0.22 0.014 255);
@@ -267,6 +270,7 @@ body.reading-surface ::selection {
   --r-ink-soft: oklch(0.46 0.008 255);
   --r-ink-faint: oklch(0.62 0.006 255);
   --r-link: oklch(0.45 0.07 250);
+  --r-divider: rgba(0, 0, 0, 0.05);
   --r-rule: oklch(0.28 0.01 255 / 0.14);
   --r-rule-soft: oklch(0.28 0.01 255 / 0.12);
   --r-code-bg: oklch(0.966 0.002 255);
@@ -361,6 +365,22 @@ body.reading-surface .link-card__fallback:hover {
   box-shadow: none !important;
   transform: none !important;
   border-color: var(--r-rule) !important;
+}
+
+body.reading-surface .reading-shell__header,
+body.reading-surface .r-section__head,
+body.reading-surface .r-year-block__label {
+  border-bottom-color: var(--r-divider) !important;
+}
+
+body.reading-surface .reading-shell__footer {
+  margin-top: var(--r-space-xl) !important;
+  border-top-color: var(--r-divider) !important;
+}
+
+body.reading-surface .r-prose hr,
+body.reading-surface .post-content hr {
+  border-top-color: var(--r-divider) !important;
 }
 
 :root[data-theme="dark"] .reading-shell__ctrl--theme .theme-toggle-icon--moon {

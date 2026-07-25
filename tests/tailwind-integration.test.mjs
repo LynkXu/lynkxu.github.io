@@ -49,6 +49,15 @@ test('reading surface root typography is isolated from global body styles', () =
   assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*-webkit-font-smoothing:\s*auto\s*!important;/);
 });
 
+test('reading surface dividers share a quiet hairline style', () => {
+  const tailwind = read('src/styles/tailwind.css');
+
+  assert.match(tailwind, /--r-divider:\s*rgba\(0,\s*0,\s*0,\s*0\.05\);/);
+  assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*margin-top:\s*var\(--r-space-xl\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*border-top-color:\s*var\(--r-divider\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.reading-shell__header,[\s\S]*body\.reading-surface \.r-section__head,[\s\S]*body\.reading-surface \.r-year-block__label\s*\{[\s\S]*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
+});
+
 test('reading section titles use explicit Tailwind utilities', () => {
   const files = ['src/pages/index.astro', 'src/layouts/About.astro', 'src/pages/copyright.astro'];
 
