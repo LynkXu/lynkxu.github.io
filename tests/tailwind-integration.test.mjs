@@ -103,3 +103,15 @@ test('reading page titles are explicit Tailwind utilities', () => {
     assert.match(source, /!\[font-size:var\(--r-text-(page|display)\)\]|\[font-size:var\(--r-text-lg\)\]/);
   }
 });
+
+test('works listing styles are migrated out of reading SCSS', () => {
+  const works = read('src/pages/works.astro');
+  const reading = read('src/styles/reading.scss');
+
+  for (const token of ['workHeadClass', 'workListClass', 'workCardClass', 'workMetaClass', 'workTitleClass', 'workDescClass']) {
+    assert.match(works, new RegExp(`const ${token} =`));
+  }
+  for (const selector of ['r-works__head', 'r-works__empty', 'r-work-list', 'r-work', 'r-work__meta', 'r-work__title', 'r-work__desc']) {
+    assert.doesNotMatch(reading, new RegExp(`\\.${selector}(?![\\w-])`));
+  }
+});
