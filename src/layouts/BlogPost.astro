@@ -40,18 +40,8 @@ const topicLabels = tags?.length
 const topicLinksEnabled = Boolean(tags?.length);
 const articleClass = [
 	'r-article',
-	'[&_.code-wrapper]:relative [&_.code-wrapper]:my-[1.25rem] [&_.code-wrapper]:overflow-hidden [&_.code-wrapper]:rounded-[4px] [&_.code-wrapper]:bg-[var(--r-code-bg)]',
-	'[&_.code-header]:absolute [&_.code-header]:right-0 [&_.code-header]:top-0 [&_.code-header]:z-[2] [&_.code-header]:flex [&_.code-header]:items-center [&_.code-header]:gap-[0.5rem] [&_.code-header]:px-[0.55rem] [&_.code-header]:py-[0.35rem]',
-	'[&_.code-lang]:[font-family:var(--r-font-code)] [&_.code-lang]:[font-size:0.7rem] [&_.code-lang]:text-[var(--r-ink-faint)]',
-	'[&_.copy-btn]:cursor-pointer [&_.copy-btn]:border-0 [&_.copy-btn]:bg-transparent [&_.copy-btn]:p-[2px] [&_.copy-btn]:text-[var(--r-ink-faint)] [&_.copy-btn]:opacity-55 [&_.copy-btn:focus-visible]:opacity-100 [&_.code-wrapper:hover_.copy-btn]:opacity-100',
-	'[&_.code-wrapper_pre]:!m-0 [&_.code-wrapper_pre]:!rounded-none [&_.code-wrapper_pre]:!bg-transparent [&_.code-wrapper_pre]:!px-[1rem] [&_.code-wrapper_pre]:!pb-[1rem] [&_.code-wrapper_pre]:!pt-[1.5rem]',
 	'[&_.nav-buttons-group]:fixed [&_.nav-buttons-group]:bottom-[var(--r-space-lg)] [&_.nav-buttons-group]:right-[var(--r-page-inline)] [&_.nav-buttons-group]:z-20',
 	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-button_svg]:block [&_.nav-button_svg]:h-[18px] [&_.nav-button_svg]:w-[18px]',
-	'[&_.link-card]:my-[var(--r-space-lg)] [&_.link-card]:overflow-hidden [&_.link-card]:rounded-[4px] [&_.link-card]:border [&_.link-card]:border-[var(--r-rule)] [&_.link-card]:bg-transparent [&_.link-card]:shadow-none [&_.link-card:hover]:translate-y-0 [&_.link-card:hover]:bg-transparent [&_.link-card:hover]:shadow-none [&_.link-card_a]:text-inherit [&_.link-card_a]:no-underline',
-	'[&_.link-card__content]:flex [&_.link-card__content]:w-full [&_.link-card__content]:items-stretch [&_.link-card__content]:gap-0 [&_.link-card__content]:border-b-0 [&_.link-card__content]:text-inherit [&_.link-card__content]:no-underline max-[640px]:[&_.link-card__content]:flex-col',
-	'[&_.link-card__image-wrapper]:relative [&_.link-card__image-wrapper]:min-h-0 [&_.link-card__image-wrapper]:flex-[0_0_140px] [&_.link-card__image-wrapper]:max-w-[140px] [&_.link-card__image-wrapper]:overflow-hidden [&_.link-card__image-wrapper]:bg-[color-mix(in_oklab,var(--r-bg)_55%,var(--r-surface))] [&_.link-card__image-wrapper_img]:block [&_.link-card__image-wrapper_img]:h-full [&_.link-card__image-wrapper_img]:w-full [&_.link-card__image-wrapper_img]:object-cover max-[640px]:[&_.link-card__image-wrapper]:aspect-[16/9] max-[640px]:[&_.link-card__image-wrapper]:max-h-[160px] max-[640px]:[&_.link-card__image-wrapper]:w-full max-[640px]:[&_.link-card__image-wrapper]:max-w-none max-[640px]:[&_.link-card__image-wrapper]:flex-[0_0_auto]',
-	'[&_.link-card__body]:flex [&_.link-card__body]:min-w-0 [&_.link-card__body]:flex-1 [&_.link-card__body]:flex-col [&_.link-card__body]:justify-center [&_.link-card__body]:gap-[0.28rem] [&_.link-card__body]:px-[var(--r-space-md)] [&_.link-card__body]:py-[var(--r-space-sm)] max-[640px]:[&_.link-card__body]:px-[1rem] max-[640px]:[&_.link-card__body]:py-[0.85rem] [&_.link-card__body_h3]:m-0 [&_.link-card__body_h3]:mb-[var(--r-space-xs)] [&_.link-card__body_h3]:line-clamp-2 [&_.link-card__body_h3]:[font-family:var(--r-font-body)] [&_.link-card__body_h3]:[font-size:var(--r-text)] [&_.link-card__body_h3]:font-medium [&_.link-card__body_h3]:leading-[1.45] [&_.link-card__body_h3]:text-[var(--r-ink)] [&_.link-card__body_p]:m-0 [&_.link-card__body_p]:mb-[var(--r-space-xs)] [&_.link-card__body_p]:line-clamp-2 [&_.link-card__body_p]:[font-family:var(--r-font-ui)] [&_.link-card__body_p]:[font-size:var(--r-text-sm)] [&_.link-card__body_p]:leading-[1.58] [&_.link-card__body_p]:text-[var(--r-ink-soft)] [&_.link-card__host]:mt-[0.35rem] [&_.link-card__host]:inline-flex [&_.link-card__host]:items-center [&_.link-card__host]:gap-[0.35rem] [&_.link-card__host]:[font-family:var(--r-font-ui)] [&_.link-card__host]:[font-size:var(--r-text-xs)] [&_.link-card__host]:font-medium [&_.link-card__host]:tracking-[0.035em] [&_.link-card__host]:text-[var(--r-ink-faint)] [&_.link-card__host]:opacity-70',
-	'[&_.link-card--cover_.link-card__content]:flex-col [&_.link-card--cover_.link-card__image-wrapper]:aspect-[2.2/1] [&_.link-card--cover_.link-card__image-wrapper]:max-h-[200px] [&_.link-card--cover_.link-card__image-wrapper]:w-full [&_.link-card--cover_.link-card__image-wrapper]:max-w-none [&_.link-card--cover_.link-card__image-wrapper]:flex-[0_0_auto] [&_.link-card--minimal_.link-card__content]:px-[var(--r-space-md)] [&_.link-card--minimal_.link-card__content]:py-[var(--r-space-sm)] [&_.link-card--minimal_.link-card__body]:gap-[0.15rem] [&_.link-card--minimal_.link-card__body]:p-0 [&_.link-card--minimal_.link-card__body_p]:line-clamp-1',
 ].join(' ');
 const articleTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-sm)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-bold !leading-[1.22] !tracking-[-0.025em] !text-[var(--r-ink)]';
 const articleHeaderClass = 'r-article__header mb-[0.35rem]';
@@ -188,8 +178,18 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 
 	<script is:inline>
 		(function () {
+			const COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+			const CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+			function resolveLang(block, code) {
+				if (block.dataset.language) return block.dataset.language.trim();
+				if (!code) return '';
+				const langClass = code.className.split(/\s+/).find((c) => c.startsWith('language-'));
+				return langClass ? langClass.replace('language-', '') : '';
+			}
+
 			function addCopyButtons() {
-				const codeBlocks = document.querySelectorAll('pre:not(.code-block-added)');
+				const codeBlocks = document.querySelectorAll('.r-article pre:not(.code-block-added)');
 				codeBlocks.forEach((block) => {
 					block.classList.add('code-block-added');
 					const wrapper = document.createElement('div');
@@ -198,41 +198,40 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 						block.parentNode.insertBefore(wrapper, block);
 						wrapper.appendChild(block);
 					}
+
 					const header = document.createElement('div');
 					header.className = 'code-header';
+
 					const code = block.querySelector('code');
-					let lang = '';
-					if (block.dataset.language) {
-						lang = block.dataset.language;
-					} else if (code) {
-						const classList = code.className.split(' ');
-						const langClass = classList.find((c) => c.startsWith('language-'));
-						if (langClass) lang = langClass.replace('language-', '');
+					const lang = resolveLang(block, code);
+					if (lang) {
+						const langLabel = document.createElement('span');
+						langLabel.className = 'code-lang';
+						langLabel.textContent = lang;
+						header.appendChild(langLabel);
 					}
-					const langLabel = document.createElement('span');
-					langLabel.className = 'code-lang';
-					langLabel.textContent = lang;
+
 					const copyBtn = document.createElement('button');
+					copyBtn.type = 'button';
 					copyBtn.className = 'copy-btn';
-					copyBtn.setAttribute('aria-label', 'Copy');
-					copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+					copyBtn.setAttribute('aria-label', '复制代码');
+					copyBtn.innerHTML = COPY_ICON;
 					copyBtn.addEventListener('click', async () => {
 						try {
-							if (code) {
-								const text = code.innerText;
-								await navigator.clipboard.writeText(text);
-								copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-								copyBtn.classList.add('copied');
-								setTimeout(() => {
-									copyBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-									copyBtn.classList.remove('copied');
-								}, 2000);
-							}
+							if (!code) return;
+							await navigator.clipboard.writeText(code.innerText);
+							copyBtn.innerHTML = CHECK_ICON;
+							copyBtn.classList.add('copied');
+							copyBtn.setAttribute('aria-label', '已复制');
+							setTimeout(() => {
+								copyBtn.innerHTML = COPY_ICON;
+								copyBtn.classList.remove('copied');
+								copyBtn.setAttribute('aria-label', '复制代码');
+							}, 1800);
 						} catch (err) {
 							console.error('Copy failed:', err);
 						}
 					});
-					header.appendChild(langLabel);
 					header.appendChild(copyBtn);
 					wrapper.insertBefore(header, block);
 				});
@@ -326,8 +325,15 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 				} catch (e) { return null; }
 			}
 
+			function resolveCardStyle(el) {
+				if (el.dataset.style) return el.dataset.style;
+				if (el.classList.contains('link-card--cover')) return 'cover';
+				if (el.classList.contains('link-card--minimal')) return 'minimal';
+				return 'default';
+			}
+
 			function renderCard(el, url, meta) {
-				const style = el.dataset.style || 'default';
+				const style = resolveCardStyle(el);
 				const hostname = (() => { try { return new URL(url).hostname; } catch (e) { return url; } })();
 				if (!meta || !meta.title) return;
 
