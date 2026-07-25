@@ -1,0 +1,14 @@
+@mixin card-surface($border: var(--paper-card-border)) {
+  border: 1px solid $border;
+  border-radius: var(--paper-card-radius);
+  background: var(--paper-card-bg);
+  box-shadow: var(--paper-card-shadow);
+}
+
+@mixin card-hover {
+  border-color: var(--paper-hover-border);
+  box-shadow:
+    0 1px 2px rgba(17, 24, 39, 0.03),
+    0 12px 30px rgba(17, 24, 39, 0.04);
+  transform: translateY(-1px);
+}

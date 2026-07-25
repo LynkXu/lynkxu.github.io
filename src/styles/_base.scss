@@ -1,0 +1,50 @@
+body {
+  font-family: var(--ui-font);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-md);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: var(--lh-body);
+  color: var(--text-color);
+  font-kerning: normal;
+  font-variant-ligatures: common-ligatures contextual;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+
+  /*
+    减轻“看起来像加粗”的观感：
+    - 明确正文用常规字重
+    - 禁止浏览器合成粗体/斜体（避免 fallback 字体缺字重时被“合成加粗”）
+    - macOS 下全局使用更轻的抗锯齿方式
+  */
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (prefers-color-scheme: dark) {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :root[data-theme="dark"] & {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  position: relative;
+  z-index: 1;
+
+  &.full-width {
+    width: 100%;
+    /* max-width: 1600px; */ /* 全宽模式不再限制最大宽度 */
+    /* padding: 0 40px; */
+    /* margin: 0 auto; */
+  }
+}
