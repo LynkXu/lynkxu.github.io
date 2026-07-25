@@ -1,0 +1,31 @@
+{
+  "running": {
+    "sinceLabel": "2025.06起",
+    "totalDistanceKm": 374.24,
+    "avgPaceText": "~6'05''/km",
+    "best": {
+      "farthest": {
+        "distanceKm": 11.2,
+        "paceText": "6'29''/km",
+        "dateText": "2025.12.21"
+      },
+      "best5k": {
+        "timeText": "27.31",
+        "unit": "min",
+        "paceText": "5'30''/km"
+      },
+      "best10k": {
+        "timeText": "59:01",
+        "unit": "min",
+        "paceText": "5'54''/km"
+      }
+    }
+  },
+  "cycling": {
+    "totalDistanceKm": 1455.36,
+    "totalMovingTimeHours": 60.02,
+    "totalCount": 73,
+    "totalCaloriesKcal": 41464
+  }
+}
+

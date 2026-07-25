@@ -1,0 +1,76 @@
+---
+import '../styles/style.scss';
+import type { ImageMetadata } from 'astro';
+import { SITE_TITLE } from '../consts';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: ImageMetadata;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { title: rawTitle, description, image } = Astro.props;
+
+// 格式化标题：如果不是首页且标题不包含博客名称，则添加 " - 博客名称"
+const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`;
+
+const umamiWebsiteId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScriptSrc = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL ?? 'https://cloud.umami.is/script.js';
+---
+
+<!-- Global Metadata -->
+<meta charset='utf-8' />
+<meta name='viewport' content='width=device-width,initial-scale=1' />
+
+<!-- DNS Prefetch & Preconnect for critical third-party domains -->
+<link rel='preconnect' href='https://fonts.googleapis.com' />
+<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+
+<!-- Dispatch / Postcard: Latin + UI + CJK screen Song (Noto Serif SC for body) -->
+<link
+	href='https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,400&family=Noto+Serif+SC:wght@400;500;600&family=Onest:wght@400;500;600&family=Petrona:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap'
+	rel='stylesheet'
+/>
+
+<!-- Preload critical local font to reduce FOUT -->
+<link rel='preload' href='/fonts/Lilex.woff2' as='font' type='font/woff2' crossorigin />
+
+<!-- Theme (avoid flash by setting early) -->
+<script is:inline>
+	(function () {
+		try {
+			var stored = localStorage.getItem('theme');
+			var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+			var theme = stored || (prefersDark ? 'dark' : 'light');
+			document.documentElement.setAttribute('data-theme', theme);
+			document.documentElement.style.colorScheme = theme;
+		} catch (e) {
+			// ignore
+		}
+	})();
+</script>
+
+<link rel='icon' type='image/png' href='/favicon-64.png' sizes='64x64' />
+<link rel='sitemap' href='/sitemap-index.xml' />
+<link rel='alternate' type='application/rss+xml' title={SITE_TITLE} href={new URL('index.xml', Astro.site)} />
+<meta name='generator' content={Astro.generator} />
+
+<!-- Canonical URL -->
+<link rel='canonical' href={canonicalURL} />
+
+<!-- Analytics -->
+{umamiWebsiteId && <script is:inline defer src={umamiScriptSrc} data-website-id={umamiWebsiteId}></script>}
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name='title' content={title} />
+<meta name='description' content={description} />
+
+<!-- Open Graph -->
+<meta property='og:type' content='website' />
+<meta property='og:url' content={Astro.url} />
+<meta property='og:title' content={title} />
+<meta property='og:description' content={description} />
+{image && <meta property='og:image' content={new URL(image.src, Astro.url)} />}

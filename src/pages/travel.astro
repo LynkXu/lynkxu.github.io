@@ -1,0 +1,644 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+import { travelPlaces, type TravelPlace } from '../data/travel-places';
+
+type Place = TravelPlace;
+
+// 地点坐标说明见 src/data/travel-places.ts
+const places: Place[] = travelPlaces;
+
+const getDateVal = (d: string) => {
+  const match = d.match(/\d{4}([-.]\d{2})?/);
+  return match ? match[0].replace('.', '-') : '';
+};
+
+const countryEmoji: Record<string, string> = {
+  JP: '🇯🇵',
+  KR: '🇰🇷',
+  US: '🇺🇸',
+};
+
+const specialPlaces = places.filter((p) => p.status === 'living' || p.status === 'hometown');
+const visitedPlaces = places.filter((p) => !p.status);
+
+specialPlaces.sort((a, b) => {
+  if (a.status === 'hometown' && b.status !== 'hometown') return -1;
+  if (b.status === 'hometown' && a.status !== 'hometown') return 1;
+  return 0;
+});
+
+visitedPlaces.sort((a, b) => getDateVal(b.date).localeCompare(getDateVal(a.date)));
+
+const placesByYear = visitedPlaces.reduce((acc, place) => {
+  const yearMatch = place.date.match(/\d{4}/);
+  const year = yearMatch ? yearMatch[0] : '其他';
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(place);
+  return acc;
+}, {} as Record<string, Place[]>);
+
+const sortedYears = Object.keys(placesByYear).sort((a, b) => b.localeCompare(a));
+const latestPlaces = visitedPlaces.slice(0, 6);
+const latestPlace = visitedPlaces[0];
+const firstYear = sortedYears[sortedYears.length - 1];
+const lastYear = sortedYears[0];
+
+const stats = [
+  { value: String(visitedPlaces.length), label: '到访地点', note: `${specialPlaces.length} 个生活节点` },
+  { value: String(sortedYears.length), label: '记录年份', note: `${firstYear} - ${lastYear}` },
+  { value: latestPlace?.name || '-', label: '最近一站', note: latestPlace?.date || '暂无记录' },
+];
+
+const title = '旅行足迹';
+const description = '读万卷书，行万里路';
+---
+
+<Base title={title} description={description} fullWidth={true} hideHeader={true} useCard={false} className="layout-wide travel-page">
+  <link rel="dns-prefetch" href="https://unpkg.com" slot="head" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin="" slot="head" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" slot="head" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" slot="head" defer></script>
+
+  <div class="travel-shell">
+    <SimpleHeader title="Travel" description="旅行足迹" />
+
+    <section class="travel-hero" aria-labelledby="travel-title">
+      <div class="travel-intro">
+        <p class="eyebrow">Atlas / Timeline</p>
+        <h1 id="travel-title">旅行足迹</h1>
+        <p class="lede">去过的地方，随手记一下。不是攻略，只是记录。</p>
+
+        <div class="travel-stats" aria-label="旅行概览">
+          {stats.map((stat) => (
+            <div class="stat-tile">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+              <small>{stat.note}</small>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="map-card" aria-label="旅行地图">
+        <div class="map-card-header">
+          <span>World Map</span>
+          <span>{visitedPlaces.length + specialPlaces.length} pins</span>
+        </div>
+        <div id="map" data-places={JSON.stringify(places)}></div>
+      </div>
+    </section>
+
+    <main class="travel-content">
+      {specialPlaces.length > 0 && (
+        <section class="travel-section special-section" aria-labelledby="special-title">
+          <div class="section-heading">
+            <p>Base Notes</p>
+            <h2 id="special-title">常驻与老家</h2>
+          </div>
+          <div class="special-grid">
+            {specialPlaces.map((place) => (
+              <button class={`place-card ${place.status}`} type="button" data-lat={place.lat} data-lng={place.lng}>
+                <span class="place-role">{place.status === 'living' ? 'Current' : 'Hometown'}</span>
+                <strong>{place.name}</strong>
+                <span>{place.date}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section class="travel-section recent-section" aria-labelledby="recent-title">
+        <div class="section-heading">
+          <p>Recent Stops</p>
+          <h2 id="recent-title">最近足迹</h2>
+        </div>
+          <div class="recent-strip">
+          {latestPlaces.map((place, index) => (
+            <button class="recent-stop" type="button" data-lat={place.lat} data-lng={place.lng}>
+              {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
+              <span class="stop-index">{String(index + 1).padStart(2, '0')}</span>
+              <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
+              <span>{place.date}</span>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section class="travel-section archive-section" aria-labelledby="archive-title">
+        <div class="section-heading">
+          <p>Archive</p>
+          <h2 id="archive-title">年度档案</h2>
+        </div>
+
+        <div class="year-timeline">
+          {sortedYears.map((year) => (
+            <section class="year-row" aria-labelledby={`year-${year}`}>
+              <div class="year-meta">
+                <h3 id={`year-${year}`}>{year}</h3>
+                <span>{placesByYear[year].length} stops</span>
+              </div>
+              <div class="places-grid">
+                {placesByYear[year].map((place) => (
+                  <button class="place-card" type="button" data-lat={place.lat} data-lng={place.lng}>
+                    {place.country && <span class="flag-badge" aria-hidden="true">{countryEmoji[place.country]}</span>}
+                    <strong>{place.name}{place.country && <em class="country-tag">{place.country}</em>}</strong>
+                    <span>{place.date}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <style>
+    :global(body.full-width .global-layout-transparent.travel-page) {
+      max-width: 100%;
+      padding: 0;
+    }
+
+    :global(.travel-page > main) {
+      width: 100%;
+    }
+
+    .travel-shell {
+      width: 100%;
+      min-height: 100vh;
+      background:
+        linear-gradient(180deg, color-mix(in oklab, var(--ink-accent) 2.5%, transparent), transparent 360px),
+        var(--page-bg);
+    }
+
+    .travel-hero,
+    .travel-content {
+      width: var(--container-full);
+      margin-inline: auto;
+    }
+
+    .travel-hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(460px, 1.18fr);
+      gap: clamp(var(--space-xl), 5vw, var(--space-3xl));
+      align-items: stretch;
+      padding: clamp(var(--space-lg), 4vw, var(--space-3xl)) 0 var(--space-2xl);
+    }
+
+    .travel-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      padding-block: var(--space-lg);
+    }
+
+    .eyebrow,
+    .section-heading p {
+      margin: 0;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      font-weight: 650;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-color);
+    }
+
+    .travel-intro h1 {
+      margin: var(--space-sm) 0 0;
+      font-family: var(--serif-font);
+      font-size: clamp(2.25rem, 6vw, 5rem);
+      line-height: 0.96;
+      font-weight: 700;
+      color: var(--heading-color);
+      letter-spacing: 0;
+    }
+
+    .lede {
+      max-width: 38rem;
+      margin: var(--space-lg) 0 0;
+      color: var(--text-color);
+      line-height: 1.82;
+    }
+
+    .travel-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+    }
+
+    .stat-tile {
+      min-width: 0;
+      padding: 0.85rem 0.9rem;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--content-bg) 82%, transparent);
+    }
+
+    :global([data-theme='dark']) .stat-tile {
+      background: color-mix(in oklab, var(--content-bg) 78%, transparent);
+    }
+
+    .stat-tile strong,
+    .stat-tile span,
+    .stat-tile small {
+      display: block;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .stat-tile strong {
+      font-family: var(--ui-font, inherit);
+      font-size: clamp(1.25rem, 2.8vw, 1.8rem);
+      line-height: 1;
+      color: var(--heading-color);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .stat-tile span {
+      margin-top: 0.45rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .stat-tile small {
+      margin-top: 0.12rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.68rem;
+      color: var(--gray-color);
+      line-height: 1.45;
+    }
+
+    .map-card {
+      min-height: 520px;
+      overflow: hidden;
+      border: 1px solid var(--paper-card-border);
+      border-radius: 10px;
+      background: var(--paper-card-bg);
+      box-shadow: var(--paper-card-shadow);
+    }
+
+    .map-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding: 0.72rem 0.9rem;
+      border-bottom: 1px solid var(--paper-card-border-soft);
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--gray-color);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    #map {
+      width: 100%;
+      height: calc(100% - 42px);
+      min-height: 478px;
+      background: color-mix(in oklab, var(--accent-color) 5%, var(--content-bg));
+      z-index: 1;
+    }
+
+    :global(.leaflet-container) {
+      font-family: var(--ui-font, inherit);
+      background: color-mix(in oklab, var(--accent-color) 5%, var(--content-bg));
+    }
+
+    :global(.leaflet-popup-content-wrapper) {
+      border-radius: 8px;
+      box-shadow: var(--paper-card-shadow);
+      color: var(--text-color);
+    }
+
+    :global(.leaflet-popup-content) {
+      margin: 0.6rem 0.72rem;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .travel-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2xl);
+      padding: 0 0 var(--space-3xl);
+    }
+
+    .travel-section {
+      display: grid;
+      grid-template-columns: minmax(9rem, 13rem) minmax(0, 1fr);
+      gap: clamp(var(--space-lg), 4vw, var(--space-2xl));
+      align-items: start;
+    }
+
+    .section-heading {
+      position: sticky;
+      top: var(--space-lg);
+    }
+
+    .section-heading h2 {
+      margin: var(--space-xs) 0 0;
+      font-family: var(--serif-font);
+      font-size: clamp(1.28rem, 2.4vw, 1.8rem);
+      line-height: 1.15;
+      color: var(--heading-color);
+    }
+
+    .special-grid,
+    .places-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: var(--space-sm);
+    }
+
+    .place-card,
+    .recent-stop {
+      position: relative;
+      min-width: 0;
+      appearance: none;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 8px;
+      background: color-mix(in oklab, var(--content-bg) 92%, transparent);
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      font-family: inherit;
+      overflow: hidden;
+    }
+
+    :global([data-theme='dark']) .place-card,
+    :global([data-theme='dark']) .recent-stop {
+      background: color-mix(in oklab, var(--content-bg) 85%, transparent);
+    }
+
+    .place-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.18rem;
+      padding: 0.82rem 0.85rem;
+    }
+
+    .place-card:hover,
+    .place-card:focus-visible,
+    .recent-stop:hover,
+    .recent-stop:focus-visible {
+      transform: translateY(-2px);
+      border-color: color-mix(in oklab, var(--ink-accent) 28%, var(--paper-card-border));
+      background: color-mix(in oklab, var(--content-bg) 88%, var(--ink-wash));
+      outline: none;
+    }
+
+    .place-card strong,
+    .recent-stop strong {
+      font-family: var(--serif-font);
+      font-size: 1rem;
+      line-height: 1.25;
+      color: var(--heading-color);
+    }
+
+    .country-tag {
+      margin-left: 0.35em;
+      font-family: var(--ui-font, inherit);
+      font-size: 0.6rem;
+      font-weight: 600;
+      font-style: normal;
+      color: var(--gray-color);
+      letter-spacing: 0.04em;
+      vertical-align: super;
+    }
+
+    .flag-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 0.85rem;
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.38;
+      filter: grayscale(0.2);
+    }
+
+    :global([data-theme='dark']) .flag-badge {
+      opacity: 0.42;
+    }
+
+    .place-card span,
+    .recent-stop span {
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      line-height: 1.45;
+      color: var(--gray-color);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .place-card.living,
+    .place-card.hometown {
+      min-height: 6.6rem;
+      justify-content: flex-end;
+      background: color-mix(in oklab, var(--ink-wash) 54%, var(--content-bg));
+    }
+
+    .place-role {
+      width: fit-content;
+      margin-bottom: auto;
+      padding: 0.14rem 0.42rem;
+      border: 1px solid var(--paper-card-border-soft);
+      border-radius: 999px;
+      font-size: 0.62rem;
+      font-weight: 650;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .recent-strip {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: var(--space-xs);
+    }
+
+    .recent-stop {
+      display: grid;
+      gap: 0.18rem;
+      padding: 0.8rem 0.78rem;
+    }
+
+    .stop-index {
+      color: color-mix(in oklab, var(--ink-accent) 58%, var(--gray-color));
+    }
+
+    .year-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+    }
+
+    .year-row {
+      display: grid;
+      grid-template-columns: 7rem minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--paper-card-border-soft);
+    }
+
+    .year-meta h3 {
+      margin: 0;
+      font-family: var(--ui-font, inherit);
+      font-size: 1.55rem;
+      line-height: 1;
+      color: var(--heading-color);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .year-meta span {
+      display: block;
+      margin-top: var(--space-xs);
+      font-family: var(--ui-font, inherit);
+      font-size: 0.72rem;
+      color: var(--gray-color);
+    }
+
+    @media (max-width: 980px) {
+      .travel-hero {
+        grid-template-columns: 1fr;
+      }
+
+      .map-card {
+        min-height: 420px;
+      }
+
+      #map {
+        min-height: 378px;
+      }
+
+      .travel-section {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        position: static;
+      }
+
+      .recent-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .travel-hero {
+        padding-top: var(--space-md);
+      }
+
+      .travel-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .map-card {
+        min-height: 360px;
+      }
+
+      #map {
+        min-height: 318px;
+      }
+
+      .recent-strip,
+      .year-row {
+        grid-template-columns: 1fr;
+      }
+
+      .special-grid,
+      .places-grid {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      }
+    }
+  </style>
+
+  <script is:inline>
+    function initMap() {
+      if (window.L) {
+        const container = document.getElementById('map');
+        if (container && !container._leaflet_id) {
+          let places = [];
+          try {
+            const data = container.dataset.places;
+            places = data ? JSON.parse(data) : [];
+          } catch (e) {
+            places = [];
+          }
+
+          const map = L.map('map', {
+            scrollWheelZoom: false,
+          }).setView([32.5, 112.5], 4);
+
+          L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxZoom: 19,
+          }).addTo(map);
+
+          const markerColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#425466';
+          const baseMarkers = [];
+
+          places.forEach(function(place) {
+            const isSpecial = place.status === 'living' || place.status === 'hometown';
+            const marker = L.circleMarker([place.lat, place.lng], {
+              radius: isSpecial ? 7 : 5,
+              color: markerColor,
+              weight: isSpecial ? 2 : 1.4,
+              opacity: isSpecial ? 0.95 : 0.72,
+              fillColor: markerColor,
+              fillOpacity: isSpecial ? 0.28 : 0.16,
+            }).addTo(map);
+
+            marker.bindPopup('<strong>' + place.name + '</strong><br><small>' + place.date + '</small>');
+            baseMarkers.push({ marker: marker, lat: place.lat, lng: place.lng });
+          });
+
+          const bounds = L.latLngBounds(baseMarkers.map(function(item) { return [item.lat, item.lng]; }));
+          if (bounds.isValid()) {
+            map.fitBounds(bounds, { padding: [34, 34], maxZoom: 5 });
+          }
+
+          const cards = document.querySelectorAll('.place-card, .recent-stop');
+          cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+              const lat = Number.parseFloat(card.dataset.lat);
+              const lng = Number.parseFloat(card.dataset.lng);
+              if (Number.isFinite(lat) && Number.isFinite(lng)) {
+                map.flyTo([lat, lng], 9, { duration: 0.8 });
+                const target = baseMarkers.find(function(item) {
+                  return Math.abs(item.lat - lat) < 0.0001 && Math.abs(item.lng - lng) < 0.0001;
+                });
+                if (target) target.marker.openPopup();
+              }
+            });
+          });
+
+          window.addEventListener('resize', function() {
+            map.invalidateSize();
+          });
+        }
+      }
+    }
+
+    if (typeof L !== 'undefined') {
+      initMap();
+    } else {
+      const script = document.querySelector('script[src*="leaflet.js"]');
+      if (script) script.addEventListener('load', initMap);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof L !== 'undefined') initMap();
+      });
+    }
+  </script>
+</Base>

@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import ReadingShell from '../../layouts/ReadingShell.astro';
+import { filterDrafts } from '../../utils/drafts';
+
+const allPosts = filterDrafts(await getCollection('blog'))
+	.filter((post) => !post.id.startsWith('en/'));
+
+const postsByTopic = new Map<string, number>();
+
+allPosts.forEach((post) => {
+	(post.data.tags || []).forEach((tag) => {
+		postsByTopic.set(tag, (postsByTopic.get(tag) || 0) + 1);
+	});
+});
+
+const topics = Array.from(postsByTopic.entries())
+	.map(([name, count]) => ({
+		name,
+		count,
+		href: `/tags/${name}/`,
+	}))
+	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+---
+
+<ReadingShell title="标签" description="浏览全部标签">
+	<h1 class="r-page-title">标签</h1>
+
+	<ul class="r-tag-cloud" aria-label="标签索引">
+		{topics.map((topic) => (
+			<li>
+				<a href={topic.href}>
+					{topic.name}
+					<span class="r-tag-cloud__count">{topic.count}</span>
+				</a>
+			</li>
+		))}
+	</ul>
+</ReadingShell>

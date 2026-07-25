@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1067" viewBox="0 0 1600 1067">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#111827" flood-opacity="0.045"/>
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#111827" flood-opacity="0.035"/>
+    </filter>
+    <filter id="tinyShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#111827" flood-opacity="0.055"/>
+    </filter>
+    <linearGradient id="greenPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#176c62"/>
+      <stop offset="1" stop-color="#0f4f49"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="#fbfbfa"/>
+  
+    <rect x="0" y="0" width="1600" height="78" fill="#fffefd" opacity="0.96"/>
+    <line x1="0" y1="78" x2="1600" y2="78" stroke="#d9dddc"/>
+    <text x="74" y="45" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="800" fill="#17756b">LynkXu</text>
+    <text x="178" y="45" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="700" fill="#101314">/ Blog</text>
+    
+      <text x="605" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">Archive</text>
+      
+      <text x="715" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#101314">Memos</text>
+      <rect x="686" y="72" width="58" height="3.4" rx="1.7" fill="#17756b"/>
+      <text x="826" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">Leaves</text>
+      
+      <text x="934" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">About</text>
+      
+      <text x="1027" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">RSS</text>
+      
+    <rect x="1338" y="20" width="188" height="39" rx="19.5" fill="#fffefd" stroke="#d9dddc"/>
+    <circle cx="1364" cy="39" r="8" fill="none" stroke="#263033" stroke-width="1.8"/>
+    <line x1="1370" y1="45" x2="1376" y2="51" stroke="#263033" stroke-width="1.8" stroke-linecap="round"/>
+    <text x="1388" y="44" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#68737d">Search ⌘K</text>
+  
+  
+    <rect x="74" y="114" width="980" height="832" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+    <text x="100" y="150" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">TIMELINE</text>
+  <rect x="100" y="160" width="45" height="3" rx="1.5" fill="#17756b"/>
+    <text x="100" y="184" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >Short notes gathered by time. Filters stay secondary.</text>
+    
+    <rect x="100" y="228" width="906" height="188" rx="8" fill="#fffefd" stroke="#e8ebea" opacity="1" filter="none"/>
+    <circle cx="138" cy="267" r="20" fill="#c9d8d3"/>
+    <text x="170" y="262" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="800" fill="#101314" >LynkXu</text>
+    <rect x="242" y="242" width="64" height="27" rx="6" fill="#edf5f2"/>
+  <text x="274" y="260" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">AI</text>
+    <text x="170" y="288" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#8d969d" >2026.01.03 · 22:48</text>
+    <text x="170" y="324" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#263033" >最近把博客同步流程交给 Agent 之后，最明显的变化不是省时间，</text><text x="170" y="353" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#263033" >而是每次动手前会更认真地描述自己想要什么。</text>
+    
+    <line x1="170" y1="396" x2="966" y2="396" stroke="#e8ebea"/>
+    <text x="170" y="422" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#8d969d" >Like · Share</text>
+  
+    
+    <rect x="100" y="442" width="906" height="236" rx="8" fill="#fffefd" stroke="#e8ebea" opacity="1" filter="none"/>
+    <circle cx="138" cy="481" r="20" fill="#c9d8d3"/>
+    <text x="170" y="476" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="800" fill="#101314" >LynkXu</text>
+    <rect x="242" y="456" width="88" height="27" rx="6" fill="#edf5f2"/>
+  <text x="286" y="474" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">photo</text>
+    <text x="170" y="502" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#8d969d" >2025.12.08 · 19:26</text>
+    <text x="170" y="538" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#263033" >傍晚的光很短，拍照时反而能更快判断要不要留下。</text><text x="170" y="567" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#263033" >有些画面不适合解释，只适合存档。</text>
+    
+    <rect x="192" y="580" width="124" height="72" rx="4" fill="#dce5e2" stroke="#e8ebea"/>
+    <rect x="326" y="580" width="124" height="72" rx="4" fill="#eef0ed" stroke="#e8ebea"/>
+    <rect x="460" y="580" width="124" height="72" rx="4" fill="#d2ded9" stroke="#e8ebea"/>
+  
+    <line x1="170" y1="658" x2="966" y2="658" stroke="#e8ebea"/>
+    <text x="170" y="684" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#8d969d" >Like · Share</text>
+  
+    <rect x="100" y="704" width="906" height="82" rx="8" fill="#fffefd" stroke="#e8ebea" opacity="1" filter="none"/>
+    <circle cx="138" cy="744" r="20" fill="#c9d8d3"/>
+    <text x="170" y="740" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="800" fill="#101314" >LynkXu</text>
+    <rect x="242" y="720" width="88" height="27" rx="6" fill="#edf5f2"/>
+  <text x="286" y="738" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">mastodon</text>
+    <text x="170" y="766" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#8d969d" >2025.12.07 · 10:12</text>
+    <text x="408" y="752" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="500" fill="#263033" >把零碎的感受放回时间里，它们会自己产生上下文。</text>
+
+    <rect x="1090" y="114" width="364" height="188" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+    <text x="1120" y="148" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">FILTERS</text>
+  <rect x="1120" y="158" width="45" height="3" rx="1.5" fill="#17756b"/>
+    <rect x="1120" y="198" width="64" height="27" rx="6" fill="#edf5f2"/>
+  <text x="1152" y="216" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">All</text>
+    <rect x="1198" y="198" width="76" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1236" y="216" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">Local</text>
+    <rect x="1288" y="198" width="104" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1340" y="216" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">Mastodon</text>
+    <rect x="1120" y="242" width="82" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1161" y="260" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">Media</text>
+
+    <rect x="1090" y="334" width="364" height="230" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+    <text x="1120" y="368" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">MONTHS</text>
+  <rect x="1120" y="378" width="45" height="3" rx="1.5" fill="#17756b"/>
+    <text x="1120" y="428" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="800" fill="#101314" >2026.01</text>
+    <rect x="1214" y="413" width="168" height="9" rx="4.5" fill="#f0f6f3"/>
+    <rect x="1214" y="413" width="110" height="9" rx="4.5" fill="#17756b"/>
+    <text x="1400" y="428" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >9</text>
+    <text x="1120" y="468" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="800" fill="#101314" >2025.12</text>
+    <rect x="1214" y="453" width="168" height="9" rx="4.5" fill="#f0f6f3"/>
+    <rect x="1214" y="453" width="142" height="9" rx="4.5" fill="#17756b"/>
+    <text x="1400" y="468" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >12</text>
+    <text x="1120" y="512" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >31 memos · 12 media</text>
+
+    <rect x="1090" y="596" width="364" height="350" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+    <text x="1120" y="630" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">SOURCES</text>
+  <rect x="1120" y="640" width="45" height="3" rx="1.5" fill="#17756b"/>
+    <text x="1120" y="686" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#101314" >Local markdown</text>
+    <text x="1300" y="686" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="850" fill="#17756b" >7</text>
+    <text x="1120" y="726" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#101314" >Remote statuses</text>
+    <text x="1300" y="726" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="850" fill="#17756b" >24</text>
+  
+  <text x="800" y="1025" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" fill="#68737d">© 2020 - 2026 LynkXu · Powered by Astro · Design by Lynk</text>
+</svg>

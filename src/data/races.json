@@ -1,0 +1,34 @@
+{
+  "races": [
+    {
+      "date": "2026-03-22",
+      "year": "2026",
+      "name": "桐乡半程马拉松",
+      "type": "半马",
+      "distance": "21.0975",
+      "location": "浙江",
+      "status": "completed",
+      "time": "01:54:22",
+      "pace": "5'25''",
+      "rank": "",
+      "note": "首次半马",
+      "lat": 30.63,
+      "lng": 120.55
+    },
+    {
+      "date": "2026-03-28",
+      "year": "2026",
+      "name": "苏州河半程马拉松",
+      "type": "半马",
+      "distance": "21.0975",
+      "location": "上海",
+      "status": "completed",
+      "time": "01:58:51",
+      "pace": "5'34''",
+      "rank": "1818(男)",
+      "note": "",
+      "lat": 31.23,
+      "lng": 121.47
+    }
+  ]
+}

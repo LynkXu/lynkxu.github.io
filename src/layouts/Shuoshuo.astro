@@ -1,0 +1,421 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ReadingShell from './ReadingShell.astro';
+import { marked } from 'marked';
+import LikeButton from '../components/LikeButton.astro';
+import { INCLUDE_DRAFTS } from '../utils/drafts';
+import { getAllGossips } from '../utils/gossips';
+
+type Props = CollectionEntry<'page'>['data'] & {
+	content?: string;
+};
+
+const { title } = Astro.props;
+
+const gossips = await getAllGossips();
+
+const pageSize = 10;
+const totalPages = gossips.length > 0 ? Math.ceil(gossips.length / pageSize) : 0;
+
+marked.setOptions({
+	breaks: true,
+	gfm: true,
+});
+
+function getDateParts(date: Date) {
+	const options: Intl.DateTimeFormatOptions = { timeZone: 'Asia/Shanghai' };
+	const day = new Intl.DateTimeFormat('en-US', { ...options, day: '2-digit' }).format(date);
+	const monthNum = new Intl.DateTimeFormat('en-US', { ...options, month: '2-digit' }).format(date);
+	const year = new Intl.DateTimeFormat('en-US', { ...options, year: 'numeric' }).format(date);
+	const time = new Intl.DateTimeFormat('en-US', {
+		...options,
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false,
+	}).format(date);
+	return { day, monthNum, year, time };
+}
+
+const memoItems = gossips.map((gossip: any, index) => {
+	const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
+	return {
+		gossip,
+		index,
+		page: Math.floor(index / pageSize) + 1,
+		dateLabel: `${year}.${monthNum}.${day}`,
+		time,
+		attachments: gossip._raw?.media_attachments || [],
+	};
+});
+
+const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
+	const page = pageIndex + 1;
+	return {
+		page,
+		items: memoItems.filter((item) => item.page === page),
+	};
+});
+---
+
+<ReadingShell title={title} description={title}>
+	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
+
+	<section class="r-memos" aria-labelledby="memos-title">
+		<header class="r-memos__head">
+			<h1 id="memos-title" class="r-page-title r-memos__title">碎语</h1>
+		</header>
+
+		<div id="shuoshuo">
+			{gossips.length === 0 ? (
+				<p class="r-memos__empty">还没有碎语。</p>
+			) : (
+				pagedMemoPages.map(({ page, items }) => (
+					<div class="memos-page" data-page={page}>
+						<div class="r-memos__list" role="list">
+							{items.map((item) => {
+								const { gossip, attachments, dateLabel, time, index } = item;
+								return (
+									<article class="r-memo" data-index={index} role="listitem">
+										<header class="r-memo__meta">
+											<time datetime={gossip.data.pubDate.toISOString()}>
+												<span class="r-memo__date">{dateLabel}</span>
+												<span class="r-memo__sep" aria-hidden="true">·</span>
+												<span class="r-memo__time">{time}</span>
+											</time>
+											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+												<span class="r-memo__tag">{gossip.data.tag}</span>
+											)}
+											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
+											<span class="r-memo__like">
+												<LikeButton id={gossip.data.slug} type="gossip" />
+											</span>
+										</header>
+
+										<div class="r-memo__content">
+											<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
+
+											{attachments.length > 0 && (
+												<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+													{attachments.slice(0, 4).map((media: any) => (
+														<a
+															href={media.url}
+															class="media-item"
+															data-src={media.url}
+															data-sub-html={media.description}
+														>
+															<img
+																src={media.preview_url || media.url}
+																alt={media.description || ''}
+																loading="lazy"
+															/>
+														</a>
+													))}
+												</div>
+											)}
+										</div>
+									</article>
+								);
+							})}
+						</div>
+					</div>
+				))
+			)}
+		</div>
+
+		{totalPages > 1 && (
+			<nav class="r-memos__pagination" id="shuoshuo-pagination" aria-label="Pagination">
+				{Array.from({ length: totalPages }, (_, index) => {
+					const pageNumber = index + 1;
+					return (
+						<a class="page-link" href={`?page=${pageNumber}`} data-page={pageNumber}>
+							{pageNumber}
+						</a>
+					);
+				})}
+			</nav>
+		)}
+	</section>
+</ReadingShell>
+
+<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
+<script is:inline>
+	function initGallery() {
+		if (!window.lightGallery) return;
+		const grids = document.querySelectorAll('.media-grid');
+		grids.forEach((grid) => {
+			window.lightGallery(grid, {
+				selector: '.media-item',
+				speed: 500,
+				download: false,
+			});
+		});
+	}
+
+	function onReady() {
+		if (window.lightGallery) {
+			initGallery();
+		} else {
+			setTimeout(onReady, 100);
+		}
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', onReady);
+	} else {
+		onReady();
+	}
+</script>
+
+<script is:inline define:vars={{ totalPages }}>
+	(() => {
+		const pages = Array.from(document.querySelectorAll('#shuoshuo .memos-page'));
+		const pagination = document.getElementById('shuoshuo-pagination');
+		const pageLinks = Array.from(document.querySelectorAll('#shuoshuo-pagination a[data-page]'));
+
+		if (!pagination || !pages.length || totalPages <= 1) {
+			if (pagination) pagination.style.display = 'none';
+			return;
+		}
+
+		const params = new URLSearchParams(window.location.search);
+		const initialPage = Math.min(totalPages, Math.max(1, Number(params.get('page')) || 1));
+		const clampPage = (page) => Math.min(totalPages, Math.max(1, page));
+
+		function renderPage(page) {
+			const currentPage = clampPage(page);
+
+			pages.forEach((pageNode) => {
+				const visible = Number(pageNode.dataset.page) === currentPage;
+				pageNode.hidden = !visible;
+			});
+
+			pageLinks.forEach((link) => {
+				const linkPage = Number(link.dataset.page);
+				const active = linkPage === currentPage;
+				link.classList.toggle('active', active);
+				if (active) {
+					link.setAttribute('aria-current', 'page');
+				} else {
+					link.removeAttribute('aria-current');
+				}
+			});
+
+			params.set('page', String(currentPage));
+			const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
+			window.history.replaceState({}, '', nextUrl);
+
+			if (window.scrollY > 100) {
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}
+		}
+
+		renderPage(initialPage);
+
+		pageLinks.forEach((link) => {
+			link.addEventListener('click', (event) => {
+				event.preventDefault();
+				const targetPage = Number(link.dataset.page);
+				if (!Number.isFinite(targetPage)) return;
+				renderPage(targetPage);
+			});
+		});
+	})();
+</script>
+
+<style is:global>
+	/* Hybrid short-feed + light note: single-column stream, quiet paper panels */
+	body.reading-surface .r-memos__head {
+		margin-bottom: var(--r-space-xs);
+		padding-bottom: 0;
+		border-bottom: 0;
+	}
+
+	body.reading-surface .r-memos__title {
+		margin: 0 0 var(--r-space-lg);
+	}
+
+	body.reading-surface .r-memos__empty {
+		color: var(--r-ink-faint);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+	}
+
+	body.reading-surface .r-memos__list {
+		display: flex;
+		flex-direction: column;
+		gap: var(--r-space-sm);
+	}
+
+	body.reading-surface .r-memo {
+		display: flex;
+		flex-direction: column;
+		gap: var(--r-space-xs);
+		padding: var(--r-space-sm) var(--r-space-md);
+		background: color-mix(in oklab, var(--r-ink) 2.2%, var(--r-bg));
+		border: 1px solid color-mix(in oklab, var(--r-rule-soft) 55%, transparent);
+		border-radius: 3px;
+	}
+
+	body.reading-surface .r-memo__meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem 0.55rem;
+		margin: 0;
+		font-family: var(--r-font-ui);
+		font-size: 0.72rem;
+		line-height: 1.35;
+		color: var(--r-ink-faint);
+		letter-spacing: 0.01em;
+		font-variant-numeric: tabular-nums;
+	}
+
+	body.reading-surface .r-memo__meta time {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.35rem;
+	}
+
+	body.reading-surface .r-memo__date {
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-memo__sep {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__time {
+		font-size: 0.72rem;
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__tag {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-memo__content {
+		min-width: 0;
+		max-width: none;
+	}
+
+	body.reading-surface .r-memo__like {
+		margin-left: auto;
+		opacity: 0.5;
+	}
+
+	body.reading-surface .r-memo__like:hover {
+		opacity: 1;
+	}
+
+	body.reading-surface .r-memo__body {
+		font-size: 0.94rem !important;
+		line-height: 1.64 !important;
+	}
+
+	body.reading-surface .r-memo__body > :first-child {
+		margin-top: 0;
+	}
+
+	body.reading-surface .r-memo__body > :last-child {
+		margin-bottom: 0;
+	}
+
+	body.reading-surface .r-memo__body p {
+		margin-bottom: 0.4em !important;
+	}
+
+	body.reading-surface .r-memo__body blockquote {
+		margin: 0.4em 0 !important;
+		padding: 0.05em 0 0.05em 0.85em !important;
+		border-left-color: var(--r-rule) !important;
+		color: var(--r-ink-soft) !important;
+	}
+
+	body.reading-surface .r-memo__body blockquote p {
+		margin: 0 0 0.3em !important;
+	}
+
+	body.reading-surface .r-memo__body blockquote p:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	body.reading-surface .media-grid {
+		display: grid;
+		gap: 4px;
+		margin-top: 0.65rem;
+		width: min(100%, 520px);
+	}
+
+	body.reading-surface .media-item {
+		display: block;
+		overflow: hidden;
+		background: var(--r-code-bg);
+		cursor: zoom-in;
+	}
+
+	body.reading-surface .media-item img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	body.reading-surface .grid-1 { grid-template-columns: 1fr; }
+	body.reading-surface .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	body.reading-surface .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+	body.reading-surface .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+	body.reading-surface .grid-1 .media-item {
+		aspect-ratio: 16 / 10;
+		max-height: 280px;
+	}
+
+	body.reading-surface .grid-2 .media-item,
+	body.reading-surface .grid-3 .media-item,
+	body.reading-surface .grid-4 .media-item {
+		aspect-ratio: 4 / 3;
+		max-height: 165px;
+	}
+
+	body.reading-surface .r-memos__pagination {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.9rem;
+		margin-top: var(--r-space-xl);
+		padding-top: var(--r-space-md);
+		border-top: 1px solid var(--r-rule);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+	}
+
+	body.reading-surface .r-memos__pagination a {
+		color: var(--r-ink-soft);
+		text-decoration: none;
+	}
+
+	body.reading-surface .r-memos__pagination a:hover,
+	body.reading-surface .r-memos__pagination a.active {
+		color: var(--r-ink);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	@media (max-width: 680px) {
+		body.reading-surface .r-memos__title {
+			margin-bottom: var(--r-space-md);
+		}
+
+		body.reading-surface .r-memos__list {
+			gap: var(--r-space-xs);
+		}
+
+		body.reading-surface .r-memo {
+			padding: var(--r-space-sm) 0.85rem;
+		}
+
+		body.reading-surface .r-memo__body {
+			font-size: 0.92rem !important;
+			line-height: 1.64 !important;
+		}
+	}
+</style>

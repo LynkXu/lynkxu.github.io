@@ -1,0 +1,521 @@
+---
+interface BarChartDataPoint {
+  label: string;
+  value: number;
+  displayValue?: string;
+}
+
+interface Props {
+  data: BarChartDataPoint[];
+  unit?: string;
+  id?: string;
+}
+
+const { data, unit, id } = Astro.props;
+
+if (!data || data.length === 0) {
+  return null;
+}
+
+const W = 720;
+const H = 260;
+const P = { top: 10, right: 4, bottom: 28, left: 38 };
+const CW = W - P.left - P.right;
+const CH = H - P.top - P.bottom;
+
+const values = data.map(d => d.value);
+const maxV = Math.max(...values);
+const hasData = maxV > 0;
+const effectiveMax = hasData ? maxV : 1;
+
+// Nice Y axis ticks
+const yTickCount = 4;
+const rawStep = (effectiveMax * 1.08) / (yTickCount - 1);
+const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+const normalized = rawStep / magnitude;
+let niceStep: number;
+if (normalized <= 1) niceStep = magnitude;
+else if (normalized <= 2) niceStep = 2 * magnitude;
+else if (normalized <= 5) niceStep = 5 * magnitude;
+else niceStep = 10 * magnitude;
+const niceMax = Math.ceil((effectiveMax * 1.08) / niceStep) * niceStep;
+
+const barGap = 0.45;
+const barW = CW / data.length * (1 - barGap);
+const barStep = CW / data.length;
+
+const yPos = (v: number) => P.top + CH - (v / niceMax) * CH;
+
+const ticks: number[] = [];
+for (let i = 0; i < yTickCount; i++) {
+  ticks.push(Math.round(i * niceStep * 10) / 10);
+}
+
+const maxIdx = hasData ? values.indexOf(maxV) : -1;
+
+const chartId = id || `bc-${Math.random().toString(36).slice(2, 9)}`;
+const gradientId = `${chartId}-bar-fill`;
+const maxGradientId = `${chartId}-bar-fill-max`;
+const activeData = data.filter(d => Number.isFinite(d.value) && d.value > 0);
+const totalValue = values.reduce((sum, value) => sum + (Number.isFinite(value) ? value : 0), 0);
+const activeAverage = activeData.length > 0 ? totalValue / activeData.length : 0;
+const peakPoint = maxIdx >= 0 ? data[maxIdx] : null;
+const chartUnit = unit || 'km';
+
+function formatNumber(value: number) {
+  const digits = value >= 100 ? 0 : value >= 10 ? 1 : 2;
+  return value.toFixed(digits).replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
+}
+
+function barPath(x: number, y: number, width: number, height: number) {
+  const r = Math.min(4.5, width * 0.18, height);
+  const bottom = y + height;
+  const right = x + width;
+
+  if (height <= 0) return '';
+  return [
+    `M ${x} ${bottom}`,
+    `L ${x} ${y + r}`,
+    `Q ${x} ${y} ${x + r} ${y}`,
+    `L ${right - r} ${y}`,
+    `Q ${right} ${y} ${right} ${y + r}`,
+    `L ${right} ${bottom}`,
+    'Z'
+  ].join(' ');
+}
+
+function formatXAxisLabel(label: string) {
+  const text = String(label || '').trim();
+  const yearMonth = text.match(/^(\d{4})-(\d{1,2})(?:-\d{1,2})?$/);
+  if (yearMonth) {
+    const shortYear = String(Number(yearMonth[1]) % 100).padStart(2, '0');
+    return `${shortYear}.${yearMonth[2].padStart(2, '0')}`;
+  }
+
+  const monthOnly = text.match(/^(\d{1,2})(?:月)?$/);
+  if (monthOnly) {
+    return `${monthOnly[1].padStart(2, '0')}月`;
+  }
+
+  return text;
+}
+---
+
+<div class="bar-chart-box" id={chartId}>
+  <div class="bar-chart-summary" aria-label="Monthly summary">
+    <div class="summary-item primary">
+      <span class="summary-label">累计</span>
+      <strong>{formatNumber(totalValue)}</strong>
+      <span class="summary-unit">{chartUnit}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">峰值</span>
+      <strong>{peakPoint ? formatNumber(peakPoint.value) : '0'}</strong>
+      <span class="summary-unit">{chartUnit} · {peakPoint ? formatXAxisLabel(peakPoint.label) : '-'}</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">活跃月均</span>
+      <strong>{formatNumber(activeAverage)}</strong>
+      <span class="summary-unit">{chartUnit}</span>
+    </div>
+  </div>
+
+  <div class="bar-chart-plot">
+    <svg viewBox={`0 0 ${W} ${H}`} class="bar-chart-svg" preserveAspectRatio="none" role="img" aria-label="Monthly distance chart">
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" class="bar-gradient-stop low" />
+          <stop offset="100%" class="bar-gradient-stop high" />
+        </linearGradient>
+        <linearGradient id={maxGradientId} x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" class="bar-gradient-stop-max low" />
+          <stop offset="100%" class="bar-gradient-stop-max high" />
+        </linearGradient>
+      </defs>
+
+      {/* Grid lines */}
+      {ticks.slice(1).map((t) => {
+        const y = yPos(t);
+        return (
+          <line
+            x1={P.left}
+            y1={y}
+            x2={W - P.right}
+            y2={y}
+            class="grid-line"
+            stroke-dasharray="3 3"
+          />
+        );
+      })}
+
+      {/* Y labels */}
+      {ticks.map((t) => (
+        <text x={P.left - 8} y={yPos(t) + 3} class="y-label" text-anchor="end">
+          {Number.isInteger(t) ? String(t) : t.toFixed(1)}
+        </text>
+      ))}
+
+      {/* Zero baseline */}
+      <line
+        x1={P.left}
+        y1={H - P.bottom}
+        x2={W - P.right}
+        y2={H - P.bottom}
+        class="baseline"
+      />
+
+      {/* Bars */}
+      {data.map((d, i) => {
+        const h = (d.value / niceMax) * CH;
+        const x = P.left + i * barStep + (barStep - barW) / 2;
+        const y = P.top + CH - h;
+        const isMax = i === maxIdx;
+        const cx = x + barW / 2;
+        const zeroY = H - P.bottom;
+        return (
+          <g class="bar-group" data-label={d.label} data-value={d.displayValue ?? String(d.value)} data-unit={unit ?? ''}>
+            {d.value === 0 ? (
+              <circle cx={cx} cy={zeroY} r={1.8} class="bar-zero" />
+            ) : (
+              <path
+                d={barPath(x, y, barW, h)}
+                class={`bar-rect ${isMax ? 'max' : ''}`}
+                style={`--bar-delay: ${i * 38}ms; fill: url(#${isMax ? maxGradientId : gradientId});`}
+              />
+            )}
+            {isMax && d.value > 0 && (
+              <text
+                x={cx}
+                y={y - 7}
+                text-anchor="middle"
+                class="bar-value-label"
+              >
+                {d.displayValue ?? d.value}
+              </text>
+            )}
+          </g>
+        );
+      })}
+
+      {/* X labels */}
+      {data.map((d, i) => {
+        const shortLabel = formatXAxisLabel(d.label);
+        return (
+          <text
+            x={P.left + i * barStep + barStep / 2}
+            y={H - P.bottom + 18}
+            class="x-label"
+            text-anchor="middle"
+          >
+            {shortLabel}
+          </text>
+        );
+      })}
+    </svg>
+  </div>
+
+  <div class="bar-tooltip">
+    <span class="tt-label"></span>
+    <span class="tt-value"></span>
+  </div>
+</div>
+
+<script define:vars={{ chartId }}>
+(function initBarChart() {
+  const container = document.getElementById(chartId);
+  if (!container) return;
+  const tooltip = container.querySelector('.bar-tooltip');
+  const bars = container.querySelectorAll('.bar-group');
+  if (!tooltip) return;
+
+  bars.forEach((bar) => {
+    bar.addEventListener('mouseenter', () => {
+      const label = bar.getAttribute('data-label') || '';
+      const value = bar.getAttribute('data-value') || '';
+      const unitText = bar.getAttribute('data-unit') || '';
+
+      const labelEl = tooltip.querySelector('.tt-label');
+      const valueEl = tooltip.querySelector('.tt-value');
+      if (labelEl) labelEl.textContent = label;
+      if (valueEl) valueEl.textContent = value + (unitText ? ` ${unitText}` : '');
+
+      tooltip.classList.add('visible');
+      const rect = bar.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
+      tooltip.style.top = (rect.top - containerRect.top - 6) + 'px';
+    });
+
+    bar.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
+  });
+
+  // Animate bars on enter
+  const rects = container.querySelectorAll('.bar-rect');
+  rects.forEach((r) => {
+    const delay = Number.parseFloat(getComputedStyle(r).getPropertyValue('--bar-delay')) || 0;
+    r.style.opacity = '0';
+    r.style.transform = 'scaleY(0.08)';
+    setTimeout(() => {
+      r.style.transition = 'transform 0.58s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.28s ease';
+      r.style.opacity = '1';
+      r.style.transform = 'scaleY(1)';
+    }, 40 + delay);
+  });
+})();
+</script>
+
+<style>
+  .bar-chart-box {
+    position: relative;
+    width: 100%;
+    min-height: 320px;
+    padding: clamp(0.7rem, 2vw, 1rem) clamp(0.8rem, 2.4vw, 1.15rem) 0.8rem;
+    color: var(--text-color);
+    --chart-signal: oklch(0.58 0.052 155);
+    --chart-signal-soft: oklch(0.86 0.024 155);
+    --chart-signal-peak: oklch(0.5 0.062 155);
+    background: var(--paper-card-bg);
+    container-type: inline-size;
+  }
+
+  .bar-chart-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr));
+    gap: clamp(0.45rem, 1.4vw, 0.8rem);
+    margin: 0 0 clamp(0.45rem, 1.4vw, 0.7rem);
+  }
+
+  .summary-item {
+    min-width: 0;
+    padding: clamp(0.55rem, 1.5vw, 0.78rem) clamp(0.62rem, 1.8vw, 0.9rem);
+    border: 1px solid var(--paper-card-border-soft);
+    border-radius: 10px;
+    background: var(--paper-card-bg);
+  }
+
+  .summary-item.primary {
+    border-color: color-mix(in oklab, var(--chart-signal) 12%, var(--paper-card-border-soft));
+  }
+
+  .summary-label,
+  .summary-unit {
+    display: block;
+    color: color-mix(in oklab, var(--gray-color) 86%, var(--text-color));
+    font-family: var(--ui-font, inherit);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
+  }
+
+  .summary-item strong {
+    display: inline-block;
+    margin: 0.12rem 0.14rem 0.06rem 0;
+    color: var(--heading-color);
+    font-family: var(--ui-font, inherit);
+    font-size: clamp(1rem, 2vw, 1.38rem);
+    font-weight: 760;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .summary-unit {
+    display: inline;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .bar-chart-plot {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--chart-signal) 32%, transparent) transparent;
+  }
+
+  .bar-chart-svg {
+    width: 100%;
+    height: 230px;
+    display: block;
+    overflow: hidden;
+  }
+
+  .bar-gradient-stop.low {
+    stop-color: color-mix(in oklab, var(--chart-signal-soft) 46%, var(--paper-field-bg));
+    stop-opacity: 0.62;
+  }
+
+  .bar-gradient-stop.high {
+    stop-color: var(--chart-signal);
+    stop-opacity: 0.78;
+  }
+
+  .bar-gradient-stop-max.low {
+    stop-color: color-mix(in oklab, var(--chart-signal-soft) 54%, var(--paper-field-bg));
+    stop-opacity: 0.72;
+  }
+
+  .bar-gradient-stop-max.high {
+    stop-color: var(--chart-signal-peak);
+    stop-opacity: 0.9;
+  }
+
+  .grid-line {
+    stroke: color-mix(in oklab, var(--text-color) 18%, transparent);
+    stroke-opacity: 0.36;
+    stroke-width: 1;
+  }
+
+  .baseline {
+    stroke: color-mix(in oklab, var(--heading-color) 24%, transparent);
+    stroke-opacity: 0.66;
+    stroke-width: 1;
+    stroke-linecap: round;
+  }
+
+  .y-label {
+    font-size: 0.62rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  .x-label {
+    font-size: 0.62rem;
+    fill: var(--gray-color);
+    font-family: var(--ui-font, inherit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  .bar-rect {
+    opacity: 0.86;
+    transform-box: fill-box;
+    transform-origin: center bottom;
+    transition: opacity 0.25s ease, filter 0.25s ease;
+  }
+
+  .bar-rect.max {
+    opacity: 1;
+    filter: drop-shadow(0 6px 10px color-mix(in oklab, var(--chart-signal) 16%, transparent));
+  }
+
+  .bar-group:hover .bar-rect {
+    opacity: 1;
+    filter: drop-shadow(0 5px 10px color-mix(in oklab, var(--chart-signal) 12%, transparent));
+  }
+
+  .bar-group:hover .bar-rect.max {
+    filter: drop-shadow(0 8px 14px color-mix(in oklab, var(--chart-signal) 22%, transparent));
+  }
+
+  .bar-zero {
+    fill: var(--chart-signal);
+    fill-opacity: 0.16;
+  }
+
+  .bar-value-label {
+    font-size: 0.6rem;
+    fill: var(--heading-color);
+    font-family: var(--ui-font, inherit);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .bar-tooltip {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -100%) translateY(-6px);
+    transition: opacity 0.2s ease;
+    background: color-mix(in oklab, var(--heading-color) 90%, var(--page-bg));
+    border: 1px solid color-mix(in oklab, var(--heading-color) 16%, transparent);
+    border-radius: 8px;
+    padding: 0.42rem 0.58rem;
+    box-shadow: 0 10px 24px color-mix(in oklab, var(--heading-color) 16%, transparent);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+  }
+
+  .bar-tooltip.visible {
+    opacity: 1;
+  }
+
+  .tt-label {
+    color: color-mix(in oklab, var(--page-bg) 68%, var(--gray-color));
+    font-size: 0.68rem;
+  }
+
+  .tt-value {
+    color: var(--page-bg);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global([data-theme="dark"]) .bar-tooltip {
+    background: color-mix(in oklab, var(--paper-card-bg) 82%, var(--heading-color));
+    border-color: color-mix(in oklab, var(--heading-color) 12%, transparent);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.32);
+  }
+
+  :global([data-theme="dark"]) .tt-label {
+    color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
+  }
+
+  :global([data-theme="dark"]) .tt-value {
+    color: var(--heading-color);
+  }
+
+  @media (max-width: 600px) {
+    .bar-chart-box {
+      min-height: 280px;
+      padding-inline: 0.65rem;
+    }
+    .summary-item {
+      padding: 0.5rem 0.45rem;
+    }
+    .summary-label,
+    .summary-unit {
+      font-size: 0.58rem;
+    }
+    .summary-item strong {
+      font-size: 0.96rem;
+    }
+    .bar-chart-svg {
+      height: 198px;
+    }
+    .y-label, .x-label {
+      font-size: 0.58rem;
+    }
+  }
+
+  @container (max-width: 360px) {
+    .bar-chart-summary {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .summary-item.primary {
+      grid-column: 1 / -1;
+    }
+
+    .bar-chart-svg {
+      min-width: 520px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bar-rect {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>

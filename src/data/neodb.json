@@ -1,0 +1,2454 @@
+{
+  "book": [
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 535337092532540700,
+      "item": {
+        "type": "Edition",
+        "title": "段永平投资问答录（商业逻辑篇）",
+        "description": "",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "段永平投资问答录（商业逻辑篇）"
+          }
+        ],
+        "localized_description": [],
+        "cover_image_url": "https://neodb.social/m/book/2022/04/30c7da4f80-b1ac-4949-b884-2183d3bf9f26.jpg",
+        "rating": 7.7,
+        "rating_count": 7,
+        "rating_distribution": [
+          0,
+          0,
+          29,
+          57,
+          14
+        ],
+        "tags": [
+          "investment economy",
+          "中国",
+          "投资",
+          "非虚构"
+        ],
+        "brief": "",
+        "id": "https://neodb.social/book/7FZAbHh74iGZwCOIfnb52O",
+        "uuid": "7FZAbHh74iGZwCOIfnb52O",
+        "url": "/book/7FZAbHh74iGZwCOIfnb52O",
+        "api_url": "/api/book/7FZAbHh74iGZwCOIfnb52O",
+        "category": "book",
+        "parent_uuid": null,
+        "display_title": "段永平投资问答录（商业逻辑篇）",
+        "external_resources": [
+          {
+            "url": "https://book.douban.com/subject/35254511/"
+          }
+        ]
+      },
+      "created_time": "2025-09-01T12:54:00Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "未知"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535337208718118140,
+      "item": {
+        "type": "Edition",
+        "title": "三体",
+        "description": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "三体"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "地球往事：三体"
+          },
+          {
+            "lang": "en",
+            "text": "The Three-Body Problem"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/bangumi/2024/12/22/184db1d2-e3a0-4e55-8111-464c00d8e8c8.jpg",
+        "rating": 8.6,
+        "rating_count": 1483,
+        "rating_distribution": [
+          0,
+          2,
+          10,
+          40,
+          48
+        ],
+        "tags": [
+          "kindle",
+          "三体",
+          "中国",
+          "中国当代文学",
+          "中国文学",
+          "中国科幻",
+          "刘大人的水准",
+          "刘慈欣",
+          "哲学",
+          "大陆",
+          "小说",
+          "当代文学",
+          "文学",
+          "硬科幻",
+          "科幻",
+          "科幻小说",
+          "科普",
+          "经典",
+          "虚构",
+          "量子物理"
+        ],
+        "brief": "文化大革命如火如荼进行的同时。军方探寻外星文明的绝秘计划“红岸工程”取得了突破性进展。但在按下发射键的那一刻，历经劫难的叶文洁没有意识到，她彻底改变了人类的命运。地球文明向宇宙发出的第一声啼鸣，以太阳为中心，以光速向宇宙深处飞驰……\r\n　　四光年外，“三体文明”正苦苦挣扎——三颗无规则运行的太阳主导下的百余次毁灭与重生逼迫他们逃离母星。而恰在此时。他们接收到了地球发来的信息。在运用超技术锁死地球人的基础科学之后。三体人庞大的宇宙舰队开始向地球进发……\r\n　　人类的末日悄然来临。",
+        "id": "https://neodb.social/book/7OGqnJkxiQZImAxD9aAgMr",
+        "uuid": "7OGqnJkxiQZImAxD9aAgMr",
+        "url": "/book/7OGqnJkxiQZImAxD9aAgMr",
+        "api_url": "/api/book/7OGqnJkxiQZImAxD9aAgMr",
+        "category": "book",
+        "parent_uuid": "1nMjxbIOKeRXlf7IjcaQJD",
+        "display_title": "三体",
+        "external_resources": [
+          {
+            "url": "https://book.douban.com/subject/2567698/"
+          },
+          {
+            "url": "https://www.goodreads.com/book/show/9574008"
+          },
+          {
+            "url": "https://bgm.tv/subject/9585"
+          }
+        ]
+      },
+      "created_time": "2016-04-01T13:54:00Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2008"
+    }
+  ],
+  "movie": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 576638380007761300,
+      "item": {
+        "type": "Movie",
+        "title": "我，许可",
+        "description": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "两分钟的事"
+          },
+          {
+            "lang": "en",
+            "text": "It's OK"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "我，许可"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "我，许可"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……"
+          },
+          {
+            "lang": "en",
+            "text": "Daughter Xu Ke wants to have surgery to remove the polyp from her uterus during the vacation, while her mother Hu Chunrong also plans to run away from home to escape the long-standing problems in her marriage. As the two, who both love and hurt each other, resolve to face their respective predicaments, they unexpectedly find forgiveness for each other’s fragility and imperfection in a sudden, unforeseen moment."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/03/26/32428216-e51b-486f-9c21-a03887b3b160.webp",
+        "rating": 7.6,
+        "rating_count": 59,
+        "rating_distribution": [
+          0,
+          3,
+          19,
+          49,
+          29
+        ],
+        "tags": [
+          "2026",
+          "中国",
+          "中国电影",
+          "亲情",
+          "华语",
+          "女性",
+          "家庭",
+          "文淇",
+          "楊荔鈉",
+          "社会",
+          "秦海璐"
+        ],
+        "brief": "00后“母单”女孩儿许可（文淇 饰）面临一场迫在眉睫的妇科手术，却因妈妈胡春蓉（秦海璐 饰）的突袭式造访打乱了所有计划。母女同居，冲突乍起。在新旧观念的摩擦中，没想到女儿对妈妈展开了一次又一次反向教育——跟妈谈心，不如带妈蹦迪；给妈上生理课，不如直接送妈小玩具……最终许可能否顺利手术，胡春蓉又能否鼓起勇气开始新生活？这场笑点和泪点齐飞的大戏，又将如何重塑两人之间的母女关系……",
+        "id": "https://neodb.social/movie/36pzWxEJejGcgRlxo6Sn13",
+        "uuid": "36pzWxEJejGcgRlxo6Sn13",
+        "url": "/movie/36pzWxEJejGcgRlxo6Sn13",
+        "api_url": "/api/movie/36pzWxEJejGcgRlxo6Sn13",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "我，许可",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt40915506/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/37332784/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "文淇",
+            "character_name": "",
+            "person_url": "/api/person/6ivlQOFZwOnLuC04C6qxRG"
+          },
+          {
+            "role": "actor",
+            "name": "秦海璐",
+            "character_name": "",
+            "person_url": "/api/person/1PrA3GrVRM6UnBuYEKGxeE"
+          },
+          {
+            "role": "director",
+            "name": "杨荔钠",
+            "character_name": "",
+            "person_url": "/api/person/5lAluB0Fs7LEVAgSztjwcE"
+          },
+          {
+            "role": "playwright",
+            "name": "游晓颖",
+            "character_name": "",
+            "person_url": "/api/person/6qu9byVhYVlN0LKdjSZbSL"
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:15:03.161Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 576636248312732700,
+      "item": {
+        "type": "Movie",
+        "title": "给阿嬷的情书",
+        "description": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "给阿嬷的情书"
+          },
+          {
+            "lang": "en",
+            "text": "Dear You"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "给阿嬷的情书"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "给阿嬷的情书"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/05/04/b28efd0a-00ff-4f21-bb27-3de895f80442.jpg",
+        "rating": 8.1,
+        "rating_count": 50,
+        "rating_distribution": [
+          2,
+          2,
+          6,
+          48,
+          42
+        ],
+        "tags": [
+          "中国",
+          "家庭",
+          "潮汕",
+          "电影"
+        ],
+        "brief": "潮汕阿嬷叶淑柔一直守着平淡的日子，安享晚年。孙子晓伟因债务缠身，瞒着家人远赴泰国，寻找传闻中已成亿万富豪的阿公郑木生。然而，一个令人意外的消息打破了整个家庭的平静：多年来一直通过跨国信件与阿嬷“谈情说爱”诉说思念的人，竟然并非阿嬷的丈夫郑木生。随着晓伟的调查，一个感人的真相被缓缓揭开。",
+        "id": "https://neodb.social/movie/5JNEBpERf9S91oDZcnipiz",
+        "uuid": "5JNEBpERf9S91oDZcnipiz",
+        "url": "/movie/5JNEBpERf9S91oDZcnipiz",
+        "api_url": "/api/movie/5JNEBpERf9S91oDZcnipiz",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "给阿嬷的情书",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/37116446/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1671548"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt41791573/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "李思潼",
+            "character_name": "",
+            "person_url": "/api/person/3nWPcJBPzkXNA4elkDkJmm"
+          },
+          {
+            "role": "actor",
+            "name": "郑润奇",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "王晓晨",
+            "character_name": "",
+            "person_url": "/api/person/1PlPfJQRZvzEZzM9Efyboi"
+          },
+          {
+            "role": "actor",
+            "name": "赵曙光",
+            "character_name": "",
+            "person_url": "/api/person/223JTQVO6LY5ZpwwbULSDc"
+          },
+          {
+            "role": "actor",
+            "name": "李树浩",
+            "character_name": "",
+            "person_url": "/api/person/2ViaMYfENNuD3YeTal8eOv"
+          },
+          {
+            "role": "actor",
+            "name": "乌莎·西姆库姆",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "蓝鸿春",
+            "character_name": "",
+            "person_url": "/api/person/0DjEQFYPI2DDZ2Ha99L9c0"
+          },
+          {
+            "role": "playwright",
+            "name": "蓝鸿春",
+            "character_name": "",
+            "person_url": "/api/person/0DjEQFYPI2DDZ2Ha99L9c0"
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:06:34.928Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 563106512883603100,
+      "item": {
+        "type": "Movie",
+        "title": "挽救计划",
+        "description": "　　太阳即将熄灭，地球命悬一线，对太空一窍不通的中学老师瑞恩（瑞恩·高斯林 饰）竟成为全人类的希望。被迫成为宇航员的他，踏上有去无回的太空孤旅。他能否力挽狂澜，为人类带来新的黎明？\r 　　影片改编自安迪·威尔的同名畅销科幻小说。",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "프로젝트 헤일메리"
+          },
+          {
+            "lang": "ja",
+            "text": "プロジェクト・ヘイル・メアリー"
+          },
+          {
+            "lang": "de",
+            "text": "Der Astronaut"
+          },
+          {
+            "lang": "fr",
+            "text": "Projet Dernière Chance"
+          },
+          {
+            "lang": "es",
+            "text": "Proyecto salvación"
+          },
+          {
+            "lang": "en",
+            "text": "Project Hail Mary"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "末日聖母號"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "極限返航"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "挽救计划"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "de",
+            "text": "Als Ryland Grace erwacht, muss er feststellen, dass er ganz allein ist. Er ist anscheinend der einzige Überlebende einer Raumfahrtmission, Millionen Kilometer von zu Hause entfernt, auf einem Flug ins Tau-Ceti-Sternsystem. Aber was erwartet ihn dort? Und warum sind alle anderen Besatzungsmitglieder tot? Nach und nach dämmert es Grace, dass von seinem Überleben nicht nur die Mission, sondern die Zukunft der gesamten Erdbevölkerung abhängt."
+          },
+          {
+            "lang": "fr",
+            "text": "Dans un futur proche, l'astronaute Ryland Grace se réveille d'un coma amnésique. Il se souvient peu à peu qu'il a été envoyé dans le système solaire de Tau Ceti, à 12 années-lumière de la Terre, pour trouver un moyen d'inverser un phénomène d'assombrissement solaire qui pourrait entraîner l'extinction de l'humanité."
+          },
+          {
+            "lang": "es",
+            "text": "El profesor de ciencias Ryland Grace se despierta en una nave espacial a años luz de casa sin recordar quién es ni cómo ha llegado hasta allí. A medida que recupera la memoria, empieza a descubrir su misión: resolver el enigma de la misteriosa sustancia que provoca la extinción del sol. Deberá recurrir a sus conocimientos científicos y a sus ideas poco ortodoxas para salvar todo lo que hay en la Tierra de la extinción... pero una amistad inesperada significa que quizá no tenga que hacerlo solo."
+          },
+          {
+            "lang": "en",
+            "text": "Science teacher Ryland Grace wakes up on a spaceship light years from home with no recollection of who he is or how he got there. As his memory returns, he begins to uncover his mission: solve the riddle of the mysterious substance causing the sun to die out. He must call on his scientific knowledge and unorthodox ideas to save everything on Earth from extinction… but an unexpected friendship means he may not have to do it alone."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "科學老師Ryland Grace（賴恩高斯寧 飾）在一艘距離地球數光年遠的太空船上醒來，隨着記憶慢慢逐漸恢復，佢先至知道大鑊！原來太陽就快玩完，而佢竟然是人類最後希望？！為了破解令太陽熄機之謎，他必須用盡畢生科學知識、非傳統諗頭，誓死拯救地球。不過估唔到喺呢趟孤獨太空之旅，竟然識到個意想不到嘅拍檔⋯⋯"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "　　太阳即将熄灭，地球命悬一线，对太空一窍不通的中学老师瑞恩（瑞恩·高斯林 饰）竟成为全人类的希望。被迫成为宇航员的他，踏上有去无回的太空孤旅。他能否力挽狂澜，为人类带来新的黎明？\r 　　影片改编自安迪·威尔的同名畅销科幻小说。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "《挽救计划》（Project Hail Mary）是由菲尔·罗德、克里斯托弗·米勒执导，德鲁·高达、安迪·威尔编剧，瑞恩·高斯林、桑德拉·惠勒、詹姆斯·奥尔蒂斯、米拉娜·薇恩翠、梁振邦等主演的太空科幻惊悚片。\r\n\r\n该片改编自安迪·威尔的同名科幻小说，讲述了曾担任中学科学课老师的宇航员从昏迷中醒来，发现独自身处宇宙飞船中，已经不记得自己是谁，在这里干什么。而随着记忆爆发式的回归，他想起是被送往离地球12光年的天仓五，去拯救地球——因为一起太空事件，地球已进入冰川时代早期。任务的细节逐渐揭露，他必须依赖自身的科技知识和聪明才智。不过，他可能并不是独自一“人”。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2025/11/22/f0659886-8a6d-4ca2-b485-0e0c4a66c0d0.webp",
+        "rating": 8,
+        "rating_count": 270,
+        "rating_distribution": [
+          0,
+          2,
+          10,
+          54,
+          34
+        ],
+        "tags": [
+          "2020s",
+          "2022",
+          "2023",
+          "2026",
+          "2d",
+          "c 2026",
+          "喜剧",
+          "太空",
+          "小说改编",
+          "桑德拉 惠勒",
+          "欧美电影",
+          "瑞恩 高斯林",
+          "电影",
+          "电影院",
+          "科幻",
+          "美国",
+          "美国电影",
+          "美國",
+          "老鸨鸭店",
+          "蛙蛙在看"
+        ],
+        "brief": "　　太阳即将熄灭，地球命悬一线，对太空一窍不通的中学老师瑞恩（瑞恩·高斯林 饰）竟成为全人类的希望。被迫成为宇航员的他，踏上有去无回的太空孤旅。他能否力挽狂澜，为人类带来新的黎明？\r 　　影片改编自安迪·威尔的同名畅销科幻小说。",
+        "id": "https://neodb.social/movie/0p2zNbJGVlkmWckcdSLhRL",
+        "uuid": "0p2zNbJGVlkmWckcdSLhRL",
+        "url": "/movie/0p2zNbJGVlkmWckcdSLhRL",
+        "api_url": "/api/movie/0p2zNbJGVlkmWckcdSLhRL",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "挽救计划",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/636399"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q107105860"
+          },
+          {
+            "url": "https://movie.douban.com/subject/35010610/"
+          },
+          {
+            "url": "https://minreol.dk/movie/1Y83CWwVfdduSKZfE7Ncfo"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt12042730/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/687163"
+          }
+        ]
+      },
+      "created_time": "2026-04-04T04:04:14.621Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 561285604031212400,
+      "item": {
+        "type": "Movie",
+        "title": "河狸变身计划",
+        "description": "　　梅宝是一位对动物世界充满好奇的年轻女孩，她利用先进的意识上传技术，将自己的思维注入一只机械河狸体内。以这种独特的形态，梅宝结识了河狸王国的乔治国王等动物伙伴。然而，一个由房地产开发计划带来的威胁，正试图破坏动物们的栖息地。梅宝与她的新朋友们联手，利用机械河狸的能力和人类的智慧，共同对抗这个危机，守护动物们的家园。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "河狸变身计划"
+          },
+          {
+            "lang": "en",
+            "text": "Hoppers"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "跃动世界"
+          },
+          {
+            "lang": "ko",
+            "text": "호퍼스"
+          },
+          {
+            "lang": "ja",
+            "text": "私がビーバーになる時"
+          },
+          {
+            "lang": "pt",
+            "text": "Saltitões"
+          },
+          {
+            "lang": "fr",
+            "text": "Jumpers"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "狸想奇兵"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "狸想世界"
+          },
+          {
+            "lang": "zh",
+            "text": "狸想世界"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "狸想世界"
+          },
+          {
+            "lang": "es",
+            "text": "Hoppers"
+          },
+          {
+            "lang": "fr",
+            "text": "Hoppers"
+          },
+          {
+            "lang": "pt",
+            "text": "Hoppers"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "오랜 연구 끝에 개발한 ‘호핑’ 기술로 동물 세계에 가까이 갈 수 있음을 알게 된 주인공 ‘메이블’은 마치 ‘아바타’ 같다며 신기해하고, 직접 로봇 비버가 되어 동물들의 세계에 잠입한다. 그들의 말을 알아듣게 된 ‘메이블’은 진짜 동물이 된 것처럼 동물 세상을 경험하는 가운데, 연못에 있던 다른 비버에게 달려드는 곰을 막아서지만 그들에겐 그들만의 질서와 법칙이 있다는 사실을 알게 된다. ‘호핑‘ 기술을 개발한 박사는 이 기술을 자연계 질서를 어지럽히는 데 쓰면 안 된다고 경고하지만, ‘메이블’은 통신을 끊어버려 이후 예측불가의 모험이 펼쳐질 것을 예고한다."
+          },
+          {
+            "lang": "ja",
+            "text": "ディズニー＆ピクサー最新作！ もしもビーバーになって、＜動物の世界＞に潜入できたら？\r ある目的のため、ビーバー型ロボットに意識を“ホップ”させたメイベルは夢見ていた動物との会話に大喜びするが、人間の世界を揺るがす動物たちのとんでもない計画を知ってしまう。ビーバーになった彼女が巻き起こす奇跡とは―？"
+          },
+          {
+            "lang": "pt",
+            "text": "Os cientistas descobriram como “transferir” a consciência humana para animais robóticos realistas, permitindo que as pessoas comuniquem com os animais como se fossem animais! Usando a nova tecnologia, Mabel (voz de Piper Curda), uma amante dos animais, vai descobrir mistérios do mundo animal que vão além de tudo o que ela poderia imaginar."
+          },
+          {
+            "lang": "fr",
+            "text": "Mabel est une jeune fille audacieuse qui a une grande ambition : infiltrer le monde animal. Pour ce faire, elle transfère son esprit à un robot castor afin de pouvoir approcher d’autres animaux et étudier leur mode de vie."
+          },
+          {
+            "lang": "en",
+            "text": "Scientists have discovered how to \"hop\" human consciousness into lifelike robotic animals, allowing people to communicate with animals as animals. Animal lover Mabel seizes an opportunity to use the technology, uncovering mysteries within the animal world that are beyond anything she could have imagined."
+          },
+          {
+            "lang": "zh-cn",
+            "text": "　　梅宝是一位对动物世界充满好奇的年轻女孩，她利用先进的意识上传技术，将自己的思维注入一只机械河狸体内。以这种独特的形态，梅宝结识了河狸王国的乔治国王等动物伙伴。然而，一个由房地产开发计划带来的威胁，正试图破坏动物们的栖息地。梅宝与她的新朋友们联手，利用机械河狸的能力和人类的智慧，共同对抗这个危机，守护动物们的家园。"
+          },
+          {
+            "lang": "es",
+            "text": "película animada de 2026 dirigida por Daniel Chong"
+          },
+          {
+            "lang": "en",
+            "text": "What if you could talk to animals and understand what they’re saying? In Disney and Pixar’s all-new feature film “Hoppers,” scientists have discovered how to “hop” human consciousness into lifelike robotic animals, allowing people to communicate with animals as animals! "
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/movie/2026/01/25/815440ba-7537-4ae1-8d09-ce0be959d58b.jpg",
+        "rating": 7.3,
+        "rating_count": 72,
+        "rating_distribution": [
+          0,
+          3,
+          24,
+          54,
+          19
+        ],
+        "tags": [
+          "2020s",
+          "8 10",
+          "c 2026",
+          "c us",
+          "c 动画",
+          "disney",
+          "pixar",
+          "动物",
+          "动画",
+          "动画长片",
+          "動物",
+          "動畫",
+          "友情",
+          "環境",
+          "电影",
+          "科幻",
+          "美国"
+        ],
+        "brief": "　　梅宝是一位对动物世界充满好奇的年轻女孩，她利用先进的意识上传技术，将自己的思维注入一只机械河狸体内。以这种独特的形态，梅宝结识了河狸王国的乔治国王等动物伙伴。然而，一个由房地产开发计划带来的威胁，正试图破坏动物们的栖息地。梅宝与她的新朋友们联手，利用机械河狸的能力和人类的智慧，共同对抗这个危机，守护动物们的家园。",
+        "id": "https://neodb.social/movie/0wKIhL3cZWrGKaDctLomq2",
+        "uuid": "0wKIhL3cZWrGKaDctLomq2",
+        "url": "/movie/0wKIhL3cZWrGKaDctLomq2",
+        "api_url": "/api/movie/0wKIhL3cZWrGKaDctLomq2",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "河狸变身计划",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/525516"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q128798957"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1327819"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt26443616/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36999793/"
+          }
+        ]
+      },
+      "created_time": "2026-03-30T03:28:36.119Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 561285546722113860,
+      "item": {
+        "type": "Movie",
+        "title": "奇迹梦之队",
+        "description": "　　主角威尔是只梦想成为职业球手的小山羊，面对向来由猛兽主宰的凶险赛场，队友对他嗤之以鼻，他能否打破偏见，用实力证明小个子也能称霸球场？",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "고트"
+          },
+          {
+            "lang": "pt",
+            "text": "GOAT: O Maior de Todos"
+          },
+          {
+            "lang": "de",
+            "text": "G.O.A.T. - Bock auf große Sprünge"
+          },
+          {
+            "lang": "fr",
+            "text": "GOAT : Rêver plus haut"
+          },
+          {
+            "lang": "es",
+            "text": "GOAT: Como cabras"
+          },
+          {
+            "lang": "en",
+            "text": "GOAT"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "GOAT級神射手"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "山羊巔峰"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "奇迹梦之队"
+          },
+          {
+            "lang": "zh",
+            "text": "山羊巔峰"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "山羊巔峰"
+          },
+          {
+            "lang": "zh-sg",
+            "text": "山羊巅峰"
+          },
+          {
+            "lang": "en",
+            "text": "Goat"
+          },
+          {
+            "lang": "es",
+            "text": "Goat"
+          },
+          {
+            "lang": "fr",
+            "text": "Goat - Rêver plus haut"
+          },
+          {
+            "lang": "pt",
+            "text": "Goat"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "山羊巔峰(台)"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "GOAT级神射手(港)"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "山羊"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "史上最佳球员"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "큰 꿈을 품은 작은 염소 윌은 세계에서 가장 빠르고 사나운 동물들이 지배하는 고강도 혼성 풀컨택트 스포츠 ‘로어볼’의 프로 리그에 합류할 단 한 번의 기회를 얻게 된다. 새 팀의 동료들은 작은 염소가 팀 명단에 오른 것을 탐탁지 않게 여기지만, 윌은 ‘작아도 충분히 해낼 수 있다’는 것을 증명하고 스포츠의 판도를 바꾸겠다는 굳은 결의를 다진다. 이를 위해 그는 지금까지 한 번도 해본 적 없는 도전에 나서야 한다."
+          },
+          {
+            "lang": "pt",
+            "text": "Num mundo totalmente animal, Will, um cabrito com grandes sonhos, tem a oportunidade única de se juntar aos profissionais e jogar roarball – um desporto misto de alta intensidade e contacto total, dominado pelos animais mais rápidos e ferozes do mundo. Os novos colegas de equipa de Will não estão muito entusiasmados com a ideia de ter um cabrito no seu plantel, mas Will está determinado a revolucionar o desporto e a provar de uma vez por todas que “os mais pequenos sabem jogar à bola!”."
+          },
+          {
+            "lang": "de",
+            "text": "Im Mittelpunkt der Geschichte steht Will, ein kleiner Ziegenbock mit großen Träumen. Er bekommt die einmalige Chance, einem Profiteam beizutreten und Roarball zu spielen – ein kontaktintensiver Hochleistungssport, bei dem die schnellsten und furchterregendsten Tiere der Welt dominieren. Wills neue Teammitglieder sind daher nicht gerade begeistert, nun eine schmächtige Ziege in ihrer Mannschaft zu haben, doch Will ist wild entschlossen, den Sport zu revolutionieren und ein für alle Mal zu beweisen, dass auch Kleine ganz groß rauskommen können."
+          },
+          {
+            "lang": "fr",
+            "text": "Will est un petit bouc avec de grands rêves. Lorsqu'il décroche une chance inespérée de rejoindre la ligue professionnelle de \"roarball\", un sport ultra-intense réservé aux bêtes les plus rapides et féroces, il entend bien saisir l’opportunité. Problème : ses nouveaux coéquipiers ne sont pas vraiment ravis d'avoir un \"petit\" dans l'équipe. Mais Will est prêt à tout pour changer les règles du jeu."
+          },
+          {
+            "lang": "es",
+            "text": "Will es una pequeña cabra con grandes sueños que recibe una oportunidad única en la vida para unirse a los profesionales y jugar al rugebol, un deporte de alta intensidad, mixto y de contacto total dominado por los animales más rápidos y feroces del mundo. A los nuevos compañeros de equipo de Will no les entusiasma tener a una cabrita en su plantilla, pero Will está decidido a revolucionar el deporte y demostrar de una vez por todas que «¡los pequeños saben jugar!»."
+          },
+          {
+            "lang": "en",
+            "text": "Will, a small goat with big dreams, gets a once-in-a-lifetime shot to join the pros and play roarball – a high-intensity, co-ed, full-contact sport dominated by the fastest, fiercest animals in the world. Will's new teammates aren't thrilled about having a little goat on their roster, but Will is determined to revolutionize the sport and prove once and for all that 'smalls can ball'!"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "「咆哮球」聯賽一向係巨獸天下，點估到今季殺入隻山羊仔Will？場上隊友當佢透明，對手當佢點心，但山羊仔偏要逆襲全場，同班巨無霸鬥波，成為真正的GOAT級神射手！"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "威爾是一隻年輕小山羊，但是山羊雖小夢想俱全，他意外獲得一次千載難逢的機會，能加入「職吼聯盟」挑戰最高榮譽，這是一項節奏超快、各種動物混合的高強度球類運動，由全世界最迅捷、最兇猛的動物稱霸。雖然威爾的新隊友對於這隻小山羊的加入興趣缺缺，但他決心顛覆這項運動，用行動證明：「小個子也能打出大場面！」"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "　　主角威尔是只梦想成为职业球手的小山羊，面对向来由猛兽主宰的凶险赛场，队友对他嗤之以鼻，他能否打破偏见，用实力证明小个子也能称霸球场？"
+          },
+          {
+            "lang": "en",
+            "text": "2026 animated film directed by Tyree Dillihay"
+          },
+          {
+            "lang": "es",
+            "text": "película animada de 2026 dirigida por Tyree Dillihay"
+          },
+          {
+            "lang": "fr",
+            "text": "film d'animation prévu pour 2026"
+          },
+          {
+            "lang": "pt",
+            "text": "filme de animação de 2026 dirigido por Tyree Dillihay"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/tmdb_movie/2026/02/15/9f75302f-03c3-488b-ae1e-9b59f3384cba.jpg",
+        "rating": null,
+        "rating_count": 4,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "　　主角威尔是只梦想成为职业球手的小山羊，面对向来由猛兽主宰的凶险赛场，队友对他嗤之以鼻，他能否打破偏见，用实力证明小个子也能称霸球场？",
+        "id": "https://neodb.social/movie/5h7YCo3BbAj9u38YWJNRit",
+        "uuid": "5h7YCo3BbAj9u38YWJNRit",
+        "url": "/movie/5h7YCo3BbAj9u38YWJNRit",
+        "api_url": "/api/movie/5h7YCo3BbAj9u38YWJNRit",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "奇迹梦之队",
+        "external_resources": [
+          {
+            "url": "https://www.wikidata.org/wiki/Q132456673"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1297842"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt27613895/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36910970/"
+          }
+        ]
+      },
+      "created_time": "2026-03-30T03:28:22.452Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 558884417616507500,
+      "item": {
+        "type": "Movie",
+        "title": "飞行家",
+        "description": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "飞行家"
+          },
+          {
+            "lang": "sw",
+            "text": "Take Off"
+          },
+          {
+            "lang": "en",
+            "text": "Take Off"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "飛行家"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "飞行家"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！"
+          },
+          {
+            "lang": "en",
+            "text": "A worker from Northeast China is obsessed with his dream of flying his self-made flying-device."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "東北奇人李明奇（蔣奇明 飾）一輩子就惦記著飛一把，偏偏遇上腦電波同頻的奇女子高雅風（李雪琴 飾），這對“奇人”夫妻一路腦洞大開、奇遇不斷，為造飛行器甚至和隕石來了場“親密接觸”……他們鬧了半生，到最後“飛行家”能順利上天嗎？"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/03/19/d2ee44f7-dacf-4e8c-ae18-42938f1a57c6.webp",
+        "rating": 5.5,
+        "rating_count": 11,
+        "rating_distribution": [
+          9,
+          18,
+          36,
+          37,
+          0
+        ],
+        "tags": [
+          "鹏飞"
+        ],
+        "brief": "李明奇（蒋奇明 饰），一个沉迷飞行的东北犟种，为了爱人决定认命回到地面，把梦想锁进工具箱底。可生活的难题从四面八方奔涌而来，将他们逼至绝境，唯一的生机，竟是他那被嘲笑了半辈子的飞行梦。一个怪人，一家亲人，一群朋友——他们共同押上所有，凝聚成托举的长风。为了托起沉甸甸的生活，李明奇再次从高空一跃而下，对命运做出勇敢反击！",
+        "id": "https://neodb.social/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "uuid": "5iQOJ51Ok9MhgRVBuZedBq",
+        "url": "/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "api_url": "/api/movie/5iQOJ51Ok9MhgRVBuZedBq",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "飞行家",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/35700339/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1411529"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt34386745/"
+          }
+        ]
+      },
+      "created_time": "2026-03-23T12:27:08.666Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 543349425809501800,
+      "item": {
+        "type": "Movie",
+        "title": "哈姆奈特",
+        "description": "影片改编自同名畅销小说，讲述启发莎士比亚最伟大的作品背后，那段不为人知的传奇爱情故事。\n威廉·莎士比亚（保罗·麦斯卡 Paul Mescal 饰）和妻子艾格尼丝（杰西·巴克利 Jessie Buckley 饰）11岁的儿子哈姆奈特染疫亡故，4年后莎士比亚以此为灵感，写出了后世传颂的《哈姆雷特》。",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Hamnet"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "哈姆奈特"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "哈姆尼特(港)"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "影片改编自同名畅销小说，讲述启发莎士比亚最伟大的作品背后，那段不为人知的传奇爱情故事。\n威廉·莎士比亚（保罗·麦斯卡 Paul Mescal 饰）和妻子艾格尼丝（杰西·巴克利 Jessie Buckley 饰）11岁的儿子哈姆奈特染疫亡故，4年后莎士比亚以此为灵感，写出了后世传颂的《哈姆雷特》。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/11/29/dfd0a56c-1ff0-4eaa-8302-9dcadd39ba54.jpg",
+        "rating": 7.1,
+        "rating_count": 81,
+        "rating_distribution": [
+          1,
+          4,
+          27,
+          48,
+          20
+        ],
+        "tags": [
+          "2020s",
+          "2025",
+          "c 2025",
+          "传记",
+          "保罗 麦斯卡",
+          "剧情",
+          "历史",
+          "古装",
+          "哈姆雷特",
+          "地区 英国",
+          "女性",
+          "家庭",
+          "年代 2020s",
+          "悲剧",
+          "电影",
+          "美国",
+          "艾米丽 沃森",
+          "英国",
+          "英国电影",
+          "赵婷"
+        ],
+        "brief": "影片改编自同名畅销小说，讲述启发莎士比亚最伟大的作品背后，那段不为人知的传奇爱情故事。\n威廉·莎士比亚（保罗·麦斯卡 Paul Mescal 饰）和妻子艾格尼丝（杰西·巴克利 Jessie Buckley 饰）11岁的儿子哈姆奈特染疫亡故，4年后莎士比亚以此为灵感，写出了后世传颂的《哈姆雷特》。",
+        "id": "https://neodb.social/movie/4JhwtCkcbhDyWzuThYHVLC",
+        "uuid": "4JhwtCkcbhDyWzuThYHVLC",
+        "url": "/movie/4JhwtCkcbhDyWzuThYHVLC",
+        "api_url": "/api/movie/4JhwtCkcbhDyWzuThYHVLC",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "哈姆奈特",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt14905854/"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q122741016"
+          },
+          {
+            "url": "https://movie.douban.com/subject/35618471/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/858024"
+          }
+        ]
+      },
+      "created_time": "2026-02-08T15:36:37.993Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 542964371471658800,
+      "item": {
+        "type": "Movie",
+        "title": "海绵宝宝4",
+        "description": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。",
+        "localized_title": [
+          {
+            "lang": "af",
+            "text": "Spongebob Movie 4"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝4"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：深海大冒险"
+          },
+          {
+            "lang": "en",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝电影版：寻宝大冒险(台)"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：深海寻“宝”(港)"
+          },
+          {
+            "lang": "ko",
+            "text": "스폰지밥 무비: 네모바지를 찾아서"
+          },
+          {
+            "lang": "ja",
+            "text": "劇場版スポンジ・ボブ　呪われた海賊と大冒険だワワワワワ！"
+          },
+          {
+            "lang": "pt",
+            "text": "Spongebob O Filme: À Procura das Calças Quadradas"
+          },
+          {
+            "lang": "de",
+            "text": "SpongeBob Schwammkopf: Piraten Ahoi!"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l'éponge, le film : Un pour tous, tous pirates !"
+          },
+          {
+            "lang": "es",
+            "text": "Bob Esponja: Una aventura pirata"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "海綿寶寶：深海尋「寶」"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "海綿寶寶電影版：尋寶大冒險"
+          },
+          {
+            "lang": "zh-sg",
+            "text": "海绵宝宝电影版：寻宝大冒险"
+          },
+          {
+            "lang": "es",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l'éponge - Le film : un pour tous, tous pirates !"
+          },
+          {
+            "lang": "pt",
+            "text": "The SpongeBob Movie: Search for SquarePants"
+          },
+          {
+            "lang": "ja",
+            "text": "劇場版スポンジ・ボブ 呪われた海賊と大冒険だワワワワワ!"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝：寻找方裤子"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。"
+          },
+          {
+            "lang": "ko",
+            "text": "비키니시티에 사는 스폰지밥은 무시무시한 롤러코스터를 탈 수 있는 용감한 ‘빅 가이’가 꿈이다. 그러던 어느 날, 미지의 세계 ‘언더월드’에 사는 유령선장을 만나 ‘용감무쌍짱 증명서’를 받으면 진정한 ‘빅 가이’가 될 수 있다는 말을 들은 스폰지밥은 절친 뚱이와 함께 해적선을 찾아 위험천만한 모험을 떠난다. 그 사실을 안 집게사장과 징징이, 핑핑이는 스폰지밥을 구하기 위해 따라나서는데…"
+          },
+          {
+            "lang": "pt",
+            "text": "Desejoso de provar que é um verdadeiro herói, o SpongeBob parte numa aventura para demonstrar a sua coragem ao Mr. Krabs, seguindo O Holandês Voador – um misterioso e aventureiro pirata fantasma – numa comédia marítima que o leva às profundezas do oceano, onde nenhum esponja jamais esteve."
+          },
+          {
+            "lang": "de",
+            "text": "In ihrem brandneuen und bisher größten Kinoabenteuer, SPONGEBOB SCHWAMMKOPF: PIRATEN AHOI!, stechen SpongeBob und seine Freunde aus Bikini Bottom in See! SpongeBob, der endlich auch zu den Großen gehören möchte und Mr. Krabs seinen Mut beweisen will, folgt dem Fliegenden Holländer - einem mysteriösen, verwegenen Geisterpiraten. Und so beginnt ein rasantes und witziges Seefahrts-Abenteuer, das ihn in die tiefsten Tiefen der Tiefsee führt, wo noch kein Schwamm zuvor gewesen ist."
+          },
+          {
+            "lang": "fr",
+            "text": "Bien décidé à prouver à M. Krabs qu’il est désormais un grand garçon, Bob se lance sur les traces du légendaire Hollandais Volant, un redoutable pirate fantôme. Cap sur une épopée déjantée, entre fous rires, frissons et péripéties sous-marines, jusque dans les abysses les plus mystérieux de l’océan — là où aucune éponge n’a jamais osé plonger !"
+          },
+          {
+            "lang": "en",
+            "text": "Desperate to be a big guy, SpongeBob sets out to prove his bravery to Mr. Krabs by following The Flying Dutchman – a mysterious swashbuckling ghost pirate – on a seafaring adventure that takes him to the deepest depths of the deep sea, where no Sponge has gone before."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "海綿寶寶與成班死黨再次衝出比奇堡，展開前所未有的全新冒險！渴望證明自己已長大的海綿寶寶，為了向蟹老闆展示自己的勇氣，決定穿越深海黑暗領域，追蹤神出鬼沒的幽靈海盜「飛行荷蘭人」！估不到這段爆笑又驚險的旅程，會把他帶到從未涉足的深海秘境。"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "為了成為一個大人物，海綿寶寶決定向蟹老闆證明自己的勇氣，追隨神祕又充滿傳奇色彩的幽靈海盜，飛行荷蘭人，踏上一場充滿笑料與驚奇的航海冒險旅程，而這場大冒險也將帶他深入他從來沒有去過的海底最深處。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "海绵宝宝和他的朋友们派大星、章鱼哥、珊迪以及蟹老板前往海洋深处面对飞翔的荷兰人幽灵，遭遇挑战并揭开海洋奥秘。"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "2025年的動畫電影"
+          },
+          {
+            "lang": "en",
+            "text": "2025 animated film directed by Derek Drymon"
+          },
+          {
+            "lang": "es",
+            "text": "película animada de 2025 dirigida por Derek Drymon"
+          },
+          {
+            "lang": "fr",
+            "text": "film d'animation américain sorti en 2025"
+          },
+          {
+            "lang": "pt",
+            "text": "filme de 2025 dirigido por Derek Drymon"
+          },
+          {
+            "lang": "ja",
+            "text": "2025年のアメリカ合衆国の映画"
+          },
+          {
+            "lang": "fr",
+            "text": "Bob l’Éponge et ses amis quittent Bikini Bottom pour leur plus grande aventure ! Voulant prouver qu’il est un grand garçon, Bob invoque par erreur le terrifiant Hollandais Volant, un pirate fantôme légendaire. Propulsés dans une quête délirante, Bob et Patrick devront relever des défis titanesques, suivis de près par une équipe de sauvetage. Au fil des épreuves, Bob découvre que le véritable courage réside dans l’amitié : ensemble, ils peuvent affronter l’inconnu et briller plus fort que jamais."
+          },
+          {
+            "lang": "en",
+            "text": "SpongeBob and his Bikini Bottom friends set sail in their biggest, all-new, can’t miss cinematic event ever…The SpongeBob Movie: Search for SquarePants. Desperate to be a big guy, SpongeBob sets out to prove his bravery to Mr. Krabs by following The Flying Dutchman – a mysterious swashbuckling ghost pirate – on a seafaring comedy-adventure that takes him to the deepest depths of the deep sea, where no Sponge has gone before. "
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/07/22/770a20c5-a154-4366-8b6f-96615ffc6f52.jpg",
+        "rating": null,
+        "rating_count": 2,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "海绵宝宝和派大星将前往深海幽冥世界探索，直面飞天魔鬼的挑战，并揭开海洋深处的奥秘。",
+        "id": "https://neodb.social/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "uuid": "2gKDnKmstSVAhxNzcrjMyB",
+        "url": "/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "api_url": "/api/movie/2gKDnKmstSVAhxNzcrjMyB",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "海绵宝宝4",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt23572848/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36389635/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/991494"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q118847776"
+          },
+          {
+            "url": "https://bgm.tv/subject/465185"
+          }
+        ]
+      },
+      "created_time": "2026-02-07T14:06:33.897Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 537830609052878400,
+      "item": {
+        "type": "Movie",
+        "title": "关于约会的一切",
+        "description": "当我们约会时，我们都在想些什么？当内心的无数个“我”在争夺话语权，灵魂又会做出何种选择？\n罗马某个寻常夜晚，Lara（皮拉尔·福格莉亚蒂 Pilar Fogliati 饰）与Piero（爱德华多·莱奥 Edoardo Leo 饰）一次偶然的约会。初见的局促被渐渐打破，暧昧在试探中发酵蔓延，气氛升温。\n然而，两人似乎都有某种犹豫：心动的信号，究竟源自灵魂的真实共振，还是夜色与氛围施予的幻觉？默契轻松的对话下，蛰伏着两人心中的汹涌暗流。欲望与理性相互博弈，身体中不同的“我”在意识深渊中反复角力。\n当午夜降临，这场约会是否该走向终点？Lara和Piero的关系又将会如何走向？",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "关于约会的一切"
+          },
+          {
+            "lang": "en",
+            "text": "CrazyMinded"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "福里蒙特"
+          },
+          {
+            "lang": "en",
+            "text": "Madly"
+          },
+          {
+            "lang": "en",
+            "text": "FolleMente"
+          },
+          {
+            "lang": "it",
+            "text": "FolleMente"
+          },
+          {
+            "lang": "es",
+            "text": "Locamente"
+          },
+          {
+            "lang": "de",
+            "text": "Du & Ich und Alle reden mit"
+          },
+          {
+            "lang": "fr",
+            "text": "Follemente"
+          },
+          {
+            "lang": "de",
+            "text": "Follemente"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "当我们约会时，我们都在想些什么？当内心的无数个“我”在争夺话语权，灵魂又会做出何种选择？\n罗马某个寻常夜晚，Lara（皮拉尔·福格莉亚蒂 Pilar Fogliati 饰）与Piero（爱德华多·莱奥 Edoardo Leo 饰）一次偶然的约会。初见的局促被渐渐打破，暧昧在试探中发酵蔓延，气氛升温。\n然而，两人似乎都有某种犹豫：心动的信号，究竟源自灵魂的真实共振，还是夜色与氛围施予的幻觉？默契轻松的对话下，蛰伏着两人心中的汹涌暗流。欲望与理性相互博弈，身体中不同的“我”在意识深渊中反复角力。\n当午夜降临，这场约会是否该走向终点？Lara和Piero的关系又将会如何走向？"
+          },
+          {
+            "lang": "it",
+            "text": "Quanto conosciamo davvero di noi stessi quando prendiamo una decisione? E se dentro di noi esistessero più versioni del nostro IO, ognuna con qualcosa da dire?  FolleMente è una brillante commedia romantica che va oltre le apparenze, immergendosi nella mente dei due protagonisti, Piero e Lara, svelando i loro pensieri più nascosti e le battaglie interiori che tutti affrontiamo."
+          },
+          {
+            "lang": "es",
+            "text": "En su primera cita, Piero y Lara intentan impresionarse, pero dentro de sus cabezas reina el caos. Las múltiples personalidades que ocupan su mente — la romántica, la racional, la insegura y la pasional— pelean por el control de la situación. Discuten, seducen, sabotean y a veces pierden los nervios. ¿Quién ganará la batalla interior? ¿El corazón o el deseo? Las expectativas son altas y la noche promete."
+          },
+          {
+            "lang": "en",
+            "text": "How much do we really know about ourselves when we make a decision? What if there are multiple versions of our I within us, each with something to say?"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "当我们约会时，我们都在想些什么？当内心的无数个“我”在争夺话语权，灵魂又会做出何种选择？\r 　　罗马某个寻常夜晚，Lara（皮拉尔·福格莉亚蒂 Pilar Fogliati 饰）与Piero（爱德华多·莱奥 Edoardo Leo 饰）一次偶然的约会。初见的局促被渐渐打破，暧昧在试探中发酵蔓延，气氛升温。\r 　　然而，两人似乎都有某种犹豫：心动的信号，究竟源自灵魂的真实共振，还是夜色与氛围施予的幻觉？默契轻松的对话下，蛰伏着两人心中的汹涌暗流。欲望与理性相互博弈，身体中不同的“我”在意识深渊中反复角力。\r 　　当午夜降临，这场约会是否该走向终点？Lara和Piero的关系又将会如何走向？"
+          },
+          {
+            "lang": "de",
+            "text": "Wie viel wissen wir wirklich über uns selbst, wenn wir eine Entscheidung treffen? Was wäre, wenn es in uns mehrere Versionen unseres Ichs gäbe, von denen jede etwas zu sagen hätte?"
+          },
+          {
+            "lang": "en",
+            "text": "2025 film directed by Paolo Genovese"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/06/20/9dbe5ab7-8f0a-46f5-b317-74c44fa90eb0.jpg",
+        "rating": 7.5,
+        "rating_count": 51,
+        "rating_distribution": [
+          0,
+          2,
+          21,
+          59,
+          18
+        ],
+        "tags": [
+          "2025",
+          "喜剧",
+          "意大利",
+          "意大利电影",
+          "爱情",
+          "电影",
+          "義大利"
+        ],
+        "brief": "当我们约会时，我们都在想些什么？当内心的无数个“我”在争夺话语权，灵魂又会做出何种选择？\n罗马某个寻常夜晚，Lara（皮拉尔·福格莉亚蒂 Pilar Fogliati 饰）与Piero（爱德华多·莱奥 Edoardo Leo 饰）一次偶然的约会。初见的局促被渐渐打破，暧昧在试探中发酵蔓延，气氛升温。\n然而，两人似乎都有某种犹豫：心动的信号，究竟源自灵魂的真实共振，还是夜色与氛围施予的幻觉？默契轻松的对话下，蛰伏着两人心中的汹涌暗流。欲望与理性相互博弈，身体中不同的“我”在意识深渊中反复角力。\n当午夜降临，这场约会是否该走向终点？Lara和Piero的关系又将会如何走向？",
+        "id": "https://neodb.social/movie/3MgaUJZ17cJvmlBVItl0a9",
+        "uuid": "3MgaUJZ17cJvmlBVItl0a9",
+        "url": "/movie/3MgaUJZ17cJvmlBVItl0a9",
+        "api_url": "/api/movie/3MgaUJZ17cJvmlBVItl0a9",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "关于约会的一切",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt34621892/"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q132192659"
+          },
+          {
+            "url": "https://eggplant.place/movie/6bM9lvKauWAnP0j4BXURmc"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1312157"
+          },
+          {
+            "url": "https://movie.douban.com/subject/37067150/"
+          }
+        ]
+      },
+      "created_time": "2026-01-24T10:06:49.553Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535315908108430660,
+      "item": {
+        "type": "Movie",
+        "title": "鬼灭之刃：无限城篇 第一章 猗窝座再袭",
+        "description": "当鬼杀队的成员和柱之人在为即将到来的与鬼的战斗做准备，完成共同的体能训练——柱之训练时，鬼舞辻无惨在产屋敷宅邸出现。由于鬼杀队的主公处于危险之中，炭治郎和柱急忙赶往总部，但却被鸣女推入一个神秘的异空间。炭治郎和鬼杀队的目标是鬼的堡垒——无限城。因此，鬼杀队和鬼之间的最终战斗的战场已经准备就绪。",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "극장판 귀멸의 칼날: 무한성편"
+          },
+          {
+            "lang": "ja",
+            "text": "劇場版「鬼滅の刃」無限城編 第一章 猗窩座再来"
+          },
+          {
+            "lang": "pt",
+            "text": "Demon Slayer: Kimetsu no Yaiba Castelo Infinito"
+          },
+          {
+            "lang": "de",
+            "text": "Demon Slayer: Kimetsu no Yaiba Infinity Castle"
+          },
+          {
+            "lang": "fr",
+            "text": "Demon Slayer : Kimetsu no Yaiba - Le film : La Forteresse infinie"
+          },
+          {
+            "lang": "es",
+            "text": "Guardianes de la noche: Kimetsu no Yaiba La fortaleza infinita"
+          },
+          {
+            "lang": "en",
+            "text": "Demon Slayer: Kimetsu no Yaiba Infinity Castle"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "鬼滅之刃 無限城篇"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "劇場版「鬼滅之刃」無限城篇 第一章 猗窩座再襲"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "鬼灭之刃：无限城篇 第一章 猗窝座再袭"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "혈귀로 변해버린 여동생 네즈코를 인간으로 되돌리기 위해 혈귀를 사냥하는 조직인 《귀살대》에 입대한 카마도 탄지로. 입대 후 동료인 아가츠마 젠이츠, 하시비라 이노스케와 함께 많은 혈귀와 싸우고, 성장하면서 세 사람의 우정과 유대는 깊어진다. 탄지로는 《귀살대》 최고위 검사인 《주》와도 함께 싸웠다. 「무한열차」에서는 염주・렌고쿠 쿄쥬로, 「유곽」에서는 음주・우즈이 텐겐, 「도공 마을」에서는 하주・토키토 무이치로, 연주・칸로지 미츠리와 함께 혈귀를 상대로 격렬한 전투를 벌였다. 그 후 다가올 혈귀와의 결전에 대비해 귀살대원들과 함께 《주》가 주도하는 합동 강화 훈련에 참가해 훈련을 받던 도중 《귀살대》의 본부인 우부야시키 저택에 나타난 키부츠지 무잔. 어르신의 위기에 달려온 《주》들과 탄지로였지만, 무잔의 술수로 의문의 공간으로 떨어지고 말았는데. 탄지로 일행이 떨어진 곳, 그곳은 혈귀의 본거지 《무한성》─ “귀살대”와 “혈귀”의 최종 결전의 포문이 열린다."
+          },
+          {
+            "lang": "ja",
+            "text": "鬼となった妹・禰󠄀豆子を人間に戻すため鬼狩りの組織《鬼殺隊》に入った竈門炭治郎。入隊後、仲間である我妻善逸、嘴平伊之助と共に様々な鬼と戦い、成長しながら友情や絆を深めていく。そして炭治郎は《鬼殺隊》最高位の剣士である《柱》と共に戦い、「無限列車」では炎柱・煉󠄁獄杏寿郎、「遊郭」では音柱・宇髄天元、「刀鍛冶の里」では、霞柱・時透無一郎、恋柱・甘露寺蜜璃と共に激闘を繰り広げていった。その後、来たる鬼との決戦に備えて、隊士たちと共に《柱》による合同強化訓練《柱稽古》に挑んでいる最中、《鬼殺隊》の本部である産屋敷邸に現れた鬼舞辻󠄀無惨。お館様の危機に駆けつけた《柱》たちと炭治郎であったが、無惨の手によって謎の空間へと落とされてしまう。炭治郎たちが落下した先、それは鬼の根城≪無限城≫―”鬼殺隊”と”鬼”の最終決戦の火蓋が切って落とされる。"
+          },
+          {
+            "lang": "pt",
+            "text": "O Corpo de Caçadores de Demónios é atraído para o Castelo Infinito, onde Tanjiro, Nezuko e os Hashira enfrentam demónios de nível superior numa luta desesperada, enquanto a batalha final contra Muzan Kibutsuji começa."
+          },
+          {
+            "lang": "de",
+            "text": "Während die Mitglieder des Dämonentöter-Korps und die Hashira in Vorbereitung auf den bevorstehenden Kampf gegen die Dämonen ein gemeinsames Krafttrainingsprogramm, das Hashira-Training, absolvieren, taucht Muzan Kibutsuji in der Ubuyashiki-Villa auf. Da der Leiter des Dämonenkorps in Gefahr ist, eilen Tanjiro und die Hashira zum Hauptquartier, werden aber von Muzan Kibutsuji in einen tiefen Abstieg in einen mysteriösen Raum gestürzt. Das Ziel, in das Tanjiro und das Dämonentöter-Korps gestürzt sind, ist die Festung der Dämonen - die Unendlichkeitsburg. Und so ist das Schlachtfeld für die finale Schlacht zwischen dem Dämonentöterkorps und den Dämonen bereitet."
+          },
+          {
+            "lang": "fr",
+            "text": "L'armée des pourfendeurs de démons est attirée dans la Forteresse Infinie, où Tanjiro, Zenitsu et Inosuke  affrontent de terrifiants démons de rang supérieur dans un combat désespéré alors que la bataille finale contre Kibutsuji Muzan commence."
+          },
+          {
+            "lang": "es",
+            "text": "El Cuerpo de Cazadores de Demonios se enfrenta a los Doce Kizuki restantes antes de enfrentarse a Muzan en el Castillo del Infinito para derrotarlo de una vez por todas."
+          },
+          {
+            "lang": "en",
+            "text": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "為了讓變成鬼的妹妹禰豆子變回人類，加入鬼殺隊的灶門炭治郎，一路上與不同的「柱」成為同伴，並肩作戰，一起戰鬥。無限列車篇的「炎柱」煉獄杏壽郎、遊郭篇的「音柱」宇髓天元，以及在刀匠村篇的「霧柱」時透無一郎和「戀柱」甘露寺蜜璃 ，同伴我妻善逸和嘴平伊之助。\r 當大家參加集體「柱訓練」，為即將到來與鬼的戰鬥做準備時，鬼舞辻無慘出現在鬼殺隊的產屋敷宅邸。眼見主公大人身陷危境，炭治郎和「柱」們趕往宅邸，但被無慘的手推入一個神秘空間。炭治郎和鬼殺隊來到惡鬼的基地——無限城，正式開始與惡鬼之間的最終戰役！"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "為了面對與鬼即將到來的決戰，竈門炭治郎和隊員們集體參加聯合強化訓練《柱訓練》。此時，鬼舞辻無慘卻出現在「鬼殺隊」的大本營產屋敷府。「柱」們與炭治郎在無慘的操縱之下落入了充滿謎團的空間，炭治郎等人落下的地方，正是鬼的大本營「無限城」──「鬼殺隊」與「鬼」的決戰，序幕就此揭開。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "当鬼杀队的成员和柱之人在为即将到来的与鬼的战斗做准备，完成共同的体能训练——柱之训练时，鬼舞辻无惨在产屋敷宅邸出现。由于鬼杀队的主公处于危险之中，炭治郎和柱急忙赶往总部，但却被鸣女推入一个神秘的异空间。炭治郎和鬼杀队的目标是鬼的堡垒——无限城。因此，鬼杀队和鬼之间的最终战斗的战场已经准备就绪。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/tmdb_movie/2026/01/05/59065e13-8bae-45c8-b398-146366998d04.jpg",
+        "rating": 7.9,
+        "rating_count": 158,
+        "rating_distribution": [
+          1,
+          1,
+          17,
+          44,
+          37
+        ],
+        "tags": [
+          "2020s",
+          "2025",
+          "冒险",
+          "动作",
+          "动漫",
+          "动画",
+          "动画长片",
+          "励志",
+          "動畫",
+          "大银幕",
+          "奇幻",
+          "日本",
+          "日本动漫",
+          "日本动画",
+          "日本电影",
+          "泥烘电影",
+          "漫改",
+          "漫画改编"
+        ],
+        "brief": "当鬼杀队的成员和柱之人在为即将到来的与鬼的战斗做准备，完成共同的体能训练——柱之训练时，鬼舞辻无惨在产屋敷宅邸出现。由于鬼杀队的主公处于危险之中，炭治郎和柱急忙赶往总部，但却被鸣女推入一个神秘的异空间。炭治郎和鬼杀队的目标是鬼的堡垒——无限城。因此，鬼杀队和鬼之间的最终战斗的战场已经准备就绪。",
+        "id": "https://neodb.social/movie/0Bdn7H9YBhH4pIjeahnzEo",
+        "uuid": "0Bdn7H9YBhH4pIjeahnzEo",
+        "url": "/movie/0Bdn7H9YBhH4pIjeahnzEo",
+        "api_url": "/api/movie/0Bdn7H9YBhH4pIjeahnzEo",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "鬼灭之刃：无限城篇 第一章 猗窝座再袭",
+        "external_resources": [
+          {
+            "url": "https://www.imdb.com/title/tt32820897/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1311031"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36524559/"
+          },
+          {
+            "url": "https://bgm.tv/subject/501958"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q126948105"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T11:34:18.133Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    }
+  ],
+  "tv": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 576636152401998500,
+      "item": {
+        "type": "TVSeason",
+        "title": "权欲之巅 Climax (权欲之巅)",
+        "description": "",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "权欲之巅"
+          },
+          {
+            "lang": "en",
+            "text": "Climax"
+          },
+          {
+            "lang": "ko",
+            "text": "클라이맥스"
+          },
+          {
+            "lang": "ko",
+            "text": "Season 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          }
+        ],
+        "localized_description": [],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/04/11/cd415bbf-4edd-463e-8bc0-ba29ad54413b.webp",
+        "rating": 5.9,
+        "rating_count": 12,
+        "rating_distribution": [
+          8,
+          0,
+          67,
+          25,
+          0
+        ],
+        "tags": [
+          "2026",
+          "政治",
+          "权力",
+          "演员",
+          "电视剧",
+          "韩剧",
+          "韩国"
+        ],
+        "brief": "",
+        "id": "https://neodb.social/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "uuid": "7Ype5HDpYVGHSA0K7s89ic",
+        "url": "/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "api_url": "/api/tv/season/7Ype5HDpYVGHSA0K7s89ic",
+        "category": "tv",
+        "parent_uuid": "2dfidxHhgzsSSicGZfiuse",
+        "display_title": "权欲之巅 Climax (权欲之巅)",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36691850/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/241860/season/1"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "朱智勋",
+            "character_name": "",
+            "person_url": "/api/person/4EfVnGrGByMG8Q2BlmgfzF"
+          },
+          {
+            "role": "actor",
+            "name": "河智苑",
+            "character_name": "",
+            "person_url": "/api/person/5acF1KTaWV1WOIVH9RyeUI"
+          },
+          {
+            "role": "actor",
+            "name": "林珍娜",
+            "character_name": "",
+            "person_url": "/api/person/4KGai5iYE1VmYq1nDIZVQn"
+          },
+          {
+            "role": "actor",
+            "name": "吴正世",
+            "character_name": "",
+            "person_url": "/api/person/0WJYvWaAJklV0ypsAUlZy3"
+          },
+          {
+            "role": "actor",
+            "name": "车珠英",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "李智媛",
+            "character_name": "",
+            "person_url": "/api/person/6Gv30xgDXcBIaW9FIN7oXK"
+          },
+          {
+            "role": "playwright",
+            "name": "李智媛",
+            "character_name": "",
+            "person_url": "/api/person/6Gv30xgDXcBIaW9FIN7oXK"
+          },
+          {
+            "role": "playwright",
+            "name": "申艺瑟",
+            "character_name": "",
+            "person_url": null
+          }
+        ]
+      },
+      "created_time": "2026-05-11T12:06:12.038Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 561285830900434200,
+      "item": {
+        "type": "TVSeason",
+        "title": "咒术回战 死灭回游 前篇",
+        "description": "2018年10月31日。\nハロウィンで賑わう渋谷駅周辺に突如“帳”が降ろされ大勢の一般人が閉じ込められる。\nそこに単独で乗り込む現代最強の呪術師・五条悟。だが、そこには五条の封印を目論む呪詛師・呪霊達が待ち構えていた。\n渋谷に集結する虎杖悠仁ら、数多くの呪術師たち。\nかつてない大規模な呪い合い「渋谷事変」が始まる―。\nそして戦いは、史上最悪の術師・加茂憲倫が仕組んだ殺し合い「死滅回游」へ。\n「渋谷事変」を経て、魔窟と化す全国10の結界コロニー。\nそんな大混乱の最中、虎杖の死刑執行役として特級術師・乙骨憂太が立ちはだかる。\n絶望の中で、なおも戦い続ける虎杖。\n無情にも、刃を向ける乙骨。\n加速していく呪いの混沌。\n同じ師を持つ虎杖と乙骨、二人の死闘が始まる——",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "咒术回战 死灭回游 前篇"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "呪術廻戦 第3期"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "呪術廻戦 死滅回游 前編"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "咒术回战 第三季"
+          },
+          {
+            "lang": "et",
+            "text": "Jujutsu Kaisen: Shimetsu Kaiyuu"
+          },
+          {
+            "lang": "fi",
+            "text": "Jujutsu Kaisen The Culling Game"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ja",
+            "text": "2018年10月31日。\nハロウィンで賑わう渋谷駅周辺に突如“帳”が降ろされ大勢の一般人が閉じ込められる。\nそこに単独で乗り込む現代最強の呪術師・五条悟。だが、そこには五条の封印を目論む呪詛師・呪霊達が待ち構えていた。\n渋谷に集結する虎杖悠仁ら、数多くの呪術師たち。\nかつてない大規模な呪い合い「渋谷事変」が始まる―。\nそして戦いは、史上最悪の術師・加茂憲倫が仕組んだ殺し合い「死滅回游」へ。\n「渋谷事変」を経て、魔窟と化す全国10の結界コロニー。\nそんな大混乱の最中、虎杖の死刑執行役として特級術師・乙骨憂太が立ちはだかる。\n絶望の中で、なおも戦い続ける虎杖。\n無情にも、刃を向ける乙骨。\n加速していく呪いの混沌。\n同じ師を持つ虎杖と乙骨、二人の死闘が始まる——"
+          },
+          {
+            "lang": "ja",
+            "text": "2018年10月31日。在万圣节热闹的涩谷车站周边，突然降下「帐」，大量一般民众被困其中。独自闯入的是现代最强的咒术师──五条悟。虎杖悠仁等众多咒术师齐聚涩谷，前所未有的大规模咒术对决「涩谷事变」正式开幕！而战斗最终导向史上最恶劣的术师──加茂宪伦所策划的杀戮游戏「死灭回游」。经历「涩谷事变」后，全国十个结界殖民地化为魔窟。在这场大混乱之中，虎杖的死刑执行者，特级术师乙骨忧太现身阻挡。绝望之中，虎杖仍持续战斗，无情地挥刀的乙骨，不断加速的咒术混沌，同门师徒的虎杖与乙骨，两人的死斗即将展开！\r\n\r\n\r\n\r\n[简介原文]\r\n2018年10月31日。\r\nハロウィンで賑わう渋谷駅周辺に突如“帳”が降ろされ大勢の一般人が閉じ込められる。\r\nそこに単独で乗り込む現代最強の呪術師・五条悟。だが、そこには五条の封印を目論む呪詛師・呪霊達が待ち構えていた。\r\n渋谷に集結する虎杖悠仁ら、数多くの呪術師たち。\r\nかつてない大規模な呪い合い「渋谷事変」が始まる―。\r\n\r\nそして戦いは、史上最悪の術師・加茂憲倫が仕組んだ殺し合い「死滅回游」へ。\r\n\r\n「渋谷事変」を経て、魔窟と化す全国10の結界コロニー。\r\nそんな大混乱の最中、虎杖の死刑執行役として特級術師・乙骨憂太が立ちはだかる。\r\n\r\n絶望の中で、なおも戦い続ける虎杖。\r\n無情にも、刃を向ける乙骨。\r\n\r\n加速していく呪いの混沌。\r\n同じ師を持つ虎杖と乙骨、二人の死闘が始まる——"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/01/11/710dfbce-230b-4b62-8250-cdee153d18d0.jpg",
+        "rating": 8.2,
+        "rating_count": 26,
+        "rating_distribution": [
+          0,
+          0,
+          4,
+          58,
+          38
+        ],
+        "tags": [
+          "2025",
+          "2026",
+          "动画",
+          "咒术回战",
+          "咒術迴戰",
+          "战斗",
+          "日剧",
+          "日本",
+          "日本动画",
+          "漫改"
+        ],
+        "brief": "2018年10月31日。\nハロウィンで賑わう渋谷駅周辺に突如“帳”が降ろされ大勢の一般人が閉じ込められる。\nそこに単独で乗り込む現代最強の呪術師・五条悟。だが、そこには五条の封印を目論む呪詛師・呪霊達が待ち構えていた。\n渋谷に集結する虎杖悠仁ら、数多くの呪術師たち。\nかつてない大規模な呪い合い「渋谷事変」が始まる―。\nそして戦いは、史上最悪の術師・加茂憲倫が仕組んだ殺し合い「死滅回游」へ。\n「渋谷事変」を経て、魔窟と化す全国10の結界コロニー。\nそんな大混乱の最中、虎杖の死刑執行役として特級術師・乙骨憂太が立ちはだかる。\n絶望の中で、なおも戦い続ける虎杖。\n無情にも、刃を向ける乙骨。\n加速していく呪いの混沌。\n同じ師を持つ虎杖と乙骨、二人の死闘が始まる——",
+        "id": "https://neodb.social/tv/season/4QwLGwPDmlU2QTJdN48z8A",
+        "uuid": "4QwLGwPDmlU2QTJdN48z8A",
+        "url": "/tv/season/4QwLGwPDmlU2QTJdN48z8A",
+        "api_url": "/api/tv/season/4QwLGwPDmlU2QTJdN48z8A",
+        "category": "tv",
+        "parent_uuid": "5Pqm5C0nUdNCEGAILJTLzh",
+        "display_title": "咒术回战 死灭回游 前篇",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36714178/"
+          },
+          {
+            "url": "https://bgm.tv/subject/472741"
+          }
+        ]
+      },
+      "created_time": "2026-03-30T03:29:30.198Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 561081599732757900,
+      "item": {
+        "type": "TVSeason",
+        "title": "Rooster",
+        "description": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Rooster"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/01/04/38c6754a-035d-4205-a552-75f1c1c9f252.jpg",
+        "rating": null,
+        "rating_count": 0,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "一部以大学校园为背景的喜剧，聚焦于一位作家与其女儿之间错综复杂的关系。",
+        "id": "https://neodb.social/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "uuid": "7Hb23mn7nAmhIq5bwFO667",
+        "url": "/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "api_url": "/api/tv/season/7Hb23mn7nAmhIq5bwFO667",
+        "category": "tv",
+        "parent_uuid": "6xhBppRuN8UU7fCz9iTla7",
+        "display_title": "Rooster",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36904776/"
+          }
+        ]
+      },
+      "created_time": "2026-03-29T13:57:57.702Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 553054567340152500,
+      "item": {
+        "type": "TVSeason",
+        "title": "美丽毒素",
+        "description": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity.",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "시즌 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "es",
+            "text": "En la temporada 1, la investigación lleva a los agentes del FBI Cooper Madsen y Jordan Bennett directamente al punto de mira de «The Corporation», un misterioso multimillonario del sector tecnológico que ha creado en secreto una droga milagrosa llamada «The Beauty» y que está dispuesto a hacer cualquier cosa para proteger su imperio valorado en billones de dólares, incluso desatar a su letal ejecutor, «The Assassin». A medida que la epidemia se propaga, Jeremy, un forastero desesperado, se ve envuelto en el caos, buscando un propósito mientras los agentes recorren París, Venecia, Roma y Nueva York para detener una amenaza que podría alterar el futuro de la humanidad."
+          },
+          {
+            "lang": "en",
+            "text": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/tmdb_tvseason/2026/01/23/9e302d8a-ecff-4b32-b1f7-36a8a0e11d71.jpg",
+        "rating": null,
+        "rating_count": 3,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "In season 1, their investigation leads FBI Agents Cooper Madsen and Jordan Bennett directly into the crosshairs of \"The Corporation,\" a shadowy tech billionaire who has secretly engineered a miracle drug dubbed \"The Beauty,\" who will do anything to protect his trillion-dollar empire—including unleashing his lethal enforcer, \"The Assassin.\" As the epidemic spreads, Jeremy, a desperate outsider, is caught in the chaos, searching for purpose as the agents race across Paris, Venice, Rome and New York to stop a threat that could alter the future of humanity.",
+        "id": "https://neodb.social/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "uuid": "2zUIbnAthdWHPyTzgfUNXG",
+        "url": "/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "api_url": "/api/tv/season/2zUIbnAthdWHPyTzgfUNXG",
+        "category": "tv",
+        "parent_uuid": "75X9f2uGaUYpRiYtoXvYzi",
+        "display_title": "美丽毒素",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/37059654/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/273160/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-03-07T10:21:24.053Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 547676108062402940,
+      "item": {
+        "type": "TVSeason",
+        "title": "爱情怎么翻译？ (这爱情可以翻译吗？)",
+        "description": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "这爱情可以翻译吗？"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "愛情怎麼翻譯？"
+          },
+          {
+            "lang": "ko",
+            "text": "이 사랑 통역 되나요?"
+          },
+          {
+            "lang": "en",
+            "text": "Can This Love Be Translated?"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/01/15/0bffb713-5192-412e-aead-1670cd2c915f.jpg",
+        "rating": 7,
+        "rating_count": 26,
+        "rating_distribution": [
+          4,
+          4,
+          31,
+          42,
+          19
+        ],
+        "tags": [
+          "2026",
+          "吃完杂粮",
+          "心理",
+          "悬疑",
+          "爱情",
+          "电视剧",
+          "韓國",
+          "韩剧",
+          "韩国"
+        ],
+        "brief": "女明星车茂熙（高允贞 饰）与她的口译员周浩镇（金宣虎 饰）一起到世界各地拍摄一档电视节目，两人逐渐萌生情愫，但最难翻译的语言，恐怕是爱情，他们能成功传情达意吗？",
+        "id": "https://neodb.social/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "uuid": "5l3seZvebPhCCMx67ZVzUa",
+        "url": "/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "api_url": "/api/tv/season/5l3seZvebPhCCMx67ZVzUa",
+        "category": "tv",
+        "parent_uuid": "1mbC7XsqVTwa7VUOtNxRIG",
+        "display_title": "爱情怎么翻译？ (这爱情可以翻译吗？)",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36363991/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/229891/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-02-20T14:09:19.439Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 537808668275774000,
+      "item": {
+        "type": "TVSeason",
+        "title": "一人之下 第六季",
+        "description": "张楚岚在碧游村事件后，继续帮冯宝宝查找身世，因此他拜访了陆瑾。张楚岚从陆瑾处拿到了三十六贼的名单，并意外得知了金凤被掳走的原因。为了让无根生的藏品不落入贼人之手，一行人开始朝着秦岭山深处的二十四谷出发….",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "一人之下 第六季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "一人6"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "一人之下 二十四节谷篇"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "一人之下 第6季"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "张楚岚在碧游村事件后，继续帮冯宝宝查找身世，因此他拜访了陆瑾。张楚岚从陆瑾处拿到了三十六贼的名单，并意外得知了金凤被掳走的原因。为了让无根生的藏品不落入贼人之手，一行人开始朝着秦岭山深处的二十四谷出发…."
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/bangumi/2026/01/24/5d68e975-8861-473b-b2d5-bff4e53a9cd5.jpg",
+        "rating": null,
+        "rating_count": 0,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "张楚岚在碧游村事件后，继续帮冯宝宝查找身世，因此他拜访了陆瑾。张楚岚从陆瑾处拿到了三十六贼的名单，并意外得知了金凤被掳走的原因。为了让无根生的藏品不落入贼人之手，一行人开始朝着秦岭山深处的二十四谷出发….",
+        "id": "https://neodb.social/tv/season/6vBUzjDXc6qph8KP6CuG5P",
+        "uuid": "6vBUzjDXc6qph8KP6CuG5P",
+        "url": "/tv/season/6vBUzjDXc6qph8KP6CuG5P",
+        "api_url": "/api/tv/season/6vBUzjDXc6qph8KP6CuG5P",
+        "category": "tv",
+        "parent_uuid": null,
+        "display_title": "一人之下 第六季",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/507819"
+          }
+        ]
+      },
+      "created_time": "2026-01-24T08:39:38.459Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535651410172626050,
+      "item": {
+        "type": "TVSeason",
+        "title": "金部长的梦想人生",
+        "description": "在企业担任经理职的中年男子（柳承龙 饰）意气风发，却在一夕之间跌落谷底。他踏上自我探索的旅程，重新学习什么能带来真正的快乐。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "金部长的梦想人生"
+          },
+          {
+            "lang": "en",
+            "text": "The Dream Life of Mr. Kim"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "金部长"
+          },
+          {
+            "lang": "ko",
+            "text": "서울 자가에 대기업 다니는 김 부장 이야기"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "在首尔自家大企业工作的金部长的故事"
+          },
+          {
+            "lang": "ko",
+            "text": "김부장"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "在企业担任经理职的中年男子（柳承龙 饰）意气风发，却在一夕之间跌落谷底。他踏上自我探索的旅程，重新学习什么能带来真正的快乐。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/11/29/10c824fd-139b-4028-9380-c8ae98349b48.jpg",
+        "rating": null,
+        "rating_count": 2,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": [],
+        "brief": "在企业担任经理职的中年男子（柳承龙 饰）意气风发，却在一夕之间跌落谷底。他踏上自我探索的旅程，重新学习什么能带来真正的快乐。",
+        "id": "https://neodb.social/tv/season/1lC3eOcx2VD8F0nyVsIbFv",
+        "uuid": "1lC3eOcx2VD8F0nyVsIbFv",
+        "url": "/tv/season/1lC3eOcx2VD8F0nyVsIbFv",
+        "api_url": "/api/tv/season/1lC3eOcx2VD8F0nyVsIbFv",
+        "category": "tv",
+        "parent_uuid": "1wg2lyVSDTTA6dg8mnyElw",
+        "display_title": "金部长的梦想人生",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36363109/"
+          }
+        ]
+      },
+      "created_time": "2026-01-18T09:47:28.043Z",
+      "comment_text": null,
+      "rating_grade": 8,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535383512768060000,
+      "item": {
+        "type": "TVSeason",
+        "title": "Pluribus (同乐者 第一季)",
+        "description": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "同乐者 第一季"
+          },
+          {
+            "lang": "en",
+            "text": "Pluribus Season 1"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "众生为一"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "乐合之众"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "万中选一"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "同乐者"
+          },
+          {
+            "lang": "en",
+            "text": "Pluribus"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。"
+          },
+          {
+            "lang": "en",
+            "text": "The most miserable person on Earth must save the world from happiness."
+          },
+          {
+            "lang": "zh-cn",
+            "text": "故事围绕“幸福也会像病毒一样传染”这一概念展开。背景设定在一个与现实世界相似却被微妙扭曲的平行世界中，当快乐突然成为可怕的“传染病”，女主必须想办法在这场全民狂欢中拯救世界。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2025/11/08/9997f449-ecd3-47a7-b1bb-7ec7a9e3f9e0.jpg",
+        "rating": 7.8,
+        "rating_count": 100,
+        "rating_distribution": [
+          1,
+          3,
+          15,
+          51,
+          30
+        ],
+        "tags": [
+          "2025",
+          "appletv",
+          "drama",
+          "queer",
+          "sf",
+          "剧情",
+          "剧集",
+          "劇 美國",
+          "喜剧",
+          "地区 美国",
+          "年代 2020s",
+          "电视剧",
+          "科幻",
+          "类型 电视剧",
+          "美剧",
+          "美国"
+        ],
+        "brief": "本剧由《绝命毒师》《风骚律师》主创文斯·吉里根打造，《风骚律师》蕾亚·塞洪主演，是一部打破类型界限的科幻剧集，讲述地球上最痛苦的人必须将世界从「幸福」中拯救出来。\n蕾亚·塞洪饰演一位情感麻木的历史言情小说畅销作家卡罗尔，她自嘲作品是“无脑的垃圾”。正当她为新书展开巡回宣传之际，一股神秘现象席卷新墨西哥州的宁静小城阿尔伯克基：一种末世病毒（或许并非末世，这取决于你的询问对象）向全世界强行灌输了乐观与满足。",
+        "id": "https://neodb.social/tv/season/7NphpScpIBmmilLVespRVs",
+        "uuid": "7NphpScpIBmmilLVespRVs",
+        "url": "/tv/season/7NphpScpIBmmilLVespRVs",
+        "api_url": "/api/tv/season/7NphpScpIBmmilLVespRVs",
+        "category": "tv",
+        "parent_uuid": "4BV9NtWpU3bNFfgEytDoJo",
+        "display_title": "Pluribus (同乐者 第一季)",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/600424"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36352371/"
+          },
+          {
+            "url": "https://fantastika.social/tv/season/1sWGOsLcPOKqdeis2goEoD"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/225171/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T16:02:56.323Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    },
+    {
+      "shelf_type": "progress",
+      "visibility": 0,
+      "post_id": 535336608332279200,
+      "item": {
+        "type": "TVSeason",
+        "title": "强风吹拂",
+        "description": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "시즌 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "强风吹拂"
+          },
+          {
+            "lang": "ja",
+            "text": "風が強く吹いている"
+          },
+          {
+            "lang": "en",
+            "text": "Run with the Wind"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "잘나가던 육상 에이스의 합류로 팀 준비는 끝났다. 목표는 대망의 하코네 경기. 근데 꿈꾸는 건 자유라지만 이 조합으로 가능할까? 게다가 팀 내 불화도 발목을 잡는다. 함량 미달 청춘들이여, 그럼에도 불구하고 승리를 위해 달릴지어다."
+          },
+          {
+            "lang": "ja",
+            "text": "夜。逃げるように街を駆け抜ける蔵原走（くらはらかける）。その横に、不意に自転車が走り込んで来る。見知らぬ男が、走に向かって問いかける。\n\n「なあ！走るの好きか！」\n\n男の名は清瀬灰二（きよせはいじ）。走は、灰二に導かれるまま、竹青荘という古びたアパートに辿り着く。そこに暮らす個性豊かな９名の住人。最後の空室を勧められ、戸惑いながらも、押し切られていく走。まさか自分が、『１０人目の男』だとは、夢にも思っていなかった…。"
+          },
+          {
+            "lang": "en",
+            "text": "Former ace runner Kakeru grudgingly returns to the sport when college senior Haiji recruits him to an unlikely team with one goal: the Hakoden relay."
+          },
+          {
+            "lang": "zh-cn",
+            "text": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "藏原走（大冢刚央 配音）是一名性格非常内向的大学一年级男生，不善言辞的他总是习惯用跑步来抒发内心里的情感波动。一天深夜，正在跑步的阿走遇见了名叫清濑灰二（丰永利行 配音）的男子，这个散发着独特魅力的男人主动向阿走搭话，并且向阿走介绍了他所居住的名为竹青庄的公寓。\n就这样，阿走在半推半就之下成为了竹青庄的第10名住户。虽然日常打打闹闹但相互非常信赖的城太郎兄弟、被称之为神童，但阿走却觉得他有些古怪的杉山高志（内山昂辉 配音）、热衷于看电视猜谜节目的坂口洋平（北泽力 配音）、性格轻浮却异常讨厌烟味的高材生岩仓雪彦（兴津和幸 配音），和阿走共享着这幢破旧的公寓的，是这些性格稀奇古怪的人们。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/movie/2021/09/152ee1d70a-2d8c-4bcf-a957-c89ab73d6a8a.jpg",
+        "rating": 9.3,
+        "rating_count": 509,
+        "rating_distribution": [
+          0,
+          1,
+          2,
+          24,
+          73
+        ],
+        "tags": [
+          "2010s",
+          "2018",
+          "2019",
+          "anime",
+          "アニメ",
+          "二次元",
+          "体育",
+          "动漫",
+          "动画",
+          "励志",
+          "友情",
+          "小说改编",
+          "成长",
+          "日本",
+          "日本动画",
+          "热血",
+          "跑步",
+          "运动",
+          "青春"
+        ],
+        "brief": "夜晚，如同逃跑一般奔驰在城市中的藏原走。他的侧面，突然有辆自行车冲来。素不相识的男子，对阿走发问了，“喂！你很喜欢跑步吧！” 男子的名字是清濑灰二。 就这样，阿走在灰二的引导下，到达了名为竹青庄的老旧公寓。9名个性丰富的住民住在那里。阿走来到最后的空房间，虽然感到困惑， 却仍然被强行留下。他怎么也没有想到，自己会成为这里的“第10个男人”……",
+        "id": "https://neodb.social/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "uuid": "5UxdZ3fhCwUYMQl1sesHy4",
+        "url": "/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "api_url": "/api/tv/season/5UxdZ3fhCwUYMQl1sesHy4",
+        "category": "tv",
+        "parent_uuid": "0uzl8EDV1MDqaxnpoyH6lj",
+        "display_title": "强风吹拂",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/248154"
+          },
+          {
+            "url": "https://movie.douban.com/subject/30238385/"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/82766/season/1"
+          }
+        ]
+      },
+      "created_time": "2026-01-12T12:54:00Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2018"
+    }
+  ],
+  "game": [
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 535337430359716540,
+      "item": {
+        "type": "Game",
+        "title": "逃离鸭科夫",
+        "description": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "逃离鸭科夫"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "逃離鴨科夫"
+          },
+          {
+            "lang": "pt",
+            "text": "Escape From Duckov"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-tw",
+            "text": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubangame/2025/11/04/9d5cab07-e352-41c8-b058-85d9f1a9abe1.jpg",
+        "rating": 7.1,
+        "rating_count": 8,
+        "rating_distribution": [
+          0,
+          12,
+          0,
+          88,
+          0
+        ],
+        "tags": [
+          "steam",
+          "休闲"
+        ],
+        "brief": "一款單人俯視角射擊遊戲，你要在鴨科夫的世界裡搜尋各種物資，用來打造你的藏身處，或是提高戰鬥力。 小心各種敵人，一旦被擊敗，你將丟失身上的裝備。不過不要緊，搞好基建，很快就能東山再起！",
+        "id": "https://neodb.social/game/0k6VgisfksEtsS970PX4Q5",
+        "uuid": "0k6VgisfksEtsS970PX4Q5",
+        "url": "/game/0k6VgisfksEtsS970PX4Q5",
+        "api_url": "/api/game/0k6VgisfksEtsS970PX4Q5",
+        "category": "game",
+        "parent_uuid": null,
+        "display_title": "逃离鸭科夫",
+        "external_resources": [
+          {
+            "url": "https://www.douban.com/game/37402004/"
+          }
+        ]
+      },
+      "created_time": "2026-01-17T12:59:49.445Z",
+      "comment_text": null,
+      "rating_grade": null,
+      "tags": [],
+      "publication_year": "2025"
+    }
+  ]
+}

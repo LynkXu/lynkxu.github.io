@@ -1,0 +1,85 @@
+---
+import ReadingShell from '../layouts/ReadingShell.astro';
+
+const rights = [
+	{ label: '共享', desc: '你可以自由复制、分享本站内容' },
+	{ label: '改编', desc: '你可以基于本站内容进行二次创作' },
+	{ label: '署名', desc: '转载或改编时必须注明作者及来源' },
+	{ label: '非商业', desc: '不得将内容用于商业用途' },
+];
+---
+
+<ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
+	<article class="r-copyright">
+		<h1 class="r-page-title">CC BY-NC 4.0</h1>
+		<p class="r-prose">
+			本站内容采用
+			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+				知识共享署名-非商业性使用 4.0 国际许可协议
+			</a>
+			进行许可。
+		</p>
+
+		<section class="r-section" aria-labelledby="rights-title">
+			<h2 id="rights-title" class="r-section__title">你可以做什么</h2>
+			<ul class="r-copyright__list">
+				{rights.map((item) => (
+					<li>
+						<strong>{item.label}</strong>
+						<span>{item.desc}</span>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<p class="r-copyright__note">
+			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+				查看完整协议
+			</a>
+			<br />
+			© 2020 – {new Date().getFullYear()} LynkXu. All rights reserved.
+		</p>
+	</article>
+</ReadingShell>
+
+<style>
+	.r-copyright__list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+	}
+
+	.r-copyright__list li {
+		display: grid;
+		gap: 0.2rem;
+	}
+
+	.r-copyright__list strong {
+		font-weight: 600;
+		color: var(--r-ink);
+	}
+
+	.r-copyright__list span {
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
+	}
+
+	.r-copyright__note {
+		margin-top: var(--r-space-xl);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+		line-height: 1.7;
+	}
+
+	.r-copyright__note a {
+		color: var(--r-ink-soft);
+	}
+
+	.r-copyright__note a:hover {
+		color: var(--r-link);
+	}
+</style>

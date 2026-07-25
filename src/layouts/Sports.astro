@@ -1,0 +1,34 @@
+---
+import Base from './Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+
+const { title } = Astro.props;
+---
+
+<Base title={title} description="运动记录" fullWidth={true} hideHeader={true} useCard={false}>
+  <link rel="dns-prefetch" href="https://unpkg.com" slot="head" />
+  <link rel="preconnect" href="https://unpkg.com" crossorigin="" slot="head" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" slot="head" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" slot="head" defer></script>
+  <SimpleHeader title="Sports" description="运动记录" />
+  <div class="sports-layout">
+    
+    <div class="content">
+      <slot />
+    </div>
+  </div>
+
+  <style>
+    .sports-layout {
+        width: 100%;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 clamp(var(--space-lg), 4vw, var(--space-2xl));
+    }
+
+    /* 内容区域样式调整，使其在无 Hero 模式下更紧凑 */
+    .content {
+      margin-top: var(--space-sm);
+    }
+  </style>
+</Base>

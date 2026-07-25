@@ -1,0 +1,96 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import ReadingShell from './ReadingShell.astro';
+import Comments from '../components/Comments.astro';
+
+type Props = CollectionEntry<'page'>['data'] & {
+	content?: string;
+};
+
+const { title } = Astro.props;
+---
+
+<ReadingShell title={title} description={title}>
+	<section class="r-message" aria-labelledby="message-title">
+		<h1 id="message-title" class="r-page-title">留言</h1>
+		<p class="r-message__intro">有什么想说的，或只是路过打个招呼，都可以留在这里。</p>
+		<div class="r-message__comments">
+			<Comments showLinuxDo={false} manualTwikooLoad={true} />
+		</div>
+	</section>
+</ReadingShell>
+
+<style is:global>
+	body.reading-surface .r-message__intro {
+		margin: -0.75rem 0 var(--r-space-lg);
+		font-family: var(--r-font-body);
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-message__comments .comments.single {
+		margin: 0;
+	}
+
+	body.reading-surface .r-message__comments .twikoo-shell {
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		box-shadow: none;
+		overflow: visible;
+	}
+
+	body.reading-surface .r-message__comments .twikoo-lazygate {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+		padding: 0.85rem 0;
+		border-bottom: 1px solid var(--r-rule);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-message__comments .twikoo-lazygate button,
+	body.reading-surface .r-message__comments button {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink);
+		background: transparent;
+		border: 1px solid var(--r-rule);
+		border-radius: 3px;
+		padding: 0.35rem 0.7rem;
+		cursor: pointer;
+	}
+
+	body.reading-surface .r-message__comments .twikoo-lazygate button:hover,
+	body.reading-surface .r-message__comments button:hover {
+		border-color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-message__comments,
+	body.reading-surface .r-message__comments * {
+		--accent-color: var(--r-link);
+		--link-color: var(--r-link);
+		--heading-color: var(--r-ink);
+		--paper-card-bg: transparent;
+		--paper-card-border: var(--r-rule);
+		--paper-card-border-soft: var(--r-rule);
+		--paper-card-shadow: none;
+		--paper-hover-bg: transparent;
+		--field-font: var(--r-font-ui);
+	}
+
+	body.reading-surface .r-message__comments .tk-comments-container,
+	body.reading-surface .r-message__comments .tk-submit,
+	body.reading-surface .r-message__comments textarea,
+	body.reading-surface .r-message__comments input {
+		background: transparent !important;
+		border-color: var(--r-rule) !important;
+		box-shadow: none !important;
+		color: var(--r-ink) !important;
+		font-family: var(--r-font-ui);
+	}
+</style>

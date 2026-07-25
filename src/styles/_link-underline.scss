@@ -1,0 +1,8 @@
+@mixin text-link-underline($offset: var(--link-underline-offset)) {
+  border-bottom: 0;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: $offset;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}

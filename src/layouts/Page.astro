@@ -1,0 +1,34 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Base from './Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+
+type Props = CollectionEntry<'page'>['data'] & {
+	content?: string;
+};
+
+const { title, useCard = true, hideHeader = false } = Astro.props;
+---
+
+<Base title={title} description={title} useCard={useCard} hideHeader={hideHeader}>
+	{hideHeader && useCard === false && (
+		<SimpleHeader title={title} />
+	)}
+	<div class="content-limit-width">
+		<p></p>
+		<h2>–</h2>
+		<h1>{title}</h1>
+		<div class='post-content content'>
+			<slot />
+		</div>
+	</div>
+
+	<style>
+		/* 普通页面与文章页一致：正文与标题左边线对齐且同宽 */
+		.content-limit-width > .post-content {
+			max-width: 100%;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	</style>
+</Base>

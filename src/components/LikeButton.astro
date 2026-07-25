@@ -1,0 +1,249 @@
+---
+interface Props {
+	id: string;
+	type?: 'gossip' | 'post'; // 区分说说和文章详情页
+}
+
+const { id, type = 'gossip' } = Astro.props;
+---
+
+<button class={`like-btn ${type} pending`} data-id={id} aria-label="Like this post">
+	<span class="like-icon">♥</span>
+	<span class="like-count">...</span>
+</button>
+
+<style>
+	.like-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.3em;
+		background: transparent;
+		border: none;
+		color: var(--gray-color);
+		cursor: pointer;
+		transition: color 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+		padding: 0;
+	}
+
+	.like-btn::before {
+		content: "[";
+		opacity: 0.3;
+		margin-right: 0.3em;
+		transition: opacity 0.2s;
+	}
+
+	.like-btn::after {
+		content: "]";
+		opacity: 0.3;
+		margin-left: 0.3em;
+		transition: opacity 0.2s;
+	}
+
+	/* 说说页面的样式 */
+	.like-btn.gossip {
+		min-height: 1.4rem;
+		padding: 0 0.34rem;
+		border-radius: 999px;
+		font-family: var(--field-font);
+		font-size: 0.66rem;
+		line-height: 1;
+		opacity: 0.68;
+	}
+
+	/* 文章详情页的样式 */
+	.like-btn.post {
+		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+		font-size: 0.8rem;
+		opacity: 0.5;
+	}
+
+	.like-icon {
+		font-size: 0.9em;
+		line-height: 1;
+		transition: transform 0.18s ease;
+	}
+
+	.like-btn.gossip::before,
+	.like-btn.gossip::after {
+		content: none;
+	}
+
+	.like-btn.gossip .like-icon {
+		color: color-mix(in oklab, var(--gray-color) 86%, var(--heading-color));
+		font-size: 0.78rem;
+	}
+
+	.like-btn.gossip:hover {
+		background: color-mix(in oklab, var(--paper-hover-bg) 76%, transparent);
+	}
+
+	.like-btn:hover {
+		color: var(--heading-color);
+		opacity: 1;
+	}
+
+	.like-btn:hover::before,
+	.like-btn:hover::after {
+		opacity: 0.6;
+	}
+
+	.like-btn.liked {
+		color: #e06c75;
+		opacity: 1;
+	}
+
+	.like-btn.gossip.liked {
+		background: color-mix(in oklab, #e06c75 7%, transparent);
+	}
+
+	.like-btn.gossip.liked .like-icon {
+		color: #e06c75;
+	}
+
+	.like-btn.liked::before,
+	.like-btn.liked::after {
+		opacity: 0.5;
+		color: var(--gray-color);
+	}
+
+	.like-btn:disabled {
+		cursor: not-allowed;
+	}
+
+	.like-btn:active .like-icon {
+		transform: scale(0.7);
+	}
+
+	/* 等待点赞数加载时先隐藏，避免 0 赞时先闪出再消失 */
+	.like-btn.pending {
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	/* 无点赞时隐藏图标，hover 父级时淡入展示（仅限支持 hover 的设备） */
+	@media (hover: hover) {
+		.like-btn.is-empty {
+			opacity: 0;
+			pointer-events: none;
+		}
+
+		.like-btn.is-empty .like-count {
+			display: none;
+		}
+
+		:global(.memo-item:hover) .like-btn.gossip.is-empty,
+		:global(.post-end:hover) .like-btn.post.is-empty {
+			opacity: 0.55;
+			pointer-events: auto;
+		}
+	}
+</style>
+
+<script>
+	// 这里填入你部署好的 Cloudflare Worker 地址
+	// 例如：https://likes.your-domain.workers.dev
+	const API_URL = 'https://blog-likes.xulinxiao.workers.dev';
+
+	async function initLikes() {
+		const buttons = document.querySelectorAll('.like-btn');
+		if (buttons.length === 0 || !API_URL) return;
+
+		// 点赞数为 0 且未点赞时，标记为空态（CSS 会隐藏图标，hover 时再淡入展示）
+		const updateEmptyState = (btn: Element) => {
+			const count = parseInt(btn.querySelector('.like-count')?.textContent ?? '') || 0;
+			const liked = btn.classList.contains('liked');
+			btn.classList.toggle('is-empty', count <= 0 && !liked);
+		};
+
+		buttons.forEach(async (btn) => {
+			const id = btn.getAttribute('data-id');
+			const countSpan = btn.querySelector('.like-count');
+
+			// 检查本地是否已经点赞过
+			const isLiked = localStorage.getItem(`liked_${id}`);
+			if (isLiked) {
+				btn.classList.add('liked');
+			}
+
+			// 获取初始点赞数
+			try {
+				const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}`);
+				if (res.ok) {
+					const data = await res.json();
+					countSpan.textContent = data.likes || '0';
+				} else {
+					countSpan.textContent = '0';
+				}
+			} catch (e) {
+				countSpan.textContent = '0';
+			}
+			updateEmptyState(btn);
+
+			btn.classList.remove('pending');
+
+			// 点击点赞或取消点赞
+			btn.addEventListener('click', async () => {
+				if (btn.hasAttribute('disabled')) return;
+
+				const isCurrentlyLiked = btn.classList.contains('liked');
+				const currentCount = parseInt(countSpan.textContent) || 0;
+
+				// 乐观更新 UI
+				btn.setAttribute('disabled', 'true');
+				if (isCurrentlyLiked) {
+					countSpan.textContent = Math.max(0, currentCount - 1);
+					btn.classList.remove('liked');
+				} else {
+					countSpan.textContent = currentCount + 1;
+					btn.classList.add('liked');
+				}
+				updateEmptyState(btn);
+
+				// 发送请求
+				try {
+					const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}&action=${isCurrentlyLiked ? 'unlike' : 'like'}`, {
+						method: 'POST'
+					});
+
+					if (res.ok) {
+						if (isCurrentlyLiked) {
+							localStorage.removeItem(`liked_${id}`);
+						} else {
+							localStorage.setItem(`liked_${id}`, 'true');
+						}
+					} else {
+						// 失败回滚
+						countSpan.textContent = currentCount;
+						if (isCurrentlyLiked) {
+							btn.classList.add('liked');
+						} else {
+							btn.classList.remove('liked');
+						}
+						updateEmptyState(btn);
+					}
+				} catch (e) {
+					// 失败回滚
+					countSpan.textContent = currentCount;
+					if (isCurrentlyLiked) {
+						btn.classList.add('liked');
+					} else {
+						btn.classList.remove('liked');
+					}
+					updateEmptyState(btn);
+				} finally {
+					btn.removeAttribute('disabled');
+				}
+			});
+		});
+	}
+
+	// 首次加载
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initLikes);
+	} else {
+		initLikes();
+	}
+
+	// 支持 Astro View Transitions
+	document.addEventListener('astro:page-load', initLikes);
+</script>

@@ -1,0 +1,52 @@
+---
+import ReadingShell from '../layouts/ReadingShell.astro';
+import { works } from '../data/works';
+
+const title = '作品';
+const description = '做过的一些东西。';
+
+function isExternal(href: string) {
+	return href.startsWith('http://') || href.startsWith('https://');
+}
+---
+
+<ReadingShell title={title} description={description}>
+	<section class="r-works" aria-labelledby="works-title">
+		<header class="r-works__head">
+			<h1 id="works-title" class="r-page-title r-works__title">作品</h1>
+		</header>
+
+		{works.length === 0 ? (
+			<p class="r-works__empty">还没有作品。</p>
+		) : (
+			<ul class="r-work-list">
+				{works.map((work) => {
+					const external = isExternal(work.href);
+					const hasMeta = Boolean(work.year || work.kind);
+					return (
+						<li>
+							<a
+								href={work.href}
+								class="r-work"
+								target={external ? '_blank' : undefined}
+								rel={external ? 'noopener noreferrer' : undefined}
+							>
+								{hasMeta && (
+									<span class="r-work__meta">
+										{work.year && <span class="r-work__year">{work.year}</span>}
+										{work.year && work.kind && (
+											<span class="r-work__sep" aria-hidden="true">·</span>
+										)}
+										{work.kind && <span class="r-work__kind">{work.kind}</span>}
+									</span>
+								)}
+								<span class="r-work__title">{work.title}</span>
+								<span class="r-work__desc">{work.description}</span>
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		)}
+	</section>
+</ReadingShell>

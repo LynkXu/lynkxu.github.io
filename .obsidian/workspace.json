@@ -1,0 +1,251 @@
+{
+  "main": {
+    "id": "b1286105028ef0cf",
+    "type": "split",
+    "children": [
+      {
+        "id": "f99952fe3e3e0a54",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4d74025a5e9ac16e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/blog/2025-12-29-review/review-2025.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "review-2025"
+            }
+          },
+          {
+            "id": "dd6aab88e0d9cf51",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+                "mode": "source",
+                "source": true
+              },
+              "icon": "lucide-file",
+              "title": "2026-05-27"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "062d1e7f553b4d97",
+    "type": "split",
+    "children": [
+      {
+        "id": "14e746ecb3b92e4d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "80b7b73fd912a52c",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "74b070dfda69e22f",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "9d91ae68f3dda56d",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "2ee05ba245b19fcb",
+    "type": "split",
+    "children": [
+      {
+        "id": "5b998bf3887747f0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0a49ad596c8078f2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "2026-05-27 的反向链接列表"
+            }
+          },
+          {
+            "id": "9b8844354b276674",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "src/content/gossips/2025-12-12-AI.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "2025-12-12-AI 的出链列表"
+            }
+          },
+          {
+            "id": "362804e5ec33a4f3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "4681ffdf487771e6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "7119c37a98a9fc83",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "src/content/gossips/2025-12-12-AI.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "2025-12-12-AI 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "bases:新建数据库": false,
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "obsidian-git:Open Git source control": false
+    }
+  },
+  "active": "dd6aab88e0d9cf51",
+  "lastOpenFiles": [
+    "dist/sitemap-index.xml",
+    "dist/sitemap-0.xml",
+    "dist/_astro/P20250511-190453.DINhDAZB_Z1g3cEf.webp",
+    "dist/_astro/P20250711-195307.DmLQl4i1_Z2v7rdu.webp",
+    "dist/_astro/IMG_7588.DvWmzmvh_Z2i5a4w.webp",
+    "dist/_astro/IMG_0311.CEvn3Hsc_1Fyzhn.webp",
+    "dist/_astro/P20250711-175912.yKtOpPbj_2pPTHM.webp",
+    "dist/_astro/IMG_7140.qFgFmznx_ZGjqLD.webp",
+    "dist/_astro/IMG_7136.iQCWs5xZ_2agiRR.webp",
+    "dist/_astro/IMG_0739.Cl_XDi58_2iQRcc.webp",
+    "dist/_astro/IMG_1670.nkzcydT-_fQOEC.webp",
+    "dist/_astro/IMG_7142.Bj_c2POM_c9Fkp.webp",
+    "dist/index.html",
+    "dist/shuoshuo/index.html",
+    "dist/shuoshuo",
+    "dist/message/index.html",
+    "dist/message",
+    "dist/sports/index.html",
+    "dist/sports",
+    "dist/about/index.html",
+    "dist/about",
+    "src/content/now.md",
+    "src/content/blog/linkcard-demo/index.md",
+    "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+    "src/content/page/search.md",
+    "src/content/page/riding.md",
+    "src/content/page/resume.md",
+    "src/content/page/projects.md",
+    "src/content/page/plan.md",
+    "src/content/page/friends.md",
+    "src/content/page/en/about.md",
+    "src/content/index.en.md",
+    "src/content/blog/2025-12-29-review/review-2025.md",
+    "src/content/blog/2026-01-25-blog-sync/2026-01-25.md",
+    "src/content/blog/2026-03-01-note/2026-03-01.md",
+    "src/content/blog/flags-in-2022/2022-04-03-flags-in-2022.md",
+    "src/content/blog/windows-terminal-proxy/2021-07-01-windows-terminal-proxy.md",
+    "src/content/blog/some-thinking/2021-06-30-someThinking.md",
+    "src/content/blog/rust-note/2023-09-06-rust-note.md",
+    "src/content/blog/2026-01-26-test/2026-01-26.md",
+    "src/content/blog/2026-01-26-test/2026-01-25.md",
+    "src/content/blog/2026-01-19-blog/2026-01-19.md",
+    "src/content/blog/2026-01-25-test/test-2.md",
+    "src/content/blog/2026-01-24-test/test-2.md",
+    "src/content/blog/2026-01-24-test/test.md",
+    "src/content/blog/age24/2022-03-01-age24.md",
+    "未命名.canvas"
+  ]
+}

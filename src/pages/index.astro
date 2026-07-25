@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import ReadingShell from '../layouts/ReadingShell.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import { filterDrafts } from '../utils/drafts';
+import { getAllGossips } from '../utils/gossips';
+import { toPlainExcerpt } from '../utils/plain-text';
+
+const posts = filterDrafts(await getCollection('blog'))
+	.filter((post) => !post.id.startsWith('en/'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const latestPosts = posts.slice(0, 12);
+const latestGossips = (await getAllGossips()).slice(0, 3);
+
+function getPostHref(post: (typeof posts)[number]) {
+	return `/blog/${post.data.slug ?? post.id}.html`;
+}
+---
+
+<ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="r-home-intro" aria-label="简介">
+		<p class="r-home-intro__text">你好，我是 Lynk。</p>
+	</section>
+
+	<section class="r-section" aria-labelledby="home-writing-title">
+		<header class="r-section__head">
+			<h1 id="home-writing-title" class="r-section__title">最近文章</h1>
+			<a href="/blog" class="r-section__more">全部</a>
+		</header>
+
+		<ol class="r-post-list">
+			{latestPosts.map((post) => (
+				<li class="r-post-list__item">
+					<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+					<span class="r-post-list__date">
+						<FormattedDate date={post.data.pubDate} />
+					</span>
+				</li>
+			))}
+		</ol>
+	</section>
+
+	{latestGossips.length > 0 && (
+		<section class="r-section" aria-labelledby="home-notes-title">
+			<header class="r-section__head">
+				<h2 id="home-notes-title" class="r-section__title">碎语</h2>
+				<a href="/shuoshuo" class="r-section__more">全部</a>
+			</header>
+
+			<ul class="r-note-list">
+				{latestGossips.map((gossip) => {
+					const excerpt = toPlainExcerpt(gossip.body || '', 80);
+					return (
+						<li class="r-note-list__item">
+							<a href="/shuoshuo">
+								<span class="r-note-list__date">
+									<FormattedDate date={gossip.data.pubDate} />
+								</span>
+								{excerpt || '（无文字）'}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</section>
+	)}
+</ReadingShell>

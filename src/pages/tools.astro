@@ -1,0 +1,230 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+
+const tools = {
+  software: [
+    { name: 'VS Code', description: '主力编辑器', icon: '/logo/vscode.svg' },
+    { name: 'Cursor', description: 'AI 辅助编程', icon: 'cursor', invertDark: true }, // Using generic cursor if specific brand not available
+    { name: 'Goland', description: 'Go 语言开发', icon: 'goland' },
+    { name: 'Obsidian', description: '知识库管理', icon: 'obsidian' },
+    { name: 'Typora', description: 'Markdown 写作', icon: '/logo/typora.png', invertDark: false },
+    { name: 'Yuque', description: '文档协作', icon: '/logo/yuque.webp', invertDark: false },
+  ],
+  hardware: [
+    { name: 'Mac mini m4', description: '主力开发机', icon: 'apple', invertDark: true },
+    { name: 'Magic Keyboard', description: '键盘', icon: 'apple', invertDark: true },
+    { name: 'Magic Trackpad', description: '触控板', icon: 'apple', invertDark: true },
+    { name: 'iPhone 17 Pro', description: '移动设备', icon: 'apple', invertDark: true },
+    { name: 'AirPods 4', description: '耳机', icon: 'apple', invertDark: true },
+    { name: 'Pace Pro', description: '运动手表', icon: '/logo/coros.ico', invertDark: true },
+    { name: 'U27U2DS', description: '显示器 27 Inch', icon: '/logo/aoc.svg', invertDark: true },
+  ],
+  services: [
+    { name: 'V2EX', description: '创意工作者社区', link: 'https://v2ex.com', icon: 'v2ex', invertDark: true },
+    { name: 'Hacker News', description: '极客新闻', link: 'https://news.ycombinator.com', icon: 'ycombinator' },
+    { name: 'Weibo', description: '随时随地发现新鲜事', link: 'https://weibo.com', icon: 'sinaweibo' },
+    { name: 'X', description: 'What is happening', link: 'https://x.com', icon: 'x', invertDark: true },
+  ]
+};
+
+const title = "常用工具";
+const description = "工欲善其事，必先利其器";
+---
+
+<Base title={title} description={description} useCard={false} hideHeader={true}>
+  <SimpleHeader title="Tools" description={description} />
+  <div class="content-limit-width">
+    
+    <div class="content">
+    <div class="tools-section">
+      <h2>软件 / Software</h2>
+      <div class="tools-grid">
+        {tools.software.map(tool => (
+          <div class="tool-card">
+            <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
+              <img 
+                src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                alt={`${tool.name} logo`}
+                width="24" height="24"
+                loading="lazy"
+                decoding="async"
+                onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/juejin';this.alt='fallback logo'"
+              />
+            </div>
+            <div class="tool-info">
+              <h3>{tool.name}</h3>
+              <p>{tool.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="tools-section">
+        <h2>硬件 / Hardware</h2>
+        <div class="tools-grid">
+          {tools.hardware.map(tool => (
+            <div class="tool-card">
+              <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
+                <img
+                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                    alt={`${tool.name} logo`}
+                    width="24" height="24"
+                    loading="lazy"
+                    decoding="async"
+                />
+              </div>
+              <div class="tool-info">
+                <h3>{tool.name}</h3>
+                <p>{tool.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    <div class="tools-section">
+      <h2>社区 / Community</h2>
+       <div class="tools-grid">
+          {tools.services.map(tool => (
+            <a href={tool.link} target="_blank" class="tool-card link-card">
+              <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
+                <img
+                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                    alt={`${tool.name} logo`}
+                    width="24" height="24"
+                    loading="lazy"
+                    decoding="async"
+                />
+              </div>
+              <div class="tool-info">
+                <h3>{tool.name}</h3>
+                <p>{tool.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+    </div>
+    </div>
+  </div>
+
+  <style>
+    .content-limit-width {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--page-inline);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .tools-section {
+      --section-accent: var(--accent-color);
+      --section-tint: var(--accent-soft-bg);
+      margin-bottom: var(--space-3xl);
+    }
+
+    .tools-section:nth-of-type(2) {
+      --section-accent: var(--color-info);
+      --section-tint: color-mix(in oklab, var(--color-info) 16%, var(--content-bg));
+    }
+
+    .tools-section:nth-of-type(3) {
+      --section-accent: var(--color-warning);
+      --section-tint: color-mix(in oklab, var(--color-warning) 16%, var(--content-bg));
+    }
+    
+    .tools-section h2 {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        color: color-mix(in oklab, var(--section-accent) 72%, var(--heading-color));
+        border-bottom: 1px solid color-mix(in oklab, var(--section-accent) 30%, transparent);
+        padding-bottom: var(--space-xs);
+        margin-bottom: var(--space-sm);
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+    .tool-card {
+      background: color-mix(in oklab, var(--section-tint) 58%, var(--content-bg));
+      backdrop-filter: blur(10px);
+      padding: var(--space-md) var(--space-lg);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-md);
+      transition: all 0.2s;
+      border: 1px solid color-mix(in oklab, var(--section-accent) 20%, transparent);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    :global([data-theme='dark']) .tool-card {
+        background: color-mix(in oklab, var(--section-tint) 30%, var(--content-bg));
+        border-color: color-mix(in oklab, var(--section-accent) 26%, transparent);
+    }
+    
+    .tool-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      background: var(--paper-hover-bg);
+      border-color: var(--paper-hover-border);
+    }
+    
+    :global([data-theme='dark']) .tool-card:hover {
+      background: var(--paper-hover-bg);
+    }
+    .link-card {
+        text-decoration: none;
+        color: inherit;
+    }
+    .link-card:hover {
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .tool-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tool-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Dark mode inversion for specific black icons */
+    :global([data-theme='dark']) .tool-icon.invert-dark img {
+        filter: invert(1);
+    }
+
+    .tool-info {
+        min-width: 0;
+    }
+    .tool-info h3 {
+      margin: 0;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--heading-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .tool-info p {
+      margin: 0;
+      font-size: 0.75rem;
+      opacity: 0.8;
+      line-height: 1.2;
+      color: var(--text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</Base>

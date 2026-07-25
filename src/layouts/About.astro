@@ -1,0 +1,378 @@
+---
+import ReadingShell from './ReadingShell.astro';
+import SponsorAbout from '../components/SponsorAbout.astro';
+import { AVATAR_IMAGE } from '../consts';
+
+const { title } = Astro.props;
+
+const blogHistory = [
+	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
+	{ date: '2025.06', text: '使用 Astro + Astro Theme Pure' },
+	{ date: '2023.06', text: '使用 Gatsby + Breeze Theme' },
+	{ date: '2020.09', text: '使用 GitHub Pages + Hexo' },
+	{ date: '2018.09', text: '因域名备案问题博客暂停' },
+	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
+];
+
+const traits = [
+	{ label: '日常', value: 'Web3 爱好者 / APP 体验家 / AI 依赖' },
+	{ label: '运动', value: '力量训练 / 马拉松 / 骑行 / 散步' },
+	{ label: '标签', value: '长期主义 / 混沌中立 / 生人勿近' },
+];
+
+const contactLinks = [
+	{ href: 'mailto:xulinxiao@live.com', label: '邮箱', value: 'xulinxiao#live.com' },
+	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
+];
+---
+
+<ReadingShell title={title} description={title}>
+	<section class="r-about" aria-labelledby="about-title">
+		<header class="r-about__head">
+			<img
+				src={AVATAR_IMAGE.src}
+				srcset={AVATAR_IMAGE.srcset}
+				sizes="64px"
+				alt=""
+				class="r-about__avatar"
+				width="64"
+				height="64"
+				loading="eager"
+				decoding="async"
+			/>
+			<div>
+				<h1 id="about-title" class="r-page-title">Hi, I am Lynk</h1>
+				<p class="r-about__now">上海 · 全栈工程师</p>
+			</div>
+		</header>
+
+		<div class="r-prose r-about__intro">
+			<p>
+				一个偏乐观的悲观主义者。一个偏现实的理想主义者。一个想法很多，但却不善表达的人。
+			</p>
+			<p>很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
+		</div>
+
+		<dl class="r-about__traits">
+			{traits.map((trait) => (
+				<div class="r-about__trait">
+					<dt>{trait.label}</dt>
+					<dd>{trait.value}</dd>
+				</div>
+			))}
+		</dl>
+
+		<section class="r-about__block" aria-labelledby="about-contact">
+			<header class="r-section__head">
+				<h2 id="about-contact" class="r-section__title">联系</h2>
+			</header>
+			<ul class="r-about__links">
+				{contactLinks.map((link) => (
+					<li>
+						<a
+							href={link.href}
+							target={link.external ? '_blank' : undefined}
+							rel={link.external ? 'noopener noreferrer' : undefined}
+						>
+							<span class="r-about__link-label">{link.label}</span>
+							<span class="r-about__link-value">{link.value}</span>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="r-about__block" aria-labelledby="about-sponsor">
+			<header class="r-section__head">
+				<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+			</header>
+			<div class="r-about__sponsor">
+				<SponsorAbout />
+			</div>
+		</section>
+
+		<section class="r-about__block" aria-labelledby="about-history">
+			<header class="r-section__head">
+				<h2 id="about-history" class="r-section__title">博客历程</h2>
+			</header>
+			<details class="r-about__history">
+				<summary>展开时间线</summary>
+				<ol>
+					{blogHistory.map((item) => (
+						<li>
+							<time>{item.date}</time>
+							<span>{item.text}</span>
+						</li>
+					))}
+				</ol>
+			</details>
+		</section>
+	</section>
+</ReadingShell>
+
+<style is:global>
+	body.reading-surface .r-about__head {
+		display: flex;
+		align-items: center;
+		gap: var(--r-space-md);
+		margin-bottom: var(--r-space-lg);
+	}
+
+	body.reading-surface .r-about__avatar {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	body.reading-surface .r-about__head .r-page-title {
+		margin: 0;
+	}
+
+	body.reading-surface .r-about__now {
+		margin: 0.3rem 0 0;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-about__intro {
+		margin-bottom: var(--r-space-lg);
+		font-size: 1rem !important;
+		line-height: 1.75 !important;
+	}
+
+	body.reading-surface .r-about__intro p {
+		margin-bottom: 0.75em !important;
+	}
+
+	body.reading-surface .r-about__intro p:last-child {
+		margin-bottom: 0 !important;
+	}
+
+	/* Quiet fact sheet — no boxed double rules */
+	body.reading-surface .r-about__traits {
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+		margin: 0 0 var(--r-space-xl);
+		padding: 0;
+		border: 0;
+	}
+
+	body.reading-surface .r-about__trait {
+		display: grid;
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		gap: var(--r-space-md);
+		align-items: baseline;
+	}
+
+	body.reading-surface .r-about__traits dt {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+		margin: 0;
+	}
+
+	body.reading-surface .r-about__traits dd {
+		margin: 0;
+		font-family: var(--r-font-body);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
+		line-height: 1.5;
+	}
+
+	body.reading-surface .r-about__block {
+		margin-bottom: var(--r-space-xl);
+	}
+
+	body.reading-surface .r-about__block:last-child {
+		margin-bottom: 0;
+	}
+
+	body.reading-surface .r-about__block .r-section__head {
+		margin-bottom: var(--r-space-sm);
+	}
+
+	/* Compact label → value, not full-bleed justify */
+	body.reading-surface .r-about__links {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+	}
+
+	body.reading-surface .r-about__links a {
+		display: grid;
+		grid-template-columns: 2.75rem minmax(0, 1fr);
+		gap: var(--r-space-md);
+		align-items: baseline;
+		color: var(--r-ink-soft);
+		text-decoration: none;
+	}
+
+	body.reading-surface .r-about__link-label {
+		color: var(--r-ink-faint);
+		font-size: var(--r-text-xs);
+	}
+
+	body.reading-surface .r-about__link-value {
+		color: var(--r-ink-soft);
+		overflow-wrap: break-word;
+	}
+
+	body.reading-surface .r-about__links a:hover,
+	body.reading-surface .r-about__links a:hover .r-about__link-value {
+		color: var(--r-ink);
+	}
+
+	/* Flatten sponsor chrome into reading surface */
+	body.reading-surface .r-about__sponsor .sponsor-about {
+		margin: 0;
+		gap: 0.15rem;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold {
+		background: transparent !important;
+		border: 0 !important;
+		border-radius: 0 !important;
+		margin: 0 !important;
+		overflow: visible;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary {
+		padding: 0.3rem 0 !important;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		font-weight: 400 !important;
+		color: var(--r-ink-soft) !important;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary:hover,
+	body.reading-surface .r-about__sponsor .sponsor-fold[open] summary {
+		background: transparent !important;
+		border-bottom: 0 !important;
+		color: var(--r-ink);
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-fold summary::before {
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-panel,
+	body.reading-surface .r-about__sponsor .sponsor-card,
+	body.reading-surface .r-about__sponsor .sponsor-card__qr,
+	body.reading-surface .r-about__sponsor .crypto-item__qr {
+		background: var(--r-code-bg) !important;
+		border-color: var(--r-rule) !important;
+		box-shadow: none !important;
+		border-radius: 4px !important;
+	}
+
+	body.reading-surface .r-about__sponsor .sponsor-card__name,
+	body.reading-surface .r-about__sponsor .crypto-item__heading h3,
+	body.reading-surface .r-about__sponsor h3 {
+		color: var(--r-ink) !important;
+		font-family: var(--r-font-ui);
+		font-weight: 500 !important;
+	}
+
+	body.reading-surface .r-about__sponsor .crypto-address__label,
+	body.reading-surface .r-about__sponsor .addr-copy {
+		font-weight: 500 !important;
+	}
+
+	body.reading-surface .r-about__sponsor,
+	body.reading-surface .r-about__sponsor * {
+		--accent-color: var(--r-link);
+		--heading-color: var(--r-ink);
+		--paper-card-bg: var(--r-code-bg);
+		--paper-card-border: var(--r-rule);
+		--paper-card-border-soft: var(--r-rule);
+		--paper-card-shadow: none;
+	}
+
+	body.reading-surface .r-about__history {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-sm);
+		color: var(--r-ink-soft);
+	}
+
+	body.reading-surface .r-about__history summary {
+		cursor: pointer;
+		color: var(--r-ink-soft);
+		font-weight: 400;
+		list-style: none;
+		padding: 0.15rem 0;
+	}
+
+	body.reading-surface .r-about__history summary:hover {
+		color: var(--r-ink);
+	}
+
+	body.reading-surface .r-about__history summary::-webkit-details-marker {
+		display: none;
+	}
+
+	body.reading-surface .r-about__history summary::before {
+		content: "▸ ";
+		font-size: 0.75em;
+		color: var(--r-ink-faint);
+	}
+
+	body.reading-surface .r-about__history[open] summary::before {
+		content: "▾ ";
+	}
+
+	body.reading-surface .r-about__history ol {
+		list-style: none;
+		margin: var(--r-space-sm) 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.55rem;
+	}
+
+	body.reading-surface .r-about__history li {
+		display: grid;
+		grid-template-columns: 4.5rem minmax(0, 1fr);
+		gap: var(--r-space-md);
+		align-items: baseline;
+	}
+
+	body.reading-surface .r-about__history time {
+		font-variant-numeric: tabular-nums;
+		color: var(--r-ink-faint);
+		font-size: var(--r-text-xs);
+	}
+
+	body.reading-surface .r-about__history li span {
+		font-family: var(--r-font-body);
+		color: var(--r-ink-soft);
+		line-height: 1.55;
+	}
+
+	@media (max-width: 720px) {
+		body.reading-surface .r-about__head {
+			align-items: center;
+		}
+
+		body.reading-surface .r-about__avatar {
+			width: 64px;
+			height: 64px;
+		}
+
+		body.reading-surface .r-about__block {
+			margin-bottom: var(--r-space-xl);
+		}
+
+		body.reading-surface .r-about__block:last-child {
+			margin-bottom: 0;
+		}
+	}
+</style>

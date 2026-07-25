@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import ReadingShell from '../../layouts/ReadingShell.astro';
+import { SITE_DESCRIPTION } from '../../consts';
+import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
+
+const posts = filterDrafts(await getCollection('blog'))
+	.filter((post) => !post.id.startsWith('en/'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const postsByYear: Record<number, typeof posts> = {};
+posts.forEach((post) => {
+	const year = post.data.pubDate.getFullYear();
+	if (!postsByYear[year]) {
+		postsByYear[year] = [];
+	}
+	postsByYear[year].push(post);
+});
+
+const years = Object.keys(postsByYear)
+	.map(Number)
+	.sort((a, b) => b - a);
+
+function getArchiveDate(date: Date) {
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const day = String(date.getDate()).padStart(2, '0');
+	return `${month}.${day}`;
+}
+
+function getPostHref(post: (typeof posts)[number]) {
+	return `/blog/${post.data.slug ?? post.id}.html`;
+}
+---
+
+<ReadingShell title="归档" description={SITE_DESCRIPTION}>
+	<h1 class="r-page-title">全部文章</h1>
+
+	{years.map((year) => (
+		<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
+			<h2 id={`archive-year-${year}`} class="r-year-block__label">
+				{year}
+				<span class="r-year-block__count">{postsByYear[year].length}</span>
+			</h2>
+			<ol class="r-post-list">
+				{postsByYear[year].map((post) => (
+					<li class="r-post-list__item">
+						<div class="r-post-list__main">
+							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+							{INCLUDE_DRAFTS && post.data.draft && (
+								<span class="r-draft">草稿</span>
+							)}
+						</div>
+						<span class="r-post-list__date">
+							<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
+						</span>
+					</li>
+				))}
+			</ol>
+		</section>
+	))}
+</ReadingShell>
+
+<style>
+	.r-draft {
+		margin-left: 0.5rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+	}
+</style>

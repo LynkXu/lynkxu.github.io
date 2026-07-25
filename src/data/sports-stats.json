@@ -1,0 +1,196 @@
+{
+  "generatedAt": "2026-07-25T02:12:00.195Z",
+  "running": {
+    "years": {
+      "2025": {
+        "distance": "399.34",
+        "time": "40.4",
+        "count": 2
+      },
+      "2026": {
+        "distance": "386.63",
+        "time": "35.6",
+        "count": 54
+      }
+    },
+    "imported": {
+      "sinceLabel": "2025.06起",
+      "distanceKm": "374.24",
+      "timeHours": "37.94",
+      "avgPaceText": "~6'05''/km",
+      "hasMonthly": false
+    },
+    "cards": {
+      "totalDistance": {
+        "label": "总跑量(2025.06起)",
+        "value": "785.97",
+        "unit": "km",
+        "subtext": "~6'05''/km"
+      },
+      "totalTime": {
+        "label": "总时长",
+        "value": "75.9",
+        "unit": "h",
+        "subtext": "在路上的时间"
+      },
+      "halfMarathon": {
+        "label": "半马 PB",
+        "value": "--",
+        "unit": "",
+        "subtext": "暂无记录"
+      },
+      "fullMarathon": {
+        "label": "全马 PB",
+        "value": "--",
+        "unit": "",
+        "subtext": "暂无记录"
+      }
+    },
+    "monthly": [
+      {
+        "month": "2026-07",
+        "distanceKm": "97.62",
+        "count": 17,
+        "movingTimeHours": "8.89"
+      },
+      {
+        "month": "2026-06",
+        "distanceKm": "92.86",
+        "count": 13,
+        "movingTimeHours": "8.38"
+      },
+      {
+        "month": "2026-05",
+        "distanceKm": "31.98",
+        "count": 6,
+        "movingTimeHours": "2.9"
+      },
+      {
+        "month": "2026-03",
+        "distanceKm": "73.94",
+        "count": 7,
+        "movingTimeHours": "6.61"
+      },
+      {
+        "month": "2026-02",
+        "distanceKm": "6.38",
+        "count": 2,
+        "movingTimeHours": "0.9"
+      },
+      {
+        "month": "2026-01",
+        "distanceKm": "83.83",
+        "count": 9,
+        "movingTimeHours": "7.88"
+      },
+      {
+        "month": "2025-12",
+        "distanceKm": "25.1",
+        "count": 2,
+        "movingTimeHours": "2.45"
+      }
+    ]
+  },
+  "cycling": {
+    "years": {
+      "2024": {
+        "distance": "1381.33",
+        "time": "56.5",
+        "count": 70
+      },
+      "2025": {
+        "distance": "170.65",
+        "time": "9.3",
+        "count": 8
+      }
+    },
+    "cards": {
+      "totalDistance": {
+        "label": "总里程",
+        "value": "1551.98",
+        "unit": "km",
+        "subtext": "历史累计"
+      },
+      "totalTime": {
+        "label": "总时长",
+        "value": "65.76",
+        "unit": "h",
+        "subtext": "在路上的时间"
+      },
+      "totalCount": {
+        "label": "累计次数",
+        "value": "78",
+        "unit": "次",
+        "subtext": "~19.9 km/次"
+      },
+      "farthest": {
+        "label": "最长骑行距离",
+        "value": "132.2",
+        "unit": "km",
+        "subtext": "~27.3 km/h @2024.06.16"
+      }
+    },
+    "monthly": [
+      {
+        "month": "2025-11",
+        "distanceKm": "36.76",
+        "count": 2,
+        "movingTimeHours": "3.46"
+      },
+      {
+        "month": "2025-10",
+        "distanceKm": "89.65",
+        "count": 3,
+        "movingTimeHours": "3.95"
+      },
+      {
+        "month": "2025-08",
+        "distanceKm": "30.24",
+        "count": 2,
+        "movingTimeHours": "1.38"
+      },
+      {
+        "month": "2025-03",
+        "distanceKm": "14",
+        "count": 1,
+        "movingTimeHours": "0.52"
+      },
+      {
+        "month": "2024-09",
+        "distanceKm": "41.25",
+        "count": 2,
+        "movingTimeHours": "1.86"
+      },
+      {
+        "month": "2024-08",
+        "distanceKm": "177.94",
+        "count": 6,
+        "movingTimeHours": "7.21"
+      },
+      {
+        "month": "2024-07",
+        "distanceKm": "257.92",
+        "count": 14,
+        "movingTimeHours": "9.98"
+      },
+      {
+        "month": "2024-06",
+        "distanceKm": "304.59",
+        "count": 10,
+        "movingTimeHours": "11.4"
+      },
+      {
+        "month": "2024-05",
+        "distanceKm": "474.68",
+        "count": 31,
+        "movingTimeHours": "20.4"
+      },
+      {
+        "month": "2024-04",
+        "distanceKm": "124.96",
+        "count": 7,
+        "movingTimeHours": "5.61"
+      }
+    ]
+  }
+}

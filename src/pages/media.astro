@@ -1,0 +1,618 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+import MediaCard from '../components/MediaCard.astro';
+import neodbData from '../data/neodb.json';
+
+const title = '书影音';
+const description = '记录看过的书、电影和玩过的游戏';
+
+interface NeoDBItem {
+  uuid?: string;
+  item: {
+    title: string;
+    display_title?: string;
+    cover_image_url?: string | null;
+    brief?: string | null;
+    rating?: number | null;
+    url?: string | null;
+  };
+  comment_text?: string | null;
+  rating_grade?: number | null;
+  created_time: string;
+  shelf_type?: string;
+  publication_year?: string | null;
+}
+
+type MediaKind = 'book' | 'tv' | 'movie' | 'game';
+
+const sectionMeta: Record<MediaKind, { label: string; eyebrow: string; empty: string }> = {
+  book: { label: '书籍', eyebrow: 'Books', empty: '暂无书籍记录。' },
+  tv: { label: '剧集', eyebrow: 'Series', empty: '暂无剧集记录。' },
+  movie: { label: '电影', eyebrow: 'Movies', empty: '暂无电影记录。' },
+  game: { label: '游戏', eyebrow: 'Games', empty: '暂无游戏记录。' },
+};
+
+const sectionOrder: MediaKind[] = ['book', 'tv', 'movie', 'game'];
+
+const getTimestamp = (value?: string) => {
+  const time = value ? new Date(value).getTime() : 0;
+  return Number.isFinite(time) ? time : 0;
+};
+
+const sortItems = <T extends NeoDBItem>(items: T[]) => {
+  return [...items].sort((a, b) => {
+    const aProgress = a.shelf_type === 'progress' ? 1 : 0;
+    const bProgress = b.shelf_type === 'progress' ? 1 : 0;
+    if (aProgress !== bProgress) {
+      return bProgress - aProgress;
+    }
+    return getTimestamp(b.created_time) - getTimestamp(a.created_time);
+  });
+};
+
+const groupByYear = <T extends NeoDBItem>(items: T[]) => {
+  const groups = new Map<string, T[]>();
+  for (const item of items) {
+    const year = new Date(item.created_time).getFullYear();
+    const label = Number.isFinite(year) ? String(year) : '未知';
+    if (!groups.has(label)) {
+      groups.set(label, []);
+    }
+    groups.get(label)?.push(item);
+  }
+
+  return Array.from(groups.entries())
+    .map(([year, yearItems]) => ({ year, items: yearItems }))
+    .sort((a, b) => Number(b.year) - Number(a.year));
+};
+
+const getItems = (kind: MediaKind) => {
+  return sortItems(((neodbData[kind] || []) as unknown) as NeoDBItem[]);
+};
+
+const getTitle = (item: NeoDBItem) => item.item.display_title || item.item.title;
+const getCover = (item: NeoDBItem) => item.item.cover_image_url || '';
+const getLink = (item: NeoDBItem) => {
+  const url = item.item.url;
+  if (!url) return 'https://neodb.social';
+  return url.startsWith('http') ? url : `https://neodb.social${url}`;
+};
+const getYear = (item: NeoDBItem) => item.publication_year || '未知';
+const getStatusLabel = (item: NeoDBItem) => (item.shelf_type === 'progress' ? '进行中' : '已完成');
+const formatDate = (value: string) => {
+  const date = new Date(value);
+  if (!Number.isFinite(date.getTime())) return '未知日期';
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date).replace(/\//g, '.');
+};
+
+const sections = sectionOrder.map((key) => {
+  const items = getItems(key);
+  return {
+    key,
+    ...sectionMeta[key],
+    items,
+    groups: groupByYear(items),
+  };
+});
+
+const allItems = sortItems(sections.flatMap((section) => section.items));
+const totalCount = allItems.length;
+const progressCount = allItems.filter((item) => item.shelf_type === 'progress').length;
+const completedCount = totalCount - progressCount;
+const activeYears = allItems
+  .map((item) => new Date(item.created_time).getFullYear())
+  .filter((year) => Number.isFinite(year));
+const yearStart = activeYears.length ? Math.min(...activeYears) : null;
+const yearEnd = activeYears.length ? Math.max(...activeYears) : null;
+const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}` : `${yearStart}-${yearEnd}`) : '暂无';
+---
+
+<Base title={title} description={description} useCard={false} hideHeader={true} fullWidth={true}>
+  <SimpleHeader title="Media" description={description} />
+
+  <div class="media-page" data-media-page>
+    <section class="media-hero" aria-labelledby="media-title">
+      <div class="media-hero-copy">
+        <p class="media-kicker">MEDIA LOG</p>
+        <h1 id="media-title">书影音</h1>
+        <p class="media-intro">
+          一些读过的书、看过的电影和玩过的游戏。不全，但都是真的。
+        </p>
+      </div>
+
+      <dl class="media-stats" aria-label="媒体统计">
+        <div>
+          <dt>Entries</dt>
+          <dd>{totalCount}</dd>
+        </div>
+        <div>
+          <dt>Progress</dt>
+          <dd>{progressCount}</dd>
+        </div>
+        <div>
+          <dt>Finished</dt>
+          <dd>{completedCount}</dd>
+        </div>
+        <div>
+          <dt>Range</dt>
+          <dd>{yearRange}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="media-library" aria-label="媒体列表">
+      <div class="media-controls">
+        <div class="library-heading">
+          <span>Browse</span>
+          <strong>按类型整理</strong>
+        </div>
+
+        <div class="media-tablist" role="tablist" aria-label="媒体类型">
+          {sections.map((section, index) => (
+            <button
+              class={`media-tab ${index === 0 ? 'is-active' : ''}`}
+              type="button"
+              role="tab"
+              id={`media-tab-${section.key}`}
+              aria-controls={`media-panel-${section.key}`}
+              aria-selected={index === 0 ? 'true' : 'false'}
+              data-media-tab={section.key}
+            >
+              <span>{section.label}</span>
+              <small>{section.items.length}</small>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {sections.map((section, index) => (
+        <section
+          class={`media-panel ${index === 0 ? 'is-active' : ''}`}
+          id={`media-panel-${section.key}`}
+          role="tabpanel"
+          aria-labelledby={`media-tab-${section.key}`}
+          data-media-panel={section.key}
+          hidden={index !== 0}
+        >
+          <div class="panel-summary">
+            <p>{section.eyebrow}</p>
+            <h2>{section.label}</h2>
+            <span>{section.items.length} 项记录</span>
+          </div>
+
+          {section.items.length > 0 ? (
+            <div class="year-stack">
+              {section.groups.map((group) => (
+                <section class="year-row" aria-labelledby={`${section.key}-${group.year}`}>
+                  <div class="year-label">
+                    <h3 id={`${section.key}-${group.year}`}>{group.year}</h3>
+                    <span>{group.items.length} 项</span>
+                  </div>
+
+                  <div class="media-grid">
+                    {group.items.map((item) => (
+                      <MediaCard
+                        title={getTitle(item)}
+                        cover={getCover(item)}
+                        rating={item.rating_grade}
+                        neodbRating={item.item.rating}
+                        comment={item.comment_text}
+                        date={item.created_time}
+                        recordedDate={formatDate(item.created_time)}
+                        year={getYear(item)}
+                        link={getLink(item)}
+                        status={item.shelf_type}
+                        statusLabel={getStatusLabel(item)}
+                        kind={section.label}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          ) : (
+            <p class="empty-state">{section.empty}</p>
+          )}
+        </section>
+      ))}
+    </section>
+  </div>
+</Base>
+
+<script>
+  const page = document.querySelector<HTMLElement>('[data-media-page]');
+
+  if (page) {
+    const tabs = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-media-tab]'));
+    const panels = Array.from(page.querySelectorAll<HTMLElement>('[data-media-panel]'));
+
+    const activate = (key: string) => {
+      tabs.forEach((tab) => {
+        const isActive = tab.dataset.mediaTab === key;
+        tab.classList.toggle('is-active', isActive);
+        tab.setAttribute('aria-selected', String(isActive));
+      });
+
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.mediaPanel === key;
+        panel.classList.toggle('is-active', isActive);
+        panel.hidden = !isActive;
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const key = tab.dataset.mediaTab;
+        if (key) activate(key);
+      });
+    });
+  }
+</script>
+
+<style>
+  .media-page {
+    width: min(1240px, 100%);
+    margin: 0 auto;
+    padding: 0 var(--page-inline) var(--space-3xl);
+    box-sizing: border-box;
+    animation: mediaFadeIn 0.45s ease-out;
+  }
+
+  @keyframes mediaFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .media-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'copy stats';
+    gap: clamp(var(--space-md), 3vw, var(--space-xl));
+    align-items: start;
+    padding: clamp(var(--space-md), 2.4vw, var(--space-xl)) 0 clamp(var(--space-lg), 3vw, var(--space-2xl));
+    border-bottom: 1px solid color-mix(in oklab, var(--text-color) 10%, transparent);
+  }
+
+  .media-hero-copy {
+    grid-area: copy;
+    max-width: 620px;
+  }
+
+  .media-kicker {
+    margin: 0 0 var(--space-sm);
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .media-hero h1 {
+    margin: 0;
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: clamp(1.9rem, 3.2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .media-intro {
+    max-width: 58ch;
+    margin: var(--space-sm) 0 0;
+    color: var(--text-color);
+    font-size: var(--text-md);
+    line-height: 1.78;
+    opacity: 0.78;
+  }
+
+  .media-stats {
+    grid-area: stats;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-sm);
+    max-width: 620px;
+    margin: 0;
+  }
+
+  .media-stats div {
+    min-width: 0;
+    padding-top: var(--space-sm);
+    border-top: 1px solid color-mix(in oklab, var(--text-color) 12%, transparent);
+  }
+
+  .media-stats dt {
+    margin: 0 0 var(--space-xs);
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .media-stats dd {
+    margin: 0;
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+  }
+
+  .media-library {
+    padding-top: clamp(var(--space-lg), 3vw, var(--space-2xl));
+  }
+
+  .media-controls {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    padding: var(--space-sm) 0;
+    background: color-mix(in oklab, var(--page-bg, var(--content-bg)) 86%, transparent);
+    backdrop-filter: blur(18px);
+  }
+
+  .library-heading {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: max-content;
+  }
+
+  .library-heading span {
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .library-heading strong {
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .media-tablist {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    border: 1px solid color-mix(in oklab, var(--text-color) 9%, transparent);
+    background: color-mix(in oklab, var(--content-bg) 84%, transparent);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .media-tablist::-webkit-scrollbar {
+    display: none;
+  }
+
+  .media-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    min-height: 40px;
+    padding: 0 var(--space-md);
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--gray-color);
+    cursor: pointer;
+    font-family: var(--ui-font);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .media-tab small {
+    color: inherit;
+    font-size: 0.7rem;
+    font-weight: 700;
+    opacity: 0.58;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .media-tab.is-active {
+    background: var(--heading-color);
+    color: var(--content-bg);
+    box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--accent-color) 70%, var(--content-bg));
+  }
+
+  .media-tab:hover:not(.is-active) {
+    color: var(--heading-color);
+    background: color-mix(in oklab, var(--accent-soft-bg) 62%, transparent);
+  }
+
+  .media-tab:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
+    outline-offset: 3px;
+  }
+
+  .media-panel[hidden] {
+    display: none;
+  }
+
+  .media-panel.is-active {
+    animation: panelIn 0.28s ease-out;
+  }
+
+  @keyframes panelIn {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .panel-summary {
+    display: grid;
+    grid-template-columns: minmax(80px, 0.18fr) minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .panel-summary p,
+  .panel-summary h2 {
+    margin: 0;
+  }
+
+  .panel-summary p,
+  .panel-summary span {
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .panel-summary h2 {
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+    line-height: 1.1;
+  }
+
+  .year-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(var(--space-lg), 3vw, var(--space-xl));
+  }
+
+  .year-row {
+    display: grid;
+    grid-template-columns: minmax(78px, 0.18fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 3vw, var(--space-xl));
+    align-items: start;
+  }
+
+  .year-label {
+    position: sticky;
+    top: 88px;
+    padding-top: 2px;
+  }
+
+  .year-label h3 {
+    margin: 0;
+    color: var(--heading-color);
+    font-family: var(--serif-font);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .year-label span {
+    display: block;
+    margin-top: var(--space-xs);
+    color: var(--gray-color);
+    font-family: var(--ui-font);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-md);
+  }
+
+  .empty-state {
+    margin: var(--space-2xl) 0;
+    color: var(--gray-color);
+    font-size: var(--text-md);
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .media-hero {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        'copy'
+        'stats';
+      align-items: start;
+    }
+
+    .media-controls {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .media-tablist {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .panel-summary,
+    .year-row {
+      grid-template-columns: 1fr;
+    }
+
+    .year-label {
+      position: static;
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      padding-bottom: var(--space-xs);
+      border-bottom: 1px solid color-mix(in oklab, var(--text-color) 9%, transparent);
+    }
+
+    .year-label span {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .media-page {
+      padding-inline: var(--space-lg);
+    }
+
+    .media-hero h1 {
+      font-size: clamp(1.85rem, 9vw, 2.35rem);
+    }
+
+    .media-stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+
+    .panel-summary {
+      gap: var(--space-xs);
+    }
+
+    .panel-summary span {
+      justify-self: start;
+    }
+
+    .media-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+    }
+  }
+</style>

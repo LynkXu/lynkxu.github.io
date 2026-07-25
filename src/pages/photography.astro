@@ -1,0 +1,466 @@
+---
+import Base from '../layouts/Base.astro';
+import SimpleHeader from '../components/SimpleHeader.astro';
+import { Image } from 'astro:assets';
+import exifr from 'exifr';
+import path from 'path';
+import fs from 'fs';
+import sharp from 'sharp';
+
+// Import all images from src/content/photography
+// 使用 eager: true 以便在构建时处理图片
+const images = import.meta.glob('/src/content/photography/*.{jpg,jpeg,png,webp,gif,heic,HEIC}', { eager: true });
+
+// Ensure output directory exists for converted HEIC images
+const publicDir = path.join(process.cwd(), 'public');
+const convertedDir = path.join(publicDir, 'converted-heic');
+if (!fs.existsSync(convertedDir)) {
+  fs.mkdirSync(convertedDir, { recursive: true });
+}
+
+// Process images with EXIF data
+const processedImagesAll = await Promise.all(
+  Object.entries(images).map(async ([filepath, img]: [string, any]) => {
+    const absolutePath = path.join(process.cwd(), filepath);
+    const filename = filepath.split('/').pop() || '';
+    const isHeic = filename.toLowerCase().endsWith('.heic');
+    
+    let imageMetadata;
+    
+    // Handle HEIC conversion or standard image
+    if (isHeic) {
+        // Convert HEIC to WebP
+        const outputFilename = filename.replace(/\.(heic|HEIC)$/, '.webp');
+        const outputPath = path.join(convertedDir, outputFilename);
+        const publicPath = path.join('/converted-heic', outputFilename);
+        
+        // Check if conversion is needed (file doesn't exist)
+        // In a real build, we might want to check timestamps, but for now simple existence check
+        if (!fs.existsSync(outputPath)) {
+            try {
+                await sharp(absolutePath)
+                    .toFormat('webp', { quality: 90 })
+                    .toFile(outputPath);
+            } catch (e) {
+                // 避免打印巨大堆栈；此处转换失败将导致该图片被过滤不展示
+                console.warn(`Failed to convert HEIC: ${filepath}`);
+            }
+        }
+        
+        // Get metadata for the converted image
+        try {
+            // If conversion failed, this might fail too
+            if (fs.existsSync(outputPath)) {
+                const metadata = await sharp(outputPath).metadata();
+                imageMetadata = {
+                    src: publicPath,
+                    width: metadata.width,
+                    height: metadata.height,
+                    format: 'webp'
+                };
+            } else {
+                 // Fallback/Error state
+                 imageMetadata = { src: '', width: 0, height: 0, format: 'webp' };
+            }
+        } catch (e) {
+            console.warn(`Failed to read converted image metadata: ${outputPath}`);
+            imageMetadata = { src: '', width: 0, height: 0, format: 'webp' };
+        }
+
+    } else {
+        // Standard image supported by Astro
+        imageMetadata = img.default;
+    }
+
+    let exif: any = {};
+    try {
+      exif = await exifr.parse(absolutePath, [
+        'Make', 'Model', 'ISO', 'FNumber', 'ExposureTime', 'DateTimeOriginal', 'LensModel'
+      ]);
+      // 格式化光圈值，避免出现过长的小数
+      if (exif?.FNumber) {
+          exif.FNumber = Number(exif.FNumber).toFixed(1);
+          // 如果是整数，去掉 .0
+          if (exif.FNumber.endsWith('.0')) {
+              exif.FNumber = exif.FNumber.slice(0, -2);
+          }
+      }
+    } catch (e) {
+      console.error(`Error reading EXIF for ${filepath}`, e);
+    }
+    
+    return {
+      ...imageMetadata,
+      exif,
+      isHeic,
+      filename: filename
+    };
+  })
+);
+
+// Filter out conversion failures / invalid entries
+const processedImages = processedImagesAll.filter((img) => img && typeof img.src === 'string' && img.src.length > 0);
+
+// Helper to format exposure time
+function formatExposureTime(t: number) {
+    if (!t) return '';
+    if (t >= 1) return `${t}s`;
+    return `1/${Math.round(1/t)}`;
+}
+
+// Helper to format date
+function formatDate(dateString: string | Date) {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+    }).replace(/\//g, '.');
+}
+
+// Sort by date (newest first)
+processedImages.sort((a, b) => {
+    const dateA = a.exif?.DateTimeOriginal ? new Date(a.exif.DateTimeOriginal).getTime() : 0;
+    const dateB = b.exif?.DateTimeOriginal ? new Date(b.exif.DateTimeOriginal).getTime() : 0;
+    // Fallback to filename if dates are equal or missing
+    if (dateA === dateB) {
+        return b.filename.localeCompare(a.filename);
+    }
+    return dateB - dateA;
+});
+
+const title = "光影瞬间";
+const description = "定格时间，留住感动";
+---
+
+<Base title={title} description={description} fullWidth={true} hideHeader={true} hideFooter={false} useCard={false} className="layout-wide">
+  <link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
+  
+  <SimpleHeader title="Photography" description="光影瞬间" />
+
+  <div class="content fade-in-up">
+    
+    {processedImages.length === 0 ? (
+      <div class="empty-state">
+        <p>暂无照片。</p>
+      </div>
+    ) : (
+      <div id="lightgallery" class="gallery-masonry">
+        {processedImages.map((img) => (
+          <a 
+            href={img.src} 
+            class="gallery-item" 
+            data-src={img.src} 
+            data-sub-html={`
+                <div class="lg-caption">
+                    <h4>${img.filename}</h4>
+                    <p class="lg-exif">
+                        ${img.exif?.DateTimeOriginal ? `${formatDate(img.exif.DateTimeOriginal)} · ` : ''}
+                        ${img.exif?.Model ? `${img.exif.Model}` : ''}
+                        ${(img.exif?.FNumber || img.exif?.ExposureTime || img.exif?.ISO) ? ` · ${img.exif?.FNumber ? `f/${img.exif.FNumber}` : ''} ${img.exif?.ExposureTime ? ` ${formatExposureTime(img.exif.ExposureTime)}s` : ''} ${img.exif?.ISO ? ` ISO${img.exif.ISO}` : ''}` : ''}
+                    </p>
+                </div>
+            `}
+          >
+              <div class="image-wrapper">
+                  {img.isHeic ? (
+                    <img
+                      src={img.src}
+                      alt={img.filename}
+                      width={img.width}
+                      height={img.height}
+                      class="gallery-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Image
+                      src={img}
+                      alt={img.filename}
+                      width={1200}
+                      quality={85}
+                      class="gallery-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  <div class="overlay">
+                      <div class="overlay-content">
+                        <div class="zoom-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h6v6M14 10l6.1-6.1M9 21H3v-6M10 14l-6.1 6.1"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="exif-badges">
+                            {img.exif?.DateTimeOriginal && (
+                                <span class="badge date">
+                                    {formatDate(img.exif.DateTimeOriginal)}
+                                </span>
+                            )}
+                            
+                            {img.exif && (img.exif.Model || img.exif.FNumber) && (
+                                <>
+                                    {img.exif.Model && <span class="badge model">{img.exif.Model.replace(/Apple|Canon|Sony|Nikon|Fujifilm/i, '').trim()}</span>}
+                                    {(img.exif.FNumber || img.exif.ExposureTime || img.exif.ISO) && (
+                                        <span class="badge params">
+                                            {img.exif.FNumber && `f/${img.exif.FNumber}`}
+                                            {img.exif.ExposureTime && ` · ${formatExposureTime(img.exif.ExposureTime)}`}
+                                            {img.exif.ISO && ` · ISO${img.exif.ISO}`}
+                                        </span>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
+  <script is:inline>
+    // Initialize lightGallery
+    function initGallery() {
+        if (!window.lightGallery) return;
+        const el = document.getElementById('lightgallery');
+        if (el) {
+            window.lightGallery(el, {
+                speed: 500,
+                selector: '.gallery-item',
+                mode: 'lg-fade',
+                download: false,
+                counter: true,
+                appendSubHtmlTo: '.lg-item',
+            });
+        }
+    }
+
+    function onReady() {
+        if (window.lightGallery) {
+            initGallery();
+        } else {
+            setTimeout(onReady, 100);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', onReady);
+    } else {
+        initGallery();
+    }
+  </script>
+
+  <style>
+    .fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .content {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 var(--page-inline);
+    }
+
+    /* Masonry Grid */
+    .gallery-masonry {
+        column-count: 4; 
+        column-gap: var(--space-sm);
+    }
+    
+    .gallery-item {
+        display: block;
+        margin-bottom: var(--space-sm);
+        break-inside: avoid;
+        cursor: zoom-in;
+        text-decoration: none;
+        border: none;
+    }
+
+    .gallery-item:hover {
+        border: none;
+    }
+
+    .image-wrapper {
+        position: relative;
+        overflow: hidden;
+        border-radius: 4px;
+        background: rgba(0,0,0,0.03);
+    }
+
+    .gallery-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+    }
+
+    .gallery-item:hover .gallery-img {
+        transform: scale(1.05);
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 40%, transparent 100%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        display: flex;
+        align-items: flex-end; /* Align content to bottom */
+        padding: var(--space-lg);
+    }
+
+    .gallery-item:hover .overlay {
+        opacity: 1;
+    }
+
+    .overlay-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+        color: white;
+    }
+
+    .zoom-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.8;
+    }
+
+    .exif-badges {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+        transform: translateY(10px);
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover .exif-badges {
+        transform: translateY(0);
+    }
+
+    .badge {
+        font-size: 0.7rem;
+        background: rgba(0,0,0,0.55);
+        backdrop-filter: blur(8px);
+        padding: 5px 10px;
+        border-radius: 20px;
+        letter-spacing: 0.03em;
+        font-family: var(--ui-font);
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid rgba(255,255,255,0.1);
+        text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        white-space: nowrap;
+        width: fit-content;
+    }
+
+    .badge.date {
+        opacity: 0.9;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .badge.model {
+        font-weight: 600;
+    }
+    
+    .badge.params {
+        opacity: 0.9;
+        font-size: 0.65rem;
+        font-variant-numeric: tabular-nums;
+    }
+
+    /* LightGallery Custom Styles */
+    :global(.lg-sub-html) {
+        background-color: rgba(0, 0, 0, 0.7) !important;
+        padding: 20px !important;
+    }
+    
+    :global(.lg-caption h4) {
+        margin: 0 0 5px;
+        font-size: 1.1rem;
+        color: #fff;
+        font-weight: 500;
+    }
+    
+    :global(.lg-exif) {
+        margin: 0;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-family: var(--ui-font);
+    }
+
+    /* Dark Mode Adjustments */
+    :global([data-theme="dark"]) .image-wrapper {
+        background: rgba(255,255,255,0.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+        .gallery-masonry {
+            column-count: 3;
+        }
+    }
+
+    @media (max-width: 900px) {
+        .gallery-masonry {
+            column-count: 2;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .content {
+            padding: 0 var(--space-md);
+        }
+
+        .gallery-masonry {
+            column-count: 1;
+        }
+        
+        .overlay {
+            opacity: 1;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+            padding: var(--space-md);
+        }
+        
+        .zoom-icon {
+            display: none;
+        }
+
+        .exif-badges {
+            transform: translateY(0);
+        }
+        
+        .badge {
+            font-size: 0.6rem;
+            padding: 3px 6px;
+        }
+    }
+  </style>
+</Base>

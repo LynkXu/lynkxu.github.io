@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1067" viewBox="0 0 1600 1067">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.2" flood-color="#111827" flood-opacity="0.045"/>
+      <feDropShadow dx="0" dy="16" stdDeviation="18" flood-color="#111827" flood-opacity="0.035"/>
+    </filter>
+    <filter id="tinyShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#111827" flood-opacity="0.055"/>
+    </filter>
+    <linearGradient id="greenPanel" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#176c62"/>
+      <stop offset="1" stop-color="#0f4f49"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1067" fill="#fbfbfa"/>
+  
+    <rect x="0" y="0" width="1600" height="78" fill="#fffefd" opacity="0.96"/>
+    <line x1="0" y1="78" x2="1600" y2="78" stroke="#d9dddc"/>
+    <text x="74" y="45" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="800" fill="#17756b">LynkXu</text>
+    <text x="178" y="45" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="700" fill="#101314">/ Blog</text>
+    
+      <text x="605" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#101314">Archive</text>
+      <rect x="576" y="72" width="58" height="3.4" rx="1.7" fill="#17756b"/>
+      <text x="715" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">Memos</text>
+      
+      <text x="826" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">Leaves</text>
+      
+      <text x="934" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">About</text>
+      
+      <text x="1027" y="43" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="500" fill="#151719">RSS</text>
+      
+    <rect x="1338" y="20" width="188" height="39" rx="19.5" fill="#fffefd" stroke="#d9dddc"/>
+    <circle cx="1364" cy="39" r="8" fill="none" stroke="#263033" stroke-width="1.8"/>
+    <line x1="1370" y1="45" x2="1376" y2="51" stroke="#263033" stroke-width="1.8" stroke-linecap="round"/>
+    <text x="1388" y="44" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#68737d">Search ⌘K</text>
+  
+  
+    <g transform="translate(0,0)">
+      <rect x="74" y="114" width="980" height="832" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+      <text x="118" y="150" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">ARTICLES</text>
+  <rect x="118" y="160" width="45" height="3" rx="1.5" fill="#17756b"/>
+      <text x="118" y="184" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >18 entries, filed by year. Tags stay secondary.</text>
+      
+      
+      <text x="118" y="238" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="850" fill="#17756b" >2026</text>
+      <text x="238" y="230" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >05.31</text>
+      <line x1="296" y1="205" x2="296" y2="261" stroke="#d9dddc"/>
+      <text x="336" y="228" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >让 Agent 教我写 Agent</text>
+      <text x="336" y="259" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >关于 Agent 设计与实践的一些思考与记录。</text>
+      <rect x="908" y="208" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="226" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">AI</text>
+    
+      <line x1="118" y1="280" x2="1012" y2="280" stroke="#e8ebea"/>
+      
+      <text x="238" y="302" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >03.01</text>
+      <line x1="296" y1="277" x2="296" y2="333" stroke="#d9dddc"/>
+      <text x="336" y="300" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >过年碎碎念</text>
+      <text x="336" y="331" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >一些琐事，感受与新年的小目标。</text>
+      <rect x="908" y="280" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="298" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">生活</text>
+    
+      <line x1="118" y1="352" x2="1012" y2="352" stroke="#e8ebea"/>
+      
+      <text x="238" y="374" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >01.19</text>
+      <line x1="296" y1="349" x2="296" y2="405" stroke="#d9dddc"/>
+      <text x="336" y="372" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >博客同步工作流</text>
+      <text x="336" y="403" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >Hexo → GitHub → Cloudflare Pages 的自动化流程。</text>
+      <rect x="908" y="352" width="62" height="27" rx="6" fill="#edf5f2"/>
+  <text x="939" y="370" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">blog</text>
+    
+      <line x1="118" y1="424" x2="1012" y2="424" stroke="#e8ebea"/>
+      <text x="118" y="454" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="850" fill="#17756b" >2025</text>
+      <text x="238" y="446" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >12.29</text>
+      <line x1="296" y1="421" x2="296" y2="477" stroke="#d9dddc"/>
+      <text x="336" y="444" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >2025 年终回顾</text>
+      <text x="336" y="475" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >运动、工作、阅读与生活的小结。</text>
+      <rect x="908" y="424" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="442" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">年度</text>
+    
+      <line x1="118" y1="496" x2="1012" y2="496" stroke="#e8ebea"/>
+      
+      <text x="238" y="518" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >09.18</text>
+      <line x1="296" y1="493" x2="296" y2="549" stroke="#d9dddc"/>
+      <text x="336" y="516" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >新工作与新的节奏</text>
+      <text x="336" y="547" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >一次职业切换之后的记录。</text>
+      <rect x="908" y="496" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="514" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">工作</text>
+    
+      <line x1="118" y1="568" x2="1012" y2="568" stroke="#e8ebea"/>
+      
+      <text x="238" y="590" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >02.14</text>
+      <line x1="296" y1="565" x2="296" y2="621" stroke="#d9dddc"/>
+      <text x="336" y="588" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >美国旅行记录</text>
+      <text x="336" y="619" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >签证、航班、城市漫游与一些照片。</text>
+      <rect x="908" y="568" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="586" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">旅行</text>
+    
+      <line x1="118" y1="640" x2="1012" y2="640" stroke="#e8ebea"/>
+      <text x="118" y="670" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="850" fill="#17756b" >2024</text>
+      <text x="238" y="662" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >09.14</text>
+      <line x1="296" y1="637" x2="296" y2="693" stroke="#d9dddc"/>
+      <text x="336" y="660" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >阶段性复盘</text>
+      <text x="336" y="691" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >把混乱的输入整理成稳定的输出。</text>
+      <rect x="908" y="640" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="658" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">复盘</text>
+    
+      <line x1="118" y1="712" x2="1012" y2="712" stroke="#e8ebea"/>
+      <text x="118" y="742" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="27" font-weight="850" fill="#17756b" >2023</text>
+      <text x="238" y="734" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" >09.06</text>
+      <line x1="296" y1="709" x2="296" y2="765" stroke="#d9dddc"/>
+      <text x="336" y="732" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="20" font-weight="850" fill="#101314" >Rust 学习笔记</text>
+      <text x="336" y="763" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#68737d" >所有权、生命周期与工程实践摘录。</text>
+      <rect x="908" y="712" width="54" height="27" rx="6" fill="#edf5f2"/>
+  <text x="935" y="730" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">技术</text>
+    
+      <text x="118" y="910" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="800" fill="#17756b" >Older entries →</text>
+
+      <rect x="1090" y="114" width="364" height="342" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+      <text x="1120" y="148" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">TAGS</text>
+  <rect x="1120" y="158" width="45" height="3" rx="1.5" fill="#17756b"/>
+      <text x="1120" y="198" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="400" fill="#68737d" >辅助筛选，不抢走文章列表的注意力。</text>
+      <rect x="1120" y="246" width="62" height="27" rx="6" fill="#edf5f2"/>
+  <text x="1151" y="264" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#17756b">AI</text>
+      <rect x="1196" y="246" width="72" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1232" y="264" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">blog</text>
+      <rect x="1282" y="246" width="72" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1318" y="264" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">生活</text>
+      <rect x="1368" y="246" width="62" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1399" y="264" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">年度</text>
+      <rect x="1120" y="290" width="72" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1156" y="308" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">旅行</text>
+      <rect x="1206" y="290" width="72" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1242" y="308" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">技术</text>
+      <rect x="1292" y="290" width="72" height="27" rx="6" fill="#f5f6f5"/>
+  <text x="1328" y="308" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#263033">复盘</text>
+      <line x1="1120" y1="354" x2="1424" y2="354" stroke="#e8ebea"/>
+      <text x="1120" y="397" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="30" font-weight="850" fill="#17756b" >18</text>
+      <text x="1170" y="397" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="700" fill="#101314" >entries since 2021</text>
+      <text x="1120" y="430" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#68737d" >14 topics, listed by latest update</text>
+
+      <rect x="1090" y="488" width="364" height="458" rx="8" fill="#fffefd" stroke="#d9dddc" opacity="1" filter="url(#tinyShadow)"/>
+      <text x="1120" y="522" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="16" font-weight="800" fill="#17756b" letter-spacing="0.03em">QUICK INDEX</text>
+  <rect x="1120" y="532" width="45" height="3" rx="1.5" fill="#17756b"/>
+      <text x="1120" y="580" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="850" fill="#17756b" >2026</text>
+      <text x="1212" y="580" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >3 entries</text>
+      <text x="1120" y="630" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="850" fill="#17756b" >2025</text>
+      <text x="1212" y="630" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >3 entries</text>
+      <text x="1120" y="680" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="850" fill="#17756b" >2024</text>
+      <text x="1212" y="680" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >1 entry</text>
+      <text x="1120" y="730" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="850" fill="#17756b" >2023</text>
+      <text x="1212" y="730" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="600" fill="#68737d" >1 entry</text>
+    </g>
+  
+  <text x="800" y="1025" text-anchor="middle" font-family="'Avenir Next', 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" font-size="15" fill="#68737d">© 2020 - 2026 LynkXu · Powered by Astro · Design by Lynk</text>
+</svg>

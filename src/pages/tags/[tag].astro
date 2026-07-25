@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import ReadingShell from '../../layouts/ReadingShell.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { INCLUDE_DRAFTS, filterDrafts } from '../../utils/drafts';
+
+export async function getStaticPaths() {
+	const allPosts = filterDrafts(await getCollection('blog'));
+	const tags = new Set<string>();
+
+	allPosts.forEach((post) => {
+		if (post.data.tags) {
+			post.data.tags.forEach((tag) => tags.add(tag));
+		}
+	});
+
+	return Array.from(tags).map((tag) => {
+		const filteredPosts = allPosts
+			.filter((post) => post.data.tags && post.data.tags.includes(tag))
+			.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+		return {
+			params: { tag },
+			props: { posts: filteredPosts, tag },
+		};
+	});
+}
+
+const { posts, tag } = Astro.props;
+---
+
+<ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
+	<h1 class="r-page-title">{tag}</h1>
+
+	<p class="r-tag-meta">
+		<span>{posts.length} 篇文章</span>
+		<a href="/tags">← 全部标签</a>
+	</p>
+
+	<ol class="r-post-list">
+		{posts.map((post) => (
+			<li class="r-post-list__item">
+				<div class="r-post-list__main">
+					<a
+						href={`/blog/${post.data.slug ?? post.id}.html`}
+						class="r-post-list__title"
+						transition:name={`post-title-${post.id}`}
+					>
+						{post.data.title}
+					</a>
+					{INCLUDE_DRAFTS && post.data.draft && <span class="r-draft">草稿</span>}
+				</div>
+				<span class="r-post-list__date">
+					<FormattedDate date={post.data.pubDate} />
+				</span>
+			</li>
+		))}
+	</ol>
+</ReadingShell>
+
+<style>
+	.r-tag-meta {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1rem;
+		margin: -0.75rem 0 var(--r-space-lg);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+	}
+
+	.r-tag-meta a {
+		color: var(--r-ink-soft);
+	}
+
+	.r-tag-meta a:hover {
+		color: var(--r-link);
+	}
+
+	.r-draft {
+		margin-left: 0.5rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+	}
+</style>
