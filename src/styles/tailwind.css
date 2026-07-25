@@ -158,6 +158,22 @@
     font-size: var(--r-text-xs);
     color: var(--r-ink-faint);
   }
+
+  body.reading-surface .sponsor-fold__summary::before,
+  body.reading-surface .r-about__history-summary::before,
+  body.reading-surface .r-toc__summary::before {
+    content: "▸";
+    display: inline-block;
+    margin-right: 0.35rem;
+    color: var(--r-ink-faint);
+    font-size: 0.75em;
+  }
+
+  body.reading-surface .sponsor-fold[open] > .sponsor-fold__summary::before,
+  body.reading-surface .r-about__history[open] > .r-about__history-summary::before,
+  body.reading-surface .r-toc[open] > .r-toc__summary::before {
+    content: "▾";
+  }
 }
 @layer base {
 html:has(body.reading-surface) {

@@ -137,6 +137,7 @@ test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {
 test('about and sponsor chrome are Tailwind-composed', () => {
   const about = read('src/layouts/About.astro');
   const sponsor = read('src/components/SponsorAbout.astro');
+  const tailwind = read('src/styles/tailwind.css');
 
   for (const token of ['aboutHeadClass', 'aboutIntroClass', 'traitsClass', 'aboutHistoryClass']) {
     assert.match(about, new RegExp(`const ${token} =`));
@@ -146,6 +147,14 @@ test('about and sponsor chrome are Tailwind-composed', () => {
   }
   assert.doesNotMatch(about, /<style/);
   assert.doesNotMatch(sponsor, /<style/);
+  assert.match(about, /r-about__history-summary/);
+  assert.match(sponsor, /sponsor-fold__summary/);
+  assert.match(tailwind, /body\.reading-surface \.sponsor-fold__summary::before,/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▸";[\s\S]*margin-right:\s*0\.35rem;/);
+  assert.match(tailwind, /body\.reading-surface \.sponsor-fold\[open\] > \.sponsor-fold__summary::before,/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc\[open\] > \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▾";/);
+  assert.doesNotMatch(about, /before:content-\[/);
+  assert.doesNotMatch(sponsor, /before:content-\[/);
 });
 
 test('copyright chrome uses Tailwind utilities without duplicate CSS', () => {
@@ -178,6 +187,11 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
     assert.match(blogPost, new RegExp(`const ${token} =`));
   }
   assert.doesNotMatch(blogPost, /<style/);
+  assert.match(blogPost, /r-toc__summary/);
+  assert.match(blogPost, /\[&_\.link-card__image-wrapper\]:flex-\[0_0_140px\]/);
+  assert.match(blogPost, /\[&_\.link-card__image-wrapper_img\]:object-cover/);
+  assert.match(blogPost, /max-\[640px\]:\[&_\.link-card__content\]:flex-col/);
+  assert.doesNotMatch(blogPost, /before:content-\[/);
   assert.doesNotMatch(tailwind, /^\.r-meta\s*\{/m);
   assert.doesNotMatch(tailwind, /r-meta a/);
 });
