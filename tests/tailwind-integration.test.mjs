@@ -62,6 +62,7 @@ test('reading surface dividers share a quiet hairline style', () => {
 
 test('archive year labels stay in the meta text scale', () => {
   const tailwind = read('src/styles/tailwind.css');
+  const archive = read('src/pages/blog/index.astro');
 
   assert.match(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\);/);
   assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*font-family:\s*var\(--r-font-ui\)\s*!important;/);
@@ -69,6 +70,8 @@ test('archive year labels stay in the meta text scale', () => {
   assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*line-height:\s*1\.35\s*!important;/);
   assert.match(tailwind, /body\.reading-surface h2:not\(\.r-section__title\):not\(\.r-year-block__label\),/);
   assert.doesNotMatch(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*0\.9rem;/);
+  assert.doesNotMatch(tailwind, /r-year-block__count/);
+  assert.doesNotMatch(archive, /r-year-block__count/);
 });
 
 test('reading section titles use explicit Tailwind utilities', () => {
@@ -199,6 +202,15 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
   }
   assert.doesNotMatch(blogPost, /<style/);
   assert.match(blogPost, /r-toc__summary/);
+  assert.match(blogPost, /const tocClass = \[/);
+  assert.match(blogPost, /r-toc group mt-\[0\.2rem\] mb-\[var\(--r-space-md\)\]/);
+  assert.match(blogPost, /\[&_\.toc-container\]:mt-\[0\.45rem\]/);
+  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center px-0 py-\[0\.12rem\] font-normal/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link:hover,[\s\S]*body\.reading-surface \.r-toc \.toc-link\.active\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
+  assert.doesNotMatch(blogPost, /tocSummaryClass = '[^']*bg-\[/);
+  assert.doesNotMatch(blogPost, /tocSummaryClass = '[^']*border-l-/);
   assert.match(blogPost, /\[&_\.link-card__image-wrapper\]:flex-\[0_0_140px\]/);
   assert.match(blogPost, /\[&_\.link-card__image-wrapper_img\]:object-cover/);
   assert.match(blogPost, /max-\[640px\]:\[&_\.link-card__content\]:flex-col/);

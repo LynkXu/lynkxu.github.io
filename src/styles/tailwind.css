@@ -146,12 +146,6 @@
     font-variant-numeric: tabular-nums;
   }
 
-  .r-year-block__count {
-    font-size: var(--r-text-xs);
-    font-weight: 400;
-    color: var(--r-ink-faint);
-  }
-
   .r-draft {
     margin-left: 0.5rem;
     font-family: var(--r-font-ui);
@@ -395,6 +389,22 @@ body.reading-surface .r-year-block__label {
   font-weight: 600 !important;
   line-height: 1.35 !important;
   letter-spacing: 0.02em !important;
+}
+
+body.reading-surface .r-toc .toc-link {
+  font-family: var(--r-font-ui) !important;
+  font-size: var(--r-text-xs) !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+  color: var(--r-ink-faint) !important;
+  text-decoration: none !important;
+}
+
+body.reading-surface .r-toc .toc-link:hover,
+body.reading-surface .r-toc .toc-link.active {
+  color: var(--r-ink-soft) !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
 }
 
 body.reading-surface .reading-shell__footer {
