@@ -3,9 +3,9 @@ const today = new Date();
 const currentYear = today.getFullYear();
 ---
 
-<footer>
-	<p class='copyright'>
-		© 2020 – {currentYear} <a href='/'>LynkXu</a>
+<footer class='group/footer'>
+	<p class='copyright m-0 [font-family:var(--ui-font)] text-[0.68rem] font-light leading-[1.5] tracking-[0.01em] text-[var(--faint-color)] transition-colors duration-200 group-hover/footer:text-[var(--gray-color)]'>
+		© 2020 – {currentYear} <a class='text-inherit' href='/'>LynkXu</a>
 	</p>
 </footer>
 
@@ -46,23 +46,8 @@ const currentYear = today.getFullYear();
 		box-sizing: border-box;
 	}
 
-	.copyright {
-		margin: 0;
-		color: var(--faint-color);
-		font-family: var(--ui-font);
-		font-size: 0.68rem;
-		font-weight: 300;
-		line-height: 1.5;
-		letter-spacing: 0.01em;
-		transition: color 0.2s ease;
-	}
-
 	.copyright a {
 		color: inherit;
-	}
-
-	footer:hover .copyright {
-		color: var(--gray-color);
 	}
 
 	@media (max-width: 480px) {

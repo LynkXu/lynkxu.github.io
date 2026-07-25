@@ -3,22 +3,22 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header>
-	<div class='title'>
-		<a href='/' class='site-home' aria-label={SITE_TITLE}>
-			<span class='site-wordmark' aria-hidden='true'>
-				<span class='site-name'>LynkXu</span>
-				<span class='site-separator'>/</span>
-				<span class='site-label'>Blog</span>
+<header class='mb-[clamp(var(--space-xl),5vw,var(--space-2xl))] grid gap-[0.85rem] border-0 pb-[0.75rem] pt-[0.15rem] max-[600px]:mb-[var(--space-xl)] max-[600px]:flex max-[600px]:flex-col max-[600px]:justify-center max-[600px]:gap-[var(--space-md)] md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:gap-[clamp(2rem,7vw,5.5rem)]'>
+	<div class='title min-w-0 max-[600px]:w-full max-[600px]:text-center'>
+		<a href='/' class='site-home inline-flex max-w-full items-center border-b-0 no-underline hover:border-b-0 hover:bg-transparent hover:no-underline focus-visible:border-b-0 active:border-b-0' aria-label={SITE_TITLE}>
+			<span class='site-wordmark inline-flex max-w-full items-baseline gap-[0.36rem] text-[var(--heading-color)]' aria-hidden='true'>
+				<span class='site-name whitespace-nowrap [font-family:var(--brand-font)] text-[clamp(1.12rem,2vw,1.32rem)] font-semibold leading-[0.94] tracking-[0]'>LynkXu</span>
+				<span class='site-separator text-[0.72rem] leading-none text-[var(--faint-color)]'>/</span>
+				<span class='site-label whitespace-nowrap [font-family:var(--ui-font)] text-[0.58rem] font-semibold uppercase leading-normal tracking-[0.2em] text-[var(--gray-color)]'>Blog</span>
 			</span>
 		</a>
 	</div>
-	<nav class='section-nav' aria-label='主导航'>
+	<nav class='section-nav flex flex-wrap items-center justify-end gap-0 max-[600px]:w-full max-[600px]:justify-center max-[600px]:gap-y-[0.85rem]' aria-label='主导航'>
 		<HeaderLink href='/blog'>归档</HeaderLink>
 		{/* <HeaderLink href='/projects'>Projects</HeaderLink> */}
-		<HeaderLink href='/shuoshuo'>碎语</HeaderLink>
-		<HeaderLink href='/message'>留言</HeaderLink>
-		<HeaderLink href='/about'>关于</HeaderLink>
-		<HeaderLink href='/index.xml'>RSS</HeaderLink>
+		<HeaderLink href='/shuoshuo' showSeparator>碎语</HeaderLink>
+		<HeaderLink href='/message' showSeparator>留言</HeaderLink>
+		<HeaderLink href='/about' showSeparator>关于</HeaderLink>
+		<HeaderLink href='/index.xml' showSeparator>RSS</HeaderLink>
 	</nav>
 </header>
