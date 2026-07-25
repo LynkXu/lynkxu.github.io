@@ -1,6 +1,6 @@
 ---
 import Base from './Base.astro';
-import { SITE_TITLE } from '../consts';
+import { SHOW_WORKS_NAV, SITE_TITLE } from '../consts';
 import '../styles/reading.scss';
 
 interface Props {
@@ -15,7 +15,7 @@ const currentPath = Astro.url.pathname;
 const navItems = [
 	{ href: '/blog', label: '归档' },
 	{ href: '/shuoshuo', label: '碎语' },
-	{ href: '/works', label: '作品' },
+	...(SHOW_WORKS_NAV ? [{ href: '/works', label: '作品' }] : []),
 	{ href: '/message', label: '留言' },
 	{ href: '/about', label: '关于' },
 ];
@@ -113,7 +113,7 @@ function isActive(href: string) {
 				))}
 			</div>
 			<p class="reading-shell__copy">
-				© {new Date().getFullYear()} LynkXu · Powered by <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>, Design by Lynk
+				© {new Date().getFullYear()} LynkXu
 			</p>
 		</footer>
 	</div>

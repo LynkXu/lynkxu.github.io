@@ -7,13 +7,12 @@ const currentYear = today.getFullYear();
 	<p class='copyright'>
 		© 2020 – {currentYear} <a href='/'>LynkXu</a>
 	</p>
-	<p class='credit'>Powered by <a href='https://astro.build' target='_blank' rel='noopener noreferrer'>Astro</a>, Design by Lynk</p>
 </footer>
 
 <style>
 	footer {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-columns: minmax(0, 1fr);
 		align-items: end;
 		gap: 1rem;
 		width: min(var(--blog-shell-width, 68rem), calc(100% - clamp(2rem, 6vw, 5.5rem)));
@@ -23,7 +22,7 @@ const currentYear = today.getFullYear();
 	}
 
 	:global(body:has(.blog-surface-layout)) footer {
-		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-columns: minmax(0, 1fr);
 		width: 100%;
 		margin-right: 0;
 		margin-left: 0;
@@ -47,8 +46,7 @@ const currentYear = today.getFullYear();
 		box-sizing: border-box;
 	}
 
-	.copyright,
-	.credit {
+	.copyright {
 		margin: 0;
 		color: var(--faint-color);
 		font-family: var(--ui-font);
@@ -59,13 +57,11 @@ const currentYear = today.getFullYear();
 		transition: color 0.2s ease;
 	}
 
-	.copyright a,
-	.credit a {
+	.copyright a {
 		color: inherit;
 	}
 
-	footer:hover .copyright,
-	footer:hover .credit {
+	footer:hover .copyright {
 		color: var(--gray-color);
 	}
 
