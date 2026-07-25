@@ -139,7 +139,7 @@
     padding-bottom: var(--r-space-xs);
     border-bottom: 1px solid var(--r-rule-soft);
     font-family: var(--r-font-ui);
-    font-size: 0.9rem;
+    font-size: var(--r-text-xs);
     font-weight: 600;
     letter-spacing: 0.02em;
     color: var(--r-ink-soft);
@@ -354,7 +354,7 @@ body.reading-surface *:focus-visible {
 }
 
 body.reading-surface h1:not(.r-section__title),
-body.reading-surface h2:not(.r-section__title),
+body.reading-surface h2:not(.r-section__title):not(.r-year-block__label),
 body.reading-surface h3:not(.r-section__title),
 body.reading-surface h4,
 body.reading-surface h5,
@@ -387,6 +387,14 @@ body.reading-surface .reading-shell__header,
 body.reading-surface .r-section__head,
 body.reading-surface .r-year-block__label {
   border-bottom-color: var(--r-divider) !important;
+}
+
+body.reading-surface .r-year-block__label {
+  font-family: var(--r-font-ui) !important;
+  font-size: var(--r-text-xs) !important;
+  font-weight: 600 !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.02em !important;
 }
 
 body.reading-surface .reading-shell__footer {

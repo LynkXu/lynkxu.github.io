@@ -60,6 +60,17 @@ test('reading surface dividers share a quiet hairline style', () => {
   assert.match(tailwind, /body\.reading-surface \.reading-shell__header,[\s\S]*body\.reading-surface \.r-section__head,[\s\S]*body\.reading-surface \.r-year-block__label\s*\{[\s\S]*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
 });
 
+test('archive year labels stay in the meta text scale', () => {
+  const tailwind = read('src/styles/tailwind.css');
+
+  assert.match(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\);/);
+  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*font-family:\s*var\(--r-font-ui\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*line-height:\s*1\.35\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface h2:not\(\.r-section__title\):not\(\.r-year-block__label\),/);
+  assert.doesNotMatch(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*0\.9rem;/);
+});
+
 test('reading section titles use explicit Tailwind utilities', () => {
   const files = ['src/pages/index.astro', 'src/layouts/About.astro', 'src/pages/copyright.astro'];
 
