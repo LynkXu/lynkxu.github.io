@@ -20,15 +20,6 @@
     border-bottom: 1px solid var(--r-rule-soft);
   }
 
-  .r-section__title {
-    margin: 0;
-    font-family: var(--r-font-ui);
-    font-size: var(--r-text-sm);
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--r-ink-soft);
-  }
-
   .r-section__more {
     font-family: var(--r-font-ui);
     font-size: var(--r-text-xs);

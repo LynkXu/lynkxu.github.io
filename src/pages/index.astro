@@ -13,6 +13,7 @@ const posts = filterDrafts(await getCollection('blog'))
 
 const latestPosts = posts.slice(0, 12);
 const latestGossips = (await getAllGossips()).slice(0, 3);
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] !text-[var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -26,7 +27,7 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	<section class="r-section" aria-labelledby="home-writing-title">
 		<header class="r-section__head">
-			<h1 id="home-writing-title" class="r-section__title">最近文章</h1>
+			<h1 id="home-writing-title" class={sectionTitleClass}>最近文章</h1>
 			<a href="/blog" class="r-section__more">全部</a>
 		</header>
 
@@ -45,7 +46,7 @@ function getPostHref(post: (typeof posts)[number]) {
 	{latestGossips.length > 0 && (
 		<section class="r-section" aria-labelledby="home-notes-title">
 			<header class="r-section__head">
-				<h2 id="home-notes-title" class="r-section__title">碎语</h2>
+				<h2 id="home-notes-title" class={sectionTitleClass}>碎语</h2>
 				<a href="/shuoshuo" class="r-section__more">全部</a>
 			</header>
 

@@ -7,6 +7,7 @@ const rights = [
 	{ label: '署名', desc: '转载或改编时必须注明作者及来源' },
 	{ label: '非商业', desc: '不得将内容用于商业用途' },
 ];
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] !text-[var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 ---
 
 <ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
@@ -21,7 +22,7 @@ const rights = [
 		</p>
 
 		<section class="r-section" aria-labelledby="rights-title">
-			<h2 id="rights-title" class="r-section__title">你可以做什么</h2>
+			<h2 id="rights-title" class={sectionTitleClass}>你可以做什么</h2>
 			<ul class="r-copyright__list">
 				{rights.map((item) => (
 					<li>

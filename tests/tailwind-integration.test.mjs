@@ -40,3 +40,16 @@ test('reading list patterns live in the Tailwind component layer', () => {
   assert.doesNotMatch(blogIndex, /\.r-draft\s*\{/);
   assert.doesNotMatch(tagPage, /\.r-draft\s*\{/);
 });
+
+test('reading section titles use explicit Tailwind utilities', () => {
+  const files = ['src/pages/index.astro', 'src/layouts/About.astro', 'src/pages/copyright.astro'];
+
+  for (const file of files) {
+    const source = read(file);
+    assert.match(source, /sectionTitleClass/);
+    assert.match(source, /!text-\[var\(--r-text-sm\)\]/);
+    assert.match(source, /!\[font-family:var\(--r-font-ui\)\]/);
+  }
+  assert.doesNotMatch(read('src/styles/tailwind.css'), /^  \.r-section__title\s*\{/m);
+  assert.doesNotMatch(read('src/styles/reading.scss'), /^body\.reading-surface \.r-section__title\s*\{/m);
+});

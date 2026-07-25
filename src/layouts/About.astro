@@ -4,6 +4,7 @@ import SponsorAbout from '../components/SponsorAbout.astro';
 import { AVATAR_IMAGE } from '../consts';
 
 const { title } = Astro.props;
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] !text-[var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 
 const blogHistory = [
 	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
@@ -64,7 +65,7 @@ const contactLinks = [
 
 		<section class="r-about__block" aria-labelledby="about-contact">
 			<header class="r-section__head">
-				<h2 id="about-contact" class="r-section__title">联系</h2>
+				<h2 id="about-contact" class={sectionTitleClass}>联系</h2>
 			</header>
 			<ul class="r-about__links">
 				{contactLinks.map((link) => (
@@ -84,7 +85,7 @@ const contactLinks = [
 
 		<section class="r-about__block" aria-labelledby="about-sponsor">
 			<header class="r-section__head">
-				<h2 id="about-sponsor" class="r-section__title">赞助</h2>
+				<h2 id="about-sponsor" class={sectionTitleClass}>赞助</h2>
 			</header>
 			<div class="r-about__sponsor">
 				<SponsorAbout />
@@ -93,7 +94,7 @@ const contactLinks = [
 
 		<section class="r-about__block" aria-labelledby="about-history">
 			<header class="r-section__head">
-				<h2 id="about-history" class="r-section__title">博客历程</h2>
+				<h2 id="about-history" class={sectionTitleClass}>博客历程</h2>
 			</header>
 			<details class="r-about__history">
 				<summary>展开时间线</summary>
