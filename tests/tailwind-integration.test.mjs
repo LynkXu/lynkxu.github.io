@@ -54,7 +54,9 @@ test('reading surface dividers share a quiet hairline style', () => {
 
   assert.match(tailwind, /--r-divider:\s*rgba\(0,\s*0,\s*0,\s*0\.05\);/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*margin-top:\s*var\(--r-space-xl\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*padding-top:\s*var\(--r-space-md\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*border-top-color:\s*var\(--r-divider\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-article__tail\s*\{[\s\S]*border-top:\s*0\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__header,[\s\S]*body\.reading-surface \.r-section__head,[\s\S]*body\.reading-surface \.r-year-block__label\s*\{[\s\S]*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
 });
 

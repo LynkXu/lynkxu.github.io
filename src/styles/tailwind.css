@@ -375,7 +375,16 @@ body.reading-surface .r-year-block__label {
 
 body.reading-surface .reading-shell__footer {
   margin-top: var(--r-space-xl) !important;
+  padding-top: var(--r-space-md) !important;
+  padding-bottom: 0 !important;
   border-top-color: var(--r-divider) !important;
+}
+
+body.reading-surface .r-article__tail {
+  margin-top: var(--r-space-lg) !important;
+  padding-top: var(--r-space-md) !important;
+  padding-bottom: 0 !important;
+  border-top: 0 !important;
 }
 
 body.reading-surface .r-prose hr,
