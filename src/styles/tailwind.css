@@ -1,2 +1,170 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
+
+@layer components {
+  .r-section {
+    margin-bottom: var(--r-space-xl);
+  }
+
+  .r-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .r-section__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--r-space-md);
+    margin-bottom: var(--r-space-sm);
+    padding-bottom: var(--r-space-xs);
+    border-bottom: 1px solid var(--r-rule-soft);
+  }
+
+  .r-section__title {
+    margin: 0;
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-sm);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--r-ink-soft);
+  }
+
+  .r-section__more {
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-xs);
+    color: var(--r-ink-soft);
+  }
+
+  .r-section__more:hover {
+    color: var(--r-ink);
+  }
+
+  .r-post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-space-md);
+  }
+
+  .r-post-list__item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--r-space-xs) var(--r-space-md);
+    align-items: baseline;
+  }
+
+  .r-post-list__date {
+    justify-self: end;
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-xs);
+    color: var(--r-ink-faint);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-align: right;
+  }
+
+  .r-post-list__main {
+    min-width: 0;
+  }
+
+  .r-post-list__title {
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--r-ink) !important;
+    line-height: 1.5;
+  }
+
+  .r-post-list__title:hover {
+    color: var(--r-ink) !important;
+  }
+
+  .r-post-list__excerpt {
+    grid-column: 1;
+    margin: 0.15rem 0 0;
+    font-size: var(--r-text-sm);
+    color: var(--r-ink-soft);
+    line-height: 1.55;
+  }
+
+  .r-note-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--r-space-sm);
+  }
+
+  .r-note-list__item {
+    font-size: var(--r-text-sm);
+    color: var(--r-ink-soft);
+    line-height: 1.6;
+  }
+
+  .r-note-list__date {
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-xs);
+    color: var(--r-ink-faint);
+    margin-right: 0.65rem;
+  }
+
+  .r-note-list a {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--r-ink) !important;
+    opacity: 1;
+  }
+
+  body.reading-surface .r-note-list a:hover {
+    color: var(--r-ink) !important;
+    opacity: 1 !important;
+    transform: none;
+  }
+
+  body.reading-surface .r-note-list a:hover .r-note-list__date {
+    color: var(--r-ink-faint);
+  }
+
+  .r-year-block {
+    margin-bottom: var(--r-space-lg);
+  }
+
+  .r-year-block .r-post-list {
+    gap: var(--r-space-sm);
+  }
+
+  .r-year-block__label {
+    display: flex;
+    align-items: baseline;
+    gap: var(--r-space-sm);
+    margin: 0 0 var(--r-space-xs);
+    padding-bottom: var(--r-space-xs);
+    border-bottom: 1px solid var(--r-rule-soft);
+    font-family: var(--r-font-ui);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--r-ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .r-year-block__count {
+    font-size: var(--r-text-xs);
+    font-weight: 400;
+    color: var(--r-ink-faint);
+  }
+
+  .r-draft {
+    margin-left: 0.5rem;
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-xs);
+    color: var(--r-ink-faint);
+  }
+}

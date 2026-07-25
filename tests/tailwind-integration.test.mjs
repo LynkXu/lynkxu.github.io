@@ -25,3 +25,18 @@ test('site header chrome is composed with Tailwind utilities', () => {
   assert.doesNotMatch(style, /^\.global-layout-card > header\s*\{/m);
   assert.doesNotMatch(style, /^\.site-name\s*\{/m);
 });
+
+test('reading list patterns live in the Tailwind component layer', () => {
+  const tailwind = read('src/styles/tailwind.css');
+  const reading = read('src/styles/reading.scss');
+  const blogIndex = read('src/pages/blog/index.astro');
+  const tagPage = read('src/pages/tags/[tag].astro');
+
+  assert.match(tailwind, /@layer components\s*\{/);
+  for (const selector of ['r-section', 'r-post-list', 'r-note-list', 'r-year-block', 'r-draft']) {
+    assert.match(tailwind, new RegExp(`\\.${selector}(?![\\w-])`));
+    assert.doesNotMatch(reading, new RegExp(`^\\.${selector}(?![\\w-])`, 'm'));
+  }
+  assert.doesNotMatch(blogIndex, /\.r-draft\s*\{/);
+  assert.doesNotMatch(tagPage, /\.r-draft\s*\{/);
+});
