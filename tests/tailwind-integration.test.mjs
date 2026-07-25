@@ -214,6 +214,8 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
   assert.match(blogPost, /\[&_\.link-card__image-wrapper\]:flex-\[0_0_140px\]/);
   assert.match(blogPost, /\[&_\.link-card__image-wrapper_img\]:object-cover/);
   assert.match(blogPost, /max-\[640px\]:\[&_\.link-card__content\]:flex-col/);
+  assert.match(blogPost, /\[&_\.changelog\]:self-stretch/);
+  assert.match(blogPost, /\[&_\.changelog\]:text-left/);
   assert.doesNotMatch(blogPost, /before:content-\[/);
   assert.doesNotMatch(tailwind, /^\.r-meta\s*\{/m);
   assert.doesNotMatch(tailwind, /r-meta a/);
