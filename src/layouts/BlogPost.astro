@@ -38,6 +38,18 @@ const topicLabels = tags?.length
 		? categories
 		: [];
 const topicLinksEnabled = Boolean(tags?.length);
+const articleClass = [
+	'r-article',
+	'[&_.code-wrapper]:relative [&_.code-wrapper]:my-[1.25rem] [&_.code-wrapper]:overflow-hidden [&_.code-wrapper]:rounded-[4px] [&_.code-wrapper]:bg-[var(--r-code-bg)]',
+	'[&_.code-header]:absolute [&_.code-header]:right-0 [&_.code-header]:top-0 [&_.code-header]:z-[2] [&_.code-header]:flex [&_.code-header]:items-center [&_.code-header]:gap-[0.5rem] [&_.code-header]:px-[0.55rem] [&_.code-header]:py-[0.35rem]',
+	'[&_.code-lang]:[font-family:var(--r-font-code)] [&_.code-lang]:[font-size:0.7rem] [&_.code-lang]:text-[var(--r-ink-faint)]',
+	'[&_.copy-btn]:cursor-pointer [&_.copy-btn]:border-0 [&_.copy-btn]:bg-transparent [&_.copy-btn]:p-[2px] [&_.copy-btn]:text-[var(--r-ink-faint)] [&_.copy-btn]:opacity-55 [&_.copy-btn:focus-visible]:opacity-100 [&_.code-wrapper:hover_.copy-btn]:opacity-100',
+	'[&_.code-wrapper_pre]:!m-0 [&_.code-wrapper_pre]:!rounded-none [&_.code-wrapper_pre]:!bg-transparent [&_.code-wrapper_pre]:!px-[1rem] [&_.code-wrapper_pre]:!pb-[1rem] [&_.code-wrapper_pre]:!pt-[1.5rem]',
+	'[&_.nav-buttons-group]:fixed [&_.nav-buttons-group]:bottom-[var(--r-space-lg)] [&_.nav-buttons-group]:right-[var(--r-page-inline)] [&_.nav-buttons-group]:z-20',
+	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-button_svg]:block [&_.nav-button_svg]:h-[18px] [&_.nav-button_svg]:w-[18px]',
+	'[&_.link-card]:my-[var(--r-space-lg)] [&_.link-card]:overflow-hidden [&_.link-card]:rounded-[4px] [&_.link-card]:border [&_.link-card]:border-[var(--r-rule)] [&_.link-card]:bg-transparent [&_.link-card]:shadow-none [&_.link-card:hover]:translate-y-0 [&_.link-card:hover]:bg-transparent [&_.link-card:hover]:shadow-none [&_.link-card_a]:text-inherit [&_.link-card_a]:no-underline',
+	'[&_.link-card__body]:px-[var(--r-space-md)] [&_.link-card__body]:py-[var(--r-space-sm)] [&_.link-card__body_h3]:m-0 [&_.link-card__body_h3]:mb-[var(--r-space-xs)] [&_.link-card__body_h3]:[font-family:var(--r-font-body)] [&_.link-card__body_h3]:[font-size:var(--r-text)] [&_.link-card__body_h3]:text-[var(--r-ink)] [&_.link-card__body_p]:m-0 [&_.link-card__body_p]:mb-[var(--r-space-xs)] [&_.link-card__body_p]:[font-size:var(--r-text-sm)] [&_.link-card__body_p]:text-[var(--r-ink-soft)] [&_.link-card__host]:[font-family:var(--r-font-ui)] [&_.link-card__host]:[font-size:var(--r-text-xs)] [&_.link-card__host]:text-[var(--r-ink-faint)]',
+].join(' ');
 const articleTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-sm)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-bold !leading-[1.22] !tracking-[-0.025em] !text-[var(--r-ink)]';
 const articleHeaderClass = 'r-article__header mb-[0.35rem]';
 const metaClass = 'r-meta mb-[1rem] flex flex-wrap gap-x-[0.85rem] gap-y-[0.5rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]';
@@ -50,14 +62,14 @@ const tocClass = [
 	'[&_.toc_a]:border-b-0 [&_.toc_a]:text-[var(--r-ink-soft)] [&_.toc_a]:no-underline [&_.toc_a]:[font-size:var(--r-text-xs)] [&_.toc_a]:font-normal [&_.toc_a]:leading-[1.55] [&_.toc_a:hover]:text-[var(--r-ink)] [&_.toc_a.active]:font-medium [&_.toc_a.active]:text-[var(--r-ink)] [&_.toc_a.active]:no-underline',
 ].join(' ');
 const tocSummaryClass = 'inline-flex cursor-pointer list-none items-center gap-[0.45rem] border-l-2 border-l-[color-mix(in_oklab,var(--r-link)_42%,var(--r-rule))] bg-[color-mix(in_oklab,var(--r-rule-soft)_36%,transparent)] px-[0.58rem] py-[0.28rem] pb-[0.3rem] pl-[0.52rem] font-semibold leading-[1.35] text-[var(--r-ink)] before:translate-y-[-0.02em] before:text-[0.72rem] before:text-[var(--r-link)] before:content-[\"▸\"] hover:bg-[color-mix(in_oklab,var(--r-rule-soft)_58%,transparent)] hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden group-open:before:content-[\"▾\"]';
-const articleTailClass = 'r-article__tail mt-[var(--r-space-lg)] flex flex-col items-center gap-[var(--r-space-md)] border-t-0 pt-[var(--r-space-md)] [@media(hover:hover)]:[&:hover_.like-btn.post.is-empty]:pointer-events-auto [@media(hover:hover)]:[&:hover_.like-btn.post.is-empty]:opacity-55 [&_.changelog]:[--accent-color:var(--r-link)] [&_.changelog]:[--ink-accent:var(--r-ink-faint)] [&_.changelog]:[--serif-font:var(--r-font-ui)] [&_.changelog_*]:[--accent-color:var(--r-link)] [&_.changelog_*]:[--ink-accent:var(--r-ink-faint)] [&_.changelog_*]:[--serif-font:var(--r-font-ui)] [&_.changelog]:[font-family:var(--r-font-ui)] [&_.changelog]:text-[var(--r-ink-soft)] [&_.like-button]:[font-family:var(--r-font-ui)] [&_.like-button]:text-[var(--r-ink-soft)]';
+const articleTailClass = 'r-article__tail mt-[var(--r-space-lg)] flex flex-col items-center gap-[var(--r-space-md)] border-t-0 pt-[var(--r-space-md)] [@media(hover:hover)]:[&:hover_.like-btn.post.is-empty]:pointer-events-auto [@media(hover:hover)]:[&:hover_.like-btn.post.is-empty]:opacity-55 [&_.changelog]:[--accent-color:var(--r-link)] [&_.changelog]:[--ink-accent:var(--r-ink-faint)] [&_.changelog]:[--serif-font:var(--r-font-ui)] [&_.changelog_*]:[--accent-color:var(--r-link)] [&_.changelog_*]:[--ink-accent:var(--r-ink-faint)] [&_.changelog_*]:[--serif-font:var(--r-font-ui)] [&_.changelog]:[font-family:var(--r-font-ui)] [&_.changelog]:text-[var(--r-ink-soft)] [&_.like-btn]:[font-family:var(--r-font-ui)] [&_.like-btn]:text-[var(--r-ink-soft)]';
 const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint)]';
 ---
 
 <ReadingShell title={title} description={description || ''}>
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
-	<article class="r-article">
+	<article class={articleClass}>
 		<header class={articleHeaderClass}>
 			<h1 class={articleTitleClass} transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
 
@@ -99,136 +111,6 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 
 		<NavButton showBackToTop={true} />
 	</article>
-
-	<style is:global>
-		body.reading-surface .code-wrapper {
-			position: relative;
-			margin: 1.25rem 0;
-			border-radius: 4px;
-			background: var(--r-code-bg);
-			overflow: hidden;
-		}
-
-		body.reading-surface .code-header {
-			position: absolute;
-			top: 0;
-			right: 0;
-			display: flex;
-			align-items: center;
-			gap: 0.5rem;
-			padding: 0.35rem 0.55rem;
-			z-index: 2;
-		}
-
-		body.reading-surface .code-lang {
-			font-family: var(--r-font-code);
-			font-size: 0.7rem;
-			color: var(--r-ink-faint);
-		}
-
-		body.reading-surface .copy-btn {
-			background: transparent;
-			border: 0;
-			color: var(--r-ink-faint);
-			cursor: pointer;
-			padding: 2px;
-			opacity: 0.55;
-		}
-
-		body.reading-surface .code-wrapper:hover .copy-btn,
-		body.reading-surface .copy-btn:focus-visible {
-			opacity: 1;
-		}
-
-		body.reading-surface .code-wrapper pre {
-			margin: 0 !important;
-			padding: 1.5rem 1rem 1rem !important;
-			background: transparent !important;
-			border-radius: 0 !important;
-		}
-
-		body.reading-surface .nav-buttons-group {
-			position: fixed;
-			right: var(--r-page-inline);
-			bottom: var(--r-space-lg);
-			z-index: 20;
-		}
-
-		body.reading-surface .nav-button {
-			width: auto;
-			height: auto;
-			min-width: 36px;
-			min-height: 36px;
-			padding: var(--space-2xs);
-			border-radius: 0;
-			border: 0;
-			background: transparent;
-			color: var(--r-ink-soft);
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			cursor: pointer;
-			box-shadow: none;
-			backdrop-filter: none;
-			-webkit-backdrop-filter: none;
-		}
-
-		body.reading-surface .nav-button:hover {
-			color: var(--r-ink);
-			background: transparent;
-			transform: none;
-		}
-
-		body.reading-surface .nav-button svg {
-			display: block;
-			width: 18px;
-			height: 18px;
-		}
-
-		body.reading-surface .link-card {
-			margin: var(--r-space-lg) 0;
-			border: 1px solid var(--r-rule);
-			border-radius: 4px;
-			overflow: hidden;
-			background: transparent;
-			box-shadow: none;
-		}
-
-		body.reading-surface .link-card:hover {
-			box-shadow: none;
-			transform: none;
-			background: transparent;
-		}
-
-		body.reading-surface .link-card a {
-			text-decoration: none;
-			color: inherit;
-		}
-
-		body.reading-surface .link-card__body {
-			padding: var(--r-space-sm) var(--r-space-md);
-		}
-
-		body.reading-surface .link-card__body h3 {
-			margin: 0 0 var(--r-space-xs);
-			font-family: var(--r-font-body);
-			font-size: var(--r-text);
-			color: var(--r-ink);
-		}
-
-		body.reading-surface .link-card__body p {
-			margin: 0 0 var(--r-space-xs);
-			font-size: var(--r-text-sm);
-			color: var(--r-ink-soft);
-		}
-
-		body.reading-surface .link-card__host {
-			font-family: var(--r-font-ui);
-			font-size: var(--r-text-xs);
-			color: var(--r-ink-faint);
-		}
-
-	</style>
 
 	<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
 

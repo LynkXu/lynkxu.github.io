@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
+const exists = (file) => existsSync(new URL(`../${file}`, import.meta.url));
 
 test('Tailwind is integrated without the global preflight reset', () => {
   const tailwind = read('src/styles/tailwind.css');
@@ -28,14 +29,12 @@ test('site header chrome is composed with Tailwind utilities', () => {
 
 test('reading list patterns live in the Tailwind component layer', () => {
   const tailwind = read('src/styles/tailwind.css');
-  const reading = read('src/styles/reading.scss');
   const blogIndex = read('src/pages/blog/index.astro');
   const tagPage = read('src/pages/tags/[tag].astro');
 
   assert.match(tailwind, /@layer components\s*\{/);
   for (const selector of ['r-section', 'r-post-list', 'r-note-list', 'r-year-block', 'r-draft']) {
     assert.match(tailwind, new RegExp(`\\.${selector}(?![\\w-])`));
-    assert.doesNotMatch(reading, new RegExp(`^\\.${selector}(?![\\w-])`, 'm'));
   }
   assert.doesNotMatch(blogIndex, /\.r-draft\s*\{/);
   assert.doesNotMatch(tagPage, /\.r-draft\s*\{/);
@@ -52,39 +51,25 @@ test('reading section titles use explicit Tailwind utilities', () => {
     assert.doesNotMatch(source, /!text-\[var\(--r-text-sm\)\]/);
   }
   assert.doesNotMatch(read('src/styles/tailwind.css'), /^  \.r-section__title\s*\{/m);
-  assert.doesNotMatch(read('src/styles/reading.scss'), /^body\.reading-surface \.r-section__title\s*\{/m);
 });
 
-test('reading shell chrome is not duplicated in SCSS', () => {
+test('reading shell chrome is Tailwind-composed without the old SCSS entry', () => {
   const shell = read('src/layouts/ReadingShell.astro');
-  const reading = read('src/styles/reading.scss');
 
   for (const token of ['shellClass', 'headerClass', 'brandClass', 'navClass', 'footerClass']) {
     assert.match(shell, new RegExp(`const ${token} =`));
   }
-  for (const selector of [
-    '.reading-shell',
-    '.reading-shell__header',
-    '.reading-shell__brand',
-    '.reading-shell__nav',
-    '.reading-shell__ctrl',
-    '.reading-shell__tools',
-    '.reading-shell__main',
-    '.reading-shell__footer',
-    '.reading-shell__footer-links',
-    '.reading-shell__copy',
-  ]) {
-    assert.doesNotMatch(reading, new RegExp(`^${selector.replace('.', '\\.')}\\s*\\{`, 'm'));
-  }
+  assert.doesNotMatch(shell, /reading\.scss/);
+  assert.equal(exists('src/styles/reading.scss'), false);
 });
 
 test('reading page titles are explicit Tailwind utilities', () => {
-  const reading = read('src/styles/reading.scss');
+  const tailwind = read('src/styles/tailwind.css');
 
-  assert.doesNotMatch(reading, /^\.r-page-title\s*\{/m);
-  assert.doesNotMatch(reading, /^\.r-home-intro\s*\{/m);
-  assert.doesNotMatch(reading, /^\.r-home-intro__text\s*\{/m);
-  assert.doesNotMatch(reading, /^body\.reading-surface \.r-article \.r-page-title\s*\{/m);
+  assert.doesNotMatch(tailwind, /^\.r-page-title\s*\{/m);
+  assert.doesNotMatch(tailwind, /^\.r-home-intro\s*\{/m);
+  assert.doesNotMatch(tailwind, /^\.r-home-intro__text\s*\{/m);
+  assert.doesNotMatch(tailwind, /^body\.reading-surface \.r-article \.r-page-title\s*\{/m);
 
   for (const file of [
     'src/pages/index.astro',
@@ -104,22 +89,18 @@ test('reading page titles are explicit Tailwind utilities', () => {
   }
 });
 
-test('works listing styles are migrated out of reading SCSS', () => {
+test('works listing styles are Tailwind-composed', () => {
   const works = read('src/pages/works.astro');
-  const reading = read('src/styles/reading.scss');
 
   for (const token of ['workHeadClass', 'workListClass', 'workCardClass', 'workMetaClass', 'workTitleClass', 'workDescClass']) {
     assert.match(works, new RegExp(`const ${token} =`));
-  }
-  for (const selector of ['r-works__head', 'r-works__empty', 'r-work-list', 'r-work', 'r-work__meta', 'r-work__title', 'r-work__desc']) {
-    assert.doesNotMatch(reading, new RegExp(`\\.${selector}(?![\\w-])`));
   }
 });
 
 test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {
   const tagsIndex = read('src/pages/tags/index.astro');
   const tagPage = read('src/pages/tags/[tag].astro');
-  const reading = read('src/styles/reading.scss');
+  const tailwind = read('src/styles/tailwind.css');
 
   for (const token of ['tagCloudClass', 'tagLinkClass', 'tagCountClass']) {
     assert.match(tagsIndex, new RegExp(`const ${token} =`));
@@ -129,7 +110,7 @@ test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {
   }
   assert.doesNotMatch(tagPage, /<style>/);
   for (const selector of ['r-tag-cloud', 'r-tag-cloud__count']) {
-    assert.doesNotMatch(reading, new RegExp(`\\.${selector}(?![\\w-])`));
+    assert.doesNotMatch(tailwind, new RegExp(`\\.${selector}(?![\\w-])`));
   }
 });
 
@@ -149,13 +130,13 @@ test('about and sponsor chrome are Tailwind-composed', () => {
 
 test('copyright chrome uses Tailwind utilities without duplicate CSS', () => {
   const copyright = read('src/pages/copyright.astro');
-  const reading = read('src/styles/reading.scss');
+  const tailwind = read('src/styles/tailwind.css');
 
   for (const token of ['rightsListClass', 'rightsItemClass', 'copyrightNoteClass', 'copyrightNoteLinkClass']) {
     assert.match(copyright, new RegExp(`const ${token} =`));
   }
   assert.doesNotMatch(copyright, /<style/);
-  assert.doesNotMatch(reading, /r-copyright__note a/);
+  assert.doesNotMatch(tailwind, /r-copyright__note a/);
 });
 
 test('message page chrome is Tailwind-composed', () => {
@@ -171,11 +152,36 @@ test('message page chrome is Tailwind-composed', () => {
 
 test('blog post header and toc chrome are Tailwind-composed', () => {
   const blogPost = read('src/layouts/BlogPost.astro');
-  const reading = read('src/styles/reading.scss');
+  const tailwind = read('src/styles/tailwind.css');
 
-  for (const token of ['articleHeaderClass', 'metaClass', 'metaLinkClass', 'tocClass', 'tocSummaryClass', 'articleTailClass']) {
+  for (const token of ['articleClass', 'articleHeaderClass', 'metaClass', 'metaLinkClass', 'tocClass', 'tocSummaryClass', 'articleTailClass']) {
     assert.match(blogPost, new RegExp(`const ${token} =`));
   }
-  assert.doesNotMatch(reading, /^\.r-meta\s*\{/m);
-  assert.doesNotMatch(reading, /r-meta a/);
+  assert.doesNotMatch(blogPost, /<style/);
+  assert.doesNotMatch(tailwind, /^\.r-meta\s*\{/m);
+  assert.doesNotMatch(tailwind, /r-meta a/);
+});
+
+test('shuoshuo stream chrome lives in the Tailwind component layer', () => {
+  const shuoshuo = read('src/layouts/Shuoshuo.astro');
+  const tailwind = read('src/styles/tailwind.css');
+
+  assert.doesNotMatch(shuoshuo, /<style/);
+  for (const selector of ['r-memos__list', 'r-memo', 'r-memo__body', 'media-grid', 'r-memos__pagination']) {
+    assert.match(tailwind, new RegExp(`\\.${selector}(?![\\w-])`));
+  }
+});
+
+test('reading interaction components are Tailwind-composed', () => {
+  const likeButton = read('src/components/LikeButton.astro');
+  const changelog = read('src/components/Changelog.astro');
+
+  for (const token of ['baseClass', 'typeClass', 'iconClass']) {
+    assert.match(likeButton, new RegExp(`const ${token} =`));
+  }
+  for (const token of ['changelogClass', 'summaryClass', 'labelClass', 'listClass']) {
+    assert.match(changelog, new RegExp(`const ${token} =`));
+  }
+  assert.doesNotMatch(likeButton, /<style/);
+  assert.doesNotMatch(changelog, /<style/);
 });
