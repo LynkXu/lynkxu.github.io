@@ -216,7 +216,8 @@ body.reading-surface {
   line-height: var(--r-lh-body) !important;
   font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: auto;
+  -webkit-font-smoothing: auto !important;
+  -moz-osx-font-smoothing: auto !important;
   color-scheme: light;
   display: block;
 }

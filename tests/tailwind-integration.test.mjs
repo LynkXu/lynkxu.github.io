@@ -46,6 +46,7 @@ test('reading surface root typography is isolated from global body styles', () =
   assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*font-family:\s*var\(--r-font-body\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*font-size:\s*var\(--r-text\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*line-height:\s*var\(--r-lh-body\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*-webkit-font-smoothing:\s*auto\s*!important;/);
 });
 
 test('reading section titles use explicit Tailwind utilities', () => {
