@@ -157,3 +157,14 @@ test('copyright chrome uses Tailwind utilities without duplicate CSS', () => {
   assert.doesNotMatch(copyright, /<style/);
   assert.doesNotMatch(reading, /r-copyright__note a/);
 });
+
+test('message page chrome is Tailwind-composed', () => {
+  const message = read('src/layouts/Message.astro');
+
+  for (const token of ['messageIntroClass', 'messageCommentsClass']) {
+    assert.match(message, new RegExp(`const ${token} =`));
+  }
+  assert.match(message, /\[&_\.twikoo-shell\]:/);
+  assert.match(message, /\[&_textarea\]:!bg-transparent/);
+  assert.doesNotMatch(message, /<style/);
+});

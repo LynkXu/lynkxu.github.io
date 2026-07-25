@@ -9,89 +9,29 @@ type Props = CollectionEntry<'page'>['data'] & {
 
 const { title } = Astro.props;
 const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const messageIntroClass = 'r-message__intro mt-[-0.75rem] mb-[var(--r-space-lg)] [font-family:var(--r-font-body)] [font-size:1rem] leading-[1.7] text-[var(--r-ink-soft)]';
+const messageCommentsClass = [
+	'r-message__comments',
+	'[--accent-color:var(--r-link)] [--field-font:var(--r-font-ui)] [--heading-color:var(--r-ink)] [--link-color:var(--r-link)] [--paper-card-bg:transparent] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none] [--paper-hover-bg:transparent]',
+	'[&_*]:[--accent-color:var(--r-link)] [&_*]:[--field-font:var(--r-font-ui)] [&_*]:[--heading-color:var(--r-ink)] [&_*]:[--link-color:var(--r-link)] [&_*]:[--paper-card-bg:transparent] [&_*]:[--paper-card-border:var(--r-rule)] [&_*]:[--paper-card-border-soft:var(--r-rule)] [&_*]:[--paper-card-shadow:none] [&_*]:[--paper-hover-bg:transparent]',
+	'[&_.comments.single]:m-0',
+	'[&_.twikoo-shell]:overflow-visible [&_.twikoo-shell]:rounded-none [&_.twikoo-shell]:border-0 [&_.twikoo-shell]:bg-transparent [&_.twikoo-shell]:shadow-none',
+	'[&_.twikoo-lazygate]:flex [&_.twikoo-lazygate]:items-center [&_.twikoo-lazygate]:justify-between [&_.twikoo-lazygate]:gap-[0.75rem] [&_.twikoo-lazygate]:border-b [&_.twikoo-lazygate]:border-[var(--r-rule)] [&_.twikoo-lazygate]:py-[0.85rem] [&_.twikoo-lazygate]:[font-family:var(--r-font-ui)] [&_.twikoo-lazygate]:[font-size:var(--r-text-sm)] [&_.twikoo-lazygate]:text-[var(--r-ink-soft)]',
+	'[&_.twikoo-lazygate_button]:cursor-pointer [&_.twikoo-lazygate_button]:rounded-[3px] [&_.twikoo-lazygate_button]:border [&_.twikoo-lazygate_button]:border-[var(--r-rule)] [&_.twikoo-lazygate_button]:bg-transparent [&_.twikoo-lazygate_button]:px-[0.7rem] [&_.twikoo-lazygate_button]:py-[0.35rem] [&_.twikoo-lazygate_button]:[font-family:var(--r-font-ui)] [&_.twikoo-lazygate_button]:[font-size:var(--r-text-xs)] [&_.twikoo-lazygate_button]:text-[var(--r-ink)] [&_.twikoo-lazygate_button:hover]:border-[var(--r-ink-soft)]',
+	'[&_button]:cursor-pointer [&_button]:rounded-[3px] [&_button]:border [&_button]:border-[var(--r-rule)] [&_button]:bg-transparent [&_button]:px-[0.7rem] [&_button]:py-[0.35rem] [&_button]:[font-family:var(--r-font-ui)] [&_button]:[font-size:var(--r-text-xs)] [&_button]:text-[var(--r-ink)] [&_button:hover]:border-[var(--r-ink-soft)]',
+	'[&_.tk-comments-container]:!border-[var(--r-rule)] [&_.tk-comments-container]:!bg-transparent [&_.tk-comments-container]:!text-[var(--r-ink)] [&_.tk-comments-container]:!shadow-none [&_.tk-comments-container]:[font-family:var(--r-font-ui)]',
+	'[&_.tk-submit]:!border-[var(--r-rule)] [&_.tk-submit]:!bg-transparent [&_.tk-submit]:!text-[var(--r-ink)] [&_.tk-submit]:!shadow-none [&_.tk-submit]:[font-family:var(--r-font-ui)]',
+	'[&_textarea]:!border-[var(--r-rule)] [&_textarea]:!bg-transparent [&_textarea]:!text-[var(--r-ink)] [&_textarea]:!shadow-none [&_textarea]:[font-family:var(--r-font-ui)]',
+	'[&_input]:!border-[var(--r-rule)] [&_input]:!bg-transparent [&_input]:!text-[var(--r-ink)] [&_input]:!shadow-none [&_input]:[font-family:var(--r-font-ui)]',
+].join(' ');
 ---
 
 <ReadingShell title={title} description={title}>
 	<section class="r-message" aria-labelledby="message-title">
 		<h1 id="message-title" class={pageTitleClass}>留言</h1>
-		<p class="r-message__intro">有什么想说的，或只是路过打个招呼，都可以留在这里。</p>
-		<div class="r-message__comments">
+		<p class={messageIntroClass}>有什么想说的，或只是路过打个招呼，都可以留在这里。</p>
+		<div class={messageCommentsClass}>
 			<Comments showLinuxDo={false} manualTwikooLoad={true} />
 		</div>
 	</section>
 </ReadingShell>
-
-<style is:global>
-	body.reading-surface .r-message__intro {
-		margin: -0.75rem 0 var(--r-space-lg);
-		font-family: var(--r-font-body);
-		font-size: 1rem;
-		line-height: 1.7;
-		color: var(--r-ink-soft);
-	}
-
-	body.reading-surface .r-message__comments .comments.single {
-		margin: 0;
-	}
-
-	body.reading-surface .r-message__comments .twikoo-shell {
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		box-shadow: none;
-		overflow: visible;
-	}
-
-	body.reading-surface .r-message__comments .twikoo-lazygate {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-		padding: 0.85rem 0;
-		border-bottom: 1px solid var(--r-rule);
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-sm);
-		color: var(--r-ink-soft);
-	}
-
-	body.reading-surface .r-message__comments .twikoo-lazygate button,
-	body.reading-surface .r-message__comments button {
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink);
-		background: transparent;
-		border: 1px solid var(--r-rule);
-		border-radius: 3px;
-		padding: 0.35rem 0.7rem;
-		cursor: pointer;
-	}
-
-	body.reading-surface .r-message__comments .twikoo-lazygate button:hover,
-	body.reading-surface .r-message__comments button:hover {
-		border-color: var(--r-ink-soft);
-	}
-
-	body.reading-surface .r-message__comments,
-	body.reading-surface .r-message__comments * {
-		--accent-color: var(--r-link);
-		--link-color: var(--r-link);
-		--heading-color: var(--r-ink);
-		--paper-card-bg: transparent;
-		--paper-card-border: var(--r-rule);
-		--paper-card-border-soft: var(--r-rule);
-		--paper-card-shadow: none;
-		--paper-hover-bg: transparent;
-		--field-font: var(--r-font-ui);
-	}
-
-	body.reading-surface .r-message__comments .tk-comments-container,
-	body.reading-surface .r-message__comments .tk-submit,
-	body.reading-surface .r-message__comments textarea,
-	body.reading-surface .r-message__comments input {
-		background: transparent !important;
-		border-color: var(--r-rule) !important;
-		box-shadow: none !important;
-		color: var(--r-ink) !important;
-		font-family: var(--r-font-ui);
-	}
-</style>
