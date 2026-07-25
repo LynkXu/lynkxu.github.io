@@ -140,13 +140,10 @@ body.reading-surface :where(
   .r-section__more,
   .r-post-list__title,
   .r-note-list a,
-  .r-tag-cloud a,
   .r-prose a,
   .post-content a,
   .r-meta a,
-  .search-results a,
-  .r-tag-meta a,
-  .r-copyright__note a
+  .search-results a
 ) {
   @include link-underline.text-link-underline(var(--r-link-underline-offset));
 }
@@ -156,13 +153,10 @@ body.reading-surface :where(
   .r-section__more:hover,
   .r-post-list__title:hover,
   .r-note-list a:hover,
-  .r-tag-cloud a:hover,
   .r-prose a:hover,
   .post-content a:hover,
   .r-meta a:hover,
-  .search-results a:hover,
-  .r-tag-meta a:hover,
-  .r-copyright__note a:hover
+  .search-results a:hover
 ) {
   text-decoration-color: var(--r-link-underline-color);
 }
@@ -232,34 +226,6 @@ body.reading-surface .link-card__fallback:hover {
     transform: rotate(0) scale(1);
     pointer-events: auto;
   }
-}
-
-.r-tag-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.7rem 1.35rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  font-family: var(--r-font-ui);
-  font-size: var(--r-text);
-}
-
-.r-tag-cloud a {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.3rem;
-  color: var(--r-ink);
-}
-
-.r-tag-cloud a:hover {
-  color: var(--r-link);
-}
-
-.r-tag-cloud__count {
-  color: var(--r-ink-faint);
-  font-size: var(--r-text-xs);
-  font-variant-numeric: tabular-nums;
 }
 
 .r-prose,

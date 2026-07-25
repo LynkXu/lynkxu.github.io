@@ -9,6 +9,12 @@ const rights = [
 ];
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const rightsListClass = 'r-copyright__list m-0 flex list-none flex-col gap-[0.75rem] p-0';
+const rightsItemClass = 'grid gap-[0.2rem]';
+const rightsLabelClass = 'font-semibold text-[var(--r-ink)]';
+const rightsDescClass = '[font-size:var(--r-text-sm)] text-[var(--r-ink-soft)]';
+const copyrightNoteClass = 'r-copyright__note mt-[var(--r-space-xl)] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.7] text-[var(--r-ink-faint)]';
+const copyrightNoteLinkClass = 'border-b-0 text-[var(--r-ink-soft)] underline decoration-transparent decoration-1 underline-offset-[var(--r-link-underline-offset)] transition-[color,text-decoration-color] duration-200 hover:text-[var(--r-link)] hover:decoration-[var(--r-link-underline-color)]';
 ---
 
 <ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
@@ -24,18 +30,23 @@ const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:
 
 		<section class="r-section" aria-labelledby="rights-title">
 			<h2 id="rights-title" class={sectionTitleClass}>你可以做什么</h2>
-			<ul class="r-copyright__list">
+			<ul class={rightsListClass}>
 				{rights.map((item) => (
-					<li>
-						<strong>{item.label}</strong>
-						<span>{item.desc}</span>
+					<li class={rightsItemClass}>
+						<strong class={rightsLabelClass}>{item.label}</strong>
+						<span class={rightsDescClass}>{item.desc}</span>
 					</li>
 				))}
 			</ul>
 		</section>
 
-		<p class="r-copyright__note">
-			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
+		<p class={copyrightNoteClass}>
+			<a
+				href="https://creativecommons.org/licenses/by-nc/4.0/"
+				target="_blank"
+				rel="noopener noreferrer"
+				class={copyrightNoteLinkClass}
+			>
 				查看完整协议
 			</a>
 			<br />
@@ -43,45 +54,3 @@ const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:
 		</p>
 	</article>
 </ReadingShell>
-
-<style>
-	.r-copyright__list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-
-	.r-copyright__list li {
-		display: grid;
-		gap: 0.2rem;
-	}
-
-	.r-copyright__list strong {
-		font-weight: 600;
-		color: var(--r-ink);
-	}
-
-	.r-copyright__list span {
-		font-size: var(--r-text-sm);
-		color: var(--r-ink-soft);
-	}
-
-	.r-copyright__note {
-		margin-top: var(--r-space-xl);
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-		line-height: 1.7;
-	}
-
-	.r-copyright__note a {
-		color: var(--r-ink-soft);
-	}
-
-	.r-copyright__note a:hover {
-		color: var(--r-link);
-	}
-</style>

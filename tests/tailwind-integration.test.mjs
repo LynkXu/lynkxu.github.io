@@ -115,3 +115,45 @@ test('works listing styles are migrated out of reading SCSS', () => {
     assert.doesNotMatch(reading, new RegExp(`\\.${selector}(?![\\w-])`));
   }
 });
+
+test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {
+  const tagsIndex = read('src/pages/tags/index.astro');
+  const tagPage = read('src/pages/tags/[tag].astro');
+  const reading = read('src/styles/reading.scss');
+
+  for (const token of ['tagCloudClass', 'tagLinkClass', 'tagCountClass']) {
+    assert.match(tagsIndex, new RegExp(`const ${token} =`));
+  }
+  for (const token of ['tagMetaClass', 'tagMetaLinkClass']) {
+    assert.match(tagPage, new RegExp(`const ${token} =`));
+  }
+  assert.doesNotMatch(tagPage, /<style>/);
+  for (const selector of ['r-tag-cloud', 'r-tag-cloud__count']) {
+    assert.doesNotMatch(reading, new RegExp(`\\.${selector}(?![\\w-])`));
+  }
+});
+
+test('about and sponsor chrome are Tailwind-composed', () => {
+  const about = read('src/layouts/About.astro');
+  const sponsor = read('src/components/SponsorAbout.astro');
+
+  for (const token of ['aboutHeadClass', 'aboutIntroClass', 'traitsClass', 'aboutHistoryClass']) {
+    assert.match(about, new RegExp(`const ${token} =`));
+  }
+  for (const token of ['sponsorRootClass', 'foldClass', 'summaryClass', 'cryptoItemClass', 'copyButtonClass']) {
+    assert.match(sponsor, new RegExp(`const ${token} =`));
+  }
+  assert.doesNotMatch(about, /<style/);
+  assert.doesNotMatch(sponsor, /<style/);
+});
+
+test('copyright chrome uses Tailwind utilities without duplicate CSS', () => {
+  const copyright = read('src/pages/copyright.astro');
+  const reading = read('src/styles/reading.scss');
+
+  for (const token of ['rightsListClass', 'rightsItemClass', 'copyrightNoteClass', 'copyrightNoteLinkClass']) {
+    assert.match(copyright, new RegExp(`const ${token} =`));
+  }
+  assert.doesNotMatch(copyright, /<style/);
+  assert.doesNotMatch(reading, /r-copyright__note a/);
+});

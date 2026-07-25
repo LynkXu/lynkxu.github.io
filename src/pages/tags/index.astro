@@ -22,17 +22,20 @@ const topics = Array.from(postsByTopic.entries())
 	}))
 	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const tagCloudClass = 'r-tag-cloud m-0 flex list-none flex-wrap gap-x-[1.35rem] gap-y-[0.7rem] p-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text)]';
+const tagLinkClass = 'inline-flex items-baseline gap-[0.3rem] border-b-0 text-[var(--r-ink)] underline decoration-transparent decoration-1 underline-offset-[var(--r-link-underline-offset)] transition-[color,text-decoration-color] duration-200 hover:text-[var(--r-link)] hover:decoration-[var(--r-link-underline-color)]';
+const tagCountClass = 'r-tag-cloud__count [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
 ---
 
 <ReadingShell title="标签" description="浏览全部标签">
 	<h1 class={pageTitleClass}>标签</h1>
 
-	<ul class="r-tag-cloud" aria-label="标签索引">
+	<ul class={tagCloudClass} aria-label="标签索引">
 		{topics.map((topic) => (
 			<li>
-				<a href={topic.href}>
+				<a href={topic.href} class={tagLinkClass}>
 					{topic.name}
-					<span class="r-tag-cloud__count">{topic.count}</span>
+					<span class={tagCountClass}>{topic.count}</span>
 				</a>
 			</li>
 		))}
