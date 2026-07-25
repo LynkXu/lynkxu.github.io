@@ -40,6 +40,14 @@ test('reading list patterns live in the Tailwind component layer', () => {
   assert.doesNotMatch(tagPage, /\.r-draft\s*\{/);
 });
 
+test('reading surface root typography is isolated from global body styles', () => {
+  const tailwind = read('src/styles/tailwind.css');
+
+  assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*font-family:\s*var\(--r-font-body\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*font-size:\s*var\(--r-text\)\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*line-height:\s*var\(--r-lh-body\)\s*!important;/);
+});
+
 test('reading section titles use explicit Tailwind utilities', () => {
   const files = ['src/pages/index.astro', 'src/layouts/About.astro', 'src/pages/copyright.astro'];
 

@@ -212,8 +212,8 @@ body.reading-surface {
   color: var(--r-ink) !important;
   font-family: var(--r-font-body) !important;
   font-weight: 400;
-  font-size: var(--r-text);
-  line-height: var(--r-lh-body);
+  font-size: var(--r-text) !important;
+  line-height: var(--r-lh-body) !important;
   font-optical-sizing: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: auto;
