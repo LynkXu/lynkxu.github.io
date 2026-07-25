@@ -27,10 +27,11 @@ export async function getStaticPaths() {
 }
 
 const { posts, tag } = Astro.props;
+const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 ---
 
 <ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
-	<h1 class="r-page-title">{tag}</h1>
+	<h1 class={pageTitleClass}>{tag}</h1>
 
 	<p class="r-tag-meta">
 		<span>{posts.length} 篇文章</span>

@@ -47,9 +47,59 @@ test('reading section titles use explicit Tailwind utilities', () => {
   for (const file of files) {
     const source = read(file);
     assert.match(source, /sectionTitleClass/);
-    assert.match(source, /!text-\[var\(--r-text-sm\)\]/);
+    assert.match(source, /!\[font-size:var\(--r-text-sm\)\]/);
     assert.match(source, /!\[font-family:var\(--r-font-ui\)\]/);
+    assert.doesNotMatch(source, /!text-\[var\(--r-text-sm\)\]/);
   }
   assert.doesNotMatch(read('src/styles/tailwind.css'), /^  \.r-section__title\s*\{/m);
   assert.doesNotMatch(read('src/styles/reading.scss'), /^body\.reading-surface \.r-section__title\s*\{/m);
+});
+
+test('reading shell chrome is not duplicated in SCSS', () => {
+  const shell = read('src/layouts/ReadingShell.astro');
+  const reading = read('src/styles/reading.scss');
+
+  for (const token of ['shellClass', 'headerClass', 'brandClass', 'navClass', 'footerClass']) {
+    assert.match(shell, new RegExp(`const ${token} =`));
+  }
+  for (const selector of [
+    '.reading-shell',
+    '.reading-shell__header',
+    '.reading-shell__brand',
+    '.reading-shell__nav',
+    '.reading-shell__ctrl',
+    '.reading-shell__tools',
+    '.reading-shell__main',
+    '.reading-shell__footer',
+    '.reading-shell__footer-links',
+    '.reading-shell__copy',
+  ]) {
+    assert.doesNotMatch(reading, new RegExp(`^${selector.replace('.', '\\.')}\\s*\\{`, 'm'));
+  }
+});
+
+test('reading page titles are explicit Tailwind utilities', () => {
+  const reading = read('src/styles/reading.scss');
+
+  assert.doesNotMatch(reading, /^\.r-page-title\s*\{/m);
+  assert.doesNotMatch(reading, /^\.r-home-intro\s*\{/m);
+  assert.doesNotMatch(reading, /^\.r-home-intro__text\s*\{/m);
+  assert.doesNotMatch(reading, /^body\.reading-surface \.r-article \.r-page-title\s*\{/m);
+
+  for (const file of [
+    'src/pages/index.astro',
+    'src/pages/blog/index.astro',
+    'src/pages/tags/index.astro',
+    'src/pages/tags/[tag].astro',
+    'src/pages/works.astro',
+    'src/pages/copyright.astro',
+    'src/layouts/About.astro',
+    'src/layouts/BlogPost.astro',
+    'src/layouts/Message.astro',
+    'src/layouts/Shuoshuo.astro',
+  ]) {
+    const source = read(file);
+    assert.match(source, /r-page-title|r-home-intro/);
+    assert.match(source, /!\[font-size:var\(--r-text-(page|display)\)\]|\[font-size:var\(--r-text-lg\)\]/);
+  }
 });

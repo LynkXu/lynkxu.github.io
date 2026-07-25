@@ -11,6 +11,7 @@ type Props = CollectionEntry<'page'>['data'] & {
 };
 
 const { title } = Astro.props;
+const pageTitleClass = 'r-page-title r-memos__title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 const gossips = await getAllGossips();
 
@@ -62,7 +63,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 
 	<section class="r-memos" aria-labelledby="memos-title">
 		<header class="r-memos__head">
-			<h1 id="memos-title" class="r-page-title r-memos__title">碎语</h1>
+			<h1 id="memos-title" class={pageTitleClass}>碎语</h1>
 		</header>
 
 		<div id="shuoshuo">

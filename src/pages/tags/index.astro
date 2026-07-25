@@ -21,10 +21,11 @@ const topics = Array.from(postsByTopic.entries())
 		href: `/tags/${name}/`,
 	}))
 	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 ---
 
 <ReadingShell title="标签" description="浏览全部标签">
-	<h1 class="r-page-title">标签</h1>
+	<h1 class={pageTitleClass}>标签</h1>
 
 	<ul class="r-tag-cloud" aria-label="标签索引">
 		{topics.map((topic) => (

@@ -7,12 +7,13 @@ const rights = [
 	{ label: '署名', desc: '转载或改编时必须注明作者及来源' },
 	{ label: '非商业', desc: '不得将内容用于商业用途' },
 ];
-const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] !text-[var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
+const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 ---
 
 <ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
 	<article class="r-copyright">
-		<h1 class="r-page-title">CC BY-NC 4.0</h1>
+		<h1 class={pageTitleClass}>CC BY-NC 4.0</h1>
 		<p class="r-prose">
 			本站内容采用
 			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">

@@ -13,7 +13,9 @@ const posts = filterDrafts(await getCollection('blog'))
 
 const latestPosts = posts.slice(0, 12);
 const latestGossips = (await getAllGossips()).slice(0, 3);
-const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] !text-[var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
+const homeIntroClass = 'r-home-intro m-0 mb-[var(--r-space-xl)]';
+const homeIntroTextClass = 'r-home-intro__text m-0 [font-family:var(--r-font-body)] [font-size:var(--r-text-lg)] font-medium leading-[var(--r-lh-tight)] tracking-[-0.01em] text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -21,8 +23,8 @@ function getPostHref(post: (typeof posts)[number]) {
 ---
 
 <ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
-	<section class="r-home-intro" aria-label="简介">
-		<p class="r-home-intro__text">你好，我是 Lynk。</p>
+	<section class={homeIntroClass} aria-label="简介">
+		<p class={homeIntroTextClass}>你好，我是 Lynk。</p>
 	</section>
 
 	<section class="r-section" aria-labelledby="home-writing-title">

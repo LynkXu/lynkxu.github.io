@@ -4,6 +4,7 @@ import { works } from '../data/works';
 
 const title = '作品';
 const description = '做过的一些东西。';
+const pageTitleClass = 'r-page-title r-works__title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function isExternal(href: string) {
 	return href.startsWith('http://') || href.startsWith('https://');
@@ -13,7 +14,7 @@ function isExternal(href: string) {
 <ReadingShell title={title} description={description}>
 	<section class="r-works" aria-labelledby="works-title">
 		<header class="r-works__head">
-			<h1 id="works-title" class="r-page-title r-works__title">作品</h1>
+			<h1 id="works-title" class={pageTitleClass}>作品</h1>
 		</header>
 
 		{works.length === 0 ? (

@@ -39,6 +39,20 @@ function isActive(href: string) {
 	if (target === '/') return current === '/';
 	return current === target || current.startsWith(`${target}/`);
 }
+
+const shellClass = 'reading-shell mx-auto flex min-h-screen w-[min(calc(100%_-_var(--r-page-inline)_*_2),var(--r-measure))] flex-col pt-[var(--r-space-lg)] pb-[var(--r-space-2xl)]';
+const headerClass = 'reading-shell__header mb-[var(--r-space-xl)] flex flex-wrap items-center gap-x-0 gap-y-[var(--r-space-sm)] border-b border-[var(--r-rule)] pb-[var(--r-space-md)] max-[640px]:grid max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-[var(--r-space-sm)]';
+const brandClass = 'reading-shell__brand order-1 mr-[clamp(1.15rem,2.8vw,1.65rem)] shrink-0 !border-b-0 [font-family:var(--r-font-brand)] text-[clamp(1.42rem,2.7vw,1.72rem)] font-semibold leading-none tracking-[-0.015em] !text-[var(--r-ink)] !no-underline hover:!border-b-0 hover:!text-[var(--r-ink)] focus-visible:!border-b-0 active:!border-b-0 max-[640px]:mr-0 max-[640px]:text-[1.4rem]';
+const navClass = 'reading-shell__nav order-2 flex min-w-0 flex-1 flex-wrap items-center justify-start gap-x-[var(--r-space-md)] gap-y-[var(--r-space-xs)] [font-family:var(--r-font-ui)] text-[0.84rem] leading-[1.2] tracking-[0.02em] max-[640px]:order-3 max-[640px]:col-span-2 max-[640px]:w-full max-[640px]:flex-none';
+const navLinkClass = '!border-b-0 p-0 [font-family:var(--r-font-ui)] text-[0.84rem] font-normal leading-[inherit] tracking-[0.02em] !text-[var(--r-ink-faint)] !no-underline transition-colors hover:!text-[var(--r-ink-soft)]';
+const toolsClass = 'reading-shell__tools order-3 ml-auto flex shrink-0 items-center gap-[var(--r-space-xs)] max-[640px]:order-2 max-[640px]:ml-0';
+const ctrlClass = 'reading-shell__ctrl relative inline-flex h-[1.65rem] w-[1.65rem] cursor-pointer items-center justify-center border-0 bg-transparent p-0 leading-none text-[var(--r-ink-soft)] no-underline hover:text-[var(--r-ink)]';
+const iconClass = 'block fill-current';
+const themeIconClass = 'theme-toggle-icon absolute inset-0 inline-flex items-center justify-center leading-none transition-[opacity,transform] duration-[250ms]';
+const footerClass = 'reading-shell__footer mt-[var(--r-space-xl)] flex items-baseline justify-between gap-[var(--r-space-md)] border-t border-[var(--r-rule)] pt-[var(--r-space-md)] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)] max-[640px]:flex-col max-[640px]:items-start max-[640px]:gap-[var(--r-space-sm)]';
+const footerLinksClass = 'reading-shell__footer-links flex flex-1 flex-wrap gap-x-[0.9rem] gap-y-[0.35rem]';
+const footerLinkClass = '![font-size:var(--r-text-xs)] font-normal !text-[var(--r-ink)] hover:!text-[var(--r-ink)]';
+const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] text-[var(--r-ink-faint)] max-[640px]:text-left';
 ---
 
 <Base
@@ -53,66 +67,66 @@ function isActive(href: string) {
 >
 	<slot name="head" slot="head" />
 
-	<div class="reading-shell">
-		<header class="reading-shell__header">
-			<a href="/" class="reading-shell__brand" aria-label={`${SITE_TITLE} 首页`}>
+	<div class={shellClass}>
+		<header class={headerClass}>
+			<a href="/" class={brandClass} aria-label={`${SITE_TITLE} 首页`}>
 				LynkXu
 			</a>
 
-			<nav class="reading-shell__nav" aria-label="主导航">
+			<nav class={navClass} aria-label="主导航">
 				{navItems.map((item) => (
-					<a href={item.href} class:list={[{ active: isActive(item.href) }]}>
+					<a href={item.href} class:list={[navLinkClass, { active: isActive(item.href) }, isActive(item.href) && '!text-[var(--r-ink-soft)]']}>
 						{item.label}
 					</a>
 				))}
 			</nav>
 
-			<div class="reading-shell__tools">
+			<div class={toolsClass}>
 				<button
 					id="search-fab"
-					class="reading-shell__ctrl"
+					class={ctrlClass}
 					type="button"
 					aria-label="搜索文章"
 					aria-keyshortcuts="Meta+K Control+K"
 					title="搜索 ⌘K"
 				>
 					<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-						<path d="M10.5 3a7.5 7.5 0 0 1 5.93 12.1l3.74 3.73a1 1 0 0 1-1.42 1.42l-3.73-3.74A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"></path>
+						<path class={iconClass} d="M10.5 3a7.5 7.5 0 0 1 5.93 12.1l3.74 3.73a1 1 0 0 1-1.42 1.42l-3.73-3.74A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"></path>
 					</svg>
 				</button>
 				<button
 					id="theme-toggle-fab"
-					class="reading-shell__ctrl reading-shell__ctrl--theme"
+					class={`${ctrlClass} reading-shell__ctrl--theme`}
 					type="button"
 					aria-label="切换深色模式"
 					aria-pressed="false"
 					title="切换主题"
 				>
-					<span class="theme-toggle-icon theme-toggle-icon--moon" aria-hidden="true">
+					<span class={`${themeIconClass} theme-toggle-icon--moon opacity-100 rotate-0 scale-100`} aria-hidden="true">
 						<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-							<path d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"></path>
+							<path class={iconClass} d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"></path>
 						</svg>
 					</span>
-					<span class="theme-toggle-icon theme-toggle-icon--sun" aria-hidden="true">
+					<span class={`${themeIconClass} theme-toggle-icon--sun pointer-events-none rotate-90 scale-[0.55] opacity-0`} aria-hidden="true">
 						<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-							<path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1 2h-2l1-2Zm0 20-1-2h2l-1 2ZM2 13l2-1v2l-2-1Zm20-1 2 1-2 1v-2ZM4.22 19.78l1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41Zm14.14-14.14 1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41ZM4.22 4.22 5.64 5.64 4.22 7.05 2.81 5.64 4.22 4.22Zm14.14 14.14 1.42 1.42-1.42 1.41-1.41-1.41 1.41-1.42Z"></path>
+							<path class={iconClass} d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1 2h-2l1-2Zm0 20-1-2h2l-1 2ZM2 13l2-1v2l-2-1Zm20-1 2 1-2 1v-2ZM4.22 19.78l1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41Zm14.14-14.14 1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41ZM4.22 4.22 5.64 5.64 4.22 7.05 2.81 5.64 4.22 4.22Zm14.14 14.14 1.42 1.42-1.42 1.41-1.41-1.41 1.41-1.42Z"></path>
 						</svg>
 					</span>
 				</button>
 			</div>
 		</header>
 
-		<main class="reading-shell__main">
+		<main class="reading-shell__main min-w-0 flex-1">
 			<slot />
 		</main>
 
-		<footer class="reading-shell__footer">
-			<div class="reading-shell__footer-links" aria-label="专题与订阅">
+		<footer class={footerClass}>
+			<div class={footerLinksClass} aria-label="专题与订阅">
 				{featureLinks.map((item) => (
-					<a href={item.href}>{item.label}</a>
+					<a href={item.href} class={footerLinkClass}>{item.label}</a>
 				))}
 			</div>
-			<p class="reading-shell__copy">
+			<p class={copyClass}>
 				© {new Date().getFullYear()} LynkXu
 			</p>
 		</footer>
