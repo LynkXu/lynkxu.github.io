@@ -52,7 +52,8 @@ test('reading surface root typography is isolated from global body styles', () =
 test('reading surface dividers share a quiet hairline style', () => {
   const tailwind = read('src/styles/tailwind.css');
 
-  assert.match(tailwind, /--r-divider:\s*rgba\(0,\s*0,\s*0,\s*0\.05\);/);
+  assert.match(tailwind, /--r-divider:\s*rgba\(0,\s*0,\s*0,\s*0\.075\);/);
+  assert.match(tailwind, /--r-divider:\s*rgba\(255,\s*255,\s*255,\s*0\.11\);/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*margin-top:\s*var\(--r-space-xl\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*padding-top:\s*var\(--r-space-md\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*border-top-color:\s*var\(--r-divider\)\s*!important;/);
