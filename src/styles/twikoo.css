@@ -2472,6 +2472,7 @@
 /* Final quiet guestbook overrides. Keep these after Twikoo/Element UI defaults. */
 #twikoo {
   font-family: var(--ui-font);
+  color: var(--text-color);
 }
 
 #twikoo .tk-submit,
@@ -2482,34 +2483,55 @@
 }
 
 #twikoo .tk-submit {
-  margin-bottom: 1.2rem;
-  padding: clamp(0.72rem, 1.5vw, 0.9rem);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-sm);
   border: 1px solid var(--paper-card-border-soft);
   border-radius: var(--paper-card-radius);
-  background: color-mix(in oklab, var(--paper-card-bg-soft) 76%, transparent);
+  background: color-mix(in oklab, var(--paper-card-bg-soft) 70%, transparent);
+  transition:
+    border-color 0.24s ease,
+    background-color 0.24s ease,
+    box-shadow 0.24s ease;
+}
+
+#twikoo .tk-submit:focus-within {
+  border-color: var(--paper-hover-border);
+  background: color-mix(in oklab, var(--paper-card-bg-soft) 88%, var(--content-bg));
+  box-shadow: 0 1px 0 color-mix(in oklab, var(--ink-accent) 18%, transparent);
 }
 
 #twikoo .tk-input .el-textarea__inner {
-  height: 5.4rem !important;
-  padding: 0.2rem 0.1rem 0.42rem;
+  height: 4.9rem !important;
+  padding: 0.1rem 0.05rem 0.34rem;
   border: 0;
   background-color: transparent;
   font-family: var(--ui-font);
-  font-size: 0.9rem;
-  line-height: 1.55;
+  font-size: 0.86rem;
+  line-height: 1.62;
 }
 
 #twikoo .tk-meta-input {
-  gap: 0.5rem;
-  margin-top: 0.45rem;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
 }
 
 #twikoo .tk-meta-input .el-input {
   width: auto;
   margin-left: 0;
-  border-radius: var(--paper-card-radius);
-  background: color-mix(in oklab, var(--paper-field-bg) 78%, var(--paper-card-bg));
-  overflow: hidden;
+  border: 0;
+  border-bottom: 1px solid var(--paper-card-border-soft);
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+  transition:
+    border-color 0.22s ease,
+    color 0.22s ease;
+}
+
+#twikoo .tk-meta-input .el-input:hover,
+#twikoo .tk-meta-input .el-input:focus-within {
+  border-color: var(--paper-hover-border);
+  background: transparent;
 }
 
 #twikoo .tk-meta-input .el-input + .el-input {
@@ -2517,36 +2539,110 @@
 }
 
 #twikoo .tk-meta-input .el-input-group__prepend {
-  padding: 0 0 0 0.58rem;
+  padding: 0 0.42rem 0 0;
   border: 0;
   background: transparent;
-  color: var(--gray-color);
+  color: var(--heading-color);
   font-family: var(--ui-font);
   font-size: 0.78rem;
+  font-weight: var(--weight-medium);
 }
 
 #twikoo .tk-meta-input .el-input__inner {
   height: 2rem;
-  padding: 0 0.58rem;
+  padding: 0;
   border: 0;
   background: transparent;
   font-family: var(--ui-font);
   font-size: 0.78rem;
 }
 
+#twikoo .tk-row.actions {
+  margin-top: var(--space-xs);
+}
+
+#twikoo .tk-submit-action-icon {
+  color: var(--gray-color);
+  opacity: 0.78;
+  transition:
+    color 0.22s ease,
+    opacity 0.22s ease;
+}
+
+#twikoo .tk-submit-action-icon:hover {
+  color: var(--link-color);
+  opacity: 1;
+}
+
+#twikoo .el-button {
+  padding: 0.46rem 0.68rem;
+  border-radius: var(--paper-card-radius);
+  font-family: var(--ui-font);
+  font-size: 0.76rem;
+  font-weight: var(--weight-medium);
+  transition:
+    border-color 0.22s ease,
+    background-color 0.22s ease,
+    color 0.22s ease,
+    opacity 0.22s ease;
+}
+
+#twikoo .el-button + .el-button {
+  margin-left: var(--space-xs);
+}
+
+#twikoo .el-button:not(.el-button--primary):not(.el-button--text) {
+  color: var(--gray-color);
+  background: transparent;
+  border-color: var(--paper-card-border-soft);
+}
+
+#twikoo .el-button:not(.el-button--primary):not(.el-button--text):active,
+#twikoo .el-button:not(.el-button--primary):not(.el-button--text):focus,
+#twikoo .el-button:not(.el-button--primary):not(.el-button--text):hover {
+  color: var(--link-color);
+  background: var(--paper-hover-bg);
+  border-color: var(--paper-hover-border);
+}
+
+#twikoo .el-button--primary {
+  color: var(--content-bg);
+  background: color-mix(in oklab, var(--accent-color) 82%, var(--heading-color));
+  border-color: transparent;
+}
+
+#twikoo .el-button--primary:active,
+#twikoo .el-button--primary:focus,
+#twikoo .el-button--primary:hover {
+  color: var(--content-bg);
+  background: color-mix(in oklab, var(--accent-color) 72%, var(--heading-color));
+  border-color: transparent;
+}
+
+#twikoo .el-button--primary.is-disabled,
+#twikoo .el-button--primary.is-disabled:active,
+#twikoo .el-button--primary.is-disabled:focus,
+#twikoo .el-button--primary.is-disabled:hover {
+  color: color-mix(in oklab, var(--content-bg) 72%, transparent);
+  background: color-mix(in oklab, var(--accent-color) 48%, var(--paper-card-border));
+  border-color: transparent;
+}
+
 #twikoo .tk-comments-container > .tk-comment {
   margin-top: 0;
-  padding: 0.95rem 0;
+  padding: var(--space-md) 0;
+  border-top: 1px solid var(--paper-card-border-soft);
   border-bottom: 0;
+  word-break: normal;
 }
 
 #twikoo .tk-replies .tk-comment {
   border-left: none;
-  padding: 0.18rem 0 0;
+  padding: var(--space-2xs) 0 0;
 }
 
 #twikoo .tk-comments-title {
-  margin: 0.4rem 0 0.22rem;
+  margin: 0 0 var(--space-xs);
   padding: 0;
   border-bottom: 0;
   color: var(--heading-color);
@@ -2562,6 +2658,7 @@
 
 #twikoo .tk-avatar {
   border-radius: var(--paper-card-radius);
+  background-color: color-mix(in oklab, var(--faint-color) 14%, transparent);
 }
 
 #twikoo .tk-main {
@@ -2569,7 +2666,9 @@
 }
 
 #twikoo .tk-meta {
-  gap: 0.34rem;
+  gap: var(--space-2xs);
+  align-items: baseline;
+  word-break: normal;
 }
 
 #twikoo .tk-meta .tk-nick {
@@ -2581,16 +2680,23 @@
 #twikoo .tk-time {
   color: var(--gray-color);
   font-size: 0.72rem;
+  white-space: nowrap;
+  word-break: normal;
 }
 
 #twikoo .tk-content {
   color: var(--text-color);
   font-size: 0.84rem;
-  line-height: 1.58;
+  line-height: 1.66;
+  overflow-wrap: anywhere;
+}
+
+#twikoo .tk-content p {
+  margin: 0.18rem 0 0;
 }
 
 #twikoo .tk-replies {
-  margin-top: 0.38rem;
+  margin-top: var(--space-xs);
   padding-left: 0;
 }
 
@@ -2619,12 +2725,64 @@
   color: var(--faint-color);
 }
 
+#twikoo .tk-footer {
+  color: var(--gray-color);
+  font-family: var(--ui-font);
+  font-size: 0.74rem;
+}
+
+#twikoo .tk-footer a {
+  color: var(--link-color);
+}
+
 @media screen and (max-width: 767px) {
+  #twikoo .tk-submit {
+    padding: var(--space-xs);
+  }
+
+  #twikoo .tk-input .el-textarea__inner {
+    min-height: 4.7rem !important;
+  }
+
   #twikoo .tk-meta-input {
-    gap: 0.42rem;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-xs);
+  }
+
+  #twikoo .tk-meta-input .el-input {
+    min-width: 0;
   }
 
   #twikoo .tk-meta-input .el-input + .el-input {
     margin-top: 0;
+  }
+
+  #twikoo .tk-meta-input .el-input-group__prepend {
+    padding-left: 0.46rem;
+    font-size: 0.72rem;
+  }
+
+  #twikoo .tk-meta-input .el-input__inner {
+    padding: 0 0.42rem;
+    font-size: 0.72rem;
+  }
+
+  #twikoo .tk-row.actions {
+    align-items: center;
+  }
+
+  #twikoo .el-button {
+    min-height: 2.25rem;
+    padding: 0.52rem 0.68rem;
+  }
+
+  #twikoo .tk-comments-title {
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+
+  #twikoo .tk-comments-container > .tk-comment {
+    padding: var(--space-sm) 0;
   }
 }
