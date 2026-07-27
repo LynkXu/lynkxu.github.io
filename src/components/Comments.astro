@@ -68,6 +68,28 @@ const twikooAuthors = ['lynkxu'];
 			'https://cdn.jsdelivr.net/npm/twikoo@1.7.14/dist/twikoo.nocss.js',
 		];
 
+		function getTwikooManualLoadKey() {
+			return `twikoo:manual-loaded:${window.location.pathname || '/'}`;
+		}
+
+		function hasRememberedTwikooManualLoad() {
+			if (!manualTwikooLoad) return false;
+			try {
+				return window.sessionStorage?.getItem(getTwikooManualLoadKey()) === 'true';
+			} catch {
+				return false;
+			}
+		}
+
+		function rememberTwikooManualLoad() {
+			if (!manualTwikooLoad) return;
+			try {
+				window.sessionStorage?.setItem(getTwikooManualLoadKey(), 'true');
+			} catch {
+				// sessionStorage may be unavailable in strict privacy contexts.
+			}
+		}
+
 		function getTwikooElements() {
 			return {
 				shell: document.querySelector('.twikoo-shell'),
@@ -271,6 +293,7 @@ const twikooAuthors = ['lynkxu'];
 					});
 					observeTwikooChanges();
 					twikooActivated = true;
+					rememberTwikooManualLoad();
 					setTwikooLazyState('loaded');
 					if (source === 'compose') {
 						focusTwikooEditor();
@@ -359,6 +382,15 @@ const twikooAuthors = ['lynkxu'];
 			setTimeout(async () => {
 				if (manualTwikooLoad) {
 					bindTwikooManualTrigger();
+					if (hasRememberedTwikooManualLoad()) {
+						setTwikooLazyState('loading');
+						try {
+							await initTwikoo(true);
+						} catch (error) {
+							console.error(error);
+							setTwikooLazyState('error', '加载失败，重试');
+						}
+					}
 					isInitializing = false;
 					return;
 				}

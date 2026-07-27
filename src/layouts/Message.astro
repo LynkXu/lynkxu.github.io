@@ -8,6 +8,7 @@ type Props = CollectionEntry<'page'>['data'] & {
 };
 
 const { title } = Astro.props;
+const useMessageTwikooLazyLoad = false;
 const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 const messageIntroClass = 'r-message__intro mt-[-0.75rem] mb-[var(--r-space-lg)] [font-family:var(--r-font-body)] [font-size:1rem] leading-[1.7] text-[var(--r-ink-soft)]';
 const messageCommentsClass = [
@@ -31,7 +32,7 @@ const messageCommentsClass = [
 		<h1 id="message-title" class={pageTitleClass}>留言</h1>
 		<p class={messageIntroClass}>有什么想说的，或只是路过打个招呼，都可以留在这里。</p>
 		<div class={messageCommentsClass}>
-			<Comments showLinuxDo={false} manualTwikooLoad={true} />
+			<Comments showLinuxDo={false} manualTwikooLoad={useMessageTwikooLazyLoad} />
 		</div>
 	</section>
 </ReadingShell>
