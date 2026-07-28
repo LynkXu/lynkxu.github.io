@@ -210,7 +210,7 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
   assert.match(blogPost, /r-toc group mt-\[0\.2rem\] mb-\[var\(--r-space-md\)\]/);
   assert.match(blogPost, /\[&_\.toc-container\]:mt-\[0\.5rem\]/);
   assert.match(blogPost, /\[&_\.toc-container\]:pl-\[1\.05rem\]/);
-  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center border-l border-l-\[var\(--r-rule\)\] bg-\[color-mix\(in_oklab,var\(--r-rule-soft\)_34%,transparent\)\]/);
+  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center select-none border-l border-l-\[var\(--r-rule\)\] bg-\[color-mix\(in_oklab,var\(--r-rule-soft\)_34%,transparent\)\]/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-container\s*\{[\s\S]*padding-left:\s*1\.05rem\s*!important;/);
