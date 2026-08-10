@@ -142,6 +142,174 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 609146269581887000,
+      "item": {
+        "type": "Movie",
+        "title": "All Wishes Come True!",
+        "description": "Eight grassroot mortals use their street smarts and hilarious schemes to defy powerful gods, earning their title as the \"Eight Immortals.\"",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "八仙！"
+          },
+          {
+            "lang": "en",
+            "text": "All Wishes Come True!"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "八仙之瞒天过海"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "en",
+            "text": "Eight grassroot mortals use their street smarts and hilarious schemes to defy powerful gods, earning their title as the \"Eight Immortals.\""
+          },
+          {
+            "lang": "zh-cn",
+            "text": "该片以中国传统神话“八仙过海”为灵感原点，讲述了八个出身草根的凡人在面对强大的反派神仙时，凭借机智与民间智慧巧妙周旋，最终战胜强敌，被世人赞颂为“八仙”的故事。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "2026年暑期档必看动画奇幻巨制，国民喜剧大片！影片以家喻户晓的传统民间故事“八仙过海”为灵感进行创新性改编，金牌班底脑洞大开，蓬莱仙境上演凡人斗神仙精彩好戏，组团观影共赴好运之约！\r\n面对十辈子都花不完的财富，你敢不敢赌上一切搏一回？吕洞宾、钟离权带队，集结何仙姑、铁拐李、韩湘子、曹国舅、蓝采和与张果老，八个身份各异的凡人因不同机缘稀里糊涂凑在了蓬莱仙境，有人临时起意有人开团秒跟，他们假扮神仙花式作死准备干票大的！一场蓄谋已久的“成仙”骗局正式上演！假神仙的身份下，是滚烫的暴富野心；草台班子的外壳里，藏着瞒天过海的胆识。怎料一个惊天阴谋正悄咪咪朝他们砸过来，这场啼笑皆非的奇幻之旅，最终会走向何处呢?"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/07/14/51994191-44f0-49a9-b91a-ec9978226bd2.webp",
+        "rating": 7.4,
+        "rating_count": 63,
+        "rating_distribution": [
+          2,
+          2,
+          19,
+          55,
+          22
+        ],
+        "tags": null,
+        "brief": "Eight grassroot mortals use their street smarts and hilarious schemes to defy powerful gods, earning their title as the \"Eight Immortals.\"",
+        "id": "https://neodb.social/movie/5TTMVeHIkg4ZGn3vBj07nV",
+        "uuid": "5TTMVeHIkg4ZGn3vBj07nV",
+        "url": "/movie/5TTMVeHIkg4ZGn3vBj07nV",
+        "api_url": "/api/movie/5TTMVeHIkg4ZGn3vBj07nV",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "All Wishes Come True!",
+        "external_resources": [
+          {
+            "url": "https://www.themoviedb.org/movie/1633056"
+          },
+          {
+            "url": "https://bgm.tv/subject/492481"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt43515101/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36882191/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "李绍哲",
+            "character_name": "",
+            "person_url": "/api/people/6fkB6Z1IrOWUbI3rcYx2JS"
+          },
+          {
+            "role": "actor",
+            "name": "陈浩",
+            "character_name": "",
+            "person_url": "/api/people/5hOpeP9et5h9PCb3zsVfHU"
+          },
+          {
+            "role": "actor",
+            "name": "立冬",
+            "character_name": "",
+            "person_url": "/api/people/1Tuu4iWUD08ErLJOBa4NAS"
+          },
+          {
+            "role": "actor",
+            "name": "果子哥哥",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "董天弋",
+            "character_name": "",
+            "person_url": "/api/people/155fKUWQETrqijzLsNRZBk"
+          },
+          {
+            "role": "actor",
+            "name": "喻鹏力",
+            "character_name": "",
+            "person_url": "/api/people/6CR8MaPGODqzF9ybI6mc7S"
+          },
+          {
+            "role": "actor",
+            "name": "黄豫硕",
+            "character_name": "",
+            "person_url": "/api/people/5N5ITe3JR1rgciWmpZ39kA"
+          },
+          {
+            "role": "actor",
+            "name": "张运气",
+            "character_name": "",
+            "person_url": "/api/people/2tOFUstvvW6QPxbB6Q80Lv"
+          },
+          {
+            "role": "actor",
+            "name": "曹知善",
+            "character_name": "",
+            "person_url": "/api/people/4uk8IiEE8zYZ4tan1AIsqY"
+          },
+          {
+            "role": "actor",
+            "name": "邓先森",
+            "character_name": "",
+            "person_url": "/api/people/4agYe5GAywZLjwS4kkDX15"
+          },
+          {
+            "role": "actor",
+            "name": "零柒",
+            "character_name": "",
+            "person_url": "/api/people/024z6K6dIkzScrGb3TNiD9"
+          },
+          {
+            "role": "actor",
+            "name": "韩雨泽",
+            "character_name": "",
+            "person_url": "/api/people/0LhPzCWFpX6caMZdnoCP4Q"
+          },
+          {
+            "role": "actor",
+            "name": "张天宇",
+            "character_name": "",
+            "person_url": "/api/people/7c8DLjcn4LBOuNbDBbHekW"
+          },
+          {
+            "role": "director",
+            "name": "牟正洋",
+            "character_name": "",
+            "person_url": "/api/people/6OQEysvRMB2Z97sUCnNKT9"
+          },
+          {
+            "role": "playwright",
+            "name": "牟正洋",
+            "character_name": "",
+            "person_url": "/api/people/6OQEysvRMB2Z97sUCnNKT9"
+          }
+        ]
+      },
+      "created_time": "2026-08-09T05:09:47.982Z",
+      "comment_text": null,
+      "rating_grade": 8,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 576638380007761300,
       "item": {
         "type": "Movie",
