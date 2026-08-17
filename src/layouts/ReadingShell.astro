@@ -39,8 +39,8 @@ function isActive(href: string) {
 	return current === target || current.startsWith(`${target}/`);
 }
 
-const shellClass = 'reading-shell mx-auto flex min-h-screen w-[min(calc(100%_-_var(--r-page-inline)_*_2),var(--r-measure))] flex-col pt-[var(--r-space-lg)] pb-[var(--r-space-2xl)]';
-const headerClass = 'reading-shell__header mb-[calc(var(--r-space-xl)+var(--r-space-md))] flex flex-wrap items-center gap-x-0 gap-y-[var(--r-space-sm)] max-[640px]:grid max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-[var(--r-space-sm)]';
+const shellClass = 'reading-shell mx-auto flex min-h-screen w-[min(calc(100%_-_var(--r-page-inline)_*_2),var(--r-measure))] flex-col pt-[clamp(1.1rem,2.4vw,1.25rem)] pb-[var(--r-space-2xl)]';
+const headerClass = "reading-shell__header relative mb-[var(--r-space-xl)] flex flex-wrap items-center gap-x-0 gap-y-[var(--r-space-sm)] pb-[clamp(1.1rem,2.4vw,1.25rem)] after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-screen after:-translate-x-1/2 after:bg-[var(--r-rule)] after:content-[''] max-[640px]:grid max-[640px]:grid-cols-[1fr_auto] max-[640px]:gap-x-[var(--r-space-sm)]";
 const brandClass = 'reading-shell__brand order-1 mr-[clamp(1.15rem,2.8vw,1.65rem)] shrink-0 !border-b-0 [font-family:var(--r-font-brand)] text-[clamp(1.42rem,2.7vw,1.72rem)] font-semibold leading-none tracking-[-0.015em] !text-[var(--r-ink)] !no-underline hover:!border-b-0 hover:!text-[var(--r-ink)] focus-visible:!border-b-0 active:!border-b-0 max-[640px]:mr-0 max-[640px]:text-[1.4rem]';
 const navClass = 'reading-shell__nav order-2 flex min-w-0 flex-1 flex-wrap items-center justify-start gap-x-[var(--r-space-md)] gap-y-[var(--r-space-xs)] [font-family:var(--r-font-ui)] text-[0.84rem] leading-[1.2] tracking-[0.02em] max-[640px]:order-3 max-[640px]:col-span-2 max-[640px]:w-full max-[640px]:flex-none';
 const navLinkClass = '!border-b-0 p-0 [font-family:var(--r-font-ui)] text-[0.84rem] font-normal leading-[inherit] tracking-[0.02em] !text-[var(--r-ink-faint)] !no-underline transition-colors hover:!text-[var(--r-ink-soft)]';

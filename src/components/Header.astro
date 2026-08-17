@@ -3,7 +3,7 @@ import { SITE_TITLE } from '../consts';
 import HeaderLink from './HeaderLink.astro';
 ---
 
-<header class='mb-[clamp(var(--space-xl),5vw,var(--space-2xl))] grid gap-[0.85rem] border-0 pb-[0.75rem] pt-[0.15rem] max-[600px]:mb-[var(--space-xl)] max-[600px]:flex max-[600px]:flex-col max-[600px]:justify-center max-[600px]:gap-[var(--space-md)] md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:gap-[clamp(2rem,7vw,5.5rem)]'>
+<header class='mb-[clamp(var(--space-lg),4vw,var(--space-xl))] grid gap-[0.85rem] border-0 border-b border-[var(--paper-card-border-soft)] pb-[0.75rem] pt-[0.15rem] max-[600px]:mb-[var(--space-xl)] max-[600px]:flex max-[600px]:flex-col max-[600px]:justify-center max-[600px]:gap-[var(--space-md)] md:grid-cols-[auto_minmax(0,1fr)] md:items-start md:gap-[clamp(2rem,7vw,5.5rem)]'>
 	<div class='title min-w-0 max-[600px]:w-full max-[600px]:text-center'>
 		<a href='/' class='site-home inline-flex max-w-full items-center border-b-0 no-underline hover:border-b-0 hover:bg-transparent hover:no-underline focus-visible:border-b-0 active:border-b-0' aria-label={SITE_TITLE}>
 			<span class='site-wordmark inline-flex max-w-full items-baseline gap-[0.36rem] text-[var(--heading-color)]' aria-hidden='true'>
