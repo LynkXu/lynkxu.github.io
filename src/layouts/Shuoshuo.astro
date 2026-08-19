@@ -11,7 +11,8 @@ type Props = CollectionEntry<'page'>['data'] & {
 };
 
 const { title } = Astro.props;
-const pageTitleClass = 'r-page-title r-memos__title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const pageTitleClass = 'r-page-title r-memos__title !m-0 !mb-[var(--r-space-xs)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const pageNoteClass = 'r-memos__note m-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.6] text-[var(--r-ink-faint)]';
 
 const gossips = await getAllGossips();
 
@@ -64,6 +65,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	<section class="r-memos" aria-labelledby="memos-title">
 		<header class="r-memos__head">
 			<h1 id="memos-title" class={pageTitleClass}>碎语</h1>
+			<p class={pageNoteClass}>偶尔记录一些不值得写成长文的瞬间。</p>
 		</header>
 
 		<div id="shuoshuo">
@@ -77,42 +79,55 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 								const { gossip, attachments, dateLabel, time, index } = item;
 								return (
 									<article class="r-memo" data-index={index} role="listitem">
-										<header class="r-memo__meta">
-											<time datetime={gossip.data.pubDate.toISOString()}>
-												<span class="r-memo__date">{dateLabel}</span>
+										<img
+											class="r-memo__avatar"
+											src="/avatar-112.webp"
+											alt=""
+											width="112"
+											height="112"
+											loading={index === 0 ? 'eager' : 'lazy'}
+											decoding="async"
+										/>
+
+										<div class="r-memo__panel">
+											<header class="r-memo__meta">
+												<span class="r-memo__author">LynkXu</span>
 												<span class="r-memo__sep" aria-hidden="true">·</span>
-												<span class="r-memo__time">{time}</span>
-											</time>
-											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-												<span class="r-memo__tag">{gossip.data.tag}</span>
-											)}
-											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
-											<span class="r-memo__like">
-												<LikeButton id={gossip.data.slug} type="gossip" />
-											</span>
-										</header>
+												<time datetime={gossip.data.pubDate.toISOString()}>
+													<span class="r-memo__date">{dateLabel}</span>
+													<span class="r-memo__time">{time}</span>
+												</time>
+												{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+													<span class="r-memo__tag">{gossip.data.tag}</span>
+												)}
+												{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
+												<span class="r-memo__like">
+													<LikeButton id={gossip.data.slug} type="gossip" />
+												</span>
+											</header>
 
-										<div class="r-memo__content">
-											<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
+											<div class="r-memo__content">
+												<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
-											{attachments.length > 0 && (
-												<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-													{attachments.slice(0, 4).map((media: any) => (
-														<a
-															href={media.url}
-															class="media-item"
-															data-src={media.url}
-															data-sub-html={media.description}
-														>
-															<img
-																src={media.preview_url || media.url}
-																alt={media.description || ''}
-																loading="lazy"
-															/>
-														</a>
-													))}
-												</div>
-											)}
+												{attachments.length > 0 && (
+													<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
+														{attachments.slice(0, 4).map((media: any) => (
+															<a
+																href={media.url}
+																class="media-item"
+																data-src={media.url}
+																data-sub-html={media.description}
+															>
+																<img
+																	src={media.preview_url || media.url}
+																	alt={media.description || ''}
+																	loading="lazy"
+																/>
+															</a>
+														))}
+													</div>
+												)}
+											</div>
 										</div>
 									</article>
 								);
@@ -222,4 +237,3 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		});
 	})();
 </script>
-
