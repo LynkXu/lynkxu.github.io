@@ -205,6 +205,7 @@ body.reading-surface {
   --r-space-lg: 1.75rem;
   --r-space-xl: 2.75rem;
   --r-space-2xl: 4rem;
+  --r-header-block-space: clamp(0.9rem, 2vw, 1rem);
   /* Match the global reading stack so Chinese text keeps one consistent voice. */
   --r-font-body: "Literata", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
   --r-font-brand: "Petrona", "Noto Serif SC", "Songti SC", serif;
