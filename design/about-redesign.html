@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>About · LynkXu</title>
+  <style>
+    :root {
+      --bg: #fff;
+      --surface: #f7f7f4;
+      --ink: #292a2d;
+      --ink-soft: #5d5f62;
+      --ink-faint: #898b8d;
+      --link: #455f77;
+      --rule: rgba(41, 42, 45, 0.14);
+      --rule-soft: rgba(41, 42, 45, 0.09);
+      --serif: "Literata", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+      --ui: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      --measure: 64ch;
+      --page-inline: clamp(1.25rem, 4vw, 2rem);
+      --space-xs: 0.4rem;
+      --space-sm: 0.7rem;
+      --space-md: 1rem;
+      --space-lg: 1.75rem;
+      --space-xl: 2.75rem;
+      --space-2xl: 4rem;
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #17191d;
+      --surface: #1d2024;
+      --ink: #e9e8e3;
+      --ink-soft: #b9b8b3;
+      --ink-faint: #858681;
+      --link: #aebfd1;
+      --rule: rgba(233, 232, 227, 0.15);
+      --rule-soft: rgba(233, 232, 227, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+    }
+
+    body {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      line-height: 1.82;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: transparent;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.23em;
+      transition: color 180ms ease, text-decoration-color 180ms ease;
+    }
+
+    a:hover {
+      color: var(--link);
+      text-decoration-color: currentColor;
+    }
+
+    button,
+    summary {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 1px solid var(--ink-soft);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(calc(100% - var(--page-inline) * 2), var(--measure));
+      min-height: 100vh;
+      margin-inline: auto;
+    }
+
+    .site-header {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: clamp(1.15rem, 3vw, 1.8rem);
+      padding-block: 1rem;
+    }
+
+    .site-header::after {
+      position: absolute;
+      right: 50%;
+      bottom: 0;
+      width: 100vw;
+      height: 1px;
+      background: var(--rule);
+      content: "";
+      transform: translateX(50%);
+    }
+
+    .brand {
+      flex: none;
+      font-size: clamp(1.45rem, 3vw, 1.75rem);
+      font-weight: 650;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+    }
+
+    .site-nav {
+      display: flex;
+      flex: 1;
+      flex-wrap: wrap;
+      gap: 0.45rem 1rem;
+      font-family: var(--ui);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+    }
+
+    .site-nav a {
+      color: var(--ink-faint);
+      text-decoration: none;
+    }
+
+    .site-nav a[aria-current="page"] {
+      color: var(--ink);
+    }
+
+    .header-tools {
+      display: flex;
+      gap: 0.25rem;
+      margin-left: auto;
+    }
+
+    .icon-button {
+      display: inline-grid;
+      width: 1.8rem;
+      height: 1.8rem;
+      padding: 0;
+      place-items: center;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: color 160ms ease, transform 140ms var(--ease-out);
+    }
+
+    .icon-button:hover {
+      color: var(--ink);
+    }
+
+    .icon-button:active {
+      transform: scale(0.96);
+    }
+
+    .icon-button svg {
+      width: 17px;
+      height: 17px;
+      fill: currentColor;
+    }
+
+    main {
+      padding-block: clamp(3rem, 7vw, 4.75rem) var(--space-2xl);
+    }
+
+    .profile {
+      display: grid;
+      grid-template-columns: 4.5rem minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-lg);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .profile img {
+      display: block;
+      width: 4.5rem;
+      height: 4.5rem;
+      border: 1px solid var(--rule-soft);
+      border-radius: 50%;
+      background: var(--surface);
+      object-fit: cover;
+    }
+
+    .profile h1 {
+      margin: 0;
+      font-size: clamp(1.75rem, 4vw, 2.15rem);
+      font-weight: 620;
+      line-height: 1.22;
+      letter-spacing: -0.025em;
+    }
+
+    .profile p {
+      margin: 0.28rem 0 0;
+      color: var(--ink-faint);
+      font-family: var(--ui);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .about-prose {
+      font-size: 1rem;
+      line-height: 1.82;
+    }
+
+    .about-prose > :first-child {
+      margin-top: 0;
+    }
+
+    .about-prose > :last-child {
+      margin-bottom: 0;
+    }
+
+    .about-prose p,
+    .about-prose ul,
+    .about-prose ol,
+    .about-prose blockquote {
+      margin-block: 0 1.15em;
+    }
+
+    .about-prose h2 {
+      margin: 2.2em 0 0.75em;
+      font-size: 1.2rem;
+      font-weight: 620;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+
+    .about-prose h3 {
+      margin: 1.8em 0 0.65em;
+      font-size: 1rem;
+      font-weight: 620;
+      line-height: 1.4;
+    }
+
+    .about-prose ul,
+    .about-prose ol {
+      padding-left: 1.3em;
+    }
+
+    .about-prose li {
+      margin-block: 0.25em;
+      padding-left: 0.2em;
+    }
+
+    .about-prose blockquote {
+      margin-inline: 0;
+      padding-left: var(--space-md);
+      border-left: 2px solid var(--rule);
+      color: var(--ink-soft);
+    }
+
+    .about-prose hr {
+      margin-block: var(--space-xl);
+      border: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .about-prose code {
+      padding: 0.08em 0.3em;
+      border-radius: 2px;
+      background: var(--surface);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.84em;
+    }
+
+    .about-prose a {
+      color: var(--link);
+      text-decoration-color: color-mix(in srgb, var(--link) 45%, transparent);
+    }
+
+    .about-meta {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--rule);
+    }
+
+    .about-meta__title {
+      margin: 0 0 var(--space-lg);
+      color: var(--ink-faint);
+      font-family: var(--ui);
+      font-size: 0.68rem;
+      font-weight: 560;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-xl);
+    }
+
+    .info-group h2 {
+      margin: 0 0 var(--space-sm);
+      font-family: var(--ui);
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .info-list {
+      display: grid;
+      gap: 0.52rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .info-list li,
+    .info-list a {
+      color: var(--ink-soft);
+      font-family: var(--ui);
+      font-size: 0.76rem;
+      line-height: 1.55;
+    }
+
+    .info-list a {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.4rem;
+      text-decoration: none;
+    }
+
+    .info-list a::after {
+      color: var(--ink-faint);
+      content: "↗";
+      font-size: 0.68rem;
+      transition: transform 180ms var(--ease-out);
+    }
+
+    .info-list a:hover::after {
+      transform: translate(2px, -2px);
+    }
+
+    .info-folds {
+      margin-top: var(--space-xl);
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    details {
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-block: 0.8rem;
+      color: var(--ink-soft);
+      font-family: var(--ui);
+      font-size: 0.74rem;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      color: var(--ink-faint);
+      content: "+";
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    .timeline {
+      display: grid;
+      gap: 0.62rem;
+      margin: 0;
+      padding: 0 0 var(--space-lg);
+      list-style: none;
+    }
+
+    .timeline li {
+      display: grid;
+      grid-template-columns: 4.2rem minmax(0, 1fr);
+      gap: var(--space-md);
+      color: var(--ink-soft);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .timeline time {
+      color: var(--ink-faint);
+      font-family: var(--ui);
+      font-size: 0.68rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .fold-copy {
+      margin: 0;
+      padding: 0 0 var(--space-lg);
+      color: var(--ink-soft);
+      font-family: var(--ui);
+      font-size: 0.76rem;
+    }
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-block: var(--space-lg);
+      border-top: 1px solid var(--rule);
+      color: var(--ink-faint);
+      font-family: var(--ui);
+      font-size: 0.68rem;
+    }
+
+    .site-footer nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.9rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 1rem;
+      }
+
+      .site-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+      }
+
+      .site-nav {
+        grid-column: 1 / -1;
+        grid-row: 2;
+      }
+
+      .header-tools {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      main {
+        padding-top: 2.75rem;
+      }
+
+      .profile {
+        grid-template-columns: 3.75rem minmax(0, 1fr);
+        gap: var(--space-md);
+      }
+
+      .profile img {
+        width: 3.75rem;
+        height: 3.75rem;
+      }
+
+      .info-grid {
+        gap: var(--space-lg);
+      }
+
+      .site-footer {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="LynkXu 首页">LynkXu</a>
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#">归档</a>
+        <a href="#">碎语</a>
+        <a href="#">留言</a>
+        <a href="#" aria-current="page">关于</a>
+      </nav>
+      <div class="header-tools">
+        <button class="icon-button" type="button" aria-label="搜索文章" title="搜索">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M10.5 3a7.5 7.5 0 0 1 5.93 12.1l3.74 3.73a1 1 0 0 1-1.42 1.42l-3.73-3.74A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/>
+          </svg>
+        </button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="切换深色模式" title="切换主题">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <header class="profile">
+        <img src="https://images.lynkxu.com/avatar-224.webp" alt="" width="112" height="112">
+        <div>
+          <h1>About</h1>
+          <p>Lynk Xu · 全栈工程师 · 上海</p>
+        </div>
+      </header>
+
+      <!-- 实际实现时，这一区域直接渲染 about.mdx 的 <slot />。 -->
+      <article class="about-prose">
+        <p>我是 Lynk，一名全栈工程师。</p>
+
+        <p>
+          曾用名 Link，因为这也是一个普通的英文单词，容易造成困惑，就改成了现在的名字。
+        </p>
+
+        <p>
+          初中和高中沉迷折腾安卓手机。上大学选专业时只考虑了通信和计算机，最后被录取到计算机专业。
+        </p>
+
+        <p>
+          因为喜欢上海，大学毕业后来上海读研究生，毕业后留在这里工作。考研用了两年，但这是我做过最不后悔的决定之一。
+        </p>
+
+        <h2>最近</h2>
+
+        <p>工作之余对新鲜事物比较感兴趣，最近主要在尝试 AI 和马拉松相关的内容。</p>
+
+        <ul>
+          <li>力量训练、跑步、骑行和散步</li>
+          <li>尝试新的 APP 和 AI 产品</li>
+          <li>偶尔拍照，记录旅行和日常</li>
+        </ul>
+
+        <blockquote>
+          这里会写技术、运动、摄影、旅行、书影音和一些零散想法。
+        </blockquote>
+      </article>
+
+      <aside class="about-meta" aria-labelledby="more-title">
+        <h2 class="about-meta__title" id="more-title">More</h2>
+
+        <div class="info-grid">
+          <section class="info-group" aria-labelledby="contact-title">
+            <h2 id="contact-title">联系</h2>
+            <ul class="info-list">
+              <li><a href="mailto:xulinxiao@live.com">xulinxiao#live.com</a></li>
+              <li><a href="https://github.com/LynkXu" target="_blank" rel="noreferrer">GitHub · @LynkXu</a></li>
+            </ul>
+          </section>
+
+          <section class="info-group" aria-labelledby="elsewhere-title">
+            <h2 id="elsewhere-title">也在这里</h2>
+            <ul class="info-list">
+              <li><a href="#">摄影</a></li>
+              <li><a href="#">运动记录</a></li>
+              <li><a href="#">书影音</a></li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="info-folds">
+          <details>
+            <summary>博客时间线</summary>
+            <ol class="timeline">
+              <li><time>2026.01</time><span>购买 lynkxu.com，自建主题，接入 Memos 等数据流</span></li>
+              <li><time>2025.06</time><span>使用 Astro + Astro Theme Pure</span></li>
+              <li><time>2023.06</time><span>使用 Gatsby + Breeze Theme</span></li>
+              <li><time>2020.09</time><span>使用 GitHub Pages + Hexo</span></li>
+              <li><time>2016.07</time><span>使用 WordPress 开始搭建博客</span></li>
+            </ol>
+          </details>
+          <details>
+            <summary>赞助</summary>
+            <p class="fold-copy">微信、支付宝或 Crypto。</p>
+          </details>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="site-footer">
+      <nav aria-label="专题与订阅">
+        <a href="#">摄影</a>
+        <a href="#">书影音</a>
+        <a href="#">旅行</a>
+        <a href="#">运动</a>
+        <a href="#">工具</a>
+        <a href="#">RSS</a>
+      </nav>
+      <span>© 2026 LynkXu</span>
+    </footer>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.querySelector("#theme-toggle");
+    const darkIcon = '<path d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"/>';
+    const lightIcon = '<path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1 2h-2l1-2Zm0 20-1-2h2l-1 2ZM2 13l2-1v2l-2-1Zm20-1 2 1-2 1v-2ZM4.22 19.78l1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41Zm14.14-14.14 1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41ZM4.22 4.22 5.64 5.64 4.22 7.05 2.81 5.64 4.22 4.22Zm14.14 14.14 1.42 1.42-1.42 1.41-1.41-1.41 1.41-1.42Z"/>';
+
+    function setTheme(theme) {
+      root.dataset.theme = theme;
+      const dark = theme === "dark";
+      toggle.setAttribute("aria-label", dark ? "切换浅色模式" : "切换深色模式");
+      toggle.querySelector("svg").innerHTML = dark ? lightIcon : darkIcon;
+    }
+
+    setTheme(matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    toggle.addEventListener("click", () => {
+      setTheme(root.dataset.theme === "dark" ? "light" : "dark");
+    });
+  </script>
+</body>
+</html>

@@ -4,28 +4,28 @@ import SponsorAbout from '../components/SponsorAbout.astro';
 import { AVATAR_IMAGE } from '../consts';
 
 const { title } = Astro.props;
-const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
-const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
-const aboutHeadClass = 'r-about__head mb-[var(--r-space-lg)] flex items-center gap-[var(--r-space-md)]';
-const aboutAvatarClass = 'r-about__avatar h-16 w-16 shrink-0 rounded-full object-cover';
-const aboutNowClass = 'r-about__now m-0 mt-[0.3rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-sm)] text-[var(--r-ink-soft)]';
-const aboutIntroClass = 'r-prose r-about__intro mb-[var(--r-space-lg)] ![font-size:1rem] !leading-[1.75] [&>p]:!mb-[0.75em] [&>p:last-child]:!mb-0';
-const traitsClass = 'r-about__traits m-0 mb-[var(--r-space-xl)] flex flex-col gap-[0.55rem] border-0 p-0';
-const traitClass = 'r-about__trait grid grid-cols-[2.75rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)]';
-const traitLabelClass = 'm-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]';
-const traitValueClass = 'm-0 [font-family:var(--r-font-body)] [font-size:var(--r-text-sm)] leading-[1.5] text-[var(--r-ink-soft)]';
-const aboutBlockClass = 'r-about__block mb-[var(--r-space-xl)] last:mb-0 [&_.r-section__head]:mb-[var(--r-space-sm)]';
-const aboutLinksClass = 'r-about__links m-0 flex list-none flex-col gap-[0.45rem] p-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-sm)]';
-const aboutLinkClass = 'grid grid-cols-[2.75rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] border-b-0 text-[var(--r-ink-soft)] no-underline hover:text-[var(--r-ink)]';
-const aboutLinkLabelClass = 'r-about__link-label [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]';
-const aboutLinkValueClass = 'r-about__link-value break-words text-[var(--r-ink-soft)] group-hover:text-[var(--r-ink)]';
-const aboutSponsorClass = 'r-about__sponsor [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-code-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none]';
-const aboutHistoryClass = 'r-about__history group [font-family:var(--r-font-ui)] [font-size:var(--r-text-sm)] text-[var(--r-ink-soft)]';
-const aboutHistorySummaryClass = 'r-about__history-summary cursor-pointer list-none py-[0.15rem] font-normal text-[var(--r-ink-soft)] marker:hidden hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
-const aboutHistoryListClass = 'm-0 mt-[var(--r-space-sm)] flex list-none flex-col gap-[0.55rem] p-0';
-const aboutHistoryItemClass = 'grid grid-cols-[4.5rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)]';
-const aboutHistoryDateClass = '[font-size:var(--r-text-xs)] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
-const aboutHistoryTextClass = '[font-family:var(--r-font-body)] leading-[1.55] text-[var(--r-ink-soft)]';
+
+const profileClass = 'r-about__profile mb-[var(--r-space-xl)] grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-[var(--r-space-lg)] max-[520px]:grid-cols-[3.75rem_minmax(0,1fr)] max-[520px]:gap-[var(--r-space-md)]';
+const avatarClass = 'r-about__avatar h-[4.5rem] w-[4.5rem] rounded-full border border-[var(--r-rule-soft)] object-cover max-[520px]:h-[3.75rem] max-[520px]:w-[3.75rem]';
+const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:clamp(1.75rem,4vw,2.15rem)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.025em] !text-[var(--r-ink)]';
+const profileMetaClass = 'm-0 mt-[0.28rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.5] text-[var(--r-ink-faint)]';
+const proseClass = 'r-prose r-about__prose ![font-size:1rem] !leading-[1.82]';
+const metaClass = 'r-about__meta mt-[var(--r-space-xl)] flex flex-col gap-[var(--r-space-md)]';
+const metaTitleClass = 'sr-only';
+const metaBlockClass = 'rounded-[3px] bg-[var(--r-code-bg)] px-[var(--r-space-lg)] py-[var(--r-space-lg)] max-[520px]:px-[var(--r-space-md)] max-[520px]:py-[var(--r-space-md)]';
+const metaRowsClass = 'm-0 flex flex-col gap-[0.8rem]';
+const metaRowClass = 'grid grid-cols-[3.25rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] max-[380px]:grid-cols-[2.75rem_minmax(0,1fr)] max-[380px]:gap-[var(--r-space-sm)]';
+const metaLabelClass = 'm-0 [font-family:var(--r-font-ui)] [font-size:0.7rem] leading-[1.55] text-[var(--r-ink-faint)]';
+const metaValueClass = 'm-0 min-w-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.55] text-[var(--r-ink-soft)]';
+const contactListClass = 'm-0 flex list-none flex-wrap gap-x-[var(--r-space-md)] gap-y-[0.35rem] p-0';
+const contactLinkClass = 'inline-flex w-fit items-baseline gap-[0.4rem] border-b-0 text-[var(--r-ink-soft)] no-underline after:text-[0.68rem] after:text-[var(--r-ink-faint)] after:content-["↗"] hover:text-[var(--r-ink)]';
+const historyClass = 'r-about__history group min-w-0 [font-family:var(--r-font-ui)]';
+const historySummaryClass = 'r-about__history-summary cursor-pointer list-none [font-size:var(--r-text-xs)] font-normal text-[var(--r-ink-soft)] marker:hidden hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
+const historyListClass = 'm-0 mt-[var(--r-space-sm)] flex list-none flex-col gap-[0.62rem] p-0 pb-[var(--r-space-sm)]';
+const historyItemClass = 'grid grid-cols-[4.2rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] [font-size:var(--r-text-xs)] leading-[1.55]';
+const historyDateClass = 'text-[0.68rem] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
+const historyTextClass = '[font-family:var(--r-font-body)] text-[var(--r-ink-soft)]';
+const sponsorPanelClass = 'min-w-0 [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none] [&_.sponsor-fold__summary]:!py-0 [&_.sponsor-fold__summary]:![font-size:var(--r-text-xs)]';
 
 const blogHistory = [
 	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
@@ -43,108 +43,99 @@ const traits = [
 ];
 
 const contactLinks = [
-	{ href: 'mailto:xulinxiao@live.com', label: '邮箱', value: 'xulinxiao#live.com' },
-	{ href: 'https://github.com/LynkXu', label: 'GitHub', value: '@LynkXu', external: true },
+	{ href: 'mailto:xulinxiao@live.com', value: 'xulinxiao#live.com' },
+	{ href: 'https://github.com/LynkXu', value: 'GitHub · @LynkXu', external: true },
+	{ href: 'https://www.linkedin.com/in/lynk-xu', value: 'LinkedIn · Lynk Xu', external: true },
 ];
 ---
 
 <ReadingShell title={title} description={title}>
 	<section class="r-about" aria-labelledby="about-title">
-		<header class={aboutHeadClass}>
+		<header class={profileClass}>
 			<img
 				src={AVATAR_IMAGE.src}
 				srcset={AVATAR_IMAGE.srcset}
-				sizes="64px"
+				sizes="72px"
 				alt=""
-				class={aboutAvatarClass}
-				width="64"
-				height="64"
+				class={avatarClass}
+				width="72"
+				height="72"
 				loading="eager"
 				decoding="async"
 			/>
 			<div>
-				<h1 id="about-title" class={pageTitleClass}>Hi, I am Lynk</h1>
-				<p class={aboutNowClass}>上海 · 全栈工程师</p>
+				<h1 id="about-title" class={pageTitleClass}>{title}</h1>
+				<p class={profileMetaClass}>Lynk Xu · 全栈工程师 · 上海</p>
 			</div>
 		</header>
 
-		<div class={aboutIntroClass}>
-			<p>
-		       我是 Lynk，一名全栈工程师。
-			</p>
-			<p>
-			   曾用名 Link，因为这也是一个普通的英文单词，容易造成困惑，就改成了现在的名字。
-			</p>
-			<p>
-				初中和高中沉迷折腾安卓手机，上大学选专业的时候出于自己对智能手机的熟悉，就只选了通信/计算机类的专业。然而通信那个时候更火，就阴差阳错被录取到了计算机。
-			<p>
-				因为非常喜欢上海，于是大学毕业来到上海读研究生然后留在了上海工作。虽考研两年才上岸，这却是我做过最不后悔的决定之一。
-			</p>
-			
-			<p>
-				工作之余，我对于新鲜的事物都比较感兴趣，并在努力寻找自己喜欢做的事情。最近主要在尝试「马拉松」和 「AI」 相关的内容。
-			</p>
-			<p>
-				如果你有任何想聊的，都欢迎通过下面的方式和我取得联系。
-			</p>
-			------
-			<p>最后，很高兴你发现了这里，希望你喜欢我写的内容，也希望你能拥有愉快的一天。</p>
-		</div>
+		<article class={proseClass}>
+			<slot />
+		</article>
 
-		<dl class={traitsClass}>
-			{traits.map((trait) => (
-				<div class={traitClass}>
-					<dt class={traitLabelClass}>{trait.label}</dt>
-					<dd class={traitValueClass}>{trait.value}</dd>
-				</div>
-			))}
-		</dl>
+		<aside class={metaClass} aria-labelledby="about-more">
+			<h2 id="about-more" class={metaTitleClass}>更多</h2>
 
-		<section class={aboutBlockClass} aria-labelledby="about-contact">
-			<header class="r-section__head">
-				<h2 id="about-contact" class={sectionTitleClass}>联系</h2>
-			</header>
-			<ul class={aboutLinksClass}>
-				{contactLinks.map((link) => (
-					<li>
-						<a
-							class={`${aboutLinkClass} group`}
-							href={link.href}
-							target={link.external ? '_blank' : undefined}
-							rel={link.external ? 'noopener noreferrer' : undefined}
-						>
-							<span class={aboutLinkLabelClass}>{link.label}</span>
-							<span class={aboutLinkValueClass}>{link.value}</span>
-						</a>
-					</li>
-				))}
-			</ul>
-		</section>
-
-		<section class={aboutBlockClass} aria-labelledby="about-sponsor">
-			<header class="r-section__head">
-				<h2 id="about-sponsor" class={sectionTitleClass}>赞助</h2>
-			</header>
-			<div class={aboutSponsorClass}>
-				<SponsorAbout />
-			</div>
-		</section>
-
-		<section class={aboutBlockClass} aria-labelledby="about-history">
-			<header class="r-section__head">
-				<h2 id="about-history" class={sectionTitleClass}>博客历程</h2>
-			</header>
-			<details class={aboutHistoryClass}>
-				<summary class={aboutHistorySummaryClass}>展开时间线</summary>
-				<ol class={aboutHistoryListClass}>
-					{blogHistory.map((item) => (
-						<li class={aboutHistoryItemClass}>
-							<time class={aboutHistoryDateClass}>{item.date}</time>
-							<span class={aboutHistoryTextClass}>{item.text}</span>
-						</li>
+			<div class={metaBlockClass}>
+				<dl class={metaRowsClass}>
+					{traits.map((trait) => (
+						<div class={metaRowClass}>
+							<dt class={metaLabelClass}>{trait.label}</dt>
+							<dd class={metaValueClass}>{trait.value}</dd>
+						</div>
 					))}
-				</ol>
-			</details>
-		</section>
+				</dl>
+			</div>
+
+			<div class={metaBlockClass}>
+				<dl class={metaRowsClass}>
+					<div class={metaRowClass}>
+						<dt class={metaLabelClass}>联系</dt>
+						<dd class={metaValueClass}>
+							<ul class={contactListClass}>
+								{contactLinks.map((link) => (
+									<li>
+										<a
+											class={contactLinkClass}
+											href={link.href}
+											target={link.external ? '_blank' : undefined}
+											rel={link.external ? 'noopener noreferrer' : undefined}
+										>
+											{link.value}
+										</a>
+									</li>
+								))}
+							</ul>
+						</dd>
+					</div>
+
+					<div class={metaRowClass}>
+						<dt class={metaLabelClass}>时间线</dt>
+						<dd class={metaValueClass}>
+							<details class={historyClass}>
+								<summary class={historySummaryClass}>展开时间线</summary>
+								<ol class={historyListClass}>
+									{blogHistory.map((item) => (
+										<li class={historyItemClass}>
+											<time class={historyDateClass}>{item.date}</time>
+											<span class={historyTextClass}>{item.text}</span>
+										</li>
+									))}
+								</ol>
+							</details>
+						</dd>
+					</div>
+
+					<div class={metaRowClass}>
+						<dt class={metaLabelClass}>赞助</dt>
+						<dd class={metaValueClass}>
+							<div class={sponsorPanelClass}>
+								<SponsorAbout />
+							</div>
+						</dd>
+					</div>
+				</dl>
+			</div>
+		</aside>
 	</section>
 </ReadingShell>
