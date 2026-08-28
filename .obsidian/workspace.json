@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+                "file": "src/content/blog/2026-07-08-cursor-subscription/cursor-subscript.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "2026-05-27"
+              "title": "cursor-subscript"
             }
           }
         ],
@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+                "file": "src/content/blog/2026-07-08-cursor-subscription/cursor-subscript.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "2026-05-27 的反向链接列表"
+              "title": "cursor-subscript 的反向链接列表"
             }
           },
           {
@@ -200,6 +200,9 @@
   },
   "active": "dd6aab88e0d9cf51",
   "lastOpenFiles": [
+    "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
+    "design/about-redesign.html",
+    "design",
     "dist/sitemap-index.xml",
     "dist/sitemap-0.xml",
     "dist/_astro/P20250511-190453.DINhDAZB_Z1g3cEf.webp",
@@ -218,12 +221,8 @@
     "dist/message/index.html",
     "dist/message",
     "dist/sports/index.html",
-    "dist/sports",
-    "dist/about/index.html",
-    "dist/about",
     "src/content/now.md",
     "src/content/blog/linkcard-demo/index.md",
-    "src/content/blog/2026-05-27-AI-learning/2026-05-27.md",
     "src/content/page/search.md",
     "src/content/page/riding.md",
     "src/content/page/resume.md",
