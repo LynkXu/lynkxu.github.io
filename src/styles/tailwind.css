@@ -753,8 +753,8 @@ body.reading-surface .post-content h3,
   font-size: 1.14rem !important;
 }
 
-.r-prose > :first-child,
-body.reading-surface .post-content > :first-child {
+.r-prose > :first-child:not(:is(h1,h2,h3,h4)),
+body.reading-surface .post-content > :first-child:not(:is(h1,h2,h3,h4,h5,h6)) {
   margin-top: 0;
 }
 

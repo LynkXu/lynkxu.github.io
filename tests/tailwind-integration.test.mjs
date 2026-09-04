@@ -63,6 +63,16 @@ test('reading surface root typography is isolated from global body styles', () =
   assert.match(tailwind, /body\.reading-surface\s*\{[\s\S]*-webkit-font-smoothing:\s*auto\s*!important;/);
 });
 
+test('first article heading keeps the same section rhythm as later headings', () => {
+  const tailwind = read('src/styles/tailwind.css');
+
+  assert.match(
+    tailwind,
+    /\.r-prose > :first-child:not\(:is\(h1,h2,h3,h4\)\),\s*body\.reading-surface \.post-content > :first-child:not\(:is\(h1,h2,h3,h4,h5,h6\)\)\s*\{\s*margin-top:\s*0;/,
+  );
+  assert.match(tailwind, /\.r-prose h1,[\s\S]*margin:\s*1\.55em 0 0\.55em;/);
+});
+
 test('reading surface dividers share a quiet hairline style', () => {
   const tailwind = read('src/styles/tailwind.css');
   const shell = read('src/layouts/ReadingShell.astro');
