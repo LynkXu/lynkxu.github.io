@@ -5,6 +5,20 @@ import test from 'node:test';
 const read = (file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8');
 const exists = (file) => existsSync(new URL(`../${file}`, import.meta.url));
 
+function extractBlock(text, selector, { last = false } = {}) {
+  const selectorStart = last ? text.lastIndexOf(selector) : text.indexOf(selector);
+  if (selectorStart === -1) return '';
+
+  const blockStart = text.indexOf('{', selectorStart);
+  let depth = 0;
+  for (let index = blockStart; index < text.length; index += 1) {
+    if (text[index] === '{') depth += 1;
+    if (text[index] === '}') depth -= 1;
+    if (depth === 0) return text.slice(blockStart + 1, index);
+  }
+  return '';
+}
+
 test('Tailwind is integrated without the global preflight reset', () => {
   const tailwind = read('src/styles/tailwind.css');
 
@@ -51,6 +65,7 @@ test('reading surface root typography is isolated from global body styles', () =
 
 test('reading surface dividers share a quiet hairline style', () => {
   const tailwind = read('src/styles/tailwind.css');
+  const shell = read('src/layouts/ReadingShell.astro');
 
   assert.match(tailwind, /--r-divider:\s*rgba\(0,\s*0,\s*0,\s*0\.075\);/);
   assert.match(tailwind, /--r-divider:\s*rgba\(255,\s*255,\s*255,\s*0\.11\);/);
@@ -58,25 +73,28 @@ test('reading surface dividers share a quiet hairline style', () => {
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*padding-top:\s*var\(--r-space-md\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*border-top-color:\s*var\(--r-divider\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-article__tail\s*\{[\s\S]*border-top:\s*0\s*!important;/);
-  assert.match(tailwind, /body\.reading-surface \.reading-shell__header,[\s\S]*body\.reading-surface \.r-section__head,[\s\S]*body\.reading-surface \.r-year-block__label\s*\{[\s\S]*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
+  assert.match(shell, /const headerClass = [^;]*after:bg-\[var\(--r-rule\)\]/);
+  assert.match(tailwind, /body\.reading-surface \.r-section__head,\s*body\.reading-surface \.r-year-block__label\s*\{\s*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
 });
 
 test('archive year labels stay in the meta text scale', () => {
   const tailwind = read('src/styles/tailwind.css');
   const archive = read('src/pages/blog/index.astro');
+  const componentRule = extractBlock(tailwind, '.r-year-block__label {');
+  const surfaceRule = extractBlock(tailwind, 'body.reading-surface .r-year-block__label {', { last: true });
 
-  assert.match(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\);/);
-  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*font-family:\s*var\(--r-font-ui\)\s*!important;/);
-  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
-  assert.match(tailwind, /body\.reading-surface \.r-year-block__label\s*\{[\s\S]*line-height:\s*1\.35\s*!important;/);
+  assert.match(componentRule, /font-size:\s*var\(--r-text-xs\);/);
+  assert.match(surfaceRule, /font-family:\s*var\(--r-font-ui\)\s*!important;/);
+  assert.match(surfaceRule, /font-size:\s*var\(--r-text-xs\)\s*!important;/);
+  assert.match(surfaceRule, /line-height:\s*1\.35\s*!important;/);
   assert.match(tailwind, /body\.reading-surface h2:not\(\.r-section__title\):not\(\.r-year-block__label\),/);
-  assert.doesNotMatch(tailwind, /\.r-year-block__label\s*\{[\s\S]*font-size:\s*0\.9rem;/);
+  assert.doesNotMatch(componentRule + surfaceRule, /font-size:\s*0\.9rem/);
   assert.doesNotMatch(tailwind, /r-year-block__count/);
   assert.doesNotMatch(archive, /r-year-block__count/);
 });
 
 test('reading section titles use explicit Tailwind utilities', () => {
-  const files = ['src/pages/index.astro', 'src/layouts/About.astro', 'src/pages/copyright.astro'];
+  const files = ['src/pages/index.astro', 'src/pages/copyright.astro'];
 
   for (const file of files) {
     const source = read(file);
@@ -120,7 +138,7 @@ test('reading page titles are explicit Tailwind utilities', () => {
   ]) {
     const source = read(file);
     assert.match(source, /r-page-title|r-home-intro/);
-    assert.match(source, /!\[font-size:var\(--r-text-(page|display)\)\]|\[font-size:var\(--r-text-lg\)\]/);
+    assert.match(source, /!\[font-size:var\(--r-text-(page|display)\)\]|\[font-size:var\(--r-text-lg\)\]|!\[font-size:clamp\(1\.75rem,4vw,2\.15rem\)\]/);
   }
 });
 
@@ -157,7 +175,7 @@ test('about and sponsor chrome are Tailwind-composed', () => {
   const sponsor = read('src/components/SponsorAbout.astro');
   const tailwind = read('src/styles/tailwind.css');
 
-  for (const token of ['aboutHeadClass', 'aboutIntroClass', 'traitsClass', 'aboutHistoryClass']) {
+  for (const token of ['profileClass', 'avatarClass', 'pageTitleClass', 'metaClass', 'historyClass']) {
     assert.match(about, new RegExp(`const ${token} =`));
   }
   for (const token of ['sponsorRootClass', 'foldClass', 'summaryClass', 'cryptoItemClass', 'copyButtonClass']) {
@@ -167,10 +185,8 @@ test('about and sponsor chrome are Tailwind-composed', () => {
   assert.doesNotMatch(sponsor, /<style/);
   assert.match(about, /r-about__history-summary/);
   assert.match(sponsor, /sponsor-fold__summary/);
-  assert.match(tailwind, /body\.reading-surface \.sponsor-fold__summary::before,/);
-  assert.match(tailwind, /body\.reading-surface \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▸";[\s\S]*margin-right:\s*0\.35rem;/);
-  assert.match(tailwind, /body\.reading-surface \.sponsor-fold\[open\] > \.sponsor-fold__summary::before,/);
-  assert.match(tailwind, /body\.reading-surface \.r-toc\[open\] > \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▾";/);
+  assert.match(tailwind, /body\.reading-surface \.sponsor-fold__summary::before,\s*body\.reading-surface \.r-about__history-summary::before,\s*body\.reading-surface \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▸";[\s\S]*margin-right:\s*0\.35rem;/);
+  assert.match(tailwind, /body\.reading-surface \.sponsor-fold\[open\] > \.sponsor-fold__summary::before,\s*body\.reading-surface \.r-about__history\[open\] > \.r-about__history-summary::before,\s*body\.reading-surface \.r-toc\[open\] > \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▾";/);
   assert.doesNotMatch(about, /before:content-\[/);
   assert.doesNotMatch(sponsor, /before:content-\[/);
 });
@@ -207,17 +223,17 @@ test('blog post header and toc chrome are Tailwind-composed', () => {
   assert.doesNotMatch(blogPost, /<style/);
   assert.match(blogPost, /r-toc__summary/);
   assert.match(blogPost, /const tocClass = \[/);
-  assert.match(blogPost, /r-toc group mt-\[0\.2rem\] mb-\[var\(--r-space-md\)\]/);
-  assert.match(blogPost, /\[&_\.toc-container\]:mt-\[0\.5rem\]/);
-  assert.match(blogPost, /\[&_\.toc-container\]:pl-\[1\.05rem\]/);
-  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary inline-flex cursor-pointer list-none items-center select-none border-l border-l-\[var\(--r-rule\)\] bg-\[color-mix\(in_oklab,var\(--r-rule-soft\)_34%,transparent\)\]/);
+  assert.match(blogPost, /r-toc group mt-\[0\.2rem\] mb-\[var\(--r-space-md\)\] border-l border-l-\[var\(--r-rule\)\] bg-\[color-mix\(in_oklab,var\(--r-rule-soft\)_22%,transparent\)\]/);
+  assert.match(blogPost, /\[&_\.toc-container\]:mt-0/);
+  assert.match(blogPost, /\[&_\.toc-container\]:px-\[0\.75rem\]/);
+  assert.match(blogPost, /const tocSummaryClass = 'r-toc__summary flex min-h-8 w-full cursor-pointer/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-size:\s*var\(--r-text-xs\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
-  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-container\s*\{[\s\S]*padding-left:\s*1\.05rem\s*!important;/);
+  assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-container\s*\{[\s\S]*margin-top:\s*0\s*!important;[\s\S]*padding:\s*0\.65rem 0\.75rem\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-toc \.toc-link:hover,[\s\S]*body\.reading-surface \.r-toc \.toc-link\.active\s*\{[\s\S]*font-weight:\s*400\s*!important;/);
-  assert.match(blogPost, /\[&_\.link-card__image-wrapper\]:flex-\[0_0_140px\]/);
-  assert.match(blogPost, /\[&_\.link-card__image-wrapper_img\]:object-cover/);
-  assert.match(blogPost, /max-\[640px\]:\[&_\.link-card__content\]:flex-col/);
+  assert.match(tailwind, /body\.reading-surface \.r-article \.link-card__image-wrapper\s*\{[\s\S]*flex:\s*0 0 120px;[\s\S]*width:\s*120px;/);
+  assert.match(tailwind, /body\.reading-surface \.r-article \.link-card__image-wrapper img\s*\{[\s\S]*object-fit:\s*cover;/);
+  assert.match(tailwind, /@media \(max-width: 640px\)\s*\{[\s\S]*body\.reading-surface \.r-article \.link-card__content\s*\{[\s\S]*flex-direction:\s*column;/);
   assert.match(blogPost, /\[&_\.changelog\]:self-stretch/);
   assert.match(blogPost, /\[&_\.changelog\]:text-left/);
   assert.doesNotMatch(blogPost, /before:content-\[/);

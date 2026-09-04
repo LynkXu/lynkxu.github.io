@@ -640,8 +640,8 @@ body.reading-surface .r-toc .toc-link {
 }
 
 body.reading-surface .r-toc .toc-container {
-  margin-top: 0.5rem !important;
-  padding-left: 1.05rem !important;
+  margin-top: 0 !important;
+  padding: 0.65rem 0.75rem !important;
 }
 
 body.reading-surface .r-toc .toc-link:hover,
