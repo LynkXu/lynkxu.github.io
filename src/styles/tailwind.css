@@ -186,7 +186,7 @@ body.reading-surface {
   --r-bg: #ffffff;
   --r-ink: oklch(0.28 0.01 255);
   --r-ink-soft: oklch(0.46 0.008 255);
-  --r-ink-faint: oklch(0.62 0.006 255);
+  --r-ink-faint: oklch(0.56 0.006 255);
   --r-link: oklch(0.45 0.07 250);
   --r-link-underline-color: color-mix(in oklab, var(--r-ink) 55%, transparent);
   --r-link-underline-offset: 0.22em;
@@ -247,7 +247,7 @@ body.reading-surface ::selection {
   --r-bg: oklch(0.18 0.012 255);
   --r-ink: oklch(0.93 0.01 250);
   --r-ink-soft: oklch(0.75 0.012 250);
-  --r-ink-faint: oklch(0.58 0.01 250);
+  --r-ink-faint: oklch(0.60 0.01 250);
   --r-link: oklch(0.78 0.06 250);
   --r-divider: rgba(255, 255, 255, 0.11);
   --r-rule: oklch(0.93 0.01 250 / 0.14);
@@ -265,7 +265,7 @@ body.reading-surface ::selection {
     --r-bg: oklch(0.18 0.012 255);
     --r-ink: oklch(0.93 0.01 250);
     --r-ink-soft: oklch(0.75 0.012 250);
-    --r-ink-faint: oklch(0.58 0.01 250);
+    --r-ink-faint: oklch(0.60 0.01 250);
     --r-link: oklch(0.78 0.06 250);
     --r-divider: rgba(255, 255, 255, 0.11);
     --r-rule: oklch(0.93 0.01 250 / 0.14);
@@ -287,7 +287,7 @@ body.reading-surface ::selection {
   --r-bg: #ffffff;
   --r-ink: oklch(0.28 0.01 255);
   --r-ink-soft: oklch(0.46 0.008 255);
-  --r-ink-faint: oklch(0.62 0.006 255);
+  --r-ink-faint: oklch(0.56 0.006 255);
   --r-link: oklch(0.45 0.07 250);
   --r-divider: rgba(0, 0, 0, 0.075);
   --r-rule: oklch(0.28 0.01 255 / 0.14);
