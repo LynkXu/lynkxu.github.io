@@ -1,6 +1,14 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@font-face {
+  font-family: "Noto Serif SC Web";
+  src: url("/fonts/NotoSerifSC-VF-subset.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+}
+
 @layer components {
   .r-section {
     margin-bottom: var(--r-space-xl);
@@ -209,9 +217,9 @@ body.reading-surface {
   --r-space-xl: 2.75rem;
   --r-space-2xl: 4rem;
   --r-header-block-space: clamp(0.9rem, 2vw, 1rem);
-  /* Match the global reading stack so Chinese text keeps one consistent voice. */
-  --r-font-body: "Literata", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
-  --r-font-brand: "Petrona", "Noto Serif SC", "Songti SC", serif;
+  /* Literata handles Latin; the local Noto subset preserves the original Chinese reading voice. */
+  --r-font-body: "Literata", "Noto Serif SC Web", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --r-font-brand: "Petrona", "Noto Serif SC Web", "Noto Serif SC", "Songti SC", serif;
   --r-font-ui: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
   --r-font-code: "Lilex", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --r-text: 1.125rem;
@@ -701,7 +709,7 @@ body.reading-surface .post-content {
   color: var(--r-ink) !important;
   font-family: var(--r-font-body) !important;
   font-size: var(--r-text) !important;
-  font-weight: 400 !important;
+  font-weight: var(--weight-reading, 400) !important;
   line-height: var(--r-lh-body) !important;
   max-width: none !important;
   margin-left: 0 !important;

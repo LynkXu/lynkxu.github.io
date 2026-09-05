@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import test from 'node:test';
 
 const source = readFileSync(
@@ -49,4 +49,39 @@ test('reading measure and footer links preserve the current shell contract', () 
 		assert.match(source, new RegExp(`\{ href: '${href}', label: '${label}' \}`));
 	}
 	assert.match(source, /aria-label="专题与订阅"/);
+});
+
+test('reading pages use a compact self-hosted Noto Serif SC face', () => {
+	const head = readFileSync(
+		new URL('../src/components/BaseHead.astro', import.meta.url),
+		'utf8',
+	);
+	const styles = readFileSync(
+		new URL('../src/styles/tailwind.css', import.meta.url),
+		'utf8',
+	);
+	const font = new URL(
+		'../public/fonts/NotoSerifSC-VF-subset.woff2',
+		import.meta.url,
+	);
+
+	assert.equal(existsSync(font), true, 'The self-hosted Noto Serif SC subset is missing');
+	assert.ok(statSync(font).size < 3_000_000, 'The Chinese reading font must stay below 3 MB');
+	assert.doesNotMatch(head, /family=Noto\+Serif\+SC/);
+	assert.match(styles, /font-family:\s*"Noto Serif SC Web";/);
+	assert.match(styles, /src:\s*url\("\/fonts\/NotoSerifSC-VF-subset\.woff2"\)/);
+	assert.match(styles, /--r-font-body:\s*"Literata",\s*"Noto Serif SC Web"/);
+	assert.doesNotMatch(styles, /Source Han Serif CN Web/);
+});
+
+test('article copy preserves the original Noto Serif SC reading weight', () => {
+	const styles = readFileSync(
+		new URL('../src/styles/tailwind.css', import.meta.url),
+		'utf8',
+	);
+
+	assert.match(
+		styles,
+		/\.r-prose,[\s\S]*?font-weight:\s*var\(--weight-reading,\s*400\)\s*!important;/,
+	);
 });

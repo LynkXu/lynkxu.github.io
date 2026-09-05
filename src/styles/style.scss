@@ -27,8 +27,8 @@
   --display-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --ui-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --reading-font: __matter_afb301, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --serif-font: "Songti SC", "Source Han Serif CN", "Noto Serif SC", "SimSun", serif;
-  --brand-font: "Petrona", "Noto Serif SC", "Songti SC", serif;
+  --serif-font: "Noto Serif SC Web", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --brand-font: "Petrona", "Noto Serif SC Web", "Noto Serif SC", "Songti SC", serif;
   --code-font: "Lilex", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "PingFang SC", "Microsoft YaHei", monospace;
   --meta-font: var(--ui-font);
   --text-xs: 0.75rem;
@@ -324,14 +324,14 @@ body:has(.blog-surface-layout) {
 
 .blog-surface-layout {
   /* Dispatch / Postcard type stack — scoped so feature pages keep Matter */
-  /* CJK: Noto Serif SC ahead of system Songti — clearer strokes on screen */
-  --display-font: "Petrona", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
-  --reading-font: "Literata", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  /* CJK: self-hosted Noto Serif SC matches the original screen reading treatment. */
+  --display-font: "Petrona", "Noto Serif SC Web", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --reading-font: "Literata", "Noto Serif SC Web", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
   --ui-font: "Onest", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, sans-serif;
   --serif-font: var(--reading-font);
   --meta-font: var(--ui-font);
   --field-font: var(--ui-font);
-  /* Regular: Noto Serif SC is already denser than Songti; Medium felt a touch heavy */
+  /* Match the original Noto Serif SC reading weight. */
   --weight-reading: 400;
   --lh-body: 1.72;
   --blog-rail-col: minmax(9.5rem, 11.25rem);
