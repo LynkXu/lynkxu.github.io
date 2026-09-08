@@ -1,0 +1,21 @@
+---
+const traitsClass = 'r-about__traits !m-0 !mb-[var(--r-space-md)] !mt-0 !flex !list-none !flex-wrap !gap-x-[var(--r-space-sm)] !gap-y-[var(--r-space-xs)] !p-0 [font-family:var(--r-font-ui)]';
+const traitItemClass = 'whitespace-nowrap [font-size:0.72rem] font-normal leading-[1.55] tracking-[0.01em] text-[var(--r-ink-soft)]';
+const hashClass = 'text-[var(--r-ink-faint)]';
+
+const traits = [
+  'Web3 爱好者',
+  'APP 体验家',
+  '长期主义',
+  '混沌中立',
+  '生人勿近',
+];
+---
+
+<ul class={traitsClass} aria-label="个人标签">
+  {traits.map((trait) => (
+    <li class={traitItemClass}>
+      <span class={hashClass} aria-hidden="true">#</span>{trait}
+    </li>
+  ))}
+</ul>

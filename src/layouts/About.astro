@@ -1,31 +1,24 @@
 ---
 import ReadingShell from './ReadingShell.astro';
 import SponsorAbout from '../components/SponsorAbout.astro';
-import { AVATAR_IMAGE } from '../consts';
 
 const { title } = Astro.props;
 
-const profileClass = 'r-about__profile mb-[var(--r-space-xl)] grid grid-cols-[4.5rem_minmax(0,1fr)] items-center gap-[var(--r-space-lg)] max-[520px]:grid-cols-[3.75rem_minmax(0,1fr)] max-[520px]:gap-[var(--r-space-md)]';
-const avatarClass = 'r-about__avatar h-[4.5rem] w-[4.5rem] rounded-full border border-[var(--r-rule-soft)] object-cover max-[520px]:h-[3.75rem] max-[520px]:w-[3.75rem]';
-const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:clamp(1.75rem,4vw,2.15rem)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.025em] !text-[var(--r-ink)]';
-const profileMetaClass = 'm-0 mt-[0.28rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.5] text-[var(--r-ink-faint)]';
-const proseClass = 'r-prose r-about__prose ![font-size:1rem] !leading-[1.82]';
-const metaClass = 'r-about__meta mt-[var(--r-space-xl)] flex flex-col gap-[var(--r-space-md)]';
-const metaTitleClass = 'sr-only';
-const metaBlockClass = 'rounded-[3px] bg-[color-mix(in_oklab,var(--r-bg)_30%,var(--r-code-bg))] px-[var(--r-space-lg)] py-[var(--r-space-lg)] max-[520px]:px-[var(--r-space-md)] max-[520px]:py-[var(--r-space-md)]';
-const metaRowsClass = 'm-0 flex flex-col gap-[0.8rem]';
-const metaRowClass = 'grid grid-cols-[3.25rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] max-[380px]:grid-cols-[2.75rem_minmax(0,1fr)] max-[380px]:gap-[var(--r-space-sm)]';
-const metaLabelClass = 'm-0 [font-family:var(--r-font-ui)] [font-size:0.7rem] leading-[1.55] text-[var(--r-ink-faint)]';
-const metaValueClass = 'm-0 min-w-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.55] text-[var(--r-ink-soft)]';
-const contactListClass = 'm-0 flex list-none flex-wrap gap-x-[var(--r-space-md)] gap-y-[0.35rem] p-0';
-const contactLinkClass = 'inline-flex w-fit items-baseline gap-[0.4rem] border-b-0 text-[var(--r-ink-soft)] no-underline after:text-[0.68rem] after:text-[var(--r-ink-faint)] after:content-["↗"] hover:text-[var(--r-ink)]';
-const historyClass = 'r-about__history group min-w-0 [font-family:var(--r-font-ui)]';
-const historySummaryClass = 'r-about__history-summary cursor-pointer list-none [font-size:var(--r-text-xs)] font-normal text-[var(--r-ink-soft)] marker:hidden hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
-const historyListClass = 'm-0 mt-[var(--r-space-sm)] flex list-none flex-col gap-[0.62rem] p-0 pb-[var(--r-space-sm)]';
-const historyItemClass = 'grid grid-cols-[4.2rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] [font-size:var(--r-text-xs)] leading-[1.55]';
+const headerClass = 'r-about__header mb-[var(--r-space-md)]';
+const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.025em] !text-[var(--r-ink)] max-[640px]:![font-size:var(--r-text-xl)]';
+const proseClass = 'r-about__prose r-prose ![font-size:1rem] !leading-[1.82] [&_h3]:!mt-[var(--r-space-lg)] [&_h3]:!mb-[var(--r-space-sm)] [&_h3]:border-0 [&_h3]:border-b [&_h3]:border-[var(--r-divider)] [&_h3]:pb-[var(--r-space-sm)] [&_h3]:![font-family:var(--r-font-ui)] [&_h3]:![font-size:var(--r-text-sm)] [&_h3]:!font-medium [&_h3]:!leading-[1.35] [&_h3]:!tracking-[0.02em] [&_h3]:!text-[var(--r-ink-soft)] [&_p]:!mb-[0.65em] [&_.r-about__closing]:!mt-[var(--r-space-lg)] [&_.r-about__closing]:![font-size:var(--r-text-sm)] [&_.r-about__closing]:!leading-[1.75] [&_.r-about__closing]:!text-[var(--r-ink-faint)]';
+const extrasClass = 'r-about__extras mt-[var(--r-space-lg)] border-t border-[var(--r-divider)] pt-[var(--r-space-md)] [font-family:var(--r-font-ui)]';
+const extrasTitleClass = '!m-0 !mb-[var(--r-space-xs)] ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-xs)] !font-medium !leading-[1.35] !tracking-[0.02em] !text-[var(--r-ink-faint)]';
+const extrasListClass = 'r-about__extras-list flex flex-col gap-[var(--r-space-xs)]';
+const historyClass = 'r-about__history group min-w-0';
+const historySummaryClass = 'r-about__history-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-size:var(--r-text-sm)] font-medium tracking-[0.01em] text-[var(--r-ink-soft)] marker:hidden hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
+const historyListClass = 'm-0 flex list-none flex-col gap-[0.65rem] px-0 pb-[var(--r-space-md)] pt-[var(--r-space-xs)]';
+const historyItemClass = 'grid grid-cols-[4.2rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] [font-size:var(--r-text-xs)] leading-[1.55] max-[420px]:grid-cols-[3.8rem_minmax(0,1fr)] max-[420px]:gap-[var(--r-space-sm)]';
 const historyDateClass = 'text-[0.68rem] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
 const historyTextClass = '[font-family:var(--r-font-body)] text-[var(--r-ink-soft)]';
-const sponsorPanelClass = 'min-w-0 [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none] [&_.sponsor-fold__summary]:!py-0 [&_.sponsor-fold__summary]:![font-size:var(--r-text-xs)]';
+const sponsorClass = 'r-about__sponsor group min-w-0';
+const sponsorSummaryClass = 'r-about__sponsor-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-size:var(--r-text-sm)] font-medium tracking-[0.01em] text-[var(--r-ink-soft)] marker:hidden hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
+const sponsorPanelClass = 'min-w-0 pb-[var(--r-space-md)] pl-[var(--r-space-md)] [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none] [&_.sponsor-fold__summary]:![font-size:var(--r-text-xs)]';
 
 const blogHistory = [
 	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
@@ -33,108 +26,41 @@ const blogHistory = [
 	{ date: '2023.06', text: '使用 Gatsby + Breeze Theme' },
 	{ date: '2020.09', text: '使用 GitHub Pages + Hexo' },
 	{ date: '2018.09', text: '因域名备案问题博客暂停' },
-	{ date: '2016.07', text: '购买 linkblog.com + wordpress 开始搭建博客' },
+	{ date: '2016.07', text: '购买 linkblog.com + WordPress 开始搭建博客' },
 ];
 
-const traits = [
-	{ label: '日常', value: 'Web3 爱好者 / APP 体验家 / AI 依赖' },
-	{ label: '运动', value: '力量训练 / 马拉松 / 骑行 / 散步' },
-	{ label: '标签', value: '长期主义 / 混沌中立 / 生人勿近' },
-];
-
-const contactLinks = [
-	{ href: 'mailto:xulinxiao@live.com', value: 'xulinxiao#live.com' },
-	{ href: 'https://github.com/LynkXu', value: 'GitHub · @LynkXu', external: true },
-	{ href: 'https://www.linkedin.com/in/lynk-xu', value: 'LinkedIn · Lynk Xu', external: true },
-];
 ---
 
 <ReadingShell title={title} description={title}>
 	<section class="r-about" aria-labelledby="about-title">
-		<header class={profileClass}>
-			<img
-				src={AVATAR_IMAGE.src}
-				srcset={AVATAR_IMAGE.srcset}
-				sizes="72px"
-				alt=""
-				class={avatarClass}
-				width="72"
-				height="72"
-				loading="eager"
-				decoding="async"
-			/>
-			<div>
-				<h1 id="about-title" class={pageTitleClass}>Lynk</h1>
-				<p class={profileMetaClass}>全栈工程师 · 上海</p>
-			</div>
+		<header class={headerClass}>
+			<h1 id="about-title" class={pageTitleClass}>关于我</h1>
 		</header>
 
 		<article class={proseClass}>
 			<slot />
 		</article>
 
-		<aside class={metaClass} aria-labelledby="about-more">
-			<h2 id="about-more" class={metaTitleClass}>更多</h2>
-
-			<div class={metaBlockClass}>
-				<dl class={metaRowsClass}>
-					{traits.map((trait) => (
-						<div class={metaRowClass}>
-							<dt class={metaLabelClass}>{trait.label}</dt>
-							<dd class={metaValueClass}>{trait.value}</dd>
-						</div>
-					))}
-				</dl>
-			</div>
-
-			<div class={metaBlockClass}>
-				<dl class={metaRowsClass}>
-					<div class={metaRowClass}>
-						<dt class={metaLabelClass}>联系</dt>
-						<dd class={metaValueClass}>
-							<ul class={contactListClass}>
-								{contactLinks.map((link) => (
-									<li>
-										<a
-											class={contactLinkClass}
-											href={link.href}
-											target={link.external ? '_blank' : undefined}
-											rel={link.external ? 'noopener noreferrer' : undefined}
-										>
-											{link.value}
-										</a>
-									</li>
-								))}
-							</ul>
-						</dd>
+		<aside class={extrasClass} aria-labelledby="about-more-title">
+			<h2 id="about-more-title" class={extrasTitleClass}>附记</h2>
+			<div class={extrasListClass}>
+				<details class={historyClass}>
+					<summary class={historySummaryClass}>博客历史</summary>
+					<ol class={historyListClass}>
+						{blogHistory.map((item) => (
+							<li class={historyItemClass}>
+								<time class={historyDateClass}>{item.date}</time>
+								<span class={historyTextClass}>{item.text}</span>
+							</li>
+						))}
+					</ol>
+				</details>
+				<details class={sponsorClass}>
+					<summary class={sponsorSummaryClass}>赞助</summary>
+					<div class={sponsorPanelClass}>
+						<SponsorAbout />
 					</div>
-
-					<div class={metaRowClass}>
-						<dt class={metaLabelClass}>时间线</dt>
-						<dd class={metaValueClass}>
-							<details class={historyClass}>
-								<summary class={historySummaryClass}>展开时间线</summary>
-								<ol class={historyListClass}>
-									{blogHistory.map((item) => (
-										<li class={historyItemClass}>
-											<time class={historyDateClass}>{item.date}</time>
-											<span class={historyTextClass}>{item.text}</span>
-										</li>
-									))}
-								</ol>
-							</details>
-						</dd>
-					</div>
-
-					<div class={metaRowClass}>
-						<dt class={metaLabelClass}>赞助</dt>
-						<dd class={metaValueClass}>
-							<div class={sponsorPanelClass}>
-								<SponsorAbout />
-							</div>
-						</dd>
-					</div>
-				</dl>
+				</details>
 			</div>
 		</aside>
 	</section>
