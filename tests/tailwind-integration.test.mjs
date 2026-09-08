@@ -182,23 +182,40 @@ test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {
 
 test('about and sponsor chrome are Tailwind-composed', () => {
   const about = read('src/layouts/About.astro');
+  const aboutTraits = exists('src/components/AboutTraits.astro') ? read('src/components/AboutTraits.astro') : '';
   const sponsor = read('src/components/SponsorAbout.astro');
   const tailwind = read('src/styles/tailwind.css');
 
-  for (const token of ['profileClass', 'avatarClass', 'pageTitleClass', 'metaClass', 'historyClass']) {
+  for (const token of ['headerClass', 'pageTitleClass', 'proseClass', 'extrasClass', 'extrasTitleClass', 'extrasListClass', 'historyClass', 'sponsorClass', 'sponsorPanelClass']) {
     assert.match(about, new RegExp(`const ${token} =`));
   }
+  for (const token of ['traitsClass', 'traitItemClass', 'hashClass']) {
+    assert.match(aboutTraits, new RegExp(`const ${token} =`));
+  }
+  assert.match(aboutTraits, /const traits = \[[\s\S]*'Web3 爱好者',[\s\S]*'APP 体验家',[\s\S]*'长期主义',[\s\S]*'混沌中立',[\s\S]*'生人勿近',[\s\S]*\];/);
+  assert.match(aboutTraits, /<ul class=\{traitsClass\} aria-label="个人标签">/);
+  assert.match(aboutTraits, /traitsClass = '[^']*!mb-\[var\(--r-space-md\)\][^']*!gap-x-\[var\(--r-space-sm\)\][^']*!gap-y-\[var\(--r-space-xs\)\]/);
+  assert.match(aboutTraits, /traitItemClass = '[^']*whitespace-nowrap[^']*\[font-size:0\.72rem\][^']*text-\[var\(--r-ink-soft\)\]/);
+  assert.match(aboutTraits, /hashClass = '[^']*text-\[var\(--r-ink-faint\)\]/);
+  assert.match(aboutTraits, /\{traits\.map\(\(trait\) => \([\s\S]*<li class=\{traitItemClass\}>[\s\S]*<span class=\{hashClass\} aria-hidden="true">#<\/span>\{trait\}[\s\S]*<\/li>/);
+  assert.doesNotMatch(aboutTraits, /traitItemClass = '[^']*(?:bg-|border|rounded|shadow|p[xy]-)|hover:|<a|<button/);
   for (const token of ['sponsorRootClass', 'foldClass', 'summaryClass', 'cryptoItemClass', 'copyButtonClass']) {
     assert.match(sponsor, new RegExp(`const ${token} =`));
   }
   assert.doesNotMatch(about, /<style/);
   assert.doesNotMatch(sponsor, /<style/);
-  assert.match(about, /r-about__history-summary/);
-  assert.match(sponsor, /sponsor-fold__summary/);
-  assert.match(tailwind, /body\.reading-surface \.sponsor-fold__summary::before,\s*body\.reading-surface \.r-about__history-summary::before,\s*body\.reading-surface \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▸";[\s\S]*margin-right:\s*0\.35rem;/);
-  assert.match(tailwind, /body\.reading-surface \.sponsor-fold\[open\] > \.sponsor-fold__summary::before,\s*body\.reading-surface \.r-about__history\[open\] > \.r-about__history-summary::before,\s*body\.reading-surface \.r-toc\[open\] > \.r-toc__summary::before\s*\{[\s\S]*content:\s*"▾";/);
-  assert.doesNotMatch(about, /before:content-\[/);
-  assert.doesNotMatch(sponsor, /before:content-\[/);
+  assert.match(about, /\[&_h3\]:!\[font-family:var\(--r-font-ui\)\]/);
+  assert.match(about, /\[&_h3\]:border-\[var\(--r-divider\)\]/);
+  assert.match(about, /extrasClass = 'r-about__extras mt-\[var\(--r-space-lg\)\]/);
+  assert.match(about, /extrasListClass = 'r-about__extras-list flex flex-col gap-\[var\(--r-space-xs\)\]'/);
+  assert.match(about, /historyClass = 'r-about__history group min-w-0'/);
+  assert.match(about, /sponsorClass = 'r-about__sponsor group min-w-0'/);
+  assert.doesNotMatch(about, /extrasListClass = '[^']*border-|historyClass = '[^']*border-|sponsorClass = '[^']*border-/);
+  assert.match(tailwind, /body\.reading-surface \.sponsor-fold__summary::before,/);
+  assert.match(tailwind, /body\.reading-surface \.r-about__history-summary::before,/);
+  assert.doesNotMatch(tailwind, /\.r-about__traits-summary/);
+  assert.equal(exists('src/components/SponsorAbout.astro'), true);
+  assert.equal(exists('src/components/sponsorConfig.ts'), true);
 });
 
 test('copyright chrome uses Tailwind utilities without duplicate CSS', () => {
@@ -274,4 +291,12 @@ test('reading interaction components are Tailwind-composed', () => {
   }
   assert.doesNotMatch(likeButton, /<style/);
   assert.doesNotMatch(changelog, /<style/);
+});
+
+test('about supplementary material follows the finished reading note', () => {
+  const about = read('src/layouts/About.astro');
+
+  assert.ok(about.includes("const extrasClass = 'r-about__extras mt-[var(--r-space-lg)] border-t border-[var(--r-divider)] pt-[var(--r-space-md)] [font-family:var(--r-font-ui)]';"));
+  assert.ok(about.includes("const extrasListClass = 'r-about__extras-list flex flex-col gap-[var(--r-space-xs)]';"));
+  assert.ok(about.includes('<h2 id="about-more-title" class={extrasTitleClass}>附记</h2>'));
 });

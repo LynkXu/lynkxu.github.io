@@ -55,12 +55,7 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 							<div class={cryptoAddressClass}>
 								<span class={cryptoLabelClass}>Wallet address</span>
 								<code class={cryptoCodeClass}>{item.address}</code>
-								<button
-									class={copyButtonClass}
-									type="button"
-									data-clipboard-text={item.address}
-									aria-label={`Copy ${item.name} wallet address`}
-								>
+								<button class={copyButtonClass} type="button" data-clipboard-text={item.address} aria-label={`Copy ${item.name} wallet address`}>
 									<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 									<span class="addr-copy__label" aria-live="polite">复制地址</span>
 								</button>
@@ -82,7 +77,6 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 		folds.forEach((fold) => {
 			if (fold.getAttribute('data-accordion-bound') === 'true') return;
 			fold.setAttribute('data-accordion-bound', 'true');
-
 			fold.addEventListener('toggle', () => {
 				if (!fold.open) return;
 				folds.forEach((other) => {
@@ -91,11 +85,9 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 			});
 		});
 
-		const copyBtns = root.querySelectorAll('.addr-copy');
-		copyBtns.forEach((btn) => {
+		root.querySelectorAll('.addr-copy').forEach((btn) => {
 			if (btn.getAttribute('data-copy-bound') === 'true') return;
 			btn.setAttribute('data-copy-bound', 'true');
-
 			btn.addEventListener('click', async () => {
 				const text = btn.getAttribute('data-clipboard-text');
 				if (!text) return;

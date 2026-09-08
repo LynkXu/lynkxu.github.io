@@ -163,6 +163,7 @@
 
   body.reading-surface .sponsor-fold__summary::before,
   body.reading-surface .r-about__history-summary::before,
+  body.reading-surface .r-about__sponsor-summary::before,
   body.reading-surface .r-toc__summary::before {
     content: "▸";
     display: inline-block;
@@ -173,6 +174,7 @@
 
   body.reading-surface .sponsor-fold[open] > .sponsor-fold__summary::before,
   body.reading-surface .r-about__history[open] > .r-about__history-summary::before,
+  body.reading-surface .r-about__sponsor[open] > .r-about__sponsor-summary::before,
   body.reading-surface .r-toc[open] > .r-toc__summary::before {
     content: "▾";
   }
@@ -216,7 +218,7 @@ body.reading-surface {
   --r-space-lg: 1.75rem;
   --r-space-xl: 2.75rem;
   --r-space-2xl: 4rem;
-  --r-header-block-space: clamp(0.9rem, 2vw, 1rem);
+  --r-header-block-space: clamp(0.65rem, 2vw, 0.75rem);
   /* Literata handles Latin; the local Noto subset preserves the original Chinese reading voice. */
   --r-font-body: "Literata", "Noto Serif SC Web", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
   --r-font-brand: "Petrona", "Noto Serif SC Web", "Noto Serif SC", "Songti SC", serif;
