@@ -35,6 +35,15 @@ test('header remains responsive and keeps accessible utility controls', () => {
 	assert.match(source, /id="theme-toggle-fab"[\s\S]*aria-label="切换深色模式"/);
 });
 
+test('header chrome uses a compact shared vertical rhythm', () => {
+	const styles = readFileSync(
+		new URL('../src/styles/tailwind.css', import.meta.url),
+		'utf8',
+	);
+
+	assert.match(styles, /--r-header-block-space:\s*clamp\(0\.65rem, 2vw, 0\.75rem\);/);
+});
+
 test('reading measure and footer links preserve the current shell contract', () => {
 	assert.match(source, /w-\[min\(calc\(100%_-_var\(--r-page-inline\)_\*_2\),var\(--r-measure\)\)\]/);
 	assert.match(source, /<main class="reading-shell__main min-w-0 flex-1">/);
@@ -49,6 +58,15 @@ test('reading measure and footer links preserve the current shell contract', () 
 		assert.match(source, new RegExp(`\{ href: '${href}', label: '${label}' \}`));
 	}
 	assert.match(source, /aria-label="专题与订阅"/);
+});
+
+test('the shared reading measure keeps Chinese copy comfortably narrow', () => {
+	const styles = readFileSync(
+		new URL('../src/styles/style.scss', import.meta.url),
+		'utf8',
+	);
+
+	assert.match(styles, /--site-reading-width:\s*60ch;/);
 });
 
 test('reading pages use a compact self-hosted Noto Serif SC face', () => {

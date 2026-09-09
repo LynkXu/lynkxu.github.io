@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T13:12:47.192Z",
+  "generatedAt": "2026-09-09T02:46:42.047Z",
   "running": {
     "years": {
       "2025": {
@@ -8,9 +8,9 @@
         "count": 2
       },
       "2026": {
-        "distance": "582.56",
-        "time": "52.7",
-        "count": 78
+        "distance": "589.72",
+        "time": "53.3",
+        "count": 80
       }
     },
     "imported": {
@@ -23,13 +23,13 @@
     "cards": {
       "totalDistance": {
         "label": "总跑量(2025.06起)",
-        "value": "981.9",
+        "value": "989.06",
         "unit": "km",
         "subtext": "~6'05''/km"
       },
       "totalTime": {
         "label": "总时长",
-        "value": "93.1",
+        "value": "93.7",
         "unit": "h",
         "subtext": "在路上的时间"
       },
@@ -49,9 +49,9 @@
     "monthly": [
       {
         "month": "2026-09",
-        "distanceKm": "14.56",
-        "count": 2,
-        "movingTimeHours": "1.25"
+        "distanceKm": "21.72",
+        "count": 4,
+        "movingTimeHours": "1.91"
       },
       {
         "month": "2026-08",
