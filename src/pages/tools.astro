@@ -5,20 +5,24 @@ import SimpleHeader from '../components/SimpleHeader.astro';
 const tools = {
   software: [
     { name: 'VS Code', description: '主力编辑器', icon: '/logo/vscode.svg' },
+    { name: 'Codex', description: 'AI 助手', icon: '/logo/openai.svg' },
+    { name: 'Ghostty', description: '终端工具', icon: 'ghostty', invertDark: true },
+    { name: 'Notion', description: '工作空间', icon: 'https://cdn.jsdelivr.net/npm/simple-icons@v16/icons/notion.svg', invertDark: false },
+    { name: 'Fork', description: 'Git 客户端', icon: 'https://fork.dev/images/logo.png', invertDark: false, iconScale: 1.2 },
     { name: 'Cursor', description: 'AI 辅助编程', icon: 'cursor', invertDark: true }, // Using generic cursor if specific brand not available
     { name: 'Goland', description: 'Go 语言开发', icon: 'goland' },
     { name: 'Obsidian', description: '知识库管理', icon: 'obsidian' },
-    { name: 'Typora', description: 'Markdown 写作', icon: '/logo/typora.png', invertDark: false },
+    { name: 'Typora', description: 'Markdown 写作', icon: '/logo/typora.png', invertDark: false, iconScale: 1.25 },
     { name: 'Yuque', description: '文档协作', icon: '/logo/yuque.webp', invertDark: false },
   ],
   hardware: [
-    { name: 'Mac mini m4', description: '主力开发机', icon: 'apple', invertDark: true },
+    { name: 'Macbook Air M5', description: '主力开发机', icon: 'apple', invertDark: true },
     { name: 'Magic Keyboard', description: '键盘', icon: 'apple', invertDark: true },
     { name: 'Magic Trackpad', description: '触控板', icon: 'apple', invertDark: true },
     { name: 'iPhone 17 Pro', description: '移动设备', icon: 'apple', invertDark: true },
     { name: 'AirPods 4', description: '耳机', icon: 'apple', invertDark: true },
     { name: 'Pace Pro', description: '运动手表', icon: '/logo/coros.ico', invertDark: true },
-    { name: 'U27U2DS', description: '显示器 27 Inch', icon: '/logo/aoc.svg', invertDark: true },
+    { name: 'U27U2DS & U27U2DP', description: '显示器 27 Inch', icon: '/logo/aoc.svg', invertDark: true },
   ],
   services: [
     { name: 'V2EX', description: '创意工作者社区', link: 'https://v2ex.com', icon: 'v2ex', invertDark: true },
@@ -44,9 +48,10 @@ const description = "工欲善其事，必先利其器";
           <div class="tool-card">
             <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
               <img 
-                src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                src={tool.icon.startsWith('/') || tool.icon.startsWith('http') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
                 alt={`${tool.name} logo`}
                 width="24" height="24"
+                style={tool.iconScale ? `--icon-scale: ${tool.iconScale}` : undefined}
                 loading="lazy"
                 decoding="async"
                 onerror="this.onerror=null;this.src='https://cdn.simpleicons.org/juejin';this.alt='fallback logo'"
@@ -68,7 +73,7 @@ const description = "工欲善其事，必先利其器";
             <div class="tool-card">
               <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
                 <img
-                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                    src={tool.icon.startsWith('/') || tool.icon.startsWith('http') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
                     alt={`${tool.name} logo`}
                     width="24" height="24"
                     loading="lazy"
@@ -91,7 +96,7 @@ const description = "工欲善其事，必先利其器";
             <a href={tool.link} target="_blank" class="tool-card link-card">
               <div class={`tool-icon ${tool.invertDark ? 'invert-dark' : ''}`}>
                 <img
-                    src={tool.icon.startsWith('/') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
+                    src={tool.icon.startsWith('/') || tool.icon.startsWith('http') ? tool.icon : `https://cdn.simpleicons.org/${tool.icon}`}
                     alt={`${tool.name} logo`}
                     width="24" height="24"
                     loading="lazy"
@@ -197,6 +202,9 @@ const description = "工欲善其事，必先利其器";
         width: 100%;
         height: 100%;
         object-fit: contain;
+    }
+    .tool-icon img[style*="--icon-scale"] {
+        transform: scale(var(--icon-scale));
     }
 
     /* Dark mode inversion for specific black icons */
