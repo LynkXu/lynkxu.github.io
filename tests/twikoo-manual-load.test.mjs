@@ -20,6 +20,7 @@ function createElementStub() {
 			this.focused = true;
 		},
 		addEventListener() {},
+		setAttribute() {},
 		appendChild() {},
 		remove() {
 			this.removed = true;
@@ -49,7 +50,7 @@ function createStorage(initialEntries = []) {
 	};
 }
 
-async function runCommentsScript({ sessionEntries = [] } = {}) {
+async function runCommentsScript({ sessionEntries = [], comments = [], manualLoad = true } = {}) {
 	const initCalls = [];
 	const shell = createElementStub();
 	const lazyGate = createElementStub();
@@ -86,7 +87,8 @@ async function runCommentsScript({ sessionEntries = [] } = {}) {
 			if (selector.startsWith('script[data-twikoo-script=')) return null;
 			return null;
 		},
-		querySelectorAll() {
+		querySelectorAll(selector) {
+			if (selector === '#twikoo .tk-comment') return comments;
 			return [];
 		},
 	};
@@ -120,7 +122,7 @@ async function runCommentsScript({ sessionEntries = [] } = {}) {
 			observe() {}
 		},
 		setTimeout: window.setTimeout,
-		manualTwikooLoad: true,
+		manualTwikooLoad: manualLoad,
 		twikooEnv: 'https://example.com/.netlify/functions/twikoo',
 		twikooAuthors: ['lynkxu'],
 		embedUrl: 'https://lynkxu.github.io/message',
@@ -131,6 +133,33 @@ async function runCommentsScript({ sessionEntries = [] } = {}) {
 	await Promise.resolve();
 
 	return { initCalls, loadButton, sessionStorage };
+}
+
+function createAuthorComment() {
+	const badgeHost = {
+		children: [],
+		afterCalled: false,
+		append(child) {
+			this.children.push(child);
+		},
+		after() {
+			this.afterCalled = true;
+		},
+		querySelector(selector) {
+			return selector === '.tk-author-badge' ? this.children[0] || null : null;
+		},
+	};
+	badgeHost.parentElement = badgeHost;
+	const nick = { textContent: 'lynkxu', closest() { return badgeHost; } };
+	return {
+		badgeHost,
+		querySelector(selector) {
+			if (selector === '.tk-nick') return nick;
+			if (selector === '.tk-meta') return {};
+			return null;
+		},
+		classList: { add() {} },
+	};
 }
 
 test('manual Twikoo load stores a page-scoped session activation after click', async () => {
@@ -150,4 +179,13 @@ test('manual Twikoo load restores page-scoped session activation after refresh',
 
 	assert.equal(initCalls.length, 1);
 	assert.equal(initCalls[0].el, '#twikoo');
+});
+
+test('author verification badge stays inside the author name', async () => {
+	const comment = createAuthorComment();
+
+	await runCommentsScript({ comments: [comment], manualLoad: false });
+
+	assert.equal(comment.badgeHost.children.length, 1);
+	assert.equal(comment.badgeHost.afterCalled, false);
 });

@@ -65,7 +65,18 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	<section class="r-memos" aria-labelledby="memos-title">
 		<header class="r-memos__head">
 			<h1 id="memos-title" class={pageTitleClass}>碎语</h1>
-			<p class={pageNoteClass}>偶尔记录一些不值得写成长文的瞬间。</p>
+			<p class={pageNoteClass}>
+				偶尔记录一些不值得写成长文的瞬间（内容同步自{' '}
+				<a
+					href="https://mastodon.social/@lynkxu"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-[var(--r-link)] underline-offset-2 hover:underline"
+				>
+					Mastodon
+				</a>
+				）。
+			</p>
 		</header>
 
 		<div id="shuoshuo">

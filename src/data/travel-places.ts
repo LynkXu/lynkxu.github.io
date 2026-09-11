@@ -10,6 +10,8 @@ export type TravelPlace = {
 export const travelPlaces: TravelPlace[] = [
 	{ name: '上海', lat: 31.2304, lng: 121.4737, date: '2020 - 至今', status: 'living' },
 	{ name: '六安', lat: 31.73, lng: 116.43, date: '1998', status: 'hometown' },
+	{ name: '成都', lat: 30.65, lng: 104.07, date: '2026-09', country: 'CN' },
+	{ name: '重庆', lat: 29.59, lng: 106.55, date: '2026-09', country: 'CN' },
 	{ name: '大阪', lat: 34.6937, lng: 135.5023, date: '2026-05', country: 'JP' },
 	{ name: '京都', lat: 35.0116, lng: 135.7681, date: '2026-05', country: 'JP' },
 	{ name: '神户', lat: 34.6901, lng: 135.1955, date: '2026-05', country: 'JP' },
