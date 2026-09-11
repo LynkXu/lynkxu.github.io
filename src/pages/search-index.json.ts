@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { filterDrafts } from '../utils/drafts';
+import { toArticleExcerpt } from '../utils/plain-text';
 
 export const GET: APIRoute = async () => {
 	const allPosts = filterDrafts(await getCollection('blog'));
@@ -10,7 +11,7 @@ export const GET: APIRoute = async () => {
 		id: post.id,
 		slug: post.data.slug ?? post.id,
 		title: post.data.title,
-		description: post.data.description || '',
+		description: post.data.description || toArticleExcerpt(post.body, 110),
 		pubDate: post.data.pubDate.toISOString(),
 		tags: post.data.tags || [],
 		categories: post.data.categories || [],

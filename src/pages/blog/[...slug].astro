@@ -2,6 +2,7 @@
 import { type CollectionEntry, getCollection, render } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 import { filterDrafts } from '../../utils/drafts';
+import { toArticleExcerpt } from '../../utils/plain-text';
 
 export async function getStaticPaths() {
 	const posts = filterDrafts(await getCollection('blog'));
@@ -23,8 +24,9 @@ const { showTOC, tocMinLevel, tocMaxLevel } = post.data as any;
 const content = post.body || '';
 const wordCount = content.length;
 const readingTime = Math.max(1, Math.ceil(wordCount / 300));
+const excerpt = toArticleExcerpt(post.body, 110);
 ---
 
-<BlogPost {...post.data} postId={post.id} showTOC={showTOC} tocMinLevel={tocMinLevel} tocMaxLevel={tocMaxLevel} readingTime={readingTime}>
+<BlogPost {...post.data} excerpt={excerpt} postId={post.id} showTOC={showTOC} tocMinLevel={tocMinLevel} tocMaxLevel={tocMaxLevel} readingTime={readingTime}>
 	<Content />
 </BlogPost>

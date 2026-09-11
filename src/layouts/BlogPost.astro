@@ -8,6 +8,7 @@ import Changelog from '../components/Changelog.astro';
 import LikeButton from '../components/LikeButton.astro';
 
 type Props = CollectionEntry<'blog'>['data'] & {
+	excerpt?: string;
 	postId?: string;
 	showTOC?: boolean;
 	tocMinLevel?: number;
@@ -18,6 +19,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 const {
 	title,
 	description,
+	excerpt,
 	pubDate,
 	updatedDate,
 	tags,
@@ -59,7 +61,7 @@ const articleTailClass = 'r-article__tail mt-[var(--r-space-lg)] flex flex-col i
 const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint)]';
 ---
 
-<ReadingShell title={title} description={description || ''}>
+<ReadingShell title={title} description={description || excerpt || ''}>
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
 	<article class={articleClass}>
