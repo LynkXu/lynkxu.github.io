@@ -11,10 +11,14 @@
             "id": "3f40c0cd15701ff4",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "2025-12-29-review/review-2025.md",
+                "mode": "source",
+                "source": true
+              },
               "icon": "lucide-file",
-              "title": "新标签页"
+              "title": "review-2025"
             }
           }
         ]
@@ -182,5 +186,9 @@
     }
   },
   "active": "3f40c0cd15701ff4",
-  "lastOpenFiles": []
+  "lastOpenFiles": [
+    "2026-09-01-layoff/2026-09-01-layoff.md",
+    "2026-09-13-travel-in-gap/2026-09-13-travel-in-gap.md.md",
+    "2026-09-13-travel-in-gap"
+  ]
 }
