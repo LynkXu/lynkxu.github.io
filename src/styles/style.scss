@@ -2481,3 +2481,76 @@ font-size: 0.90em; /* 稍微缩小字号，比正文显得更紧凑精致 */
   color: var(--color-danger);
   font-family: var(--meta-font);
 }
+
+/* ── Location note ── */
+.post-content .location-note {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-2xs);
+  margin: var(--space-lg) 0;
+  padding: var(--space-2xs) 0 var(--space-2xs) var(--space-md);
+  border-left: 2px solid color-mix(in oklab, var(--accent-color) 30%, var(--paper-card-border));
+  color: var(--text-color);
+  background: transparent;
+  font-family: var(--ui-font);
+}
+
+.post-content .location-note::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -2px;
+  width: 2px;
+  height: var(--space-sm);
+  background: var(--ink-accent);
+  opacity: 0.72;
+}
+
+.post-content .location-note > strong {
+  color: var(--heading-color);
+  font-family: var(--serif-font);
+  font-size: 0.95rem;
+  font-weight: var(--weight-semibold);
+  line-height: var(--lh-tight);
+  letter-spacing: 0;
+}
+
+.post-content .location-note > small {
+  display: block;
+  color: var(--gray-color);
+  font-family: var(--meta-font);
+  font-size: 0.75rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.55;
+}
+
+.post-content .location-note a {
+  color: var(--gray-color) !important;
+  border-bottom: 0;
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in oklab, var(--gray-color) 30%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--link-underline-offset);
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
+}
+
+.post-content .location-note a:hover {
+  color: var(--link-color) !important;
+  text-decoration-color: var(--link-underline-color);
+}
+
+@media (max-width: 560px) {
+  .post-content .location-note {
+    margin: var(--space-md) 0;
+    padding-left: var(--space-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .post-content .location-note a {
+    transition: none;
+  }
+}
