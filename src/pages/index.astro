@@ -12,7 +12,7 @@ const posts = filterDrafts(await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const latestPosts = posts.slice(0, 10);
-const latestGossips = (await getAllGossips()).slice(0, 2);
+const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 const homeIntroClass = 'r-home-intro m-0 mb-[var(--r-space-xl)]';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.012em] !text-[var(--r-ink)]';
@@ -92,13 +92,9 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	.home-note-excerpt {
 		grid-column: 1;
-	}
-
-	.home-note-excerpt {
-		display: -webkit-box;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
 		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		line-height: 1.55;
 	}
 
