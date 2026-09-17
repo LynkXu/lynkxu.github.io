@@ -13,6 +13,7 @@
   --container-reading: min(100% - clamp(1.5rem, 5vw, 4rem), var(--width));
   --container-wide: min(100% - clamp(1.5rem, 5vw, 4rem), 1200px);
   --container-full: min(100% - clamp(1.5rem, 5vw, 4rem), 1400px);
+  --topic-shell-width: 1080px;
   --container-blog: min(100% - clamp(1.5rem, 5vw, 5rem), var(--blog-shell-width));
   --space-2xs: 4px;
   --space-xs: 8px;
@@ -922,27 +923,18 @@ body:has(.blog-surface-layout) {
 
 /* 全宽模式下的无卡片布局 */
 body.full-width .global-layout-transparent {
-    max-width: 1200px; /* 或者 100% */
+    max-width: var(--topic-shell-width);
 }
 
 /* Fix footer width in full-width mode */
 body.full-width footer {
     width: 100%;
-    max-width: 1200px;
+    max-width: var(--topic-shell-width);
     margin: 0 auto;
     padding: var(--space-3xl) var(--page-inline) var(--space-xl);
     box-sizing: border-box;
 }
 
-body.full-width .global-layout-transparent.travel-page {
-    max-width: 100%;
-}
-
-/* Travel 页面单独处理 footer */
-body.full-width .global-layout-transparent.travel-page footer {
-    max-width: 1200px; /* 保持内容宽度 */
-    padding: var(--space-3xl) var(--page-inline) var(--space-xl);
-}
 
 @media (max-width: 768px) {
   .global-layout-card {
@@ -962,6 +954,10 @@ body.full-width .global-layout-transparent.travel-page footer {
   
   .global-layout-transparent {
       padding: var(--space-lg);
+  }
+
+  body.full-width .global-layout-transparent {
+      padding: 0;
   }
   
   body {
@@ -1609,6 +1605,10 @@ ul.posts li a:visited {
     width: auto;
     padding: var(--space-lg);
     line-height: var(--lh-loose);
+  }
+
+  body.full-width {
+    padding: 0;
   }
 
   h1 {

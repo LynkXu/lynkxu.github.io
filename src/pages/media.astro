@@ -3,9 +3,21 @@ import Base from '../layouts/Base.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
 import MediaCard from '../components/MediaCard.astro';
 import neodbData from '../data/neodb.json';
+import {
+  formatRecordedMonth,
+  getAlternateTitle,
+  getMediaStatusLabel,
+  getPreferredTitle,
+  toFilledStars,
+} from '../lib/media-filter';
 
 const title = '书影音';
-const description = '记录看过的书、电影和玩过的游戏';
+const description = '书影音';
+
+interface LocalizedTitle {
+  lang?: string;
+  text?: string;
+}
 
 interface NeoDBItem {
   uuid?: string;
@@ -16,6 +28,7 @@ interface NeoDBItem {
     brief?: string | null;
     rating?: number | null;
     url?: string | null;
+    localized_title?: LocalizedTitle[];
   };
   comment_text?: string | null;
   rating_grade?: number | null;
@@ -26,593 +39,307 @@ interface NeoDBItem {
 
 type MediaKind = 'book' | 'tv' | 'movie' | 'game';
 
-const sectionMeta: Record<MediaKind, { label: string; eyebrow: string; empty: string }> = {
-  book: { label: '书籍', eyebrow: 'Books', empty: '暂无书籍记录。' },
-  tv: { label: '剧集', eyebrow: 'Series', empty: '暂无剧集记录。' },
-  movie: { label: '电影', eyebrow: 'Movies', empty: '暂无电影记录。' },
-  game: { label: '游戏', eyebrow: 'Games', empty: '暂无游戏记录。' },
-};
+const mediaKinds: Array<{ key: 'all' | MediaKind; label: string }> = [
+  { key: 'all', label: '全部' },
+  { key: 'book', label: '书籍' },
+  { key: 'movie', label: '电影' },
+  { key: 'tv', label: '剧集' },
+  { key: 'game', label: '游戏' },
+];
 
-const sectionOrder: MediaKind[] = ['book', 'tv', 'movie', 'game'];
+const kindLabels: Record<MediaKind, string> = {
+  book: '书籍',
+  movie: '电影',
+  tv: '剧集',
+  game: '游戏',
+};
 
 const getTimestamp = (value?: string) => {
   const time = value ? new Date(value).getTime() : 0;
   return Number.isFinite(time) ? time : 0;
 };
 
-const sortItems = <T extends NeoDBItem>(items: T[]) => {
-  return [...items].sort((a, b) => {
-    const aProgress = a.shelf_type === 'progress' ? 1 : 0;
-    const bProgress = b.shelf_type === 'progress' ? 1 : 0;
-    if (aProgress !== bProgress) {
-      return bProgress - aProgress;
-    }
-    return getTimestamp(b.created_time) - getTimestamp(a.created_time);
-  });
-};
+const records = (Object.keys(kindLabels) as MediaKind[])
+  .flatMap((kind) => ((neodbData[kind] || []) as NeoDBItem[]).map((record) => ({ kind, record })))
+  .sort((a, b) => getTimestamp(b.record.created_time) - getTimestamp(a.record.created_time));
 
-const groupByYear = <T extends NeoDBItem>(items: T[]) => {
-  const groups = new Map<string, T[]>();
-  for (const item of items) {
-    const year = new Date(item.created_time).getFullYear();
-    const label = Number.isFinite(year) ? String(year) : '未知';
-    if (!groups.has(label)) {
-      groups.set(label, []);
-    }
-    groups.get(label)?.push(item);
-  }
+const recordsByYear = records.reduce((groups, entry) => {
+  const parsedYear = new Date(entry.record.created_time).getUTCFullYear();
+  const year = Number.isFinite(parsedYear) ? String(parsedYear) : '未知';
+  (groups[year] ||= []).push(entry);
+  return groups;
+}, {} as Record<string, typeof records>);
 
-  return Array.from(groups.entries())
-    .map(([year, yearItems]) => ({ year, items: yearItems }))
-    .sort((a, b) => Number(b.year) - Number(a.year));
-};
-
-const getItems = (kind: MediaKind) => {
-  return sortItems(((neodbData[kind] || []) as unknown) as NeoDBItem[]);
-};
-
-const getTitle = (item: NeoDBItem) => item.item.display_title || item.item.title;
-const getCover = (item: NeoDBItem) => item.item.cover_image_url || '';
-const getLink = (item: NeoDBItem) => {
-  const url = item.item.url;
+const sortedYears = Object.keys(recordsByYear).sort((a, b) => Number(b) - Number(a));
+const getTitle = (entry: NeoDBItem) =>
+  getPreferredTitle(
+    entry.item.localized_title,
+    entry.item.title,
+    entry.item.display_title,
+  );
+const getSubtitle = (entry: NeoDBItem, preferredTitle: string) =>
+  getAlternateTitle(entry.item.localized_title, preferredTitle);
+const getCover = (entry: NeoDBItem) => entry.item.cover_image_url || '';
+const getLink = (entry: NeoDBItem) => {
+  const url = entry.item.url;
   if (!url) return 'https://neodb.social';
   return url.startsWith('http') ? url : `https://neodb.social${url}`;
 };
-const getYear = (item: NeoDBItem) => item.publication_year || '未知';
-const getStatusLabel = (item: NeoDBItem) => (item.shelf_type === 'progress' ? '进行中' : '已完成');
-const formatDate = (value: string) => {
-  const date = new Date(value);
-  if (!Number.isFinite(date.getTime())) return '未知日期';
-  return new Intl.DateTimeFormat('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(date).replace(/\//g, '.');
-};
-
-const sections = sectionOrder.map((key) => {
-  const items = getItems(key);
-  return {
-    key,
-    ...sectionMeta[key],
-    items,
-    groups: groupByYear(items),
-  };
-});
-
-const allItems = sortItems(sections.flatMap((section) => section.items));
-const totalCount = allItems.length;
-const progressCount = allItems.filter((item) => item.shelf_type === 'progress').length;
-const completedCount = totalCount - progressCount;
-const activeYears = allItems
-  .map((item) => new Date(item.created_time).getFullYear())
-  .filter((year) => Number.isFinite(year));
-const yearStart = activeYears.length ? Math.min(...activeYears) : null;
-const yearEnd = activeYears.length ? Math.max(...activeYears) : null;
-const yearRange = yearStart && yearEnd ? (yearStart === yearEnd ? `${yearStart}` : `${yearStart}-${yearEnd}`) : '暂无';
 ---
 
-<Base title={title} description={description} useCard={false} hideHeader={true} fullWidth={true}>
-  <SimpleHeader title="Media" description={description} />
-
+<Base title={title} description={description} useCard={false} hideHeader fullWidth className="media-layout">
   <div class="media-page" data-media-page>
-    <section class="media-hero" aria-labelledby="media-title">
-      <div class="media-hero-copy">
-        <p class="media-kicker">MEDIA LOG</p>
-        <h1 id="media-title">书影音</h1>
-        <p class="media-intro">
-          一些读过的书、看过的电影和玩过的游戏。不全，但都是真的。
-        </p>
-      </div>
+    <SimpleHeader title="Media" />
 
-      <dl class="media-stats" aria-label="媒体统计">
-        <div>
-          <dt>Entries</dt>
-          <dd>{totalCount}</dd>
-        </div>
-        <div>
-          <dt>Progress</dt>
-          <dd>{progressCount}</dd>
-        </div>
-        <div>
-          <dt>Finished</dt>
-          <dd>{completedCount}</dd>
-        </div>
-        <div>
-          <dt>Range</dt>
-          <dd>{yearRange}</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section class="media-library" aria-label="媒体列表">
-      <div class="media-controls">
-        <div class="library-heading">
-          <span>Browse</span>
-          <strong>按类型整理</strong>
-        </div>
-
-        <div class="media-tablist" role="tablist" aria-label="媒体类型">
-          {sections.map((section, index) => (
+    <main class="media-main">
+      <div class="media-heading">
+        <h1>书影音</h1>
+        <div class="media-filters" role="toolbar" aria-label="按类型筛选">
+          {mediaKinds.map((kind) => (
             <button
-              class={`media-tab ${index === 0 ? 'is-active' : ''}`}
               type="button"
-              role="tab"
-              id={`media-tab-${section.key}`}
-              aria-controls={`media-panel-${section.key}`}
-              aria-selected={index === 0 ? 'true' : 'false'}
-              data-media-tab={section.key}
+              class="media-filter"
+              data-media-filter={kind.key}
+              aria-pressed={kind.key === 'all' ? 'true' : 'false'}
             >
-              <span>{section.label}</span>
-              <small>{section.items.length}</small>
+              {kind.label}
             </button>
           ))}
         </div>
       </div>
 
-      {sections.map((section, index) => (
-        <section
-          class={`media-panel ${index === 0 ? 'is-active' : ''}`}
-          id={`media-panel-${section.key}`}
-          role="tabpanel"
-          aria-labelledby={`media-tab-${section.key}`}
-          data-media-panel={section.key}
-          hidden={index !== 0}
-        >
-          <div class="panel-summary">
-            <p>{section.eyebrow}</p>
-            <h2>{section.label}</h2>
-            <span>{section.items.length} 项记录</span>
-          </div>
-
-          {section.items.length > 0 ? (
-            <div class="year-stack">
-              {section.groups.map((group) => (
-                <section class="year-row" aria-labelledby={`${section.key}-${group.year}`}>
-                  <div class="year-label">
-                    <h3 id={`${section.key}-${group.year}`}>{group.year}</h3>
-                    <span>{group.items.length} 项</span>
-                  </div>
-
-                  <div class="media-grid">
-                    {group.items.map((item) => (
-                      <MediaCard
-                        title={getTitle(item)}
-                        cover={getCover(item)}
-                        rating={item.rating_grade}
-                        neodbRating={item.item.rating}
-                        comment={item.comment_text}
-                        date={item.created_time}
-                        recordedDate={formatDate(item.created_time)}
-                        year={getYear(item)}
-                        link={getLink(item)}
-                        status={item.shelf_type}
-                        statusLabel={getStatusLabel(item)}
-                        kind={section.label}
-                      />
-                    ))}
-                  </div>
-                </section>
-              ))}
+      <div class="media-years" aria-live="polite">
+        {sortedYears.map((year) => (
+          <section class="media-year" data-media-year aria-labelledby={`media-year-${year}`}>
+            <div class="year-heading">
+              <h2 id={`media-year-${year}`}>{year}</h2>
+              <span data-media-year-count data-total={recordsByYear[year].length}>
+                {recordsByYear[year].length} 条记录
+              </span>
             </div>
-          ) : (
-            <p class="empty-state">{section.empty}</p>
-          )}
-        </section>
-      ))}
-    </section>
+            <div class="media-grid">
+              {recordsByYear[year].map(({ kind, record }) => {
+                const itemTitle = getTitle(record);
+                return (
+                  <div data-media-item={kind}>
+                    <MediaCard
+                      title={itemTitle}
+                      subtitle={getSubtitle(record, itemTitle)}
+                      cover={getCover(record)}
+                      comment={record.comment_text}
+                      recordedDate={formatRecordedMonth(record.created_time)}
+                      year={record.publication_year}
+                      link={getLink(record)}
+                      statusLabel={getMediaStatusLabel(kind, record.shelf_type)}
+                      kind={kindLabels[kind]}
+                      stars={toFilledStars(record.rating_grade)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+    </main>
   </div>
+
+  <style>
+    :global(body.full-width .global-layout-transparent.media-layout) {
+      width: 100%;
+      max-width: var(--topic-shell-width);
+      margin-inline: auto;
+      padding: 0;
+    }
+
+    :global(.media-layout > main) {
+      width: 100%;
+    }
+
+    .media-page {
+      min-height: 100vh;
+      background: var(--page-bg);
+    }
+
+    .media-page :global(.simple-header) {
+      width: 100%;
+      max-width: none;
+      padding-inline: var(--page-inline);
+    }
+
+    .media-main {
+      width: 100%;
+      margin-inline: auto;
+      padding: 0 var(--page-inline) var(--space-3xl);
+    }
+
+    .media-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-xl);
+      margin: 0 0 var(--space-lg);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--paper-card-border-soft);
+    }
+
+    .media-heading h1,
+    .year-heading h2 {
+      margin: 0;
+      color: var(--heading-color);
+      font-family: var(--serif-font);
+      font-weight: var(--weight-bold);
+    }
+
+    .media-heading h1 {
+      display: block;
+      font-size: var(--text-2xl);
+      line-height: var(--lh-tight);
+      letter-spacing: var(--tracking-tight);
+      text-align: left;
+    }
+
+    .media-filters {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .media-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .media-filter {
+      appearance: none;
+      padding: 0.28rem 0.7rem;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--gray-color);
+      cursor: pointer;
+      font-family: var(--ui-font);
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      line-height: 1.2;
+      white-space: nowrap;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    .media-filter:hover {
+      color: var(--heading-color);
+    }
+
+    .media-filter[aria-pressed='true'] {
+      background: var(--heading-color);
+      color: var(--page-bg);
+    }
+
+    .media-filter:focus-visible {
+      outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
+      outline-offset: 3px;
+    }
+
+    .media-years {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xl);
+      margin-top: 0;
+    }
+
+    .media-year[hidden],
+    :global([data-media-item][hidden]) {
+      display: none;
+    }
+
+    .year-heading {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      margin: 0 0 var(--space-sm);
+    }
+
+    .year-heading h2 {
+      font-size: var(--text-lg);
+      font-variant-numeric: tabular-nums;
+      line-height: var(--lh-tight);
+    }
+
+    .year-heading span {
+      color: var(--gray-color);
+      font-family: var(--ui-font);
+      font-size: var(--text-xs);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-lg) var(--space-xl);
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--paper-card-border-soft);
+    }
+
+    @media (max-width: 760px) {
+      .media-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .media-filters {
+        width: 100%;
+      }
+
+      .media-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 520px) {
+      .media-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .media-filter {
+        transition: none;
+      }
+    }
+  </style>
 </Base>
 
 <script>
+  import { matchesMediaFilter } from '../lib/media-filter';
+
   const page = document.querySelector<HTMLElement>('[data-media-page]');
-
   if (page) {
-    const tabs = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-media-tab]'));
-    const panels = Array.from(page.querySelectorAll<HTMLElement>('[data-media-panel]'));
+    const filters = Array.from(page.querySelectorAll<HTMLButtonElement>('[data-media-filter]'));
+    const items = Array.from(page.querySelectorAll<HTMLElement>('[data-media-item]'));
+    const years = Array.from(page.querySelectorAll<HTMLElement>('[data-media-year]'));
 
-    const activate = (key: string) => {
-      tabs.forEach((tab) => {
-        const isActive = tab.dataset.mediaTab === key;
-        tab.classList.toggle('is-active', isActive);
-        tab.setAttribute('aria-selected', String(isActive));
+    const applyFilter = (activeKind: string) => {
+      items.forEach((item) => {
+        item.hidden = !matchesMediaFilter(item.dataset.mediaItem || '', activeKind);
       });
-
-      panels.forEach((panel) => {
-        const isActive = panel.dataset.mediaPanel === key;
-        panel.classList.toggle('is-active', isActive);
-        panel.hidden = !isActive;
+      years.forEach((year) => {
+        const visibleItems = Array.from(year.querySelectorAll<HTMLElement>('[data-media-item]'))
+          .filter((item) => !item.hidden);
+        year.hidden = visibleItems.length === 0;
+        const count = year.querySelector<HTMLElement>('[data-media-year-count]');
+        if (count) count.textContent = `${visibleItems.length} 条记录`;
       });
     };
 
-    tabs.forEach((tab) => {
-      tab.addEventListener('click', () => {
-        const key = tab.dataset.mediaTab;
-        if (key) activate(key);
+    filters.forEach((filter) => {
+      filter.addEventListener('click', () => {
+        filters.forEach((candidate) => {
+          candidate.setAttribute('aria-pressed', String(candidate === filter));
+        });
+        applyFilter(filter.dataset.mediaFilter || 'all');
       });
     });
   }
 </script>
-
-<style>
-  .media-page {
-    width: min(1240px, 100%);
-    margin: 0 auto;
-    padding: 0 var(--page-inline) var(--space-3xl);
-    box-sizing: border-box;
-    animation: mediaFadeIn 0.45s ease-out;
-  }
-
-  @keyframes mediaFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .media-hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      'copy stats';
-    gap: clamp(var(--space-md), 3vw, var(--space-xl));
-    align-items: start;
-    padding: clamp(var(--space-md), 2.4vw, var(--space-xl)) 0 clamp(var(--space-lg), 3vw, var(--space-2xl));
-    border-bottom: 1px solid color-mix(in oklab, var(--text-color) 10%, transparent);
-  }
-
-  .media-hero-copy {
-    grid-area: copy;
-    max-width: 620px;
-  }
-
-  .media-kicker {
-    margin: 0 0 var(--space-sm);
-    color: var(--gray-color);
-    font-family: var(--ui-font);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-  }
-
-  .media-hero h1 {
-    margin: 0;
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: clamp(1.9rem, 3.2vw, 2.75rem);
-    font-weight: 700;
-    line-height: 1.1;
-  }
-
-  .media-intro {
-    max-width: 58ch;
-    margin: var(--space-sm) 0 0;
-    color: var(--text-color);
-    font-size: var(--text-md);
-    line-height: 1.78;
-    opacity: 0.78;
-  }
-
-  .media-stats {
-    grid-area: stats;
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-sm);
-    max-width: 620px;
-    margin: 0;
-  }
-
-  .media-stats div {
-    min-width: 0;
-    padding-top: var(--space-sm);
-    border-top: 1px solid color-mix(in oklab, var(--text-color) 12%, transparent);
-  }
-
-  .media-stats dt {
-    margin: 0 0 var(--space-xs);
-    color: var(--gray-color);
-    font-family: var(--ui-font);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .media-stats dd {
-    margin: 0;
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: clamp(1rem, 1.35vw, 1.18rem);
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    line-height: 1.1;
-  }
-
-  .media-library {
-    padding-top: clamp(var(--space-lg), 3vw, var(--space-2xl));
-  }
-
-  .media-controls {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-lg);
-    margin-bottom: var(--space-xl);
-    padding: var(--space-sm) 0;
-    background: color-mix(in oklab, var(--page-bg, var(--content-bg)) 86%, transparent);
-    backdrop-filter: blur(18px);
-  }
-
-  .library-heading {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: max-content;
-  }
-
-  .library-heading span {
-    color: var(--gray-color);
-    font-family: var(--ui-font);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .library-heading strong {
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: var(--text-lg);
-    line-height: 1.2;
-  }
-
-  .media-tablist {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 4px;
-    border: 1px solid color-mix(in oklab, var(--text-color) 9%, transparent);
-    background: color-mix(in oklab, var(--content-bg) 84%, transparent);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .media-tablist::-webkit-scrollbar {
-    display: none;
-  }
-
-  .media-tab {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    min-height: 40px;
-    padding: 0 var(--space-md);
-    border: 0;
-    border-radius: 4px;
-    background: transparent;
-    color: var(--gray-color);
-    cursor: pointer;
-    font-family: var(--ui-font);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    transition: color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-    white-space: nowrap;
-  }
-
-  .media-tab small {
-    color: inherit;
-    font-size: 0.7rem;
-    font-weight: 700;
-    opacity: 0.58;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .media-tab.is-active {
-    background: var(--heading-color);
-    color: var(--content-bg);
-    box-shadow: inset 0 -2px 0 color-mix(in oklab, var(--accent-color) 70%, var(--content-bg));
-  }
-
-  .media-tab:hover:not(.is-active) {
-    color: var(--heading-color);
-    background: color-mix(in oklab, var(--accent-soft-bg) 62%, transparent);
-  }
-
-  .media-tab:focus-visible {
-    outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
-    outline-offset: 3px;
-  }
-
-  .media-panel[hidden] {
-    display: none;
-  }
-
-  .media-panel.is-active {
-    animation: panelIn 0.28s ease-out;
-  }
-
-  @keyframes panelIn {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .panel-summary {
-    display: grid;
-    grid-template-columns: minmax(80px, 0.18fr) minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
-  }
-
-  .panel-summary p,
-  .panel-summary h2 {
-    margin: 0;
-  }
-
-  .panel-summary p,
-  .panel-summary span {
-    color: var(--gray-color);
-    font-family: var(--ui-font);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .panel-summary h2 {
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: clamp(1.6rem, 3.4vw, 2.6rem);
-    line-height: 1.1;
-  }
-
-  .year-stack {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(var(--space-lg), 3vw, var(--space-xl));
-  }
-
-  .year-row {
-    display: grid;
-    grid-template-columns: minmax(78px, 0.18fr) minmax(0, 1fr);
-    gap: clamp(var(--space-md), 3vw, var(--space-xl));
-    align-items: start;
-  }
-
-  .year-label {
-    position: sticky;
-    top: 88px;
-    padding-top: 2px;
-  }
-
-  .year-label h3 {
-    margin: 0;
-    color: var(--heading-color);
-    font-family: var(--serif-font);
-    font-size: clamp(1.1rem, 2vw, 1.35rem);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .year-label span {
-    display: block;
-    margin-top: var(--space-xs);
-    color: var(--gray-color);
-    font-family: var(--ui-font);
-    font-size: 0.72rem;
-    font-weight: 700;
-  }
-
-  .media-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: var(--space-md);
-  }
-
-  .empty-state {
-    margin: var(--space-2xl) 0;
-    color: var(--gray-color);
-    font-size: var(--text-md);
-    text-align: center;
-  }
-
-  @media (max-width: 900px) {
-    .media-hero {
-      grid-template-columns: 1fr;
-      grid-template-areas:
-        'copy'
-        'stats';
-      align-items: start;
-    }
-
-    .media-controls {
-      align-items: flex-start;
-      flex-direction: column;
-    }
-
-    .media-tablist {
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .panel-summary,
-    .year-row {
-      grid-template-columns: 1fr;
-    }
-
-    .year-label {
-      position: static;
-      display: flex;
-      align-items: baseline;
-      gap: var(--space-sm);
-      padding-bottom: var(--space-xs);
-      border-bottom: 1px solid color-mix(in oklab, var(--text-color) 9%, transparent);
-    }
-
-    .year-label span {
-      margin-top: 0;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .media-page {
-      padding-inline: var(--space-lg);
-    }
-
-    .media-hero h1 {
-      font-size: clamp(1.85rem, 9vw, 2.35rem);
-    }
-
-    .media-stats {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-md);
-    }
-
-    .panel-summary {
-      gap: var(--space-xs);
-    }
-
-    .panel-summary span {
-      justify-self: start;
-    }
-
-    .media-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-sm);
-    }
-  }
-</style>

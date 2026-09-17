@@ -36,7 +36,7 @@ const title = "常用工具";
 const description = "工欲善其事，必先利其器";
 ---
 
-<Base title={title} description={description} useCard={false} hideHeader={true}>
+<Base title={title} description={description} useCard={false} hideHeader={true} fullWidth className="tools-layout">
   <SimpleHeader title="Tools" description={description} />
   <div class="content-limit-width">
     
@@ -115,10 +115,22 @@ const description = "工欲善其事，必先利其器";
   </div>
 
   <style>
+    :global(.global-layout-transparent.tools-layout) {
+      width: 100%;
+      max-width: var(--topic-shell-width);
+      margin-inline: auto;
+    }
+
+    :global(.tools-layout .simple-header) {
+      width: 100%;
+      max-width: none;
+      padding-inline: var(--page-inline);
+    }
+
     .content-limit-width {
-      max-width: 1100px;
+      max-width: none;
       margin: 0 auto;
-      padding: 0 var(--page-inline);
+      padding: 0 var(--page-inline) var(--space-3xl);
       width: 100%;
       box-sizing: border-box;
     }

@@ -5,7 +5,7 @@ import SimpleHeader from '../components/SimpleHeader.astro';
 const { title } = Astro.props;
 ---
 
-<Base title={title} description="运动记录" fullWidth={true} hideHeader={true} useCard={false}>
+<Base title={title} description="运动记录" fullWidth={true} hideHeader={true} useCard={false} className="sports-shell">
   <link rel="dns-prefetch" href="https://unpkg.com" slot="head" />
   <link rel="preconnect" href="https://unpkg.com" crossorigin="" slot="head" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" slot="head" />
@@ -19,14 +19,23 @@ const { title } = Astro.props;
   </div>
 
   <style>
-    .sports-layout {
-        width: 100%;
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 clamp(var(--space-lg), 4vw, var(--space-2xl));
+    :global(body.full-width .global-layout-transparent.sports-shell) {
+      max-width: var(--topic-shell-width);
     }
 
-    /* 内容区域样式调整，使其在无 Hero 模式下更紧凑 */
+    :global(.sports-shell .simple-header) {
+      width: 100%;
+      max-width: none;
+      padding-inline: var(--page-inline);
+    }
+
+    .sports-layout {
+        width: 100%;
+        max-width: none;
+        margin: 0 auto;
+        padding: 0 var(--page-inline) var(--space-3xl);
+    }
+
     .content {
       margin-top: var(--space-sm);
     }
