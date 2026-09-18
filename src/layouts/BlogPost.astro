@@ -43,7 +43,7 @@ const topicLinksEnabled = Boolean(tags?.length);
 const articleClass = [
 	'r-article',
 	'[&_.nav-buttons-group]:fixed [&_.nav-buttons-group]:bottom-[var(--r-space-lg)] [&_.nav-buttons-group]:right-[var(--r-page-inline)] [&_.nav-buttons-group]:z-20',
-	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-button_svg]:block [&_.nav-button_svg]:h-[18px] [&_.nav-button_svg]:w-[18px]',
+	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-top-icon]:block [&_.nav-top-icon]:h-[18px] [&_.nav-top-icon]:w-[18px]',
 ].join(' ');
 const articleTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-sm)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-bold !leading-[1.22] !tracking-[-0.025em] !text-[var(--r-ink)]';
 const articleHeaderClass = 'r-article__header mb-[0.35rem]';
@@ -104,7 +104,7 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
 		</footer>
 
-		<NavButton showBackToTop={true} />
+		<NavButton showBackToTop={true} showReadingProgress={true} />
 	</article>
 
 	<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
