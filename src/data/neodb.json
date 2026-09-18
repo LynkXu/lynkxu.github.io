@@ -1704,6 +1704,97 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 623656770090769800,
+      "item": {
+        "type": "TVSeason",
+        "title": "Chainsmoker Cat",
+        "description": "尼古喵喵是只超爱抽烟的废物兽人！\n因为缺乏伦理与卫生观念，不是把烟头往窗外乱丢，就是对人乱吐口水，偶尔还会做出一些违法乱纪的事。\n幸好她身边有贴心的管家婆妹妹猫以及好友猫作伴，让她依旧能每天吞云吐雾、得过且过的生活着。",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Chainsmoker Cat"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "尼古喵喵"
+          },
+          {
+            "lang": "ja",
+            "text": "ヤニねこ"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "尼古喵喵是只超爱抽烟的废物兽人！\n因为缺乏伦理与卫生观念，不是把烟头往窗外乱丢，就是对人乱吐口水，偶尔还会做出一些违法乱纪的事。\n幸好她身边有贴心的管家婆妹妹猫以及好友猫作伴，让她依旧能每天吞云吐雾、得过且过的生活着。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/08/03/6fb7c817-800f-4b86-9c1d-92eaee8c8135.webp",
+        "rating": 8.4,
+        "rating_count": 10,
+        "rating_distribution": [
+          0,
+          0,
+          20,
+          30,
+          50
+        ],
+        "tags": null,
+        "brief": "尼古喵喵是只超爱抽烟的废物兽人！\n因为缺乏伦理与卫生观念，不是把烟头往窗外乱丢，就是对人乱吐口水，偶尔还会做出一些违法乱纪的事。\n幸好她身边有贴心的管家婆妹妹猫以及好友猫作伴，让她依旧能每天吞云吐雾、得过且过的生活着。",
+        "id": "https://neodb.social/tv/season/7X9l3NpCFAK95GkO4pL5Pr",
+        "uuid": "7X9l3NpCFAK95GkO4pL5Pr",
+        "url": "/tv/season/7X9l3NpCFAK95GkO4pL5Pr",
+        "api_url": "/api/tv/season/7X9l3NpCFAK95GkO4pL5Pr",
+        "category": "tv",
+        "parent_uuid": "1zwmqyaei6bgyDyzBEmGdy",
+        "display_title": "Chainsmoker Cat",
+        "external_resources": [
+          {
+            "url": "https://eggplant.place/tv/season/2XOxorb6qLlBx0xpKimef4"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/312949/season/1"
+          },
+          {
+            "url": "https://movie.douban.com/subject/38194261/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "更多...",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "木村拓",
+            "character_name": "",
+            "person_url": "/api/people/336lvMFVWcMu395ok9bpKh"
+          },
+          {
+            "role": "playwright",
+            "name": "Takashi Aoshima",
+            "character_name": "",
+            "person_url": "/api/people/3JVjHcObfIttBpSUmFj9Hh"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/media/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-09-18T06:09:20.887Z",
+      "comment_text": null,
+      "rating_grade": 7,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 576636152401998500,
       "item": {
         "type": "TVSeason",
