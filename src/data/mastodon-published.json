@@ -1,5 +1,16 @@
 [
   {
+    "url": "https://lynkxu.com/blog/2026-09-18-proxy-ai-rule.html/",
+    "postId": "2026-09-18-proxy-ai-rule",
+    "title": "解决代理访问 AI 时异常流量问题",
+    "sourcePath": "src/content/blog/2026-09-18-proxy-ai-rule/2026-09-19-proxy-ai-rule.md",
+    "tootId": "117292413852470768",
+    "tootUrl": "https://mastodon.social/@lynkxu/117292413852470768",
+    "visibility": "public",
+    "commit": "1c6ca6c8a86a75de4d0f8eed17437093e3f7e6e3",
+    "publishedAt": "2026-09-18T14:03:21.961Z"
+  },
+  {
     "url": "https://lynkxu.com/blog/2026-09-04-layoff.html/",
     "postId": "2026-09-04-layoff",
     "title": "喜提 N+x",
