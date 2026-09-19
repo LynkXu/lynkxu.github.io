@@ -13,9 +13,10 @@ export function isBoundaryVisible(zoom: number): boolean {
   return zoom >= CITY_BOUNDARY_MIN_ZOOM;
 }
 
-export function getSelectionLabel(name: string, date: string): string {
+export function getSelectionLabel(name: string, date: string, articleCount = 0): string {
   const displayDate = /^\d{4}-\d{2}$/.test(date) ? date.replace('-', '.') : date;
-  return `${name} · ${displayDate}`;
+  const base = `${name} · ${displayDate}`;
+  return articleCount > 0 ? `${base} · ${articleCount} 篇` : base;
 }
 
 export function getPlaceMonth(date: string, year: string): string {

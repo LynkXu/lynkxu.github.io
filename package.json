@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:travel-boundaries && npm run sync:mastodon && npm run sync:neodb && astro build",
+    "build": "npm run sync:travel-boundaries && npm run check:travel-boundaries && npm run sync:mastodon && npm run sync:neodb && astro build",
     "preview": "astro preview",
     "astro": "astro",
     "sync:travel-boundaries": "node scripts/travel-boundaries.mjs",

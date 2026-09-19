@@ -28,6 +28,9 @@ test('shows a city boundary only at the regional zoom threshold', () => {
 test('formats the selected city and visit date without extra copy', () => {
   assert.equal(getSelectionLabel('成都', '2026-09'), '成都 · 2026.09');
   assert.equal(getSelectionLabel('上海', '2020 - 至今'), '上海 · 2020 - 至今');
+  assert.equal(getSelectionLabel('成都', '2026-09', 0), '成都 · 2026.09');
+  assert.equal(getSelectionLabel('成都', '2026-09', 1), '成都 · 2026.09 · 1 篇');
+  assert.equal(getSelectionLabel('重庆', '2026-09', 2), '重庆 · 2026.09 · 2 篇');
 });
 
 test('extracts a compact month label for the archive row', () => {
