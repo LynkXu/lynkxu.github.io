@@ -6,7 +6,7 @@ const GCJ_EE = 0.00669342162296594323;
 
 export function getBoundaryUrl(adminCode?: string): string | null {
   if (!adminCode || !/^\d{6}$/.test(adminCode)) return null;
-  return `https://geo.datav.aliyun.com/areas_v3/bound/${adminCode}.json`;
+  return `/travel-boundaries/${adminCode}.json`;
 }
 
 export function isBoundaryVisible(zoom: number): boolean {

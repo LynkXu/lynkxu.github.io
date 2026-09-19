@@ -5,9 +5,11 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run sync:mastodon && npm run sync:neodb && astro build",
+    "build": "npm run check:travel-boundaries && npm run sync:mastodon && npm run sync:neodb && astro build",
     "preview": "astro preview",
     "astro": "astro",
+    "sync:travel-boundaries": "node scripts/travel-boundaries.mjs",
+    "check:travel-boundaries": "node scripts/travel-boundaries.mjs --check",
     "sync:mastodon": "node scripts/fetch-mastodon.js",
     "sync:neodb": "node scripts/fetch-neodb.js",
     "copy-lightgallery": "node scripts/copy-lightgallery.js"

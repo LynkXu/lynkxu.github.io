@@ -1,8 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
+import { getCollection } from 'astro:content';
 import { travelPlaces, type TravelPlace } from '../data/travel-places';
+import { getTravelArticleHref, groupTravelArticlesByPlace } from '../lib/travel-articles';
 import { getPlaceMonth } from '../lib/travel-map-state';
+import { filterDrafts } from '../utils/drafts';
 
 const getDateValue = (date: string) => {
   const match = date.match(/\d{4}([-.]\d{2})?/);
@@ -20,6 +23,15 @@ const placesByYear = visitedPlaces.reduce((groups, place) => {
 }, {} as Record<string, TravelPlace[]>);
 
 const sortedYears = Object.keys(placesByYear).sort((a, b) => b.localeCompare(a));
+const travelArticlesByPlace = groupTravelArticlesByPlace(filterDrafts(await getCollection('blog')));
+const placesWithArticles = travelPlaces.filter((place) => travelArticlesByPlace[place.id]?.length);
+
+const getArticleDate = (date: Date) => {
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${date.getFullYear()}.${month}.${day}`;
+};
+
 const title = '旅行足迹';
 const description = '旅行足迹';
 ---
@@ -72,6 +84,27 @@ const description = '旅行足迹';
           </div>
         </div>
       </section>
+
+      {placesWithArticles.length > 0 && (
+        <section id="travel-related" class="travel-related" aria-live="polite" hidden>
+          {placesWithArticles.map((place) => (
+            <div class="related-place" data-related-place={place.id} hidden>
+              <div class="related-heading">
+                <h2>相关记录</h2>
+                <span>{place.name}</span>
+              </div>
+              <ol class="related-list">
+                {travelArticlesByPlace[place.id].map((article) => (
+                  <li>
+                    <a href={getTravelArticleHref(article)}>{article.data.title}</a>
+                    <time datetime={article.data.pubDate.toISOString()}>{getArticleDate(article.data.pubDate)}</time>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+        </section>
+      )}
 
       <section class="travel-archive" aria-labelledby="travel-archive-title">
         <div class="archive-heading">
@@ -230,6 +263,79 @@ const description = '旅行足迹';
 
     .travel-archive {
       margin-top: var(--space-2xl);
+    }
+
+    .travel-related {
+      margin-top: var(--space-xl);
+      padding-block: var(--space-md);
+      border-block: 1px solid var(--paper-card-border-soft);
+    }
+
+    .travel-related[hidden],
+    .related-place[hidden] {
+      display: none;
+    }
+
+    .related-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+
+    .related-heading h2 {
+      margin: 0;
+      color: var(--heading-color);
+      font-family: var(--serif-font);
+      font-size: var(--text-md);
+      font-weight: var(--weight-bold);
+      line-height: var(--lh-tight);
+    }
+
+    .related-heading span {
+      color: var(--gray-color);
+      font-family: var(--ui-font);
+      font-size: var(--text-xs);
+    }
+
+    .related-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .related-list li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: baseline;
+      gap: var(--space-md);
+      padding-block: var(--space-xs);
+    }
+
+    .related-list a {
+      color: var(--heading-color);
+      font-family: var(--serif-font);
+      font-size: 0.92rem;
+      font-weight: var(--weight-semibold);
+      text-decoration: none;
+    }
+
+    .related-list a:hover {
+      color: var(--link-color);
+    }
+
+    .related-list a:focus-visible {
+      border-radius: 2px;
+      outline: 2px solid color-mix(in oklab, var(--accent-color) 72%, transparent);
+      outline-offset: 3px;
+    }
+
+    .related-list time {
+      color: var(--gray-color);
+      font-family: var(--code-font);
+      font-size: 0.7rem;
+      font-variant-numeric: tabular-nums;
     }
 
     .archive-heading {
@@ -458,6 +564,7 @@ const description = '旅行足迹';
     } from '../lib/travel-map-state';
 
     type ClientPlace = {
+      id: string;
       name: string;
       lat: number;
       lng: number;
@@ -483,6 +590,9 @@ const description = '旅行足迹';
       const selection = document.querySelector<HTMLElement>('#travel-map-selection');
       const resetButton = document.querySelector<HTMLButtonElement>('#travel-map-reset');
       const placeButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-place-index]'));
+      const mapSection = document.querySelector<HTMLElement>('.map-section');
+      const relatedSection = document.querySelector<HTMLElement>('#travel-related');
+      const relatedPlaces = Array.from(document.querySelectorAll<HTMLElement>('[data-related-place]'));
       const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || '#58715f';
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const map = Leaflet.map(container, {
@@ -552,6 +662,14 @@ const description = '旅行足迹';
         markers.forEach((marker) => marker.unbindTooltip());
       };
 
+      const showRelatedArticles = (placeId?: string) => {
+        const active = relatedPlaces.find((group) => group.dataset.relatedPlace === placeId);
+        relatedPlaces.forEach((group) => {
+          group.hidden = group !== active;
+        });
+        if (relatedSection) relatedSection.hidden = !active;
+      };
+
       const showSelectionTip = (index: number) => {
         const place = places[index];
         clearSelectionTip();
@@ -608,6 +726,7 @@ const description = '旅行足迹';
         activeBoundary = null;
         if (selection) selection.textContent = getSelectionLabel(place.name, place.date);
         if (resetButton) resetButton.hidden = false;
+        showRelatedArticles(place.id);
         showSelectionTip(index);
         placeButtons.forEach((button) => {
           if (Number(button.dataset.placeIndex) === index) {
@@ -666,6 +785,7 @@ const description = '旅行足迹';
         clearSelectionTip();
         if (selection) selection.textContent = '世界';
         resetButton.hidden = true;
+        showRelatedArticles();
         placeButtons.forEach((button) => button.removeAttribute('aria-current'));
         fitWorld(true);
       });
@@ -675,6 +795,10 @@ const description = '旅行足迹';
           const index = Number(button.dataset.placeIndex);
           if (!Number.isInteger(index)) return;
           void selectPlace(index);
+          mapSection?.scrollIntoView({
+            behavior: reduceMotion ? 'auto' : 'smooth',
+            block: 'start',
+          });
         });
       });
 

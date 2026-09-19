@@ -12,14 +12,11 @@ import {
   isBoundaryVisible,
 } from '../src/lib/travel-map-state.ts';
 
-test('builds a DataV boundary URL only for a six-digit administrative code', () => {
-  assert.equal(
-    getBoundaryUrl('510100'),
-    'https://geo.datav.aliyun.com/areas_v3/bound/510100.json',
-  );
-  assert.equal(getBoundaryUrl('5101'), null);
-  assert.equal(getBoundaryUrl('chengdu'), null);
-  assert.equal(getBoundaryUrl(), null);
+test('builds a same-origin boundary URL only for a six-digit administrative code', () => {
+	assert.equal(getBoundaryUrl('510100'), '/travel-boundaries/510100.json');
+	assert.equal(getBoundaryUrl('5101'), null);
+	assert.equal(getBoundaryUrl('chengdu'), null);
+	assert.equal(getBoundaryUrl(), null);
 });
 
 test('shows a city boundary only at the regional zoom threshold', () => {

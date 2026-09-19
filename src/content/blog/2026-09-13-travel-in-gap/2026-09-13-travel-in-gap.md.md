@@ -5,6 +5,9 @@ tags:
   - 生活
   - 旅行
   - 流水账
+places:
+  - cn-chongqing
+  - cn-chengdu
 pubDate: 2026-09-16
 ---
 
