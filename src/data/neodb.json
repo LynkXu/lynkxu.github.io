@@ -1704,6 +1704,444 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 624348955325832200,
+      "item": {
+        "type": "TVSeason",
+        "title": "Not Suitable for Work",
+        "description": "",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Not Suitable for Work"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "工作不宜"
+          },
+          {
+            "lang": "so",
+            "text": "Murray Hill"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "曼哈顿打拼日记"
+          }
+        ],
+        "localized_description": [],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/06/02/912e2e30-f667-4192-a56d-07f5fb1784ef.webp",
+        "rating": 6.9,
+        "rating_count": 8,
+        "rating_distribution": [
+          0,
+          0,
+          50,
+          50,
+          0
+        ],
+        "tags": null,
+        "brief": "",
+        "id": "https://neodb.social/tv/season/3tsxAwNQ9nGRbHG7A0IzM5",
+        "uuid": "3tsxAwNQ9nGRbHG7A0IzM5",
+        "url": "/tv/season/3tsxAwNQ9nGRbHG7A0IzM5",
+        "api_url": "/api/tv/season/3tsxAwNQ9nGRbHG7A0IzM5",
+        "category": "tv",
+        "parent_uuid": "0Vbh5pcx4Jnddmi2n2Q8lV",
+        "display_title": "Not Suitable for Work",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/36845423/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "艾拉·亨特",
+            "character_name": "",
+            "person_url": "/api/people/0eGSCir0rpASx9Wgj1V6cQ"
+          },
+          {
+            "role": "actor",
+            "name": "阿凡提卡·万达纳普",
+            "character_name": "",
+            "person_url": "/api/people/3GC7laFBEIJ1m0UCkq2lML"
+          },
+          {
+            "role": "actor",
+            "name": "杰克·马丁",
+            "character_name": "",
+            "person_url": "/api/people/1EfjXpGrNF7cKHwsDfPPFZ"
+          },
+          {
+            "role": "actor",
+            "name": "尼古拉斯·杜威内",
+            "character_name": "",
+            "person_url": "/api/people/10uI7z4V0yIpE9BKbft7du"
+          },
+          {
+            "role": "actor",
+            "name": "威尔·菲茨",
+            "character_name": "",
+            "person_url": "/api/people/6Ozu8R9q9dskFtIm2lM1RE"
+          },
+          {
+            "role": "actor",
+            "name": "维克多·加博",
+            "character_name": "",
+            "person_url": "/api/people/5aQeNP759hhFmjG3UklzbN"
+          },
+          {
+            "role": "actor",
+            "name": "吴恬敏",
+            "character_name": "",
+            "person_url": "/api/people/2NqpADhNFqxe3HXA3571I3"
+          },
+          {
+            "role": "actor",
+            "name": "格雷格·格曼",
+            "character_name": "",
+            "person_url": "/api/people/0Zd0os2Cp4bgkNhT6MuDwL"
+          },
+          {
+            "role": "actor",
+            "name": "梅·洪",
+            "character_name": "",
+            "person_url": "/api/people/6gFaa7sO97FvxONMkReaU4"
+          },
+          {
+            "role": "actor",
+            "name": "劳拉·贝尔·邦迪",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "哈里·理查森",
+            "character_name": "",
+            "person_url": "/api/people/3l6FIKAh3QAzCfy0DMEOr6"
+          },
+          {
+            "role": "actor",
+            "name": "艾戈·乌迪姆",
+            "character_name": "",
+            "person_url": "/api/people/5c1uruGdm95QGDJaDjJII3"
+          },
+          {
+            "role": "actor",
+            "name": "杰·埃利斯",
+            "character_name": "",
+            "person_url": "/api/people/086kYiY9Zyj0j1b23ATuKO"
+          },
+          {
+            "role": "actor",
+            "name": "威廉·安格斯",
+            "character_name": "",
+            "person_url": "/api/people/6hReThRDg6FsFFKJSnyAR5"
+          },
+          {
+            "role": "actor",
+            "name": "艾米莉亚·苏亚雷斯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "斯万米·萨姆派奥",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "斯特拉·埃弗里特",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "朱迪·戈德",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "迈克尔·本杰明·华盛顿",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "哈德森·博恩",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "playwright",
+            "name": "敏迪·卡灵",
+            "character_name": "",
+            "person_url": "/api/people/4nrb7tWGHYBSFbAXpWIrSO"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/media/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-09-20T03:59:50.732Z",
+      "comment_text": null,
+      "rating_grade": 6,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
+      "post_id": 624100850522284300,
+      "item": {
+        "type": "TVSeason",
+        "title": "Lanterns",
+        "description": "斯图尔特和乔丹这两个星际警察在美国腹地调查一起谋杀案时，被卷入了一个地球上的黑暗谜团。",
+        "localized_title": [
+          {
+            "lang": "en",
+            "text": "Lanterns"
+          },
+          {
+            "lang": "en",
+            "text": "Green Lantern"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "绿灯军团"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "灯侠"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "綠光軍團"
+          },
+          {
+            "lang": "en",
+            "text": "Lantern"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "绿灯侠"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "灯团"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "斯图尔特和乔丹这两个星际警察在美国腹地调查一起谋杀案时，被卷入了一个地球上的黑暗谜团。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/09/08/b21fd9b5-ef93-4a73-8556-7113f41e1e52.webp",
+        "rating": null,
+        "rating_count": 1,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": null,
+        "brief": "斯图尔特和乔丹这两个星际警察在美国腹地调查一起谋杀案时，被卷入了一个地球上的黑暗谜团。",
+        "id": "https://neodb.social/tv/season/3gRpjqVUdsjyL0Iy9UYnd6",
+        "uuid": "3gRpjqVUdsjyL0Iy9UYnd6",
+        "url": "/tv/season/3gRpjqVUdsjyL0Iy9UYnd6",
+        "api_url": "/api/tv/season/3gRpjqVUdsjyL0Iy9UYnd6",
+        "category": "tv",
+        "parent_uuid": "4jL8sieNdczm9rSBEg9jHp",
+        "display_title": "Lanterns",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/34992745/"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36225837/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "凯尔·钱德勒",
+            "character_name": "",
+            "person_url": "/api/people/0WWiwCDsqKvcwTYUcPrySq"
+          },
+          {
+            "role": "actor",
+            "name": "亚伦·皮埃尔",
+            "character_name": "",
+            "person_url": "/api/people/2KzivO0DnmwdjO6krmwZAp"
+          },
+          {
+            "role": "actor",
+            "name": "内森·菲利安",
+            "character_name": "",
+            "person_url": "/api/people/6JLIXEEdylwzbNOEMP6Ws0"
+          },
+          {
+            "role": "actor",
+            "name": "凯莉·麦克唐纳",
+            "character_name": "",
+            "person_url": "/api/people/6ADDE32gDMBNgkrGEtuxMj"
+          },
+          {
+            "role": "actor",
+            "name": "杰森·雷特",
+            "character_name": "",
+            "person_url": "/api/people/3lzT7RXu6ww2KPjjm9lm2q"
+          },
+          {
+            "role": "actor",
+            "name": "加瑞特·迪拉胡特",
+            "character_name": "",
+            "person_url": "/api/people/1BhPc0qE3YTsDVc46yP36B"
+          },
+          {
+            "role": "actor",
+            "name": "妮可·阿丽·帕克",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "普娜·贾甘纳坦",
+            "character_name": "",
+            "person_url": "/api/people/4aFCI5ekJE1QmpKoAn62V9"
+          },
+          {
+            "role": "actor",
+            "name": "乌尔里奇·汤姆森",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "J·阿方斯·尼科尔森",
+            "character_name": "",
+            "person_url": "/api/people/1SGDYyjDRLIspn6AIgPFZx"
+          },
+          {
+            "role": "actor",
+            "name": "谢尔曼·奥古斯图斯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "贾思敏·西法斯·琼斯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "迈克尔·奥坎波",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "卡里·克里斯托弗",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "汉娜·克莉丝汀·谢特勒",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "谢伊·普里查德",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "詹姆斯·霍斯",
+            "character_name": "",
+            "person_url": "/api/people/4KLi8k6QAIccaSLhe5fMNs"
+          },
+          {
+            "role": "director",
+            "name": "吉塔·瓦桑特·帕特尔",
+            "character_name": "",
+            "person_url": "/api/people/3kV5zPs7xvd4tM4NjeEyYY"
+          },
+          {
+            "role": "director",
+            "name": "阿利克·萨哈罗夫",
+            "character_name": "",
+            "person_url": "/api/people/0rh41Ij2Vnb3lAnwMvt6u3"
+          },
+          {
+            "role": "director",
+            "name": "斯蒂芬·威廉姆斯",
+            "character_name": "",
+            "person_url": "/api/people/78ByXKkRhMWRO56HUmR1zm"
+          },
+          {
+            "role": "playwright",
+            "name": "克里斯·芒迪",
+            "character_name": "",
+            "person_url": "/api/people/3liqJvYd7IrVGrB3VY7uUK"
+          },
+          {
+            "role": "playwright",
+            "name": "达蒙·林德洛夫",
+            "character_name": "",
+            "person_url": "/api/people/555z6sbIyzGxrO9s3RDoK4"
+          },
+          {
+            "role": "playwright",
+            "name": "汤姆·金",
+            "character_name": "",
+            "person_url": "/api/people/6TJsaMyz43alyokDyOdDpD"
+          },
+          {
+            "role": "playwright",
+            "name": "瓦妮莎·巴登",
+            "character_name": "",
+            "person_url": "/api/people/56b8R3rzvWAzgohQcfWvSa"
+          },
+          {
+            "role": "playwright",
+            "name": "贾斯廷·布里特-吉布森",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "playwright",
+            "name": "布里安娜·吉布森",
+            "character_name": "",
+            "person_url": "/api/people/3MM1lp4H9oU09BbG8KtwNW"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/media/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-09-19T11:33:57.926Z",
+      "comment_text": null,
+      "rating_grade": 7,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 623656770090769800,
       "item": {
         "type": "TVSeason",
