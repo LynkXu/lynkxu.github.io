@@ -13,6 +13,7 @@ const content = readFileSync(
 
 test('about page is a concise reading-first personal note', () => {
 	assert.match(layout, /<h1 id="about-title" class=\{pageTitleClass\}>关于我<\/h1>/);
+	assert.match(layout, /pageTitleClass = '[^']*!\[font-size:var\(--r-text-page\)\]/);
 	assert.match(content, /### 生平/);
 	assert.match(content, /### 最近/);
 	assert.match(content, /### 联系/);
