@@ -6,6 +6,7 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
 import { getAllGossips } from '../utils/gossips';
 import { toPlainExcerpt } from '../utils/plain-text';
+import AboutTraits from '../components/AboutTraits.astro';
 
 const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
@@ -25,6 +26,7 @@ function getPostHref(post: (typeof posts)[number]) {
 <ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
 	<section class={homeIntroClass} aria-label="简介">
 		<h1 class={homeIntroTextClass}>你好，我是 Lynk。</h1>
+		<AboutTraits />
 	</section>
 
 	<section class="r-section" aria-labelledby="home-writing-title">

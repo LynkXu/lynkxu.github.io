@@ -16,8 +16,8 @@ test('about page is a concise reading-first personal note', () => {
 	assert.match(content, /### 生平/);
 	assert.match(content, /### 最近/);
 	assert.match(content, /### 联系/);
-	assert.match(content, /import AboutTraits from ['"]\.\.\/\.\.\/components\/AboutTraits\.astro['"]/);
-	assert.match(content, /import AboutTraits from ['"]\.\.\/\.\.\/components\/AboutTraits\.astro['"];\s*<AboutTraits \/>\s*以前叫 Link/);
+	assert.doesNotMatch(content, /AboutTraits/);
+	assert.match(content, /pageLayout: About\n---\n\n以前叫 Link/);
 	assert.match(content, /初中开始接触智能手机/);
 	assert.match(content, /最近比较感兴趣的是「马拉松」和 「AI」/);
 	assert.doesNotMatch(content, /寻找真正喜欢并愿意长期做的事/);

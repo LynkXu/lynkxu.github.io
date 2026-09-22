@@ -189,15 +189,14 @@ test('about and sponsor chrome are Tailwind-composed', () => {
   for (const token of ['headerClass', 'pageTitleClass', 'proseClass', 'extrasClass', 'extrasTitleClass', 'extrasListClass', 'historyClass', 'sponsorClass', 'sponsorPanelClass']) {
     assert.match(about, new RegExp(`const ${token} =`));
   }
-  for (const token of ['traitsClass', 'traitItemClass', 'hashClass']) {
+  for (const token of ['traitsClass', 'traitItemClass']) {
     assert.match(aboutTraits, new RegExp(`const ${token} =`));
   }
-  assert.match(aboutTraits, /const traits = \[[\s\S]*'Web3 爱好者',[\s\S]*'APP 体验家',[\s\S]*'长期主义',[\s\S]*'混沌中立',[\s\S]*'生人勿近',[\s\S]*\];/);
+  assert.match(aboutTraits, /const traits = \[[\s\S]*'全栈开发工程师',[\s\S]*'Web3 爱好者',[\s\S]*'APP 体验家',[\s\S]*'长期主义',[\s\S]*'混沌中立',[\s\S]*\];/);
   assert.match(aboutTraits, /<ul class=\{traitsClass\} aria-label="个人标签">/);
-  assert.match(aboutTraits, /traitsClass = '[^']*!mb-\[var\(--r-space-md\)\][^']*!gap-x-\[var\(--r-space-sm\)\][^']*!gap-y-\[var\(--r-space-xs\)\]/);
-  assert.match(aboutTraits, /traitItemClass = '[^']*whitespace-nowrap[^']*\[font-size:0\.72rem\][^']*text-\[var\(--r-ink-soft\)\]/);
-  assert.match(aboutTraits, /hashClass = '[^']*text-\[var\(--r-ink-faint\)\]/);
-  assert.match(aboutTraits, /\{traits\.map\(\(trait\) => \([\s\S]*<li class=\{traitItemClass\}>[\s\S]*<span class=\{hashClass\} aria-hidden="true">#<\/span>\{trait\}[\s\S]*<\/li>/);
+  assert.match(aboutTraits, /traitsClass = '[^']*!mt-\[var\(--r-space-md\)\][^']*!gap-y-\[var\(--r-space-xs\)\]/);
+  assert.match(aboutTraits, /traitItemClass = '[^']*\[font-size:var\(--r-text-xs\)\][^']*after:content-\["·"\]/);
+  assert.doesNotMatch(aboutTraits, /hashClass|#<\/span>/);
   assert.doesNotMatch(aboutTraits, /traitItemClass = '[^']*(?:bg-|border|rounded|shadow|p[xy]-)|hover:|<a|<button/);
   for (const token of ['sponsorRootClass', 'foldClass', 'summaryClass', 'cryptoItemClass', 'copyButtonClass']) {
     assert.match(sponsor, new RegExp(`const ${token} =`));
