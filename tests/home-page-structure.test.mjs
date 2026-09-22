@@ -17,7 +17,7 @@ test('homepage presents a concise content directory', () => {
 
 test('homepage uses the approved reading rhythm without card or grid chrome', () => {
 	assert.match(source, /homeIntroClass = '[^']*mb-\[var\(--r-space-2xl\)\]/);
-	assert.match(source, /homeIntroTextClass = '[^']*!\[font-size:var\(--r-text-page\)\]/);
+	assert.match(source, /homeIntroTextClass = '[^']*!\[font-size:var\(--r-text-lg\)\]/);
 	assert.match(source, /\.r-post-list\s*\{\s*gap:\s*var\(--r-space-sm\);/);
 	assert.match(source, /\.r-section \+ \.r-section\s*\{\s*margin-top:\s*var\(--r-space-2xl\);/);
 	assert.match(source, /@media \(max-width: 640px\)[\s\S]*?\.r-post-list__item[\s\S]*?grid-template-columns:\s*minmax\(0, 1fr\);/);
