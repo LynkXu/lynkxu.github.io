@@ -11,7 +11,7 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 5);
+const latestPosts = posts.slice(0, 6);
 const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 const homeIntroClass = 'r-home-intro m-0 mb-[var(--r-space-2xl)]';

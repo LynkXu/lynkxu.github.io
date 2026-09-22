@@ -8,7 +8,7 @@ const source = readFileSync(
 );
 
 test('homepage presents a concise content directory', () => {
-	assert.match(source, /const latestPosts = posts\.slice\(0, 5\);/);
+	assert.match(source, /const latestPosts = posts\.slice\(0, 6\);/);
 	assert.match(source, /<h1 class=\{homeIntroTextClass\}>你好，我是 Lynk。<\/h1>/);
 	assert.doesNotMatch(source, /写代码，也记录生活里那些值得留下的片段。/);
 	assert.match(source, /href="\/blog"[^>]*aria-label="查看全部文章"[^>]*>全部<\/a>/);
