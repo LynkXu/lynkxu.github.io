@@ -28,16 +28,6 @@
     border-bottom: 1px solid var(--r-rule-soft);
   }
 
-  .r-section__more {
-    font-family: var(--r-font-ui);
-    font-size: var(--r-text-xs);
-    color: var(--r-ink-soft);
-  }
-
-  .r-section__more:hover {
-    color: var(--r-ink);
-  }
-
   .r-post-list {
     list-style: none;
     margin: 0;
@@ -329,7 +319,6 @@ body.reading-surface a:hover {
 
 body.reading-surface :where(
   .reading-shell__footer a,
-  .r-section__more,
   .r-post-list__title,
   .r-note-list a,
   .r-prose a,
@@ -346,7 +335,6 @@ body.reading-surface :where(
 
 body.reading-surface :where(
   .reading-shell__footer a:hover,
-  .r-section__more:hover,
   .r-post-list__title:hover,
   .r-note-list a:hover,
   .r-prose a:hover,

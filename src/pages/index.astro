@@ -12,10 +12,10 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 6);
+const latestPosts = posts.slice(0, 5);
 const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
-const homeIntroClass = 'r-home-intro m-0 mb-[var(--r-space-2xl)]';
+const homeIntroClass = 'r-home-intro mt-[var(--r-space-lg)] mb-[var(--r-space-2xl)]';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-medium !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -32,7 +32,6 @@ function getPostHref(post: (typeof posts)[number]) {
 	<section class="r-section" aria-labelledby="home-writing-title">
 		<header class="r-section__head">
 			<h2 id="home-writing-title" class={sectionTitleClass}>最近文章</h2>
-			<a href="/blog" class="r-section__more" aria-label="查看全部文章">全部</a>
 		</header>
 
 		<ol class="r-post-list">
@@ -51,7 +50,6 @@ function getPostHref(post: (typeof posts)[number]) {
 		<section class="r-section" aria-labelledby="home-notes-title">
 			<header class="r-section__head">
 				<h2 id="home-notes-title" class={sectionTitleClass}>碎语</h2>
-				<a href="/shuoshuo" class="r-section__more" aria-label="查看全部碎语">全部</a>
 			</header>
 
 			<ul class="r-note-list">
