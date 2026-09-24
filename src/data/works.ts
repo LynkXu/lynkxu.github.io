@@ -12,7 +12,7 @@ export const works: WorkItem[] = [
 	},
 	{
 		title: 'AI-Learning',
-		description: '按 12 周学习计划，让 AI 教我从零构建一个 Coding Agent。',
+		description: '12 周从零让 AI 教我从零构建一个 Coding Agent。',
 		href: 'https://github.com/LynkXu/AI-Learning',
 	},
 	{
