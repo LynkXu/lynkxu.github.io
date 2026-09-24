@@ -155,12 +155,10 @@ test('reading page titles are explicit Tailwind utilities', () => {
 test('works listing styles are Tailwind-composed', () => {
   const works = read('src/pages/works.astro');
 
-  for (const token of ['workHeadClass', 'workListClass', 'workCardClass', 'workMetaClass', 'workTitleClass', 'workDescClass']) {
+  for (const token of ['workHeadClass', 'workListClass', 'workItemClass', 'workTitleClass', 'workDescClass']) {
     assert.match(works, new RegExp(`const ${token} =`));
   }
-  assert.match(works, /workCardClass = '[^']* h-full /);
-  assert.match(works, /workCardClass = '[^']*!border !border-\[color-mix/);
-  assert.match(works, /hover:!border-\[color-mix/);
+  assert.doesNotMatch(works, /<style>/);
 });
 
 test('tag page chrome uses Tailwind utilities without duplicate CSS', () => {

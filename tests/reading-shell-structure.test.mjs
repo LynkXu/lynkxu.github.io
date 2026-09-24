@@ -17,7 +17,7 @@ test('reading shell exposes the current primary navigation', () => {
 		assert.match(source, new RegExp(`\{ href: '${href}', label: '${label}' \}`));
 	}
 
-	assert.match(source, /SHOW_WORKS_NAV \? \[\{ href: '\/works', label: '作品' \}\] : \[\]/);
+	assert.match(source, /SHOW_WORKS_NAV \? \[\{ href: '\/works', label: '项目' \}\] : \[\]/);
 	assert.match(source, /<nav class=\{navClass\} aria-label="主导航">/);
 });
 

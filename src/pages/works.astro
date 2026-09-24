@@ -2,16 +2,17 @@
 import ReadingShell from '../layouts/ReadingShell.astro';
 import { works } from '../data/works';
 
-const title = '作品';
-const description = '做过的一些东西。';
+const title = '项目';
+const description = '我的项目。';
 const pageTitleClass = 'r-page-title r-works__title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
-const workHeadClass = 'r-works__head mb-[var(--r-space-md)]';
-const workEmptyClass = 'r-works__empty m-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-sm)] text-[var(--r-ink-faint)]';
-const workListClass = 'r-work-list m-0 grid list-none grid-cols-2 gap-[var(--r-space-md)] p-0 max-[640px]:grid-cols-1 max-[640px]:gap-[var(--r-space-sm)]';
-const workCardClass = 'r-work flex h-full min-w-0 flex-col gap-[0.45rem] rounded-[3px] !border !border-[color-mix(in_oklab,var(--r-rule-soft)_55%,transparent)] bg-[color-mix(in_oklab,var(--r-ink)_2.2%,var(--r-bg))] p-[var(--r-space-md)] !text-inherit !no-underline transition-colors hover:!border-[color-mix(in_oklab,var(--r-rule)_70%,transparent)] hover:bg-[color-mix(in_oklab,var(--r-ink)_3.4%,var(--r-bg))] hover:!text-inherit hover:!no-underline max-[640px]:px-[var(--r-space-md)] max-[640px]:py-[var(--r-space-sm)]';
-const workMetaClass = 'r-work__meta m-0 inline-flex flex-wrap items-baseline gap-[0.35rem] [font-family:var(--r-font-ui)] [font-size:0.72rem] leading-[1.35] tracking-[0.01em] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
-const workTitleClass = 'r-work__title min-w-0 [font-family:var(--r-font-body)] [font-size:clamp(1.02rem,1.8vw,1.12rem)] font-medium leading-[1.35] tracking-[-0.01em] text-[var(--r-ink)] max-[640px]:[font-size:1.02rem]';
-const workDescClass = 'r-work__desc mt-[0.1rem] min-w-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-sm)] leading-[1.55] text-[var(--r-ink-soft)]';
+const workHeadClass = 'r-works__head mb-[var(--r-space-lg)]';
+const workEmptyClass = 'r-works__empty m-0 [font-family:var(--r-font-body)] [font-size:var(--r-text-sm)] text-[var(--r-ink-soft)]';
+const workListClass = 'r-work-list m-0 grid list-none grid-cols-[max-content_minmax(0,1fr)] gap-x-[var(--r-space-md)] gap-y-[var(--r-space-sm)] p-0 max-[640px]:grid-cols-1';
+const workItemClass = 'r-work col-span-2 grid grid-cols-subgrid items-baseline max-[640px]:col-span-1 max-[640px]:grid-cols-1 max-[640px]:gap-y-[0.15rem]';
+const workTitleClass = 'r-work__title inline-flex w-fit shrink-0 items-baseline justify-self-start gap-[var(--r-space-xs)] whitespace-nowrap !border-b-0 ![font-family:var(--r-font-body)] ![font-size:var(--text-md)] !font-normal !leading-[var(--r-lh-tight)] !text-[var(--r-ink)] !no-underline hover:!text-[var(--r-link)]';
+const workNameClass = 'underline decoration-[var(--r-link-underline-color)] decoration-[1px] underline-offset-[var(--r-link-underline-offset)]';
+const workMarkClass = 'r-work__mark inline-block h-[0.72em] w-[0.72em] shrink-0 self-center text-[var(--r-ink-soft)]';
+const workDescClass = 'r-work__desc !m-0 min-w-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-sm)] !font-normal !leading-[1.55] !text-[var(--r-ink-soft)]';
 
 function isExternal(href: string) {
 	return href.startsWith('http://') || href.startsWith('https://');
@@ -21,36 +22,32 @@ function isExternal(href: string) {
 <ReadingShell title={title} description={description}>
 	<section class="r-works" aria-labelledby="works-title">
 		<header class={workHeadClass}>
-			<h1 id="works-title" class={pageTitleClass}>作品</h1>
+			<h1 id="works-title" class={pageTitleClass}>项目</h1>
 		</header>
 
 		{works.length === 0 ? (
-			<p class={workEmptyClass}>还没有作品。</p>
+			<p class={workEmptyClass}>还没有项目。</p>
 		) : (
 			<ul class={workListClass}>
 				{works.map((work) => {
 					const external = isExternal(work.href);
-					const hasMeta = Boolean(work.year || work.kind);
 					return (
-						<li>
+						<li class={workItemClass}>
 							<a
 								href={work.href}
-								class={workCardClass}
+								class={workTitleClass}
 								target={external ? '_blank' : undefined}
 								rel={external ? 'noopener noreferrer' : undefined}
 							>
-								{hasMeta && (
-									<span class={workMetaClass}>
-										{work.year && <span class="r-work__year text-[var(--r-ink-soft)]">{work.year}</span>}
-										{work.year && work.kind && (
-											<span class="r-work__sep text-[var(--r-ink-faint)]" aria-hidden="true">·</span>
-										)}
-										{work.kind && <span class="r-work__kind text-[var(--r-ink-faint)]">{work.kind}</span>}
-									</span>
+								<span class={workNameClass}>{work.title}</span>
+								{external && (
+									<svg class={workMarkClass} viewBox="0 0 12 12" aria-hidden="true">
+										<path d="M3.25 3.25h5.5v5.5M8.75 3.25 3.25 8.75" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="square" />
+									</svg>
 								)}
-								<span class={workTitleClass}>{work.title}</span>
-								<span class={workDescClass}>{work.description}</span>
+								{external && <span class="sr-only">（在新标签页打开）</span>}
 							</a>
+							<p class={workDescClass}>{work.description}</p>
 						</li>
 					);
 				})}
