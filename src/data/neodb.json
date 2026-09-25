@@ -142,6 +142,323 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 625949766874777000,
+      "item": {
+        "type": "Movie",
+        "title": "One Night Only",
+        "description": "Two love-starved strangers crash into each other on the one night of the year when single people are allowed to have sex.",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "一夜限定"
+          },
+          {
+            "lang": "en",
+            "text": "One Night Only"
+          },
+          {
+            "lang": "ko",
+            "text": "원 나잇 온리"
+          },
+          {
+            "lang": "es",
+            "text": "Una noche al año"
+          },
+          {
+            "lang": "ko",
+            "text": "원나잇 온리"
+          },
+          {
+            "lang": "fr",
+            "text": "Juste pour une Nuit"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "一夜限定"
+          },
+          {
+            "lang": "zh",
+            "text": "一夜限定"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "僅此一夜"
+          },
+          {
+            "lang": "es",
+            "text": "One Night Only"
+          },
+          {
+            "lang": "fr",
+            "text": "Juste pour une nuit"
+          },
+          {
+            "lang": "de",
+            "text": "One Night Only"
+          },
+          {
+            "lang": "ko",
+            "text": "하룻밤만"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "在一个世界严格禁止婚前性行为，每年只有一个晚上未婚人士能够破例，从当天晚7点到第二天早7点。艾莉和欧文原本的伴侣都在这晚抛弃了他们，两个迷失的人在纽约多次相遇，走到了一起。"
+          },
+          {
+            "lang": "en",
+            "text": "Two love-starved strangers crash into each other on the one night of the year when single people are allowed to have sex."
+          },
+          {
+            "lang": "fr",
+            "text": "Un homme et une femme se démènent pour trouver quelqu'un avec qui coucher la seule nuit de l'année où les relations sexuelles avant le mariage sont légales dans leur société."
+          },
+          {
+            "lang": "es",
+            "text": "Dos extraños tratan de encontrar a alguien con quien acostarse en la única noche del año en la que es legal el sexo prematrimonial."
+          },
+          {
+            "lang": "en",
+            "text": "2026 film directed by Will Gluck"
+          },
+          {
+            "lang": "zh-hant",
+            "text": "2026年的電影"
+          },
+          {
+            "lang": "es",
+            "text": "película de 2026 dirigida por Will Gluck"
+          },
+          {
+            "lang": "fr",
+            "text": "film américain prévu en 2026"
+          },
+          {
+            "lang": "de",
+            "text": "Film von Will Gluck (2026)"
+          },
+          {
+            "lang": "pt",
+            "text": "filme de 2026 dirigido por Will Gluck"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/04/30/88ab4e4f-d0b7-4232-9cc2-afa6ec37654c.webp",
+        "rating": 5.9,
+        "rating_count": 11,
+        "rating_distribution": [
+          0,
+          9,
+          64,
+          27,
+          0
+        ],
+        "tags": null,
+        "brief": "Two love-starved strangers crash into each other on the one night of the year when single people are allowed to have sex.",
+        "id": "https://neodb.social/movie/3q9hJLNencJDZr5OH59OlS",
+        "uuid": "3q9hJLNencJDZr5OH59OlS",
+        "url": "/movie/3q9hJLNencJDZr5OH59OlS",
+        "api_url": "/api/movie/3q9hJLNencJDZr5OH59OlS",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "One Night Only",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/37233476/"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1433367"
+          },
+          {
+            "url": "https://bridge.neodb.net/catalog/movie/imdbId-tt37853455"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt37853455/"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q136522035"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "莫妮卡·巴巴罗",
+            "character_name": "",
+            "person_url": "/api/people/0N8v2wGoOAxj8e54CnnXsL"
+          },
+          {
+            "role": "actor",
+            "name": "卡勒姆·特纳",
+            "character_name": "",
+            "person_url": "/api/people/0mc9wRJ7kHOHAHCu9iSfKE"
+          },
+          {
+            "role": "actor",
+            "name": "皮特·戴维森",
+            "character_name": "",
+            "person_url": "/api/people/46Jw4McYLB1LqsXM6gUKPY"
+          },
+          {
+            "role": "actor",
+            "name": "鲍比·坎纳瓦尔",
+            "character_name": "",
+            "person_url": "/api/people/2cS56T7q0KsqTuBGfQHxSe"
+          },
+          {
+            "role": "actor",
+            "name": "玛雅·霍克",
+            "character_name": "",
+            "person_url": "/api/people/0qqrvSxf5vWN6DdI0K6iz4"
+          },
+          {
+            "role": "actor",
+            "name": "莫利·林沃德",
+            "character_name": "",
+            "person_url": "/api/people/0w1GOoV0Rbcuo3xeMrC1Xx"
+          },
+          {
+            "role": "actor",
+            "name": "朱莉娅·福克斯",
+            "character_name": "",
+            "person_url": "/api/people/2Ja2vsZlr9CG8WMyA2jB0a"
+          },
+          {
+            "role": "actor",
+            "name": "米歇尔·赫德",
+            "character_name": "",
+            "person_url": "/api/people/4MREW8R0YIiFe66iYeM1Zr"
+          },
+          {
+            "role": "actor",
+            "name": "金·普安公主",
+            "character_name": "",
+            "person_url": "/api/people/7jddPgBMOnNtramBxTDZGW"
+          },
+          {
+            "role": "actor",
+            "name": "勒瓦·伯顿",
+            "character_name": "",
+            "person_url": "/api/people/1qNJ3IccjgWG0bwj8COKJN"
+          },
+          {
+            "role": "actor",
+            "name": "奥基里特·奥诺多瓦",
+            "character_name": "",
+            "person_url": "/api/people/60GF84GcOtS9B7qpG6Sn3T"
+          },
+          {
+            "role": "actor",
+            "name": "斯万米·萨姆派奥",
+            "character_name": "",
+            "person_url": "/api/people/6a8SPMi5GpT62CMGQ6fTvX"
+          },
+          {
+            "role": "actor",
+            "name": "罗伯特·约翰·加拉格尔",
+            "character_name": "",
+            "person_url": "/api/people/71wELbeXR7HIxwrHsDm9RG"
+          },
+          {
+            "role": "actor",
+            "name": "埃斯特·哈伊姆",
+            "character_name": "",
+            "person_url": "/api/people/4qacSfF0AAmlvJohlxgnC4"
+          },
+          {
+            "role": "actor",
+            "name": "齐威·富莫多",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "普里亚·贾恩",
+            "character_name": "",
+            "person_url": "/api/people/6TOFwvUtAO7fkqVMQV5p1Z"
+          },
+          {
+            "role": "actor",
+            "name": "Frank Pando",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Levi Dylan",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "汤姆·约翰逊",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Amanda LaCount",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "奇里尔·保兰",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Shannon Zhu",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "威尔·格鲁克",
+            "character_name": "",
+            "person_url": "/api/people/3ldrTBBXTXgJ6GWJn6ClXz"
+          },
+          {
+            "role": "playwright",
+            "name": "特拉维斯·布劳恩",
+            "character_name": "",
+            "person_url": "/api/people/3fXJ6hlEH208KzS0cT2CNQ"
+          },
+          {
+            "role": "playwright",
+            "name": "威尔·格鲁克",
+            "character_name": "",
+            "person_url": "/api/people/3ldrTBBXTXgJ6GWJn6ClXz"
+          },
+          {
+            "role": "producer",
+            "name": "威尔·格鲁克",
+            "character_name": "",
+            "person_url": "/api/people/3ldrTBBXTXgJ6GWJn6ClXz"
+          },
+          {
+            "role": "producer",
+            "name": "Jacqueline Monetta",
+            "character_name": "",
+            "person_url": "/api/people/3xppivPdFDLhiAQPzOaLSD"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/media/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-09-24T14:00:53.952Z",
+      "comment_text": null,
+      "rating_grade": 6,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 609146269581887000,
       "item": {
         "type": "Movie",
