@@ -2021,6 +2021,89 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 627343099124151800,
+      "item": {
+        "type": "TVSeason",
+        "title": "The Ordinary Jackpot",
+        "description": "该剧讲述一名勤奋务实的上班族，在某天突然中了乐透的头奖13亿，却发现这笔天降横财根本不足以彻底改变人生。因此，他抱著不同的心情继续上班，却意想不到地开启了一段改变人生的成长旅程。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "中了乐透头奖也要上班"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "彩票一等奖也上班"
+          },
+          {
+            "lang": "en",
+            "text": "The Ordinary Jackpot"
+          },
+          {
+            "lang": "ko",
+            "text": "로또 1등도 출근합니다"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "该剧讲述一名勤奋务实的上班族，在某天突然中了乐透的头奖13亿，却发现这笔天降横财根本不足以彻底改变人生。因此，他抱著不同的心情继续上班，却意想不到地开启了一段改变人生的成长旅程。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/bangumi/2026/09/12/5a6af31d-8e33-48d7-ac39-39c7a49576ec.jpg",
+        "rating": null,
+        "rating_count": 1,
+        "rating_distribution": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "tags": null,
+        "brief": "该剧讲述一名勤奋务实的上班族，在某天突然中了乐透的头奖13亿，却发现这笔天降横财根本不足以彻底改变人生。因此，他抱著不同的心情继续上班，却意想不到地开启了一段改变人生的成长旅程。",
+        "id": "https://neodb.social/tv/season/0qIwZKeffBvtPFIoiwpOlJ",
+        "uuid": "0qIwZKeffBvtPFIoiwpOlJ",
+        "url": "/tv/season/0qIwZKeffBvtPFIoiwpOlJ",
+        "api_url": "/api/tv/season/0qIwZKeffBvtPFIoiwpOlJ",
+        "category": "tv",
+        "parent_uuid": "3lumzfY0GKK6P8tVqMgrML",
+        "display_title": "The Ordinary Jackpot",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/695416"
+          }
+        ],
+        "credits": [
+          {
+            "role": "director",
+            "name": "윤영빈",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "playwright",
+            "name": "윤영빈",
+            "character_name": "",
+            "person_url": null
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/m/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-09-28T10:17:30.241Z",
+      "comment_text": null,
+      "rating_grade": 8,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 624348955325832200,
       "item": {
         "type": "TVSeason",
