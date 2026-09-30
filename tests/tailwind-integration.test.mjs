@@ -83,7 +83,7 @@ test('reading surface dividers share a quiet hairline style', () => {
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*padding-top:\s*var\(--r-space-md\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.reading-shell__footer\s*\{[\s\S]*border-top-color:\s*var\(--r-divider\)\s*!important;/);
   assert.match(tailwind, /body\.reading-surface \.r-article__tail\s*\{[\s\S]*border-top:\s*0\s*!important;/);
-  assert.match(shell, /const headerClass = [^;]*after:bg-\[var\(--r-rule\)\]/);
+  assert.match(shell, /\.reading-shell__header\s*\{[^}]*border-bottom:\s*1px solid var\(--r-rule-soft\);/);
   assert.match(tailwind, /body\.reading-surface \.r-section__head,\s*body\.reading-surface \.r-year-block__label\s*\{\s*border-bottom-color:\s*var\(--r-divider\)\s*!important;/);
 });
 
