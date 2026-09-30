@@ -17,7 +17,7 @@ test('reading shell exposes the current primary navigation', () => {
 		assert.match(source, new RegExp(`\{ href: '${href}', label: '${label}' \}`));
 	}
 
-	assert.match(source, /SHOW_WORKS_NAV \? \[\{ href: '\/works', label: '作品' \}\] : \[\]/);
+	assert.match(source, /SHOW_WORKS_NAV \? \[\{ href: '\/works', label: '项目' \}\] : \[\]/);
 	assert.match(source, /<nav class=\{navClass\} aria-label="主导航">/);
 });
 
@@ -29,8 +29,9 @@ test('brand links home and navigation marks nested routes active', () => {
 });
 
 test('header remains responsive and keeps accessible utility controls', () => {
-	assert.match(source, /const headerClass = [^;]*max-\[640px\]:grid/);
-	assert.match(source, /const navClass = [^;]*max-\[640px\]:col-span-2/);
+	assert.match(source, /@media \(max-width: 640px\)/);
+	assert.match(source, /<details class="reading-shell__menu">/);
+	assert.match(source, /aria-label="移动端主导航"/);
 	assert.match(source, /id="search-fab"[\s\S]*aria-label="搜索文章"/);
 	assert.match(source, /id="theme-toggle-fab"[\s\S]*aria-label="切换深色模式"/);
 });
@@ -41,7 +42,7 @@ test('header chrome uses a compact shared vertical rhythm', () => {
 		'utf8',
 	);
 
-	assert.match(styles, /--r-header-block-space:\s*clamp\(0\.65rem, 2vw, 0\.75rem\);/);
+	assert.match(styles, /--r-nav-height:\s*var\(--space-2xl\);/);
 });
 
 test('reading measure and footer links preserve the current shell contract', () => {

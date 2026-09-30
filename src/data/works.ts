@@ -2,33 +2,22 @@ export type WorkItem = {
 	title: string;
 	description: string;
 	href: string;
-	/** e.g. 2026 */
-	year?: string;
-	/** e.g. 工具 / 开源 / 实验 */
-	kind?: string;
 };
 
-/** Placeholder works — replace with real projects when ready. */
 export const works: WorkItem[] = [
 	{
-		title: '示例作品甲',
-		description: '一句话说明。',
-		href: '/about',
-		year: '2026',
-		kind: '工具',
+		title: 'Runote',
+		description: '记录跑步赛事与旅程的赛事记录 iOS APP。',
+		href: 'https://runote.app',
 	},
 	{
-		title: '示例作品乙',
-		description: '一句话说明。',
-		href: '/tools',
-		year: '2025',
-		kind: '开源',
+		title: 'AI-Learning',
+		description: '12 周从零让 AI 教我从零构建一个 Coding Agent。',
+		href: 'https://github.com/LynkXu/AI-Learning',
 	},
 	{
-		title: '示例作品丙',
-		description: '一句话说明。',
-		href: '/about',
-		year: '2024',
-		kind: '实验',
+		title: 'AlgorithmDiagram',
+		description: '《算法图解》的算法示例，用 Python 和 Java 实现。',
+		href: 'https://github.com/LynkXu/AlgorithmDiagram',
 	},
 ];
