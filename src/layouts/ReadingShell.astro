@@ -50,7 +50,7 @@ const iconClass = 'block fill-current';
 const themeIconClass = 'theme-toggle-icon absolute inset-0 inline-flex items-center justify-center leading-none transition-[opacity,transform] duration-[250ms]';
 const footerClass = 'reading-shell__footer mt-[var(--r-space-xl)] flex items-baseline justify-between gap-[var(--r-space-md)] border-t border-[var(--r-rule)] pt-[var(--r-space-md)] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)] max-[640px]:flex-col max-[640px]:items-start max-[640px]:gap-[var(--r-space-sm)]';
 const footerLinksClass = 'reading-shell__footer-links flex flex-1 flex-wrap gap-x-[0.9rem] gap-y-[0.35rem]';
-const footerLinkClass = '![font-size:var(--r-text-xs)] font-normal !text-[var(--r-ink)] hover:!text-[var(--r-ink)]';
+const footerLinkClass = '![font-size:var(--r-text-xs)] font-normal hover:!text-[var(--r-link)]';
 const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] text-[var(--r-ink-faint)] max-[640px]:text-left';
 ---
 
@@ -66,66 +66,58 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 >
 	<slot name="head" slot="head" />
 
-	<header class={headerClass}>
-		<div class="reading-shell__header-inner">
-			<a href="/" class={brandClass} aria-label={`${SITE_TITLE} 首页`}>
-				LynkXu
-			</a>
+	<div class={shellClass}>
+		<header class={headerClass}>
+			<div class="reading-shell__header-inner">
+				<a href="/" class={brandClass} aria-label={`${SITE_TITLE} 首页`}>
+					LynkXu
+				</a>
 
-			<nav class={navClass} aria-label="主导航">
-				{navItems.map((item) => (
-					<a href={item.href} class:list={[navLinkClass, { active: isActive(item.href) }]} aria-current={isActive(item.href) ? 'page' : undefined}>
-						{item.label}
-					</a>
-				))}
-			</nav>
-
-			<details class="reading-shell__menu">
-				<summary>菜单</summary>
-				<nav aria-label="移动端主导航">
+				<nav class={navClass} aria-label="主导航">
 					{navItems.map((item) => (
-						<a href={item.href} class:list={[navLinkClass, { active: isActive(item.href) }]} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+						<a href={item.href} class:list={[navLinkClass, { active: isActive(item.href) }]} aria-current={isActive(item.href) ? 'page' : undefined}>
+							{item.label}
+						</a>
 					))}
 				</nav>
-			</details>
 
-			<div class={toolsClass}>
-				<button
-					id="search-fab"
-					class={ctrlClass}
-					type="button"
-					aria-label="搜索文章"
-					aria-keyshortcuts="Meta+K Control+K"
-					title="搜索 ⌘K"
-				>
-					<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-						<path class={iconClass} d="M10.5 3a7.5 7.5 0 0 1 5.93 12.1l3.74 3.73a1 1 0 0 1-1.42 1.42l-3.73-3.74A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"></path>
-					</svg>
-				</button>
-				<button
-					id="theme-toggle-fab"
-					class={`${ctrlClass} reading-shell__ctrl--theme`}
-					type="button"
-					aria-label="切换深色模式"
-					aria-pressed="false"
-					title="切换主题"
-				>
-					<span class={`${themeIconClass} theme-toggle-icon--moon opacity-100`} aria-hidden="true">
+
+				<div class={toolsClass}>
+					<button
+						id="search-fab"
+						class={ctrlClass}
+						type="button"
+						aria-label="搜索文章"
+						aria-keyshortcuts="Meta+K Control+K"
+						title="搜索 ⌘K"
+					>
 						<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-							<path class={iconClass} d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"></path>
+							<path class={iconClass} d="M10.5 3a7.5 7.5 0 0 1 5.93 12.1l3.74 3.73a1 1 0 0 1-1.42 1.42l-3.73-3.74A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"></path>
 						</svg>
-					</span>
-					<span class={`${themeIconClass} theme-toggle-icon--sun pointer-events-none opacity-0`} aria-hidden="true">
-						<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
-							<path class={iconClass} d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1 2h-2l1-2Zm0 20-1-2h2l-1 2ZM2 13l2-1v2l-2-1Zm20-1 2 1-2 1v-2ZM4.22 19.78l1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41Zm14.14-14.14 1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41ZM4.22 4.22 5.64 5.64 4.22 7.05 2.81 5.64 4.22 4.22Zm14.14 14.14 1.42 1.42-1.42 1.41-1.41-1.41 1.41-1.42Z"></path>
-						</svg>
-					</span>
-				</button>
+					</button>
+					<button
+						id="theme-toggle-fab"
+						class={`${ctrlClass} reading-shell__ctrl--theme`}
+						type="button"
+						aria-label="切换深色模式"
+						aria-pressed="false"
+						title="切换主题"
+					>
+						<span class={`${themeIconClass} theme-toggle-icon--moon opacity-100`} aria-hidden="true">
+							<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
+								<path class={iconClass} d="M21 14.5a8.5 8.5 0 0 1-11.5-11A9 9 0 1 0 21 14.5Z"></path>
+							</svg>
+						</span>
+						<span class={`${themeIconClass} theme-toggle-icon--sun pointer-events-none opacity-0`} aria-hidden="true">
+							<svg viewBox="0 0 24 24" width="18" height="18" focusable="false" aria-hidden="true">
+								<path class={iconClass} d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12Zm0-16 1 2h-2l1-2Zm0 20-1-2h2l-1 2ZM2 13l2-1v2l-2-1Zm20-1 2 1-2 1v-2ZM4.22 19.78l1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41Zm14.14-14.14 1.42-1.42 1.41 1.41-1.41 1.42-1.42-1.41ZM4.22 4.22 5.64 5.64 4.22 7.05 2.81 5.64 4.22 4.22Zm14.14 14.14 1.42 1.42-1.42 1.41-1.41-1.41 1.41-1.42Z"></path>
+							</svg>
+						</span>
+					</button>
+				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 
-	<div class={shellClass}>
 		<main class="reading-shell__main min-w-0 flex-1">
 			<slot />
 		</main>
@@ -133,7 +125,7 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		<footer class={footerClass}>
 			<div class={footerLinksClass} aria-label="专题与订阅">
 				{featureLinks.map((item) => (
-					<a href={item.href} class={footerLinkClass}>{item.label}</a>
+					<a href={item.href} class:list={[footerLinkClass, item.href === '/index.xml' ? '!text-[var(--r-link)]' : '!text-[var(--r-ink)]']}>{item.label}</a>
 				))}
 			</div>
 			<p class={copyClass}>
@@ -145,32 +137,25 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 
 
 <style>
-	/* 导航是独立站点横栏，正文仍使用原阅读列；宽度由现有阅读与间距 token 推导。 */
+	/* 页眉属于阅读列，使用同一容器与间距；两行布局让移动端也能直接浏览导航。 */
 	.reading-shell__header {
-		position: sticky;
-		top: 0;
-		z-index: var(--z-fab);
-		background: var(--r-bg);
-		border-bottom: 1px solid var(--r-rule-soft);
-		transition: transform 250ms ease;
+		padding-top: var(--r-space-lg);
+		margin-bottom: var(--r-header-content-space, var(--r-space-xl));
 	}
 
 	.reading-shell__header-inner {
-		width: min(calc(100% - var(--r-page-inline) * 2), calc(var(--r-measure) + var(--space-4xl) * 2));
-		min-height: var(--r-nav-height);
-		margin-inline: auto;
-		display: flex;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
 		align-items: center;
-		gap: var(--r-space-lg);
+		gap: var(--r-space-xs) var(--r-space-md);
 	}
 
 	.reading-shell__brand {
-		flex-shrink: 0;
-		margin-right: auto;
+		justify-self: start;
 		font-family: var(--r-font-brand);
 		font-size: 1.55rem;
 		font-weight: 600;
-		line-height: 1;
+		line-height: var(--r-lh-tight);
 		letter-spacing: -0.015em;
 		color: var(--r-ink) !important;
 		text-decoration: none !important;
@@ -178,17 +163,22 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 	}
 
 	.reading-shell__nav {
+		grid-column: 1 / -1;
+		grid-row: 2;
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
-		gap: var(--r-space-lg);
+		gap: var(--r-space-xs) var(--r-space-lg);
 	}
 
 	.reading-shell__nav-link {
+		display: inline-flex;
+		align-items: center;
 		font-family: var(--r-font-ui);
-		font-size: 0.84rem;
+		font-size: var(--r-text-xs);
 		line-height: var(--r-lh-tight);
 		white-space: nowrap;
-		padding-block: var(--r-space-sm);
+		padding-block: var(--r-space-xs);
 		color: var(--r-ink-soft) !important;
 		text-decoration: none !important;
 		border: 0 !important;
@@ -197,21 +187,21 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 
 	.reading-shell__nav-link:hover,
 	.reading-shell__nav-link.active {
-		color: var(--r-ink) !important;
+		color: var(--r-link) !important;
 	}
 
 	.reading-shell__nav-link.active {
 		text-decoration: underline !important;
 		text-decoration-thickness: 1px !important;
-		text-underline-offset: 0.45em !important;
+		text-underline-offset: var(--r-link-underline-offset);
 	}
 
 	.reading-shell__tools {
+		grid-column: 2;
+		grid-row: 1;
 		display: flex;
-		flex-shrink: 0;
 		align-items: center;
 		gap: var(--r-space-xs);
-		padding-left: var(--r-space-sm);
 	}
 
 	.reading-shell__ctrl {
@@ -228,80 +218,22 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		cursor: pointer;
 	}
 
-	.reading-shell__ctrl:hover { color: var(--r-ink); }
-	.reading-shell__menu { display: none; }
-	.reading-shell { padding-top: var(--r-space-xl); min-height: calc(100vh - var(--r-nav-height)); }
+	.reading-shell__ctrl:hover { color: var(--r-link); }
 
 	@media (max-width: 640px) {
-		.reading-shell__header-inner { gap: var(--r-space-md); }
 		.reading-shell__brand { font-size: 1.4rem; }
-		.reading-shell__nav { display: none; }
-		.reading-shell__tools { padding-left: var(--r-space-sm); }
-		.reading-shell__ctrl { width: calc(var(--space-xl) + var(--space-sm)); height: calc(var(--space-xl) + var(--space-sm)); }
-		.reading-shell__menu { display: block; font-family: var(--r-font-ui); font-size: var(--r-text-sm); }
-		.reading-shell__menu summary { cursor: pointer; padding-block: var(--r-space-sm); color: var(--r-ink-soft); }
-		.reading-shell__menu nav {
-			position: absolute;
-			top: 100%;
-			left: 0;
-			right: 0;
-			display: flex;
-			flex-direction: column;
-			padding: var(--r-space-sm) var(--r-page-inline) var(--r-space-md);
-			background: var(--r-bg);
-			border-bottom: 1px solid var(--r-rule);
+		.reading-shell__nav { column-gap: var(--r-space-md); }
+	}
+
+	@media (pointer: coarse) {
+		.reading-shell__ctrl {
+			width: max(44px, var(--space-xl));
+			height: max(44px, var(--space-xl));
 		}
-		.reading-shell__menu nav a { min-height: var(--space-2xl); display: flex; align-items: center; }
-		.reading-shell__header[data-hidden] { transform: translateY(-100%); }
-		.reading-shell__header:focus-within,
-		.reading-shell__header:has(details[open]) { transform: none; }
+		.reading-shell__nav-link { min-width: 44px; min-height: 44px; }
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.reading-shell__header,
 		.reading-shell__nav-link { transition: none; }
 	}
 </style>
-
-<script>
-	const header = document.querySelector<HTMLElement>('.reading-shell__header');
-	const menu = header?.querySelector<HTMLDetailsElement>('details');
-	const mobile = window.matchMedia('(max-width: 640px)');
-	let lastY = window.scrollY;
-	let anchorY = lastY;
-	let scheduled = false;
-
-	function updateHeader() {
-		scheduled = false;
-		if (!header) return;
-		const y = Math.max(0, window.scrollY);
-		const changedDirection = (y - lastY) * (lastY - anchorY) < 0;
-		if (changedDirection) anchorY = lastY;
-		if (!mobile.matches || y <= header.offsetHeight || menu?.open || header.contains(document.activeElement)) {
-			header.removeAttribute('data-hidden');
-			anchorY = y;
-		} else if (Math.abs(y - anchorY) >= 12) {
-			header.toggleAttribute('data-hidden', y > anchorY);
-			anchorY = y;
-		}
-		lastY = y;
-	}
-
-	window.addEventListener('scroll', () => {
-		if (!scheduled) {
-			scheduled = true;
-			requestAnimationFrame(updateHeader);
-		}
-	}, { passive: true });
-	mobile.addEventListener('change', () => {
-		if (!mobile.matches && menu) menu.open = false;
-		updateHeader();
-	});
-	menu?.addEventListener('toggle', updateHeader);
-	document.addEventListener('keydown', (event) => {
-		if (event.key === 'Escape' && menu?.open) {
-			menu.open = false;
-			menu.querySelector('summary')?.focus();
-		}
-	});
-</script>
