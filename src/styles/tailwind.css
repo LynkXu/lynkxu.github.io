@@ -728,7 +728,8 @@ body.reading-surface .post-content h6,
 .r-prose h1,
 .r-prose h2,
 .r-prose h3,
-.r-prose h4 {
+.r-prose h4,
+body.reading-surface .r-prose-section-title {
   font-family: var(--r-font-body) !important;
   font-weight: 600 !important;
   color: var(--r-ink) !important;
@@ -738,12 +739,14 @@ body.reading-surface .post-content h6,
 }
 
 body.reading-surface .post-content h2,
-.r-prose h2 {
+.r-prose h2,
+body.reading-surface h2.r-prose-section-title {
   font-size: 1.32rem !important;
 }
 
 body.reading-surface .post-content h3,
-.r-prose h3 {
+.r-prose h3,
+body.reading-surface h3.r-prose-section-title {
   font-size: 1.14rem !important;
 }
 
@@ -848,8 +851,95 @@ body.reading-surface .post-content blockquote p:last-child {
   margin: 2em 0;
 }
 
-@media (max-width: 640px) {
+/* Markdown reading rhythm is shared by articles and About, while memos and
+   embedded cards retain their own density. */
+body.reading-surface :is(.r-article .r-prose, .r-about__prose, .r-about__extras) {
+  --r-prose-section-space: var(--r-space-xl);
+  --r-prose-paragraph-space: 1em;
+  --r-prose-block-space: var(--r-space-lg);
+  --r-prose-emphasis: var(--r-link);
+  line-height: 1.82 !important;
 }
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > h2,
+body.reading-surface .r-about__extras > h2.r-prose-section-title {
+  position: relative;
+  margin: var(--r-prose-section-space) 0 var(--r-space-sm) !important;
+  line-height: var(--r-lh-tight);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(h3, h4, h5, h6),
+body.reading-surface .r-about__extras > h3.r-prose-section-title {
+  margin: var(--r-space-lg) 0 var(--r-space-sm) !important;
+  line-height: var(--r-lh-tight);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(p, ul, ol) {
+  margin: 0 0 var(--r-prose-paragraph-space) !important;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(ul, ol),
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > blockquote :is(ul, ol) {
+  padding-inline-start: var(--r-space-lg);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(ul, ol) li + li {
+  margin-top: var(--r-space-xs);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(ul, ol) li > :is(p, ul, ol) {
+  margin: var(--r-space-xs) 0 !important;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(ul, ol) li > p:last-child {
+  margin-bottom: 0 !important;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(p, ul, ol, blockquote) a:not(.footnote-ref):not([data-footnote-backref]) {
+  text-decoration-color: color-mix(in oklab, var(--r-prose-emphasis) 40%, transparent);
+  text-decoration-skip-ink: auto;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(p, ul, ol, blockquote) a:hover {
+  text-decoration-color: var(--r-prose-emphasis);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > blockquote {
+  margin: var(--r-prose-block-space) 0 !important;
+  border-left-color: color-mix(in oklab, var(--r-prose-emphasis) 55%, transparent) !important;
+  padding-inline-start: var(--r-space-md) !important;
+  opacity: 1;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :is(pre, .code-wrapper, table, figure) {
+  margin-block: var(--r-prose-block-space) !important;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > table :is(th, td) {
+  line-height: 1.6;
+  border-color: var(--r-rule);
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > table :is(th, tr) {
+  border-bottom-color: var(--r-rule);
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :first-child {
+  margin-top: 0 !important;
+}
+
+body.reading-surface :is(.r-article .r-prose, .r-about__prose) > :last-child {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 640px) {
+  body.reading-surface :is(.r-article .r-prose, .r-about__prose, .r-about__extras) {
+    --r-prose-section-space: var(--r-space-lg);
+  }
+}
+
 
 @media (max-width: 560px) {
   .r-post-list__item {
