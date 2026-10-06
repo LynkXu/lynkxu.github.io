@@ -15,7 +15,7 @@ const posts = filterDrafts(await getCollection('blog'))
 const latestPosts = posts.slice(0, 5);
 const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
-const homeIntroClass = 'r-home-intro mt-[var(--r-space-lg)] mb-[var(--r-space-2xl)]';
+const homeIntroClass = 'r-home-intro mb-[var(--r-space-2xl)] max-[640px]:mb-[var(--r-space-xl)]';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-medium !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -23,7 +23,7 @@ function getPostHref(post: (typeof posts)[number]) {
 }
 ---
 
-<ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
+<ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION} className="reading-home">
 	<section class={homeIntroClass} aria-label="简介">
 		<h1 class={homeIntroTextClass}>你好，我是 Lynk。</h1>
 		<AboutTraits />
@@ -32,6 +32,7 @@ function getPostHref(post: (typeof posts)[number]) {
 	<section class="r-section" aria-labelledby="home-writing-title">
 		<header class="r-section__head">
 			<h2 id="home-writing-title" class={sectionTitleClass}>最近文章</h2>
+			<a class="home-section-more" href="/blog">全部文章</a>
 		</header>
 
 		<ol class="r-post-list">
@@ -50,6 +51,7 @@ function getPostHref(post: (typeof posts)[number]) {
 		<section class="r-section" aria-labelledby="home-notes-title">
 			<header class="r-section__head">
 				<h2 id="home-notes-title" class={sectionTitleClass}>碎语</h2>
+				<a class="home-section-more" href="/shuoshuo">全部碎语</a>
 			</header>
 
 			<ul class="r-note-list">
@@ -72,9 +74,28 @@ function getPostHref(post: (typeof posts)[number]) {
 </ReadingShell>
 
 <style>
-	/* 首页把文章目录和碎语预览组合在一起；局部调整密度，沿用阅读布局的 token。 */
+	/* 首页以简介留白建立重心，文章与碎语更紧凑；正文页沿用原来的标题前间距。 */
+	:global(.reading-surface-root.reading-home) {
+		--r-header-content-space: var(--r-space-2xl);
+	}
+
+	.r-home-intro {
+		--r-traits-gap: var(--r-space-lg);
+	}
+
+	.r-section {
+		margin-bottom: 0;
+	}
+
 	.r-section + .r-section {
-		margin-top: var(--r-space-2xl);
+		margin-top: var(--r-space-xl);
+	}
+
+	.home-section-more {
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-link);
+		white-space: nowrap;
 	}
 
 	.r-post-list {
@@ -111,6 +132,10 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	@media (max-width: 640px) {
+		:global(.reading-surface-root.reading-home) {
+			--r-header-content-space: var(--r-space-xl);
+		}
+
 		.r-post-list__item {
 			grid-template-columns: minmax(0, 1fr);
 			gap: 0.1rem;
@@ -130,6 +155,9 @@ function getPostHref(post: (typeof posts)[number]) {
 		.home-note-excerpt {
 			grid-column: 1;
 			grid-row: 1;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
 			white-space: normal;
 		}
 
