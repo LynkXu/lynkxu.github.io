@@ -1506,7 +1506,7 @@ blockquote {
   }
 }
 
-:root[data-theme="dark"] header {
+:root[data-theme="dark"] body:not(.reading-surface) header {
     border: none;
 }
 
@@ -1516,7 +1516,7 @@ footer {
   border-top: 1px solid rgba(0,0,0,0.05);
 }
 
-:root[data-theme="dark"] footer {
+:root[data-theme="dark"] body:not(.reading-surface) footer {
     border-top-color: rgba(255,255,255,0.05);
 }
 

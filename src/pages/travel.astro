@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
+import ReadingShell from '../layouts/ReadingShell.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
 import { getCollection } from 'astro:content';
 import { travelPlaces, type TravelPlace } from '../data/travel-places';
@@ -40,7 +40,7 @@ const title = '旅行足迹';
 const description = '旅行足迹';
 ---
 
-<Base title={title} description={description} fullWidth hideHeader useCard={false} className="travel-layout">
+<ReadingShell title={title} description={description} wide className="travel-layout">
   <link rel="dns-prefetch" href="https://unpkg.com" slot="head" />
   <link rel="preconnect" href="https://unpkg.com" crossorigin="" slot="head" />
   <link rel="preconnect" href="https://geo.datav.aliyun.com" crossorigin="" slot="head" />
@@ -63,7 +63,7 @@ const description = '旅行足迹';
   <div class="travel-page">
     <SimpleHeader title="Travel" />
 
-    <main class="travel-main">
+    <div class="travel-main">
       <div class="page-heading">
         <h1>旅行足迹</h1>
       </div>
@@ -150,36 +150,18 @@ const description = '旅行足迹';
           ))}
         </div>
       </section>
-    </main>
+    </div>
   </div>
 
   <style>
-    :global(body.full-width .global-layout-transparent.travel-layout) {
-      width: 100%;
-      max-width: var(--topic-shell-width);
-      margin-inline: auto;
-      padding: 0;
-    }
-
-    :global(.travel-layout > main) {
-      width: 100%;
-    }
-
     .travel-page {
-      min-height: 100vh;
-      background: var(--page-bg);
-    }
-
-    .travel-page :global(.simple-header) {
-      width: 100%;
-      max-width: none;
-      padding-inline: var(--page-inline);
+      min-height: 0;
     }
 
     .travel-main {
       width: 100%;
       margin-inline: auto;
-      padding: 0 var(--page-inline) var(--space-3xl);
+      padding: 0;
     }
 
     .page-heading {
@@ -585,7 +567,7 @@ const description = '旅行足迹';
       }
     }
   </style>
-</Base>
+</ReadingShell>
 
   <script>
     import {

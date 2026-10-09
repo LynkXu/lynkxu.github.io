@@ -358,8 +358,8 @@ body.reading-surface *:focus-visible {
 
 body.reading-surface h1:not(.r-section__title),
 body.reading-surface h2:not(.r-section__title):not(.r-year-block__label),
-body.reading-surface h3:not(.r-section__title),
-body.reading-surface h4,
+body.reading-surface h3:not(.r-section__title):not(.media-title):not(.tool-title),
+body.reading-surface h4:not(.lg-caption h4),
 body.reading-surface h5,
 body.reading-surface h6 {
   font-family: var(--r-font-body) !important;
@@ -643,13 +643,6 @@ body.reading-surface .r-toc .toc-link.active {
   color: var(--r-ink-soft) !important;
   font-weight: 400 !important;
   text-decoration: none !important;
-}
-
-body.reading-surface .reading-shell__footer {
-  margin-top: var(--r-space-xl) !important;
-  padding-top: var(--r-space-md) !important;
-  padding-bottom: 0 !important;
-  border-top-color: var(--r-divider) !important;
 }
 
 body.reading-surface .r-article__tail {
@@ -1134,7 +1127,7 @@ body.reading-surface .r-memo__body blockquote p:last-child {
 	margin-bottom: 0 !important;
 }
 
-body.reading-surface .media-grid {
+body.reading-surface .r-memo .media-grid {
 	display: grid;
 	gap: 4px;
 	margin-top: 0.65rem;

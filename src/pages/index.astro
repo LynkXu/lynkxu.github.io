@@ -14,7 +14,7 @@ const posts = filterDrafts(await getCollection('blog'))
 
 const latestPosts = posts.slice(0, 5);
 const latestGossips = (await getAllGossips()).slice(0, 3);
-const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
+const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
 const homeIntroClass = 'r-home-intro mb-[var(--r-space-2xl)] max-[640px]:mb-[var(--r-space-xl)]';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-medium !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 

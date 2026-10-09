@@ -9,7 +9,7 @@ interface Props {
 const { title, description, href = '/about', className = '' } = Astro.props;
 ---
 
-<div class={`simple-header fade-in-down ${className}`}>
+<div class={`simple-header ${className}`}>
   <a href={href} class="back-button">
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
     <span>Back</span>
@@ -25,9 +25,9 @@ const { title, description, href = '/about', className = '' } = Astro.props;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: clamp(var(--space-md), 2.4vw, var(--space-lg)) var(--page-inline);
-    max-width: 1400px;
-    margin: 0 auto;
+    padding: 0;
+    max-width: none;
+    margin: 0 0 var(--r-space-md);
     width: 100%;
     z-index: 20;
     position: relative;
@@ -40,35 +40,33 @@ const { title, description, href = '/about', className = '' } = Astro.props;
     gap: var(--space-2xs);
     text-decoration: none;
     color: var(--gray-color);
-    font-family: var(--ui-font);
+    font-family: var(--r-font-ui);
     font-size: var(--text-sm);
     transition: all 0.2s;
     font-weight: 500;
-    opacity: 0.7;
     border-bottom: none;
   }
 
   .back-button:hover {
     color: var(--heading-color);
     opacity: 1;
-    transform: translateX(-3px);
+    transform: translateX(-1px);
     border-bottom: none;
   }
 
   .page-info {
-    font-family: var(--ui-font);
+    font-family: var(--r-font-ui);
     font-size: var(--text-sm);
     color: var(--gray-color);
     display: flex;
     align-items: center;
     gap: var(--space-xs);
-    opacity: 0.8;
   }
 
   .title {
     color: var(--heading-color);
     font-weight: 600;
-    font-family: var(--serif-font);
+    font-family: var(--r-font-ui);
     letter-spacing: 0.04em;
   }
 
@@ -84,9 +82,6 @@ const { title, description, href = '/about', className = '' } = Astro.props;
   }
 
   @media (max-width: 600px) {
-    .simple-header {
-      padding: var(--space-md) var(--space-lg);
-    }
     .desc {
         display: none;
     }
@@ -95,12 +90,7 @@ const { title, description, href = '/about', className = '' } = Astro.props;
     }
   }
   
-  .fade-in-down {
-    animation: fadeInDown 0.6s ease-out;
-  }
-  
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .back-button { transition: none; }
   }
 </style>

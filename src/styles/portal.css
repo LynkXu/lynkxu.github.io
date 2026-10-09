@@ -1,0 +1,167 @@
+/* Shared portal structure. Reading typography remains in tailwind.css;
+   this layer owns the page boundary, section rules and topic alignment. */
+body.reading-surface {
+  --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
+  --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
+  --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
+  --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
+  --portal-rule-width: 2px;
+}
+
+.portal-surface {
+  --portal-content-width: var(--r-measure);
+  box-sizing: border-box;
+  width: min(calc(100% - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2));
+  margin: var(--portal-margin) auto;
+  padding: var(--portal-inset);
+  border: 1px solid var(--portal-rule);
+  background: var(--r-bg);
+}
+
+.portal-surface--wide {
+  --portal-content-width: var(--topic-shell-width);
+  --r-header-content-space: var(--r-space-md);
+  padding-block-start: var(--space-lg);
+  border: 0;
+  /* Topic content keeps its wider canvas but shares the reading surface palette. */
+  --page-bg: var(--r-bg);
+  --content-bg: var(--r-bg);
+  --heading-color: var(--r-ink);
+  --text-color: var(--r-ink);
+  --gray-color: var(--r-ink-soft);
+  --faint-color: var(--r-ink-faint);
+  --ui-font: var(--r-font-ui);
+  --serif-font: var(--r-font-body);
+  --paper-card-border: var(--portal-rule-soft);
+  --paper-card-border-soft: var(--portal-rule-soft);
+  --paper-card-bg: var(--r-bg);
+  --paper-card-bg-soft: var(--r-bg);
+  --paper-card-shadow: none;
+  --paper-card-radius: 0;
+}
+
+.portal-surface .reading-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: max(0px, calc(100svh - var(--portal-margin) * 2 - var(--portal-inset) * 2 - 2px));
+  width: 100%;
+  margin: 0 auto;
+}
+
+.portal-surface .reading-shell__main { min-width: 0; }
+
+.portal-surface.portal-surface--wide .reading-shell__header {
+  padding-bottom: var(--r-space-md);
+}
+
+.portal-surface .r-post-list__title { font-weight: 500; }
+
+.portal-surface .reading-shell__footer {
+  border-top: var(--portal-rule-width) solid var(--portal-rule);
+  margin-top: var(--r-space-xl);
+  padding: var(--r-space-lg) 0 0;
+}
+
+.portal-surface .r-section__head {
+  padding-bottom: var(--r-space-sm);
+  margin-bottom: var(--r-space-lg);
+  border-bottom: var(--portal-rule-width) solid var(--portal-rule);
+}
+
+.portal-surface .r-year-block__label {
+  padding-bottom: var(--r-space-sm);
+  margin-bottom: var(--r-space-md);
+  border-bottom: 1px solid var(--portal-rule-soft);
+}
+
+.portal-surface .r-article__header {
+  padding-bottom: var(--r-space-sm);
+  margin-bottom: var(--r-space-lg);
+  border-bottom: 1px solid var(--portal-rule-soft);
+}
+
+/* The shell now supplies the inset. Topic wrappers must not add a second gutter. */
+.portal-surface--wide :is(.media-main, .travel-main, .sports-layout, .tools-layout .content-limit-width, .photography-layout > .reading-shell > main > .content) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding: 0;
+}
+
+.portal-surface--wide :is(.media-page, .travel-page) {
+  min-height: 0;
+  background: transparent;
+}
+
+.portal-surface--wide .simple-header {
+  width: 100%;
+  max-width: none;
+  padding-inline: 0;
+}
+
+.portal-surface--wide :is(.media-heading, .archive-heading, .related-heading, .tools-section h2) {
+  border-bottom-color: var(--portal-rule);
+  border-bottom-width: var(--portal-rule-width);
+}
+
+.portal-surface--wide .page-heading {
+  padding-bottom: var(--r-space-md);
+  border-bottom: var(--portal-rule-width) solid var(--portal-rule);
+}
+
+/* Tool collections use the same flat index language as the portal's link rows. */
+.portal-surface--wide .tools-section h2 { color: var(--r-ink); }
+
+.portal-surface--wide .tool-card {
+  border: 0;
+  border-bottom: 1px solid var(--portal-rule-soft);
+  border-radius: 0;
+  padding: var(--r-space-md) 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  color: var(--r-ink);
+}
+
+.portal-surface--wide .tool-card:hover {
+  transform: none;
+  background: transparent;
+  box-shadow: none;
+  border-color: var(--portal-rule);
+}
+
+.portal-surface.portal-surface--wide .stat-card {
+  border-radius: var(--paper-card-radius);
+  box-shadow: none;
+  background: var(--r-bg);
+}
+
+.portal-surface.portal-surface--wide .stat-card::before { content: none; }
+
+.portal-surface.portal-surface--wide .stat-card:hover {
+  border-color: var(--portal-rule);
+  box-shadow: none;
+}
+
+.portal-surface--wide .tool-title {
+  font-family: var(--r-font-ui);
+}
+
+@media (max-width: 640px) {
+  body.reading-surface {
+    --portal-margin: var(--space-xs);
+    --portal-inset: var(--space-md);
+  }
+
+  .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
+  .portal-surface .reading-shell__footer { padding-top: var(--r-space-md); }
+  .portal-surface--wide { padding-block-start: var(--space-xs); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-surface :is(.fade-in-up, .tab-item, .chart-group, .viz-panel, .tool-card, .stat-card, .gallery-img) {
+    animation: none;
+    transition: none;
+  }
+}
