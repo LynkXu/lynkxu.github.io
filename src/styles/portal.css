@@ -6,6 +6,7 @@ body.reading-surface {
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
   --portal-rule-width: 2px;
+  --portal-section-rule-width: 1px;
 }
 
 .portal-surface {
@@ -59,9 +60,9 @@ body.reading-surface {
 }
 
 .portal-surface .r-section__head {
-  padding-bottom: var(--r-space-sm);
+  padding-bottom: var(--r-space-md);
   margin-bottom: var(--r-space-lg);
-  border-bottom: var(--portal-rule-width) solid var(--portal-rule);
+  border-bottom: var(--portal-section-rule-width) solid var(--portal-rule);
 }
 
 .portal-surface .r-year-block__label {
@@ -98,12 +99,12 @@ body.reading-surface {
 
 .portal-surface--wide :is(.media-heading, .archive-heading, .related-heading, .tools-section h2) {
   border-bottom-color: var(--portal-rule);
-  border-bottom-width: var(--portal-rule-width);
+  border-bottom-width: var(--portal-section-rule-width);
 }
 
 .portal-surface--wide .page-heading {
   padding-bottom: var(--r-space-md);
-  border-bottom: var(--portal-rule-width) solid var(--portal-rule);
+  border-bottom: var(--portal-section-rule-width) solid var(--portal-rule);
 }
 
 /* Tool collections use the same flat index language as the portal's link rows. */
