@@ -2,7 +2,7 @@
    this layer owns the page boundary, section rules and topic alignment. */
 body.reading-surface {
   --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
-  --portal-top-inset: calc((var(--portal-inset) + clamp(var(--space-lg), 3vw, var(--space-2xl))) / 2);
+  --portal-top-inset: var(--space-xs);
   --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
@@ -16,6 +16,7 @@ body.reading-surface {
   width: min(calc(100% - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2));
   margin: var(--portal-margin) auto;
   padding: var(--portal-inset);
+  padding-block-start: var(--portal-top-inset);
   border: 1px solid var(--portal-rule);
   background: var(--r-bg);
 }
@@ -25,7 +26,6 @@ body.reading-surface {
   font-family: var(--r-font-ui);
   --font-heading: var(--r-font-ui);
   --r-header-content-space: var(--r-space-md);
-  padding-block-start: var(--space-xs);
   border: 0;
   /* Topic content keeps its wider canvas but shares the reading surface palette. */
   --page-bg: var(--r-bg);
@@ -45,11 +45,15 @@ body.reading-surface {
 }
 
 .portal-surface:not(.portal-surface--wide) {
-  padding-block-start: var(--portal-top-inset);
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  border: 0;
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell {
-  min-height: max(0px, calc(100svh - var(--portal-margin) * 2 - var(--portal-top-inset) - var(--portal-inset) - 2px));
+  flex: 1;
+  min-height: 0;
 }
 
 @media (min-width: 641px) {
@@ -78,13 +82,19 @@ body.reading-surface {
 .portal-surface .reading-shell__footer {
   border-top: var(--portal-rule-width) solid var(--portal-rule);
   margin-top: var(--r-space-xl);
-  padding: var(--r-space-lg) 0 0;
+  padding: var(--r-space-md) 0 0;
 }
 
 .portal-surface .r-section__head {
   padding-bottom: var(--r-space-md);
   margin-bottom: var(--r-space-lg);
   border-bottom: var(--portal-section-rule-width) solid var(--portal-rule);
+}
+
+/* Home indexes use title weight and whitespace to separate their sections. */
+.portal-surface.reading-home .r-section__head {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .portal-surface .r-year-block__label {
@@ -170,11 +180,9 @@ body.reading-surface {
   body.reading-surface {
     --portal-margin: var(--space-xs);
     --portal-inset: var(--space-md);
-    --portal-top-inset: var(--portal-inset);
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
-  .portal-surface .reading-shell__footer { padding-top: var(--r-space-md); }
 }
 
 @media (prefers-reduced-motion: reduce) {
