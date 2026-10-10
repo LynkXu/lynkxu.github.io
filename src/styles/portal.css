@@ -2,6 +2,7 @@
    this layer owns the page boundary, section rules and topic alignment. */
 body.reading-surface {
   --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
+  --portal-top-inset: calc((var(--portal-inset) + clamp(var(--space-lg), 3vw, var(--space-2xl))) / 2);
   --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
@@ -41,6 +42,20 @@ body.reading-surface {
   --paper-card-bg-soft: var(--r-bg);
   --paper-card-shadow: none;
   --paper-card-radius: 0;
+}
+
+.portal-surface:not(.portal-surface--wide) {
+  padding-block-start: var(--portal-top-inset);
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell {
+  min-height: max(0px, calc(100svh - var(--portal-margin) * 2 - var(--portal-top-inset) - var(--portal-inset) - 2px));
+}
+
+@media (min-width: 641px) {
+  .portal-surface:not(.portal-surface--wide) .reading-shell__header {
+    padding-bottom: var(--r-space-sm);
+  }
 }
 
 /* Topic information uses the UI face; page titles and prose keep the serif voice. */
@@ -155,6 +170,7 @@ body.reading-surface {
   body.reading-surface {
     --portal-margin: var(--space-xs);
     --portal-inset: var(--space-md);
+    --portal-top-inset: var(--portal-inset);
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
