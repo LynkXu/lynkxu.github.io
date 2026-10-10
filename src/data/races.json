@@ -1,6 +1,21 @@
 {
   "races": [
     {
+      "date": "2026-11-01",
+      "year": "2026",
+      "name": "杭州马拉松",
+      "type": "全马",
+      "distance": "42.195",
+      "location": "浙江杭州",
+      "status": "upcoming",
+      "time": "",
+      "pace": "",
+      "rank": "",
+      "note": "未进行",
+      "lat": 30.27,
+      "lng": 120.15
+    },
+    {
       "date": "2026-03-22",
       "year": "2026",
       "name": "桐乡半程马拉松",
