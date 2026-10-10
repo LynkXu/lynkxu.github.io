@@ -79,9 +79,8 @@ body.reading-surface {
 }
 
 .portal-surface .r-article__header {
-  padding-bottom: var(--r-space-sm);
+  padding-bottom: 0;
   margin-bottom: var(--r-space-lg);
-  border-bottom: 1px solid var(--portal-rule-soft);
 }
 
 /* The shell now supplies the inset. Topic wrappers must not add a second gutter. */

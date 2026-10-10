@@ -245,8 +245,8 @@ function formatXAxisLabel(label: string) {
     min-height: 320px;
     padding: clamp(0.7rem, 2vw, 1rem) clamp(0.8rem, 2.4vw, 1.15rem) 0.8rem;
     color: var(--text-color);
-    --chart-signal: oklch(0.58 0.052 155);
-    --chart-signal-peak: oklch(0.5 0.062 155);
+    --chart-signal: oklch(0.65 0.09 175);
+    --chart-signal-peak: oklch(0.47 0.09 175);
     background: var(--paper-card-bg);
     container-type: inline-size;
   }
@@ -339,7 +339,7 @@ function formatXAxisLabel(label: string) {
   }
 
   .bar-rect {
-    fill: color-mix(in oklab, var(--chart-signal) 70%, var(--paper-card-bg));
+    fill: var(--chart-signal);
     transition: fill 0.25s ease;
   }
 
@@ -401,8 +401,8 @@ function formatXAxisLabel(label: string) {
   }
 
   :global([data-theme="dark"]) .bar-chart-box {
-    --chart-signal: oklch(0.7 0.04 155);
-    --chart-signal-peak: oklch(0.78 0.05 155);
+    --chart-signal: oklch(0.66 0.075 175);
+    --chart-signal-peak: oklch(0.8 0.09 175);
   }
 
   @media (max-width: 600px) {
