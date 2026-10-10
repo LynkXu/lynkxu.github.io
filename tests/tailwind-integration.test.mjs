@@ -97,7 +97,7 @@ test('archive year labels stay in the meta text scale', () => {
   assert.match(surfaceRule, /font-family:\s*var\(--r-font-ui\)\s*!important;/);
   assert.match(surfaceRule, /font-size:\s*var\(--r-text-xs\)\s*!important;/);
   assert.match(surfaceRule, /line-height:\s*1\.35\s*!important;/);
-  assert.match(tailwind, /body\.reading-surface h2:not\(\.r-section__title\):not\(\.r-year-block__label\),/);
+  assert.match(tailwind, /body\.reading-surface h2:not\(\.r-section__title\):not\(\.r-year-block__label\):not\(\.portal-surface--wide h2\),/);
   assert.doesNotMatch(componentRule + surfaceRule, /font-size:\s*0\.9rem/);
   assert.doesNotMatch(tailwind, /r-year-block__count/);
   assert.doesNotMatch(archive, /r-year-block__count/);

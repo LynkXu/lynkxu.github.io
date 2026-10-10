@@ -21,6 +21,8 @@ body.reading-surface {
 
 .portal-surface--wide {
   --portal-content-width: var(--topic-shell-width);
+  font-family: var(--r-font-ui);
+  --font-heading: var(--r-font-ui);
   --r-header-content-space: var(--r-space-md);
   padding-block-start: var(--space-xs);
   border: 0;
@@ -39,6 +41,11 @@ body.reading-surface {
   --paper-card-bg-soft: var(--r-bg);
   --paper-card-shadow: none;
   --paper-card-radius: 0;
+}
+
+/* Topic information uses the UI face; page titles and prose keep the serif voice. */
+.portal-surface--wide :is(h2, h3, h4, h5, h6):not(.r-prose *) {
+  font-family: var(--r-font-ui);
 }
 
 .portal-surface .reading-shell {

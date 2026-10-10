@@ -357,11 +357,11 @@ body.reading-surface *:focus-visible {
 }
 
 body.reading-surface h1:not(.r-section__title),
-body.reading-surface h2:not(.r-section__title):not(.r-year-block__label),
-body.reading-surface h3:not(.r-section__title):not(.media-title):not(.tool-title),
-body.reading-surface h4:not(.lg-caption h4),
-body.reading-surface h5,
-body.reading-surface h6 {
+body.reading-surface h2:not(.r-section__title):not(.r-year-block__label):not(.portal-surface--wide h2),
+body.reading-surface h3:not(.r-section__title):not(.media-title):not(.tool-title):not(.portal-surface--wide h3),
+body.reading-surface h4:not(.lg-caption h4):not(.portal-surface--wide h4),
+body.reading-surface h5:not(.portal-surface--wide h5),
+body.reading-surface h6:not(.portal-surface--wide h6) {
   font-family: var(--r-font-body) !important;
   color: var(--r-ink) !important;
 }
