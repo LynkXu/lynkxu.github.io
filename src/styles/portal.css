@@ -2,7 +2,7 @@
    this layer owns the page boundary, section rules and topic alignment. */
 body.reading-surface {
   --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
-  --portal-top-inset: calc((var(--portal-inset) + clamp(var(--space-lg), 3vw, var(--space-2xl))) / 2);
+  --portal-top-inset: var(--space-xs);
   --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
@@ -16,6 +16,7 @@ body.reading-surface {
   width: min(calc(100% - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2));
   margin: var(--portal-margin) auto;
   padding: var(--portal-inset);
+  padding-block-start: var(--portal-top-inset);
   border: 1px solid var(--portal-rule);
   background: var(--r-bg);
 }
@@ -25,7 +26,6 @@ body.reading-surface {
   font-family: var(--r-font-ui);
   --font-heading: var(--r-font-ui);
   --r-header-content-space: var(--r-space-md);
-  padding-block-start: var(--space-xs);
   border: 0;
   /* Topic content keeps its wider canvas but shares the reading surface palette. */
   --page-bg: var(--r-bg);
@@ -47,8 +47,8 @@ body.reading-surface {
 .portal-surface:not(.portal-surface--wide) {
   display: flex;
   flex-direction: column;
-  min-height: max(0px, calc(100svh - var(--portal-margin) * 2));
-  padding-block-start: var(--portal-top-inset);
+  min-height: 100svh;
+  border: 0;
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell {
@@ -57,14 +57,6 @@ body.reading-surface {
 }
 
 @media (min-width: 641px) {
-  .portal-surface:not(.portal-surface--wide) {
-    /* A4's height/width ratio is sqrt(2); use a minimum so long pages can grow. */
-    min-height: max(
-      calc(100svh - var(--portal-margin) * 2),
-      calc(min(calc(100vw - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2)) * 1.41421356237)
-    );
-  }
-
   .portal-surface:not(.portal-surface--wide) .reading-shell__header {
     padding-bottom: var(--r-space-sm);
   }
@@ -188,7 +180,6 @@ body.reading-surface {
   body.reading-surface {
     --portal-margin: var(--space-xs);
     --portal-inset: var(--space-md);
-    --portal-top-inset: var(--portal-inset);
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
