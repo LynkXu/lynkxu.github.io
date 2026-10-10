@@ -45,14 +45,26 @@ body.reading-surface {
 }
 
 .portal-surface:not(.portal-surface--wide) {
+  display: flex;
+  flex-direction: column;
+  min-height: max(0px, calc(100svh - var(--portal-margin) * 2));
   padding-block-start: var(--portal-top-inset);
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell {
-  min-height: max(0px, calc(100svh - var(--portal-margin) * 2 - var(--portal-top-inset) - var(--portal-inset) - 2px));
+  flex: 1;
+  min-height: 0;
 }
 
 @media (min-width: 641px) {
+  .portal-surface:not(.portal-surface--wide) {
+    /* A4's height/width ratio is sqrt(2); use a minimum so long pages can grow. */
+    min-height: max(
+      calc(100svh - var(--portal-margin) * 2),
+      calc(min(calc(100vw - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2)) * 1.41421356237)
+    );
+  }
+
   .portal-surface:not(.portal-surface--wide) .reading-shell__header {
     padding-bottom: var(--r-space-sm);
   }
@@ -78,13 +90,19 @@ body.reading-surface {
 .portal-surface .reading-shell__footer {
   border-top: var(--portal-rule-width) solid var(--portal-rule);
   margin-top: var(--r-space-xl);
-  padding: var(--r-space-lg) 0 0;
+  padding: var(--r-space-md) 0 0;
 }
 
 .portal-surface .r-section__head {
   padding-bottom: var(--r-space-md);
   margin-bottom: var(--r-space-lg);
   border-bottom: var(--portal-section-rule-width) solid var(--portal-rule);
+}
+
+/* Home indexes use title weight and whitespace to separate their sections. */
+.portal-surface.reading-home .r-section__head {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .portal-surface .r-year-block__label {
@@ -174,7 +192,6 @@ body.reading-surface {
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
-  .portal-surface .reading-shell__footer { padding-top: var(--r-space-md); }
 }
 
 @media (prefers-reduced-motion: reduce) {
