@@ -86,18 +86,24 @@ function formatXAxisLabel(label: string) {
   <div class="bar-chart-summary" aria-label="Monthly summary">
     <div class="summary-item">
       <span class="summary-label">累计</span>
-      <strong>{formatNumber(totalValue)}</strong>
-      <span class="summary-unit">{chartUnit}</span>
+      <div class="summary-main">
+        <strong>{formatNumber(totalValue)}</strong>
+        <span class="summary-unit">{chartUnit}</span>
+      </div>
     </div>
     <div class="summary-item">
       <span class="summary-label">峰值</span>
-      <strong>{peakPoint ? formatNumber(peakPoint.value) : '0'}</strong>
-      <span class="summary-unit">{chartUnit} · {peakPoint ? formatXAxisLabel(peakPoint.label) : '-'}</span>
+      <div class="summary-main">
+        <strong>{peakPoint ? formatNumber(peakPoint.value) : '0'}</strong>
+        <span class="summary-unit">{chartUnit} · {peakPoint ? formatXAxisLabel(peakPoint.label) : '-'}</span>
+      </div>
     </div>
     <div class="summary-item">
       <span class="summary-label">活跃月均</span>
-      <strong>{formatNumber(activeAverage)}</strong>
-      <span class="summary-unit">{chartUnit}</span>
+      <div class="summary-main">
+        <strong>{formatNumber(activeAverage)}</strong>
+        <span class="summary-unit">{chartUnit}</span>
+      </div>
     </div>
   </div>
 
@@ -259,8 +265,12 @@ function formatXAxisLabel(label: string) {
   }
 
   .summary-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-xs);
     min-width: 0;
-    padding: clamp(0.55rem, 1.5vw, 0.78rem) clamp(0.62rem, 1.8vw, 0.9rem);
+    padding: var(--space-sm) clamp(var(--space-sm), 1.8vw, var(--space-md));
     border: 1px solid var(--paper-card-border-soft);
     border-radius: var(--paper-card-radius);
     background: var(--paper-card-bg);
@@ -277,9 +287,14 @@ function formatXAxisLabel(label: string) {
     line-height: 1.25;
   }
 
+  .summary-main {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    line-height: 1;
+  }
+
   .summary-item strong {
-    display: inline-block;
-    margin: 0.12rem 0.14rem 0.06rem 0;
     color: var(--heading-color);
     font-family: var(--ui-font, inherit);
     font-size: clamp(1rem, 2vw, 1.38rem);
@@ -411,7 +426,7 @@ function formatXAxisLabel(label: string) {
       padding-inline: 0.65rem;
     }
     .summary-item {
-      padding: 0.5rem 0.45rem;
+      padding: var(--space-xs);
     }
     .summary-label,
     .summary-unit {
