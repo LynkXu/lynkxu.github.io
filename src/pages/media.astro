@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
+import ReadingShell from '../layouts/ReadingShell.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
 import MediaCard from '../components/MediaCard.astro';
 import neodbData from '../data/neodb.json';
@@ -87,11 +87,11 @@ const getLink = (entry: NeoDBItem) => {
 };
 ---
 
-<Base title={title} description={description} useCard={false} hideHeader fullWidth className="media-layout">
+<ReadingShell title={title} description={description} wide className="media-layout">
   <div class="media-page" data-media-page>
     <SimpleHeader title="Media" />
 
-    <main class="media-main">
+    <div class="media-main">
       <div class="media-heading">
         <h1>书影音</h1>
         <div class="media-filters" role="toolbar" aria-label="按类型筛选">
@@ -141,36 +141,18 @@ const getLink = (entry: NeoDBItem) => {
           </section>
         ))}
       </div>
-    </main>
+    </div>
   </div>
 
   <style>
-    :global(body.full-width .global-layout-transparent.media-layout) {
-      width: 100%;
-      max-width: var(--topic-shell-width);
-      margin-inline: auto;
-      padding: 0;
-    }
-
-    :global(.media-layout > main) {
-      width: 100%;
-    }
-
     .media-page {
-      min-height: 100vh;
-      background: var(--page-bg);
-    }
-
-    .media-page :global(.simple-header) {
-      width: 100%;
-      max-width: none;
-      padding-inline: var(--page-inline);
+      min-height: 0;
     }
 
     .media-main {
       width: 100%;
       margin-inline: auto;
-      padding: 0 var(--page-inline) var(--space-3xl);
+      padding: 0;
     }
 
     .media-heading {
@@ -187,11 +169,11 @@ const getLink = (entry: NeoDBItem) => {
     .year-heading h2 {
       margin: 0;
       color: var(--heading-color);
-      font-family: var(--serif-font);
       font-weight: var(--weight-bold);
     }
 
     .media-heading h1 {
+      font-family: var(--serif-font);
       display: block;
       font-size: var(--text-2xl);
       line-height: var(--lh-tight);
@@ -215,7 +197,8 @@ const getLink = (entry: NeoDBItem) => {
       appearance: none;
       padding: 0.28rem 0.7rem;
       border: 0;
-      border-radius: 999px;
+      border-bottom: 1px solid transparent;
+      border-radius: 0;
       background: transparent;
       color: var(--gray-color);
       cursor: pointer;
@@ -232,8 +215,8 @@ const getLink = (entry: NeoDBItem) => {
     }
 
     .media-filter[aria-pressed='true'] {
-      background: var(--heading-color);
-      color: var(--page-bg);
+      color: var(--heading-color);
+      border-bottom-color: var(--portal-rule);
     }
 
     .media-filter:focus-visible {
@@ -244,7 +227,7 @@ const getLink = (entry: NeoDBItem) => {
     .media-years {
       display: flex;
       flex-direction: column;
-      gap: var(--space-xl);
+      gap: var(--space-2xl);
       margin-top: 0;
     }
 
@@ -257,10 +240,11 @@ const getLink = (entry: NeoDBItem) => {
       display: flex;
       align-items: baseline;
       gap: var(--space-sm);
-      margin: 0 0 var(--space-sm);
+      margin: 0 0 var(--space-lg);
     }
 
     .year-heading h2 {
+      font-family: var(--ui-font);
       font-size: var(--text-lg);
       font-variant-numeric: tabular-nums;
       line-height: var(--lh-tight);
@@ -274,10 +258,14 @@ const getLink = (entry: NeoDBItem) => {
 
     .media-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--space-lg) var(--space-xl);
-      padding-top: var(--space-md);
-      border-top: 1px solid var(--paper-card-border-soft);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+
+    @media (max-width: 1100px) {
+      .media-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
     }
 
     @media (max-width: 760px) {
@@ -309,7 +297,7 @@ const getLink = (entry: NeoDBItem) => {
       }
     }
   </style>
-</Base>
+</ReadingShell>
 
 <script>
   import { matchesMediaFilter } from '../lib/media-filter';

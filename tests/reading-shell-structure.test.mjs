@@ -46,7 +46,13 @@ test('header chrome uses a compact shared vertical rhythm', () => {
 });
 
 test('reading measure and footer links preserve the current shell contract', () => {
-	assert.match(source, /w-\[min\(calc\(100%_-_var\(--r-page-inline\)_\*_2\),var\(--r-measure\)\)\]/);
+	const portal = readFileSync(
+		new URL('../src/styles/portal.css', import.meta.url),
+		'utf8',
+	);
+	// The frame adds an inset around the existing measure; it must not widen article copy.
+	assert.match(portal, /--portal-content-width:\s*var\(--r-measure\);/);
+	assert.match(portal, /calc\(var\(--portal-content-width\) \+ var\(--portal-inset\) \* 2\)/);
 	assert.match(source, /<main class="reading-shell__main min-w-0 flex-1">/);
 	for (const [href, label] of [
 		['/photography', '摄影'],

@@ -1,5 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
+import ReadingShell from '../layouts/ReadingShell.astro';
 import SimpleHeader from '../components/SimpleHeader.astro';
 import { Image } from 'astro:assets';
 import exifr from 'exifr';
@@ -134,7 +134,7 @@ const title = "光影瞬间";
 const description = "定格时间，留住感动";
 ---
 
-<Base title={title} description={description} fullWidth={true} hideHeader={true} hideFooter={false} useCard={false} className="layout-wide">
+<ReadingShell title={title} description={description} wide className="photography-layout">
   <link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
   
   <SimpleHeader title="Photography" description="光影瞬间" />
@@ -402,10 +402,11 @@ const description = "定格时间，留住感动";
         padding: 20px !important;
     }
     
-    :global(.lg-caption h4) {
+    :global(body.reading-surface .lg-caption h4) {
+        font-family: var(--r-font-ui);
         margin: 0 0 5px;
         font-size: 1.1rem;
-        color: #fff;
+        color: #fff !important;
         font-weight: 500;
     }
     
@@ -413,7 +414,7 @@ const description = "定格时间，留住感动";
         margin: 0;
         font-size: 0.9rem;
         color: rgba(255, 255, 255, 0.8);
-        font-family: var(--ui-font);
+        font-family: var(--r-font-ui);
     }
 
     /* Dark Mode Adjustments */
@@ -463,4 +464,4 @@ const description = "定格时间，留住感动";
         }
     }
   </style>
-</Base>
+</ReadingShell>

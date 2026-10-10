@@ -54,8 +54,6 @@ for (let i = 0; i < yTickCount; i++) {
 const maxIdx = hasData ? values.indexOf(maxV) : -1;
 
 const chartId = id || `bc-${Math.random().toString(36).slice(2, 9)}`;
-const gradientId = `${chartId}-bar-fill`;
-const maxGradientId = `${chartId}-bar-fill-max`;
 const activeData = data.filter(d => Number.isFinite(d.value) && d.value > 0);
 const totalValue = values.reduce((sum, value) => sum + (Number.isFinite(value) ? value : 0), 0);
 const activeAverage = activeData.length > 0 ? totalValue / activeData.length : 0;
@@ -65,23 +63,6 @@ const chartUnit = unit || 'km';
 function formatNumber(value: number) {
   const digits = value >= 100 ? 0 : value >= 10 ? 1 : 2;
   return value.toFixed(digits).replace(/\.0+$/, '').replace(/(\.\d*?)0+$/, '$1');
-}
-
-function barPath(x: number, y: number, width: number, height: number) {
-  const r = Math.min(4.5, width * 0.18, height);
-  const bottom = y + height;
-  const right = x + width;
-
-  if (height <= 0) return '';
-  return [
-    `M ${x} ${bottom}`,
-    `L ${x} ${y + r}`,
-    `Q ${x} ${y} ${x + r} ${y}`,
-    `L ${right - r} ${y}`,
-    `Q ${right} ${y} ${right} ${y + r}`,
-    `L ${right} ${bottom}`,
-    'Z'
-  ].join(' ');
 }
 
 function formatXAxisLabel(label: string) {
@@ -103,7 +84,7 @@ function formatXAxisLabel(label: string) {
 
 <div class="bar-chart-box" id={chartId}>
   <div class="bar-chart-summary" aria-label="Monthly summary">
-    <div class="summary-item primary">
+    <div class="summary-item">
       <span class="summary-label">累计</span>
       <strong>{formatNumber(totalValue)}</strong>
       <span class="summary-unit">{chartUnit}</span>
@@ -122,17 +103,6 @@ function formatXAxisLabel(label: string) {
 
   <div class="bar-chart-plot">
     <svg viewBox={`0 0 ${W} ${H}`} class="bar-chart-svg" preserveAspectRatio="none" role="img" aria-label="Monthly distance chart">
-      <defs>
-        <linearGradient id={gradientId} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" class="bar-gradient-stop low" />
-          <stop offset="100%" class="bar-gradient-stop high" />
-        </linearGradient>
-        <linearGradient id={maxGradientId} x1="0" y1="1" x2="0" y2="0">
-          <stop offset="0%" class="bar-gradient-stop-max low" />
-          <stop offset="100%" class="bar-gradient-stop-max high" />
-        </linearGradient>
-      </defs>
-
       {/* Grid lines */}
       {ticks.slice(1).map((t) => {
         const y = yPos(t);
@@ -177,10 +147,12 @@ function formatXAxisLabel(label: string) {
             {d.value === 0 ? (
               <circle cx={cx} cy={zeroY} r={1.8} class="bar-zero" />
             ) : (
-              <path
-                d={barPath(x, y, barW, h)}
+              <rect
+                x={x}
+                y={y}
+                width={barW}
+                height={h}
                 class={`bar-rect ${isMax ? 'max' : ''}`}
-                style={`--bar-delay: ${i * 38}ms; fill: url(#${isMax ? maxGradientId : gradientId});`}
               />
             )}
             {isMax && d.value > 0 && (
@@ -273,16 +245,15 @@ function formatXAxisLabel(label: string) {
     min-height: 320px;
     padding: clamp(0.7rem, 2vw, 1rem) clamp(0.8rem, 2.4vw, 1.15rem) 0.8rem;
     color: var(--text-color);
-    --chart-signal: oklch(0.58 0.052 155);
-    --chart-signal-soft: oklch(0.86 0.024 155);
-    --chart-signal-peak: oklch(0.5 0.062 155);
+    --chart-signal: oklch(0.65 0.09 175);
+    --chart-signal-peak: oklch(0.47 0.09 175);
     background: var(--paper-card-bg);
     container-type: inline-size;
   }
 
   .bar-chart-summary {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(0.45rem, 1.4vw, 0.8rem);
     margin: 0 0 clamp(0.45rem, 1.4vw, 0.7rem);
   }
@@ -291,12 +262,8 @@ function formatXAxisLabel(label: string) {
     min-width: 0;
     padding: clamp(0.55rem, 1.5vw, 0.78rem) clamp(0.62rem, 1.8vw, 0.9rem);
     border: 1px solid var(--paper-card-border-soft);
-    border-radius: 10px;
+    border-radius: var(--paper-card-radius);
     background: var(--paper-card-bg);
-  }
-
-  .summary-item.primary {
-    border-color: color-mix(in oklab, var(--chart-signal) 12%, var(--paper-card-border-soft));
   }
 
   .summary-label,
@@ -342,26 +309,6 @@ function formatXAxisLabel(label: string) {
     overflow: hidden;
   }
 
-  .bar-gradient-stop.low {
-    stop-color: color-mix(in oklab, var(--chart-signal-soft) 46%, var(--paper-field-bg));
-    stop-opacity: 0.62;
-  }
-
-  .bar-gradient-stop.high {
-    stop-color: var(--chart-signal);
-    stop-opacity: 0.78;
-  }
-
-  .bar-gradient-stop-max.low {
-    stop-color: color-mix(in oklab, var(--chart-signal-soft) 54%, var(--paper-field-bg));
-    stop-opacity: 0.72;
-  }
-
-  .bar-gradient-stop-max.high {
-    stop-color: var(--chart-signal-peak);
-    stop-opacity: 0.9;
-  }
-
   .grid-line {
     stroke: color-mix(in oklab, var(--text-color) 18%, transparent);
     stroke-opacity: 0.36;
@@ -392,24 +339,16 @@ function formatXAxisLabel(label: string) {
   }
 
   .bar-rect {
-    opacity: 0.86;
-    transform-box: fill-box;
-    transform-origin: center bottom;
-    transition: opacity 0.25s ease, filter 0.25s ease;
+    fill: var(--chart-signal);
+    transition: fill 0.25s ease;
   }
 
   .bar-rect.max {
-    opacity: 1;
-    filter: drop-shadow(0 6px 10px color-mix(in oklab, var(--chart-signal) 16%, transparent));
+    fill: var(--chart-signal-peak);
   }
 
   .bar-group:hover .bar-rect {
-    opacity: 1;
-    filter: drop-shadow(0 5px 10px color-mix(in oklab, var(--chart-signal) 12%, transparent));
-  }
-
-  .bar-group:hover .bar-rect.max {
-    filter: drop-shadow(0 8px 14px color-mix(in oklab, var(--chart-signal) 22%, transparent));
+    fill: var(--chart-signal-peak);
   }
 
   .bar-zero {
@@ -433,11 +372,11 @@ function formatXAxisLabel(label: string) {
     opacity: 0;
     transform: translate(-50%, -100%) translateY(-6px);
     transition: opacity 0.2s ease;
-    background: color-mix(in oklab, var(--heading-color) 90%, var(--page-bg));
-    border: 1px solid color-mix(in oklab, var(--heading-color) 16%, transparent);
-    border-radius: 8px;
+    background: var(--paper-card-bg);
+    border: 1px solid var(--paper-card-border);
+    border-radius: var(--paper-card-radius);
     padding: 0.42rem 0.58rem;
-    box-shadow: 0 10px 24px color-mix(in oklab, var(--heading-color) 16%, transparent);
+    box-shadow: var(--paper-card-shadow);
     font-size: 0.75rem;
     white-space: nowrap;
     z-index: 10;
@@ -451,28 +390,19 @@ function formatXAxisLabel(label: string) {
   }
 
   .tt-label {
-    color: color-mix(in oklab, var(--page-bg) 68%, var(--gray-color));
+    color: var(--gray-color);
     font-size: 0.68rem;
   }
 
   .tt-value {
-    color: var(--page-bg);
+    color: var(--heading-color);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
 
-  :global([data-theme="dark"]) .bar-tooltip {
-    background: color-mix(in oklab, var(--paper-card-bg) 82%, var(--heading-color));
-    border-color: color-mix(in oklab, var(--heading-color) 12%, transparent);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.32);
-  }
-
-  :global([data-theme="dark"]) .tt-label {
-    color: color-mix(in oklab, var(--gray-color) 82%, var(--heading-color));
-  }
-
-  :global([data-theme="dark"]) .tt-value {
-    color: var(--heading-color);
+  :global([data-theme="dark"]) .bar-chart-box {
+    --chart-signal: oklch(0.66 0.075 175);
+    --chart-signal-peak: oklch(0.8 0.09 175);
   }
 
   @media (max-width: 600px) {
@@ -500,11 +430,7 @@ function formatXAxisLabel(label: string) {
 
   @container (max-width: 360px) {
     .bar-chart-summary {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .summary-item.primary {
-      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     .bar-chart-svg {

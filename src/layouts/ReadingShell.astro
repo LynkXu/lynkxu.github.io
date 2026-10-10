@@ -1,14 +1,17 @@
 ---
 import Base from './Base.astro';
 import { SHOW_WORKS_NAV, SITE_TITLE } from '../consts';
+import type { ImageMetadata } from 'astro';
 
 interface Props {
 	title: string;
 	description: string;
 	className?: string;
+	wide?: boolean;
+	image?: ImageMetadata;
 }
 
-const { title, description, className = '' } = Astro.props;
+const { title, description, className = '', wide = false, image } = Astro.props;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
@@ -39,7 +42,7 @@ function isActive(href: string) {
 	return current === target || current.startsWith(`${target}/`);
 }
 
-const shellClass = 'reading-shell mx-auto flex min-h-screen w-[min(calc(100%_-_var(--r-page-inline)_*_2),var(--r-measure))] flex-col pb-[var(--r-space-2xl)]';
+const shellClass = 'reading-shell';
 const headerClass = 'reading-shell__header';
 const brandClass = 'reading-shell__brand';
 const navClass = 'reading-shell__nav';
@@ -57,7 +60,9 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 <Base
 	title={title}
 	description={description}
-	className={`reading-surface-root ${className}`}
+	image={image}
+	fullWidth={wide}
+	className={`reading-surface-root portal-surface ${wide ? 'portal-surface--wide' : ''} ${className}`}
 	hideHeader={true}
 	hideFooter={true}
 	useCard={false}
@@ -139,7 +144,9 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 <style>
 	/* 页眉属于阅读列，使用同一容器与间距；两行布局让移动端也能直接浏览导航。 */
 	.reading-shell__header {
-		padding-top: calc(var(--space-md) + var(--space-2xs));
+		padding-top: 0;
+		padding-bottom: var(--r-space-md);
+		border-bottom: var(--portal-rule-width) solid var(--portal-rule);
 		margin-bottom: var(--r-header-content-space, var(--r-space-xl));
 	}
 
@@ -176,10 +183,11 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		align-items: center;
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-sm);
+		font-weight: 500;
 		line-height: var(--r-lh-tight);
 		white-space: nowrap;
 		padding-block: var(--r-space-xs);
-		color: var(--r-ink-soft) !important;
+		color: var(--r-ink) !important;
 		text-decoration: none !important;
 		border: 0 !important;
 		transition: color 250ms ease;
