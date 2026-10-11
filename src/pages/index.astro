@@ -15,7 +15,7 @@ const posts = filterDrafts(await getCollection('blog'))
 const latestPosts = posts.slice(0, 5);
 const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
-const homeIntroClass = 'r-home-intro mb-[var(--r-space-2xl)] max-[640px]:mb-[var(--r-space-xl)]';
+const homeIntroClass = 'r-home-intro';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-medium !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -81,8 +81,11 @@ function getPostHref(post: (typeof posts)[number]) {
 		--home-date-column: calc(var(--r-text-xs) * 8);
 	}
 
+	/* 简介靠前后留白成为首页重心，让文章与碎语下移。 */
 	.r-home-intro {
 		--r-traits-gap: var(--r-space-md);
+		padding-top: clamp(var(--r-space-sm), 4vh, var(--r-space-lg));
+		margin-bottom: clamp(var(--r-space-2xl), 9vh, 5.5rem);
 	}
 
 	.r-section {
@@ -113,12 +116,16 @@ function getPostHref(post: (typeof posts)[number]) {
 		grid-row: 1;
 	}
 
+	/* 首页列表略轻于归档（500），把视觉重心留给简介；Literata 无 450，西文仍按 500 渲染。 */
+	.r-post-list .r-post-list__title {
+		font-weight: 450;
+	}
+
 	.r-post-list__date {
 		grid-column: 1;
 		grid-row: 1;
 		justify-self: start;
 		text-align: left;
-		font-weight: 500;
 		line-height: 1.5;
 	}
 
@@ -148,7 +155,6 @@ function getPostHref(post: (typeof posts)[number]) {
 		grid-column: 1;
 		grid-row: 1;
 		margin: 0;
-		font-weight: 500;
 		line-height: 1.5;
 		text-align: left;
 	}
@@ -156,6 +162,10 @@ function getPostHref(post: (typeof posts)[number]) {
 	@media (max-width: 640px) {
 		:global(.reading-surface-root.reading-home) {
 			--r-header-content-space: var(--r-space-xl);
+		}
+
+		.r-home-intro {
+			margin-bottom: var(--r-space-2xl);
 		}
 
 		.r-post-list__item {
