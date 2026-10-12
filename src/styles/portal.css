@@ -4,6 +4,7 @@ body.reading-surface {
   --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
   --portal-top-inset: var(--space-xs);
   --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
+  --portal-top-margin: clamp(var(--space-xs), 1.5vw, var(--space-md));
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
   --portal-rule-width: 2px;
@@ -15,6 +16,7 @@ body.reading-surface {
   box-sizing: border-box;
   width: min(calc(100% - var(--portal-margin) * 2), calc(var(--portal-content-width) + var(--portal-inset) * 2));
   margin: var(--portal-margin) auto;
+  margin-block-start: var(--portal-top-margin);
   padding: var(--portal-inset);
   padding-block-start: var(--portal-top-inset);
   border: 1px solid var(--portal-rule);
