@@ -47,11 +47,47 @@ body.reading-surface {
 }
 
 .portal-surface:not(.portal-surface--wide) {
+  --portal-rule-width: 1px;
+  --r-header-content-space: var(--space-xl);
+  --r-index-title-size: var(--text-md);
   display: flex;
   flex-direction: column;
   min-height: 100svh;
   border: 0;
 }
+
+/* Reading pages share index typography and alignment; prose keeps its own rhythm. */
+.portal-surface:not(.portal-surface--wide) .r-post-list__title {
+  font-family: var(--r-font-body);
+  font-size: var(--r-index-title-size);
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-post-list__item {
+  column-gap: var(--space-lg);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-post-list__date {
+  color: var(--r-ink-soft);
+  line-height: 1.5;
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell__footer {
+  margin-top: var(--space-2xl);
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell__footer-links {
+  gap: var(--space-xs) var(--space-md);
+}
+
+/* A short article index ends naturally; other reading pages retain their shell height. */
+.portal-surface:not(.portal-surface--wide).reading-home,
+.portal-surface:not(.portal-surface--wide).reading-home .reading-shell {
+  min-height: 0;
+}
+
+.portal-surface.reading-home .reading-shell__main { flex: none; }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell {
   flex: 1;
@@ -96,6 +132,7 @@ body.reading-surface {
 /* Home indexes use title weight and whitespace to separate their sections. */
 .portal-surface.reading-home .r-section__head {
   padding-bottom: 0;
+  margin-bottom: var(--space-lg);
   border-bottom: 0;
 }
 
@@ -185,6 +222,18 @@ body.reading-surface {
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
+
+  .portal-surface.reading-home .r-section__head { margin-bottom: var(--space-lg); }
+
+  .portal-surface:not(.portal-surface--wide) .r-post-list__item {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-2xs);
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-post-list__date {
+    justify-self: start;
+    text-align: left;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
