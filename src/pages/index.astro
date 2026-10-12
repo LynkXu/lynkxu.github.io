@@ -4,8 +4,6 @@ import ReadingShell from '../layouts/ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
-import { getAllGossips } from '../utils/gossips';
-import { toPlainExcerpt } from '../utils/plain-text';
 import AboutTraits from '../components/AboutTraits.astro';
 
 const posts = filterDrafts(await getCollection('blog'))
@@ -13,10 +11,9 @@ const posts = filterDrafts(await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const latestPosts = posts.slice(0, 5);
-const latestGossips = (await getAllGossips()).slice(0, 3);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
 const homeIntroClass = 'r-home-intro';
-const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-medium !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -26,6 +23,8 @@ function getPostHref(post: (typeof posts)[number]) {
 <ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION} className="reading-home">
 	<section class={homeIntroClass} aria-label="简介">
 		<h1 class={homeIntroTextClass}>你好，我是 Lynk。</h1>
+		<p class="r-home-intro__welcome"><span>很高兴你发现了这里。</span><span>希望你喜欢我写的内容，也祝你今天过得开心。</span></p>
+		<img class="r-home-intro__portrait" src="/avatar-224.webp" width="224" height="224" alt="Lynk 的个人头像" />
 		<AboutTraits />
 	</section>
 
@@ -47,161 +46,76 @@ function getPostHref(post: (typeof posts)[number]) {
 		</ol>
 	</section>
 
-	{latestGossips.length > 0 && (
-		<section class="r-section" aria-labelledby="home-notes-title">
-			<header class="r-section__head">
-				<h2 id="home-notes-title" class={sectionTitleClass}>碎语</h2>
-				<a class="home-section-more" href="/shuoshuo">全部碎语</a>
-			</header>
-
-			<ul class="r-note-list">
-				{latestGossips.map((gossip) => {
-					const excerpt = toPlainExcerpt(gossip.body || '', 80);
-					return (
-						<li class="r-note-list__item">
-							<a href="/shuoshuo">
-								<span class="r-note-list__date">
-									<FormattedDate date={gossip.data.pubDate} />
-								</span>
-								<span class="home-note-excerpt">{excerpt || '（无文字）'}</span>
-							</a>
-						</li>
-					);
-				})}
-			</ul>
-		</section>
-	)}
 </ReadingShell>
 
 <style>
-	/* 首页以简介留白建立重心，文章与碎语更紧凑；正文页沿用原来的标题前间距。 */
-	:global(.reading-surface-root.reading-home) {
-		--r-header-content-space: var(--r-space-2xl);
-		/* Both indexes reserve the same width for a full numeric date. */
-		--home-date-column: calc(var(--r-text-xs) * 8);
+	/* 首页以文章为主体；标题和日期沿用非专题页的公共索引规则。 */
+	:global(.portal-surface:not(.portal-surface--wide).reading-home) {
+		--r-header-content-space: var(--space-2xl);
 	}
 
-	/* 简介靠前后留白成为首页重心，让文章与碎语下移。 */
 	.r-home-intro {
-		--r-traits-gap: var(--r-space-md);
-		padding-top: clamp(var(--r-space-sm), 4vh, var(--r-space-lg));
-		margin-bottom: clamp(var(--r-space-2xl), 9vh, 5.5rem);
+		--r-traits-gap: 0px;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) calc(var(--space-4xl) + var(--space-md));
+		column-gap: var(--space-xl);
+		row-gap: var(--space-md);
+		align-items: start;
+		margin-bottom: var(--space-3xl);
 	}
 
-	.r-section {
-		margin-bottom: 0;
+	.r-home-intro__text { grid-column: 1; }
+
+	.r-home-intro__welcome {
+		grid-column: 1;
+		max-inline-size: 26em;
+		margin: 0;
+		font-family: var(--r-font-body);
+		font-size: var(--text-md);
+		font-weight: 400;
+		line-height: var(--lh-body);
+		color: var(--r-ink-soft);
 	}
 
-	.r-section + .r-section {
-		margin-top: var(--r-space-xl);
+	.r-home-intro__welcome span { display: block; }
+
+	.r-home-intro__portrait {
+		grid-column: 2;
+		grid-row: 1 / 3;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1;
+		object-fit: contain;
+		border-radius: 50%;
+		border: 0;
+		box-sizing: border-box;
 	}
+
+	.r-home-intro :global(.r-about__traits) { grid-column: 1 / -1; }
+
+	@media (max-width: 640px) {
+		:global(.portal-surface:not(.portal-surface--wide).reading-home) {
+			--r-header-content-space: var(--space-xl);
+		}
+
+		.r-home-intro {
+			margin-bottom: var(--space-2xl);
+			grid-template-columns: minmax(0, 1fr) var(--space-4xl);
+			column-gap: var(--space-md);
+		}
+		.r-home-intro__text { align-self: center; }
+		.r-home-intro__portrait { grid-row: 1; }
+		.r-home-intro__welcome { grid-column: 1 / -1; }
+	}
+
+	.r-section { margin-bottom: 0; }
 
 	.home-section-more {
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
+		font-weight: 400;
 		color: var(--r-link);
 		white-space: nowrap;
 	}
 
-	.r-post-list {
-		gap: var(--r-space-sm);
-	}
-
-	.r-post-list__item {
-		grid-template-columns: var(--home-date-column) minmax(0, 1fr);
-	}
-
-	.r-post-list__title {
-		grid-column: 2;
-		grid-row: 1;
-	}
-
-	/* 首页列表略轻于归档（500），把视觉重心留给简介；Literata 无 450，西文仍按 500 渲染。 */
-	.r-post-list .r-post-list__title {
-		font-weight: 450;
-	}
-
-	.r-post-list__date {
-		grid-column: 1;
-		grid-row: 1;
-		justify-self: start;
-		text-align: left;
-		line-height: 1.5;
-	}
-
-	.r-note-list {
-		gap: var(--r-space-sm);
-	}
-
-	.r-note-list a {
-		display: grid;
-		grid-template-columns: var(--home-date-column) minmax(0, 1fr);
-		align-items: baseline;
-		column-gap: var(--r-space-md);
-		white-space: normal;
-		padding: 0;
-	}
-
-	.home-note-excerpt {
-		grid-column: 2;
-		grid-row: 1;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		line-height: 1.55;
-	}
-
-	.r-note-list__date {
-		grid-column: 1;
-		grid-row: 1;
-		margin: 0;
-		line-height: 1.5;
-		text-align: left;
-	}
-
-	@media (max-width: 640px) {
-		:global(.reading-surface-root.reading-home) {
-			--r-header-content-space: var(--r-space-xl);
-		}
-
-		.r-home-intro {
-			margin-bottom: var(--r-space-2xl);
-		}
-
-		.r-post-list__item {
-			grid-template-columns: minmax(0, 1fr);
-			gap: 0.1rem;
-		}
-
-		.r-post-list__date {
-			grid-column: 1;
-			grid-row: 2;
-			justify-self: start;
-			text-align: left;
-		}
-
-		.r-post-list__title {
-			grid-column: 1;
-		}
-
-		.r-note-list a {
-			grid-template-columns: minmax(0, 1fr);
-			row-gap: 0.1rem;
-		}
-
-		.home-note-excerpt {
-			grid-column: 1;
-			grid-row: 1;
-			display: -webkit-box;
-			-webkit-box-orient: vertical;
-			-webkit-line-clamp: 2;
-			white-space: normal;
-		}
-
-		.r-note-list__date {
-			grid-column: 1;
-			grid-row: 2;
-			justify-self: start;
-		}
-	}
 </style>
