@@ -47,7 +47,8 @@ body.reading-surface {
 }
 
 .portal-surface:not(.portal-surface--wide) {
-  --portal-rule-width: 1px;
+  --r-shell-rule: color-mix(in oklab, var(--r-ink) 75%, var(--r-bg));
+  --portal-rule-width: 2px;
   --r-header-content-space: var(--space-xl);
   --r-index-title-size: var(--text-md);
   display: flex;
@@ -74,7 +75,12 @@ body.reading-surface {
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell__footer {
+  border-top-color: var(--r-shell-rule);
   margin-top: var(--space-2xl);
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell__header {
+  border-bottom-color: var(--r-shell-rule);
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell__footer-links {
