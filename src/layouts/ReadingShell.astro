@@ -38,7 +38,7 @@ function normalizePath(path: string) {
 function isActive(href: string) {
 	const current = normalizePath(currentPath);
 	const target = normalizePath(href);
-	if (target === '/') return current === '/';
+	if (target === '/' || target === '/blog') return current === target;
 	return current === target || current.startsWith(`${target}/`);
 }
 
@@ -180,6 +180,7 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 	}
 
 	.reading-shell__nav-link {
+		position: relative;
 		display: inline-flex;
 		align-items: center;
 		font-family: var(--r-font-ui);
@@ -187,22 +188,24 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		font-weight: 500;
 		line-height: var(--r-lh-tight);
 		white-space: nowrap;
-		padding-block: var(--r-space-xs);
+		padding: 0.18rem 0;
+		border-radius: 3px;
 		color: var(--r-ink) !important;
 		text-decoration: none !important;
 		border: 0 !important;
-		transition: color 250ms ease;
+		transition: color 200ms ease, background-color 200ms ease;
 	}
 
-	.reading-shell__nav-link:hover,
-	.reading-shell__nav-link.active {
+	.reading-shell__nav-link:hover {
 		color: var(--r-link) !important;
 	}
 
 	.reading-shell__nav-link.active {
-		text-decoration: underline !important;
-		text-decoration-thickness: 1px !important;
-		text-underline-offset: var(--r-link-underline-offset);
+		padding-inline: 0.46rem;
+		margin-inline: -0.46rem;
+		color: var(--r-ink) !important;
+		background: color-mix(in oklab, var(--r-ink) 5.5%, var(--r-bg));
+		text-decoration: none !important;
 	}
 
 	.reading-shell__tools {
@@ -239,7 +242,11 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 			width: max(44px, var(--space-xl));
 			height: max(44px, var(--space-xl));
 		}
-		.reading-shell__nav-link { min-width: 44px; min-height: 44px; }
+		.reading-shell__nav-link::after {
+			content: "";
+			position: absolute;
+			inset: -0.45rem -0.25rem;
+		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
