@@ -1,0 +1,168 @@
+/* Shared Markdown theme, explicitly enabled on prose containers. Semantic aliases reuse the site's type, space and palette.
+   The reading layer still supplies the shell, TOC and embedded card styles. */
+@layer base {
+  /* Standalone section headings share the theme without styling their widgets. */
+  body.reading-surface :is(.r-prose.md-theme, .md-section-heading) {
+    --md-section-gap: clamp(var(--space-xl), 5vw, var(--space-2xl));
+    --md-heading-wash: color-mix(in oklab, var(--selection-bg) 58%, var(--r-bg));
+    --md-subheading-wash: color-mix(in oklab, var(--selection-bg) 30%, var(--r-bg));
+  }
+  body.reading-surface .r-prose.md-theme {
+    --md-paragraph-gap: var(--space-md);
+    --md-block-gap: var(--space-lg);
+    --r-link: var(--link-color);
+    --r-selection-bg: var(--selection-bg);
+    --r-prose-emphasis: var(--link-color);
+    font-size: var(--text-md) !important;
+    line-height: var(--lh-body) !important;
+    letter-spacing: 0;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6):not(:where(.link-card *)) {
+    margin: var(--md-block-gap) 0 var(--space-sm) !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    scroll-margin-top: var(--space-lg);
+    text-wrap: pretty;
+  }
+  body.reading-surface .r-prose.md-theme h1 { font-size: var(--text-2xl) !important; }
+  body.reading-surface .r-prose.md-theme h2,
+  body.reading-surface .r-about__extras > h2.md-section-heading {
+    font-size: var(--text-xl) !important;
+    margin: var(--md-section-gap) 0 var(--space-sm) !important;
+    font-family: var(--r-font-body) !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+  }
+  body.reading-surface .r-prose.md-theme h3:not(:where(.link-card *)) { font-size: var(--text-lg) !important; }
+  body.reading-surface .r-prose.md-theme :is(h4, h5, h6) { font-size: var(--text-md) !important; }
+  body.reading-surface .r-prose.md-theme h6 { color: var(--r-ink-soft) !important; }
+  /* Inline decoration clones on wrapped lines; the glyph edge stays on the text axis. */
+  body.reading-surface :is(.r-prose.md-theme, .md-section-heading) .md-heading-label {
+    background: var(--md-heading-wash);
+    box-shadow: var(--space-2xs) 0 var(--md-heading-wash), calc(-1 * var(--space-2xs)) 0 var(--md-heading-wash);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    padding-block: 0.04em;
+  }
+  body.reading-surface .r-prose.md-theme h3 {
+    --md-heading-wash: var(--md-subheading-wash);
+  }
+  body.reading-surface .r-prose.md-theme .md-heading-label :is(a, code) {
+    color: inherit !important;
+    background: transparent;
+  }
+  body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6) + :is(h2, h3, h4, h5, h6) {
+    margin-top: var(--space-md) !important;
+  }
+  body.reading-surface .r-prose.md-theme :is(p, ul, ol):not(:where(.link-card *)) {
+    margin: 0 0 var(--md-paragraph-gap) !important;
+  }
+  body.reading-surface .r-prose.md-theme :is(ul, ol) { padding-inline-start: var(--space-lg); }
+  body.reading-surface .r-prose.md-theme li + li { margin-top: var(--space-2xs); }
+  body.reading-surface .r-prose.md-theme li > :is(p, ul, ol) { margin: var(--space-xs) 0 !important; }
+  body.reading-surface .r-prose.md-theme li::marker { color: var(--r-ink-soft); }
+  body.reading-surface .r-prose.md-theme input[type='checkbox'] {
+    display: inline-block !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 var(--space-xs) 0 0 !important;
+    vertical-align: baseline;
+    accent-color: var(--link-color);
+  }
+  body.reading-surface .r-prose.md-theme strong { font-weight: 600; }
+  body.reading-surface .r-prose.md-theme del { color: var(--r-ink-soft); }
+  body.reading-surface .r-prose.md-theme mark { background: var(--md-heading-wash); color: inherit; }
+  body.reading-surface .r-prose.md-theme a:focus-visible,
+  body.reading-surface .r-prose.md-theme summary:focus-visible {
+    outline: 2px solid var(--link-color);
+    outline-offset: var(--space-2xs);
+  }
+  body.reading-surface .r-prose.md-theme blockquote {
+    margin: var(--md-block-gap) 0 !important;
+    padding: 0 var(--space-md) !important;
+    border-left: 2px solid var(--r-rule) !important;
+    color: var(--r-ink-soft) !important;
+  }
+  body.reading-surface .r-prose.md-theme blockquote p { margin-bottom: var(--space-xs) !important; }
+  body.reading-surface .r-prose.md-theme :is(pre, .code-wrapper, table, figure, details) {
+    margin-block: var(--md-block-gap) !important;
+  }
+  body.reading-surface .r-prose.md-theme :is(code, kbd) { font-family: var(--r-font-code); }
+  body.reading-surface .r-prose.md-theme kbd {
+    font-size: 0.85em;
+    padding: 0.1em var(--space-2xs);
+    border: 1px solid var(--r-rule);
+    border-radius: var(--paper-card-radius);
+  }
+  body.reading-surface .r-prose.md-theme .code-header {
+    padding: var(--space-2xs) var(--space-sm);
+    gap: var(--space-xs);
+    background: transparent;
+    border-bottom: 0;
+  }
+  body.reading-surface .r-prose.md-theme .code-wrapper { border-radius: var(--paper-card-radius); }
+  body.reading-surface .r-prose.md-theme pre,
+  body.reading-surface .r-prose.md-theme .code-wrapper pre {
+    padding: var(--space-sm) var(--space-md) !important;
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    white-space: pre !important;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  body.reading-surface .r-prose.md-theme .code-wrapper pre { margin: 0 !important; }
+  body.reading-surface .r-prose.md-theme pre code { white-space: inherit; }
+  body.reading-surface .r-prose.md-theme .astro-code span { background-color: transparent !important; }
+  body.reading-surface .r-prose.md-theme table { font-size: var(--text-sm); }
+  body.reading-surface .r-prose.md-theme table :is(th, td) {
+    padding: var(--space-xs) var(--space-sm);
+    font-size: inherit;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--r-rule);
+    min-width: 6em;
+  }
+  body.reading-surface .r-prose.md-theme table [align='right'] { text-align: right !important; }
+  body.reading-surface .r-prose.md-theme table [align='center'] { text-align: center !important; }
+  body.reading-surface .r-prose.md-theme .footnotes .sr-only { margin: 0 !important; padding: 0 !important; }
+  body.reading-surface .r-prose.md-theme hr + .footnotes { margin-top: 0; border-top: 0; }
+  body.reading-surface .r-prose.md-theme table th {
+    background: var(--r-code-bg);
+    color: var(--r-ink);
+    font-weight: 500;
+  }
+  body.reading-surface .r-prose.md-theme img:not(:where(.link-card *)) { margin-block: var(--md-block-gap); border-radius: var(--paper-card-radius); }
+  body.reading-surface .r-prose.md-theme figure { margin-inline: 0; }
+  body.reading-surface .r-prose.md-theme figure img { margin: 0 auto; }
+  body.reading-surface .r-prose.md-theme figcaption {
+    margin-top: var(--space-xs);
+    font-family: var(--r-font-ui);
+    font-size: var(--r-text-xs);
+    color: var(--r-ink-soft);
+    text-align: center;
+    line-height: 1.6;
+  }
+  body.reading-surface .r-prose.md-theme hr { margin-block: var(--md-section-gap); }
+  body.reading-surface .r-prose.md-theme details { border-block: 1px solid var(--r-rule); padding-block: var(--space-sm); }
+  body.reading-surface .r-prose.md-theme summary { cursor: pointer; font-weight: 500; }
+  body.reading-surface .r-prose.md-theme details[open] summary { margin-bottom: var(--space-sm); }
+  body.reading-surface .r-prose.md-theme .footnotes {
+    margin-top: var(--md-section-gap);
+    font-size: var(--text-sm);
+    color: var(--r-ink-soft);
+  }
+  body.reading-surface .r-prose.md-theme > :first-child,
+  body.reading-surface .r-prose.md-theme :is(blockquote, li, details) > :first-child { margin-top: 0 !important; }
+  body.reading-surface .r-prose.md-theme > :last-child,
+  body.reading-surface .r-prose.md-theme :is(blockquote, li, details) > :last-child { margin-bottom: 0 !important; }
+  @media (pointer: coarse) {
+    body.reading-surface .r-prose.md-theme .copy-btn { min-width: 44px; min-height: 44px; }
+  }
+  @media print {
+    body.reading-surface :is(.r-prose.md-theme, .md-section-heading) .md-heading-label { background: none; box-shadow: none; }
+    body.reading-surface .r-prose.md-theme .copy-btn { display: none; }
+    body.reading-surface .r-prose.md-theme pre { white-space: pre-wrap !important; overflow-wrap: anywhere; }
+  }
+}
