@@ -29,7 +29,7 @@ test('about page keeps contact, blog history and sponsor details', () => {
 	assert.match(layout, /import SponsorAbout from ['"]\.\.\/components\/SponsorAbout\.astro['"]/);
 	assert.match(layout, /const blogHistory = \[/);
 	assert.match(layout, /购买 lynkxu\.com/);
-	assert.match(layout, /<h2 id="about-more-title" class=\{extrasTitleClass\}>附记<\/h2>/);
+	assert.match(layout, /<h3 id="about-more-title" class=\{extrasTitleClass\}>附记<\/h3>/);
 	assert.match(layout, /<summary class=\{historySummaryClass\}>博客历史<\/summary>/);
 	assert.doesNotMatch(layout, /const traits = \[|r-about__traits/);
 	assert.match(layout, /<summary class=\{sponsorSummaryClass\}>赞助<\/summary>/);

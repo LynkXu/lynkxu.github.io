@@ -295,5 +295,5 @@ test('about supplementary material follows the finished reading note', () => {
 
   assert.ok(about.includes("const extrasClass = 'r-about__extras mt-[var(--r-space-lg)] border-t border-[var(--r-divider)] pt-[var(--r-space-md)] [font-family:var(--r-font-ui)]';"));
   assert.ok(about.includes("const extrasListClass = 'r-about__extras-list flex flex-col gap-[var(--r-space-xs)]';"));
-  assert.ok(about.includes('<h2 id="about-more-title" class={extrasTitleClass}>附记</h2>'));
+  assert.ok(about.includes('<h3 id="about-more-title" class={extrasTitleClass}>附记</h3>'));
 });
