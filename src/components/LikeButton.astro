@@ -10,18 +10,47 @@ const baseClass = [
 	'before:mr-[0.3em] before:opacity-30 before:transition-opacity before:content-[\'[\'] after:ml-[0.3em] after:opacity-30 after:transition-opacity after:content-[\']\']',
 	'hover:text-[var(--heading-color)] hover:opacity-100 hover:before:opacity-60 hover:after:opacity-60 active:[&_.like-icon]:scale-[0.7] disabled:cursor-not-allowed',
 	'[&.liked]:text-[#e06c75] [&.liked]:opacity-100 [&.liked]:before:text-[var(--gray-color)] [&.liked]:before:opacity-50 [&.liked]:after:text-[var(--gray-color)] [&.liked]:after:opacity-50',
-	'[&.pending]:pointer-events-none [&.pending]:opacity-0 [@media(hover:hover)]:[&.is-empty]:pointer-events-none [@media(hover:hover)]:[&.is-empty]:opacity-0 [@media(hover:hover)]:[&.is-empty_.like-count]:hidden',
+	'[&.pending]:pointer-events-none [&.gossip.pending]:opacity-0 [@media(hover:hover)]:[&.gossip.is-empty]:pointer-events-none [@media(hover:hover)]:[&.gossip.is-empty]:opacity-0 [@media(hover:hover)]:[&.gossip.is-empty_.like-count]:hidden',
 ].join(' ');
 const typeClass = type === 'gossip'
 	? 'gossip min-h-[1.4rem] rounded-full px-[0.34rem] [font-family:var(--field-font)] [font-size:0.66rem] leading-none opacity-68 before:content-none after:content-none hover:bg-[color-mix(in_oklab,var(--paper-hover-bg)_76%,transparent)] [&.liked]:bg-[color-mix(in_oklab,#e06c75_7%,transparent)] [&.liked_.like-icon]:text-[#e06c75]'
-	: 'post [font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation_Mono",monospace] [font-size:0.8rem] opacity-50';
+	: 'post is-empty';
 const iconClass = 'like-icon text-[0.9em] leading-none transition-transform duration-[180ms] group-[.gossip]:text-[color-mix(in_oklab,var(--gray-color)_86%,var(--heading-color))] group-[.gossip]:[font-size:0.78rem]';
 ---
 
-<button class={`${baseClass} ${typeClass} group`} data-id={id} aria-label="Like this post">
-	<span class={iconClass}>♥</span>
+<button type="button" class={`${baseClass} ${typeClass} group`} data-id={id} aria-label={type === 'post' ? '点赞' : 'Like this post'} aria-pressed="false">
+	{type === 'post' ? (
+		<>
+			<svg class={`${iconClass} post-heart`} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></svg>
+			<span class="like-label">点赞</span>
+		</>
+	) : <span class={iconClass} aria-hidden="true">♥</span>}
 	<span class="like-count">...</span>
 </button>
+
+<style>
+	/* Article actions stay visible; memos retain their compact hover treatment. */
+	.post {
+		min-height: 44px;
+		gap: var(--space-xs);
+		padding-inline: var(--space-sm);
+		font-family: var(--r-font-ui);
+		font-size: 0.8rem;
+		color: var(--r-ink-soft);
+	}
+	.post::before, .post::after { content: none; }
+	.post:hover { color: var(--r-ink); background: color-mix(in oklab, var(--r-rule-soft) 24%, transparent); }
+	.post:focus-visible { outline: 2px solid var(--r-ink-soft); outline-offset: var(--space-2xs); }
+	.post .like-count { color: var(--r-ink-faint); font-variant-numeric: tabular-nums; }
+	.post .like-count::before { content: '·'; margin-right: var(--space-xs); }
+	.post.is-empty .like-count { display: none; }
+	.post.liked { color: var(--r-ink-soft); }
+	.post.liked .post-heart { fill: currentColor; color: color-mix(in oklab, #e06c75 75%, var(--r-ink-soft)); }
+	.post:active .like-icon { transform: none; }
+	@media (prefers-reduced-motion: reduce) {
+		.post, .post .like-icon { transition: none; }
+	}
+</style>
 
 <script>
 	// 这里填入你部署好的 Cloudflare Worker 地址
@@ -32,11 +61,17 @@ const iconClass = 'like-icon text-[0.9em] leading-none transition-transform dura
 		const buttons = document.querySelectorAll('.like-btn');
 		if (buttons.length === 0 || !API_URL) return;
 
-		// 点赞数为 0 且未点赞时，标记为空态（CSS 会隐藏图标，hover 时再淡入展示）
+		// 文章空态只隐藏数字；说说保留原来的悬停入口。
 		const updateEmptyState = (btn: Element) => {
 			const count = parseInt(btn.querySelector('.like-count')?.textContent ?? '') || 0;
 			const liked = btn.classList.contains('liked');
 			btn.classList.toggle('is-empty', count <= 0 && !liked);
+			btn.setAttribute('aria-pressed', String(liked));
+			const label = btn.querySelector('.like-label');
+			if (label) {
+				label.textContent = liked ? '已点赞' : '点赞';
+				btn.setAttribute('aria-label', liked ? '取消点赞' : '点赞');
+			}
 		};
 
 		buttons.forEach(async (btn) => {

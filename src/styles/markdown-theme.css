@@ -20,8 +20,9 @@
     overflow-wrap: anywhere;
   }
 
-  body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6):not(:where(.link-card *)) {
-    margin: var(--md-block-gap) 0 var(--space-sm) !important;
+  body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6):not(:where(.link-card *)),
+  body.reading-surface .r-about__extras > h3.md-section-heading {
+    margin: var(--md-block-gap, var(--space-lg)) 0 var(--space-sm) !important;
     font-weight: 500 !important;
     line-height: 1.5 !important;
     scroll-margin-top: var(--space-lg);
@@ -36,7 +37,8 @@
     font-weight: 500 !important;
     line-height: 1.5 !important;
   }
-  body.reading-surface .r-prose.md-theme h3:not(:where(.link-card *)) { font-size: var(--text-lg) !important; }
+  body.reading-surface .r-prose.md-theme h3:not(:where(.link-card *)),
+  body.reading-surface .r-about__extras > h3.md-section-heading { font-size: var(--text-lg) !important; }
   body.reading-surface .r-prose.md-theme :is(h4, h5, h6) { font-size: var(--text-md) !important; }
   body.reading-surface .r-prose.md-theme h6 { color: var(--r-ink-soft) !important; }
   /* Inline decoration clones on wrapped lines; the glyph edge stays on the text axis. */
@@ -47,7 +49,8 @@
     box-decoration-break: clone;
     padding-block: 0.04em;
   }
-  body.reading-surface .r-prose.md-theme h3 {
+  body.reading-surface .r-prose.md-theme h3,
+  body.reading-surface .r-about__extras > h3.md-section-heading {
     --md-heading-wash: var(--md-subheading-wash);
   }
   body.reading-surface .r-prose.md-theme .md-heading-label :is(a, code) {
