@@ -13,7 +13,18 @@
       "rank": "",
       "note": "首次全马",
       "lat": 30.27,
-      "lng": 120.15
+      "lng": 120.15,
+      "weather": {
+        "low": 15.5,
+        "high": 28.2,
+        "condition": "较强毛毛雨",
+        "icon": "rain",
+        "weatherCode": 55,
+        "model": "ecmwf_ifs",
+        "timezone": "Asia/Shanghai",
+        "verifiedOn": "2026-11-02",
+        "source": "https://archive-api.open-meteo.com/v1/archive?latitude=30.27&longitude=120.15&start_date=2026-11-01&end_date=2026-11-01&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FShanghai&models=ecmwf_ifs"
+      }
     },
     {
       "date": "2026-03-22",
@@ -28,7 +39,18 @@
       "rank": "",
       "note": "首次半马",
       "lat": 30.63,
-      "lng": 120.55
+      "lng": 120.55,
+      "weather": {
+        "low": 9.1,
+        "high": 20.8,
+        "condition": "毛毛雨",
+        "icon": "rain",
+        "weatherCode": 53,
+        "model": "ecmwf_ifs",
+        "timezone": "Asia/Shanghai",
+        "verifiedOn": "2026-11-02",
+        "source": "https://archive-api.open-meteo.com/v1/archive?latitude=30.63&longitude=120.55&start_date=2026-03-22&end_date=2026-03-22&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FShanghai&models=ecmwf_ifs"
+      }
     },
     {
       "date": "2026-03-28",
@@ -43,7 +65,18 @@
       "rank": "1818(男)",
       "note": "",
       "lat": 31.23,
-      "lng": 121.47
+      "lng": 121.47,
+      "weather": {
+        "low": 8.6,
+        "high": 21.4,
+        "condition": "阴",
+        "icon": "cloud",
+        "weatherCode": 3,
+        "model": "ecmwf_ifs",
+        "timezone": "Asia/Shanghai",
+        "verifiedOn": "2026-11-02",
+        "source": "https://archive-api.open-meteo.com/v1/archive?latitude=31.23&longitude=121.47&start_date=2026-03-28&end_date=2026-03-28&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FShanghai&models=ecmwf_ifs"
+      }
     }
   ]
 }

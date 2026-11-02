@@ -23,6 +23,9 @@
 | `npm run build` | 同步数据并构建静态站点 |
 | `npm run preview` | 预览构建产物 |
 | `npm run copy-lightgallery` | 复制 LightGallery 静态资源 |
+| `npm run query:race-weather -- YYYY-MM-DD 纬度 经度` | 查询单场比赛历史天气，不覆盖赛事记录 |
+
+Sports 比赛天气的数据来源、固定查询口径和更新步骤见 [比赛天气查询约定](docs/race-weather.md)。
 
 ### Umami
 

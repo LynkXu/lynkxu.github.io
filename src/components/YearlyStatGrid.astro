@@ -345,6 +345,7 @@ const raceTrendDataTotal = sortedRaces
             <span class="race-col location">地点</span>
             <span class="race-col time">成绩</span>
             <span class="race-col pace">配速</span>
+            <span class="race-col weather">天气</span>
           </div>
           {sortedRaces.map((race: any) => (
             <div class={`race-row ${race.status}`}>
@@ -359,6 +360,17 @@ const raceTrendDataTotal = sortedRaces
               <span class="race-col location">{race.location || '-'}</span>
               <span class="race-col time">{race.time || '-'}</span>
               <span class="race-col pace">{race.pace ? `${race.pace}/km` : '-'}</span>
+              <span class="race-col weather">
+                {race.weather ? (
+                  <a class="race-weather" href={race.weather.source} target="_blank" rel="noopener noreferrer" title={`${race.date} · ${race.weather.condition} · ${race.weather.low}–${race.weather.high}°C\nOpen-Meteo / ECMWF IFS 城市网格历史估算，非赛道实测。北京时间全天温差；图标为当日最显著天气，非仅赛时。点击查看原始数据。`} aria-label={`${race.name}当天城市天气估算：${race.weather.low} 至 ${race.weather.high} 摄氏度，${race.weather.condition}，查看来源（新窗口）`}>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+                      <path d="M6 16a4 4 0 0 1-.6-7.95A6 6 0 0 1 17 7a4.5 4.5 0 0 1 1 9H6Z" />
+                      {race.weather.icon === 'rain' && <path d="m8 19-1 2m6-2-1 2m6-2-1 2" />}
+                    </svg>
+                    <span class="weather-range">{Math.round(race.weather.low)}–{Math.round(race.weather.high)}°C</span>
+                  </a>
+                ) : <span aria-label="暂无可靠天气数据">—</span>}
+              </span>
             </div>
           ))}
         </div>
@@ -778,6 +790,31 @@ const raceTrendDataTotal = sortedRaces
     font-size: 0.76rem;
   }
 
+  /* 天气沿用元信息层级，仅为图标和温差增加行内对齐。 */
+  .race-col.weather {
+    flex: 0 0 6rem;
+    text-align: right;
+    font-family: var(--ui-font);
+    font-size: var(--text-xs);
+    color: var(--gray-color);
+  }
+
+  .race-weather {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: inherit;
+    line-height: var(--lh-tight);
+    text-decoration: none;
+  }
+
+  .weather-range { font-variant-numeric: tabular-nums; }
+
+  .race-weather svg { flex-shrink: 0; }
+
+  .race-weather:hover,
+  .race-weather:focus-visible { color: var(--link-color); }
+
   .race-note {
     font-size: 0.62rem;
     color: var(--accent-color);
@@ -829,7 +866,7 @@ const raceTrendDataTotal = sortedRaces
     to { opacity: 1; transform: translateY(0); }
   }
 
-  @media (max-width: 640px) {
+  @media (max-width: 800px) {
     .race-thead {
       display: none;
     }
@@ -861,6 +898,13 @@ const raceTrendDataTotal = sortedRaces
       flex: 0 0 auto;
       text-align: left;
     }
+    .race-col.weather {
+      flex-basis: 100%;
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 640px) {
     .modules-stack {
       gap: 1.25rem;
     }

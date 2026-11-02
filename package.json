@@ -12,6 +12,7 @@
     "check:travel-boundaries": "node scripts/travel-boundaries.mjs --check",
     "sync:mastodon": "node scripts/fetch-mastodon.js",
     "sync:neodb": "node scripts/fetch-neodb.js",
+    "query:race-weather": "node scripts/race-weather.mjs",
     "copy-lightgallery": "node scripts/copy-lightgallery.js"
   },
   "dependencies": {
