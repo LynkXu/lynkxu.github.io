@@ -4,6 +4,7 @@ import StatCard from './StatCard.astro';
 import SportsBarChart from './SportsBarChart.astro';
 import SportsLineChart from './SportsLineChart.astro';
 import RaceMap from './RaceMap.astro';
+import { getRaceTrends, parseRaceTimeToSeconds } from '../utils/race-trends.mjs';
 
 interface Props {
   type: 'running' | 'cycling';
@@ -44,16 +45,6 @@ function paceText(distKmText: any, timeHoursText: any) {
   }
   const ssText = String(ss).padStart(2, '0');
   return `~${mm}'${ssText}''/km`;
-}
-
-function parseRaceTimeToSeconds(timeText: any) {
-  const raw = String(timeText || '').trim();
-  if (!raw) return null;
-  const parts = raw.split(':').map((x) => Number.parseInt(x, 10));
-  if (parts.some((x) => !Number.isFinite(x) || x < 0)) return null;
-  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-  if (parts.length === 2) return parts[0] * 60 + parts[1];
-  return null;
 }
 
 function getPbRaceByType(targetType: string) {
@@ -174,17 +165,7 @@ const sortedRaces = [...races].sort((a, b) => {
 
 const hasAnyRaces = sortedRaces.length > 0;
 
-const raceTrendDataTotal = sortedRaces
-  .filter((r: any) => r.status === 'completed' && r.time)
-  .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  .map((r: any) => {
-    const sec = parseRaceTimeToSeconds(r.time);
-    return {
-      label: r.date.slice(5),
-      value: sec ? Math.round(sec / 60 * 10) / 10 : 0,
-      displayValue: r.time
-    };
-  });
+const raceTrends = getRaceTrends(races);
 ---
 
 <!-- Fixed stat cards -->
@@ -286,17 +267,17 @@ const raceTrendDataTotal = sortedRaces
     <div class="module-card">
       <div class="module-header tabbed">
         <div class="viz-tabs" data-viz-tabs={`${idPrefix}-viz`}>
-          <button class="viz-tab active" data-viz="map">
-            <svg class="tab-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" class="viz-tab active" data-viz="map" aria-pressed="true">
+            <svg aria-hidden="true" focusable="false" class="tab-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M8 14s-4-4.5-4-7a4 4 0 0 1 8 0c0 2.5-4 7-4 7z"/>
               <circle cx="8" cy="7" r="1.5"/>
             </svg>
             足迹
           </button>
-          {raceTrendDataTotal.length >= 2 && (
-            <button class="viz-tab" data-viz="trend">
-              <svg class="tab-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="1 10 5 6 9 9 15 3"/>
+          {raceTrends.length > 0 && (
+            <button type="button" class="viz-tab" data-viz="trend" aria-pressed="false">
+              <svg aria-hidden="true" focusable="false" class="tab-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 2v12h12"/><polyline points="4 7 7 9 10 5 14 3"/>
               </svg>
               成绩趋势
             </button>
@@ -308,14 +289,9 @@ const raceTrendDataTotal = sortedRaces
           <div class="viz-panel active" data-viz-panel="map">
             <RaceMap races={sortedRaces} id={`${idPrefix}-map`} />
           </div>
-          {raceTrendDataTotal.length >= 2 && (
+          {raceTrends.length > 0 && (
             <div class="viz-panel" data-viz-panel="trend">
-              <SportsLineChart
-                data={raceTrendDataTotal}
-                unit="min"
-                color="#e11d48"
-                id={`${idPrefix}-race-chart`}
-              />
+              <SportsLineChart series={raceTrends} id={`${idPrefix}-race-chart`} />
             </div>
           )}
         </div>
@@ -416,8 +392,12 @@ const raceTrendDataTotal = sortedRaces
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           const target = tab.getAttribute('data-viz');
-          tabs.forEach(t => t.classList.remove('active'));
+          tabs.forEach(t => {
+            t.classList.remove('active');
+            t.setAttribute('aria-pressed', 'false');
+          });
           tab.classList.add('active');
+          tab.setAttribute('aria-pressed', 'true');
           panelEls.forEach(p => {
             if (p.getAttribute('data-viz-panel') === target) {
               p.classList.add('active');
@@ -497,7 +477,7 @@ const raceTrendDataTotal = sortedRaces
     width: 14px;
     height: 14px;
     flex-shrink: 0;
-    opacity: 0.55;
+    opacity: 0.75;
     color: var(--gray-color);
   }
 
@@ -643,10 +623,10 @@ const raceTrendDataTotal = sortedRaces
   }
 
   .tab-icon {
-    width: 13px;
-    height: 13px;
+    width: var(--space-md);
+    height: var(--space-md);
     flex-shrink: 0;
-    opacity: 0.55;
+    opacity: 0.75;
   }
 
   .viz-tab.active .tab-icon {
@@ -664,12 +644,15 @@ const raceTrendDataTotal = sortedRaces
   }
 
   .viz-panels {
+    --sports-viz-height: calc(var(--space-4xl) * 4);
     position: relative;
   }
 
   .viz-panel {
     display: none;
-    padding: 1rem;
+    height: var(--sports-viz-height);
+    box-sizing: border-box;
+    padding: var(--space-md);
   }
 
   .viz-panel.active {
@@ -677,12 +660,10 @@ const raceTrendDataTotal = sortedRaces
     animation: fadeIn 0.3s ease-out;
   }
 
-  .viz-panel :global(.line-chart-wrapper) {
-    margin: 0;
-  }
+  .viz-panel :global(.race-map-wrapper) { height: 100%; }
 
-  .viz-panel :global(.line-chart-title) {
-    display: none;
+  @media (prefers-reduced-motion: reduce) {
+    .viz-panel.active { animation: none; }
   }
 
   /* Race Table */

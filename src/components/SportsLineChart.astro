@@ -1,390 +1,130 @@
 ---
-interface LineChartDataPoint {
-  label: string;
-  value: number;
-  displayValue?: string;
-}
+import { getTrendScale, formatRaceDuration } from '../utils/race-trends.mjs';
 
-interface Props {
-  data: LineChartDataPoint[];
-  title?: string;
-  unit?: string;
-  color?: string;
-  yTickCount?: number;
-  id?: string;
-}
-
-const { data, title, unit, color = 'var(--accent-color)', yTickCount = 5, id } = Astro.props;
-
-if (!data || data.length === 0) {
-  return null;
-}
-
-// SVG dimensions
-const W = 800;
-const H = 280;
-const P = { top: 30, right: 24, bottom: 48, left: 62 };
-const CW = W - P.left - P.right;
-const CH = H - P.top - P.bottom;
-
-// Compute Y range with padding
-const values = data.map(d => d.value);
-const minV = Math.min(...values);
-const maxV = Math.max(...values);
-let range = maxV - minV;
-// Ensure minimum range for single-point or near-identical data
-if (range < 0.0001) {
-  range = maxV * 0.2 || 1;
-}
-const pad = range * 0.12;
-let minY = Math.max(0, minV - pad);
-let maxY = maxV + pad;
-
-// Round ticks for cleaner display
-const rawRange = maxY - minY;
-const tickStep = rawRange / (yTickCount - 1);
-const magnitude = Math.pow(10, Math.floor(Math.log10(tickStep)));
-const normalized = tickStep / magnitude;
-let niceStep: number;
-if (normalized <= 1) niceStep = magnitude;
-else if (normalized <= 2) niceStep = 2 * magnitude;
-else if (normalized <= 5) niceStep = 5 * magnitude;
-else niceStep = 10 * magnitude;
-
-const niceMin = Math.floor(minY / niceStep) * niceStep;
-const niceMax = Math.ceil(maxY / niceStep) * niceStep;
-minY = niceMin;
-maxY = niceMax;
-
-// Helpers
-const yPos = (v: number) => P.top + CH - ((v - minY) / (maxY - minY)) * CH;
-const xPos = (i: number) => P.left + (i / Math.max(1, data.length - 1)) * CW;
-
-// Generate smooth path (catmull-rom spline simplified to straight lines for now)
-const pathD = data.map((d, i) => `${i === 0 ? 'M' : 'L'} ${xPos(i)} ${yPos(d.value)}`).join(' ');
-
-// Y ticks
-const ticks: number[] = [];
-for (let v = niceMax; v >= niceMin - 0.0001; v -= niceStep) {
-  ticks.push(Math.round(v * 100) / 100);
-}
-
-// X label skip logic
-const xSkip = data.length > 14 ? 2 : (data.length > 9 ? 1 : 0);
-
-const chartId = id || `lc-${Math.random().toString(36).slice(2, 9)}`;
+interface Point { label: string; axisLabel: string; value: number; displayValue: string; }
+interface Props { series: { type: string; data: Point[] }[]; id: string; }
+const { series, id } = Astro.props;
+const dates = [...new Set(series.flatMap(group => group.data.map(point => point.axisLabel)))].sort();
+const groups = series.map(group => ({ ...group, scale: getTrendScale(group.data.map(point => point.value), group.type) }));
+const x = (date: string) => dates.length === 1 ? 50 : 8 + dates.indexOf(date) / (dates.length - 1) * 84;
+const y = (value: number, scale: ReturnType<typeof getTrendScale>) => 100 - (value - scale.min) / (scale.max - scale.min) * 100;
 ---
 
-<div class="line-chart-wrapper" id={chartId}>
-  {title && <div class="line-chart-title">{title}</div>}
-  <div class="line-chart-box">
-    <svg viewBox={`0 0 ${W} ${H}`} class="line-chart-svg" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id={`areaGrad-${chartId}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" style={`stop-color:${color};stop-opacity:0.12`} />
-          <stop offset="100%" style={`stop-color:${color};stop-opacity:0`} />
-        </linearGradient>
-      </defs>
-
-      {/* Grid & Y labels */}
-      {ticks.map((t) => {
-        const y = yPos(t);
-        const isZero = Math.abs(t) < 0.0001;
-        return (
-          <g class="grid-group">
-            <line
-              x1={P.left}
-              y1={y}
-              x2={W - P.right}
-              y2={y}
-              class={`grid-line ${isZero ? 'axis-baseline' : ''}`}
-            />
-            <text x={P.left - 10} y={y + 4} class="y-label" text-anchor="end">
-              {Number.isInteger(t) ? String(t) : t.toFixed(1)}
-              {unit ? ` ${unit}` : ''}
-            </text>
-          </g>
-        );
-      })}
-
-      {/* X axis */}
-      <line
-        x1={P.left}
-        y1={H - P.bottom}
-        x2={W - P.right}
-        y2={H - P.bottom}
-        class="axis-line"
-      />
-      {/* Y axis */}
-      <line
-        x1={P.left}
-        y1={P.top}
-        x2={P.left}
-        y2={H - P.bottom}
-        class="axis-line"
-      />
-
-      {/* Area under line */}
-      <path
-        d={`${pathD} L ${xPos(data.length - 1)} ${H - P.bottom} L ${xPos(0)} ${H - P.bottom} Z`}
-        class="area-path"
-        fill={`url(#areaGrad-${chartId})`}
-      />
-
-      {/* Line path */}
-      <path
-        d={pathD}
-        class="line-path"
-        style={`stroke: ${color}`}
-        fill="none"
-        stroke-width="2.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-
-      {/* Data points */}
-      {data.map((d, i) => (
-        <g
-          class="data-point"
-          data-label={d.label}
-          data-value={d.displayValue ?? String(d.value)}
-          data-unit={unit ?? ''}
-        >
-          <circle
-            cx={xPos(i)}
-            cy={yPos(d.value)}
-            r="3.5"
-            class="point-circle"
-            style={`stroke: ${color}`}
-            fill="var(--page-bg)"
-            stroke-width="2"
-          />
-          <circle
-            cx={xPos(i)}
-            cy={yPos(d.value)}
-            r="14"
-            class="point-hit"
-            fill="transparent"
-          />
-        </g>
+<div class="race-chart" id={id}>
+  <div class="chart-head" role="group" aria-label="半马读取左轴，全马读取右轴">
+    {groups.map(group => (
+      <span class={`legend-item ${group.type === '全马' ? 'full' : 'half'}`}>
+        <span class="legend-mark" aria-hidden="true"></span>{group.type}
+      </span>
+    ))}
+  </div>
+  <div class="chart-frame" title="横坐标按参赛顺序等距排列；半马读取左轴，全马读取右轴，两侧刻度独立。">
+    <div class="chart-plot">
+      <svg viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        {groups[0].scale.ticks.map(tick => <line x1="0" x2="1000" y1={y(tick, groups[0].scale) * 3} y2={y(tick, groups[0].scale) * 3} class="grid-line" />)}
+        {groups.map(group => group.data.length > 1 && (
+          <path d={group.data.map((point, i) => `${i === 0 ? 'M' : 'L'} ${x(point.axisLabel) * 10} ${y(point.value, group.scale) * 3}`).join(' ')} class={`trend-line ${group.type === '全马' ? 'full' : 'half'}`} />
+        ))}
+      </svg>
+      {groups.map(group => (
+        <>
+          {group.scale.ticks.map(tick => (
+            <span aria-hidden="true" class={`axis-tick ${group.type === '全马' ? 'right full' : 'left half'}`} style={`top: ${y(tick, group.scale)}%`}>{formatRaceDuration(tick)}</span>
+          ))}
+          {group.data.map((point, index) => (
+            <button type="button" class={`chart-point ${group.type === '全马' ? 'full' : 'half'}`} style={`left: ${x(point.axisLabel)}%; top: ${y(point.value, group.scale)}%`} aria-label={`${group.type} · ${point.label} · ${point.displayValue}`} data-label={`${group.type} · ${point.label}`} data-value={point.displayValue}>
+              <span class="point-mark" aria-hidden="true"></span>
+              {dates.length <= 5 && <span class={`point-value ${index === 0 && group.data.length > 1 ? 'below' : ''}`} aria-hidden="true">{point.displayValue}</span>}
+            </button>
+          ))}
+        </>
       ))}
-
-      {/* X labels */}
-      {data.map((d, i) => {
-        if (xSkip > 0 && i % (xSkip + 1) !== 0) return null;
-        const label = d.label;
-        // For month labels like "2026-01", show "01" part
-        const shortLabel = label.length > 5 ? label.slice(-2) + '月' : label;
-        return (
-          <text
-            x={xPos(i)}
-            y={H - P.bottom + 22}
-            class="x-label"
-            text-anchor="middle"
-          >
-            {shortLabel}
-          </text>
-        );
-      })}
-    </svg>
-
-    <div class="line-tooltip">
-      <span class="tt-label"></span>
-      <span class="tt-value"></span>
+      {dates.map((date, index) => (
+        <span aria-hidden="true" class={`date-label ${index === 0 ? 'first' : index === dates.length - 1 ? 'last' : ''}`} style={`left: ${x(date)}%`}><span class="date-year">{date.slice(0, 4)}</span><span>{date.slice(5)}</span></span>
+      ))}
     </div>
+    <div class="chart-tooltip"><span class="tooltip-label"></span><strong class="tooltip-value"></strong></div>
   </div>
 </div>
 
-<script define:vars={{ chartId }}>
-(function initLineChart() {
-  const container = document.getElementById(chartId);
-  if (!container) return;
-  const tooltip = container.querySelector('.line-tooltip');
-  const path = container.querySelector('.line-path');
-
-  // Entrance animation: draw line
-  if (path) {
-    const len = path.getTotalLength();
-    path.style.strokeDasharray = String(len);
-    path.style.strokeDashoffset = String(len);
-    // Force reflow
-    path.getBoundingClientRect();
-    path.style.transition = 'stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1)';
-    requestAnimationFrame(() => {
-      path.style.strokeDashoffset = '0';
+<script define:vars={{ id }}>
+  (() => {
+    const chart = document.getElementById(id);
+    if (!chart) return;
+    const frame = chart.querySelector('.chart-frame');
+    const tooltip = chart.querySelector('.chart-tooltip');
+    chart.querySelectorAll('.chart-point').forEach(point => {
+      const show = () => {
+        tooltip.querySelector('.tooltip-label').textContent = point.dataset.label;
+        tooltip.querySelector('.tooltip-value').textContent = point.dataset.value;
+        tooltip.classList.add('visible');
+        const rect = point.getBoundingClientRect();
+        const bounds = frame.getBoundingClientRect();
+        const half = tooltip.getBoundingClientRect().width / 2;
+        const center = rect.left - bounds.left + rect.width / 2;
+        tooltip.style.left = Math.max(half + 4, Math.min(center, bounds.width - half - 4)) + 'px';
+        tooltip.style.top = rect.top - bounds.top - 12 + 'px';
+      };
+      const hide = () => tooltip.classList.remove('visible');
+      point.addEventListener('mouseenter', show);
+      point.addEventListener('mouseleave', hide);
+      point.addEventListener('focus', show);
+      point.addEventListener('blur', hide);
     });
-  }
-
-  // Animate area opacity
-  const area = container.querySelector('.area-path');
-  if (area) {
-    area.style.opacity = '0';
-    area.style.transition = 'opacity 1s ease 0.3s';
-    requestAnimationFrame(() => {
-      area.style.opacity = '1';
-    });
-  }
-
-  // Tooltip interaction
-  if (!tooltip) return;
-  const points = container.querySelectorAll('.data-point');
-  points.forEach((pt) => {
-    const hit = pt.querySelector('.point-hit');
-    const circle = pt.querySelector('.point-circle');
-    if (!hit) return;
-
-    hit.addEventListener('mouseenter', () => {
-      const label = pt.getAttribute('data-label') || '';
-      const value = pt.getAttribute('data-value') || '';
-      const unitText = pt.getAttribute('data-unit') || '';
-
-      const labelEl = tooltip.querySelector('.tt-label');
-      const valueEl = tooltip.querySelector('.tt-value');
-      if (labelEl) labelEl.textContent = label;
-      if (valueEl) valueEl.textContent = value + (unitText ? ` ${unitText}` : '');
-
-      tooltip.classList.add('visible');
-      if (circle) {
-        circle.setAttribute('r', '5.5');
-        circle.setAttribute('fill', 'currentColor');
-      }
-
-      // Position tooltip near the visible point
-      const rect = pt.getBoundingClientRect();
-      const containerRect = container.getBoundingClientRect();
-      tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
-      tooltip.style.top = (rect.top - containerRect.top - 10) + 'px';
-    });
-
-    hit.addEventListener('mouseleave', () => {
-      tooltip.classList.remove('visible');
-      if (circle) {
-        circle.setAttribute('r', '3.5');
-        circle.setAttribute('fill', 'var(--page-bg)');
-      }
-    });
-  });
-})();
+  })();
 </script>
 
 <style>
-  .line-chart-wrapper {
-    margin: var(--space-xl) 0;
-  }
-
-  .line-chart-title {
-    font-family: var(--ui-font);
-    font-size: var(--text-lg, 1.1rem);
-    font-weight: 700;
-    color: var(--heading-color);
-    margin-bottom: var(--space-md);
-    letter-spacing: -0.01em;
-  }
-
-  .line-chart-box {
-    position: relative;
-    width: 100%;
-    height: 280px;
-  }
-
-  .line-chart-svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    overflow: visible;
-  }
-
-  .grid-line {
-    stroke: var(--text-color);
-    stroke-opacity: 0.08;
-    stroke-width: 1;
-    stroke-dasharray: 3 3;
-  }
-
-  .grid-line.axis-baseline {
-    stroke-opacity: 0.2;
-    stroke-dasharray: none;
-  }
-
-  .axis-line {
-    stroke: var(--text-color);
-    stroke-opacity: 0.15;
-    stroke-width: 1;
-  }
-
-  .y-label {
-    font-size: 0.7rem;
-    fill: var(--gray-color);
-    font-family: var(--ui-font, inherit);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .x-label {
-    font-size: 0.7rem;
-    fill: var(--gray-color);
-    font-family: var(--ui-font, inherit);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .line-path {
-    stroke-dasharray: 2000;
-    stroke-dashoffset: 2000;
-  }
-
-  .point-circle {
-    transition: r 0.2s ease, fill 0.2s ease;
-    cursor: pointer;
-  }
-
-  .point-hit {
-    cursor: pointer;
-  }
-
-  .line-tooltip {
-    position: absolute;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate(-50%, -100%) translateY(-8px);
-    transition: opacity 0.2s ease;
-    background: var(--code-background-color);
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 6px;
-    padding: 0.4rem 0.6rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    font-size: 0.78rem;
-    white-space: nowrap;
-    z-index: 10;
+  .race-chart {
+    --half-color: var(--accent-color);
+    /* 暖棕区分全马与墨绿半马；混合主题文字色以兼容浅深背景。 */
+    --full-color: color-mix(in oklab, oklch(0.64 0.09 55) 70%, var(--heading-color));
     display: flex;
     flex-direction: column;
-    gap: 0.1rem;
+    height: 100%;
+    box-sizing: border-box;
+    font-family: var(--ui-font);
+    padding: var(--space-sm) var(--space-md) var(--space-xs);
   }
-
-  .line-tooltip.visible {
-    opacity: 1;
-  }
-
-  .tt-label {
-    color: var(--gray-color);
-    font-size: 0.72rem;
-  }
-
-  .tt-value {
-    color: var(--heading-color);
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-  }
-
-  :global([data-theme="dark"]) .line-tooltip {
-    border-color: rgba(255,255,255,0.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  }
-
-  @media (max-width: 600px) {
-    .line-chart-svg {
-      min-height: 220px;
-    }
-    .y-label, .x-label {
-      font-size: 0.65rem;
-    }
+  .half { color: var(--half-color); }
+  .full { color: var(--full-color); }
+  .chart-head { display: grid; grid-template-columns: 1fr 1fr; align-items: center; margin-bottom: var(--space-lg); }
+  .legend-item { display: inline-flex; align-items: center; gap: var(--space-xs); font-size: var(--text-xs); }
+  .legend-item.half { grid-column: 1; }
+  .legend-item.full { grid-column: 2; justify-self: end; }
+  .legend-mark { width: var(--space-sm); height: var(--space-sm); border: 2px solid currentColor; border-radius: 50%; box-sizing: border-box; }
+  .full .legend-mark { border-radius: 0; transform: rotate(45deg); background: currentColor; }
+  .chart-frame { position: relative; flex: 1; min-height: 0; padding: var(--space-md) calc(var(--space-2xl) + var(--space-sm)) var(--space-2xl); }
+  .chart-plot { position: relative; height: 100%; }
+  svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .grid-line { stroke: var(--paper-card-border-soft); stroke-opacity: 0.65; stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .trend-line { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+  .trend-line.full { stroke-dasharray: 5 5; }
+  .axis-tick { position: absolute; top: 0; font-size: var(--text-xs); font-variant-numeric: tabular-nums; line-height: var(--lh-tight); transform: translateY(-50%); }
+  .axis-tick.left { right: calc(100% + var(--space-sm)); }
+  .axis-tick.right { left: calc(100% + var(--space-sm)); }
+  .chart-point { position: absolute; width: var(--space-lg); height: var(--space-lg); transform: translate(-50%, -50%); display: grid; place-items: center; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .point-mark { width: var(--space-sm); height: var(--space-sm); border: 2px solid currentColor; border-radius: 50%; background: var(--paper-card-bg); box-sizing: border-box; }
+  .full .point-mark { border-radius: 0; transform: rotate(45deg); background: currentColor; }
+  .chart-point:hover .point-mark, .chart-point:focus-visible .point-mark { background: currentColor; }
+  .chart-point:focus-visible { outline: 1px solid currentColor; outline-offset: 2px; }
+  .point-value { position: absolute; bottom: calc(100% + var(--space-2xs)); white-space: nowrap; font-family: var(--code-font); font-size: var(--text-xs); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .point-value.below { bottom: auto; top: calc(100% + var(--space-2xs)); }
+  .date-label { position: absolute; top: calc(100% + var(--space-lg)); transform: translateX(-50%); font-size: var(--text-xs); font-variant-numeric: tabular-nums; color: var(--gray-color); white-space: nowrap; }
+  .date-year::after { content: "-"; }
+  .chart-tooltip { position: absolute; transform: translate(-50%, -100%); opacity: 0; pointer-events: none; width: max-content; max-width: calc(100% - var(--space-md)); box-sizing: border-box; padding: var(--space-xs) var(--space-sm); background: var(--code-background-color); border: 1px solid var(--paper-card-border); border-radius: var(--paper-card-radius); display: grid; gap: var(--space-2xs); font-size: var(--text-xs); z-index: 2; color: var(--gray-color); }
+  .chart-tooltip.visible { opacity: 1; }
+  .tooltip-value { color: var(--heading-color); font-variant-numeric: tabular-nums; }
+  @media (max-width: 640px) {
+    .race-chart { padding-inline: var(--space-xs); }
+    .chart-head { margin-bottom: var(--space-lg); }
+    .chart-frame { padding-inline: var(--space-3xl); }
+    .date-label { font-size: 0.68rem; display: flex; flex-direction: column; align-items: center; top: calc(100% + var(--space-md)); }
+    .date-year::after { content: none; }
+    .point-value { font-size: 0.68rem; }
+    .full .point-value { right: 0; bottom: auto; top: calc(100% + var(--space-2xs)); }
+    .point-value.below { left: 0; }
+    .date-label.first { transform: translateX(-25%); }
+    .date-label.last { transform: translateX(-75%); }
   }
 </style>
