@@ -171,7 +171,7 @@
 }
 @layer base {
 html:has(body.reading-surface) {
-  background: #ffffff;
+  background: oklch(0.985 0.004 85);
 }
 
 html[data-theme="dark"]:has(body.reading-surface) {
@@ -179,11 +179,11 @@ html[data-theme="dark"]:has(body.reading-surface) {
 }
 
 html[data-theme="light"]:has(body.reading-surface) {
-  background: #ffffff;
+  background: oklch(0.985 0.004 85);
 }
 
 body.reading-surface {
-  --r-bg: #ffffff;
+  --r-bg: oklch(0.985 0.004 85);
   --r-ink: oklch(0.28 0.01 255);
   --r-ink-soft: oklch(0.46 0.008 255);
   --r-ink-faint: oklch(0.56 0.006 255);
@@ -197,8 +197,7 @@ body.reading-surface {
   --r-code-ink: oklch(0.32 0.01 255);
   --r-code-border: color-mix(in oklab, var(--r-rule) 92%, transparent);
   --r-selection-bg: oklch(0.9 0.03 250);
-  --r-paper-tint: oklch(0.94 0.012 80);
-  --r-memo-surface: color-mix(in oklab, var(--r-bg) 90%, var(--r-paper-tint));
+  --r-memo-surface: #ffffff;
   --r-memo-border: color-mix(in oklab, var(--r-ink) 10%, var(--r-memo-surface));
   --r-measure: var(--site-reading-width, 64ch);
   --r-page-inline: clamp(1.25rem, 4vw, 2rem);
@@ -257,7 +256,7 @@ body.reading-surface ::selection {
   --r-code-ink: oklch(0.9 0.01 250);
   --r-code-border: color-mix(in oklab, var(--r-rule) 85%, transparent);
   --r-selection-bg: oklch(0.35 0.03 250);
-  --r-paper-tint: oklch(0.23 0.01 70);
+  --r-memo-surface: oklch(0.215 0.012 255);
   color-scheme: dark;
 }
 
@@ -275,7 +274,7 @@ body.reading-surface ::selection {
     --r-code-ink: oklch(0.9 0.01 250);
     --r-code-border: color-mix(in oklab, var(--r-rule) 85%, transparent);
     --r-selection-bg: oklch(0.35 0.03 250);
-    --r-paper-tint: oklch(0.23 0.01 70);
+    --r-memo-surface: oklch(0.215 0.012 255);
     color-scheme: dark;
   }
 
@@ -285,7 +284,7 @@ body.reading-surface ::selection {
 }
 
 :root[data-theme="light"] body.reading-surface {
-  --r-bg: #ffffff;
+  --r-bg: oklch(0.985 0.004 85);
   --r-ink: oklch(0.28 0.01 255);
   --r-ink-soft: oklch(0.46 0.008 255);
   --r-ink-faint: oklch(0.56 0.006 255);
