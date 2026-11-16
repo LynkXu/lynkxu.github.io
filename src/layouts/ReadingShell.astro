@@ -76,7 +76,7 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		<header class={headerClass}>
 			<div class="reading-shell__header-inner">
 				<a href="/" class={brandClass} aria-label={`${SITE_TITLE} 首页`}>
-					LynkXu
+					{SITE_TITLE}
 				</a>
 
 				<nav class={navClass} aria-label="主导航">
@@ -148,7 +148,6 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 	.reading-shell__header {
 		padding-top: 0;
 		padding-bottom: var(--r-space-md);
-		border-bottom: var(--portal-rule-width) solid var(--portal-rule);
 		margin-bottom: var(--r-header-content-space, var(--r-space-xl));
 	}
 
@@ -161,6 +160,9 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 
 	.reading-shell__brand {
 		justify-self: start;
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.5rem;
 		font-family: var(--r-font-brand);
 		font-size: 1.55rem;
 		font-weight: 600;
@@ -185,13 +187,14 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		display: inline-flex;
 		align-items: center;
 		font-family: var(--r-font-ui);
-		font-size: var(--r-text-sm);
-		font-weight: 500;
+		font-size: var(--r-text-xs);
+		font-weight: 400;
+		letter-spacing: 0.04em;
 		line-height: var(--r-lh-tight);
 		white-space: nowrap;
 		padding: 0.18rem 0;
 		border-radius: 3px;
-		color: var(--r-ink) !important;
+		color: var(--r-ink-soft) !important;
 		text-decoration: none !important;
 		border: 0 !important;
 		transition: color 200ms ease, background-color 200ms ease;
@@ -202,11 +205,11 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 	}
 
 	.reading-shell__nav-link.active {
-		padding-inline: 0.46rem;
-		margin-inline: -0.46rem;
+		font-weight: 500;
 		color: var(--r-ink) !important;
-		background: color-mix(in oklab, var(--r-ink) 5.5%, var(--r-bg));
-		text-decoration: none !important;
+		text-decoration: underline !important;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.4em;
 	}
 
 	.reading-shell__tools {
@@ -232,6 +235,26 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 	}
 
 	.reading-shell__ctrl:hover { color: var(--r-link); }
+
+	/* 桌面端：站名独占视觉重心，导航退为同行右侧的次级信息；须写在 nav / tools 基础规则之后。 */
+	@media (min-width: 641px) {
+		.reading-shell__header-inner {
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			gap: var(--r-space-md) var(--r-space-xl);
+		}
+
+		/* 站名与导航共用文字基线，工具按钮仍居中。 */
+		.reading-shell__brand,
+		.reading-shell__nav { align-self: baseline; }
+
+		.reading-shell__nav {
+			grid-column: 2;
+			grid-row: 1;
+			justify-content: flex-end;
+		}
+
+		.reading-shell__tools { grid-column: 3; }
+	}
 
 	@media (max-width: 640px) {
 		.reading-shell__brand { font-size: 1.4rem; }

@@ -4,7 +4,7 @@ body.reading-surface {
   --portal-inset: clamp(var(--space-lg), 5vw, var(--space-3xl));
   --portal-top-inset: var(--space-xs);
   --portal-margin: clamp(var(--space-sm), 3vw, var(--space-xl));
-  --portal-top-margin: clamp(var(--space-xs), 1.5vw, var(--space-md));
+  --portal-top-margin: clamp(var(--space-sm), 5vw, var(--space-2xl));
   --portal-rule: color-mix(in oklab, var(--r-ink) 60%, var(--r-bg));
   --portal-rule-soft: color-mix(in oklab, var(--r-ink) 18%, var(--r-bg));
   --portal-rule-width: 2px;
@@ -79,8 +79,20 @@ body.reading-surface {
   margin-top: var(--space-2xl);
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__header {
-  border-bottom-color: var(--r-shell-rule);
+/* 报头线：1px 浅线与分节线同力度，左端 2px 墨色短线承担"签名"，呼应页脚的短线。 */
+.portal-surface .reading-shell__header {
+  position: relative;
+  border-bottom: var(--portal-section-rule-width) solid var(--portal-rule-soft);
+}
+
+.portal-surface .reading-shell__header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: calc(var(--portal-section-rule-width) * -1);
+  width: var(--space-2xl);
+  height: 2px;
+  background: var(--r-ink);
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell__footer-links {

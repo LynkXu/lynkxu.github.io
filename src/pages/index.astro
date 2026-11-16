@@ -10,7 +10,7 @@ const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
-const latestPosts = posts.slice(0, 5);
+const latestPosts = posts.slice(0, 8);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
 const homeIntroClass = 'r-home-intro';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
@@ -51,15 +51,15 @@ function getPostHref(post: (typeof posts)[number]) {
 <style>
 	/* 首页以文章为主体；标题和日期沿用非专题页的公共索引规则。 */
 	:global(.portal-surface:not(.portal-surface--wide).reading-home) {
-		--r-header-content-space: var(--space-2xl);
+		--r-header-content-space: var(--space-3xl);
 	}
 
 	.r-home-intro {
 		--r-traits-gap: 0px;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) calc(var(--space-4xl) + var(--space-md));
+		grid-template-columns: minmax(0, 1fr) var(--space-3xl);
 		column-gap: var(--space-xl);
-		row-gap: var(--space-md);
+		row-gap: var(--space-sm);
 		align-items: start;
 		margin-bottom: var(--space-3xl);
 	}
@@ -68,16 +68,16 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	.r-home-intro__welcome {
 		grid-column: 1;
-		max-inline-size: 26em;
 		margin: 0;
 		font-family: var(--r-font-body);
-		font-size: var(--text-md);
+		font-size: var(--r-text-sm);
 		font-weight: 400;
 		line-height: var(--lh-body);
 		color: var(--r-ink-soft);
 	}
 
-	.r-home-intro__welcome span { display: block; }
+	/* 两句并成一段，少占一行。 */
+	.r-home-intro__welcome span + span { margin-inline-start: 0.35em; }
 
 	.r-home-intro__portrait {
 		grid-column: 2;
@@ -100,12 +100,14 @@ function getPostHref(post: (typeof posts)[number]) {
 
 		.r-home-intro {
 			margin-bottom: var(--space-2xl);
-			grid-template-columns: minmax(0, 1fr) var(--space-4xl);
+			grid-template-columns: minmax(0, 1fr) var(--space-3xl);
 			column-gap: var(--space-md);
 		}
 		.r-home-intro__text { align-self: center; }
 		.r-home-intro__portrait { grid-row: 1; }
 		.r-home-intro__welcome { grid-column: 1 / -1; }
+		.r-home-intro__welcome span { display: block; }
+		.r-home-intro__welcome span + span { margin-inline-start: 0; }
 	}
 
 	.r-section { margin-bottom: 0; }
