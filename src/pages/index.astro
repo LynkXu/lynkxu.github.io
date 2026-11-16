@@ -49,11 +49,8 @@ function getPostHref(post: (typeof posts)[number]) {
 </ReadingShell>
 
 <style>
-	/* 首页以文章为主体；标题和日期沿用非专题页的公共索引规则。 */
-	:global(.portal-surface:not(.portal-surface--wide).reading-home) {
-		--r-header-content-space: var(--space-3xl);
-	}
-
+	/* 首页以文章为主体；标题和日期沿用非专题页的公共索引规则。
+	   header→内容间距由 portal 非宽版默认值统一提供，不再单独覆盖。 */
 	.r-home-intro {
 		--r-traits-gap: 0px;
 		display: grid;
@@ -94,10 +91,6 @@ function getPostHref(post: (typeof posts)[number]) {
 	.r-home-intro :global(.r-about__traits) { grid-column: 1 / -1; }
 
 	@media (max-width: 640px) {
-		:global(.portal-surface:not(.portal-surface--wide).reading-home) {
-			--r-header-content-space: var(--space-xl);
-		}
-
 		.r-home-intro {
 			margin-bottom: var(--space-2xl);
 			grid-template-columns: minmax(0, 1fr) var(--space-3xl);
