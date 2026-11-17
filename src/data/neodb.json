@@ -142,6 +142,153 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 645131677992080800,
+      "item": {
+        "type": "Movie",
+        "title": "Possible Love",
+        "description": "故事围绕两对处境迥异的夫妇展开：被解雇的工人浩硕与在口罩工厂谋生的妻子美玉，纪录片女导演艺智与她的丈夫尚宇。四人因一部关于失业工人的纪录片拍摄而相遇，在往来中直面阶层落差与生活之下的隐秘欲望。镜头架起后，权力关系无处遁形——高价手袋与创伤记忆并置，尾随前工友的沉默暴力，女人之间微妙的凝视，以及海边度假屋里一场近乎裸体的“斗牛”。一支口哨贯穿始终，在不同人生里折射出呼唤、创伤与友谊。片头“不可贪恋”笼罩着每段关系，而李沧东最终把答案落回人与人之间那种笨拙、充满误解却始终没有放弃的靠近。",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "가능한 사랑"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "可能的爱情"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "可能的爱"
+          },
+          {
+            "lang": "en",
+            "text": "Possible Love"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "假如爱有如果(台)"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "故事围绕两对处境迥异的夫妇展开：被解雇的工人浩硕与在口罩工厂谋生的妻子美玉，纪录片女导演艺智与她的丈夫尚宇。四人因一部关于失业工人的纪录片拍摄而相遇，在往来中直面阶层落差与生活之下的隐秘欲望。镜头架起后，权力关系无处遁形——高价手袋与创伤记忆并置，尾随前工友的沉默暴力，女人之间微妙的凝视，以及海边度假屋里一场近乎裸体的“斗牛”。一支口哨贯穿始终，在不同人生里折射出呼唤、创伤与友谊。片头“不可贪恋”笼罩着每段关系，而李沧东最终把答案落回人与人之间那种笨拙、充满误解却始终没有放弃的靠近。"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/11/12/702d5a58-b873-4edc-93f7-a972c5938452.webp",
+        "rating": 8.3,
+        "rating_count": 108,
+        "rating_distribution": [
+          0,
+          2,
+          8,
+          45,
+          45
+        ],
+        "tags": null,
+        "brief": "故事围绕两对处境迥异的夫妇展开：被解雇的工人浩硕与在口罩工厂谋生的妻子美玉，纪录片女导演艺智与她的丈夫尚宇。四人因一部关于失业工人的纪录片拍摄而相遇，在往来中直面阶层落差与生活之下的隐秘欲望。镜头架起后，权力关系无处遁形——高价手袋与创伤记忆并置，尾随前工友的沉默暴力，女人之间微妙的凝视，以及海边度假屋里一场近乎裸体的“斗牛”。一支口哨贯穿始终，在不同人生里折射出呼唤、创伤与友谊。片头“不可贪恋”笼罩着每段关系，而李沧东最终把答案落回人与人之间那种笨拙、充满误解却始终没有放弃的靠近。",
+        "id": "https://neodb.social/movie/3kZ6Gg0nWchxeIsV3pKp67",
+        "uuid": "3kZ6Gg0nWchxeIsV3pKp67",
+        "url": "/movie/3kZ6Gg0nWchxeIsV3pKp67",
+        "api_url": "/api/movie/3kZ6Gg0nWchxeIsV3pKp67",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "Possible Love",
+        "external_resources": [
+          {
+            "url": "https://www.themoviedb.org/movie/1483525"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt37803364/"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q137843740"
+          },
+          {
+            "url": "https://bridge.neodb.net/catalog/movie/imdbId-tt37803364"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36847425/"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "更多...",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "Lee Chang-dong",
+            "character_name": "",
+            "person_url": "/api/people/1NyTGTdqwpMR80rSZxKUHu"
+          },
+          {
+            "role": "playwright",
+            "name": "Lee Chang-dong",
+            "character_name": "",
+            "person_url": "/api/people/1NyTGTdqwpMR80rSZxKUHu"
+          },
+          {
+            "role": "playwright",
+            "name": "Oh Jung-mi",
+            "character_name": "",
+            "person_url": "/api/people/5wg2ZTrKCFVtF8jnHabpnu"
+          },
+          {
+            "role": "producer",
+            "name": "Lee Joon-dong",
+            "character_name": "",
+            "person_url": "/api/people/1Ad88MRdmITdd7BYLCTQBp"
+          },
+          {
+            "role": "producer",
+            "name": "David Levine",
+            "character_name": "",
+            "person_url": "/api/people/5kL7TDeqyLV7rJ4Q3NklSo"
+          },
+          {
+            "role": "producer",
+            "name": "Chadwick Prichard",
+            "character_name": "",
+            "person_url": "/api/people/4g90PBLv3j4KYx8j4ZPKpW"
+          },
+          {
+            "role": "producer",
+            "name": "Nick Shumaker",
+            "character_name": "",
+            "person_url": "/api/people/4wZsPglfW0KNjhqkU0CVqZ"
+          },
+          {
+            "role": "producer",
+            "name": "Maciej Musiał",
+            "character_name": "",
+            "person_url": "/api/people/2fDaaKZbRMvzrbaIUnHgce"
+          },
+          {
+            "role": "producer",
+            "name": "Krzysztof Piesiewicz",
+            "character_name": "",
+            "person_url": "/api/people/3YEZAChjOCiSJS3uosO33K"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/m/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-11-16T12:22:57.934Z",
+      "comment_text": null,
+      "rating_grade": 7,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 625949766874777000,
       "item": {
         "type": "Movie",
