@@ -141,21 +141,34 @@ const messageIntroClass = 'r-message__intro mt-[-0.75rem] mb-[var(--r-space-lg)]
 
 	.r-message__comments :global(textarea),
 	.r-message__comments :global(input) {
-		border-color: var(--r-rule) !important;
+		border-color: transparent !important;
 		background: transparent !important;
 		color: var(--r-ink) !important;
 		box-shadow: none !important;
 		font-family: var(--r-font-ui);
 	}
 
+	.r-message__comments :global(.tk-meta-input .el-input) {
+		border-bottom: 1px solid var(--r-rule) !important;
+		background: transparent !important;
+		border-radius: 0 !important;
+		transition: border-color 0.2s ease;
+	}
+
+	.r-message__comments :global(.tk-meta-input .el-input:focus-within) {
+		border-bottom-color: var(--r-link) !important;
+	}
+
 	.r-message__comments :global(.el-input-group__prepend) {
-		border-color: var(--r-rule) !important;
-		background: color-mix(in oklab, var(--r-ink) 5%, transparent) !important;
+		border: 0 !important;
+		background: transparent !important;
+		padding: 0 0.5rem 0 0 !important;
 		color: var(--r-ink-soft) !important;
+		font-weight: 500;
 	}
 
 	.r-message__comments :global(textarea::placeholder),
 	.r-message__comments :global(input::placeholder) {
-		color: color-mix(in oklab, var(--r-ink-soft) 72%, var(--r-ink-faint)) !important;
+		color: var(--r-ink-faint) !important;
 	}
 </style>

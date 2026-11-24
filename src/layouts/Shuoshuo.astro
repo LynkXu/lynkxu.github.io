@@ -90,18 +90,17 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 								const { gossip, attachments, dateLabel, time, index } = item;
 								return (
 									<article class="r-memo" data-index={index} role="listitem">
-										<img
-											class="r-memo__avatar"
-											src="/avatar-112.webp"
-											alt=""
-											width="112"
-											height="112"
-											loading={index === 0 ? 'eager' : 'lazy'}
-											decoding="async"
-										/>
-
 										<div class="r-memo__panel">
 											<header class="r-memo__meta">
+												<img
+													class="r-memo__avatar"
+													src="/avatar-112.webp"
+													alt=""
+													width="112"
+													height="112"
+													loading={index === 0 ? 'eager' : 'lazy'}
+													decoding="async"
+												/>
 												<span class="r-memo__author">LynkXu</span>
 												<span class="r-memo__sep" aria-hidden="true">·</span>
 												<time datetime={gossip.data.pubDate.toISOString()}>

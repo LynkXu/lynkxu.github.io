@@ -11,14 +11,14 @@ const extrasClass = 'r-about__extras [font-family:var(--r-font-body)]';
 const extrasTitleClass = 'r-prose-section-title md-section-heading';
 const extrasListClass = 'r-about__extras-list flex flex-col gap-[var(--r-space-xs)]';
 const historyClass = 'r-about__history group min-w-0';
-const historySummaryClass = 'r-about__history-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-size:var(--r-text-sm)] font-normal text-[var(--r-ink)] marker:hidden hover:text-[var(--r-link)] [&::-webkit-details-marker]:hidden';
+const historySummaryClass = 'r-about__history-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-family:var(--r-font-body)] [font-size:1rem] font-normal text-[var(--r-ink)] marker:hidden hover:text-[var(--r-link)] [&::-webkit-details-marker]:hidden';
 const historyListClass = 'm-0 flex list-none flex-col gap-[var(--r-space-sm)] px-0 pb-[var(--r-space-md)] pt-[var(--r-space-sm)]';
-const historyItemClass = 'grid grid-cols-[4.2rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] [font-size:var(--r-text-sm)] leading-[1.82] max-[420px]:grid-cols-[3.8rem_minmax(0,1fr)] max-[420px]:gap-[var(--r-space-sm)]';
+const historyItemClass = 'grid grid-cols-[4.2rem_minmax(0,1fr)] items-baseline gap-[var(--r-space-md)] [font-size:0.96rem] leading-[1.82] max-[420px]:grid-cols-[3.8rem_minmax(0,1fr)] max-[420px]:gap-[var(--r-space-sm)]';
 const historyDateClass = '[font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)] [font-variant-numeric:tabular-nums]';
 const historyTextClass = '[font-family:var(--r-font-body)] text-[var(--r-ink-soft)]';
 const sponsorClass = 'r-about__sponsor group min-w-0';
-const sponsorSummaryClass = 'r-about__sponsor-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-size:var(--r-text-sm)] font-normal text-[var(--r-ink)] marker:hidden hover:text-[var(--r-link)] [&::-webkit-details-marker]:hidden';
-const sponsorPanelClass = 'min-w-0 pb-[var(--r-space-md)] pt-[var(--r-space-xs)] pl-[var(--r-space-md)] [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none] [&_.sponsor-fold__summary]:![font-size:var(--r-text-sm)]';
+const sponsorSummaryClass = 'r-about__sponsor-summary cursor-pointer list-none py-[var(--r-space-sm)] [font-family:var(--r-font-body)] [font-size:1rem] font-normal text-[var(--r-ink)] marker:hidden hover:text-[var(--r-link)] [&::-webkit-details-marker]:hidden';
+const sponsorPanelClass = 'min-w-0 pb-[var(--r-space-md)] pt-[var(--r-space-xs)] pl-[var(--r-space-md)] [--accent-color:var(--r-link)] [--heading-color:var(--r-ink)] [--paper-card-bg:var(--r-bg)] [--paper-card-border:var(--r-rule)] [--paper-card-border-soft:var(--r-rule)] [--paper-card-shadow:none]';
 
 const blogHistory = [
 	{ date: '2026.01', text: '购买 lynkxu.com，自建主题，接入 Memos 等数据流' },
@@ -64,40 +64,32 @@ const blogHistory = [
 			</div>
 		</aside>
 
-		<footer class="r-about__colophon" aria-label="版权说明">
-			<p>
-				本站原创内容默认采用 <a href="/copyright">CC BY-NC 4.0</a> 协议，转载请注明出处并勿作商业用途。
-			</p>
-		</footer>
+		<p class="r-about__license" aria-label="版权说明">
+			本站文字默认采用 <a href="/copyright">CC BY-NC 4.0</a> 协议，欢迎署名转载，请勿商用。
+		</p>
 	</section>
 </ReadingShell>
 
 <style>
-	.r-about__colophon {
-		margin-top: var(--r-space-xl);
-		padding-top: var(--r-space-md);
-		border-top: 1px solid var(--r-divider);
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		line-height: 1.75;
-		color: var(--r-ink-faint);
-	}
-
-	.r-about__colophon p {
-		margin: 0;
-	}
-
-	.r-about__colophon a {
+	.r-about__license {
+		margin: var(--r-space-xl) 0 0;
+		font-family: var(--r-font-body);
+		font-size: var(--r-text-sm);
+		line-height: 1.82;
 		color: var(--r-ink-soft);
+	}
+
+	.r-about__license a {
+		color: var(--r-link);
 		text-decoration: underline;
-		text-decoration-color: color-mix(in oklab, var(--r-ink-soft) 35%, transparent);
+		text-decoration-color: color-mix(in oklab, var(--r-link) 42%, transparent);
 		text-decoration-thickness: 1px;
 		text-underline-offset: var(--r-link-underline-offset);
 		transition: color 0.2s ease, text-decoration-color 0.2s ease;
 	}
 
-	.r-about__colophon a:hover {
-		color: var(--r-link);
-		text-decoration-color: var(--r-link-underline-color);
+	.r-about__license a:hover {
+		color: var(--r-ink);
+		text-decoration-color: var(--r-link);
 	}
 </style>

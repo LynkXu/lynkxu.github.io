@@ -11,7 +11,7 @@
     --md-paragraph-gap: var(--space-md);
     --md-block-gap: var(--space-lg);
     --r-prose-emphasis: var(--r-link);
-    font-size: var(--text-md) !important;
+    font-size: 1.03rem !important;
     line-height: var(--lh-body) !important;
     letter-spacing: 0;
     word-break: normal;
@@ -21,8 +21,9 @@
   body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6):not(:where(.link-card *)),
   body.reading-surface .r-about__extras > h3.md-section-heading {
     margin: var(--md-block-gap, var(--space-lg)) 0 var(--space-sm) !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     line-height: 1.5 !important;
+    color: var(--r-ink-strong, var(--r-ink)) !important;
     scroll-margin-top: var(--space-lg);
     text-wrap: pretty;
   }
@@ -32,8 +33,9 @@
     font-size: var(--text-xl) !important;
     margin: var(--md-section-gap) 0 var(--space-sm) !important;
     font-family: var(--r-font-body) !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     line-height: 1.5 !important;
+    color: var(--r-ink-strong, var(--r-ink)) !important;
   }
   body.reading-surface .r-prose.md-theme h3:not(:where(.link-card *)),
   body.reading-surface .r-about__extras > h3.md-section-heading { font-size: var(--text-lg) !important; }
