@@ -52,7 +52,7 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 <ReadingShell title={title} description={description || excerpt || ''}>
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
-	<article class="r-article">
+	<article class="r-article r-card r-card--reading">
 		<header class="r-article__header">
 			<h1 class="r-page-title r-article__title">{title}</h1>
 
@@ -149,8 +149,9 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 	.r-toc {
 		margin-top: 0.2rem;
 		margin-bottom: clamp(var(--space-lg), 3vw, var(--space-xl));
-		border-left: 1px solid var(--r-rule);
-		background: color-mix(in oklab, var(--r-rule-soft) 22%, transparent);
+		border-left: 2px solid var(--r-rule);
+		border-radius: 0 4px 4px 0;
+		background: var(--r-code-bg);
 		font-family: var(--r-font-ui);
 		font-size: var(--r-text-xs);
 		color: var(--r-ink-faint);
@@ -315,14 +316,15 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 			width: 2.5rem;
 			height: 2.5rem;
 			border-radius: 9999px;
-			border: 1px solid var(--r-rule);
-			background: color-mix(in oklab, var(--r-bg) 88%, transparent);
+			border: 1px solid var(--r-card-border, var(--r-rule));
+			background: color-mix(in oklab, var(--r-card-bg, var(--r-bg)) 90%, transparent);
+			box-shadow: var(--r-card-shadow, none);
 			backdrop-filter: blur(6px);
 			-webkit-backdrop-filter: blur(6px);
 		}
 
 		.r-article :global(.nav-button:hover) {
-			background: var(--r-bg);
+			background: var(--r-card-bg, var(--r-bg));
 		}
 	}
 </style>

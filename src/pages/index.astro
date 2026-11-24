@@ -12,7 +12,7 @@ const posts = filterDrafts(await getCollection('blog'))
 
 const latestPosts = posts.slice(0, 8);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
-const homeIntroClass = 'r-home-intro';
+const homeIntroClass = 'r-home-intro r-card';
 const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 
 function getPostHref(post: (typeof posts)[number]) {
@@ -28,7 +28,7 @@ function getPostHref(post: (typeof posts)[number]) {
 		<AboutTraits />
 	</section>
 
-	<section class="r-section" aria-labelledby="home-writing-title">
+	<section class="r-section r-card" aria-labelledby="home-writing-title">
 		<header class="r-section__head">
 			<h2 id="home-writing-title" class={sectionTitleClass}>最近文章</h2>
 			<a class="home-section-more" href="/blog">全部文章</a>
@@ -58,7 +58,7 @@ function getPostHref(post: (typeof posts)[number]) {
 		column-gap: var(--space-xl);
 		row-gap: var(--space-sm);
 		align-items: start;
-		margin-bottom: var(--space-3xl);
+		margin-bottom: 0;
 	}
 
 	.r-home-intro__text { grid-column: 1; }
@@ -92,7 +92,7 @@ function getPostHref(post: (typeof posts)[number]) {
 
 	@media (max-width: 640px) {
 		.r-home-intro {
-			margin-bottom: var(--space-2xl);
+			margin-bottom: 0;
 			grid-template-columns: minmax(0, 1fr) var(--space-3xl);
 			column-gap: var(--space-md);
 		}

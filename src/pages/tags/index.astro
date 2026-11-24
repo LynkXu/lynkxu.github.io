@@ -28,16 +28,18 @@ const tagCountClass = 'r-tag-cloud__count [font-size:var(--r-text-xs)] text-[var
 ---
 
 <ReadingShell title="标签" description="浏览全部标签">
-	<h1 class={pageTitleClass}>标签</h1>
+	<div class="r-card r-card--reading">
+		<h1 class={pageTitleClass}>标签</h1>
 
-	<ul class={tagCloudClass} aria-label="标签索引">
-		{topics.map((topic) => (
-			<li>
-				<a href={topic.href} class={tagLinkClass}>
-					{topic.name}
-					<span class={tagCountClass}>{topic.count}</span>
-				</a>
-			</li>
-		))}
-	</ul>
+		<ul class={tagCloudClass} aria-label="标签索引">
+			{topics.map((topic) => (
+				<li>
+					<a href={topic.href} class={tagLinkClass}>
+						{topic.name}
+						<span class={tagCountClass}>{topic.count}</span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</div>
 </ReadingShell>

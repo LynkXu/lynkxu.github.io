@@ -319,10 +319,10 @@ const texts = {
 		width: 100%;
 		max-width: 620px;
 		max-height: min(76vh, 620px);
-		background: var(--r-bg, var(--content-bg));
+		background: var(--r-card-bg, var(--r-bg, var(--content-bg)));
 		color: var(--r-ink, var(--text-color));
-		border: 1px solid var(--r-rule, var(--paper-card-border));
-		border-radius: var(--paper-card-radius, 4px);
+		border: 1px solid var(--r-card-border, var(--r-rule, var(--paper-card-border)));
+		border-radius: var(--r-card-radius, var(--paper-card-radius, 6px));
 		box-shadow: 0 12px 36px rgba(15, 23, 42, 0.14);
 		display: flex;
 		flex-direction: column;

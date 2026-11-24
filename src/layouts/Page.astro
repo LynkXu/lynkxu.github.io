@@ -10,7 +10,7 @@ const { title } = Astro.props;
 ---
 
 <ReadingShell title={title} description={title}>
-	<div class="content-limit-width">
+	<div class="content-limit-width r-card r-card--reading">
 		<h1 class="r-page-title">{title}</h1>
 		<div class='r-prose md-theme post-content content'>
 			<slot />

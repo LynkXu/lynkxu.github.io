@@ -4,8 +4,8 @@
   /* Standalone section headings share the theme without styling their widgets. */
   body.reading-surface :is(.r-prose.md-theme, .md-section-heading) {
     --md-section-gap: clamp(var(--space-xl), 5vw, var(--space-2xl));
-    --md-heading-wash: color-mix(in oklab, var(--r-selection-bg) 58%, var(--r-bg));
-    --md-subheading-wash: color-mix(in oklab, var(--r-selection-bg) 32%, var(--r-bg));
+    --md-heading-wash: color-mix(in oklab, var(--r-selection-bg) 58%, var(--r-card-bg, var(--r-bg)));
+    --md-subheading-wash: color-mix(in oklab, var(--r-selection-bg) 32%, var(--r-card-bg, var(--r-bg)));
   }
   body.reading-surface .r-prose.md-theme {
     --md-paragraph-gap: var(--space-md);

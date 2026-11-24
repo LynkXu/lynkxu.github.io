@@ -47,15 +47,88 @@ body.reading-surface {
   --paper-card-radius: 0;
 }
 
+/* Non-wide core blog pages adopt the desk-canvas + modular white paper card system.
+   Topic pages (.portal-surface--wide) keep their own flat wide surface untouched. */
+html:has(.portal-surface:not(.portal-surface--wide)),
+body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+  --r-bg: oklch(0.955 0.005 85);
+  --r-card-bg: #ffffff;
+  --r-card-border: color-mix(in oklab, var(--r-ink) 8.5%, var(--r-card-bg));
+  --r-card-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.032),
+    0 8px 24px rgba(15, 23, 42, 0.026);
+  --r-card-radius: 6px;
+  --r-memo-surface: var(--r-card-bg);
+  --r-memo-border: var(--r-card-border);
+  --r-code-bg: oklch(0.97 0.003 85);
+  background: var(--r-bg) !important;
+}
+
+:root[data-theme="dark"] html:has(.portal-surface:not(.portal-surface--wide)),
+html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
+:root[data-theme="dark"] body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+  --r-bg: oklch(0.148 0.01 255);
+  --r-card-bg: oklch(0.195 0.012 255);
+  --r-card-border: color-mix(in oklab, var(--r-ink) 11%, var(--r-card-bg));
+  --r-card-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.24),
+    0 8px 24px rgba(0, 0, 0, 0.16);
+  --r-card-radius: 6px;
+  --r-memo-surface: var(--r-card-bg);
+  --r-memo-border: var(--r-card-border);
+  --r-code-bg: oklch(0.165 0.011 255);
+  background: var(--r-bg) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]):has(.portal-surface:not(.portal-surface--wide)),
+  :root:not([data-theme]) body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+    --r-bg: oklch(0.148 0.01 255);
+    --r-card-bg: oklch(0.195 0.012 255);
+    --r-card-border: color-mix(in oklab, var(--r-ink) 11%, var(--r-card-bg));
+    --r-card-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.24),
+      0 8px 24px rgba(0, 0, 0, 0.16);
+    --r-card-radius: 6px;
+    --r-memo-surface: var(--r-card-bg);
+    --r-memo-border: var(--r-card-border);
+    --r-code-bg: oklch(0.165 0.011 255);
+    background: var(--r-bg) !important;
+  }
+}
+
 .portal-surface:not(.portal-surface--wide) {
-  --r-shell-rule: color-mix(in oklab, var(--r-ink) 62%, var(--r-bg));
+  /* Widen shell slightly by card horizontal padding so inner reading measure stays at ~60ch. */
+  --portal-content-width: calc(var(--r-measure) + clamp(2.2rem, 5.5vw, 4rem));
+  --r-shell-rule: color-mix(in oklab, var(--r-ink) 56%, var(--r-bg));
   --portal-rule-width: 2px;
-  --r-header-content-space: var(--space-3xl);
+  --r-header-content-space: clamp(1.35rem, 3vw, 2rem);
   --r-index-title-size: var(--text-md);
   display: flex;
   flex-direction: column;
   min-height: 100svh;
   border: 0;
+  background: transparent;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card {
+  background: var(--r-card-bg);
+  border: 1px solid var(--r-card-border);
+  border-radius: var(--r-card-radius);
+  box-shadow: var(--r-card-shadow);
+  padding: clamp(1.25rem, 3vw, 1.85rem) clamp(1.25rem, 3.4vw, 2.1rem);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card--reading {
+  padding: clamp(1.5rem, 3.8vw, 2.4rem) clamp(1.25rem, 3.6vw, 2.25rem);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card + .r-card {
+  margin-top: 1.15rem;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card .r-year-block:last-child {
+  margin-bottom: 0;
 }
 
 :root[data-theme="dark"] body.reading-surface {
@@ -248,9 +321,19 @@ body.reading-surface {
     --portal-inset: var(--space-md);
   }
 
-  /* 手机首屏空间有限，header→标题间距收回一档，与原先首页手机端一致。 */
+  /* 手机首屏空间有限，收紧外层留白让白卡内部保有充足阅读宽度。 */
   .portal-surface:not(.portal-surface--wide) {
-    --r-header-content-space: var(--space-xl);
+    --portal-inset: var(--space-xs);
+    --r-header-content-space: var(--space-lg);
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card,
+  .portal-surface:not(.portal-surface--wide) .r-card--reading {
+    padding: 1.15rem 1rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card + .r-card {
+    margin-top: 0.95rem;
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }

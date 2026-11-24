@@ -123,20 +123,22 @@ const messageIntroClass = 'r-message__intro mt-[-0.75rem] mb-[var(--r-space-lg)]
 	}
 
 	.r-message__comments :global(.tk-submit) {
-		border-color: var(--r-memo-border) !important;
-		background: var(--r-memo-surface) !important;
+		border-color: var(--r-card-border, var(--r-memo-border)) !important;
+		border-radius: var(--r-card-radius, 6px) !important;
+		background: var(--r-card-bg, var(--r-memo-surface)) !important;
 		color: var(--r-ink) !important;
-		box-shadow: none !important;
+		box-shadow: var(--r-card-shadow, none) !important;
 		font-family: var(--r-font-ui);
 	}
 
-	/* 顶层评论沿用碎语卡片：同底色、描边与内边距。 */
+	/* 顶层评论沿用统一纸面卡片：同底色、圆角、描边与轻投影。 */
 	.r-message__comments :global(.tk-comments-container > .tk-comment) {
 		margin-top: var(--r-space-sm) !important;
-		border-radius: 4px !important;
-		border: 1px solid var(--r-memo-border) !important;
-		background: var(--r-memo-surface) !important;
-		padding: 0.72rem 0.85rem !important;
+		border-radius: var(--r-card-radius, 6px) !important;
+		border: 1px solid var(--r-card-border, var(--r-memo-border)) !important;
+		background: var(--r-card-bg, var(--r-memo-surface)) !important;
+		box-shadow: var(--r-card-shadow, none) !important;
+		padding: 0.9rem 1.05rem !important;
 	}
 
 	.r-message__comments :global(textarea),

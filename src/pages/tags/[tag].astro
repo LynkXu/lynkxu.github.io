@@ -33,29 +33,31 @@ const tagMetaLinkClass = 'border-b-0 text-[var(--r-ink-soft)] underline decorati
 ---
 
 <ReadingShell title={`标签：${tag}`} description={`带有「${tag}」标签的全部文章`}>
-	<h1 class={pageTitleClass}>{tag}</h1>
+	<div class="r-card r-card--reading">
+		<h1 class={pageTitleClass}>{tag}</h1>
 
-	<p class={tagMetaClass}>
-		<span>{posts.length} 篇文章</span>
-		<a href="/tags" class={tagMetaLinkClass}>← 全部标签</a>
-	</p>
+		<p class={tagMetaClass}>
+			<span>{posts.length} 篇文章</span>
+			<a href="/tags" class={tagMetaLinkClass}>← 全部标签</a>
+		</p>
 
-	<ol class="r-post-list">
-		{posts.map((post) => (
-			<li class="r-post-list__item">
-				<div class="r-post-list__main">
-					<a
-						href={`/blog/${post.data.slug ?? post.id}.html`}
-						class="r-post-list__title"
-					>
-						{post.data.title}
-					</a>
-					{INCLUDE_DRAFTS && post.data.draft && <span class="r-draft">草稿</span>}
-				</div>
-				<span class="r-post-list__date">
-					<FormattedDate date={post.data.pubDate} />
-				</span>
-			</li>
-		))}
-	</ol>
+		<ol class="r-post-list">
+			{posts.map((post) => (
+				<li class="r-post-list__item">
+					<div class="r-post-list__main">
+						<a
+							href={`/blog/${post.data.slug ?? post.id}.html`}
+							class="r-post-list__title"
+						>
+							{post.data.title}
+						</a>
+						{INCLUDE_DRAFTS && post.data.draft && <span class="r-draft">草稿</span>}
+					</div>
+					<span class="r-post-list__date">
+						<FormattedDate date={post.data.pubDate} />
+					</span>
+				</li>
+			))}
+		</ol>
+	</div>
 </ReadingShell>
