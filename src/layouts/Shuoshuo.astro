@@ -91,7 +91,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 								return (
 									<article class="r-memo" data-index={index} role="listitem">
 										<div class="r-memo__panel">
-											<header class="r-memo__meta">
+											<header class="r-memo__head">
 												<img
 													class="r-memo__avatar"
 													src="/avatar-112.webp"
@@ -101,19 +101,27 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 													loading={index === 0 ? 'eager' : 'lazy'}
 													decoding="async"
 												/>
-												<span class="r-memo__author">LynkXu</span>
-												<span class="r-memo__sep" aria-hidden="true">·</span>
-												<time datetime={gossip.data.pubDate.toISOString()}>
-													<span class="r-memo__date">{dateLabel}</span>
-													<span class="r-memo__time">{time}</span>
-												</time>
-												{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-													<span class="r-memo__tag">{gossip.data.tag}</span>
-												)}
-												{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
-												<span class="r-memo__like">
-													<LikeButton id={gossip.data.slug} type="gossip" />
-												</span>
+												<div class="r-memo__identity">
+													<div class="r-memo__author-row">
+														<span class="r-memo__author">LynkXu</span>
+														{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+															<span class="r-memo__tag">#{gossip.data.tag}</span>
+														)}
+														{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-draft !ml-0">草稿</span>}
+													</div>
+													<div class="r-memo__submeta">
+														<time datetime={gossip.data.pubDate.toISOString()}>
+															<span class="r-memo__date">{dateLabel}</span>
+															<span class="r-memo__time">{time}</span>
+														</time>
+														{gossip.data.tag === 'mastodon' && (
+															<>
+																<span class="r-memo__sep" aria-hidden="true">·</span>
+																<span class="r-memo__source">来自 Mastodon</span>
+															</>
+														)}
+													</div>
+												</div>
 											</header>
 
 											<div class="r-memo__content">
@@ -137,6 +145,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 														))}
 													</div>
 												)}
+											</div>
+
+											<div class="r-memo__footer">
+												<LikeButton id={gossip.data.slug} type="gossip" />
 											</div>
 										</div>
 									</article>
