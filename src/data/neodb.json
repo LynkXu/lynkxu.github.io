@@ -142,6 +142,597 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 648004729548498700,
+      "item": {
+        "type": "Movie",
+        "title": "The Odyssey",
+        "description": "Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point.",
+        "localized_title": [
+          {
+            "lang": "ko",
+            "text": "오디세이"
+          },
+          {
+            "lang": "ja",
+            "text": "オデュッセイア"
+          },
+          {
+            "lang": "pt",
+            "text": "A Odisseia"
+          },
+          {
+            "lang": "de",
+            "text": "Die Odyssee"
+          },
+          {
+            "lang": "fr",
+            "text": "L'Odyssée"
+          },
+          {
+            "lang": "es",
+            "text": "La Odisea"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "奧德賽"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "奧德賽"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "奥德赛"
+          },
+          {
+            "lang": "en",
+            "text": "The Odyssey"
+          },
+          {
+            "lang": "it",
+            "text": "Odissea"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "ko",
+            "text": "10년간 이어진 트로이 전쟁을 승리로 이끈 영웅 '오디세우스'는 왕의 부재를 틈타 침탈과 권력 다툼이 벌어진 왕국에서 그를 기다리고 있는 아내 '페넬로페'와 아들 '텔레마코스'에게 돌아가기 위한 여정에 나선다. 그러나 신들의 분노를 산 그의 귀환 앞에는 거대한 폭풍과 괴물들, 그리고 거스를 수 없는 운명의 시련이 기다리고 있는데…"
+          },
+          {
+            "lang": "pt",
+            "text": "Após o fim da Guerra de Troia, Ulisses, o lendário rei de Ítaca, embarca numa longa e perigosa viagem de regresso a casa. Durante dez anos de provações, enfrenta a fúria dos deuses e cruza-se com figuras míticas como o ciclope Polifemo, as sereias e a feiticeira Circe. Determinado a sobreviver, tenta voltar para junto da esposa, Penélope, e do filho, Telémaco, e recuperar o seu reino."
+          },
+          {
+            "lang": "de",
+            "text": "Folgt Odysseus, dem legendären griechischen König von Ithaka, auf seiner langen und gefährlichen Heimreise nach dem Trojanischen Krieg und schildert seine Begegnungen mit mythischen Wesen wie dem Zyklopen Polyphem, den Sirenen und der Hexengöttin Circe, während er versucht, wieder mit seiner Frau Penelope zusammenzukommen."
+          },
+          {
+            "lang": "fr",
+            "text": "Vingt ans après son départ pour la guerre de Troie, le roi Ulysse rentre enfin à Ithaque, mais son voyage est parsemé d'aventures et d'épreuves."
+          },
+          {
+            "lang": "es",
+            "text": "Tras la caída de Troya, el legendario rey de Ítaca, Odiseo a.k.a. Ulises, emprende un largo y peligroso viaje para regresar junto a su esposa Penélope y su hijo Telémaco. En el camino deberá enfrentarse a criaturas mitológicas, dioses caprichosos y pruebas que pondrán a prueba su ingenio, su resistencia y su humanidad. Mientras tanto, en Ítaca, el futuro de su reino pende de un hilo ante la creciente amenaza de quienes creen que jamás volverá."
+          },
+          {
+            "lang": "zh-hk",
+            "text": "改編自荷馬同名史詩，講述奧德修斯在特洛伊戰爭後的危險歸途，展示他與獨眼巨人波利斐摩斯、海妖、西西裏女巫的遭遇，最後與妻子佩涅洛佩團聚。"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "改編自荷馬同名史詩。奧德修斯在特洛伊戰爭後歷經艱險返鄉。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "特洛伊战争之后，奥德修斯踏上返回伊萨卡的艰险归途，途中遭遇了诸如独眼巨人波吕斐摩斯、塞壬女妖和喀耳刻等神话生物。"
+          },
+          {
+            "lang": "en",
+            "text": "Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point."
+          },
+          {
+            "lang": "en",
+            "text": "2026 film directed by Christopher Nolan"
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2026/08/23/da5df2a8-ab85-4ded-8a05-9df5d8e7d685.webp",
+        "rating": 7.7,
+        "rating_count": 582,
+        "rating_distribution": [
+          0,
+          3,
+          18,
+          49,
+          30
+        ],
+        "tags": null,
+        "brief": "Odysseus, the legendary King of Ithaca, embarks on a long and perilous journey home following the Trojan War. Throughout his voyage, he is forced to confront the whims of gods, mythological monsters, and trials that stretch both his cunning and his humanity to the breaking point.",
+        "id": "https://neodb.social/movie/5Sd0Dw4oPFeRC5uF64tqQ4",
+        "uuid": "5Sd0Dw4oPFeRC5uF64tqQ4",
+        "url": "/movie/5Sd0Dw4oPFeRC5uF64tqQ4",
+        "api_url": "/api/movie/5Sd0Dw4oPFeRC5uF64tqQ4",
+        "category": "movie",
+        "parent_uuid": null,
+        "display_title": "The Odyssey",
+        "external_resources": [
+          {
+            "url": "https://bgm.tv/subject/622067"
+          },
+          {
+            "url": "https://www.themoviedb.org/movie/1368337"
+          },
+          {
+            "url": "https://www.imdb.com/title/tt33764258/"
+          },
+          {
+            "url": "https://eggplant.place/movie/1vSQP0xCE7BPhI8mJGdNFv"
+          },
+          {
+            "url": "https://movie.douban.com/subject/36808876/"
+          },
+          {
+            "url": "https://bridge.neodb.net/catalog/movie/imdbId-tt33764258"
+          },
+          {
+            "url": "https://www.wikidata.org/wiki/Q131547207"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "Matt Damon",
+            "character_name": "",
+            "person_url": "/api/people/1qGnnTY8HMLwSS8GLnaFjf"
+          },
+          {
+            "role": "actor",
+            "name": "Tom Holland",
+            "character_name": "",
+            "person_url": "/api/people/4CkOhJtCDsIHSQOGaeulDS"
+          },
+          {
+            "role": "actor",
+            "name": "Anne Hathaway",
+            "character_name": "",
+            "person_url": "/api/people/0gY2wMuZkP2ah2GhZLs49l"
+          },
+          {
+            "role": "actor",
+            "name": "Robert Pattinson",
+            "character_name": "",
+            "person_url": "/api/people/6pKeo5DfAXzODSc2lTKToO"
+          },
+          {
+            "role": "actor",
+            "name": "Himesh Patel",
+            "character_name": "",
+            "person_url": "/api/people/1HlamsoxqlmhXX3i4TsVs5"
+          },
+          {
+            "role": "actor",
+            "name": "Charlize Theron",
+            "character_name": "",
+            "person_url": "/api/people/6QehzmpQrMPxNU7X2rvj98"
+          },
+          {
+            "role": "actor",
+            "name": "John Leguizamo",
+            "character_name": "",
+            "person_url": "/api/people/263hHcoNNN5DouQNrNeWEq"
+          },
+          {
+            "role": "actor",
+            "name": "Travis Scott",
+            "character_name": "",
+            "person_url": "/api/people/2R147mCnpWRTtH9OT7ZAhi"
+          },
+          {
+            "role": "actor",
+            "name": "Corey Hawkins",
+            "character_name": "",
+            "person_url": "/api/people/7GTk5DVI3ITaSfMrO1gn5S"
+          },
+          {
+            "role": "actor",
+            "name": "Jarreth J. Merz",
+            "character_name": "",
+            "person_url": "/api/people/2kAcs8MeJIO4kdITpT4Yru"
+          },
+          {
+            "role": "actor",
+            "name": "Niko Nicotera",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Elliot Page",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Shiloh Fernandez",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Rafi Gavron",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Elyes Gabel",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Iddo Goldberg",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jamie Harris",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "John Ales",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Raimy Lang",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Mason Cufari",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Mia Goth",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Ryan Hurst",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Kate Fuglei",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Benny Safdie",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Adam Croasdell",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Mickey Shilowich",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Katerina Antemel",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jovan Adepo",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Andrew Howard",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Josh Stewart",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Logan Marshall-Green",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Nick E. Tarabay",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Zendaya",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jon Bernthal",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jimmy Gonzales",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jesse Garcia",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Ryan de Quintal",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Will Yun Lee",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Anthony Molinari",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Stephen Murphy",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Matt Lasky",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Ian Casselberry",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Sean Avery",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Yannis Kokiasmenos",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Bill Irwin",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Maurice Compte",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Lupita Nyong'o",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Xavier Brown",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jessie Cohen",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Chess Lopez",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Craig Gellis",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Artoun Nazareth",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Chris Riggi",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Tyler Beardsley",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Daniel Dorr",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Barnaby Nolan",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "John King",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Samantha Morton",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "James Remar",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Brian Vernel",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Michael Vlamis",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Kamden Riley",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Andrei Lenart",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Jorge Leon",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "J.P. Manoux",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Douglas Rouillard",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Evan Shafran",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "Guðmundur Karl Sigurdórsson",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "Christopher Nolan",
+            "character_name": "",
+            "person_url": "/api/people/3PpyzImkStfrJ35JV9FE5Y"
+          },
+          {
+            "role": "playwright",
+            "name": "Christopher Nolan",
+            "character_name": "",
+            "person_url": "/api/people/3PpyzImkStfrJ35JV9FE5Y"
+          },
+          {
+            "role": "producer",
+            "name": "Christopher Nolan",
+            "character_name": "",
+            "person_url": "/api/people/3PpyzImkStfrJ35JV9FE5Y"
+          },
+          {
+            "role": "producer",
+            "name": "Emma Thomas",
+            "character_name": "",
+            "person_url": "/api/people/6DRHZzjLAkrDUBLJmOHiYu"
+          },
+          {
+            "role": "producer",
+            "name": "Thomas Hayslip",
+            "character_name": "",
+            "person_url": "/api/people/0ZSxy4t6Ab1ZnfNA3oSAaN"
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/m/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-11-24T10:39:26.803Z",
+      "comment_text": null,
+      "rating_grade": 6,
+      "tags": [],
+      "publication_year": "2026"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 645131677992080800,
       "item": {
         "type": "Movie",
