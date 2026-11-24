@@ -117,11 +117,54 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   border: 1px solid var(--r-card-border);
   border-radius: var(--r-card-radius);
   box-shadow: var(--r-card-shadow);
-  padding: clamp(1.25rem, 3vw, 1.85rem) clamp(1.2rem, 3.5vw, 2.25rem);
+  padding: clamp(1.35rem, 3.2vw, 2.05rem) clamp(1.2rem, 3.5vw, 2.25rem);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card--intro {
+  padding: clamp(1.15rem, 2.6vw, 1.6rem) clamp(1.2rem, 3.5vw, 2.25rem);
+}
+
+/* 集合/频道页（归档、标签、碎语、项目、留言）的画布页眉：留在灰底画布上，
+   用底部 1px 细栏线与下方内容白卡清晰区分，与页脚顶线首尾呼应。 */
+.portal-surface:not(.portal-surface--wide) .r-page-head {
+  padding: 0 0.1rem 0.9rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--r-divider);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__title {
+  margin: 0 !important;
+  font-family: var(--r-font-body) !important;
+  font-size: var(--r-text-page) !important;
+  font-weight: 600 !important;
+  line-height: var(--r-lh-tight) !important;
+  letter-spacing: -0.018em !important;
+  color: var(--r-ink-strong, var(--r-ink)) !important;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__note {
+  margin: 0.42rem 0 0 !important;
+  font-family: var(--r-font-body);
+  font-size: var(--r-text-sm);
+  line-height: 1.65;
+  color: var(--r-ink-soft);
+  text-wrap: pretty;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin: 0.45rem 0 0 !important;
+  font-family: var(--r-font-ui);
+  font-size: var(--r-text-xs);
+  color: var(--r-ink-faint);
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card--reading {
-  padding: clamp(1.5rem, 3.8vw, 2.45rem) clamp(1.2rem, 4vw, 2.625rem);
+  /* 书页天头地脚略大于左右页边距，长文、归档与关于页更端庄舒展。 */
+  padding: clamp(1.75rem, 4.4vw, 2.75rem) clamp(1.2rem, 4vw, 2.625rem) clamp(1.9rem, 4.8vw, 3rem);
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card + .r-card {
@@ -364,9 +407,21 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
     --r-header-content-space: var(--space-lg);
   }
 
-  .portal-surface:not(.portal-surface--wide) .r-card,
-  .portal-surface:not(.portal-surface--wide) .r-card--reading {
+  .portal-surface:not(.portal-surface--wide) .r-card {
     padding: 1.15rem 1.05rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card--intro {
+    padding: 1rem 1.05rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-page-head {
+    padding: 0 0.1rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card--reading {
+    padding: 1.35rem 1.05rem 1.5rem;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-memo__panel {

@@ -11,8 +11,6 @@ type Props = CollectionEntry<'page'>['data'] & {
 };
 
 const { title } = Astro.props;
-const pageTitleClass = 'r-page-title r-memos__title !m-0 !mb-[var(--r-space-xs)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
-const pageNoteClass = 'r-memos__note m-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.6] text-[var(--r-ink-faint)]';
 
 const gossips = await getAllGossips();
 
@@ -63,9 +61,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
 	<section class="r-memos" aria-labelledby="memos-title">
-		<header class="r-memos__head">
-			<h1 id="memos-title" class={pageTitleClass}>碎语</h1>
-			<p class={pageNoteClass}>
+		<header class="r-memos__head r-page-head">
+			<h1 id="memos-title" class="r-page-title r-memos__title r-page-head__title">碎语</h1>
+			<p class="r-memos__note r-page-head__note">
 				偶尔记录一些不值得写成长文的瞬间（内容同步自{' '}
 				<a
 					href="https://mastodon.social/@lynkxu"
