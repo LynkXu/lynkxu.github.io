@@ -98,11 +98,12 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 }
 
 .portal-surface:not(.portal-surface--wide) {
-  /* Widen shell slightly by card horizontal padding so inner reading measure stays at ~60ch. */
-  --portal-content-width: calc(var(--r-measure) + clamp(2.2rem, 5.5vw, 4rem));
-  --r-shell-rule: color-mix(in oklab, var(--r-ink) 56%, var(--r-bg));
-  --portal-rule-width: 2px;
-  --r-header-content-space: clamp(1.35rem, 3vw, 2rem);
+  /* Unified fixed measure (700px) across all core pages: balanced paper-sheet margins
+     without stretching Home index rows or Shuoshuo/Message short-form cards (~614px article prose). */
+  --portal-content-width: 43.75rem;
+  --r-shell-rule: transparent;
+  --portal-rule-width: 0px;
+  --r-header-content-space: clamp(1.25rem, 2.8vw, 1.8rem);
   --r-index-title-size: var(--text-md);
   display: flex;
   flex-direction: column;
@@ -116,15 +117,28 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   border: 1px solid var(--r-card-border);
   border-radius: var(--r-card-radius);
   box-shadow: var(--r-card-shadow);
-  padding: clamp(1.25rem, 3vw, 1.85rem) clamp(1.25rem, 3.4vw, 2.1rem);
+  padding: clamp(1.25rem, 3vw, 1.85rem) clamp(1.2rem, 3.5vw, 2.25rem);
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card--reading {
-  padding: clamp(1.5rem, 3.8vw, 2.4rem) clamp(1.25rem, 3.6vw, 2.25rem);
+  padding: clamp(1.5rem, 3.8vw, 2.45rem) clamp(1.2rem, 4vw, 2.625rem);
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card + .r-card {
-  margin-top: 1.15rem;
+  margin-top: 1.2rem;
+}
+
+/* Shuoshuo & Message cards match the same 700px measure with balanced paper margins. */
+.portal-surface:not(.portal-surface--wide) .r-memo__panel {
+  padding: 1.05rem 1.45rem 1.15rem;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
+  padding: 1rem 1.3rem !important;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-comments-container > .tk-comment {
+  padding: 0.95rem 1.25rem !important;
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card .r-year-block:last-child {
@@ -168,13 +182,36 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   line-height: 1.5;
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__footer {
-  border-top: 0;
-  margin-top: var(--space-2xl);
+.portal-surface:not(.portal-surface--wide) .reading-shell__header {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__header {
-  border-bottom-color: var(--r-shell-rule);
+/* 当前激活导航以微型白纸胶囊落在暖灰画布上，与下方白卡遥相呼应。 */
+.portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+  padding: 0.2rem 0.54rem;
+  margin-inline: -0.54rem;
+  border-radius: 4px;
+  border: 1px solid var(--r-card-border) !important;
+  background: var(--r-card-bg);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.035);
+  color: var(--r-ink-strong, var(--r-ink)) !important;
+}
+
+:root[data-theme="dark"] .portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell__footer {
+  border-top: 1px solid var(--r-divider);
+  margin-top: var(--space-xl);
+  padding-top: var(--r-space-md);
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell__footer-links {
@@ -196,7 +233,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 
 @media (min-width: 641px) {
   .portal-surface:not(.portal-surface--wide) .reading-shell__header {
-    padding-bottom: var(--r-space-sm);
+    padding-bottom: 0;
   }
 }
 
@@ -329,7 +366,19 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 
   .portal-surface:not(.portal-surface--wide) .r-card,
   .portal-surface:not(.portal-surface--wide) .r-card--reading {
-    padding: 1.15rem 1rem;
+    padding: 1.15rem 1.05rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-memo__panel {
+    padding: 0.9rem 1rem 0.95rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
+    padding: 0.85rem 0.95rem !important;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-comments-container > .tk-comment {
+    padding: 0.85rem 0.95rem !important;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-card + .r-card {
