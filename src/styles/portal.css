@@ -51,48 +51,48 @@ body.reading-surface {
    Topic pages (.portal-surface--wide) keep their own flat wide surface untouched. */
 html:has(.portal-surface:not(.portal-surface--wide)),
 body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
-  --r-bg: oklch(0.955 0.005 85);
+  --r-bg: oklch(0.974 0.002 85);
   --r-card-bg: #ffffff;
-  --r-card-border: color-mix(in oklab, var(--r-ink) 8.5%, var(--r-card-bg));
+  --r-card-border: color-mix(in oklab, var(--r-ink) 9%, var(--r-card-bg));
   --r-card-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.032),
-    0 8px 24px rgba(15, 23, 42, 0.026);
+    0 1px 2px rgba(15, 23, 42, 0.038),
+    0 8px 22px rgba(15, 23, 42, 0.028);
   --r-card-radius: 6px;
   --r-memo-surface: var(--r-card-bg);
   --r-memo-border: var(--r-card-border);
-  --r-code-bg: oklch(0.97 0.003 85);
+  --r-code-bg: oklch(0.976 0.002 85);
   background: var(--r-bg) !important;
 }
 
 :root[data-theme="dark"] html:has(.portal-surface:not(.portal-surface--wide)),
 html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 :root[data-theme="dark"] body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
-  --r-bg: oklch(0.148 0.01 255);
-  --r-card-bg: oklch(0.195 0.012 255);
-  --r-card-border: color-mix(in oklab, var(--r-ink) 11%, var(--r-card-bg));
+  --r-bg: oklch(0.175 0.011 255);
+  --r-card-bg: oklch(0.218 0.012 255);
+  --r-card-border: color-mix(in oklab, var(--r-ink) 12%, var(--r-card-bg));
   --r-card-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.24),
-    0 8px 24px rgba(0, 0, 0, 0.16);
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.13);
   --r-card-radius: 6px;
   --r-memo-surface: var(--r-card-bg);
   --r-memo-border: var(--r-card-border);
-  --r-code-bg: oklch(0.165 0.011 255);
+  --r-code-bg: oklch(0.188 0.011 255);
   background: var(--r-bg) !important;
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]):has(.portal-surface:not(.portal-surface--wide)),
   :root:not([data-theme]) body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
-    --r-bg: oklch(0.148 0.01 255);
-    --r-card-bg: oklch(0.195 0.012 255);
-    --r-card-border: color-mix(in oklab, var(--r-ink) 11%, var(--r-card-bg));
+    --r-bg: oklch(0.175 0.011 255);
+    --r-card-bg: oklch(0.218 0.012 255);
+    --r-card-border: color-mix(in oklab, var(--r-ink) 12%, var(--r-card-bg));
     --r-card-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.24),
-      0 8px 24px rgba(0, 0, 0, 0.16);
+      0 1px 3px rgba(0, 0, 0, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.13);
     --r-card-radius: 6px;
     --r-memo-surface: var(--r-card-bg);
     --r-memo-border: var(--r-card-border);
-    --r-code-bg: oklch(0.165 0.011 255);
+    --r-code-bg: oklch(0.188 0.011 255);
     background: var(--r-bg) !important;
   }
 }
@@ -121,7 +121,8 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 }
 
 .portal-surface:not(.portal-surface--wide) .r-card--intro {
-  padding: clamp(1.15rem, 2.6vw, 1.6rem) clamp(1.2rem, 3.5vw, 2.25rem);
+  padding: 0;
+  overflow: hidden;
 }
 
 /* 集合/频道页（归档、标签、碎语、项目、留言）的画布页眉：留在灰底画布上，
@@ -173,7 +174,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 
 /* Shuoshuo & Message cards match the same 700px measure with balanced paper margins. */
 .portal-surface:not(.portal-surface--wide) .r-memo__panel {
-  padding: 1.05rem 1.45rem 1.15rem;
+  padding: 0.88rem 1.1rem 0.92rem;
 }
 
 .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
@@ -412,7 +413,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   }
 
   .portal-surface:not(.portal-surface--wide) .r-card--intro {
-    padding: 1rem 1.05rem;
+    padding: 0;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-page-head {
@@ -425,7 +426,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   }
 
   .portal-surface:not(.portal-surface--wide) .r-memo__panel {
-    padding: 0.9rem 1rem 0.95rem;
+    padding: 0.78rem 0.9rem 0.8rem;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {

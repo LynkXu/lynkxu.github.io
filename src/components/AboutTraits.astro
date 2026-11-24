@@ -1,18 +1,56 @@
 ---
-const traitsClass = 'r-about__traits !m-0 !mt-[var(--r-traits-gap,var(--r-space-md))] !mb-0 !flex !list-none !flex-wrap !items-baseline !gap-x-0 !gap-y-[var(--r-space-xs)] !p-0 [font-family:var(--r-font-ui)]';
-const traitItemClass = 'whitespace-nowrap font-normal text-[var(--r-ink-soft)] [font-size:var(--r-text-xs)] leading-[1.6] [&:not(:last-child)]:after:mx-[var(--r-space-xs)] [&:not(:last-child)]:after:text-[var(--r-ink-faint)] [&:not(:last-child)]:after:content-["·"]';
+interface Props {
+	variant?: 'inline' | 'chips';
+}
+
+const { variant = 'inline' } = Astro.props;
+
+const traitsClass =
+	variant === 'chips'
+		? 'r-about__traits r-about__traits--chips'
+		: 'r-about__traits !m-0 !mt-[var(--r-traits-gap,var(--r-space-md))] !mb-0 !flex !list-none !flex-wrap !items-baseline !gap-x-0 !gap-y-[var(--r-space-xs)] !p-0 [font-family:var(--r-font-ui)]';
+
+const traitItemClass =
+	variant === 'chips'
+		? 'r-about__trait-chip'
+		: 'whitespace-nowrap font-normal text-[var(--r-ink-soft)] [font-size:var(--r-text-xs)] leading-[1.6] [&:not(:last-child)]:after:mx-[var(--r-space-xs)] [&:not(:last-child)]:after:text-[var(--r-ink-faint)] [&:not(:last-child)]:after:content-["·"]';
 
 const traits = [
-  '全栈开发工程师',
-  'Web3 爱好者',
-  'APP 体验家',
-  '长期主义',
-  '混沌中立',
+	'全栈开发工程师',
+	'Web3 爱好者',
+	'APP 体验家',
+	'长期主义',
+	'混沌中立',
 ];
 ---
 
 <ul class={traitsClass} aria-label="个人标签">
-  {traits.map((trait) => (
-    <li class={traitItemClass}>{trait}</li>
-  ))}
+	{traits.map((trait) => (
+		<li class={traitItemClass}>{trait}</li>
+	))}
 </ul>
+
+<style>
+	.r-about__traits--chips {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.38rem;
+		font-family: var(--r-font-ui);
+	}
+
+	.r-about__trait-chip {
+		white-space: nowrap;
+		padding: 0.14rem 0.5rem;
+		border: 1px solid var(--r-card-border, var(--r-rule));
+		border-radius: 3px;
+		background: var(--r-card-bg, var(--r-bg));
+		font-size: 0.72rem;
+		font-weight: 400;
+		line-height: 1.45;
+		color: var(--r-ink-soft);
+	}
+</style>
