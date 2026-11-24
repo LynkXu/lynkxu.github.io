@@ -122,6 +122,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 														)}
 													</div>
 												</div>
+												<span class="r-memo__like">
+													<LikeButton id={gossip.data.slug} type="gossip" />
+												</span>
 											</header>
 
 											<div class="r-memo__content">
@@ -145,10 +148,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 														))}
 													</div>
 												)}
-											</div>
-
-											<div class="r-memo__footer">
-												<LikeButton id={gossip.data.slug} type="gossip" />
 											</div>
 										</div>
 									</article>

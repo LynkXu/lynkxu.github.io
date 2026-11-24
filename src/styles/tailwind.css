@@ -907,7 +907,7 @@ body.reading-surface .r-memo {
 
 body.reading-surface .r-memo__panel {
 	min-width: 0;
-	padding: 1.05rem 1.2rem 0.72rem;
+	padding: 0.95rem 1.15rem 1rem;
 	border: 1px solid var(--r-memo-border);
 	border-radius: 6px;
 	background: var(--r-memo-surface);
@@ -931,18 +931,18 @@ body.reading-surface .r-memo__panel:hover {
 	border-color: color-mix(in oklab, var(--r-ink) 16%, var(--r-memo-surface));
 }
 
-/* 微博式双行身份页眉：左侧圆形头像，右侧两行（昵称+标签 / 时间+来源） */
+/* 轻量化微博式双行页眉：头像与身份退居落款，右侧留微型点赞，让正文成为主角 */
 body.reading-surface .r-memo__head {
 	display: flex;
 	align-items: center;
-	gap: 0.72rem;
+	gap: 0.65rem;
 }
 
 body.reading-surface .r-memo__avatar {
 	display: block;
 	flex: 0 0 auto;
-	width: 2.45rem;
-	height: 2.45rem;
+	width: 2.1rem;
+	height: 2.1rem;
 	border: 1px solid color-mix(in oklab, var(--r-ink) 10%, transparent);
 	border-radius: 50%;
 	background: var(--r-code-bg);
@@ -966,41 +966,41 @@ body.reading-surface .r-memo__identity {
 	min-width: 0;
 	display: flex;
 	flex-direction: column;
-	gap: 0.16rem;
+	gap: 0.12rem;
 }
 
 body.reading-surface .r-memo__author-row {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.45rem;
+	gap: 0.4rem;
 	font-family: var(--r-font-ui);
-	line-height: 1.3;
+	line-height: 1.28;
 }
 
 body.reading-surface .r-memo__author {
-	font-size: 0.88rem;
-	color: var(--r-ink-strong, var(--r-ink));
-	font-weight: 600;
+	font-size: 0.82rem;
+	color: var(--r-ink-soft);
+	font-weight: 500;
 }
 
 body.reading-surface .r-memo__tag {
-	padding: 0.05rem 0.36rem;
+	padding: 0.04rem 0.34rem;
 	border-radius: 3px;
 	background: color-mix(in oklab, var(--r-selection-bg) 55%, transparent);
-	font-size: 0.68rem;
+	font-size: 0.66rem;
 	color: var(--r-ink-soft);
-	line-height: 1.4;
+	line-height: 1.38;
 }
 
 body.reading-surface .r-memo__submeta {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	gap: 0.32rem;
+	gap: 0.28rem;
 	font-family: var(--r-font-ui);
-	font-size: 0.72rem;
-	line-height: 1.3;
+	font-size: 0.7rem;
+	line-height: 1.28;
 	color: var(--r-ink-faint);
 	letter-spacing: 0.01em;
 	font-variant-numeric: tabular-nums;
@@ -1009,41 +1009,44 @@ body.reading-surface .r-memo__submeta {
 body.reading-surface .r-memo__submeta time {
 	display: inline-flex;
 	align-items: baseline;
-	gap: 0.35rem;
+	gap: 0.32rem;
 }
 
 body.reading-surface .r-memo__sep {
-	opacity: 0.6;
+	opacity: 0.55;
 }
 
 body.reading-surface .r-memo__date,
 body.reading-surface .r-memo__time,
 body.reading-surface .r-memo__source {
-	font-size: 0.72rem;
+	font-size: 0.7rem;
 	color: var(--r-ink-faint);
 }
 
-/* 桌面端正文缩进对齐昵称起始线，形成清晰的微博式垂直阅读轴。 */
+body.reading-surface .r-memo__like {
+	margin-left: auto;
+	align-self: flex-start;
+	flex-shrink: 0;
+}
+
+@media (hover: hover) {
+	body.reading-surface .r-memo:hover .like-btn.gossip.is-empty {
+		opacity: 0.78;
+	}
+}
+
+/* 桌面端正文缩进对齐昵称起始线，字号与墨色抬升为视觉主角。 */
 body.reading-surface .r-memo__content {
 	min-width: 0;
 	max-width: none;
-	margin-top: 0.62rem;
-	padding-left: calc(2.45rem + 0.72rem);
+	margin-top: 0.52rem;
+	padding-left: calc(2.1rem + 0.65rem);
 }
 
 body.reading-surface .r-memo__body {
-	font-size: 0.96rem !important;
-	line-height: 1.72 !important;
-}
-
-body.reading-surface .r-memo__footer {
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
-	margin-top: 0.7rem;
-	margin-left: calc(2.45rem + 0.72rem);
-	padding: 0.42rem 0 0;
-	border-top: 1px solid color-mix(in oklab, var(--r-divider) 85%, transparent);
+	font-size: 1.02rem !important;
+	line-height: 1.74 !important;
+	color: var(--r-ink) !important;
 }
 
 body.reading-surface .r-memo__body > :first-child {
@@ -1194,12 +1197,12 @@ body.reading-surface .r-memos__pagination .page-nav:disabled {
 	}
 
 	body.reading-surface .r-memo__avatar {
-		width: 2.2rem;
-		height: 2.2rem;
+		width: 2rem;
+		height: 2rem;
 	}
 
 	body.reading-surface .r-memo__panel {
-		padding: 0.9rem 0.95rem 0.65rem;
+		padding: 0.85rem 0.95rem 0.9rem;
 	}
 
 	/* 移动端收回全宽，避免 390px 窄屏正文区过窄 */
@@ -1207,13 +1210,9 @@ body.reading-surface .r-memos__pagination .page-nav:disabled {
 		padding-left: 0;
 	}
 
-	body.reading-surface .r-memo__footer {
-		margin-left: 0;
-	}
-
 	body.reading-surface .r-memo__body {
-		font-size: 0.94rem !important;
-		line-height: 1.68 !important;
+		font-size: 0.98rem !important;
+		line-height: 1.7 !important;
 	}
 }
 }

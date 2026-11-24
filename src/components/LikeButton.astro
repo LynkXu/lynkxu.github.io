@@ -16,19 +16,19 @@ const iconClass = 'like-icon shrink-0 transition-transform duration-[180ms]';
 <button type="button" class={`${baseClass} ${typeClass} group`} data-id={id} aria-label="点赞" aria-pressed="false">
 	<svg
 		class={`${iconClass} post-heart`}
-		width={type === 'post' ? '15' : '14'}
-		height={type === 'post' ? '15' : '14'}
+		width={type === 'post' ? '15' : '13'}
+		height={type === 'post' ? '15' : '13'}
 		viewBox="0 0 24 24"
 		fill="none"
 		stroke="currentColor"
-		stroke-width="1.6"
+		stroke-width="1.65"
 		stroke-linecap="round"
 		stroke-linejoin="round"
 		aria-hidden="true"
 	>
 		<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
 	</svg>
-	{type === 'post' ? <span class="like-label">点赞</span> : <span class="like-label gossip-label">赞</span>}
+	{type === 'post' && <span class="like-label">点赞</span>}
 	<span class="like-count"></span>
 </button>
 
@@ -53,17 +53,21 @@ const iconClass = 'like-icon shrink-0 transition-transform duration-[180ms]';
 	.post.liked .post-heart { fill: currentColor; color: color-mix(in oklab, #e06c75 75%, var(--r-ink-soft)); }
 
 	.gossip {
-		min-height: 1.75rem;
-		gap: 0.32rem;
-		padding: 0.2rem 0.5rem;
+		position: relative;
+		min-height: 1.5rem;
+		gap: 0.24rem;
+		padding: 0.16rem 0.34rem;
 		border-radius: 4px;
 		font-family: var(--r-font-ui);
-		font-size: 0.74rem;
+		font-size: 0.7rem;
 		line-height: 1;
 		color: var(--r-ink-faint);
+		opacity: 0.72;
 	}
-	.gossip.pending { opacity: 0.5; }
+	.gossip.pending { opacity: 0.2; }
+	.gossip.is-empty { opacity: 0.26; }
 	.gossip:hover {
+		opacity: 1 !important;
 		color: var(--r-ink);
 		background: color-mix(in oklab, var(--r-ink) 4.5%, transparent);
 	}
@@ -71,16 +75,19 @@ const iconClass = 'like-icon shrink-0 transition-transform duration-[180ms]';
 		color: currentColor;
 		font-variant-numeric: tabular-nums;
 	}
-	/* 0 赞时显示「赞」字，有赞时直接显示数字，保持简洁。 */
-	.gossip:not(.is-empty) .gossip-label { display: none; }
 	.gossip.is-empty .like-count { display: none; }
-	.gossip.liked { color: color-mix(in oklab, #d65c67 78%, var(--r-ink-soft)); }
+	.gossip.liked {
+		opacity: 1 !important;
+		color: color-mix(in oklab, #d65c67 78%, var(--r-ink-soft));
+	}
 	.gossip.liked .post-heart { fill: currentColor; stroke: currentColor; }
 
 	@media (pointer: coarse) {
-		.gossip {
-			min-height: 2.2rem;
-			padding: 0.35rem 0.65rem;
+		.gossip.is-empty { opacity: 0.45; }
+		.gossip::after {
+			content: "";
+			position: absolute;
+			inset: -0.45rem;
 		}
 	}
 
@@ -104,14 +111,10 @@ const iconClass = 'like-icon shrink-0 transition-transform duration-[180ms]';
 			const liked = btn.classList.contains('liked');
 			btn.classList.toggle('is-empty', count <= 0 && !liked);
 			btn.setAttribute('aria-pressed', String(liked));
+			btn.setAttribute('aria-label', liked ? '取消点赞' : '点赞');
 			const label = btn.querySelector('.like-label');
 			if (label) {
-				if (btn.classList.contains('gossip')) {
-					label.textContent = '赞';
-				} else {
-					label.textContent = liked ? '已点赞' : '点赞';
-				}
-				btn.setAttribute('aria-label', liked ? '取消点赞' : '点赞');
+				label.textContent = liked ? '已点赞' : '点赞';
 			}
 		};
 
