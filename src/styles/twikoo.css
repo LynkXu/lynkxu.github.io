@@ -133,7 +133,7 @@
 .tk-author-badge {
   display: inline-flex;
   align-items: center;
-  color: #9fc3d8;
+  color: var(--r-link, var(--accent-color));
   flex-shrink: 0;
   width: 14px;
   height: 14px;
@@ -371,7 +371,7 @@
 }
 
 .tk-nick-link:hover {
-  color: #409eff;
+  color: var(--r-link, var(--link-color));
 }
 
 .tk-actions {
@@ -732,7 +732,8 @@
 }
 
 .tk-pagination-pager.__current {
-  background-color: #409eff;
+  background-color: var(--r-link, var(--accent-color));
+  color: var(--r-bg, var(--content-bg));
   pointer-events: none;
 }
 
@@ -796,7 +797,7 @@
 }
 
 .tk-admin-comment-filter-type:focus {
-  border-color: #409eff;
+  border-color: var(--r-link, var(--accent-color));
 }
 
 .tk-admin-comment-filter-type option {
@@ -1146,17 +1147,17 @@
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):active,
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):focus,
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):hover {
-  color: #409eff;
-  background-color: rgba(64, 158, 255, 0.063);
-  border-color: rgba(64, 158, 255, 0.50);
+  color: var(--r-link, var(--link-color));
+  background-color: color-mix(in oklab, var(--r-link, var(--link-color)) 8%, transparent);
+  border-color: color-mix(in oklab, var(--r-link, var(--link-color)) 50%, transparent);
 }
 
 .twikoo .el-button--primary.is-disabled,
 .twikoo .el-button--primary.is-disabled:active,
 .twikoo .el-button--primary.is-disabled:focus,
 .twikoo .el-button--primary.is-disabled:hover {
-  color: rgba(255, 255, 255, 0.63);
-  background-color: rgba(64, 158, 255, 0.50);
+  color: color-mix(in oklab, var(--r-bg, var(--content-bg)) 76%, transparent);
+  background-color: color-mix(in oklab, var(--r-link, var(--accent-color)) 42%, var(--r-bg, var(--content-bg)));
   border-color: transparent;
 }
 
@@ -2257,12 +2258,12 @@
   stroke-dasharray: 90, 150;
   stroke-dashoffset: 0;
   stroke-width: 2;
-  stroke: #409EFF;
+  stroke: var(--r-link, var(--accent-color));
   stroke-linecap: round
 }
 
 .el-loading-spinner i {
-  color: #409EFF
+  color: var(--r-link, var(--accent-color))
 }
 
 .el-loading-fade-enter,
@@ -2664,7 +2665,12 @@
 
 #twikoo .tk-avatar {
   border-radius: var(--paper-card-radius);
-  background-color: color-mix(in oklab, var(--faint-color) 14%, transparent);
+  background-color: color-mix(in oklab, var(--r-ink, var(--faint-color)) 9%, transparent);
+  color: var(--r-ink-faint, var(--faint-color));
+}
+
+#twikoo .tk-content a {
+  color: var(--r-link, var(--link-color));
 }
 
 #twikoo .tk-main {

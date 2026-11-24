@@ -5,13 +5,13 @@ const sponsorRootClass = 'sponsor-about m-0 flex flex-col gap-[0.15rem] [contain
 const foldClass = 'sponsor-fold group m-0 overflow-visible rounded-none border-0 bg-transparent';
 const summaryClass = 'sponsor-fold__summary cursor-pointer list-none px-0 py-[0.3rem] [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:var(--r-text-sm,0.8rem)] font-normal text-[var(--r-ink-soft,var(--text-color))] transition-colors hover:bg-transparent hover:text-[var(--r-ink,var(--heading-color))] [&::-webkit-details-marker]:hidden group-open:border-b-0 group-open:text-[var(--r-ink,var(--heading-color))]';
 const sponsorGridClass = 'sponsor-grid grid grid-cols-2 gap-[0.6rem] p-[0.75rem] max-[400px]:grid-cols-1';
-const sponsorCardClass = 'sponsor-card rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,var(--paper-card-bg))] p-[0.55rem] shadow-none';
-const sponsorCardNameClass = 'sponsor-card__name mb-[0.35rem] [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.82rem] font-medium text-[var(--r-ink,var(--heading-color))]';
-const qrBoxClass = 'sponsor-card__qr flex items-center justify-center rounded-[4px] border-0 bg-[var(--r-code-bg,oklch(0.99_0.003_80))] p-1';
-const qrImageClass = 'm-0 block h-[100px] w-[100px] rounded-[2px] object-contain';
+const sponsorCardClass = 'sponsor-card flex flex-col items-center rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,var(--paper-card-bg))] px-[0.75rem] py-[0.7rem] shadow-none';
+const sponsorCardNameClass = 'sponsor-card__name mb-[0.5rem] w-full text-left [font-family:var(--r-font-ui,var(--field-font,var(--ui-font)))] [font-size:0.8rem] font-medium text-[var(--r-ink,var(--heading-color))]';
+const qrBoxClass = 'sponsor-card__qr flex h-[116px] w-[116px] items-center justify-center overflow-hidden rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] p-[0.55rem]';
+const qrImageClass = 'sponsor-card__img m-0 block h-full w-full rounded-[2px] object-contain';
 const cryptoListClass = 'crypto-list flex flex-col gap-0 px-[0.75rem] py-0';
 const cryptoItemClass = 'crypto-item grid grid-cols-[112px_minmax(0,1fr)] items-start gap-[1rem] border-t border-[var(--r-rule,var(--paper-card-border-soft))] py-[1rem] first:border-t-0 max-[430px]:grid-cols-[88px_minmax(0,1fr)] max-[430px]:gap-[0.75rem] max-[300px]:grid-cols-1';
-const cryptoQrClass = 'crypto-item__qr grid aspect-square w-[112px] place-items-center rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] bg-[var(--r-code-bg,oklch(0.99_0.003_80))] p-[0.35rem] shadow-none max-[430px]:w-[88px] max-[300px]:w-[min(132px,100%)]';
+const cryptoQrClass = 'crypto-item__qr grid aspect-square w-[112px] place-items-center overflow-hidden rounded-[4px] border border-[var(--r-rule,var(--paper-card-border-soft))] p-[0.4rem] shadow-none max-[430px]:w-[88px] max-[300px]:w-[min(132px,100%)]';
 const cryptoQrImageClass = 'm-0 block h-full w-full rounded-[2px] object-contain';
 const cryptoContentClass = 'crypto-item__content flex min-w-0 flex-col gap-[0.75rem] max-[430px]:contents';
 const cryptoHeadingClass = 'crypto-item__heading flex flex-col gap-[0.25rem] max-[430px]:self-center';
@@ -25,13 +25,13 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 
 <div class={sponsorRootClass}>
 	<details class={foldClass}>
-		<summary class={summaryClass}>WeChat / Alipay</summary>
+		<summary class={summaryClass}>微信 / 支付宝</summary>
 		<div class={sponsorGridClass}>
 			{SPONSOR_GROUPS.find((g) => g.name === 'CNY')?.items.map((item) => (
 				<div class={sponsorCardClass}>
 					<div class={sponsorCardNameClass}>{item.name}</div>
 					<div class={qrBoxClass}>
-						<img class={qrImageClass} src={item.image} alt={`${item.name} QR Code`} loading="lazy" />
+						<img class={qrImageClass} data-sponsor-id={item.id} src={item.image} alt={`${item.name}收款码`} loading="lazy" />
 					</div>
 				</div>
 			))}
@@ -39,12 +39,12 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 	</details>
 
 	<details class={foldClass}>
-		<summary class={summaryClass}>Crypto</summary>
+		<summary class={summaryClass}>加密货币</summary>
 		<div class={cryptoListClass}>
 			{SPONSOR_GROUPS.find((g) => g.name === 'Crypto')?.items.map((item) => (
 				<article class={cryptoItemClass}>
 					<div class={cryptoQrClass}>
-						<img class={cryptoQrImageClass} src={item.image} alt={`${item.name} QR`} loading="lazy" />
+						<img class={cryptoQrImageClass} src={item.image} alt={`${item.name} 二维码`} loading="lazy" />
 					</div>
 					<div class={cryptoContentClass}>
 						<div class={cryptoHeadingClass}>
@@ -53,9 +53,9 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 						</div>
 						{item.address && (
 							<div class={cryptoAddressClass}>
-								<span class={cryptoLabelClass}>Wallet address</span>
+								<span class={cryptoLabelClass}>钱包地址</span>
 								<code class={cryptoCodeClass}>{item.address}</code>
-								<button class={copyButtonClass} type="button" data-clipboard-text={item.address} aria-label={`Copy ${item.name} wallet address`}>
+								<button class={copyButtonClass} type="button" data-clipboard-text={item.address} aria-label={`复制 ${item.name} 钱包地址`}>
 									<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="0" ry="0"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
 									<span class="addr-copy__label" aria-live="polite">复制地址</span>
 								</button>
@@ -67,6 +67,31 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 		</div>
 	</details>
 </div>
+
+<style>
+	/* 统一二维码静区底色，保证深浅模式下视觉尺寸一致且易于扫码。 */
+	.sponsor-card__qr,
+	.crypto-item__qr {
+		background: #ffffff;
+	}
+
+	:global(:root[data-theme="dark"]) .sponsor-card__qr,
+	:global(:root[data-theme="dark"]) .crypto-item__qr {
+		background: oklch(0.95 0.004 85);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme])) .sponsor-card__qr,
+		:global(:root:not([data-theme])) .crypto-item__qr {
+			background: oklch(0.95 0.004 85);
+		}
+	}
+
+	/* 微信赞赏码原图自带较宽白边，轻度放大让圆形码与方形支付宝码在视觉量感上齐平。 */
+	.sponsor-card__img[data-sponsor-id="wechat"] {
+		transform: scale(1.12);
+	}
+</style>
 
 <script>
 	function initSponsorCopy() {

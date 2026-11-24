@@ -44,6 +44,7 @@ const articleClass = [
 	'r-article',
 	'[&_.nav-buttons-group]:fixed [&_.nav-buttons-group]:bottom-[var(--r-space-lg)] [&_.nav-buttons-group]:right-[var(--r-page-inline)] [&_.nav-buttons-group]:z-20',
 	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-top-icon]:block [&_.nav-top-icon]:h-[18px] [&_.nav-top-icon]:w-[18px]',
+	'max-[820px]:[&_.nav-buttons-group]:bottom-[var(--r-space-md)] max-[820px]:[&_.nav-buttons-group]:right-[var(--space-md)] max-[820px]:[&_.nav-button]:h-10 max-[820px]:[&_.nav-button]:w-10 max-[820px]:[&_.nav-button]:rounded-full max-[820px]:[&_.nav-button]:border max-[820px]:[&_.nav-button]:border-[var(--r-rule)] max-[820px]:[&_.nav-button]:bg-[color-mix(in_oklab,var(--r-bg)_88%,transparent)] max-[820px]:[&_.nav-button]:backdrop-blur-[6px] max-[820px]:[&_.nav-button:hover]:bg-[var(--r-bg)]',
 ].join(' ');
 const articleTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-sm)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-semibold !leading-[1.22] !tracking-[-0.025em] !text-[var(--r-ink)]';
 const articleHeaderClass = 'r-article__header';
@@ -58,7 +59,7 @@ const tocClass = [
 ].join(' ');
 const tocSummaryClass = 'r-toc__summary flex min-h-7 w-full cursor-pointer list-none items-center box-border select-none bg-transparent px-[0.75rem] py-[0.1rem] group-open:min-h-8 group-open:py-[0.2rem] font-medium leading-[1.35] tracking-[0.02em] text-[var(--r-ink-soft)] transition-colors duration-200 hover:bg-[color-mix(in_oklab,var(--r-rule-soft)_24%,transparent)] hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
 const articleTailClass = 'r-article__tail mt-[var(--r-space-lg)] flex flex-col items-center gap-[var(--r-space-md)] border-t-0 pt-[var(--r-space-md)] [&_.changelog]:self-stretch [&_.changelog]:text-left [&_.changelog]:[--accent-color:var(--r-link)] [&_.changelog]:[--ink-accent:var(--r-ink-faint)] [&_.changelog]:[--serif-font:var(--r-font-ui)] [&_.changelog_*]:[--accent-color:var(--r-link)] [&_.changelog_*]:[--ink-accent:var(--r-ink-faint)] [&_.changelog_*]:[--serif-font:var(--r-font-ui)] [&_.changelog]:[font-family:var(--r-font-ui)] [&_.changelog]:text-[var(--r-ink-soft)]';
-const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint)]';
+const articleEndClass = 'r-article__end h-px w-8 bg-[var(--r-rule)]';
 ---
 
 <ReadingShell title={title} description={description || excerpt || ''}>
@@ -81,7 +82,7 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 				{updatedDate && (
 					<span>更新于 <FormattedDate date={updatedDate} /></span>
 				)}
-				{isDev && draft && <span>草稿</span>}
+				{isDev && draft && <span class="r-draft !ml-0">草稿</span>}
 			</div>
 
 			{description && <p class={articleDescClass}>{description}</p>}
@@ -99,7 +100,7 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 		</div>
 
 		<footer class={articleTailClass}>
-			<div class={articleEndClass} aria-hidden="true">·</div>
+			<div class={articleEndClass} aria-hidden="true"></div>
 			<LikeButton id={postId || Astro.url.pathname} type="post" />
 			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
 		</footer>
@@ -377,6 +378,15 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 				for (const el of cards) {
 					const url = el.getAttribute('data-url');
 					if (!url) continue;
+					if (!el.innerHTML.trim()) {
+						const fallbackLink = document.createElement('a');
+						fallbackLink.href = url;
+						fallbackLink.target = '_blank';
+						fallbackLink.rel = 'noopener noreferrer';
+						fallbackLink.className = 'link-card__fallback';
+						fallbackLink.textContent = url;
+						el.appendChild(fallbackLink);
+					}
 					const cached = getCache(url);
 					if (cached && cached.title) {
 						renderCard(el, url, cached);
