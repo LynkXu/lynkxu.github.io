@@ -1,5 +1,5 @@
 ---
 slug: message
-title: Leaves
+title: 留言
 layout: Message
 ---

@@ -63,5 +63,41 @@ const blogHistory = [
 				</details>
 			</div>
 		</aside>
+
+		<footer class="r-about__colophon" aria-label="版权说明">
+			<p>
+				本站原创内容默认采用 <a href="/copyright">CC BY-NC 4.0</a> 协议，转载请注明出处并勿作商业用途。
+			</p>
+		</footer>
 	</section>
 </ReadingShell>
+
+<style>
+	.r-about__colophon {
+		margin-top: var(--r-space-xl);
+		padding-top: var(--r-space-md);
+		border-top: 1px solid var(--r-divider);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		line-height: 1.75;
+		color: var(--r-ink-faint);
+	}
+
+	.r-about__colophon p {
+		margin: 0;
+	}
+
+	.r-about__colophon a {
+		color: var(--r-ink-soft);
+		text-decoration: underline;
+		text-decoration-color: color-mix(in oklab, var(--r-ink-soft) 35%, transparent);
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+
+	.r-about__colophon a:hover {
+		color: var(--r-link);
+		text-decoration-color: var(--r-link-underline-color);
+	}
+</style>

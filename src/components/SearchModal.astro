@@ -120,13 +120,14 @@ const texts = {
 				items[activeIndex].scrollIntoView({ block: 'nearest' });
 			}
 
-			// 打开弹窗
+			// 打开弹窗（首次打开时按需懒加载索引，避免普通阅读页面产生多余请求）
 			window.openSearchModal = function () {
 				lastFocusedEl = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 				searchModal.classList.add('active');
 				searchModal.setAttribute('aria-hidden', 'false');
 				document.body.style.overflow = 'hidden';
 				activeIndex = -1;
+				loadSearchData();
 				setTimeout(function () { searchInput.focus(); }, 60);
 			};
 
@@ -285,12 +286,6 @@ const texts = {
 			document.addEventListener('DOMContentLoaded', initSearchModal);
 		} else {
 			initSearchModal();
-		}
-
-		if (document.readyState === 'complete') {
-			loadSearchData();
-		} else {
-			window.addEventListener('load', loadSearchData);
 		}
 	})();
 </script>

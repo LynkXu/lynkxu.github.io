@@ -75,8 +75,14 @@ const iconClass = 'like-icon text-[0.9em] leading-none transition-transform dura
 		};
 
 		buttons.forEach(async (btn) => {
+			if (btn.getAttribute('data-like-init') === 'true') return;
+			// 碎语隐藏分页内的按钮延后到切页时再请求，避免首屏并发拉取全部页。
+			if (btn.closest('[hidden]')) return;
+			btn.setAttribute('data-like-init', 'true');
+
 			const id = btn.getAttribute('data-id');
 			const countSpan = btn.querySelector('.like-count');
+			if (!id || !countSpan) return;
 
 			// 检查本地是否已经点赞过
 			const isLiked = localStorage.getItem(`liked_${id}`);
@@ -163,6 +169,6 @@ const iconClass = 'like-icon text-[0.9em] leading-none transition-transform dura
 		initLikes();
 	}
 
-	// 支持 Astro View Transitions
-	document.addEventListener('astro:page-load', initLikes);
+	// 碎语切页时懒初始化新显示页的点赞按钮
+	window.addEventListener('shuoshuo:page-change', initLikes);
 </script>

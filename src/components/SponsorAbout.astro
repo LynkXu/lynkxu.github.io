@@ -132,6 +132,9 @@ const copyButtonClass = 'addr-copy inline-flex min-h-[2.35rem] cursor-pointer it
 		});
 	}
 
-	document.addEventListener('DOMContentLoaded', initSponsorCopy);
-	document.addEventListener('astro:page-load', initSponsorCopy);
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initSponsorCopy, { once: true });
+	} else {
+		initSponsorCopy();
+	}
 </script>

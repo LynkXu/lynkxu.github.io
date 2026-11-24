@@ -1,6 +1,6 @@
 ---
 slug: shuoshuo
-title: Memos
+title: 碎语
 layout: Shuoshuo
 ---
 
