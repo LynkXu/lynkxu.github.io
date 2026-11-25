@@ -88,6 +88,20 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 								const { gossip, attachments, dateLabel, time, index } = item;
 								return (
 									<article class="r-memo" data-index={index} role="listitem">
+										<header class="r-memo__meta">
+											<time datetime={gossip.data.pubDate.toISOString()}>
+												<span class="r-memo__date">{dateLabel}</span>
+												<span class="r-memo__time">{time}</span>
+											</time>
+											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+												<span class="r-memo__tag">#{gossip.data.tag}</span>
+											)}
+											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-draft !ml-0">草稿</span>}
+											<span class="r-memo__like">
+												<LikeButton id={gossip.data.slug} type="gossip" />
+											</span>
+										</header>
+
 										<img
 											class="r-memo__avatar"
 											src="/avatar-112.webp"
@@ -99,22 +113,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 										/>
 
 										<div class="r-memo__panel">
-											<header class="r-memo__meta">
-												<span class="r-memo__author">LynkXu</span>
-												<span class="r-memo__sep" aria-hidden="true">·</span>
-												<time datetime={gossip.data.pubDate.toISOString()}>
-													<span class="r-memo__date">{dateLabel}</span>
-													<span class="r-memo__time">{time}</span>
-												</time>
-												{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-													<span class="r-memo__tag">#{gossip.data.tag}</span>
-												)}
-												{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-draft !ml-0">草稿</span>}
-												<span class="r-memo__like">
-													<LikeButton id={gossip.data.slug} type="gossip" />
-												</span>
-											</header>
-
 											<div class="r-memo__content">
 												<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
