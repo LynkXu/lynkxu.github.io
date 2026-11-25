@@ -905,7 +905,7 @@ body.reading-surface .r-memo {
 	display: grid;
 	grid-template-columns: 2.6rem minmax(0, 1fr);
 	align-items: start;
-	gap: 0.85rem;
+	gap: 1.25rem;
 }
 
 body.reading-surface .r-memo__avatar {
@@ -933,6 +933,7 @@ body.reading-surface .r-memo__avatar {
 }
 
 body.reading-surface .r-memo__panel {
+	position: relative;
 	min-width: 0;
 	padding: 0.85rem 1.05rem 0.88rem;
 	border: 1px solid var(--r-card-border, var(--r-memo-border));
@@ -940,6 +941,24 @@ body.reading-surface .r-memo__panel {
 	background: var(--r-card-bg, var(--r-memo-surface));
 	box-shadow: var(--r-card-shadow, 0 1px 2px rgba(15, 23, 42, 0.03), 0 6px 20px rgba(15, 23, 42, 0.025));
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 微信式气泡左侧指向小三角：与 42px 头像光学居中对齐，自带细描边与圆润尖角，亮暗模式无缝融合。 */
+body.reading-surface .r-memo__panel::before {
+	content: "";
+	position: absolute;
+	top: 15px;
+	left: -5.5px;
+	box-sizing: border-box;
+	width: 10px;
+	height: 10px;
+	background: var(--r-card-bg, var(--r-memo-surface));
+	border-left: 1px solid var(--r-card-border, var(--r-memo-border));
+	border-bottom: 1px solid var(--r-card-border, var(--r-memo-border));
+	border-bottom-left-radius: 2px;
+	transform: rotate(45deg);
+	pointer-events: none;
+	transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 :root[data-theme="dark"] body.reading-surface .r-memo__panel {
@@ -952,7 +971,8 @@ body.reading-surface .r-memo__panel {
 	}
 }
 
-body.reading-surface .r-memo__panel:hover {
+body.reading-surface .r-memo__panel:hover,
+body.reading-surface .r-memo__panel:hover::before {
 	border-color: color-mix(in oklab, var(--r-ink) 16%, var(--r-memo-surface));
 }
 
@@ -1173,7 +1193,7 @@ body.reading-surface .r-memos__pagination .page-nav:disabled {
 
 	body.reading-surface .r-memo {
 		grid-template-columns: 2.1rem minmax(0, 1fr);
-		gap: 0.65rem;
+		gap: 0.9rem;
 	}
 
 	body.reading-surface .r-memo__avatar {
@@ -1183,6 +1203,13 @@ body.reading-surface .r-memos__pagination .page-nav:disabled {
 
 	body.reading-surface .r-memo__panel {
 		padding: 0.78rem 0.9rem 0.8rem;
+	}
+
+	body.reading-surface .r-memo__panel::before {
+		top: 11px;
+		left: -5px;
+		width: 9px;
+		height: 9px;
 	}
 
 	body.reading-surface .r-memo__body {
