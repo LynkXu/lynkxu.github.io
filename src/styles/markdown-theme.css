@@ -75,7 +75,10 @@
     vertical-align: baseline;
     accent-color: var(--link-color);
   }
-  body.reading-surface .r-prose.md-theme strong { font-weight: 600; }
+  body.reading-surface .r-prose.md-theme :is(strong, b) {
+    color: var(--r-ink-strong, var(--r-ink)) !important;
+    font-weight: 600 !important;
+  }
   body.reading-surface .r-prose.md-theme del { color: var(--r-ink-soft); }
   body.reading-surface .r-prose.md-theme mark { background: var(--md-heading-wash); color: inherit; }
   body.reading-surface .r-prose.md-theme a:focus-visible,
