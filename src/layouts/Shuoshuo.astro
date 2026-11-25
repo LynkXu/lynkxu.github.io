@@ -11,8 +11,6 @@ type Props = CollectionEntry<'page'>['data'] & {
 };
 
 const { title } = Astro.props;
-const pageTitleClass = 'r-page-title r-memos__title !m-0 !mb-[var(--r-space-xs)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
-const pageNoteClass = 'r-memos__note m-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.6] text-[var(--r-ink-faint)]';
 
 const gossips = await getAllGossips();
 
@@ -63,9 +61,9 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
 	<section class="r-memos" aria-labelledby="memos-title">
-		<header class="r-memos__head">
-			<h1 id="memos-title" class={pageTitleClass}>碎语</h1>
-			<p class={pageNoteClass}>
+		<header class="r-memos__head r-page-head">
+			<h1 id="memos-title" class="r-page-title r-memos__title r-page-head__title">碎语</h1>
+			<p class="r-memos__note r-page-head__note">
 				偶尔记录一些不值得写成长文的瞬间（内容同步自{' '}
 				<a
 					href="https://mastodon.social/@lynkxu"
@@ -84,12 +82,26 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 				<p class="r-memos__empty">还没有碎语。</p>
 			) : (
 				pagedMemoPages.map(({ page, items }) => (
-					<div class="memos-page" data-page={page}>
+					<div class="memos-page" data-page={page} hidden={page !== 1}>
 						<div class="r-memos__list" role="list">
 							{items.map((item) => {
 								const { gossip, attachments, dateLabel, time, index } = item;
 								return (
 									<article class="r-memo" data-index={index} role="listitem">
+										<header class="r-memo__meta">
+											<time datetime={gossip.data.pubDate.toISOString()}>
+												<span class="r-memo__date">{dateLabel}</span>
+												<span class="r-memo__time">{time}</span>
+											</time>
+											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
+												<span class="r-memo__tag">#{gossip.data.tag}</span>
+											)}
+											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-draft !ml-0">草稿</span>}
+											<span class="r-memo__like">
+												<LikeButton id={gossip.data.slug} type="gossip" />
+											</span>
+										</header>
+
 										<img
 											class="r-memo__avatar"
 											src="/avatar-112.webp"
@@ -101,22 +113,6 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 										/>
 
 										<div class="r-memo__panel">
-											<header class="r-memo__meta">
-												<span class="r-memo__author">LynkXu</span>
-												<span class="r-memo__sep" aria-hidden="true">·</span>
-												<time datetime={gossip.data.pubDate.toISOString()}>
-													<span class="r-memo__date">{dateLabel}</span>
-													<span class="r-memo__time">{time}</span>
-												</time>
-												{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-													<span class="r-memo__tag">{gossip.data.tag}</span>
-												)}
-												{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-memo__tag">draft</span>}
-												<span class="r-memo__like">
-													<LikeButton id={gossip.data.slug} type="gossip" />
-												</span>
-											</header>
-
 											<div class="r-memo__content">
 												<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
 
@@ -150,15 +146,23 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		</div>
 
 		{totalPages > 1 && (
-			<nav class="r-memos__pagination" id="shuoshuo-pagination" aria-label="Pagination">
-				{Array.from({ length: totalPages }, (_, index) => {
-					const pageNumber = index + 1;
-					return (
-						<a class="page-link" href={`?page=${pageNumber}`} data-page={pageNumber}>
-							{pageNumber}
-						</a>
-					);
-				})}
+			<nav class="r-memos__pagination" id="shuoshuo-pagination" aria-label="分页导航">
+				<button type="button" class="page-nav" data-nav="prev" aria-label="上一页">
+					← 上一页
+				</button>
+				<div class="page-numbers">
+					{Array.from({ length: totalPages }, (_, index) => {
+						const pageNumber = index + 1;
+						return (
+							<a class="page-link" href={`?page=${pageNumber}`} data-page={pageNumber}>
+								{pageNumber}
+							</a>
+						);
+					})}
+				</div>
+				<button type="button" class="page-nav" data-nav="next" aria-label="下一页">
+					下一页 →
+				</button>
 			</nav>
 		)}
 	</section>
@@ -168,8 +172,10 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 <script is:inline>
 	function initGallery() {
 		if (!window.lightGallery) return;
-		const grids = document.querySelectorAll('.media-grid');
+		const grids = document.querySelectorAll('.media-grid:not([data-lg-ready="true"])');
 		grids.forEach((grid) => {
+			if (grid.closest('[hidden]')) return;
+			grid.setAttribute('data-lg-ready', 'true');
 			window.lightGallery(grid, {
 				selector: '.media-item',
 				speed: 500,
@@ -191,6 +197,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	} else {
 		onReady();
 	}
+	window.addEventListener('shuoshuo:page-change', initGallery);
 </script>
 
 <script is:inline define:vars={{ totalPages }}>
@@ -198,18 +205,26 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		const pages = Array.from(document.querySelectorAll('#shuoshuo .memos-page'));
 		const pagination = document.getElementById('shuoshuo-pagination');
 		const pageLinks = Array.from(document.querySelectorAll('#shuoshuo-pagination a[data-page]'));
+		const prevBtn = pagination?.querySelector('button[data-nav="prev"]');
+		const nextBtn = pagination?.querySelector('button[data-nav="next"]');
 
 		if (!pagination || !pages.length || totalPages <= 1) {
 			if (pagination) pagination.style.display = 'none';
 			return;
 		}
 
-		const params = new URLSearchParams(window.location.search);
-		const initialPage = Math.min(totalPages, Math.max(1, Number(params.get('page')) || 1));
-		const clampPage = (page) => Math.min(totalPages, Math.max(1, page));
+		const clampPage = (page) => Math.min(totalPages, Math.max(1, Number(page) || 1));
+		const readPageFromUrl = () => {
+			const params = new URLSearchParams(window.location.search);
+			return clampPage(params.get('page'));
+		};
 
-		function renderPage(page) {
+		let activePage = readPageFromUrl();
+
+		function renderPage(page, options = {}) {
+			const { pushHistory = false, scroll = false } = options;
 			const currentPage = clampPage(page);
+			activePage = currentPage;
 
 			pages.forEach((pageNode) => {
 				const visible = Number(pageNode.dataset.page) === currentPage;
@@ -227,24 +242,52 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 				}
 			});
 
-			params.set('page', String(currentPage));
-			const nextUrl = `${window.location.pathname}?${params.toString()}${window.location.hash}`;
-			window.history.replaceState({}, '', nextUrl);
+			if (prevBtn) prevBtn.disabled = currentPage <= 1;
+			if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
 
-			if (window.scrollY > 100) {
+			const params = new URLSearchParams(window.location.search);
+			if (currentPage === 1) {
+				params.delete('page');
+			} else {
+				params.set('page', String(currentPage));
+			}
+			const query = params.toString();
+			const nextUrl = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
+
+			if (pushHistory) {
+				window.history.pushState({ page: currentPage }, '', nextUrl);
+			} else {
+				window.history.replaceState({ page: currentPage }, '', nextUrl);
+			}
+
+			window.dispatchEvent(new CustomEvent('shuoshuo:page-change', { detail: { page: currentPage } }));
+
+			if (scroll && window.scrollY > 100) {
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 		}
 
-		renderPage(initialPage);
+		renderPage(activePage, { pushHistory: false, scroll: false });
 
 		pageLinks.forEach((link) => {
 			link.addEventListener('click', (event) => {
 				event.preventDefault();
 				const targetPage = Number(link.dataset.page);
-				if (!Number.isFinite(targetPage)) return;
-				renderPage(targetPage);
+				if (!Number.isFinite(targetPage) || targetPage === activePage) return;
+				renderPage(targetPage, { pushHistory: true, scroll: true });
 			});
+		});
+
+		prevBtn?.addEventListener('click', () => {
+			if (activePage > 1) renderPage(activePage - 1, { pushHistory: true, scroll: true });
+		});
+
+		nextBtn?.addEventListener('click', () => {
+			if (activePage < totalPages) renderPage(activePage + 1, { pushHistory: true, scroll: true });
+		});
+
+		window.addEventListener('popstate', () => {
+			renderPage(readPageFromUrl(), { pushHistory: false, scroll: true });
 		});
 	})();
 </script>

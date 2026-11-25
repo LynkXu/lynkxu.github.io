@@ -1,4 +1,5 @@
 ---
+import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import ReadingShell from './ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -10,6 +11,7 @@ import LikeButton from '../components/LikeButton.astro';
 type Props = CollectionEntry<'blog'>['data'] & {
 	excerpt?: string;
 	postId?: string;
+	headings?: MarkdownHeading[];
 	showTOC?: boolean;
 	tocMinLevel?: number;
 	tocMaxLevel?: number;
@@ -27,6 +29,7 @@ const {
 	draft,
 	changelog,
 	postId,
+	headings = [],
 	showTOC = true,
 	tocMinLevel = 2,
 	tocMaxLevel = 3,
@@ -40,39 +43,24 @@ const topicLabels = tags?.length
 		? categories
 		: [];
 const topicLinksEnabled = Boolean(tags?.length);
-const articleClass = [
-	'r-article',
-	'[&_.nav-buttons-group]:fixed [&_.nav-buttons-group]:bottom-[var(--r-space-lg)] [&_.nav-buttons-group]:right-[var(--r-page-inline)] [&_.nav-buttons-group]:z-20',
-	'[&_.nav-button]:inline-flex [&_.nav-button]:h-auto [&_.nav-button]:min-h-9 [&_.nav-button]:w-auto [&_.nav-button]:min-w-9 [&_.nav-button]:cursor-pointer [&_.nav-button]:items-center [&_.nav-button]:justify-center [&_.nav-button]:rounded-none [&_.nav-button]:border-0 [&_.nav-button]:bg-transparent [&_.nav-button]:p-[var(--space-2xs)] [&_.nav-button]:text-[var(--r-ink-soft)] [&_.nav-button]:shadow-none [&_.nav-button]:backdrop-blur-none [&_.nav-button:hover]:translate-y-0 [&_.nav-button:hover]:bg-transparent [&_.nav-button:hover]:text-[var(--r-ink)] [&_.nav-top-icon]:block [&_.nav-top-icon]:h-[18px] [&_.nav-top-icon]:w-[18px]',
-].join(' ');
-const articleTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-sm)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-display)] !font-semibold !leading-[1.22] !tracking-[-0.025em] !text-[var(--r-ink)]';
-const articleHeaderClass = 'r-article__header';
-const metaClass = 'r-meta mb-0 flex flex-wrap gap-x-[0.85rem] gap-y-[0.5rem] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]';
-const metaLinkClass = 'border-b-0 text-[var(--r-ink-soft)] underline decoration-transparent decoration-1 underline-offset-[var(--r-link-underline-offset)] transition-[color,text-decoration-color] duration-200 hover:text-[var(--r-link)] hover:decoration-[var(--r-link-underline-color)]';
-const articleDescClass = 'r-article__desc mt-[var(--r-space-sm)] mb-0 [font-family:var(--r-font-body)] [font-size:1rem] leading-[1.7] text-[var(--r-ink-soft)]';
-const tocClass = [
-	'r-toc group mt-[0.2rem] mb-[clamp(var(--space-lg),3vw,var(--space-xl))] border-l border-l-[var(--r-rule)] bg-[color-mix(in_oklab,var(--r-rule-soft)_22%,transparent)] pt-0 [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] text-[var(--r-ink-faint)]',
-	'[&_.toc-container]:mt-0 [&_.toc-container]:border-0 [&_.toc-container]:border-t [&_.toc-container]:border-[var(--r-divider)] [&_.toc-container]:bg-transparent [&_.toc-container]:px-[0.75rem] [&_.toc-container]:py-[0.65rem] [&_.toc-container]:shadow-none',
-	'[&_.toc-toggle]:hidden [&_.toc]:!block [&_.toc-list]:m-0 [&_.toc-list]:list-none [&_.toc-list]:p-0 [&_.toc-list_.toc-list]:mt-[0.12rem] [&_.toc-list_.toc-list]:pl-[0.7rem] [&_.toc-item]:my-[0.08rem]',
-	'[&_.toc_a]:border-b-0 [&_.toc_a]:text-[var(--r-ink-faint)] [&_.toc_a]:no-underline [&_.toc_a]:[font-size:var(--r-text-xs)] [&_.toc_a]:font-normal [&_.toc_a]:leading-[1.45] [&_.toc_a:hover]:text-[var(--r-ink-soft)] [&_.toc_a.active]:font-medium [&_.toc_a.active]:text-[var(--r-ink-soft)] [&_.toc_a.active]:no-underline',
-].join(' ');
-const tocSummaryClass = 'r-toc__summary flex min-h-7 w-full cursor-pointer list-none items-center box-border select-none bg-transparent px-[0.75rem] py-[0.1rem] group-open:min-h-8 group-open:py-[0.2rem] font-medium leading-[1.35] tracking-[0.02em] text-[var(--r-ink-soft)] transition-colors duration-200 hover:bg-[color-mix(in_oklab,var(--r-rule-soft)_24%,transparent)] hover:text-[var(--r-ink)] [&::-webkit-details-marker]:hidden';
-const articleTailClass = 'r-article__tail mt-[var(--r-space-lg)] flex flex-col items-center gap-[var(--r-space-md)] border-t-0 pt-[var(--r-space-md)] [&_.changelog]:self-stretch [&_.changelog]:text-left [&_.changelog]:[--accent-color:var(--r-link)] [&_.changelog]:[--ink-accent:var(--r-ink-faint)] [&_.changelog]:[--serif-font:var(--r-font-ui)] [&_.changelog_*]:[--accent-color:var(--r-link)] [&_.changelog_*]:[--ink-accent:var(--r-ink-faint)] [&_.changelog_*]:[--serif-font:var(--r-font-ui)] [&_.changelog]:[font-family:var(--r-font-ui)] [&_.changelog]:text-[var(--r-ink-soft)]';
-const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint)]';
+
+const tocHeadings = headings.filter((h) => h.depth >= tocMinLevel && h.depth <= tocMaxLevel);
+const topLevelCount = tocHeadings.filter((h) => h.depth === tocMinLevel).length;
+const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 ---
 
 <ReadingShell title={title} description={description || excerpt || ''}>
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
-	<article class={articleClass}>
-		<header class={articleHeaderClass}>
-			<h1 class={articleTitleClass} transition:name={postId ? `post-title-${postId}` : undefined}>{title}</h1>
+	<article class="r-article r-card r-card--reading">
+		<header class="r-article__header">
+			<h1 class="r-page-title r-article__title">{title}</h1>
 
-			<div class={metaClass}>
+			<div class="r-meta">
 				<span><FormattedDate date={pubDate} /></span>
 				{topicLabels.map((label) => (
 					topicLinksEnabled ? (
-						<a href={`/tags/${label}/`} class={metaLinkClass}>{label}</a>
+						<a href={`/tags/${label}/`} class="r-meta__link">{label}</a>
 					) : (
 						<span>{label}</span>
 					)
@@ -81,16 +69,19 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 				{updatedDate && (
 					<span>更新于 <FormattedDate date={updatedDate} /></span>
 				)}
-				{isDev && draft && <span>草稿</span>}
+				{isDev && draft && <span class="r-draft !ml-0">草稿</span>}
 			</div>
 
-			{description && <p class={articleDescClass}>{description}</p>}
+			{description && <p class="r-article__desc">{description}</p>}
 		</header>
 
-		{showTOC && (
-			<details class={tocClass}>
-				<summary class={tocSummaryClass}>目录</summary>
-				<Toc minLevel={tocMinLevel} maxLevel={tocMaxLevel} title="本页目录" />
+		{shouldRenderTOC && (
+			<details class="r-toc">
+				<summary class="r-toc__summary">
+					<span>目录</span>
+					{topLevelCount > 0 && <span class="r-toc__count">· {topLevelCount} 节</span>}
+				</summary>
+				<Toc headings={tocHeadings} minLevel={tocMinLevel} maxLevel={tocMaxLevel} title="本页目录" />
 			</details>
 		)}
 
@@ -98,8 +89,8 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 			<slot />
 		</div>
 
-		<footer class={articleTailClass}>
-			<div class={articleEndClass} aria-hidden="true">·</div>
+		<footer class="r-article__tail">
+			<div class="r-article__end" aria-hidden="true"></div>
 			<LikeButton id={postId || Astro.url.pathname} type="post" />
 			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
 		</footer>
@@ -108,289 +99,471 @@ const articleEndClass = 'r-article__end tracking-[0.2em] text-[var(--r-ink-faint
 	</article>
 
 	<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
+</ReadingShell>
 
-	<script is:inline>
-		(function () {
-			let lgInstance = null;
-			let lgInitialized = false;
+<style>
+	.r-article__title {
+		margin: 0 0 var(--r-space-sm) !important;
+		font-family: var(--r-font-body) !important;
+		font-size: var(--r-text-display) !important;
+		font-weight: 600 !important;
+		line-height: 1.22 !important;
+		letter-spacing: -0.025em !important;
+		color: var(--r-ink-strong, var(--r-ink)) !important;
+	}
 
-			function initLightGallery() {
-				if (lgInitialized) return;
-				lgInitialized = true;
+	.r-meta {
+		margin-bottom: 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5rem 0.85rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+	}
 
-				if (lgInstance) {
-					try { lgInstance.destroy(true); } catch (e) {}
-					lgInstance = null;
-				}
+	.r-meta__link {
+		border-bottom: 0;
+		color: var(--r-ink-soft);
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
 
-				const postContent = document.querySelector('.post-content');
-				if (postContent) {
-					const images = postContent.querySelectorAll('img');
-					images.forEach(function (img) {
-						const src = img.src;
-						if (img.parentElement.tagName === 'A') return;
-						const link = document.createElement('a');
-						link.href = src;
-						link.className = 'no-link';
-						link.setAttribute('data-sub-html', img.alt || '');
-						img.parentNode.insertBefore(link, img);
-						link.appendChild(img);
-					});
+	.r-meta__link:hover {
+		color: var(--r-link);
+		text-decoration-color: var(--r-link-underline-color);
+	}
 
-					const container = document.getElementById('lightgallery');
-					if (container && typeof window !== 'undefined' && 'lightGallery' in window) {
-						lgInstance = window.lightGallery(container, {
-							selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
-							mode: 'lg-fade',
-							cssEasing: 'ease',
-							speed: 600,
-							hideBarsDelay: 2000,
-							controls: true,
-							download: true,
-							counter: true,
-							thumbnail: true,
-						});
-					}
-				}
+	.r-article__desc {
+		margin: var(--r-space-sm) 0 0;
+		font-family: var(--r-font-body);
+		font-size: 1rem;
+		line-height: 1.7;
+		color: var(--r-ink-soft);
+	}
+
+	.r-toc {
+		margin-top: 0.2rem;
+		margin-bottom: clamp(var(--space-lg), 3vw, var(--space-xl));
+		border-left: 2px solid var(--r-rule);
+		border-radius: 0 4px 4px 0;
+		background: var(--r-code-bg);
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-ink-faint);
+	}
+
+	.r-toc__summary {
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		min-height: 1.75rem;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0.1rem 0.75rem;
+		list-style: none;
+		cursor: pointer;
+		user-select: none;
+		background: transparent;
+		font-weight: 500;
+		line-height: 1.35;
+		letter-spacing: 0.02em;
+		color: var(--r-ink-soft);
+		transition: color 0.2s ease, background-color 0.2s ease;
+	}
+
+	.r-toc__summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.r-toc[open] > .r-toc__summary {
+		min-height: 2rem;
+		padding-block: 0.2rem;
+	}
+
+	.r-toc__summary:hover {
+		background: color-mix(in oklab, var(--r-rule-soft) 24%, transparent);
+		color: var(--r-ink);
+	}
+
+	.r-toc__count {
+		font-weight: 400;
+		color: var(--r-ink-faint);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.r-toc :global(.toc-container) {
+		margin-top: 0;
+		border: 0;
+		border-top: 1px solid var(--r-divider);
+		background: transparent;
+		padding: 0.65rem 0.75rem;
+		box-shadow: none;
+	}
+
+	.r-toc :global(.toc) {
+		display: block !important;
+	}
+
+	.r-toc :global(.toc-list) {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.r-toc :global(.toc-list .toc-list) {
+		margin-top: 0.12rem;
+		padding-left: 0.75rem;
+	}
+
+	.r-toc :global(.toc-item) {
+		margin: 0.12rem 0;
+	}
+
+	.r-toc :global(.toc a) {
+		border-bottom: 0;
+		color: var(--r-ink-faint);
+		text-decoration: none;
+		font-size: var(--r-text-xs);
+		font-weight: 400;
+		line-height: 1.48;
+	}
+
+	.r-toc :global(.toc a:hover) {
+		color: var(--r-link);
+	}
+
+	.r-article__tail {
+		margin-top: var(--r-space-lg);
+		padding-top: var(--r-space-md);
+		border-top: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--r-space-md);
+	}
+
+	.r-article__end {
+		height: 1px;
+		width: 2rem;
+		background: var(--r-rule);
+	}
+
+	.r-article__tail :global(.changelog) {
+		align-self: stretch;
+		text-align: left;
+		font-family: var(--r-font-ui);
+		color: var(--r-ink-soft);
+		--accent-color: var(--r-link);
+		--ink-accent: var(--r-ink-faint);
+		--serif-font: var(--r-font-ui);
+	}
+
+	.r-article__tail :global(.changelog *) {
+		--accent-color: var(--r-link);
+		--ink-accent: var(--r-ink-faint);
+		--serif-font: var(--r-font-ui);
+	}
+
+	.r-article :global(.nav-buttons-group) {
+		position: fixed;
+		right: var(--r-page-inline);
+		bottom: var(--r-space-lg);
+		z-index: 20;
+	}
+
+	.r-article :global(.nav-button) {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: auto;
+		height: auto;
+		min-width: 2.25rem;
+		min-height: 2.25rem;
+		padding: var(--space-2xs);
+		border: 0;
+		border-radius: 0;
+		background: transparent;
+		color: var(--r-ink-soft);
+		box-shadow: none;
+		backdrop-filter: none;
+		cursor: pointer;
+	}
+
+	.r-article :global(.nav-button:hover) {
+		transform: translateY(0);
+		background: transparent;
+		color: var(--r-ink);
+	}
+
+	.r-article :global(.nav-top-icon) {
+		display: block;
+		width: 18px;
+		height: 18px;
+	}
+
+	@media (max-width: 820px) {
+		.r-article :global(.nav-buttons-group) {
+			right: var(--space-md);
+			bottom: var(--r-space-md);
+		}
+
+		.r-article :global(.nav-button) {
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 9999px;
+			border: 1px solid var(--r-card-border, var(--r-rule));
+			background: color-mix(in oklab, var(--r-card-bg, var(--r-bg)) 90%, transparent);
+			box-shadow: var(--r-card-shadow, none);
+			backdrop-filter: blur(6px);
+			-webkit-backdrop-filter: blur(6px);
+		}
+
+		.r-article :global(.nav-button:hover) {
+			background: var(--r-card-bg, var(--r-bg));
+		}
+	}
+</style>
+
+<script>
+	// 1. LightGallery for article prose images
+	function initLightGallery() {
+		const postContent = document.querySelector('.post-content');
+		const container = document.getElementById('lightgallery');
+		const lg = (window as any).lightGallery;
+		if (!postContent || !container || typeof lg !== 'function') return;
+		if (container.getAttribute('data-lg-ready') === 'true') return;
+		container.setAttribute('data-lg-ready', 'true');
+
+		const images = postContent.querySelectorAll('img');
+		images.forEach((img) => {
+			if (img.closest('.link-card') || img.parentElement?.tagName === 'A') return;
+			const link = document.createElement('a');
+			link.href = img.src;
+			link.className = 'no-link';
+			link.setAttribute('data-sub-html', img.alt || '');
+			img.parentNode?.insertBefore(link, img);
+			link.appendChild(img);
+		});
+
+		lg(container, {
+			selector: 'a[href$=".jpg"], a[href$=".jpeg"], a[href$=".png"], a[href$=".gif"], a[href$=".webp"]',
+			mode: 'lg-fade',
+			cssEasing: 'ease',
+			speed: 600,
+			hideBarsDelay: 2000,
+			controls: true,
+			download: true,
+			counter: true,
+			thumbnail: true,
+		});
+	}
+
+	function waitForLightGallery(attempts = 0) {
+		if (typeof (window as any).lightGallery === 'function') {
+			initLightGallery();
+		} else if (attempts < 40) {
+			window.setTimeout(() => waitForLightGallery(attempts + 1), 100);
+		}
+	}
+
+	// 2. Code block language badge & copy button
+	const COPY_ICON =
+		'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+	const CHECK_ICON =
+		'<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+
+	function resolveLang(block: HTMLElement, code: HTMLElement | null) {
+		if (block.dataset.language) return block.dataset.language.trim();
+		if (!code) return '';
+		const langClass = code.className.split(/\s+/).find((c) => c.startsWith('language-'));
+		return langClass ? langClass.replace('language-', '') : '';
+	}
+
+	function enhanceCodeBlocks() {
+		const codeBlocks = document.querySelectorAll<HTMLElement>('.r-article pre:not(.code-block-added)');
+		codeBlocks.forEach((block) => {
+			block.classList.add('code-block-added');
+			const wrapper = document.createElement('div');
+			wrapper.className = 'code-wrapper';
+			if (block.parentNode) {
+				block.parentNode.insertBefore(wrapper, block);
+				wrapper.appendChild(block);
 			}
 
-			function onReady() {
-				if (typeof window.lightGallery === 'function') {
-					initLightGallery();
-				} else {
-					setTimeout(onReady, 100);
-				}
+			const header = document.createElement('div');
+			header.className = 'code-header';
+
+			const code = block.querySelector('code');
+			const lang = resolveLang(block, code);
+			if (lang) {
+				const langLabel = document.createElement('span');
+				langLabel.className = 'code-lang';
+				langLabel.textContent = lang;
+				header.appendChild(langLabel);
 			}
 
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', onReady);
-			} else {
-				onReady();
-			}
-			document.addEventListener('astro:page-load', onReady);
-			document.addEventListener('astro:before-preparation', function () {
-				lgInitialized = false;
-				if (lgInstance) {
-					try { lgInstance.destroy(true); } catch (e) {}
-					lgInstance = null;
+			const copyBtn = document.createElement('button');
+			copyBtn.type = 'button';
+			copyBtn.className = 'copy-btn';
+			copyBtn.setAttribute('aria-label', '复制代码');
+			copyBtn.innerHTML = COPY_ICON;
+			copyBtn.addEventListener('click', async () => {
+				try {
+					if (!code) return;
+					await navigator.clipboard.writeText(code.innerText);
+					copyBtn.innerHTML = CHECK_ICON;
+					copyBtn.classList.add('copied');
+					copyBtn.setAttribute('aria-label', '已复制');
+					window.setTimeout(() => {
+						copyBtn.innerHTML = COPY_ICON;
+						copyBtn.classList.remove('copied');
+						copyBtn.setAttribute('aria-label', '复制代码');
+					}, 1800);
+				} catch (err) {
+					console.error('Copy failed:', err);
 				}
 			});
-		})();
-	</script>
+			header.appendChild(copyBtn);
+			wrapper.insertBefore(header, block);
+		});
+	}
 
-	<script is:inline>
-		(function () {
-			const COPY_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-			const CHECK_ICON = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+	// 3. Fallback client hydration only for LinkCards not pre-rendered at build time
+	async function hydrateUncachedLinkCards() {
+		const cards = document.querySelectorAll<HTMLElement>('.link-card[data-url]:not(.link-card--ready)');
+		if (cards.length === 0) return;
 
-			function resolveLang(block, code) {
-				if (block.dataset.language) return block.dataset.language.trim();
-				if (!code) return '';
-				const langClass = code.className.split(/\s+/).find((c) => c.startsWith('language-'));
-				return langClass ? langClass.replace('language-', '') : '';
+		const LS_KEY = 'linkcard:cache';
+		const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+
+		const readCache = (url: string) => {
+			try {
+				const cache = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+				const entry = cache?.[url];
+				if (!entry || Date.now() - (entry._ts || 0) > CACHE_TTL) return null;
+				return entry;
+			} catch {
+				return null;
+			}
+		};
+
+		const writeCache = (url: string, data: { title: string; description: string; image: string }) => {
+			try {
+				const cache = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+				cache[url] = { ...data, _ts: Date.now() };
+				localStorage.setItem(LS_KEY, JSON.stringify(cache));
+			} catch {
+				// ignore
+			}
+		};
+
+		const renderCard = (el: HTMLElement, url: string, meta: { title?: string; description?: string; image?: string }) => {
+			if (!meta?.title) return;
+			const style =
+				el.dataset.style ||
+				(el.classList.contains('link-card--cover')
+					? 'cover'
+					: el.classList.contains('link-card--minimal')
+						? 'minimal'
+						: 'default');
+			const hostname = (() => {
+				try {
+					return new URL(url).hostname;
+				} catch {
+					return url;
+				}
+			})();
+
+			const anchor = document.createElement('a');
+			anchor.href = url;
+			anchor.target = '_blank';
+			anchor.rel = 'noopener noreferrer';
+			anchor.className = 'link-card__content';
+
+			if (meta.image && style !== 'minimal') {
+				const imgWrap = document.createElement('div');
+				imgWrap.className = 'link-card__image-wrapper';
+				const img = document.createElement('img');
+				img.src = meta.image;
+				img.alt = '';
+				img.loading = 'lazy';
+				img.decoding = 'async';
+				img.onerror = () => {
+					imgWrap.style.display = 'none';
+				};
+				imgWrap.appendChild(img);
+				anchor.appendChild(imgWrap);
 			}
 
-			function addCopyButtons() {
-				const codeBlocks = document.querySelectorAll('.r-article pre:not(.code-block-added)');
-				codeBlocks.forEach((block) => {
-					block.classList.add('code-block-added');
-					const wrapper = document.createElement('div');
-					wrapper.className = 'code-wrapper';
-					if (block.parentNode) {
-						block.parentNode.insertBefore(wrapper, block);
-						wrapper.appendChild(block);
-					}
+			const body = document.createElement('div');
+			body.className = 'link-card__body';
+			const heading = document.createElement('span');
+			heading.className = 'link-card__title';
+			heading.textContent = meta.title;
+			body.appendChild(heading);
 
-					const header = document.createElement('div');
-					header.className = 'code-header';
+			if (meta.description && style !== 'minimal') {
+				const desc = document.createElement('p');
+				desc.textContent = meta.description;
+				body.appendChild(desc);
+			}
 
-					const code = block.querySelector('code');
-					const lang = resolveLang(block, code);
-					if (lang) {
-						const langLabel = document.createElement('span');
-						langLabel.className = 'code-lang';
-						langLabel.textContent = lang;
-						header.appendChild(langLabel);
-					}
+			const host = document.createElement('span');
+			host.className = 'link-card__host';
+			host.textContent = hostname;
+			body.appendChild(host);
 
-					const copyBtn = document.createElement('button');
-					copyBtn.type = 'button';
-					copyBtn.className = 'copy-btn';
-					copyBtn.setAttribute('aria-label', '复制代码');
-					copyBtn.innerHTML = COPY_ICON;
-					copyBtn.addEventListener('click', async () => {
-						try {
-							if (!code) return;
-							await navigator.clipboard.writeText(code.innerText);
-							copyBtn.innerHTML = CHECK_ICON;
-							copyBtn.classList.add('copied');
-							copyBtn.setAttribute('aria-label', '已复制');
-							setTimeout(() => {
-								copyBtn.innerHTML = COPY_ICON;
-								copyBtn.classList.remove('copied');
-								copyBtn.setAttribute('aria-label', '复制代码');
-							}, 1800);
-						} catch (err) {
-							console.error('Copy failed:', err);
-						}
-					});
-					header.appendChild(copyBtn);
-					wrapper.insertBefore(header, block);
+			anchor.appendChild(body);
+			el.replaceChildren(anchor);
+			el.classList.add('link-card--ready');
+		};
+
+		for (const el of cards) {
+			const url = el.getAttribute('data-url');
+			if (!url) continue;
+			const cached = readCache(url);
+			if (cached?.title) {
+				renderCard(el, url, cached);
+				continue;
+			}
+			try {
+				const controller = new AbortController();
+				const timeout = window.setTimeout(() => controller.abort(), 5000);
+				const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(url)}`, {
+					signal: controller.signal,
 				});
+				window.clearTimeout(timeout);
+				if (!res.ok) continue;
+				const json = await res.json();
+				const data = json?.data;
+				if (!data?.title) continue;
+				const meta = {
+					title: data.title || '',
+					description: data.description || '',
+					image: data.image?.url || '',
+				};
+				writeCache(url, meta);
+				renderCard(el, url, meta);
+			} catch {
+				// Keep SSR fallback link
 			}
+		}
+	}
 
-			function onReady() { addCopyButtons(); }
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', onReady);
-			} else { onReady(); }
-			document.addEventListener('astro:page-load', onReady);
-		})();
-	</script>
+	function initArticle() {
+		enhanceCodeBlocks();
+		waitForLightGallery();
+		hydrateUncachedLinkCards();
+	}
 
-	<script is:inline>
-		(function () {
-			if (!document.querySelector('.post-content')) return;
-
-			const LS_KEY = 'linkcard:cache';
-			const REQUESTS_KEY = 'linkcard:requests';
-			const RATE_WINDOW = 60000;
-			const RATE_MAX = 10;
-			const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
-
-			function getRequests() {
-				try {
-					const raw = localStorage.getItem(REQUESTS_KEY);
-					if (!raw) return [];
-					const data = JSON.parse(raw);
-					if (!Array.isArray(data)) return [];
-					const now = Date.now();
-					return data.filter((ts) => now - ts < RATE_WINDOW);
-				} catch (e) { return []; }
-			}
-
-			function pushRequest() {
-				const reqs = getRequests();
-				reqs.push(Date.now());
-				try { localStorage.setItem(REQUESTS_KEY, JSON.stringify(reqs)); } catch (e) {}
-				return reqs;
-			}
-
-			function canRequest() { return getRequests().length < RATE_MAX; }
-
-			function getCache(url) {
-				try {
-					const raw = localStorage.getItem(LS_KEY);
-					if (!raw) return null;
-					const cache = JSON.parse(raw);
-					if (!cache || typeof cache !== 'object') return null;
-					const entry = cache[url];
-					if (!entry) return null;
-					if (Date.now() - (entry._ts || 0) > CACHE_TTL) return null;
-					return entry;
-				} catch (e) { return null; }
-			}
-
-			function setCache(url, data) {
-				try {
-					const raw = localStorage.getItem(LS_KEY);
-					const cache = raw ? JSON.parse(raw) : {};
-					cache[url] = { ...data, _ts: Date.now() };
-					localStorage.setItem(LS_KEY, JSON.stringify(cache));
-				} catch (e) {}
-			}
-
-			async function fetchMeta(url) {
-				const cached = getCache(url);
-				if (cached) return cached;
-				if (!canRequest()) return null;
-				pushRequest();
-
-				try {
-					const controller = new AbortController();
-					const timeout = setTimeout(() => controller.abort(), 5000);
-					const res = await fetch(
-						`https://api.microlink.io/?url=${encodeURIComponent(url)}`,
-						{ signal: controller.signal }
-					);
-					clearTimeout(timeout);
-					if (!res.ok) return null;
-					const json = await res.json();
-					if (!json.data) return null;
-					const { title, description, image } = json.data;
-					const result = {
-						title: title || '',
-						description: description || '',
-						image: image?.url || '',
-					};
-					setCache(url, result);
-					return result;
-				} catch (e) { return null; }
-			}
-
-			function resolveCardStyle(el) {
-				if (el.dataset.style) return el.dataset.style;
-				if (el.classList.contains('link-card--cover')) return 'cover';
-				if (el.classList.contains('link-card--minimal')) return 'minimal';
-				return 'default';
-			}
-
-			function renderCard(el, url, meta) {
-				const style = resolveCardStyle(el);
-				const hostname = (() => { try { return new URL(url).hostname; } catch (e) { return url; } })();
-				if (!meta || !meta.title) return;
-
-				let html = `<a href="${url}" target="_blank" rel="noopener noreferrer" class="link-card__content">`;
-				if (style === 'cover' && meta.image) {
-					html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
-				} else if (style !== 'minimal' && meta.image) {
-					html += `<div class="link-card__image-wrapper"><img src="${meta.image}" alt="" loading="lazy" decoding="async" onerror="this.style.display='none'" /></div>`;
-				}
-				html += `<div class="link-card__body"><h3>${meta.title}</h3>`;
-				if (meta.description && style !== 'minimal') {
-					html += `<p>${meta.description}</p>`;
-				}
-				html += `<span class="link-card__host">${hostname}</span></div></a>`;
-				el.innerHTML = html;
-				el.classList.add('link-card--ready');
-			}
-
-			function scanAndConvert() {
-				const contentEl = document.querySelector('.post-content');
-				if (!contentEl) return;
-				const paragraphs = contentEl.querySelectorAll('p');
-				paragraphs.forEach((p) => {
-					const text = p.textContent.trim();
-					const match = text.match(/^::link-card\{url="([^"]+)"(?:\s*,\s*style="([^"]+)")?\}$/);
-					if (match) {
-						const url = match[1];
-						const style = match[2] || '';
-						const styleClass = style ? `link-card--${style}` : '';
-						p.outerHTML = '<div class="link-card ' + styleClass + '" data-url="' + url + '"' + (style ? ' data-style="' + style + '"' : '') + '><a href="' + url + '" target="_blank" rel="noopener noreferrer" class="link-card__fallback">' + url + '</a></div>';
-					}
-				});
-			}
-
-			async function initCards() {
-				scanAndConvert();
-				const cards = document.querySelectorAll('.link-card[data-url]');
-				if (cards.length === 0) return;
-				for (const el of cards) {
-					const url = el.getAttribute('data-url');
-					if (!url) continue;
-					const cached = getCache(url);
-					if (cached && cached.title) {
-						renderCard(el, url, cached);
-						continue;
-					}
-					const meta = await fetchMeta(url);
-					if (meta) renderCard(el, url, meta);
-				}
-			}
-
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initCards);
-			} else { initCards(); }
-			document.addEventListener('astro:page-load', initCards);
-		})();
-	</script>
-</ReadingShell>
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initArticle, { once: true });
+	} else {
+		initArticle();
+	}
+</script>

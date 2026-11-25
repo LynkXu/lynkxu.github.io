@@ -4,16 +4,14 @@
   /* Standalone section headings share the theme without styling their widgets. */
   body.reading-surface :is(.r-prose.md-theme, .md-section-heading) {
     --md-section-gap: clamp(var(--space-xl), 5vw, var(--space-2xl));
-    --md-heading-wash: color-mix(in oklab, var(--selection-bg) 58%, var(--r-bg));
-    --md-subheading-wash: color-mix(in oklab, var(--selection-bg) 30%, var(--r-bg));
+    --md-heading-wash: color-mix(in oklab, var(--r-selection-bg) 58%, var(--r-card-bg, var(--r-bg)));
+    --md-subheading-wash: color-mix(in oklab, var(--r-selection-bg) 32%, var(--r-card-bg, var(--r-bg)));
   }
   body.reading-surface .r-prose.md-theme {
     --md-paragraph-gap: var(--space-md);
     --md-block-gap: var(--space-lg);
-    --r-link: var(--link-color);
-    --r-selection-bg: var(--selection-bg);
-    --r-prose-emphasis: var(--link-color);
-    font-size: var(--text-md) !important;
+    --r-prose-emphasis: var(--r-link);
+    font-size: 1.03rem !important;
     line-height: var(--lh-body) !important;
     letter-spacing: 0;
     word-break: normal;
@@ -23,8 +21,9 @@
   body.reading-surface .r-prose.md-theme :is(h1, h2, h3, h4, h5, h6):not(:where(.link-card *)),
   body.reading-surface .r-about__extras > h3.md-section-heading {
     margin: var(--md-block-gap, var(--space-lg)) 0 var(--space-sm) !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     line-height: 1.5 !important;
+    color: var(--r-ink-strong, var(--r-ink)) !important;
     scroll-margin-top: var(--space-lg);
     text-wrap: pretty;
   }
@@ -34,8 +33,9 @@
     font-size: var(--text-xl) !important;
     margin: var(--md-section-gap) 0 var(--space-sm) !important;
     font-family: var(--r-font-body) !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     line-height: 1.5 !important;
+    color: var(--r-ink-strong, var(--r-ink)) !important;
   }
   body.reading-surface .r-prose.md-theme h3:not(:where(.link-card *)),
   body.reading-surface .r-about__extras > h3.md-section-heading { font-size: var(--text-lg) !important; }
@@ -130,7 +130,18 @@
   body.reading-surface .r-prose.md-theme table [align='right'] { text-align: right !important; }
   body.reading-surface .r-prose.md-theme table [align='center'] { text-align: center !important; }
   body.reading-surface .r-prose.md-theme .footnotes .sr-only { margin: 0 !important; padding: 0 !important; }
-  body.reading-surface .r-prose.md-theme hr + .footnotes { margin-top: 0; border-top: 0; }
+  body.reading-surface .r-prose.md-theme .footnotes {
+    margin-top: var(--md-section-gap) !important;
+    padding-top: var(--space-md) !important;
+    border-top: 1px solid var(--r-rule) !important;
+    font-size: var(--text-sm);
+    color: var(--r-ink-soft);
+  }
+  body.reading-surface .r-prose.md-theme hr + .footnotes {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: 0 !important;
+  }
   body.reading-surface .r-prose.md-theme table th {
     background: var(--r-code-bg);
     color: var(--r-ink);
@@ -151,11 +162,6 @@
   body.reading-surface .r-prose.md-theme details { border-block: 1px solid var(--r-rule); padding-block: var(--space-sm); }
   body.reading-surface .r-prose.md-theme summary { cursor: pointer; font-weight: 500; }
   body.reading-surface .r-prose.md-theme details[open] summary { margin-bottom: var(--space-sm); }
-  body.reading-surface .r-prose.md-theme .footnotes {
-    margin-top: var(--md-section-gap);
-    font-size: var(--text-sm);
-    color: var(--r-ink-soft);
-  }
   body.reading-surface .r-prose.md-theme > :first-child,
   body.reading-surface .r-prose.md-theme :is(blockquote, li, details) > :first-child { margin-top: 0 !important; }
   body.reading-surface .r-prose.md-theme > :last-child,

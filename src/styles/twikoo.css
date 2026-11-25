@@ -133,7 +133,7 @@
 .tk-author-badge {
   display: inline-flex;
   align-items: center;
-  color: #9fc3d8;
+  color: var(--r-link, var(--accent-color));
   flex-shrink: 0;
   width: 14px;
   height: 14px;
@@ -261,34 +261,59 @@
 
 
 .tk-action {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  gap: 0.15rem;
 }
 
 .tk-action-link {
-  margin-left: 0.4rem;
-  color: var(--gray-color);
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0.2rem 0.38rem;
+  border: 0 !important;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--r-ink-faint, var(--gray-color));
+  font-family: var(--r-font-ui, var(--ui-font));
+  font-size: 0.72rem;
+  line-height: 1;
   text-decoration: none !important;
-  border: none !important;
-  display: flex;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  gap: 0.26rem;
+  transition: color 0.18s ease, background-color 0.18s ease, opacity 0.18s ease;
   opacity: 0;
 }
 
-/* 悬浮评论时显示回复图标 */
-.tk-comment:hover > .tk-main .tk-action-link {
+.tk-action-link:hover,
+.tk-action-link:focus-visible {
+  background: color-mix(in oklab, var(--r-ink, var(--heading-color)) 5%, transparent);
+  color: var(--r-ink, var(--heading-color));
+}
+
+.tk-action-link.tk-liked {
+  color: var(--r-link, var(--accent-color));
   opacity: 1;
 }
 
-/* 移动端始终显示回复图标（触屏无 hover） */
+/* 悬浮评论时显示操作按钮 */
+.tk-comment:hover > .tk-main .tk-action-link,
+.tk-comment:focus-within > .tk-main .tk-action-link {
+  opacity: 1;
+}
+
+/* 移动端始终显示操作按钮（触屏无 hover） */
 @media (hover: none) {
   .tk-action-link {
-    opacity: 1;
+    opacity: 0.85;
   }
 }
 
-.tk-action>.tk-action-link:nth-child(1) {
+/* 隐藏点踩按钮（无论访客 3 按钮还是管理员 4 按钮，倒数第 2 项均为 dislike），保留点赞与回复。 */
+.tk-action:has(> .tk-action-link:nth-child(3)) > .tk-action-link:nth-last-child(2) {
   display: none;
 }
 
@@ -306,19 +331,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1em;
-  height: 1em;
+  width: 0.92rem;
+  height: 0.92rem;
   line-height: 0;
-  color: var(--heading-color, #333);
+  color: currentColor;
 }
 
 .tk-action-count {
-  margin-left: 0.2rem;
+  margin-left: 0;
   font-size: 0.72rem;
-  height: 1.3rem;
-  line-height: 1.3rem;
-  width: 0.5rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+.tk-action-count:empty {
+  display: none;
 }
 
 .tk-action-icon {
@@ -326,20 +354,18 @@
   align-items: center;
   justify-content: center;
   line-height: 0;
-  color: var(--gray-color, #909399);
+  color: currentColor;
   white-space: nowrap;
-  width: 1em;
-  height: 1em;
-  transition: color 0.2s ease;
+  width: 0.92rem;
+  height: 0.92rem;
+  transition: color 0.18s ease;
 }
 
-.tk-action-icon svg {
+.tk-action-icon svg,
+.tk-action-icon-solid svg {
   width: 100%;
   height: 100%;
-}
-
-.tk-action-icon:hover {
-  color: var(--heading-color, #333);
+  display: block;
 }
 
 .tk-main {
@@ -371,7 +397,7 @@
 }
 
 .tk-nick-link:hover {
-  color: #409eff;
+  color: var(--r-link, var(--link-color));
 }
 
 .tk-actions {
@@ -732,7 +758,8 @@
 }
 
 .tk-pagination-pager.__current {
-  background-color: #409eff;
+  background-color: var(--r-link, var(--accent-color));
+  color: var(--r-bg, var(--content-bg));
   pointer-events: none;
 }
 
@@ -796,7 +823,7 @@
 }
 
 .tk-admin-comment-filter-type:focus {
-  border-color: #409eff;
+  border-color: var(--r-link, var(--accent-color));
 }
 
 .tk-admin-comment-filter-type option {
@@ -1146,17 +1173,17 @@
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):active,
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):focus,
 .twikoo .el-button:not(.el-button--primary):not(.el-button--text):hover {
-  color: #409eff;
-  background-color: rgba(64, 158, 255, 0.063);
-  border-color: rgba(64, 158, 255, 0.50);
+  color: var(--r-link, var(--link-color));
+  background-color: color-mix(in oklab, var(--r-link, var(--link-color)) 8%, transparent);
+  border-color: color-mix(in oklab, var(--r-link, var(--link-color)) 50%, transparent);
 }
 
 .twikoo .el-button--primary.is-disabled,
 .twikoo .el-button--primary.is-disabled:active,
 .twikoo .el-button--primary.is-disabled:focus,
 .twikoo .el-button--primary.is-disabled:hover {
-  color: rgba(255, 255, 255, 0.63);
-  background-color: rgba(64, 158, 255, 0.50);
+  color: color-mix(in oklab, var(--r-bg, var(--content-bg)) 76%, transparent);
+  background-color: color-mix(in oklab, var(--r-link, var(--accent-color)) 42%, var(--r-bg, var(--content-bg)));
   border-color: transparent;
 }
 
@@ -2257,12 +2284,12 @@
   stroke-dasharray: 90, 150;
   stroke-dashoffset: 0;
   stroke-width: 2;
-  stroke: #409EFF;
+  stroke: var(--r-link, var(--accent-color));
   stroke-linecap: round
 }
 
 .el-loading-spinner i {
-  color: #409EFF
+  color: var(--r-link, var(--accent-color))
 }
 
 .el-loading-fade-enter,
@@ -2651,10 +2678,77 @@
   margin: 0 0 var(--space-xs);
   padding: 0;
   border-bottom: 0;
+  align-items: center;
   color: var(--heading-color);
   font-family: var(--ui-font);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: var(--weight-medium);
+}
+
+#twikoo .tk-comments-title > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+#twikoo .tk-comments-sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  margin-right: 0.35rem;
+}
+
+#twikoo .tk-sort-item {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0.18rem 0.48rem;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--r-ink-faint, var(--faint-color));
+  font-family: var(--r-font-ui, var(--ui-font));
+  font-size: 0.74rem;
+  font-weight: 400;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+#twikoo .tk-sort-item:hover {
+  color: var(--r-ink, var(--heading-color));
+  background: color-mix(in oklab, var(--r-ink, var(--heading-color)) 4%, transparent);
+}
+
+#twikoo .tk-sort-item.__active {
+  color: var(--r-ink, var(--heading-color));
+  font-weight: 500;
+  background: color-mix(in oklab, var(--r-ink, var(--heading-color)) 6.5%, transparent);
+}
+
+#twikoo .tk-icon.__comments {
+  margin-left: 0.25rem;
+  padding: 0.22rem;
+  width: auto;
+  height: auto;
+  border-radius: 3px;
+  vertical-align: middle;
+  color: var(--r-ink-faint, var(--faint-color));
+  opacity: 0.7;
+  transition: color 0.18s ease, opacity 0.18s ease, background-color 0.18s ease;
+}
+
+#twikoo .tk-icon.__comments svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  display: block;
+}
+
+#twikoo .tk-icon.__comments:hover {
+  color: var(--r-ink, var(--heading-color));
+  background: color-mix(in oklab, var(--r-ink, var(--heading-color)) 4.5%, transparent);
+  opacity: 1;
 }
 
 #twikoo .tk-comments-container {
@@ -2664,7 +2758,12 @@
 
 #twikoo .tk-avatar {
   border-radius: var(--paper-card-radius);
-  background-color: color-mix(in oklab, var(--faint-color) 14%, transparent);
+  background-color: color-mix(in oklab, var(--r-ink, var(--faint-color)) 9%, transparent);
+  color: var(--r-ink-faint, var(--faint-color));
+}
+
+#twikoo .tk-content a {
+  color: var(--r-link, var(--link-color));
 }
 
 #twikoo .tk-main {

@@ -1,6 +1,7 @@
 // @ts-check
 import mdx from '@astrojs/mdx';
 import rehypeHeadingLabel from './src/plugins/rehype-heading-label.mjs';
+import rehypeLinkCard from './src/plugins/rehype-link-card.mjs';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig, sharpImageService } from 'astro/config';
@@ -19,7 +20,7 @@ export default defineConfig({
 	},
 
 	markdown: {
-		rehypePlugins: [rehypeHeadingLabel],
+		rehypePlugins: [rehypeHeadingLabel, rehypeLinkCard],
 		shikiConfig: {
 			themes: {
 				light: 'github-light',

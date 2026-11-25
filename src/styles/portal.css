@@ -47,15 +47,166 @@ body.reading-surface {
   --paper-card-radius: 0;
 }
 
+/* Non-wide core blog pages adopt the desk-canvas + modular white paper card system.
+   Topic pages (.portal-surface--wide) keep their own flat wide surface untouched. */
+html:has(.portal-surface:not(.portal-surface--wide)),
+body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+  --r-bg: oklch(0.974 0.002 85);
+  --r-card-bg: #ffffff;
+  --r-card-border: color-mix(in oklab, var(--r-ink) 9%, var(--r-card-bg));
+  --r-card-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.038),
+    0 8px 22px rgba(15, 23, 42, 0.028);
+  --r-card-radius: 6px;
+  --r-memo-surface: var(--r-card-bg);
+  --r-memo-border: var(--r-card-border);
+  --r-code-bg: oklch(0.976 0.002 85);
+  background: var(--r-bg) !important;
+}
+
+:root[data-theme="dark"] html:has(.portal-surface:not(.portal-surface--wide)),
+html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
+:root[data-theme="dark"] body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+  --r-bg: oklch(0.175 0.011 255);
+  --r-card-bg: oklch(0.218 0.012 255);
+  --r-card-border: color-mix(in oklab, var(--r-ink) 12%, var(--r-card-bg));
+  --r-card-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.2),
+    0 8px 20px rgba(0, 0, 0, 0.13);
+  --r-card-radius: 6px;
+  --r-memo-surface: var(--r-card-bg);
+  --r-memo-border: var(--r-card-border);
+  --r-code-bg: oklch(0.188 0.011 255);
+  background: var(--r-bg) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]):has(.portal-surface:not(.portal-surface--wide)),
+  :root:not([data-theme]) body.reading-surface:has(.portal-surface:not(.portal-surface--wide)) {
+    --r-bg: oklch(0.175 0.011 255);
+    --r-card-bg: oklch(0.218 0.012 255);
+    --r-card-border: color-mix(in oklab, var(--r-ink) 12%, var(--r-card-bg));
+    --r-card-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.13);
+    --r-card-radius: 6px;
+    --r-memo-surface: var(--r-card-bg);
+    --r-memo-border: var(--r-card-border);
+    --r-code-bg: oklch(0.188 0.011 255);
+    background: var(--r-bg) !important;
+  }
+}
+
 .portal-surface:not(.portal-surface--wide) {
-  --r-shell-rule: color-mix(in oklab, var(--r-ink) 75%, var(--r-bg));
-  --portal-rule-width: 2px;
-  --r-header-content-space: var(--space-3xl);
+  /* Unified fixed measure (700px) across all core pages: balanced paper-sheet margins
+     without stretching Home index rows or Shuoshuo/Message short-form cards (~614px article prose). */
+  --portal-content-width: 43.75rem;
+  --r-shell-rule: transparent;
+  --portal-rule-width: 0px;
+  --r-header-content-space: clamp(1.25rem, 2.8vw, 1.8rem);
   --r-index-title-size: var(--text-md);
   display: flex;
   flex-direction: column;
   min-height: 100svh;
   border: 0;
+  background: transparent;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card {
+  background: var(--r-card-bg);
+  border: 1px solid var(--r-card-border);
+  border-radius: var(--r-card-radius);
+  box-shadow: var(--r-card-shadow);
+  padding: clamp(1.35rem, 3.2vw, 2.05rem) clamp(1.2rem, 3.5vw, 2.25rem);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card--intro {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* 集合/频道页（归档、标签、碎语、项目、留言）的画布页眉：留在灰底画布上，
+   用底部 1px 细栏线与下方内容白卡清晰区分，与页脚顶线首尾呼应。 */
+.portal-surface:not(.portal-surface--wide) .r-page-head {
+  padding: 0 0.1rem 0.9rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--r-divider);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__title {
+  margin: 0 !important;
+  font-family: var(--r-font-body) !important;
+  font-size: var(--r-text-page) !important;
+  font-weight: 600 !important;
+  line-height: var(--r-lh-tight) !important;
+  letter-spacing: -0.018em !important;
+  color: var(--r-ink-strong, var(--r-ink)) !important;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__note {
+  margin: 0.42rem 0 0 !important;
+  font-family: var(--r-font-body);
+  font-size: var(--r-text-sm);
+  line-height: 1.65;
+  color: var(--r-ink-soft);
+  text-wrap: pretty;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-page-head__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin: 0.45rem 0 0 !important;
+  font-family: var(--r-font-ui);
+  font-size: var(--r-text-xs);
+  color: var(--r-ink-faint);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card--reading {
+  /* 书页天头地脚略大于左右页边距，长文、归档与关于页更端庄舒展。 */
+  padding: clamp(1.75rem, 4.4vw, 2.75rem) clamp(1.2rem, 4vw, 2.625rem) clamp(1.9rem, 4.8vw, 3rem);
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card + .r-card {
+  margin-top: 1.2rem;
+}
+
+/* Shuoshuo & Message cards match the same 700px measure with balanced paper margins. */
+.portal-surface:not(.portal-surface--wide) .r-memo__panel {
+  padding: 0.88rem 1.1rem 0.92rem;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
+  padding: 1rem 1.3rem !important;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-comments-container > .tk-comment {
+  padding: 0.95rem 1.25rem !important;
+}
+
+.portal-surface:not(.portal-surface--wide) .r-card .r-year-block:last-child {
+  margin-bottom: 0;
+}
+
+:root[data-theme="dark"] body.reading-surface {
+  --portal-rule: color-mix(in oklab, var(--r-ink) 24%, var(--r-bg));
+  --portal-rule-soft: color-mix(in oklab, var(--r-ink) 14%, var(--r-bg));
+}
+
+:root[data-theme="dark"] .portal-surface:not(.portal-surface--wide) {
+  --r-shell-rule: color-mix(in oklab, var(--r-ink) 28%, var(--r-bg));
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) body.reading-surface {
+    --portal-rule: color-mix(in oklab, var(--r-ink) 24%, var(--r-bg));
+    --portal-rule-soft: color-mix(in oklab, var(--r-ink) 14%, var(--r-bg));
+  }
+
+  :root:not([data-theme]) .portal-surface:not(.portal-surface--wide) {
+    --r-shell-rule: color-mix(in oklab, var(--r-ink) 28%, var(--r-bg));
+  }
 }
 
 /* Reading pages share index typography and alignment; prose keeps its own rhythm. */
@@ -75,13 +226,36 @@ body.reading-surface {
   line-height: 1.5;
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__footer {
-  border-top: 0;
-  margin-top: var(--space-2xl);
+.portal-surface:not(.portal-surface--wide) .reading-shell__header {
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__header {
-  border-bottom-color: var(--r-shell-rule);
+/* 当前激活导航以微型白纸胶囊落在暖灰画布上，与下方白卡遥相呼应。 */
+.portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+  padding: 0.2rem 0.54rem;
+  margin-inline: -0.54rem;
+  border-radius: 4px;
+  border: 1px solid var(--r-card-border) !important;
+  background: var(--r-card-bg);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.035);
+  color: var(--r-ink-strong, var(--r-ink)) !important;
+}
+
+:root[data-theme="dark"] .portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .portal-surface:not(.portal-surface--wide) .reading-shell__nav-link.active {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.24);
+  }
+}
+
+.portal-surface:not(.portal-surface--wide) .reading-shell__footer {
+  border-top: 1px solid var(--r-divider);
+  margin-top: var(--space-xl);
+  padding-top: var(--r-space-md);
 }
 
 .portal-surface:not(.portal-surface--wide) .reading-shell__footer-links {
@@ -103,7 +277,7 @@ body.reading-surface {
 
 @media (min-width: 641px) {
   .portal-surface:not(.portal-surface--wide) .reading-shell__header {
-    padding-bottom: var(--r-space-sm);
+    padding-bottom: 0;
   }
 }
 
@@ -228,9 +402,43 @@ body.reading-surface {
     --portal-inset: var(--space-md);
   }
 
-  /* 手机首屏空间有限，header→标题间距收回一档，与原先首页手机端一致。 */
+  /* 手机首屏空间有限，收紧外层留白让白卡内部保有充足阅读宽度。 */
   .portal-surface:not(.portal-surface--wide) {
-    --r-header-content-space: var(--space-xl);
+    --portal-inset: var(--space-xs);
+    --r-header-content-space: var(--space-lg);
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card {
+    padding: 1.15rem 1.05rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card--intro {
+    padding: 0;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-page-head {
+    padding: 0 0.1rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card--reading {
+    padding: 1.35rem 1.05rem 1.5rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-memo__panel {
+    padding: 0.78rem 0.9rem 0.8rem;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
+    padding: 0.85rem 0.95rem !important;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-comments-container > .tk-comment {
+    padding: 0.85rem 0.95rem !important;
+  }
+
+  .portal-surface:not(.portal-surface--wide) .r-card + .r-card {
+    margin-top: 0.95rem;
   }
 
   .portal-surface .r-section__head { margin-bottom: var(--r-space-md); }
@@ -243,6 +451,196 @@ body.reading-surface {
   .portal-surface:not(.portal-surface--wide) .r-post-list__date {
     justify-self: start;
     text-align: left;
+  }
+}
+
+/* Reading-surface LinkCard overrides (unlayered so they cleanly beat legacy style.scss) */
+body.reading-surface .r-article .link-card {
+  margin: 1.25rem 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  border: 1px solid var(--r-rule);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+body.reading-surface .r-article .link-card:hover {
+  border-color: color-mix(in oklab, var(--r-link) 36%, var(--r-rule));
+  background: color-mix(in oklab, var(--r-ink) 2.5%, transparent);
+  box-shadow: none;
+  transform: none;
+}
+
+body.reading-surface .r-article .link-card:empty::before {
+  content: attr(data-url);
+  display: block;
+  padding: 0.72rem 0.9rem;
+  font-family: var(--r-font-ui);
+  font-size: var(--r-text-xs);
+  line-height: 1.5;
+  color: var(--r-ink-faint);
+  word-break: break-all;
+}
+
+body.reading-surface .r-article .link-card__fallback,
+body.reading-surface .r-article .link-card__fallback:hover {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0.72rem 0.9rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  font-family: var(--r-font-ui);
+  font-size: var(--r-text-xs);
+  line-height: 1.5;
+  color: var(--r-ink-soft);
+  word-break: break-all;
+}
+
+body.reading-surface .r-article .link-card__fallback:hover {
+  color: var(--r-link);
+}
+
+body.reading-surface .r-article .link-card__image-wrapper {
+  flex: 0 0 164px;
+  width: 164px;
+  min-height: 92px;
+  align-self: stretch;
+  margin: 0;
+  overflow: hidden;
+  border-right: 1px solid var(--r-divider);
+  border-radius: 0;
+  background: color-mix(in oklab, var(--r-bg) 55%, var(--r-code-bg));
+}
+
+body.reading-surface .r-article .link-card__image-wrapper img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  object-fit: cover;
+  object-position: center center;
+}
+
+body.reading-surface .r-article .link-card a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+body.reading-surface .r-article .link-card__content {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+body.reading-surface .r-article .link-card__body {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.6rem 0.85rem;
+  gap: 0.16rem;
+}
+
+body.reading-surface .r-article .link-card__body :is(h3, .link-card__title) {
+  margin: 0;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  font-family: var(--r-font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--r-ink);
+}
+
+body.reading-surface .r-article .link-card__body p {
+  margin: 0;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-family: var(--r-font-ui);
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--r-ink-soft);
+}
+
+body.reading-surface .r-article .link-card__host {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.1rem;
+  font-family: var(--r-font-ui);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: var(--r-ink-faint);
+  opacity: 0.78;
+}
+
+body.reading-surface .r-article .link-card--cover .link-card__content {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+body.reading-surface .r-article .link-card--cover .link-card__image-wrapper {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  aspect-ratio: 2.2 / 1;
+  max-height: 170px;
+  border-right: 0;
+  border-bottom: 1px solid var(--r-divider);
+}
+
+body.reading-surface .r-article .link-card--cover .link-card__body {
+  padding: 0.65rem 0.85rem;
+}
+
+body.reading-surface .r-article .link-card--minimal .link-card__content {
+  padding: 0.6rem 0.85rem;
+}
+
+body.reading-surface .r-article .link-card--minimal .link-card__body {
+  gap: 0.12rem;
+  padding: 0;
+}
+
+body.reading-surface .r-article .link-card--minimal .link-card__body p {
+  -webkit-line-clamp: 1;
+}
+
+@media (max-width: 640px) {
+  body.reading-surface .r-article .link-card__content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body.reading-surface .r-article .link-card__image-wrapper {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    aspect-ratio: 1.91 / 1;
+    max-height: 150px;
+    border-right: 0;
+    border-bottom: 1px solid var(--r-divider);
+    align-self: auto;
   }
 }
 

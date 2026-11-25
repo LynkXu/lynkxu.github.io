@@ -30,32 +30,35 @@ function getArchiveDate(date: Date) {
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
 }
-const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
 ---
 
 <ReadingShell title="归档" description={SITE_DESCRIPTION}>
-	<h1 class={pageTitleClass}>全部文章</h1>
+	<header class="r-page-head">
+		<h1 class="r-page-title r-page-head__title">全部文章</h1>
+	</header>
 
-	{years.map((year) => (
-		<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
-			<h2 id={`archive-year-${year}`} class="r-year-block__label">
-				{year}
-			</h2>
-			<ol class="r-post-list">
-				{postsByYear[year].map((post) => (
-					<li class="r-post-list__item">
-						<div class="r-post-list__main">
-							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
-							{INCLUDE_DRAFTS && post.data.draft && (
-								<span class="r-draft">草稿</span>
-							)}
-						</div>
-						<span class="r-post-list__date">
-							<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
-						</span>
-					</li>
-				))}
-			</ol>
-		</section>
-	))}
+	<div class="r-card">
+		{years.map((year) => (
+			<section class="r-year-block" aria-labelledby={`archive-year-${year}`}>
+				<h2 id={`archive-year-${year}`} class="r-year-block__label">
+					{year}
+				</h2>
+				<ol class="r-post-list">
+					{postsByYear[year].map((post) => (
+						<li class="r-post-list__item">
+							<div class="r-post-list__main">
+								<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+								{INCLUDE_DRAFTS && post.data.draft && (
+									<span class="r-draft">草稿</span>
+								)}
+							</div>
+							<span class="r-post-list__date">
+								<time datetime={post.data.pubDate.toISOString()}>{getArchiveDate(post.data.pubDate)}</time>
+							</span>
+						</li>
+					))}
+				</ol>
+			</section>
+		))}
+	</div>
 </ReadingShell>

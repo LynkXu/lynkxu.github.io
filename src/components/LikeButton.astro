@@ -6,49 +6,93 @@ interface Props {
 
 const { id, type = 'gossip' } = Astro.props;
 const baseClass = [
-	'like-btn pending inline-flex cursor-pointer items-center gap-[0.3em] border-0 bg-transparent p-0 text-[var(--gray-color)] transition-[color,opacity,background] duration-200',
-	'before:mr-[0.3em] before:opacity-30 before:transition-opacity before:content-[\'[\'] after:ml-[0.3em] after:opacity-30 after:transition-opacity after:content-[\']\']',
-	'hover:text-[var(--heading-color)] hover:opacity-100 hover:before:opacity-60 hover:after:opacity-60 active:[&_.like-icon]:scale-[0.7] disabled:cursor-not-allowed',
-	'[&.liked]:text-[#e06c75] [&.liked]:opacity-100 [&.liked]:before:text-[var(--gray-color)] [&.liked]:before:opacity-50 [&.liked]:after:text-[var(--gray-color)] [&.liked]:after:opacity-50',
-	'[&.pending]:pointer-events-none [&.gossip.pending]:opacity-0 [@media(hover:hover)]:[&.gossip.is-empty]:pointer-events-none [@media(hover:hover)]:[&.gossip.is-empty]:opacity-0 [@media(hover:hover)]:[&.gossip.is-empty_.like-count]:hidden',
+	'like-btn pending inline-flex cursor-pointer items-center border-0 bg-transparent p-0 transition-[color,opacity,background] duration-200',
+	'disabled:cursor-not-allowed [&.pending]:pointer-events-none',
 ].join(' ');
-const typeClass = type === 'gossip'
-	? 'gossip min-h-[1.4rem] rounded-full px-[0.34rem] [font-family:var(--field-font)] [font-size:0.66rem] leading-none opacity-68 before:content-none after:content-none hover:bg-[color-mix(in_oklab,var(--paper-hover-bg)_76%,transparent)] [&.liked]:bg-[color-mix(in_oklab,#e06c75_7%,transparent)] [&.liked_.like-icon]:text-[#e06c75]'
-	: 'post is-empty';
-const iconClass = 'like-icon text-[0.9em] leading-none transition-transform duration-[180ms] group-[.gossip]:text-[color-mix(in_oklab,var(--gray-color)_86%,var(--heading-color))] group-[.gossip]:[font-size:0.78rem]';
+const typeClass = type === 'gossip' ? 'gossip is-empty' : 'post is-empty';
+const iconClass = 'like-icon shrink-0 transition-transform duration-[180ms]';
 ---
 
-<button type="button" class={`${baseClass} ${typeClass} group`} data-id={id} aria-label={type === 'post' ? '点赞' : 'Like this post'} aria-pressed="false">
-	{type === 'post' ? (
-		<>
-			<svg class={`${iconClass} post-heart`} width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" /></svg>
-			<span class="like-label">点赞</span>
-		</>
-	) : <span class={iconClass} aria-hidden="true">♥</span>}
-	<span class="like-count">...</span>
+<button type="button" class={`${baseClass} ${typeClass} group`} data-id={id} aria-label="点赞" aria-pressed="false">
+	<svg
+		class={`${iconClass} post-heart`}
+		width={type === 'post' ? '15' : '13'}
+		height={type === 'post' ? '15' : '13'}
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.65"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+		aria-hidden="true"
+	>
+		<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+	</svg>
+	{type === 'post' && <span class="like-label">点赞</span>}
+	<span class="like-count"></span>
 </button>
 
 <style>
-	/* Article actions stay visible; memos retain their compact hover treatment. */
+	/* Article & gossip like actions share a quiet paper heart treatment. */
 	.post {
 		min-height: 44px;
 		gap: var(--space-xs);
 		padding-inline: var(--space-sm);
+		border-radius: 4px;
 		font-family: var(--r-font-ui);
 		font-size: 0.8rem;
 		color: var(--r-ink-soft);
 	}
-	.post::before, .post::after { content: none; }
 	.post:hover { color: var(--r-ink); background: color-mix(in oklab, var(--r-rule-soft) 24%, transparent); }
-	.post:focus-visible { outline: 2px solid var(--r-ink-soft); outline-offset: var(--space-2xs); }
+	.post:focus-visible,
+	.gossip:focus-visible { outline: 2px solid var(--r-ink-soft); outline-offset: var(--space-2xs); }
 	.post .like-count { color: var(--r-ink-faint); font-variant-numeric: tabular-nums; }
 	.post .like-count::before { content: '·'; margin-right: var(--space-xs); }
 	.post.is-empty .like-count { display: none; }
 	.post.liked { color: var(--r-ink-soft); }
 	.post.liked .post-heart { fill: currentColor; color: color-mix(in oklab, #e06c75 75%, var(--r-ink-soft)); }
-	.post:active .like-icon { transform: none; }
+
+	.gossip {
+		position: relative;
+		min-height: 1.5rem;
+		gap: 0.24rem;
+		padding: 0.16rem 0.34rem;
+		border-radius: 4px;
+		font-family: var(--r-font-ui);
+		font-size: 0.7rem;
+		line-height: 1;
+		color: var(--r-ink-faint);
+		opacity: 0.72;
+	}
+	.gossip.pending { opacity: 0.2; }
+	.gossip.is-empty { opacity: 0.26; }
+	.gossip:hover {
+		opacity: 1 !important;
+		color: var(--r-ink);
+		background: color-mix(in oklab, var(--r-ink) 4.5%, transparent);
+	}
+	.gossip .like-count {
+		color: currentColor;
+		font-variant-numeric: tabular-nums;
+	}
+	.gossip.is-empty .like-count { display: none; }
+	.gossip.liked {
+		opacity: 1 !important;
+		color: color-mix(in oklab, #d65c67 78%, var(--r-ink-soft));
+	}
+	.gossip.liked .post-heart { fill: currentColor; stroke: currentColor; }
+
+	@media (pointer: coarse) {
+		.gossip.is-empty { opacity: 0.45; }
+		.gossip::after {
+			content: "";
+			position: absolute;
+			inset: -0.45rem;
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.post, .post .like-icon { transition: none; }
+		.post, .gossip, .like-icon { transition: none; }
 	}
 </style>
 
@@ -67,16 +111,22 @@ const iconClass = 'like-icon text-[0.9em] leading-none transition-transform dura
 			const liked = btn.classList.contains('liked');
 			btn.classList.toggle('is-empty', count <= 0 && !liked);
 			btn.setAttribute('aria-pressed', String(liked));
+			btn.setAttribute('aria-label', liked ? '取消点赞' : '点赞');
 			const label = btn.querySelector('.like-label');
 			if (label) {
 				label.textContent = liked ? '已点赞' : '点赞';
-				btn.setAttribute('aria-label', liked ? '取消点赞' : '点赞');
 			}
 		};
 
 		buttons.forEach(async (btn) => {
+			if (btn.getAttribute('data-like-init') === 'true') return;
+			// 碎语隐藏分页内的按钮延后到切页时再请求，避免首屏并发拉取全部页。
+			if (btn.closest('[hidden]')) return;
+			btn.setAttribute('data-like-init', 'true');
+
 			const id = btn.getAttribute('data-id');
 			const countSpan = btn.querySelector('.like-count');
+			if (!id || !countSpan) return;
 
 			// 检查本地是否已经点赞过
 			const isLiked = localStorage.getItem(`liked_${id}`);
@@ -163,6 +213,6 @@ const iconClass = 'like-icon text-[0.9em] leading-none transition-transform dura
 		initLikes();
 	}
 
-	// 支持 Astro View Transitions
-	document.addEventListener('astro:page-load', initLikes);
+	// 碎语切页时懒初始化新显示页的点赞按钮
+	window.addEventListener('shuoshuo:page-change', initLikes);
 </script>

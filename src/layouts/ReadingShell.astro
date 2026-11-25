@@ -166,7 +166,7 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		font-weight: 600;
 		line-height: var(--r-lh-tight);
 		letter-spacing: -0.015em;
-		color: var(--r-ink) !important;
+		color: var(--r-ink-strong, var(--r-ink)) !important;
 		text-decoration: none !important;
 		border: 0 !important;
 	}
@@ -239,11 +239,9 @@ const copyClass = 'reading-shell__copy m-0 shrink-0 text-right text-[0.72rem] te
 		.reading-shell__header-inner {
 			grid-template-columns: auto minmax(0, 1fr) auto;
 			gap: var(--r-space-md) var(--r-space-xl);
+			/* 站名 / 导航 / 搜索主题 共用同一水平中线，避免文字基线对齐把导航顶离图标。 */
+			align-items: center;
 		}
-
-		/* 站名与导航共用文字基线，工具按钮仍居中。 */
-		.reading-shell__brand,
-		.reading-shell__nav { align-self: baseline; }
 
 		.reading-shell__nav {
 			grid-column: 2;

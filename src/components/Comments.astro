@@ -432,38 +432,10 @@ const twikooAuthors = ['lynkxu'];
 
 		// 首次加载时初始化
 		if (document.readyState === 'loading') {
-			document.addEventListener('DOMContentLoaded', initComments);
+			document.addEventListener('DOMContentLoaded', initComments, { once: true });
 		} else {
 			initComments();
 		}
-
-		// View Transitions 页面切换后重新初始化
-		// astro:page-load 只在 View Transitions 导航时触发，不会在首次加载时触发
-		document.addEventListener('astro:page-load', initComments);
-
-		// 页面切换前清理
-		document.addEventListener('astro:before-preparation', function () {
-			// 重置标志
-			isInitializing = false;
-			discourseLoaded = false;
-			if (manualTwikooLoad) {
-				twikooActivated = false;
-				setTwikooLazyState('idle');
-			}
-
-			// 彻底清理 Discourse
-			cleanupDiscourse();
-
-			// 清理 Twikoo
-			const twikooEl = document.getElementById('twikoo');
-			if (twikooEl) {
-				twikooEl.innerHTML = '';
-			}
-			if (twikooObserver) {
-				twikooObserver.disconnect();
-				twikooObserver = undefined;
-			}
-		});
 	})();
 </script>
 
@@ -517,13 +489,10 @@ const twikooAuthors = ['lynkxu'];
 
 	// 首次加载时初始化
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initCommentTabs);
+		document.addEventListener('DOMContentLoaded', initCommentTabs, { once: true });
 	} else {
 		initCommentTabs();
 	}
-
-	// View Transitions 页面切换后重新初始化
-	document.addEventListener('astro:page-load', initCommentTabs);
 </script>
 
 <style>

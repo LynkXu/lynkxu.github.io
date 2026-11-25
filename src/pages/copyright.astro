@@ -1,56 +1,104 @@
 ---
 import ReadingShell from '../layouts/ReadingShell.astro';
 
-const rights = [
-	{ label: '共享', desc: '你可以自由复制、分享本站内容' },
-	{ label: '改编', desc: '你可以基于本站内容进行二次创作' },
-	{ label: '署名', desc: '转载或改编时必须注明作者及来源' },
-	{ label: '非商业', desc: '不得将内容用于商业用途' },
-];
-const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink-soft)]';
 const pageTitleClass = 'r-page-title !m-0 !mb-[var(--r-space-lg)] ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
-const rightsListClass = 'r-copyright__list m-0 flex list-none flex-col gap-[0.75rem] p-0';
-const rightsItemClass = 'grid gap-[0.2rem]';
-const rightsLabelClass = '[font-size:1rem] font-semibold text-[var(--r-ink)]';
-const rightsDescClass = '[font-size:var(--r-text-sm)] text-[var(--r-ink-soft)]';
-const copyrightNoteClass = 'r-copyright__note mt-[var(--r-space-xl)] [font-family:var(--r-font-ui)] [font-size:var(--r-text-xs)] leading-[1.7] text-[var(--r-ink-faint)]';
-const copyrightNoteLinkClass = 'border-b-0 text-[var(--r-ink-soft)] underline decoration-transparent decoration-1 underline-offset-[var(--r-link-underline-offset)] transition-[color,text-decoration-color] duration-200 hover:text-[var(--r-link)] hover:decoration-[var(--r-link-underline-color)]';
+const currentYear = new Date().getFullYear();
 ---
 
-<ReadingShell title="Copyright" description="Copyright and license information for lynkxu.github.io.">
-	<article class="r-copyright">
-		<h1 class={pageTitleClass}>CC BY-NC 4.0</h1>
-		<p class="r-prose ![font-size:1rem]">
-			本站内容采用
+<ReadingShell title="版权" description="本站原创内容默认采用 CC BY-NC 4.0 许可协议。">
+	<article class="r-copyright r-card r-card--reading">
+		<h1 class={pageTitleClass}>版权说明</h1>
+
+		<p class="r-copyright__lead">
+			本站原创内容默认采用
 			<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener noreferrer">
-				知识共享署名-非商业性使用 4.0 国际许可协议
+				CC BY-NC 4.0
 			</a>
-			进行许可。
+			（署名-非商业性使用）许可协议。
 		</p>
 
-		<section class="r-section" aria-labelledby="rights-title">
-			<h2 id="rights-title" class={sectionTitleClass}>你可以做什么</h2>
-			<ul class={rightsListClass}>
-				{rights.map((item) => (
-					<li class={rightsItemClass}>
-						<strong class={rightsLabelClass}>{item.label}</strong>
-						<span class={rightsDescClass}>{item.desc}</span>
-					</li>
-				))}
-			</ul>
-		</section>
+		<ul class="r-copyright__rules">
+			<li><strong>允许</strong>自由转载、引用与改编，需注明作者及原文链接。</li>
+			<li><strong>限制</strong>不得用于商业用途。</li>
+		</ul>
 
-		<p class={copyrightNoteClass}>
-			<a
-				href="https://creativecommons.org/licenses/by-nc/4.0/"
-				target="_blank"
-				rel="noopener noreferrer"
-				class={copyrightNoteLinkClass}
-			>
-				查看完整协议
+		<p class="r-copyright__note">
+			<a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans" target="_blank" rel="noopener noreferrer">
+				查看完整协议 ↗
 			</a>
-			<br />
-			© 2020 – {new Date().getFullYear()} LynkXu. All rights reserved.
+			<span class="r-copyright__sep" aria-hidden="true">·</span>
+			<span>© 2020 – {currentYear} LynkXu</span>
 		</p>
 	</article>
 </ReadingShell>
+
+<style>
+	.r-copyright__lead {
+		margin: 0 0 var(--r-space-md);
+		font-family: var(--r-font-body);
+		font-size: 1rem;
+		line-height: 1.82;
+		color: var(--r-ink);
+	}
+
+	.r-copyright__lead a {
+		color: var(--r-link);
+		text-decoration: underline;
+		text-decoration-color: var(--r-link-underline-color);
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+	}
+
+	.r-copyright__rules {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: var(--r-space-xs);
+		font-family: var(--r-font-body);
+		font-size: var(--r-text-sm);
+		line-height: 1.75;
+		color: var(--r-ink-soft);
+	}
+
+	.r-copyright__rules strong {
+		margin-right: 0.55rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		font-weight: 600;
+		color: var(--r-ink);
+	}
+
+	.r-copyright__note {
+		margin: var(--r-space-xl) 0 0;
+		padding-top: var(--r-space-md);
+		border-top: 1px solid var(--r-divider);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.45rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		line-height: 1.7;
+		color: var(--r-ink-faint);
+	}
+
+	.r-copyright__note a {
+		color: var(--r-ink-soft);
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+
+	.r-copyright__note a:hover {
+		color: var(--r-link);
+		text-decoration-color: var(--r-link-underline-color);
+	}
+
+	.r-copyright__sep {
+		opacity: 0.5;
+	}
+</style>
