@@ -1,258 +1,555 @@
 ---
+import type { MarkdownHeading } from 'astro';
+import Toc from './Toc.astro';
+
 interface Props {
-	showBackToTop?: boolean; // 是否显示回到顶部按钮，默认 true
-	showReadingProgress?: boolean;
+	headings?: MarkdownHeading[];
+	tocMinLevel?: number;
+	tocMaxLevel?: number;
+	topLevelCount?: number;
 }
 
-const { showBackToTop = true, showReadingProgress = false } = Astro.props;
+const {
+	headings = [],
+	tocMinLevel = 2,
+	tocMaxLevel = 3,
+	topLevelCount = 0,
+} = Astro.props;
+
+const hasToc = headings.length > 0;
 ---
 
 {
-	showBackToTop && (
-		<div class='nav-buttons-group'>
-			<button
-				class:list={['nav-button', 'nav-top', { 'nav-top--progress': showReadingProgress }]}
-				id='backToTop'
-				type='button'
-				aria-label='回到顶部'
-				data-reading-progress={showReadingProgress ? 'true' : undefined}
-				style={showReadingProgress ? '--reading-progress: 0' : undefined}
-				hidden
-			>
-				{showReadingProgress && (
-					<svg class='nav-progress' viewBox='0 0 40 40' aria-hidden='true'>
-						<circle cx='20' cy='20' r='18' pathLength='1'></circle>
+	hasToc && (
+		<div class='reading-dock-rail'>
+			<div class='reading-dock' id='readingDock'>
+				<div
+					class='reading-dock__popover'
+					id='readingDockPopover'
+					role='region'
+					aria-label='文章目录'
+					hidden
+				>
+					<div class='reading-dock__popover-head'>
+						<span class='reading-dock__popover-title'>
+							目录
+							{topLevelCount > 0 && (
+								<span class='reading-dock__popover-count'>· {topLevelCount} 节</span>
+							)}
+						</span>
+					</div>
+					<div class='reading-dock__toc-body'>
+						<Toc
+							headings={headings}
+							minLevel={tocMinLevel}
+							maxLevel={tocMaxLevel}
+							title='本页目录'
+						/>
+					</div>
+				</div>
+
+				<button
+					class='reading-dock__toc-btn'
+					id='tocToggle'
+					type='button'
+					aria-label='展开目录'
+					title='目录'
+					aria-expanded='false'
+					aria-controls='readingDockPopover'
+					aria-haspopup='true'
+				>
+					<svg
+						class='reading-dock__icon reading-dock__toc-icon'
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='currentColor'
+						stroke-width='1.85'
+						stroke-linecap='round'
+						stroke-linejoin='round'
+						aria-hidden='true'
+					>
+						<path d='M4 6h16' />
+						<path d='M4 12h11' />
+						<path d='M4 18h14' />
 					</svg>
-				)}
-				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					width='24'
-					height='24'
-					viewBox='0 0 24 24'
-					fill='none'
-					stroke='currentColor'
-					stroke-width='2'
-					stroke-linecap='round'
-					stroke-linejoin='round'
-					class='nav-top-icon lucide lucide-arrow-up'
-					aria-hidden='true'>
-					<path d='m5 12 7-7 7 7' />
-					<path d='M12 19V5' />
-				</svg>
-			</button>
+					<svg
+						class='reading-dock__icon reading-dock__close-icon'
+						viewBox='0 0 24 24'
+						fill='none'
+						stroke='currentColor'
+						stroke-width='1.85'
+						stroke-linecap='round'
+						stroke-linejoin='round'
+						aria-hidden='true'
+					>
+						<path d='M18 6 6 18' />
+						<path d='m6 6 12 12' />
+					</svg>
+				</button>
+			</div>
 		</div>
 	)
 }
 
 <script>
-	import { calculateReadingProgress } from '../scripts/reading-progress.mjs';
-
-	let backToTopCleanup: (() => void) | null = null;
+	let dockCleanup: (() => void) | null = null;
 
 	function getScrollY() {
 		return window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
 	}
 
-	function initBackToTop() {
-		backToTopCleanup?.();
+	function initReadingDock() {
+		dockCleanup?.();
 
-		const backToTopBtn = document.getElementById('backToTop') as HTMLButtonElement | null;
-		if (!backToTopBtn) return;
+		const dock = document.getElementById('readingDock');
+		if (!dock) return;
 
-		const threshold = 280;
-		const progressEnabled = backToTopBtn.dataset.readingProgress === 'true';
-		const postContent = progressEnabled
-			? document.querySelector<HTMLElement>('.post-content')
-			: null;
+		const tocToggle = document.getElementById('tocToggle') as HTMLButtonElement | null;
+		const popover = document.getElementById('readingDockPopover');
+		const tocBody = popover?.querySelector<HTMLElement>('.reading-dock__toc-body') ?? null;
+		const postContent = document.querySelector<HTMLElement>('.post-content');
+		const wideMarginQuery = window.matchMedia('(min-width: 1060px)');
+
+		const tocLinks = popover
+			? Array.from(popover.querySelectorAll<HTMLAnchorElement>('.toc-link'))
+			: [];
+		const headingTargets = tocLinks
+			.map((link) => {
+				const href = link.getAttribute('href') || '';
+				if (!href.startsWith('#')) return null;
+				const id = decodeURIComponent(href.slice(1));
+				const el = document.getElementById(id);
+				return el ? { link, el } : null;
+			})
+			.filter((item): item is { link: HTMLAnchorElement; el: HTMLElement } => item !== null);
+
+		let isOpen = false;
 		let animationFrame = 0;
 
-		function updateControls() {
+		function isWideMargin() {
+			return wideMarginQuery.matches;
+		}
+
+		function setPopoverOpen(nextOpen: boolean, restoreFocus = false) {
+			if (!popover || !tocToggle) return;
+			isOpen = nextOpen;
+			dock.classList.toggle('is-open', isOpen);
+			popover.hidden = !isOpen;
+			tocToggle.setAttribute('aria-expanded', String(isOpen));
+			tocToggle.setAttribute('aria-label', isOpen ? '收起目录' : '展开目录');
+			tocToggle.title = isOpen ? '收起目录' : '目录';
+
+			if (isOpen) {
+				const activeLink = popover.querySelector<HTMLElement>('.toc-link.active');
+				if (activeLink && tocBody) {
+					window.requestAnimationFrame(() => {
+						activeLink.scrollIntoView({ block: 'nearest' });
+					});
+				}
+			} else if (restoreFocus) {
+				tocToggle.focus();
+			}
+		}
+
+		function updateActiveHeading() {
 			animationFrame = 0;
+			if (headingTargets.length === 0) return;
+
+			const offset = 128;
 			const scrollY = getScrollY();
-			const shouldShow = scrollY > threshold;
-			backToTopBtn.classList.toggle('visible', shouldShow);
-			backToTopBtn.hidden = !shouldShow;
+			const reachedArticleEnd =
+				(postContent ? postContent.getBoundingClientRect().bottom <= window.innerHeight + 32 : false) ||
+				window.innerHeight + scrollY >= document.documentElement.scrollHeight - 24;
 
-			if (!postContent) return;
+			let activeIndex = 0;
+			if (reachedArticleEnd) {
+				activeIndex = headingTargets.length - 1;
+			} else {
+				for (let i = 0; i < headingTargets.length; i += 1) {
+					if (headingTargets[i].el.getBoundingClientRect().top <= offset) {
+						activeIndex = i;
+					} else {
+						break;
+					}
+				}
+			}
 
-			const bounds = postContent.getBoundingClientRect();
-			const progress = calculateReadingProgress(
-				scrollY,
-				bounds.top + scrollY,
-				postContent.offsetHeight,
-				window.innerHeight,
-			);
-			backToTopBtn.classList.toggle('has-reading-progress', progress !== null);
-			backToTopBtn.style.setProperty('--reading-progress', String(progress ?? 0));
+			headingTargets.forEach(({ link }, index) => {
+				const active = index === activeIndex;
+				link.classList.toggle('active', active);
+				if (active) {
+					link.setAttribute('aria-current', 'location');
+				} else {
+					link.removeAttribute('aria-current');
+				}
+			});
 		}
 
 		function requestUpdate() {
 			if (animationFrame) return;
-			animationFrame = window.requestAnimationFrame(updateControls);
+			animationFrame = window.requestAnimationFrame(updateActiveHeading);
 		}
 
-		function scrollToTop() {
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+		function onToggleClick() {
+			setPopoverOpen(!isOpen);
 		}
 
-		backToTopBtn.addEventListener('click', scrollToTop);
+		function onDocumentClick(event: MouseEvent) {
+			if (!isOpen || isWideMargin()) return;
+			const target = event.target as Node | null;
+			if (target && !dock.contains(target)) {
+				setPopoverOpen(false);
+			}
+		}
+
+		function onKeyDown(event: KeyboardEvent) {
+			if (event.key === 'Escape' && isOpen && !isWideMargin()) {
+				event.preventDefault();
+				setPopoverOpen(false, true);
+			}
+		}
+
+		function onPopoverClick(event: MouseEvent) {
+			const target = event.target as HTMLElement | null;
+			if (target?.closest('a.toc-link') && !isWideMargin()) {
+				setPopoverOpen(false);
+			}
+		}
+
+		function onMediaChange() {
+			if (isWideMargin() && isOpen) {
+				setPopoverOpen(false);
+			}
+		}
+
+		tocToggle?.addEventListener('click', onToggleClick);
+		popover?.addEventListener('click', onPopoverClick);
+		document.addEventListener('click', onDocumentClick);
+		document.addEventListener('keydown', onKeyDown);
 		window.addEventListener('scroll', requestUpdate, { passive: true });
 		window.addEventListener('resize', requestUpdate, { passive: true });
 		document.addEventListener('scroll', requestUpdate, { passive: true });
+		wideMarginQuery.addEventListener('change', onMediaChange);
 
-		updateControls();
+		updateActiveHeading();
 
-		backToTopCleanup = () => {
+		dockCleanup = () => {
 			if (animationFrame) window.cancelAnimationFrame(animationFrame);
-			backToTopBtn.removeEventListener('click', scrollToTop);
+			tocToggle?.removeEventListener('click', onToggleClick);
+			popover?.removeEventListener('click', onPopoverClick);
+			document.removeEventListener('click', onDocumentClick);
+			document.removeEventListener('keydown', onKeyDown);
 			window.removeEventListener('scroll', requestUpdate);
 			window.removeEventListener('resize', requestUpdate);
 			document.removeEventListener('scroll', requestUpdate);
+			wideMarginQuery.removeEventListener('change', onMediaChange);
 		};
 	}
 
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initBackToTop, { once: true });
+		document.addEventListener('DOMContentLoaded', initReadingDock, { once: true });
 	} else {
-		initBackToTop();
+		initReadingDock();
 	}
 </script>
 
 <style>
-	.nav-buttons-group {
-		position: fixed;
-		right: 18px;
-		bottom: 70px;
-		z-index: var(--z-fab);
-		margin: 0;
-		padding: 0;
-		pointer-events: none;
+	.reading-dock-rail {
+		display: contents;
 	}
 
-	.nav-button {
+	.reading-dock {
+		position: fixed;
+		right: var(--space-md);
+		bottom: var(--r-space-md, 1rem);
+		z-index: var(--z-fab, 30);
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+	}
+
+	/* 窄屏/移动端：右下角轻量圆形纸质目录按钮 */
+	.reading-dock__toc-btn {
 		position: relative;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 42px;
-		height: 42px;
-		padding: 0;
-		background: var(--paper-card-bg);
-		color: var(--gray-color);
-		text-decoration: none;
-		font-size: 0.875rem;
-		font-weight: 500;
-		transition:
-			opacity 0.24s ease,
-			visibility 0.24s ease,
-			transform 0.24s ease,
-			background 0.2s ease,
-			border-color 0.2s ease,
-			color 0.2s ease;
-		border: 1px solid var(--paper-card-border);
-		box-shadow: var(--paper-card-shadow);
-		backdrop-filter: blur(8px);
-		-webkit-backdrop-filter: blur(8px);
-		outline: none;
-		cursor: pointer;
-	}
-
-	.nav-button:hover {
-		background: color-mix(in oklab, var(--paper-card-bg) 92%, var(--content-bg));
-		color: var(--heading-color);
-		border-color: var(--paper-card-border);
-		text-decoration: none;
-		transform: translateY(-1px);
-	}
-
-	.nav-button.nav-top--progress,
-	.nav-button.nav-top--progress:hover {
 		width: 40px;
 		height: 40px;
 		padding: 0;
+		border: 1px solid var(--r-card-border, var(--paper-card-border));
+		border-radius: 9999px;
+		background: color-mix(in oklab, var(--r-card-bg, var(--paper-card-bg)) 94%, transparent);
+		color: var(--r-ink-soft, var(--gray-color));
+		box-shadow: var(--r-card-shadow, var(--paper-card-shadow));
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		cursor: pointer;
+		transition:
+			color 0.2s ease,
+			background-color 0.2s ease,
+			border-color 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.reading-dock__toc-btn:hover {
+		color: var(--r-ink-strong, var(--r-ink, var(--heading-color)));
+		background: var(--r-card-bg, var(--paper-card-bg));
+		border-color: color-mix(
+			in oklab,
+			var(--r-ink, var(--heading-color)) 16%,
+			var(--r-card-border, var(--paper-card-border))
+		);
+	}
+
+	.reading-dock__toc-btn:focus-visible {
+		outline: 2px solid var(--r-link, var(--accent-color));
+		outline-offset: 2px;
+	}
+
+	.reading-dock.is-open .reading-dock__toc-btn {
+		color: var(--r-link, var(--accent-color));
+		background: var(--r-card-bg, var(--paper-card-bg));
+	}
+
+	.reading-dock__icon {
+		display: block;
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+	}
+
+	.reading-dock__close-icon {
+		position: absolute;
+		width: 15px;
+		height: 15px;
+		opacity: 0;
+		transform: scale(0.8);
+	}
+
+	.reading-dock.is-open .reading-dock__toc-icon {
+		opacity: 0;
+		transform: scale(0.8);
+	}
+
+	.reading-dock.is-open .reading-dock__close-icon {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	/* 目录纸感卡片：窄屏按需弹出，宽屏常驻右侧页边 */
+	.reading-dock__popover {
+		position: absolute;
+		bottom: calc(100% + var(--space-sm, 12px));
+		right: 0;
+		width: min(244px, calc(100vw - 2rem));
+		border: 1px solid var(--r-card-border, var(--paper-card-border));
+		border-radius: var(--r-card-radius, 6px);
+		background: var(--r-card-bg, var(--paper-card-bg));
+		box-shadow:
+			0 2px 6px rgba(15, 23, 42, 0.06),
+			0 14px 32px rgba(15, 23, 42, 0.08);
+		overflow: hidden;
+		animation: dockPopoverIn 0.2s ease;
+	}
+
+	@keyframes dockPopoverIn {
+		from {
+			opacity: 0;
+			transform: translateY(4px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	:global(:root[data-theme='dark']) .reading-dock__popover {
+		box-shadow:
+			0 2px 8px rgba(0, 0, 0, 0.3),
+			0 14px 32px rgba(0, 0, 0, 0.34);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme])) .reading-dock__popover {
+			box-shadow:
+				0 2px 8px rgba(0, 0, 0, 0.3),
+				0 14px 32px rgba(0, 0, 0, 0.34);
+		}
+	}
+
+	.reading-dock__popover-head {
+		display: flex;
+		align-items: center;
+		padding: 0.58rem 0.8rem;
+		border-bottom: 1px solid var(--r-divider, var(--paper-card-border-soft));
+		font-family: var(--r-font-ui, var(--ui-font));
+		font-size: 0.72rem;
+		line-height: 1.3;
+	}
+
+	.reading-dock__popover-title {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.3rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: var(--r-ink-soft, var(--heading-color));
+	}
+
+	.reading-dock__popover-count {
+		font-weight: 400;
+		color: var(--r-ink-faint, var(--gray-color));
+		font-variant-numeric: tabular-nums;
+	}
+
+	.reading-dock__toc-body {
+		max-height: min(56vh, 360px);
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		padding: 0.45rem 0.5rem 0.55rem;
+	}
+
+	.reading-dock__toc-body::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	.reading-dock__toc-body::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.reading-dock__toc-body::-webkit-scrollbar-thumb {
+		background: color-mix(in oklab, var(--r-ink, var(--gray-color)) 18%, transparent);
+		border-radius: 9999px;
+	}
+
+	.reading-dock__toc-body :global(.toc-container) {
+		margin: 0;
+		padding: 0;
 		border: 0;
-		border-radius: 50%;
 		background: transparent;
 		box-shadow: none;
-		backdrop-filter: none;
-		-webkit-backdrop-filter: none;
 	}
 
-	.nav-button.nav-top--progress:hover {
-		color: var(--heading-color);
-		transform: translateY(0);
+	.reading-dock__toc-body :global(.toc) {
+		display: block !important;
 	}
 
-	.nav-button .nav-top-icon {
-		width: 18px;
-		height: 18px;
-		flex-shrink: 0;
-		transition: transform 0.2s ease;
+	.reading-dock__toc-body :global(.toc-list) {
+		margin: 0;
+		padding: 0;
+		list-style: none;
 	}
 
-	.nav-button .nav-progress {
-		position: absolute;
-		inset: 0;
+	.reading-dock__toc-body :global(.toc-list .toc-list) {
+		margin-top: 0.06rem;
+		padding-left: 0.72rem;
+	}
+
+	.reading-dock__toc-body :global(.toc-item) {
+		margin: 0.06rem 0;
+	}
+
+	.reading-dock__toc-body :global(.toc-link) {
+		position: relative;
 		display: block;
-		width: 100%;
-		height: 100%;
-		color: inherit;
-		pointer-events: none;
-		transform: rotate(-90deg);
+		padding: 0.28rem 0.5rem 0.28rem 0.65rem;
+		border: 0;
+		border-left: 2px solid transparent;
+		border-radius: 0 4px 4px 0;
+		font-family: var(--r-font-ui, var(--ui-font));
+		font-size: var(--r-text-xs, 0.78rem);
+		font-weight: 400;
+		line-height: 1.45;
+		color: var(--r-ink-faint, var(--gray-color));
+		text-decoration: none;
+		transition:
+			color 0.18s ease,
+			background-color 0.18s ease,
+			border-color 0.18s ease;
 	}
 
-	.nav-progress circle {
-		fill: none;
-		stroke: currentColor;
-		stroke-width: 1px;
-		stroke-dasharray: 1;
-		stroke-dashoffset: calc(1 - var(--reading-progress, 0));
-		stroke-linecap: round;
-		vector-effect: non-scaling-stroke;
-		opacity: 0;
-		transition: opacity 0.2s ease;
+	.reading-dock__toc-body :global(.toc-level-3 > .toc-link) {
+		font-size: 0.74rem;
 	}
 
-	.nav-top.has-reading-progress .nav-progress circle {
-		opacity: 0.32;
+	.reading-dock__toc-body :global(.toc-link:hover) {
+		color: var(--r-ink, var(--heading-color));
+		background: color-mix(in oklab, var(--r-ink, var(--heading-color)) 4%, transparent);
+		text-decoration: none;
 	}
 
-	.nav-top {
-		opacity: 0;
-		visibility: hidden;
-		transform: translateY(6px);
-		pointer-events: none;
+	.reading-dock__toc-body :global(.toc-link.active) {
+		border-left-color: var(--r-link, var(--accent-color));
+		color: var(--r-ink-strong, var(--r-ink, var(--heading-color)));
+		font-weight: 500;
+		background: color-mix(in oklab, var(--r-link, var(--accent-color)) 7%, transparent);
+		text-decoration: none;
 	}
 
-	.nav-top.visible {
-		opacity: 1;
-		visibility: visible;
-		transform: translateY(0);
-		pointer-events: auto;
-	}
-
-	.nav-buttons-group:has(.nav-top.visible) {
-		pointer-events: auto;
-	}
-
-	.nav-top:hover .nav-top-icon {
-		transform: translateY(-2px);
-	}
-
-	.nav-top:focus-visible {
-		outline: 2px solid var(--accent-color);
-		outline-offset: 3px;
-	}
-
-	@media (max-width: 640px) {
-		.nav-buttons-group {
-			right: 14px;
-			bottom: 64px;
+	/* 宽屏（>= 1060px）：目录轨道与正文卡片等高，sticky 随屏停靠且底部严格止于正文卡片底边，不落入页脚 */
+	@media (min-width: 1060px) {
+		.reading-dock-rail {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: calc(100% + var(--dock-gap, var(--space-md, 16px)));
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-end;
+			pointer-events: none;
+			z-index: var(--z-fab, 30);
 		}
 
-		.nav-button {
-			width: 40px;
-			height: 40px;
+		.reading-dock {
+			position: sticky;
+			top: auto;
+			left: auto;
+			right: auto;
+			bottom: var(--r-space-xl, 2.75rem);
+			align-items: flex-start;
+			pointer-events: auto;
+		}
+
+		.reading-dock__toc-btn {
+			display: none;
+		}
+
+		.reading-dock__popover {
+			display: block !important;
+			position: static;
+			width: clamp(
+				148px,
+				calc(50vw - var(--portal-content-width, 43.75rem) / 2 - var(--dock-gap, var(--space-md, 16px)) - var(--space-lg, 24px)),
+				224px
+			);
+			box-shadow: var(--r-card-shadow, var(--paper-card-shadow));
+			animation: none;
+		}
+
+		:global(:root[data-theme='dark']) .reading-dock__popover {
+			box-shadow: var(--r-card-shadow, var(--paper-card-shadow));
+		}
+	}
+
+	@media (min-width: 1060px) and (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme])) .reading-dock__popover {
+			box-shadow: var(--r-card-shadow, var(--paper-card-shadow));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.reading-dock__toc-btn,
+		.reading-dock__icon,
+		.reading-dock__toc-body :global(.toc-link) {
+			transition: none;
+		}
+
+		.reading-dock__popover {
+			animation: none;
 		}
 	}
 </style>

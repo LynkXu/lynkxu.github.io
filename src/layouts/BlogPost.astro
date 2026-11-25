@@ -3,7 +3,6 @@ import type { MarkdownHeading } from 'astro';
 import type { CollectionEntry } from 'astro:content';
 import ReadingShell from './ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import Toc from '../components/Toc.astro';
 import NavButton from '../components/NavButton.astro';
 import Changelog from '../components/Changelog.astro';
 import LikeButton from '../components/LikeButton.astro';
@@ -75,16 +74,6 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 			{description && <p class="r-article__desc">{description}</p>}
 		</header>
 
-		{shouldRenderTOC && (
-			<details class="r-toc">
-				<summary class="r-toc__summary">
-					<span>目录</span>
-					{topLevelCount > 0 && <span class="r-toc__count">· {topLevelCount} 节</span>}
-				</summary>
-				<Toc headings={tocHeadings} minLevel={tocMinLevel} maxLevel={tocMaxLevel} title="本页目录" />
-			</details>
-		)}
-
 		<div class="r-prose md-theme post-content content" id="lightgallery">
 			<slot />
 		</div>
@@ -95,7 +84,12 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
 		</footer>
 
-		<NavButton showBackToTop={true} showReadingProgress={true} />
+		<NavButton
+			headings={shouldRenderTOC ? tocHeadings : []}
+			tocMinLevel={tocMinLevel}
+			tocMaxLevel={tocMaxLevel}
+			topLevelCount={topLevelCount}
+		/>
 	</article>
 
 	<script is:inline src="/lightgallery/js/lightgallery.min.js" defer></script>
@@ -146,97 +140,6 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 		color: var(--r-ink-soft);
 	}
 
-	.r-toc {
-		margin-top: 0.2rem;
-		margin-bottom: clamp(var(--space-lg), 3vw, var(--space-xl));
-		border-left: 2px solid var(--r-rule);
-		border-radius: 0 4px 4px 0;
-		background: var(--r-code-bg);
-		font-family: var(--r-font-ui);
-		font-size: var(--r-text-xs);
-		color: var(--r-ink-faint);
-	}
-
-	.r-toc__summary {
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-		min-height: 1.75rem;
-		width: 100%;
-		box-sizing: border-box;
-		padding: 0.1rem 0.75rem;
-		list-style: none;
-		cursor: pointer;
-		user-select: none;
-		background: transparent;
-		font-weight: 500;
-		line-height: 1.35;
-		letter-spacing: 0.02em;
-		color: var(--r-ink-soft);
-		transition: color 0.2s ease, background-color 0.2s ease;
-	}
-
-	.r-toc__summary::-webkit-details-marker {
-		display: none;
-	}
-
-	.r-toc[open] > .r-toc__summary {
-		min-height: 2rem;
-		padding-block: 0.2rem;
-	}
-
-	.r-toc__summary:hover {
-		background: color-mix(in oklab, var(--r-rule-soft) 24%, transparent);
-		color: var(--r-ink);
-	}
-
-	.r-toc__count {
-		font-weight: 400;
-		color: var(--r-ink-faint);
-		font-variant-numeric: tabular-nums;
-	}
-
-	.r-toc :global(.toc-container) {
-		margin-top: 0;
-		border: 0;
-		border-top: 1px solid var(--r-divider);
-		background: transparent;
-		padding: 0.65rem 0.75rem;
-		box-shadow: none;
-	}
-
-	.r-toc :global(.toc) {
-		display: block !important;
-	}
-
-	.r-toc :global(.toc-list) {
-		margin: 0;
-		padding: 0;
-		list-style: none;
-	}
-
-	.r-toc :global(.toc-list .toc-list) {
-		margin-top: 0.12rem;
-		padding-left: 0.75rem;
-	}
-
-	.r-toc :global(.toc-item) {
-		margin: 0.12rem 0;
-	}
-
-	.r-toc :global(.toc a) {
-		border-bottom: 0;
-		color: var(--r-ink-faint);
-		text-decoration: none;
-		font-size: var(--r-text-xs);
-		font-weight: 400;
-		line-height: 1.48;
-	}
-
-	.r-toc :global(.toc a:hover) {
-		color: var(--r-link);
-	}
-
 	.r-article__tail {
 		margin-top: var(--r-space-lg);
 		padding-top: var(--r-space-md);
@@ -269,62 +172,24 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 		--serif-font: var(--r-font-ui);
 	}
 
-	.r-article :global(.nav-buttons-group) {
-		position: fixed;
-		right: var(--r-page-inline);
-		bottom: var(--r-space-lg);
-		z-index: 20;
+	.r-article {
+		position: relative;
+		--dock-gap: var(--space-md);
 	}
 
-	.r-article :global(.nav-button) {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: auto;
-		height: auto;
-		min-width: 2.25rem;
-		min-height: 2.25rem;
-		padding: var(--space-2xs);
-		border: 0;
-		border-radius: 0;
-		background: transparent;
-		color: var(--r-ink-soft);
-		box-shadow: none;
-		backdrop-filter: none;
-		cursor: pointer;
-	}
-
-	.r-article :global(.nav-button:hover) {
-		transform: translateY(0);
-		background: transparent;
-		color: var(--r-ink);
-	}
-
-	.r-article :global(.nav-top-icon) {
-		display: block;
-		width: 18px;
-		height: 18px;
-	}
-
-	@media (max-width: 820px) {
-		.r-article :global(.nav-buttons-group) {
-			right: var(--space-md);
-			bottom: var(--r-space-md);
+	@media (min-width: 1280px) {
+		.r-article {
+			--dock-gap: var(--space-lg);
 		}
+	}
 
-		.r-article :global(.nav-button) {
-			width: 2.5rem;
-			height: 2.5rem;
-			border-radius: 9999px;
-			border: 1px solid var(--r-card-border, var(--r-rule));
-			background: color-mix(in oklab, var(--r-card-bg, var(--r-bg)) 90%, transparent);
-			box-shadow: var(--r-card-shadow, none);
-			backdrop-filter: blur(6px);
-			-webkit-backdrop-filter: blur(6px);
-		}
-
-		.r-article :global(.nav-button:hover) {
-			background: var(--r-card-bg, var(--r-bg));
+	/* 881px–1059px：目录按钮仍贴近正文白卡右侧外沿，避免漂到视口角落 */
+	@media (min-width: 881px) and (max-width: 1059px) {
+		.r-article :global(.reading-dock) {
+			left: calc(50% + var(--portal-content-width, 43.75rem) / 2 + var(--dock-gap));
+			right: auto;
+			bottom: var(--r-space-xl);
+			align-items: flex-start;
 		}
 	}
 </style>
