@@ -174,7 +174,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 
 /* Shuoshuo & Message cards match the same 700px measure with balanced paper margins. */
 .portal-surface:not(.portal-surface--wide) .r-memo__panel {
-  padding: 0.88rem 1.1rem 0.92rem;
+  padding: 0.88rem 1.1rem;
 }
 
 .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {
@@ -426,7 +426,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   }
 
   .portal-surface:not(.portal-surface--wide) .r-memo__panel {
-    padding: 0.78rem 0.9rem 0.8rem;
+    padding: 0.78rem 0.9rem;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-message__comments #twikoo .tk-submit {

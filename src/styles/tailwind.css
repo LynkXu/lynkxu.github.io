@@ -665,23 +665,23 @@ body.reading-surface h3.r-prose-section-title {
   font-size: 1.14rem !important;
 }
 
-.r-prose > :first-child:not(:is(h1,h2,h3,h4)),
-body.reading-surface .post-content > :first-child:not(:is(h1,h2,h3,h4,h5,h6)) {
-  margin-top: 0;
-}
-
-.r-prose > :last-child,
-body.reading-surface .post-content > :last-child {
-  margin-bottom: 0;
-}
-
-.r-prose p,
-.r-prose ul,
-.r-prose ol,
+.r-prose:not(.r-memo__body) p,
+.r-prose:not(.r-memo__body) ul,
+.r-prose:not(.r-memo__body) ol,
 body.reading-surface .post-content > p,
 body.reading-surface .post-content > ul,
 body.reading-surface .post-content > ol {
   margin: 0 0 1.1em !important;
+}
+
+.r-prose:not(.r-memo__body) > :first-child:not(:is(h1,h2,h3,h4)),
+body.reading-surface .post-content > :first-child:not(:is(h1,h2,h3,h4,h5,h6)) {
+  margin-top: 0 !important;
+}
+
+.r-prose:not(.r-memo__body) > :last-child,
+body.reading-surface .post-content > :last-child {
+  margin-bottom: 0 !important;
 }
 
 .r-prose a,
@@ -694,7 +694,7 @@ body.reading-surface .post-content a:hover {
   color: var(--r-ink) !important;
 }
 
-.r-prose blockquote,
+.r-prose:not(.r-memo__body) blockquote,
 body.reading-surface .post-content blockquote {
   margin: 1.05em 0 !important;
   padding: 0.1em 0 0.1em 0.9em !important;
@@ -1043,22 +1043,18 @@ body.reading-surface .r-memo__body {
 	color: var(--r-ink) !important;
 }
 
-body.reading-surface .r-memo__body > :first-child {
-	margin-top: 0;
-}
-
-body.reading-surface .r-memo__body > :last-child {
-	margin-bottom: 0;
-}
-
-body.reading-surface .r-memo__body p {
-	margin-bottom: 0.4em !important;
+body.reading-surface .r-memo__body p,
+body.reading-surface .r-memo__body ul,
+body.reading-surface .r-memo__body ol {
+	margin: 0 0 0.45em !important;
 }
 
 body.reading-surface .r-memo__body blockquote {
-	margin: 0.4em 0 !important;
+	margin: 0.45em 0 !important;
 	padding: 0.05em 0 0.05em 0.85em !important;
-	border-left-color: var(--r-rule) !important;
+	border-left: 2px solid var(--r-rule) !important;
+	background: transparent !important;
+	font-style: normal !important;
 	color: var(--r-ink-soft) !important;
 }
 
@@ -1067,6 +1063,14 @@ body.reading-surface .r-memo__body blockquote p {
 }
 
 body.reading-surface .r-memo__body blockquote p:last-child {
+	margin-bottom: 0 !important;
+}
+
+body.reading-surface .r-memo__body > :first-child {
+	margin-top: 0 !important;
+}
+
+body.reading-surface .r-memo__body > :last-child {
 	margin-bottom: 0 !important;
 }
 
