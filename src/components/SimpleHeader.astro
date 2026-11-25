@@ -6,91 +6,57 @@ interface Props {
   className?: string;
 }
 
-const { title, description, href = '/about', className = '' } = Astro.props;
+const { title, description, className = '' } = Astro.props;
+const hasActions = Astro.slots.has('actions');
 ---
 
-<div class={`simple-header ${className}`}>
-  <a href={href} class="back-button">
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    <span>Back</span>
-  </a>
-  <div class="page-info">
-    <span class="title">{title}</span>
-    {description && <span class="divider">/</span> <span class="desc">{description}</span>}
+<header
+  class:list={[
+    'simple-header',
+    'r-page-head',
+    { 'simple-header--with-actions': hasActions },
+    className,
+  ]}
+>
+  <div class="simple-header__main">
+    <h1 class="r-page-title r-page-head__title">{title}</h1>
+    {description && <p class="r-page-head__note">{description}</p>}
   </div>
-</div>
+  {hasActions && (
+    <div class="simple-header__actions">
+      <slot name="actions" />
+    </div>
+  )}
+</header>
 
 <style>
   .simple-header {
     display: flex;
+    align-items: flex-end;
     justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    max-width: none;
-    margin: 0 0 var(--r-space-md);
+    gap: var(--space-md) var(--space-xl);
     width: 100%;
-    z-index: 20;
-    position: relative;
     box-sizing: border-box;
   }
 
-  .back-button {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2xs);
-    text-decoration: none;
-    color: var(--gray-color);
-    font-family: var(--r-font-ui);
-    font-size: var(--text-sm);
-    transition: all 0.2s;
-    font-weight: 500;
-    border-bottom: none;
+  .simple-header__main {
+    min-width: 0;
   }
 
-  .back-button:hover {
-    color: var(--heading-color);
-    opacity: 1;
-    transform: translateX(-1px);
-    border-bottom: none;
+  .simple-header__actions {
+    flex-shrink: 0;
+    max-width: 100%;
   }
 
-  .page-info {
-    font-family: var(--r-font-ui);
-    font-size: var(--text-sm);
-    color: var(--gray-color);
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-  }
-
-  .title {
-    color: var(--heading-color);
-    font-weight: 600;
-    font-family: var(--r-font-ui);
-    letter-spacing: 0.04em;
-  }
-
-  .divider {
-    opacity: 0.3;
-    font-size: 0.8em;
-  }
-
-  .desc {
-    opacity: 0.8;
-    font-weight: 400;
-    line-height: 1.5;
-  }
-
-  @media (max-width: 600px) {
-    .desc {
-        display: none;
+  @media (max-width: 760px) {
+    .simple-header--with-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-sm);
     }
-    .divider {
-        display: none;
+
+    .simple-header__actions {
+      width: 100%;
     }
-  }
-  
-  @media (prefers-reduced-motion: reduce) {
-    .back-button { transition: none; }
   }
 </style>

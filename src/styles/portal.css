@@ -28,7 +28,7 @@ body.reading-surface {
   --portal-content-width: var(--topic-shell-width);
   font-family: var(--r-font-ui);
   --font-heading: var(--r-font-ui);
-  --r-header-content-space: var(--r-space-md);
+  --r-header-content-space: clamp(1.25rem, 2.8vw, 1.8rem);
   border: 0;
   /* Topic content keeps its wider canvas but shares the reading surface palette. */
   --page-bg: var(--r-bg);
@@ -125,15 +125,14 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   overflow: hidden;
 }
 
-/* 集合/频道页（归档、标签、碎语、项目、留言）的画布页眉：留在灰底画布上，
-   用底部 1px 细栏线与下方内容白卡清晰区分，与页脚顶线首尾呼应。 */
-.portal-surface:not(.portal-surface--wide) .r-page-head {
+/* 集合/频道页与专题页共用统一页眉：衬线标题 + 可选说明 + 底部 1px 细栏线。 */
+.portal-surface .r-page-head {
   padding: 0 0.1rem 0.9rem;
   margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--r-divider);
 }
 
-.portal-surface:not(.portal-surface--wide) .r-page-head__title {
+.portal-surface .r-page-head__title {
   margin: 0 !important;
   font-family: var(--r-font-body) !important;
   font-size: var(--r-text-page) !important;
@@ -143,7 +142,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   color: var(--r-ink-strong, var(--r-ink)) !important;
 }
 
-.portal-surface:not(.portal-surface--wide) .r-page-head__note {
+.portal-surface .r-page-head__note {
   margin: 0.42rem 0 0 !important;
   font-family: var(--r-font-body);
   font-size: var(--r-text-sm);
@@ -152,7 +151,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   text-wrap: pretty;
 }
 
-.portal-surface:not(.portal-surface--wide) .r-page-head__meta {
+.portal-surface .r-page-head__meta {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -226,7 +225,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   line-height: 1.5;
 }
 
-.portal-surface:not(.portal-surface--wide) .reading-shell__header {
+.portal-surface .reading-shell .reading-shell__header {
   border-bottom: 0;
   padding-bottom: 0;
 }
@@ -346,6 +345,7 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   width: 100%;
   max-width: none;
   padding-inline: 0;
+  margin-bottom: var(--space-lg);
 }
 
 .portal-surface--wide :is(.media-heading, .archive-heading, .related-heading, .tools-section h2) {
@@ -416,9 +416,17 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
     padding: 0;
   }
 
-  .portal-surface:not(.portal-surface--wide) .r-page-head {
+  .portal-surface .r-page-head {
     padding: 0 0.1rem 0.75rem;
     margin-bottom: 1rem;
+  }
+
+  .portal-surface--wide {
+    --r-header-content-space: var(--space-lg);
+  }
+
+  .portal-surface--wide .simple-header {
+    padding-inline: 0;
   }
 
   .portal-surface:not(.portal-surface--wide) .r-card--reading {

@@ -89,24 +89,22 @@ const getLink = (entry: NeoDBItem) => {
 
 <ReadingShell title={title} description={description} wide className="media-layout">
   <div class="media-page" data-media-page>
-    <SimpleHeader title="Media" />
+    <SimpleHeader title="书影音">
+      <div class="media-filters" slot="actions" role="toolbar" aria-label="按类型筛选">
+        {mediaKinds.map((kind) => (
+          <button
+            type="button"
+            class="media-filter"
+            data-media-filter={kind.key}
+            aria-pressed={kind.key === 'all' ? 'true' : 'false'}
+          >
+            {kind.label}
+          </button>
+        ))}
+      </div>
+    </SimpleHeader>
 
     <div class="media-main">
-      <div class="media-heading">
-        <h1>书影音</h1>
-        <div class="media-filters" role="toolbar" aria-label="按类型筛选">
-          {mediaKinds.map((kind) => (
-            <button
-              type="button"
-              class="media-filter"
-              data-media-filter={kind.key}
-              aria-pressed={kind.key === 'all' ? 'true' : 'false'}
-            >
-              {kind.label}
-            </button>
-          ))}
-        </div>
-      </div>
 
       <div class="media-years" aria-live="polite">
         {sortedYears.map((year) => (
