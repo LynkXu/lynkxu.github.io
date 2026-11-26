@@ -2759,6 +2759,315 @@
     {
       "shelf_type": "complete",
       "visibility": 0,
+      "post_id": 648058140854734700,
+      "item": {
+        "type": "TVSeason",
+        "title": "Magpie Murders",
+        "description": "本剧由BritBox UK和美国PBS旗下的Masterpiece联合制作，改编自《战地神探》主创Anthony Horowitz的同名畅销小说。Horowitz本人执笔剧本，共6集。\n作者表示小说的叙事受到阿加莎·克里斯蒂的影响。这是一个案中案，故事围绕编辑Susan Ryeland展开，她拿到了作家Alan Conway最新小说未完成的手稿，毫不知情这将改变她的生活。\nAnthony Horowitz是一名英国小说家和编剧，小说代表作为\"少年间谍亚历克斯\"系列。他创作的《丝之屋》是柯南·道尔产权会唯一认证的福尔摩斯新故事，除此之外还有一本《莫里亚蒂》。Horowitz还被伊恩·弗莱明产权会选中创作了两本詹姆斯·邦德的小说。",
+        "localized_title": [
+          {
+            "lang": "zh-cn",
+            "text": "喜鹊谋杀案"
+          },
+          {
+            "lang": "en",
+            "text": "Magpie Murders"
+          },
+          {
+            "lang": "ko",
+            "text": "시즌 1"
+          },
+          {
+            "lang": "ja",
+            "text": "シーズン1"
+          },
+          {
+            "lang": "pt",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "de",
+            "text": "Staffel 1"
+          },
+          {
+            "lang": "fr",
+            "text": "Saison 1"
+          },
+          {
+            "lang": "es",
+            "text": "Temporada 1"
+          },
+          {
+            "lang": "en",
+            "text": "Season 1"
+          },
+          {
+            "lang": "zh-hk",
+            "text": "全 1 季"
+          },
+          {
+            "lang": "zh-tw",
+            "text": "第 1 季"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "全 1 季"
+          },
+          {
+            "lang": "de",
+            "text": "Magpie Murders"
+          }
+        ],
+        "localized_description": [
+          {
+            "lang": "zh-cn",
+            "text": "本剧由BritBox UK和美国PBS旗下的Masterpiece联合制作，改编自《战地神探》主创Anthony Horowitz的同名畅销小说。Horowitz本人执笔剧本，共6集。\n作者表示小说的叙事受到阿加莎·克里斯蒂的影响。这是一个案中案，故事围绕编辑Susan Ryeland展开，她拿到了作家Alan Conway最新小说未完成的手稿，毫不知情这将改变她的生活。\nAnthony Horowitz是一名英国小说家和编剧，小说代表作为\"少年间谍亚历克斯\"系列。他创作的《丝之屋》是柯南·道尔产权会唯一认证的福尔摩斯新故事，除此之外还有一本《莫里亚蒂》。Horowitz还被伊恩·弗莱明产权会选中创作了两本詹姆斯·邦德的小说。"
+          },
+          {
+            "lang": "zh-cn",
+            "text": "  本剧由BritBox UK和美国PBS旗下的Masterpiece联合制作，改编自《战地神探》主创Anthony Horowitz的同名畅销小说。Horowitz本人执笔剧本，共6集。\r\n  作者表示小说的叙事受到阿加莎·克里斯蒂的影响。这是一个案中案，故事围绕编辑Susan Ryeland展开，她拿到了作家Alan Conway最新小说未完成的手稿，毫不知情这将改变她的生活。\r\n  Anthony Horowitz是一名英国小说家和编剧，小说代表作为\"少年间谍亚历克斯\"系列。他创作的《丝之屋》是柯南·道尔产权会唯一认证的福尔摩斯新故事，除此之外还有一本《莫里亚蒂》。Horowitz还被伊恩·弗莱明产权会选中创作了两本詹姆斯·邦德的小说。 "
+          }
+        ],
+        "cover_image_url": "https://neodb.social/m/item/doubanmovie/2024/12/12/565da2ba-969b-4b7c-807b-cdb086f56a89.jpg",
+        "rating": 7.9,
+        "rating_count": 305,
+        "rating_distribution": [
+          1,
+          1,
+          14,
+          63,
+          21
+        ],
+        "tags": null,
+        "brief": "本剧由BritBox UK和美国PBS旗下的Masterpiece联合制作，改编自《战地神探》主创Anthony Horowitz的同名畅销小说。Horowitz本人执笔剧本，共6集。\n作者表示小说的叙事受到阿加莎·克里斯蒂的影响。这是一个案中案，故事围绕编辑Susan Ryeland展开，她拿到了作家Alan Conway最新小说未完成的手稿，毫不知情这将改变她的生活。\nAnthony Horowitz是一名英国小说家和编剧，小说代表作为\"少年间谍亚历克斯\"系列。他创作的《丝之屋》是柯南·道尔产权会唯一认证的福尔摩斯新故事，除此之外还有一本《莫里亚蒂》。Horowitz还被伊恩·弗莱明产权会选中创作了两本詹姆斯·邦德的小说。",
+        "id": "https://neodb.social/tv/season/4XwWpZ4PQocCZ4wXrcZzyz",
+        "uuid": "4XwWpZ4PQocCZ4wXrcZzyz",
+        "url": "/tv/season/4XwWpZ4PQocCZ4wXrcZzyz",
+        "api_url": "/api/tv/season/4XwWpZ4PQocCZ4wXrcZzyz",
+        "category": "tv",
+        "parent_uuid": "42CFrBfn64vqfl8u19QXr7",
+        "display_title": "Magpie Murders",
+        "external_resources": [
+          {
+            "url": "https://movie.douban.com/subject/35154761/"
+          },
+          {
+            "url": "https://bgm.tv/subject/372454"
+          },
+          {
+            "url": "https://www.themoviedb.org/tv/130766/season/1"
+          }
+        ],
+        "credits": [
+          {
+            "role": "actor",
+            "name": "莱丝利·曼维尔",
+            "character_name": "",
+            "person_url": "/api/people/3l6TJArs0nlJHLYQ47rycG"
+          },
+          {
+            "role": "actor",
+            "name": "蒂姆·迈克穆兰",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "康勒斯·希尔",
+            "character_name": "",
+            "person_url": "/api/people/5YraygYYGa7XIsNGyMe1Ct"
+          },
+          {
+            "role": "actor",
+            "name": "迈克尔·马罗尼",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "亚历山德罗斯·洛戈蒂斯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "克莱尔·拉什布鲁克",
+            "character_name": "",
+            "person_url": "/api/people/7Ueo8hTzvKhiSOkkLnUSff"
+          },
+          {
+            "role": "actor",
+            "name": "丹尼尔·梅斯",
+            "character_name": "",
+            "person_url": "/api/people/2yOFvfLUHTKgXA0quc0wqi"
+          },
+          {
+            "role": "actor",
+            "name": "马修·比尔德",
+            "character_name": "",
+            "person_url": "/api/people/5KbWZBqTkhzZiGkJz8j2Rg"
+          },
+          {
+            "role": "actor",
+            "name": "罗肯·克兰尼奇",
+            "character_name": "",
+            "person_url": "/api/people/5XZJFdQtFaFQRcJd5FPF4a"
+          },
+          {
+            "role": "actor",
+            "name": "多萝西·阿特金森",
+            "character_name": "",
+            "person_url": "/api/people/41T5TW1gFJlua0qtyI7P59"
+          },
+          {
+            "role": "actor",
+            "name": "皮帕·海伍德",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "内森·克拉克",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "哈利·劳蒂",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "尼娅·迪肯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "凯伦·韦斯特伍德",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "伊恩·劳埃德·安德森",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "乔尔·伯克特",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "裘德·希尔",
+            "character_name": "",
+            "person_url": "/api/people/5D1IbCV5AEkc8cNNNQsmh9"
+          },
+          {
+            "role": "actor",
+            "name": "楚库玛·奥曼巴拉",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "丹妮尔·瑞恩",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "保罗·泰来克",
+            "character_name": "",
+            "person_url": "/api/people/04AnbFKH6yXdQWhPhIjcdf"
+          },
+          {
+            "role": "actor",
+            "name": "卡尔·柯林斯",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "桑吉弗·科赫利",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "娜塔丽·阿明",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "菲娜·奥鲁赫",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "詹姆斯·弗林",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "贝弗莉·朗赫斯特",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "布赖恩·罗杰",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "苏塔拉·盖尔",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "actor",
+            "name": "凯特·吉尔摩",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "director",
+            "name": "彼得·卡坦纽",
+            "character_name": "",
+            "person_url": null
+          },
+          {
+            "role": "playwright",
+            "name": "安东尼·霍洛维茨",
+            "character_name": "",
+            "person_url": null
+          }
+        ]
+      },
+      "owner": {
+        "username": "LynkXu",
+        "url": "/users/LynkXu/",
+        "display_name": "LynkXu",
+        "avatar": "https://neodb.social/m/profile_images/2026/2/19/RMmk0MqUzlENoR2EZ335WOjQixo.jpeg"
+      },
+      "created_time": "2026-11-24T14:11:41.052Z",
+      "comment_text": null,
+      "rating_grade": 8,
+      "tags": [],
+      "publication_year": "2022"
+    },
+    {
+      "shelf_type": "complete",
+      "visibility": 0,
       "post_id": 629926476084608400,
       "item": {
         "type": "TVSeason",
