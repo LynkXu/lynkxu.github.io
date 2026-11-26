@@ -25,6 +25,8 @@ const {
 	updatedDate,
 	tags,
 	categories,
+	cover,
+	coverCaption,
 	draft,
 	changelog,
 	postId,
@@ -36,6 +38,7 @@ const {
 } = Astro.props;
 
 const isDev = import.meta.env.DEV;
+const hasCover = Boolean(cover);
 const topicLabels = tags?.length
 	? tags
 	: categories?.length
@@ -48,41 +51,58 @@ const topLevelCount = tocHeadings.filter((h) => h.depth === tocMinLevel).length;
 const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 ---
 
-<ReadingShell title={title} description={description || excerpt || ''}>
+<ReadingShell title={title} description={description || excerpt || ''} image={cover}>
 	<link rel="stylesheet" href="/lightgallery/css/lightgallery.min.css" slot="head" />
 
-	<article class="r-article r-card r-card--reading">
-		<header class="r-article__header">
-			<h1 class="r-page-title r-article__title">{title}</h1>
+	<article class:list={['r-article', 'r-card', 'r-card--reading', hasCover && 'r-article--has-cover']}>
+		{cover && (
+			<figure class="r-article__cover">
+				<div class="r-article__cover-frame">
+					<img
+						src={cover}
+						alt={coverCaption || title}
+						loading="eager"
+						decoding="async"
+						fetchpriority="high"
+					/>
+				</div>
+				{coverCaption && <figcaption class="r-article__cover-caption">{coverCaption}</figcaption>}
+			</figure>
+		)}
 
-			<div class="r-meta">
-				<span><FormattedDate date={pubDate} /></span>
-				{topicLabels.map((label) => (
-					topicLinksEnabled ? (
-						<a href={`/tags/${label}/`} class="r-meta__link">{label}</a>
-					) : (
-						<span>{label}</span>
-					)
-				))}
-				{readingTime && <span>{readingTime} min</span>}
-				{updatedDate && (
-					<span>更新于 <FormattedDate date={updatedDate} /></span>
-				)}
-				{isDev && draft && <span class="r-draft !ml-0">草稿</span>}
+		<div class:list={[hasCover ? 'r-article__sheet' : 'r-article__flow']}>
+			<header class="r-article__header">
+				<h1 class="r-page-title r-article__title">{title}</h1>
+
+				<div class="r-meta">
+					<span><FormattedDate date={pubDate} /></span>
+					{topicLabels.map((label) => (
+						topicLinksEnabled ? (
+							<a href={`/tags/${label}/`} class="r-meta__link">{label}</a>
+						) : (
+							<span>{label}</span>
+						)
+					))}
+					{readingTime && <span>{readingTime} min</span>}
+					{updatedDate && (
+						<span>更新于 <FormattedDate date={updatedDate} /></span>
+					)}
+					{isDev && draft && <span class="r-draft !ml-0">草稿</span>}
+				</div>
+
+				{description && <p class="r-article__desc">{description}</p>}
+			</header>
+
+			<div class="r-prose md-theme post-content content" id="lightgallery">
+				<slot />
 			</div>
 
-			{description && <p class="r-article__desc">{description}</p>}
-		</header>
-
-		<div class="r-prose md-theme post-content content" id="lightgallery">
-			<slot />
+			<footer class="r-article__tail">
+				<div class="r-article__end" aria-hidden="true"></div>
+				<LikeButton id={postId || Astro.url.pathname} type="post" />
+				{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
+			</footer>
 		</div>
-
-		<footer class="r-article__tail">
-			<div class="r-article__end" aria-hidden="true"></div>
-			<LikeButton id={postId || Astro.url.pathname} type="post" />
-			{changelog && changelog.length > 0 && <Changelog entries={changelog} />}
-		</footer>
 
 		<NavButton
 			headings={shouldRenderTOC ? tocHeadings : []}
@@ -175,6 +195,76 @@ const shouldRenderTOC = showTOC && tocHeadings.length > 0;
 	.r-article {
 		position: relative;
 		--dock-gap: var(--space-md);
+		--r-article-pad-x: clamp(1.2rem, 4vw, 2.625rem);
+		--r-article-pad-bottom: clamp(1.9rem, 4.8vw, 3rem);
+	}
+
+	.r-article__flow {
+		display: contents;
+	}
+
+	/* 封面图：白卡顶部贴边画幅（与首页双区纸卡同源，外层不裁切以保留右侧粘性目录） */
+	:global(.portal-surface:not(.portal-surface--wide)) .r-article.r-article--has-cover {
+		padding: 0;
+	}
+
+	.r-article__cover {
+		margin: 0;
+	}
+
+	.r-article__cover-frame {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: 2 / 1;
+		max-height: 360px;
+		border-radius: calc(var(--r-card-radius, 6px) - 1px) calc(var(--r-card-radius, 6px) - 1px) 0 0;
+		background: color-mix(in oklab, var(--r-bg) 70%, var(--r-card-bg, var(--r-bg)));
+		border-bottom: 1px solid var(--r-divider);
+	}
+
+	.r-article__cover-frame img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.r-article__cover-caption {
+		margin: 0;
+		padding: 0.52rem var(--r-article-pad-x);
+		border-bottom: 1px solid var(--r-divider);
+		background: color-mix(in oklab, var(--r-bg) 48%, var(--r-card-bg, var(--r-bg)));
+		font-family: var(--r-font-ui);
+		font-size: 0.74rem;
+		line-height: 1.5;
+		color: var(--r-ink-faint);
+		text-align: left;
+	}
+
+	.r-article--has-cover .r-article__sheet {
+		padding: clamp(1.45rem, 3.6vw, 2.2rem) var(--r-article-pad-x) var(--r-article-pad-bottom);
+	}
+
+	@media (max-width: 640px) {
+		.r-article {
+			--r-article-pad-x: 1.05rem;
+			--r-article-pad-bottom: 1.5rem;
+		}
+
+		.r-article__cover-frame {
+			aspect-ratio: 16 / 10;
+			max-height: 260px;
+		}
+
+		.r-article__cover-caption {
+			padding: 0.45rem var(--r-article-pad-x);
+		}
+
+		.r-article--has-cover .r-article__sheet {
+			padding: 1.25rem var(--r-article-pad-x) var(--r-article-pad-bottom);
+		}
 	}
 
 	@media (min-width: 1280px) {

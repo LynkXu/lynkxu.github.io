@@ -23,6 +23,8 @@ const blog = defineCollection({
 			categories: z.array(z.string()).optional(),
 			places: z.array(z.string()).optional(),
 			tags: z.array(z.string()).optional(),
+			cover: z.string().optional(),
+			coverCaption: z.string().optional(),
 			draft: z.boolean().default(false),
 			changelog: z.array(z.object({
 				date: z.coerce.date(),

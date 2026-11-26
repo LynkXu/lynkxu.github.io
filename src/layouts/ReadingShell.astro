@@ -9,7 +9,7 @@ interface Props {
 	description: string;
 	className?: string;
 	wide?: boolean;
-	image?: ImageMetadata;
+	image?: ImageMetadata | string;
 }
 
 const { title, description, className = '', wide = false, image } = Astro.props;

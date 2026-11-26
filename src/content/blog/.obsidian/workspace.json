@@ -13,15 +13,30 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026-09-13-travel-in-gap/2026-09-13-travel-in-gap.md.md",
+                "file": "markdown-theme-preview.md",
                 "mode": "source",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "2026-09-13-travel-in-gap.md"
+              "title": "markdown-theme-preview"
+            }
+          },
+          {
+            "id": "4d59b687b9e4c0df",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "2026-11-26-MacBookAir/2026-11-26-macbookair.md.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "2026-11-26-macbookair.md"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -83,8 +98,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "7f2c19bed8f00f7e",
@@ -186,15 +200,21 @@
       "bases:新建数据库": false
     }
   },
-  "active": "3f40c0cd15701ff4",
+  "active": "4d59b687b9e4c0df",
   "lastOpenFiles": [
+    "cover-demo-bleed.md",
+    "cover-demo-inset.md",
+    "2026-11-26-MacBookAir/2026-11-26-macbookair.md.md",
+    "SCR-20261126-kfmw.png",
+    "2026-09-13-travel-in-gap/2026-09-13-travel-in-gap.md.md",
+    "markdown-theme-preview.md",
+    "2026-11-26-MacBookAir",
     "map-demo/index.md",
     "map-demo",
     "2026-03-01-note/2026-03-01.md",
     "2025-12-29-review/review-2025.md",
     "2026-01-25-blog-sync/2026-01-25.md",
     "2026-09-01-layoff/2026-09-01-layoff.md",
-    "2026-09-13-travel-in-gap/2026-09-13-travel-in-gap.md.md",
     "2026-01-04-overload/2026-01-04.md",
     "2021-09-06-first-year-graduate/2021-09-06-first-year-graduate.md",
     "2023-01-31-age25/2023-01-31-age25.md",
@@ -212,7 +232,6 @@
     "2021-09-06-first-year-graduate",
     "2021-07-01-windows-terminal-proxy/2021-07-01-windows-terminal-proxy.md",
     "2021-07-01-windows-terminal-proxy",
-    "2021-06-30-some-thinking/2021-06-30-someThinking.md",
-    "2021-06-30-some-thinking"
+    "2021-06-30-some-thinking/2021-06-30-someThinking.md"
   ]
 }

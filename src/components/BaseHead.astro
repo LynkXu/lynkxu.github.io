@@ -8,12 +8,13 @@ import { SITE_TITLE } from '../consts';
 interface Props {
 	title: string;
 	description: string;
-	image?: ImageMetadata;
+	image?: ImageMetadata | string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
 const { title: rawTitle, description, image } = Astro.props;
+const ogImageSrc = typeof image === 'string' ? image : image?.src;
 
 // 格式化标题：如果不是首页且标题不包含博客名称，则添加 " - 博客名称"
 const title = rawTitle === SITE_TITLE ? rawTitle : `${rawTitle} - ${SITE_TITLE}`;
@@ -67,4 +68,4 @@ const umamiScriptSrc = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL ?? 'https://cloud
 <meta property='og:url' content={Astro.url} />
 <meta property='og:title' content={title} />
 <meta property='og:description' content={description} />
-{image && <meta property='og:image' content={new URL(image.src, Astro.url)} />}
+{ogImageSrc && <meta property='og:image' content={new URL(ogImageSrc, Astro.url)} />}
