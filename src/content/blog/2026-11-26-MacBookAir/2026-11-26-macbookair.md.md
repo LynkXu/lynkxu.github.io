@@ -3,9 +3,8 @@ slug: 2026-11-26-macbook-air
 title: 我的 Macbook Air
 tags:
   - 生活
-  - 购物
+  - 买买买
 pubDate: 2026-11-26
-draft: true
 cover: https://pub-56db91fa293f49758c902b0be45d4cda.r2.dev/2026/11/e58a7a7317564e79b41fa26e1273fda0.png
 ---
 ## 我的第一台 Mac
