@@ -125,9 +125,19 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   overflow: hidden;
 }
 
-/* 集合/频道页与专题页共用统一页眉：衬线标题 + 可选说明 + 底部 1px 细栏线。 */
+/* 集合/频道页与专题页共用统一页眉：衬线标题 + 可选说明；
+   核心卡片页采用全无线强留白分层（标题收轻一档、上方拉宽、下方紧贴白卡），
+   专题宽页保留完整字号与底部 1px 细栏线。 */
 .portal-surface .r-page-head {
+  padding: 0 0.1rem;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-md);
+  border-bottom: 0;
+}
+
+.portal-surface--wide .r-page-head {
   padding: 0 0.1rem 0.9rem;
+  margin-top: 0;
   margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--r-divider);
 }
@@ -135,20 +145,33 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
 .portal-surface .r-page-head__title {
   margin: 0 !important;
   font-family: var(--r-font-body) !important;
-  font-size: var(--r-text-page) !important;
+  font-size: var(--r-text-lg) !important;
   font-weight: 600 !important;
   line-height: var(--r-lh-tight) !important;
+  letter-spacing: -0.015em !important;
+  color: var(--r-ink) !important;
+}
+
+.portal-surface--wide .r-page-head__title {
+  font-size: var(--r-text-page) !important;
   letter-spacing: -0.018em !important;
   color: var(--r-ink-strong, var(--r-ink)) !important;
 }
 
 .portal-surface .r-page-head__note {
-  margin: 0.42rem 0 0 !important;
+  margin: 0.3rem 0 0 !important;
   font-family: var(--r-font-body);
+  font-size: var(--text-sm);
+  line-height: 1.62;
+  color: var(--r-ink-faint);
+  text-wrap: pretty;
+}
+
+.portal-surface--wide .r-page-head__note {
+  margin: 0.42rem 0 0 !important;
   font-size: var(--r-text-sm);
   line-height: 1.65;
   color: var(--r-ink-soft);
-  text-wrap: pretty;
 }
 
 .portal-surface .r-page-head__meta {
@@ -417,7 +440,14 @@ html[data-theme="dark"]:has(.portal-surface:not(.portal-surface--wide)),
   }
 
   .portal-surface .r-page-head {
+    padding: 0 0.1rem;
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-sm);
+  }
+
+  .portal-surface--wide .r-page-head {
     padding: 0 0.1rem 0.75rem;
+    margin-top: 0;
     margin-bottom: 1rem;
   }
 
