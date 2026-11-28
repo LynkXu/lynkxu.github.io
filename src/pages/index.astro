@@ -1,11 +1,10 @@
 ---
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
 import ReadingShell from '../layouts/ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
-import heroPhoto from '../content/photography/IMG_7136.jpeg';
+import homeCover from '../data/home-cover.json';
 
 const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
@@ -14,6 +13,10 @@ const posts = filterDrafts(await getCollection('blog'))
 const latestPosts = posts.slice(0, 8);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
 
+const coverSourceLine = homeCover.isFallback
+	? [homeCover.sourceName, homeCover.author].filter(Boolean).join(' · ')
+	: [homeCover.sourceName, homeCover.date, homeCover.author, homeCover.license].filter(Boolean).join(' · ');
+
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
 }
@@ -21,18 +24,50 @@ function getPostHref(post: (typeof posts)[number]) {
 
 <ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION} className="reading-home">
 	<div class="r-home-sheet r-card">
-		<figure class="r-home-cover">
-			<Image
-				src={heroPhoto}
-				alt="暮色中的湖面、远山与长桥"
-				width={1400}
-				format="webp"
-				quality={85}
+		<figure class="r-home-cover" id="home-cover-figure">
+			<img
+				id="home-cover-image"
+				src={homeCover.image}
+				alt={homeCover.description}
+				width={homeCover.width ?? 1400}
+				height={homeCover.height ?? 560}
 				loading="eager"
 				decoding="async"
 				fetchpriority="high"
 				class="r-home-cover__image"
+				style={`object-position: ${homeCover.position || 'center 48%'};`}
+				onerror="if (!this.dataset.fallback) { this.dataset.fallback = '1'; this.src = '/home-cover/fallback.webp'; }"
 			/>
+
+			<button
+				type="button"
+				id="home-cover-info-btn"
+				class="r-home-cover__trigger"
+				aria-expanded="false"
+				aria-controls="home-cover-caption"
+				aria-label="查看封面说明与来源"
+				title="查看封面说明与来源"
+			>
+				<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+					<circle cx="8" cy="4.5" r="1.05" fill="currentColor"></circle>
+					<path d="M7.25 7.2h1.5v4.55h-1.5z" fill="currentColor"></path>
+				</svg>
+			</button>
+
+			<figcaption id="home-cover-caption" class="r-home-cover__caption">
+				<p class="r-home-cover__desc">{homeCover.description}</p>
+				<p class="r-home-cover__source">
+					<a
+						href={homeCover.sourceUrl}
+						class="r-home-cover__source-link"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<span>{coverSourceLine}</span>
+						<span aria-hidden="true"> ↗</span>
+					</a>
+				</p>
+			</figcaption>
 		</figure>
 
 		<div class="r-home-body">
@@ -64,6 +99,35 @@ function getPostHref(post: (typeof posts)[number]) {
 			</section>
 		</div>
 	</div>
+
+	<script is:inline>
+		(function () {
+			const figureEl = document.getElementById('home-cover-figure');
+			const infoBtn = document.getElementById('home-cover-info-btn');
+			if (!figureEl || !infoBtn) return;
+
+			function setCaptionOpen(open) {
+				figureEl.classList.toggle('is-caption-open', open);
+				infoBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+			}
+
+			infoBtn.addEventListener('click', function (e) {
+				e.stopPropagation();
+				setCaptionOpen(!figureEl.classList.contains('is-caption-open'));
+			});
+
+			document.addEventListener('click', function (e) {
+				if (!figureEl.classList.contains('is-caption-open')) return;
+				if (!figureEl.contains(e.target)) setCaptionOpen(false);
+			});
+
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' && figureEl.classList.contains('is-caption-open')) {
+					setCaptionOpen(false);
+				}
+			});
+		})();
+	</script>
 </ReadingShell>
 
 <style>
@@ -74,7 +138,10 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	.r-home-cover {
+		position: relative;
+		width: 100%;
 		margin: 0;
+		overflow: hidden;
 		aspect-ratio: 16 / 6.4;
 		max-height: 290px;
 		background: color-mix(in oklab, var(--r-bg) 70%, var(--r-card-bg, var(--r-bg)));
@@ -87,6 +154,121 @@ function getPostHref(post: (typeof posts)[number]) {
 		height: 100%;
 		object-fit: cover;
 		object-position: center 48%;
+	}
+
+	.r-home-cover__trigger {
+		position: absolute;
+		right: 0.7rem;
+		bottom: 0.68rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.55rem;
+		height: 1.55rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.26);
+		border-radius: 999px;
+		background: rgba(15, 23, 42, 0.34);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		color: rgba(255, 255, 255, 0.9);
+		opacity: 0.72;
+		cursor: pointer;
+		transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+	}
+
+	.r-home-cover__trigger:hover,
+	.r-home-cover__trigger:focus-visible,
+	.r-home-cover.is-caption-open .r-home-cover__trigger {
+		opacity: 1;
+		background: rgba(15, 23, 42, 0.54);
+		border-color: rgba(255, 255, 255, 0.42);
+	}
+
+	.r-home-cover__caption {
+		position: absolute;
+		inset-inline: 0;
+		bottom: 0;
+		z-index: 1;
+		margin: 0;
+		padding: 2.35rem 3.1rem 0.72rem clamp(1.1rem, 3vw, 1.5rem);
+		background: linear-gradient(
+			to top,
+			rgba(15, 23, 42, 0.74) 0%,
+			rgba(15, 23, 42, 0.36) 58%,
+			transparent 100%
+		);
+		color: rgba(255, 255, 255, 0.95);
+		opacity: 0;
+		transform: translateY(4px);
+		pointer-events: none;
+		transition: opacity 0.22s ease, transform 0.22s ease;
+	}
+
+	@media (hover: hover) {
+		.r-home-cover:hover .r-home-cover__caption {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+
+		.r-home-cover:hover .r-home-cover__trigger {
+			opacity: 0.95;
+		}
+	}
+
+	.r-home-cover:focus-within .r-home-cover__caption,
+	.r-home-cover.is-caption-open .r-home-cover__caption {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	.r-home-cover__desc {
+		margin: 0;
+		font-family: var(--r-font-body);
+		font-size: 0.82rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.96);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+	}
+
+	.r-home-cover__source {
+		margin: 0.16rem 0 0;
+		font-family: var(--r-font-ui);
+		font-size: 0.71rem;
+		line-height: 1.4;
+		color: rgba(255, 255, 255, 0.78);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+	}
+
+	.r-home-cover__source-link {
+		color: rgba(255, 255, 255, 0.82) !important;
+		border-bottom: 0 !important;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+
+	.r-home-cover__source-link:hover {
+		color: #ffffff !important;
+		text-decoration-color: rgba(255, 255, 255, 0.65);
+	}
+
+	@media (pointer: coarse) {
+		.r-home-cover__trigger::after {
+			content: "";
+			position: absolute;
+			inset: -0.6rem;
+		}
 	}
 
 	.r-home-body {
@@ -186,6 +368,9 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.r-home-cover__trigger,
+		.r-home-cover__caption,
+		.r-home-cover__source-link,
 		.r-home-intro__about,
 		.home-section-more {
 			transition: none;

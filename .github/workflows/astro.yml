@@ -16,6 +16,8 @@ on:
       - "src/data/sports-stats.json"
       - "src/data/strava/**"
       - "public/strava-poster.svg"
+      - "src/data/home-cover.json"
+      - "public/home-cover/daily.webp"
       # Mastodon publish state (added by our publish job)
       - "src/data/mastodon-published.json"
       # Boundary cache is generated during build and committed back with GITHUB_TOKEN.
