@@ -32,27 +32,101 @@ function getDateParts(date: Date) {
 		hour: '2-digit',
 		minute: '2-digit',
 		hour12: false,
+		hourCycle: 'h23',
 	}).format(date);
 	return { day, monthNum, year, time };
 }
 
+const DAY_MS = 86_400_000;
+
 const memoItems = gossips.map((gossip: any, index) => {
-	const { day, monthNum, year, time } = getDateParts(gossip.data.pubDate);
+	const pubDate: Date = gossip.data.pubDate;
+	const { day, monthNum, year, time } = getDateParts(pubDate);
+	const isUtcMidnight =
+		pubDate.getUTCHours() === 0 &&
+		pubDate.getUTCMinutes() === 0 &&
+		pubDate.getUTCSeconds() === 0 &&
+		pubDate.getUTCMilliseconds() === 0;
+	const hasExactTime = Boolean(gossip._raw?.created_at) || !isUtcMidnight;
+
 	return {
 		gossip,
 		index,
+		ts: pubDate.valueOf(),
 		page: Math.floor(index / pageSize) + 1,
+		year,
+		monthNum,
+		monthLabel: `${Number(monthNum)}月`,
+		monthKey: `${year}-${monthNum}`,
+		day,
 		dateLabel: `${year}.${monthNum}.${day}`,
 		time,
+		hasExactTime,
 		attachments: gossip._raw?.media_attachments || [],
 	};
 });
 
+type MemoItem = (typeof memoItems)[number];
+
+type MonthCluster = {
+	monthKey: string;
+	year: string;
+	monthNum: string;
+	monthLabel: string;
+	items: MemoItem[];
+	isYearChange: boolean;
+	gapTier: 'normal' | 'medium' | 'wide';
+};
+
 const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 	const page = pageIndex + 1;
+	const items = memoItems.filter((item) => item.page === page);
+
+	const rawClusters: Array<{
+		monthKey: string;
+		year: string;
+		monthNum: string;
+		monthLabel: string;
+		items: MemoItem[];
+	}> = [];
+
+	for (const item of items) {
+		const last = rawClusters[rawClusters.length - 1];
+		if (!last || last.monthKey !== item.monthKey) {
+			rawClusters.push({
+				monthKey: item.monthKey,
+				year: item.year,
+				monthNum: item.monthNum,
+				monthLabel: item.monthLabel,
+				items: [item],
+			});
+		} else {
+			last.items.push(item);
+		}
+	}
+
+	const clusters: MonthCluster[] = rawClusters.map((cluster, cIdx) => {
+		const prev = cIdx > 0 ? rawClusters[cIdx - 1] : null;
+		const prevLastTs = prev ? prev.items[prev.items.length - 1].ts : null;
+		const gapDays = prevLastTs ? Math.round((prevLastTs - cluster.items[0].ts) / DAY_MS) : 0;
+		const isYearChange = Boolean(prev && prev.year !== cluster.year);
+		const gapTier: 'normal' | 'medium' | 'wide' =
+			cIdx === 0 ? 'normal' : gapDays >= 90 ? 'wide' : gapDays >= 40 ? 'medium' : 'normal';
+
+		return {
+			...cluster,
+			isYearChange,
+			gapTier,
+		};
+	});
+
+	const firstYear = clusters[0]?.year ?? '';
+
 	return {
 		page,
-		items: memoItems.filter((item) => item.page === page),
+		firstYear,
+		items,
+		clusters,
 	};
 });
 ---
@@ -77,68 +151,144 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			</p>
 		</header>
 
-		<div id="shuoshuo">
+		<div id="shuoshuo" class="r-memos__stage">
 			{gossips.length === 0 ? (
 				<p class="r-memos__empty">还没有碎语。</p>
 			) : (
-				pagedMemoPages.map(({ page, items }) => (
+				pagedMemoPages.map(({ page, firstYear, clusters }) => (
 					<div class="memos-page" data-page={page} hidden={page !== 1}>
-						<div class="r-memos__list" role="list">
-							{items.map((item) => {
-								const { gossip, attachments, dateLabel, time, index } = item;
-								return (
-									<article class="r-memo" data-index={index} role="listitem">
-										<header class="r-memo__meta">
-											<time datetime={gossip.data.pubDate.toISOString()}>
-												<span class="r-memo__date">{dateLabel}</span>
-												<span class="r-memo__time">{time}</span>
-											</time>
-											{gossip.data.tag && gossip.data.tag !== 'mastodon' && (
-												<span class="r-memo__tag">#{gossip.data.tag}</span>
-											)}
-											{INCLUDE_DRAFTS && gossip.data.draft && <span class="r-draft !ml-0">草稿</span>}
-											<span class="r-memo__like">
-												<LikeButton id={gossip.data.slug} type="gossip" />
-											</span>
-										</header>
+						{firstYear && (
+							<div class="r-memos__year-head" aria-hidden="true">
+								<span class="r-memos__year-head-label">{firstYear}</span>
+							</div>
+						)}
 
+						<div class="r-memos__clusters">
+							{clusters.map((cluster, clusterIndex) => (
+								<div class="r-memo-cluster-wrap">
+									{cluster.isYearChange && (
+										<div
+											class="r-memo-year-break"
+											role="separator"
+											aria-label={`${cluster.year} 年`}
+										>
+											<span class="r-memo-year-break__line"></span>
+											<span class="r-memo-year-break__label">{cluster.year}</span>
+										</div>
+									)}
+
+									<section
+										class:list={['r-memo-group', `gap-${cluster.gapTier}`]}
+										data-month-key={cluster.monthKey}
+										aria-label={`${cluster.year}年${cluster.monthLabel}`}
+									>
 										<img
-											class="r-memo__avatar"
+											class="r-memo-group__avatar"
 											src="/avatar-112.webp"
 											alt=""
 											width="112"
 											height="112"
-											loading={index === 0 ? 'eager' : 'lazy'}
+											loading={page === 1 && clusterIndex === 0 ? 'eager' : 'lazy'}
 											decoding="async"
 										/>
 
-										<div class="r-memo__panel">
-											<div class="r-memo__content">
-												<div class="r-prose r-memo__body" set:html={marked.parse(gossip.body || '')} />
+										<div class="r-memo-group__sheet" role="list">
+											{cluster.items.map((item, idxInGroup) => {
+												const {
+													gossip,
+													attachments,
+													day,
+													dateLabel,
+													time,
+													hasExactTime,
+													index,
+												} = item;
+												const isHead = idxInGroup === 0;
+												const fullStamp = hasExactTime ? `${dateLabel} ${time}` : dateLabel;
+												const hasTag = Boolean(
+													gossip.data.tag && gossip.data.tag !== 'mastodon',
+												);
+												const hasDraft = Boolean(INCLUDE_DRAFTS && gossip.data.draft);
 
-												{attachments.length > 0 && (
-													<div class={`media-grid grid-${Math.min(attachments.length, 4)}`}>
-														{attachments.slice(0, 4).map((media: any) => (
-															<a
-																href={media.url}
-																class="media-item"
-																data-src={media.url}
-																data-sub-html={media.description}
-															>
-																<img
-																	src={media.preview_url || media.url}
-																	alt={media.description || ''}
-																	loading="lazy"
+												return (
+													<article
+														class="r-memo-entry"
+														data-index={index}
+														role="listitem"
+													>
+														<div class="r-memo-entry__card">
+															<div class="r-memo-entry__content">
+																<div
+																	class="r-prose r-memo__body"
+																	set:html={marked.parse(gossip.body || '')}
 																/>
-															</a>
-														))}
-													</div>
-												)}
-											</div>
+
+																{attachments.length > 0 && (
+																	<div
+																		class={`media-grid grid-${Math.min(attachments.length, 4)}`}
+																	>
+																		{attachments.slice(0, 4).map((media: any) => (
+																			<a
+																				href={media.url}
+																				class="media-item"
+																				data-src={media.url}
+																				data-sub-html={media.description}
+																			>
+																				<img
+																					src={media.preview_url || media.url}
+																					alt={media.description || ''}
+																					loading="lazy"
+																				/>
+																			</a>
+																		))}
+																	</div>
+																)}
+
+																{(hasTag || hasDraft) && (
+																	<div class="r-memo-entry__badges">
+																		{hasTag && (
+																			<span class="r-memo__tag">
+																				#{gossip.data.tag}
+																			</span>
+																		)}
+																		{hasDraft && (
+																			<span class="r-draft !ml-0">草稿</span>
+																		)}
+																	</div>
+																)}
+															</div>
+
+															<div class="r-memo-entry__like">
+																<LikeButton id={gossip.data.slug} type="gossip" />
+															</div>
+														</div>
+
+														<div class="r-memo-entry__time-col">
+															<time
+																class="r-memo-entry__stamp"
+																datetime={gossip.data.pubDate.toISOString()}
+																title={fullStamp}
+															>
+																{isHead && (
+																	<span class="r-memo-entry__month">
+																		{cluster.monthLabel}
+																	</span>
+																)}
+																<span class="r-memo-entry__day-line">
+																	<span class="r-memo-entry__day">{day}日</span>
+																	{hasExactTime && (
+																		<span class="r-memo-entry__clock">{time}</span>
+																	)}
+																</span>
+															</time>
+														</div>
+													</article>
+												);
+											})}
 										</div>
-									</article>
-								);
-							})}
+									</section>
+								</div>
+							))}
 						</div>
 					</div>
 				))
@@ -246,6 +396,7 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 			if (nextBtn) nextBtn.disabled = currentPage >= totalPages;
 
 			const params = new URLSearchParams(window.location.search);
+			params.delete('view');
 			if (currentPage === 1) {
 				params.delete('page');
 			} else {
@@ -291,3 +442,265 @@ const pagedMemoPages = Array.from({ length: totalPages }, (_, pageIndex) => {
 		});
 	})();
 </script>
+
+<style>
+	.r-memos__stage {
+		--memo-avatar-size: 2.55rem;
+		--memo-lead-gap: 1.1rem;
+		--ledger-col-width: 6.5rem;
+	}
+
+	.r-memos__year-head {
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 0.45rem;
+	}
+
+	.r-memos__year-head-label {
+		width: var(--ledger-col-width);
+		padding-left: 0.82rem;
+		font-family: var(--r-font-code);
+		font-size: 0.72rem;
+		line-height: 1.2;
+		letter-spacing: 0.06em;
+		color: var(--r-ink-faint);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.r-memos__clusters {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.r-memo-year-break {
+		display: flex;
+		align-items: center;
+		gap: var(--space-sm);
+		margin: var(--space-xl) 0 var(--space-md);
+		font-family: var(--r-font-code);
+		font-size: 0.74rem;
+		letter-spacing: 0.06em;
+		color: var(--r-ink-faint);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.r-memo-year-break__line {
+		flex: 1 1 auto;
+		height: 1px;
+		background: var(--r-divider);
+	}
+
+	.r-memo-year-break__label {
+		width: var(--ledger-col-width);
+		padding-left: 0.82rem;
+	}
+
+	/* Proportional vertical rhythm between monthly ledger sheets */
+	.r-memo-cluster-wrap + .r-memo-cluster-wrap .r-memo-group.gap-normal {
+		margin-top: 1.4rem;
+	}
+
+	.r-memo-cluster-wrap + .r-memo-cluster-wrap .r-memo-group.gap-medium {
+		margin-top: 2.15rem;
+	}
+
+	.r-memo-cluster-wrap + .r-memo-cluster-wrap .r-memo-group.gap-wide {
+		margin-top: 2.8rem;
+	}
+
+	.r-memo-year-break + .r-memo-group {
+		margin-top: 0 !important;
+	}
+
+	.r-memo-group {
+		display: grid;
+		grid-template-columns: var(--memo-avatar-size) minmax(0, 1fr);
+		column-gap: var(--memo-lead-gap);
+		align-items: start;
+	}
+
+	.r-memo-group__avatar {
+		display: block;
+		width: var(--memo-avatar-size);
+		height: var(--memo-avatar-size);
+		aspect-ratio: 1 / 1;
+		margin-top: 0.12rem;
+		border: 1px solid color-mix(in oklab, var(--r-ink) 10%, transparent);
+		border-radius: 50%;
+		background: var(--r-code-bg);
+		object-fit: cover;
+		flex-shrink: 0;
+	}
+
+	:global(:root[data-theme='dark']) .r-memo-group__avatar {
+		filter: brightness(0.86) contrast(1.04);
+		border-color: color-mix(in oklab, var(--r-ink) 16%, transparent);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme])) .r-memo-group__avatar {
+			filter: brightness(0.86) contrast(1.04);
+			border-color: color-mix(in oklab, var(--r-ink) 16%, transparent);
+		}
+	}
+
+	.r-memo-group__sheet {
+		min-width: 0;
+		border: 1px solid var(--r-card-border, var(--r-memo-border));
+		border-radius: var(--r-card-radius, 6px);
+		background: var(--r-card-bg, var(--r-memo-surface));
+		box-shadow: var(--r-card-shadow);
+		overflow: hidden;
+		transition: border-color 0.2s ease, box-shadow 0.2s ease;
+	}
+
+	.r-memo-group__sheet:hover {
+		border-color: color-mix(in oklab, var(--r-ink) 16%, var(--r-memo-surface));
+	}
+
+	.r-memo-entry {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) var(--ledger-col-width);
+		align-items: stretch;
+		min-width: 0;
+	}
+
+	.r-memo-entry + .r-memo-entry {
+		border-top: 1px solid var(--r-divider);
+	}
+
+	.r-memo-entry__card {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 0.6rem;
+		min-width: 0;
+		padding: 0.88rem 1.12rem;
+	}
+
+	.r-memo-entry__content {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.media-grid {
+		display: grid;
+		gap: 4px;
+		margin-top: 0.65rem;
+		width: min(100%, 460px);
+		border-radius: 6px;
+		overflow: hidden;
+	}
+
+	.r-memo-entry__badges {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem;
+		margin-top: 0.5rem;
+	}
+
+	.r-memo-entry__like {
+		align-self: flex-end;
+		flex-shrink: 0;
+		margin-bottom: -0.1rem;
+		margin-right: -0.2rem;
+	}
+
+	@media (hover: hover) {
+		.r-memo-entry:hover :global(.like-btn.gossip.is-empty) {
+			opacity: 0.78;
+		}
+	}
+
+	/* Right-hand embedded ledger stub column */
+	.r-memo-entry__time-col {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		padding: 0.88rem 0.82rem;
+		border-left: 1px solid var(--r-divider);
+		background: color-mix(in oklab, var(--r-ink) 2%, var(--r-card-bg, var(--r-memo-surface)));
+		user-select: none;
+	}
+
+	.r-memo-entry__stamp {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.24rem;
+		width: 100%;
+		white-space: nowrap;
+	}
+
+	.r-memo-entry__month {
+		font-family: var(--r-font-body);
+		font-size: 0.98rem;
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: -0.015em;
+		color: var(--r-ink);
+	}
+
+	.r-memo-entry__day-line {
+		display: flex;
+		align-items: baseline;
+		gap: 0.32rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.r-memo-entry__day {
+		font-family: var(--r-font-ui);
+		font-size: 0.78rem;
+		font-weight: 450;
+		line-height: 1.3;
+		color: var(--r-ink-soft);
+	}
+
+	.r-memo-entry__clock {
+		font-family: var(--r-font-code);
+		font-size: 0.7rem;
+		line-height: 1.3;
+		color: var(--r-ink-faint);
+	}
+
+	@media (max-width: 640px) {
+		.r-memos__stage {
+			--memo-avatar-size: 2.05rem;
+			--memo-lead-gap: 0.68rem;
+			--ledger-col-width: 4.15rem;
+		}
+
+		.r-memos__year-head-label,
+		.r-memo-year-break__label {
+			padding-left: 0.55rem;
+		}
+
+		.r-memo-entry__card {
+			padding: 0.76rem 0.86rem;
+		}
+
+		.r-memo-entry__time-col {
+			padding: 0.76rem 0.55rem;
+		}
+
+		.r-memo-entry__month {
+			font-size: 0.88rem;
+		}
+
+		.r-memo-entry__day {
+			font-size: 0.73rem;
+		}
+
+		.r-memo-entry__clock {
+			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.r-memo-group__sheet {
+			transition: none !important;
+		}
+	}
+</style>
