@@ -1,11 +1,11 @@
 ---
 import ReadingShell from './ReadingShell.astro';
 import SponsorAbout from '../components/SponsorAbout.astro';
+import AboutTraits from '../components/AboutTraits.astro';
 
 const { title } = Astro.props;
 
-const headerClass = 'r-about__header mb-[var(--r-space-lg)]';
-const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink)]';
+const pageTitleClass = 'r-page-title !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-page)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink-strong,var(--r-ink))]';
 const proseClass = 'r-about__prose r-prose md-theme [&_.r-about__closing]:!mt-[var(--r-space-lg)] [&_.r-about__closing]:![font-size:var(--r-text-sm)] [&_.r-about__closing]:!leading-[1.75] [&_.r-about__closing]:!text-[var(--r-ink-faint)]';
 const extrasClass = 'r-about__extras [font-family:var(--r-font-body)]';
 const extrasTitleClass = 'r-prose-section-title md-section-heading';
@@ -33,8 +33,14 @@ const blogHistory = [
 
 <ReadingShell title={title} description={title}>
 	<section class="r-about r-card r-card--reading" aria-labelledby="about-title">
-		<header class={headerClass}>
-			<h1 id="about-title" class={pageTitleClass}>关于我</h1>
+		<header class="r-about__header">
+			<div class="r-about__identity">
+				<h1 id="about-title" class={pageTitleClass}>关于我</h1>
+				<div class="r-about__traits-wrap">
+					<AboutTraits variant="inline" />
+				</div>
+			</div>
+			<img class="r-about__portrait" src="/avatar-224.webp" width="224" height="224" alt="Lynk 的个人头像" />
 		</header>
 
 		<article class={proseClass}>
@@ -123,6 +129,80 @@ const blogHistory = [
 </ReadingShell>
 
 <style>
+	/* 方案一：卡内作者抬头（左文右头像 + 细线进正文） */
+	.r-about__header {
+		--r-traits-gap: 0px;
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		column-gap: clamp(1.25rem, 3.5vw, 2rem);
+		align-items: center;
+		padding-bottom: clamp(1.25rem, 3vw, 1.65rem);
+		margin-bottom: clamp(1.35rem, 3.2vw, 1.85rem);
+		border-bottom: 1px solid var(--r-divider);
+	}
+
+	.r-about__identity {
+		min-width: 0;
+	}
+
+	.r-about__traits-wrap {
+		--r-traits-gap: 0px;
+		margin-top: 0.5rem;
+	}
+
+	.r-about__traits-wrap :global(.r-about__traits) {
+		row-gap: 0.22rem !important;
+	}
+
+	.r-about__traits-wrap :global(.r-about__traits li) {
+		font-size: 0.76rem !important;
+		line-height: 1.55 !important;
+		color: var(--r-ink-faint) !important;
+	}
+
+	.r-about__portrait {
+		width: 4.15rem;
+		height: 4.15rem;
+		aspect-ratio: 1;
+		object-fit: cover;
+		padding: 3px;
+		border-radius: 50%;
+		background: var(--r-card-bg, var(--r-bg));
+		border: 1px solid color-mix(in oklab, var(--r-ink) 11%, transparent);
+		box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+		box-sizing: border-box;
+		flex-shrink: 0;
+	}
+
+	:global(:root[data-theme="dark"]) .r-about__portrait {
+		filter: brightness(0.86) contrast(1.04);
+		border-color: color-mix(in oklab, var(--r-ink) 16%, transparent);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:global(:root:not([data-theme])) .r-about__portrait {
+			filter: brightness(0.86) contrast(1.04);
+			border-color: color-mix(in oklab, var(--r-ink) 16%, transparent);
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.r-about__header {
+			column-gap: var(--space-md);
+			align-items: start;
+			padding-bottom: 1.1rem;
+			margin-bottom: 1.2rem;
+		}
+
+		.r-about__portrait {
+			width: 3.35rem;
+			height: 3.35rem;
+			padding: 2px;
+		}
+	}
+
 	.r-about__colophon {
 		margin: var(--r-space-lg) 0 0;
 		padding: var(--r-space-md) 0 0;

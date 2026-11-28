@@ -4,7 +4,7 @@ import ReadingShell from '../layouts/ReadingShell.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import { filterDrafts } from '../utils/drafts';
-import AboutTraits from '../components/AboutTraits.astro';
+import homeCover from '../data/home-cover.json';
 
 const posts = filterDrafts(await getCollection('blog'))
 	.filter((post) => !post.id.startsWith('en/'))
@@ -12,14 +12,10 @@ const posts = filterDrafts(await getCollection('blog'))
 
 const latestPosts = posts.slice(0, 8);
 const sectionTitleClass = 'r-section__title !m-0 ![font-family:var(--r-font-ui)] ![font-size:var(--r-text-sm)] !font-semibold !tracking-[0.03em] !text-[var(--r-ink)]';
-const homeIntroClass = 'r-home-intro r-card r-card--intro';
-const homeIntroTextClass = 'r-home-intro__text !m-0 ![font-family:var(--r-font-body)] ![font-size:var(--r-text-lg)] !font-semibold !leading-[var(--r-lh-tight)] !tracking-[-0.018em] !text-[var(--r-ink-strong,var(--r-ink))]';
 
-const profileLinks = [
-	{ href: 'https://github.com/lynkxu', label: 'GitHub', external: true },
-	{ href: 'https://mastodon.social/@lynkxu', label: 'Mastodon', external: true },
-	{ href: '/about', label: '关于 →', external: false },
-];
+const coverSourceLine = homeCover.isFallback
+	? [homeCover.sourceName, homeCover.author].filter(Boolean).join(' · ')
+	: [homeCover.sourceName, homeCover.date, homeCover.author, homeCover.license].filter(Boolean).join(' · ');
 
 function getPostHref(post: (typeof posts)[number]) {
 	return `/blog/${post.data.slug ?? post.id}.html`;
@@ -27,132 +23,234 @@ function getPostHref(post: (typeof posts)[number]) {
 ---
 
 <ReadingShell title={SITE_TITLE} description={SITE_DESCRIPTION} className="reading-home">
-	<section class={homeIntroClass} aria-label="简介">
-		<div class="r-home-intro__main">
-			<div class="r-home-intro__copy">
-				<h1 class={homeIntroTextClass}>你好，我是 Lynk。</h1>
-				<p class="r-home-intro__welcome"><span>很高兴你发现了这里。</span><span>希望你喜欢我写的内容，也祝你今天过得开心。</span></p>
-			</div>
-			<img class="r-home-intro__portrait" src="/avatar-224.webp" width="224" height="224" alt="Lynk 的个人头像" />
-		</div>
+	<div class="r-home-sheet r-card">
+		<figure class="r-home-cover" id="home-cover-figure">
+			<img
+				id="home-cover-image"
+				src={homeCover.image}
+				alt={homeCover.description}
+				width={homeCover.width ?? 1400}
+				height={homeCover.height ?? 560}
+				loading="eager"
+				decoding="async"
+				fetchpriority="high"
+				class="r-home-cover__image"
+				style={`object-position: ${homeCover.position || 'center 48%'};`}
+				onerror="if (!this.dataset.fallback) { this.dataset.fallback = '1'; this.src = '/home-cover/fallback.webp'; }"
+			/>
 
-		<div class="r-home-intro__foot">
-			<AboutTraits variant="chips" />
-			<nav class="r-home-intro__links" aria-label="快捷入口">
-				{profileLinks.map((link) => (
+			<button
+				type="button"
+				id="home-cover-info-btn"
+				class="r-home-cover__trigger"
+				aria-expanded="false"
+				aria-controls="home-cover-caption"
+				aria-label="查看封面说明与来源"
+				title="查看封面说明与来源"
+			>
+				<svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true" focusable="false">
+					<circle cx="8" cy="4.5" r="1.05" fill="currentColor"></circle>
+					<path d="M7.25 7.2h1.5v4.55h-1.5z" fill="currentColor"></path>
+				</svg>
+			</button>
+
+			<figcaption id="home-cover-caption" class="r-home-cover__caption">
+				<p class="r-home-cover__desc">{homeCover.description}</p>
+				<p class="r-home-cover__source">
 					<a
-						href={link.href}
-						class="r-home-intro__link"
-						target={link.external ? '_blank' : undefined}
-						rel={link.external ? 'noopener noreferrer' : undefined}
+						href={homeCover.sourceUrl}
+						class="r-home-cover__source-link"
+						target="_blank"
+						rel="noopener noreferrer"
 					>
-						{link.label}
+						<span>{coverSourceLine}</span>
+						<span aria-hidden="true"> ↗</span>
 					</a>
-				))}
-			</nav>
+				</p>
+			</figcaption>
+		</figure>
+
+		<div class="r-home-body">
+			<section class="r-home-intro" aria-label="简介">
+				<h1 class="r-home-intro__title">你好，我是 Lynk。</h1>
+
+				<p class="r-home-intro__welcome">
+					很高兴你发现了这里。希望你喜欢我写的内容，也祝你今天过得开心。
+					<a href="/about" class="r-home-intro__about">关于我 →</a>
+				</p>
+			</section>
+
+			<section class="r-section r-home-writing" aria-labelledby="home-writing-title">
+				<header class="r-section__head r-home-writing__head">
+					<h2 id="home-writing-title" class={sectionTitleClass}>最近文章</h2>
+					<a class="home-section-more" href="/blog">全部文章</a>
+				</header>
+
+				<ol class="r-post-list">
+					{latestPosts.map((post) => (
+						<li class="r-post-list__item">
+							<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
+							<span class="r-post-list__date">
+								<FormattedDate date={post.data.pubDate} />
+							</span>
+						</li>
+					))}
+				</ol>
+			</section>
 		</div>
-	</section>
+	</div>
 
-	<section class="r-section r-card" aria-labelledby="home-writing-title">
-		<header class="r-section__head">
-			<h2 id="home-writing-title" class={sectionTitleClass}>最近文章</h2>
-			<a class="home-section-more" href="/blog">全部文章</a>
-		</header>
+	<script is:inline>
+		(function () {
+			const figureEl = document.getElementById('home-cover-figure');
+			const infoBtn = document.getElementById('home-cover-info-btn');
+			if (!figureEl || !infoBtn) return;
 
-		<ol class="r-post-list">
-			{latestPosts.map((post) => (
-				<li class="r-post-list__item">
-					<a href={getPostHref(post)} class="r-post-list__title">{post.data.title}</a>
-					<span class="r-post-list__date">
-						<FormattedDate date={post.data.pubDate} />
-					</span>
-				</li>
-			))}
-		</ol>
-	</section>
+			function setCaptionOpen(open) {
+				figureEl.classList.toggle('is-caption-open', open);
+				infoBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+			}
 
+			infoBtn.addEventListener('click', function (e) {
+				e.stopPropagation();
+				setCaptionOpen(!figureEl.classList.contains('is-caption-open'));
+			});
+
+			document.addEventListener('click', function (e) {
+				if (!figureEl.classList.contains('is-caption-open')) return;
+				if (!figureEl.contains(e.target)) setCaptionOpen(false);
+			});
+
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' && figureEl.classList.contains('is-caption-open')) {
+					setCaptionOpen(false);
+				}
+			});
+		})();
+	</script>
 </ReadingShell>
 
 <style>
-	/* 首页藏书票双层名片（H1）：保持克制字号，通过上下呼吸与底栏纸签拉出从容体量。 */
-	.r-home-intro {
-		--r-traits-gap: 0px;
-		margin-bottom: 0;
+	/* 首页扉页单白卡：沿用文章页顶部贴边封面语法（无嵌套内框），纯单轴直下进入文章目录。 */
+	:global(.portal-surface:not(.portal-surface--wide)) .r-home-sheet.r-card {
+		padding: 0;
+		overflow: hidden;
 	}
 
-	.r-home-intro__main {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) auto;
-		column-gap: clamp(1.5rem, 4vw, 2.25rem);
-		align-items: center;
-		padding: clamp(1.8rem, 4.2vw, 2.45rem) clamp(1.2rem, 3.8vw, 2.4rem) clamp(1.65rem, 3.8vw, 2.15rem);
+	.r-home-cover {
+		position: relative;
+		width: 100%;
+		margin: 0;
+		overflow: hidden;
+		aspect-ratio: 16 / 6.4;
+		max-height: 290px;
+		background: color-mix(in oklab, var(--r-bg) 70%, var(--r-card-bg, var(--r-bg)));
+		border-bottom: 1px solid var(--r-divider);
 	}
 
-	.r-home-intro__copy {
-		min-width: 0;
-	}
-
-	.r-home-intro__welcome {
-		margin: 0.65rem 0 0;
-		font-family: var(--r-font-body);
-		font-size: 0.95rem;
-		font-weight: 400;
-		line-height: 1.78;
-		color: var(--r-ink-soft);
-		text-wrap: pretty;
-	}
-
-	.r-home-intro__welcome span + span {
-		margin-inline-start: 0.25em;
-	}
-
-	.r-home-intro__portrait {
-		width: 4.75rem;
-		height: 4.75rem;
-		aspect-ratio: 1;
+	.r-home-cover__image {
+		display: block;
+		width: 100%;
+		height: 100%;
 		object-fit: cover;
-		padding: 3px;
-		border-radius: 50%;
-		background: var(--r-card-bg, var(--r-bg));
-		border: 1px solid color-mix(in oklab, var(--r-ink) 11%, transparent);
-		box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
-		box-sizing: border-box;
+		object-position: center 48%;
 	}
 
-	:root[data-theme="dark"] .r-home-intro__portrait {
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+	.r-home-cover__trigger {
+		position: absolute;
+		right: 0.7rem;
+		bottom: 0.68rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 1.55rem;
+		height: 1.55rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.26);
+		border-radius: 999px;
+		background: rgba(15, 23, 42, 0.34);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		color: rgba(255, 255, 255, 0.9);
+		opacity: 0.72;
+		cursor: pointer;
+		transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		:root:not([data-theme]) .r-home-intro__portrait {
-			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+	.r-home-cover__trigger:hover,
+	.r-home-cover__trigger:focus-visible,
+	.r-home-cover.is-caption-open .r-home-cover__trigger {
+		opacity: 1;
+		background: rgba(15, 23, 42, 0.54);
+		border-color: rgba(255, 255, 255, 0.42);
+	}
+
+	.r-home-cover__caption {
+		position: absolute;
+		inset-inline: 0;
+		bottom: 0;
+		z-index: 1;
+		margin: 0;
+		padding: 2.35rem 3.1rem 0.72rem clamp(1.1rem, 3vw, 1.5rem);
+		background: linear-gradient(
+			to top,
+			rgba(15, 23, 42, 0.74) 0%,
+			rgba(15, 23, 42, 0.36) 58%,
+			transparent 100%
+		);
+		color: rgba(255, 255, 255, 0.95);
+		opacity: 0;
+		transform: translateY(4px);
+		pointer-events: none;
+		transition: opacity 0.22s ease, transform 0.22s ease;
+	}
+
+	@media (hover: hover) {
+		.r-home-cover:hover .r-home-cover__caption {
+			opacity: 1;
+			transform: translateY(0);
+			pointer-events: auto;
+		}
+
+		.r-home-cover:hover .r-home-cover__trigger {
+			opacity: 0.95;
 		}
 	}
 
-	.r-home-intro__foot {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.65rem 1rem;
-		padding: 0.9rem clamp(1.2rem, 3.8vw, 2.4rem);
-		border-top: 1px solid var(--r-divider);
-		background: color-mix(in oklab, var(--r-bg) 52%, var(--r-card-bg, var(--r-bg)));
+	.r-home-cover:focus-within .r-home-cover__caption,
+	.r-home-cover.is-caption-open .r-home-cover__caption {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
 	}
 
-	.r-home-intro__links {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.9rem;
-		flex-shrink: 0;
+	.r-home-cover__desc {
+		margin: 0;
+		font-family: var(--r-font-body);
+		font-size: 0.82rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: rgba(255, 255, 255, 0.96);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+	}
+
+	.r-home-cover__source {
+		margin: 0.16rem 0 0;
 		font-family: var(--r-font-ui);
-		font-size: 0.76rem;
+		font-size: 0.71rem;
 		line-height: 1.4;
+		color: rgba(255, 255, 255, 0.78);
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
 	}
 
-	.r-home-intro__link {
+	.r-home-cover__source-link {
+		color: rgba(255, 255, 255, 0.82) !important;
 		border-bottom: 0 !important;
-		color: var(--r-ink-soft) !important;
 		text-decoration: underline;
 		text-decoration-color: transparent;
 		text-decoration-thickness: 1px;
@@ -160,9 +258,75 @@ function getPostHref(post: (typeof posts)[number]) {
 		transition: color 0.2s ease, text-decoration-color 0.2s ease;
 	}
 
-	.r-home-intro__link:hover {
+	.r-home-cover__source-link:hover {
+		color: #ffffff !important;
+		text-decoration-color: rgba(255, 255, 255, 0.65);
+	}
+
+	@media (pointer: coarse) {
+		.r-home-cover__trigger::after {
+			content: "";
+			position: absolute;
+			inset: -0.6rem;
+		}
+	}
+
+	.r-home-body {
+		padding: clamp(1.5rem, 3.6vw, 2.2rem) clamp(1.2rem, 3.5vw, 2.25rem) clamp(1.65rem, 3.8vw, 2.35rem);
+	}
+
+	.r-home-intro {
+		margin: 0;
+	}
+
+	.r-home-intro__title {
+		margin: 0 !important;
+		font-family: var(--r-font-body) !important;
+		font-size: var(--text-lg) !important;
+		font-weight: 600 !important;
+		line-height: var(--r-lh-tight) !important;
+		letter-spacing: -0.014em !important;
+		color: var(--r-ink-strong, var(--r-ink)) !important;
+	}
+
+	.r-home-intro__welcome {
+		margin: 0.45rem 0 0;
+		font-family: var(--r-font-body);
+		font-size: 0.94rem;
+		font-weight: 400;
+		line-height: 1.8;
+		color: var(--r-ink-soft);
+		text-wrap: pretty;
+	}
+
+	.r-home-intro__about {
+		display: inline-block;
+		margin-inline-start: 0.45rem;
+		font-family: var(--r-font-ui);
+		font-size: var(--r-text-xs);
+		color: var(--r-link) !important;
+		border-bottom: 0 !important;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-decoration-thickness: 1px;
+		text-underline-offset: var(--r-link-underline-offset);
+		transition: color 0.2s ease, text-decoration-color 0.2s ease;
+	}
+
+	.r-home-intro__about:hover {
 		color: var(--r-link) !important;
 		text-decoration-color: var(--r-link-underline-color);
+	}
+
+	.r-home-writing {
+		margin-top: clamp(1.7rem, 3.8vw, 2.25rem);
+		margin-bottom: 0;
+	}
+
+	.r-home-writing__head {
+		padding-bottom: 0.7rem !important;
+		margin-bottom: var(--space-md) !important;
+		border-bottom: 1px solid var(--r-rule) !important;
 	}
 
 	.home-section-more {
@@ -183,30 +347,31 @@ function getPostHref(post: (typeof posts)[number]) {
 	}
 
 	@media (max-width: 640px) {
-		.r-home-intro__main {
-			column-gap: var(--space-md);
-			align-items: start;
-			padding: 1.4rem 1.05rem 1.25rem;
+		.r-home-cover {
+			aspect-ratio: 16 / 8.5;
+			max-height: 220px;
+		}
+
+		.r-home-body {
+			padding: 1.25rem 1.05rem 1.35rem;
 		}
 
 		.r-home-intro__welcome {
 			margin-top: 0.5rem;
-			font-size: 0.92rem;
+			font-size: 0.91rem;
+			line-height: 1.74;
 		}
 
-		.r-home-intro__portrait {
-			width: 3.75rem;
-			height: 3.75rem;
-			padding: 2px;
-		}
-
-		.r-home-intro__foot {
-			padding: 0.78rem 1.05rem;
+		.r-home-writing {
+			margin-top: 1.45rem;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.r-home-intro__link,
+		.r-home-cover__trigger,
+		.r-home-cover__caption,
+		.r-home-cover__source-link,
+		.r-home-intro__about,
 		.home-section-more {
 			transition: none;
 		}
